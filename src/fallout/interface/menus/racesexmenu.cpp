@@ -891,6 +891,71 @@ struct FUN_007b51f0_shell : FUN_007adc30_shell
 {
     void FUN_007b51f0();
 };
+class B7B18F0Menu
+{
+  public:
+    void HandleMenuKey(int iKey);
+};
+
+struct Menu511
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    int unka4;
+    int unka8;
+    int unkac;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int unkd0;
+    int unkd4;
+    TESNPC* npc;
+    void FUN_007b25a0();
+};
 // @fnv 0x007b51f0
 void __cdecl FUN_007b51f0()
 {
@@ -1774,12 +1839,6 @@ struct FUN_007afa40_cls
     unsigned int unk30, unk34, unk38, unk3c;
     FUN_007afa40_mgr* m_40;
     void FUN_007afa40(unsigned int value);
-};
-
-class B7B18F0Menu
-{
-  public:
-    void HandleMenuKey(int iKey);
 };
 
 struct Matrix
@@ -5941,65 +6000,6 @@ class QHeadLocal
     int unk34;
     QHeadLocal(TESNPC*, int);
     ~QHeadLocal();
-};
-struct Menu511
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    int unka0;
-    int unka4;
-    int unka8;
-    int unkac;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int unkd0;
-    int unkd4;
-    TESNPC* npc;
-    void FUN_007b25a0();
 };
 // @fnv 0x007acb60
 void InitRaceMenu::SetupRaceMenu(int mode)

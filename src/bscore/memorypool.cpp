@@ -141,6 +141,14 @@ void FUN_00aa6c70_shell::FUN_00aa6c70(void* apPointer)
     }
 }
 
+struct FUN_00aa7260_holder
+{
+    char pad0[8];
+    void* ptr;
+    char pad1[0x48];
+    unsigned int count;
+    void FUN_00aa7260();
+};
 namespace fnv_00aa6f90 {
 struct FUN_00aa6f90_shell : public MemoryPool
 {
@@ -342,14 +350,6 @@ PoolInfo FUN_00aa6d00_holder::GetPoolInfo()
     return info;
 }
 
-struct FUN_00aa7260_holder
-{
-    char pad0[8];
-    void* ptr;
-    char pad1[0x48];
-    unsigned int count;
-    void FUN_00aa7260();
-};
 // @fnv 0x00aa6eb0
 void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
 {

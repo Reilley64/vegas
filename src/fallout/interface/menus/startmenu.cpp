@@ -1946,6 +1946,40 @@ void FUN_007d0b90_cls::FUN_007d0b90()
     this->unk2 = 1;
 }
 
+struct OptSI
+{
+    void* vt;
+    const char* GetValueText;
+    int f08;
+    int f0c;
+    const char* pTemplate;
+    int f14;
+    int f18;
+    int f1c;
+    int f20;
+    int f24;
+    int f28;
+    int f2c;
+    bool FUN_007cc5d0(int flags);
+};
+struct LbT : ListBox<OptSI*>
+{
+};
+struct ThisT
+{
+    int f00;
+    TileX* m04;
+    char p08[0x38 - 0x08];
+    TileX* m38;
+    char p3c[0x114 - 0x3c];
+    LbT lb;
+    char p144[0x1cc - 0x144];
+    intptr_t m1cc;
+    void FadeTile(int a, int b, unsigned int c, float d);
+    void FUN_007d4ce0(OptSI* o, TileX* t);
+    void PopulateList(int flags);
+};
+
 namespace fnv_007d0dc0 {
 struct VObj
 {
@@ -6952,22 +6986,6 @@ void SaveLoadMenu::UpdateLayout()
 }
 
 struct TileX;
-struct OptSI
-{
-    void* vt;
-    const char* GetValueText;
-    int f08;
-    int f0c;
-    const char* pTemplate;
-    int f14;
-    int f18;
-    int f1c;
-    int f20;
-    int f24;
-    int f28;
-    int f2c;
-    bool FUN_007cc5d0(int flags);
-};
 struct ListObj
 {
 };
@@ -6982,9 +7000,6 @@ struct TileX
 {
     int f00;
     ListObj list;
-};
-struct LbT : ListBox<OptSI*>
-{
 };
 struct ArrT
 {
@@ -7009,21 +7024,6 @@ struct Scratch
     int s3;
 };
 
-
-struct ThisT
-{
-    int f00;
-    TileX* m04;
-    char p08[0x38 - 0x08];
-    TileX* m38;
-    char p3c[0x114 - 0x3c];
-    LbT lb;
-    char p144[0x1cc - 0x144];
-    intptr_t m1cc;
-    void FadeTile(int a, int b, unsigned int c, float d);
-    void FUN_007d4ce0(OptSI* o, TileX* t);
-    void PopulateList(int flags);
-};
 
 // @fnv 0x007d42b0
 void ThisT::PopulateList(int flags)

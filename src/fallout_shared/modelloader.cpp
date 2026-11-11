@@ -8576,6 +8576,15 @@ void BackgroundCloneThread::RunBackgroundClone()
 }
 }  // namespace fnv_00442350
 
+struct FUN_0044adb0_class
+{
+    unsigned char pad[0x4c];
+    unsigned int count;
+    ModelLoader** entries;
+
+    void FUN_0044adb0();
+};
+
 namespace fnv_00443540 {
 struct FileNameHash
 {
@@ -10232,15 +10241,6 @@ void* FUN_00449d60::FUN_00449e70(unsigned int flags)
     return this;
 }
 }  // namespace fnv_00449e70
-
-struct FUN_0044adb0_class
-{
-    unsigned char pad[0x4c];
-    unsigned int count;
-    ModelLoader** entries;
-
-    void FUN_0044adb0();
-};
 
 // @fnv 0x0044adb0
 void FUN_0044adb0_class::FUN_0044adb0()

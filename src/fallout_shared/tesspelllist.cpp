@@ -112,6 +112,10 @@ bool FloatValueProvider::FUN_0048d170(SpellItem* apSpell)
     return true;
 }
 
+struct SpellListTask
+{
+    bool FUN_0048d210(TESLevSpell* spell);
+};
 namespace fnv_0048d290 {
 struct FUN_0048d290_shell : public TESSpellList
 {
@@ -201,10 +205,6 @@ void Host0048d8d0::ForwardToHelper(intptr_t a)
 struct SpellListHandle
 {
     void FUN_005ae3d0();
-};
-struct SpellListTask
-{
-    bool FUN_0048d210(TESLevSpell* spell);
 };
 // @fnv 0x0048d400
 void TESSpellList::InitItem(TESForm* owner)

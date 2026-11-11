@@ -1618,6 +1618,21 @@ void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, uintptr_t n)
     }
 }
 
+class D2d0Elem
+{
+  public:
+    virtual ~D2d0Elem();
+    int m_04;
+};
+struct D2d0Cls
+{
+    int m_00;
+    int m_04, m_08;
+    float m_0c;
+    int m_10, m_14, m_18, m_1c, m_20;
+    D2d0Elem* m_24;
+    void FUN_0069d2d0();
+};
 namespace fnv_00690d50 {
 struct GlobalObject_00869f00
 {
@@ -2610,21 +2625,6 @@ bool FUN_0068f200_shell::FUN_0068f200(int aiEdgeIndex)
     return Triangles[aiEdgeIndex] != 0xFFFF;
 }
 
-class D2d0Elem
-{
-  public:
-    virtual ~D2d0Elem();
-    int m_04;
-};
-struct D2d0Cls
-{
-    int m_00;
-    int m_04, m_08;
-    float m_0c;
-    int m_10, m_14, m_18, m_1c, m_20;
-    D2d0Elem* m_24;
-    void FUN_0069d2d0();
-};
 // Deletes the m_24 array and clears it, resets m_00 to 0 and sets m_0c to DAT_01016970.
 // @fnv 0x0069d2d0
 void D2d0Cls::FUN_0069d2d0()

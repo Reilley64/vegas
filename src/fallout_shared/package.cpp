@@ -2304,6 +2304,11 @@ bool TESPackageX::CheckPackageLocation(MobileObject* apMobileObject, bool bignor
 }
 }  // namespace fnv_006768d0
 
+struct PackageEx : public TESPackage
+{
+    void SetPackageType(int);
+};
+
 namespace fnv_006777b0 {
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -6578,11 +6583,6 @@ void FUN_00679b10_shell::FUN_00679b10(BGSLoadFormBuffer* buffer)
     }
 }
 }  // namespace fnv_00679b10
-
-struct PackageEx : public TESPackage
-{
-    void SetPackageType(int);
-};
 
 struct PackageType15 : public PackageEx
 {

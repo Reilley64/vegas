@@ -7440,6 +7440,25 @@ void FUN_0071d380_t::ClampIndexByDelta(int aiDelta)
 }
 }  // namespace fnv_0071d380
 
+struct TextInputField
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int iCursor;    // 10
+    int iMaxWidth;  // 14
+    int unk18;
+    int unk1C;
+    char unk20;
+    bool bActive;     // 21
+    bool bSelectAll;  // 22
+    char unk23;
+
+    void FUN_00438390(const char* text);
+    void FUN_00716b00(int key);
+};
+
 namespace fnv_007e6620 {
 struct TileQ
 {
@@ -13418,25 +13437,6 @@ void Controller718080::FUN_00718080(Target718080* pkTarget, int iA, int iB)
     pkTarget->Update(iA, iB);
 }
 
-
-struct TextInputField
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int iCursor;    // 10
-    int iMaxWidth;  // 14
-    int unk18;
-    int unk1C;
-    char unk20;
-    bool bActive;     // 21
-    bool bSelectAll;  // 22
-    char unk23;
-
-    void FUN_00438390(const char* text);
-    void FUN_00716b00(int key);
-};
 
 // Handles a key press in the text field, updating the cursor, text buffer, and active state based on the key code.
 // @fnv 0x00716b00

@@ -857,6 +857,12 @@ void FUN_006e7a10_shell::GetLocationAtSplineParameter(float afCurrentSplineParam
 }
 }  // namespace fnv_006e7a10
 
+class FUN_006e9af0_cls
+{
+  public:
+    float MeasurePathLength(float a, float b, unsigned int n);
+};
+
 namespace fnv_006e84b0 {
 struct blob12
 {
@@ -1181,12 +1187,6 @@ struct PathMagHelper
 };
 
 void PathClampHelper(float* t, float lo, float hi);
-
-class FUN_006e9af0_cls
-{
-  public:
-    float MeasurePathLength(float a, float b, unsigned int n);
-};
 
 // @fnv 0x006e9af0
 float FUN_006e9af0_cls::MeasurePathLength(float afStart, float afEnd, unsigned int uiSteps)

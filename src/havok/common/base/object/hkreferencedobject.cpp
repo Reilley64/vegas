@@ -127,6 +127,12 @@ FUN_00d47750_class* FUN_00d47750_class::AssignObject(RefObj** pObject)
 }
 }  // namespace fnv_00d47750
 
+class hkReferencedObjectC905 : public hkReferencedObject
+{
+  public:
+    void FUN_00c905b0();
+};
+
 namespace fnv_00dee6f0 {
 struct RefObj
 {
@@ -312,12 +318,6 @@ void __cdecl EnterTlsGuard()
 }
 
 
-
-class hkReferencedObjectC905 : public hkReferencedObject
-{
-  public:
-    void FUN_00c905b0();
-};
 
 // @fnv 0x00c905b0
 void hkReferencedObjectC905::FUN_00c905b0()

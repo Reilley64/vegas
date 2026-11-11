@@ -194,6 +194,13 @@ void FUN_004f7dd0_shell::FUN_004f7dd0()
     Maximums.x = ::DAT_01015f5c;
 }
 
+struct PointNode
+{
+};
+struct PointList : PointNode
+{
+    bool FUN_004f8220(bool);
+};
 namespace fnv_004f81e0 {
 struct FUN_004f81e0_shell : public RegionPointList
 {
@@ -352,13 +359,6 @@ RegionPointList* FUN_004f80c0_shell::CloneRegionPointList(RegionPointList* apOut
     return result;
 }
 
-struct PointNode
-{
-};
-struct PointList : PointNode
-{
-    bool FUN_004f8220(bool);
-};
 // Adds apPoint to the list if it is at least afMinDistance from the region point, updates bounds and count, and returns whether it was added.
 // @fnv 0x004f7ca0
 bool FUN_004f7ca0_shell::AddPoint(RegionPoint* apPoint, float afMinDistance)

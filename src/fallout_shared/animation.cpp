@@ -1218,6 +1218,11 @@ class FakeVtable_00496280
     virtual void* vc4(int);
 };
 
+struct FUN_004964a0_shell
+{
+    void FUN_004964a0(bool abFlag);
+};
+
 namespace fnv_00496420 {
 struct NiStream;
 struct blob32
@@ -3125,11 +3130,6 @@ std::intptr_t FUN_00495560_shell::GetFieldAt(int index)
 {
     return ((std::intptr_t*)((char*)this + 0x1c4))[index];
 }
-
-struct FUN_004964a0_shell
-{
-    void FUN_004964a0(bool abFlag);
-};
 
 extern float DAT_0101d890;
 

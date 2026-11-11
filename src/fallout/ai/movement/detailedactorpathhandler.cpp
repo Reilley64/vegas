@@ -1696,6 +1696,16 @@ int DetailedActorPathHandlerEx::UpdatePathTravel(float afPercentTraveled, float 
 }
 }  // namespace fnv_009e0470
 
+struct FUN_009e4c60_t : public DetailedActorPathHandler
+{
+    void UpdateLookingAngle(float afDeltaT, float afLookingAngle);
+};
+
+struct FUN_009e7d70_shell : public DetailedActorPathHandler
+{
+    float FUN_009e7d70(float a2);
+};
+
 namespace fnv_009e16e0 {
 struct FUN_009e16e0_shell : public DetailedActorPathHandler
 {
@@ -4912,11 +4922,6 @@ struct MobileObjectLookingHelper
 };
 struct ST_00931e50
 {
-};
-
-struct FUN_009e4c60_t : public DetailedActorPathHandler
-{
-    void UpdateLookingAngle(float afDeltaT, float afLookingAngle);
 };
 
 // @fnv 0x009e4c60
@@ -8638,11 +8643,6 @@ struct VCallHelper_354 : public VCallHelper_2bc
     virtual void e211();
     virtual void e212();
     virtual float v213();
-};
-
-struct FUN_009e7d70_shell : public DetailedActorPathHandler
-{
-    float FUN_009e7d70(float a2);
 };
 
 // @fnv 0x009e7d70

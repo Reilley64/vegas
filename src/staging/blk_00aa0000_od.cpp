@@ -1235,6 +1235,42 @@ struct FUN_00aa7300_Obj
     void FUN_00aa7300();
 };
 
+struct FUN_00aa7300_node
+{
+    int m_00;
+    FUN_00aa7300_node* m_04;
+};
+
+struct FUN_00aa7300_pool
+{
+    int m_00;
+    int m_04;
+    void FUN_0040fbf0(const char* name);
+};
+
+class FUN_00aa7300_cls
+{
+  public:
+    int m_00;
+    int m_04;
+    FUN_00aa7300_node* m_08;
+    int m_0c;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1c;
+    FUN_00aa7300_pool m_20;
+    int m_28;
+    int m_2c;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3c;
+    unsigned int m_40;
+
+    void FUN_00aa7300();
+};
+
 // @fnv 0x00aa7370
 void FUN_00aa7370(void)
 {
@@ -1904,42 +1940,6 @@ bool FUN_00aa6650_Class::FreeMemory(unsigned int size, void* pMemory)
 {
     return VirtualFree(pMemory, 0x1000, 0x4000) != 0;
 }
-
-struct FUN_00aa7300_node
-{
-    int m_00;
-    FUN_00aa7300_node* m_04;
-};
-
-struct FUN_00aa7300_pool
-{
-    int m_00;
-    int m_04;
-    void FUN_0040fbf0(const char* name);
-};
-
-class FUN_00aa7300_cls
-{
-  public:
-    int m_00;
-    int m_04;
-    FUN_00aa7300_node* m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    FUN_00aa7300_pool m_20;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    unsigned int m_40;
-
-    void FUN_00aa7300();
-};
 
 // @fnv 0x00aa7300
 void FUN_00aa7300_cls::FUN_00aa7300()

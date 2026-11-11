@@ -128,6 +128,10 @@ void* S006607F0::DeallocateIfFlagged(unsigned int flags)
     return this;
 }
 
+struct FUN_006606e0_shell
+{
+    void SetVTable();
+};
 namespace fnv_00660820 {
 struct FUN_006606b0_shell
 {
@@ -195,10 +199,6 @@ void FUN_00660a50_shell::FUN_00660a50()
 
 extern int DAT_01065cb8;
 
-struct FUN_006606e0_shell
-{
-    void SetVTable();
-};
 // @fnv 0x006606b0
 void* FUN_006606b0_shell::Destroy(unsigned int flags)
 {

@@ -585,6 +585,29 @@ void FUN_00a1c340_shell::ResizeBuffer(unsigned int aiNewSize, unsigned int aiCop
 }
 }  // namespace fnv_00a1c340
 
+struct S_00a12300_Arr {
+    int unk00;
+    int count;
+};
+
+struct S_00a12300_Obj {
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    S_00a12300_Arr* m_aiIndexedValues;
+    void ClearArray();
+};
 namespace fnv_00a121e0 {
 struct BSStr {
     char pad[8];
@@ -2438,11 +2461,6 @@ FontTextParams* FontTextParams::Clone()
     return pCopy;
 }
 
-struct S_00a12300_Arr {
-    int unk00;
-    int count;
-};
-
 struct S_00a12300_Elem {
     int unk00;
     void FUN_0066b0d0(int a);
@@ -2454,24 +2472,6 @@ struct S_00a12300_Glob {
 };
 
 
-struct S_00a12300_Obj {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    S_00a12300_Arr* m_aiIndexedValues;
-    void ClearArray();
-};
 // Decrements count when non-zero and calls ClearArray once the count reaches zero.
 // @fnv 0x00a152d0
 void FUN_00a152d0_shell::FUN_00a152d0()

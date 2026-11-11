@@ -7381,6 +7381,10 @@ void FUN_00418310_shell::SetRadioData(RadioReferenceData* apData)
 }
 }  // namespace fnv_00418310
 
+struct FUN_00410020_t : BaseExtraList
+{
+    void FUN_00410020(BSExtraData* apExtra, bool abDelete);
+};
 namespace fnv_00419120 {
 struct BGSLoadGameBuffer;
 struct BGSSaveGameBuffer;
@@ -12755,6 +12759,14 @@ void FUN_0042ec70_list::FUN_0042ec70(std::intptr_t value)
 }
 }  // namespace fnv_0042ec70
 
+// FUN_0042f000 : ExtraDataList helper that flags the extra data of type 0x73
+// as "extra" if such an extra data block is present on the list.
+struct FUN_0042f000_cls : public ExtraDataList
+{
+    void FUN_00410020(BSExtraData* pExtra, int iFlag);
+    void FUN_0042f000();
+};
+
 namespace fnv_0042ef20 {
 class ContainerItemExtra : public BSExtraData
 {
@@ -16833,14 +16845,6 @@ intptr_t FUN_0042efe0_cls::FUN_0042efe0()
     std::intptr_t result = ((std::intptr_t)(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x73)));
     return result;
 }
-
-// FUN_0042f000 : ExtraDataList helper that flags the extra data of type 0x73
-// as "extra" if such an extra data block is present on the list.
-struct FUN_0042f000_cls : public ExtraDataList
-{
-    void FUN_00410020(BSExtraData* pExtra, int iFlag);
-    void FUN_0042f000();
-};
 
 struct FUN_0042f180_cls
 {
@@ -23127,10 +23131,6 @@ struct TESObjectREFR_Flags
 };
 
 void __cdecl FUN_0040f7d0(void*, int);
-struct FUN_00410020_t : BaseExtraList
-{
-    void FUN_00410020(BSExtraData* apExtra, bool abDelete);
-};
 // @fnv 0x0041b3d0
 void FUN_0041b3d0_shell::FUN_0041b3d0(int aeType)
 {

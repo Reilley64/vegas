@@ -1646,6 +1646,15 @@ struct FUN_006dc370_Class
     void* vtable;
     FUN_006dc370_Class* FUN_006dc370();
 };
+struct _Mem_2064
+{
+    ~_Mem_2064();
+};
+
+struct FUN_006d32c0_StandIn : public _Mem_2064
+{
+    void FUN_006d32c0();
+};
 namespace fnv_006dc4d0 {
 
 struct FUN_006dc4d0_Class
@@ -2040,15 +2049,6 @@ FUN_0044cd00_Class* FUN_006c65b0_Class::FUN_006c65b0(unsigned int index)
     return new FUN_0044cd00_Class(this, &m_data[index * 2], &m_data[index * 2 + 1]);
 }
 
-struct _Mem_2064
-{
-    ~_Mem_2064();
-};
-
-struct FUN_006d32c0_StandIn : public _Mem_2064
-{
-    void FUN_006d32c0();
-};
 // @fnv 0x006d33a0
 void FUN_006d33a0_Class::FUN_006d33a0()
 {

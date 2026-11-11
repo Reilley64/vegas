@@ -21827,6 +21827,50 @@ void FUN_00880ad0_shell::FUN_00880ad0(int aiWhich, float afValue, Actor* apAttac
     ::ActorValue::NotifyActorValueChanged(this, (::ActorValue::Index)(aiWhich), foldValue, afValue, apAttacker);
 }
 
+struct FUN_00881830_Class
+{
+    int m_00;
+    int m_04;
+    int m_08;
+    int m_0C;
+    int m_10;
+    int m_14;
+    int m_18;
+    int m_1C;
+    int m_20;
+    int m_24;
+    int m_28;
+    int m_2C;
+    int m_30;
+    int m_34;
+    int m_38;
+    int m_3C;
+    int m_40;
+    int m_44;
+    int m_48;
+    int m_4C;
+    int m_50;
+    int m_54;
+    int m_58;
+    int m_5C;
+    int m_60;
+    int m_64;
+    int m_68;
+    int m_6C;
+    int m_70;
+    int m_74;
+    int m_78;
+    int m_7C;
+    int m_80;
+    int m_84;
+    int m_88;
+    int m_8C;
+    int m_90;
+    int m_94;
+    int m_98;
+    void FUN_00881830(int a);
+};
+
 namespace fnv_00881680 {
 struct BGSIdleCollection;
 struct BGSLoadFormBuffer;
@@ -34754,50 +34798,6 @@ void FUN_0087ea60_Class::FUN_0087ea60(bool bValue)
 {
     this->unk224 = bValue;
 }
-
-struct FUN_00881830_Class
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0C;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1C;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2C;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3C;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4C;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5C;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6C;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7C;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8C;
-    int m_90;
-    int m_94;
-    int m_98;
-    void FUN_00881830(int a);
-};
 
 // Adds the parameter to the value stored at m_98.
 // @fnv 0x00881830

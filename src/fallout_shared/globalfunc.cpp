@@ -1551,6 +1551,20 @@ bhkUnaryAction* UnaryActionSettings::ApplyToAction(bhkUnaryAction* apAction)
 }
 }  // namespace fnv_004b4d10
 
+struct FUN_004b4ee0_sub
+{
+};
+
+struct FUN_004b4ee0_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    FUN_004b4ee0_sub unk10;
+    void FUN_004b4ee0();
+};
+
 namespace fnv_004b4ec0 {
 struct BSSimpleList_Ragdoll;
 struct FUN_004b4ee0_shell
@@ -3547,20 +3561,6 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
     DAT_011c6320 = source;
     return bChangedB;
 }
-
-struct FUN_004b4ee0_sub
-{
-};
-
-struct FUN_004b4ee0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_004b4ee0_sub unk10;
-    void FUN_004b4ee0();
-};
 
 // @fnv 0x004b4ee0
 void FUN_004b4ee0_cls::FUN_004b4ee0()

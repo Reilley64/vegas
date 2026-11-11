@@ -449,7 +449,7 @@ bool VS_00e972e0_Shader::FUN_00e972e0(VS_00e972e0_Entry* pkEntry, const void* pv
     if (eType == 8 || eType == 9)
     {
         VS_00e972e0_Matrix kTranspose;
-        ::FUN_00ee6dd4();
+        ::FUN_00ee6dd4(&kTranspose, (const VS_00e972e0_Matrix*)pvDataSource);
         if (SetM(pkEntry->m_uiValueAt1C, &kTranspose._11, pkEntry->m_uiValue4) >= 0)
             bResult = true;
     }
@@ -573,7 +573,7 @@ bool ArrayShader::FUN_00e974f0(VS_00e972e0_Entry* pkEntry, const void* pvData, u
             }
             else
             {
-                ::FUN_00ee6dd4();
+                ::FUN_00ee6dd4(&kMatrix, (const VS_00e972e0_Matrix*)((const char*)pvData + usIndex * uiRegistersPerEntry * 16));
                 pVector4 = &kMatrix._11;
                 if (SetM(uiRegister, pVector4, uiRegistersPerEntry) < 0)
                 {
@@ -599,7 +599,7 @@ bool ArrayShader::FUN_00e974f0(VS_00e972e0_Entry* pkEntry, const void* pvData, u
         {
             _ReadWriteBarrier();
             VS_00e972e0_Matrix& kMatrix = scratch.matrix;
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&kMatrix, (const VS_00e972e0_Matrix*)pVector4);
             bSuccess = false;
             if (SetM(uiRegister, &kMatrix._11, uiRegistersPerEntry) < 0)
             {

@@ -266988,7 +266988,6 @@
     "?FUN_00e81c60@PlaceHolder@@QAEXAAPAD@Z": "0x00e81c60",
     "?DAT_011f5fc4@@3HA": "0x011f5fc4",
     "?str_010f14a0@@3QBDB": "0x010f14a0",
-    "?FUN_00ee6dd4@@YAXXZ": "0x00ee6dd4",
     "?str_010f14e8@@3QBDB": "0x010f14e8",
     "?CallVtableMethod@CLS_00e89b10@@QAE_NIPBMII@Z": "0x00e89b10",
     "?SetDeviceState@E89B40Renderer@@QAE_NIIII@Z": "0x00e89b40",
@@ -268285,7 +268284,8 @@
     "?FUN_00e83320@@YAHPAUConstantTarget@@HHHHH@Z": "0x00e83320",
     "?FUN_00ee6de0@@YAPAXPAXPBX1@Z": "0x00ee6de0",
     "?FUN_00ee6dfe@@YAPAUD3DXMATRIX@@PAU1@PBU1@1@Z": "0x00ee6dfe",
-    "?FUN_00ee6e34@@YAPAUD3DXVECTOR4@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6e34"
+    "?FUN_00ee6e34@@YAPAUD3DXVECTOR4@@PAU1@PBU1@PBUD3DXMATRIX@@@Z": "0x00ee6e34",
+    "?FUN_00ee6dda@@YAPAXPAXPAMPBX@Z": "0x00ee6dda"
    }
   },
   {

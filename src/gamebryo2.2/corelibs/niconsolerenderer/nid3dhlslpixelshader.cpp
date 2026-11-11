@@ -1519,7 +1519,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         {
             Matrix16 kMatrix;
             bSuccess = false;
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&kMatrix, (const Matrix16*)((const char*)pvDataSource + pusReorderArray[i] * uiRegistersPerEntry * 16));
             HRESULT hr =
                 m_pShaderObject->GetD3DDevice()->SetPixelShaderConstantF(uiRegister, kMatrix.m, uiRegistersPerEntry);
             if (FAILED(hr))
@@ -1537,7 +1537,7 @@ bool HLSLPixelShader::FUN_00e96fb0(NiShaderConstantMapEntry* pkEntry, const void
         for (unsigned int i = 0; i < uiNumEntries; i++)
         {
             Matrix16 kMatrix;
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&kMatrix, (const Matrix16*)pVector4);
             bSuccess = false;
             D3DRenderer* pkRenderer = m_pShaderObject;
             if (pkRenderer->m_pkDevice->lpVtbl->SetPixelShaderConstantF(pkRenderer->m_pkDevice, uiRegister, kMatrix.m,

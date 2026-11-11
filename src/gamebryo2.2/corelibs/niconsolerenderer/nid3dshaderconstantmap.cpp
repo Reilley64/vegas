@@ -1362,9 +1362,9 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, 
         case 9:
             ::FUN_00ee6de0(&DAT_0126f8c0, &(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)), &DAT_0126f860);
             if (inverse)
-                ::FUN_00ee6dda();
+                ::FUN_00ee6dda(&DAT_0126f8c0, 0, &DAT_0126f8c0);
             if (transpose)
-                ::FUN_00ee6dd4();
+                ::FUN_00ee6dd4(&DAT_0126f8c0, &DAT_0126f8c0);
             return prog->SetConstant(entry, &DAT_0126f8c0, 0) ? 0 : 80;
         case 3:
         case 4: {
@@ -1387,9 +1387,9 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, 
             temp.m15 = (*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)).m15 * (*reinterpret_cast<::Vector *>(&::DAT_0126f8a0)).x;
             DAT_0126f8c0 = temp;
             if (inverse)
-                ::FUN_00ee6dda();
+                ::FUN_00ee6dda(&DAT_0126f8c0, 0, &DAT_0126f8c0);
             if (transpose)
-                ::FUN_00ee6dd4();
+                ::FUN_00ee6dd4(&DAT_0126f8c0, &DAT_0126f8c0);
             return prog->SetConstant(entry, &DAT_0126f8c0, 0) ? 0 : 80;
         }
         case 7:
@@ -4358,9 +4358,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->world;
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4378,9 +4378,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->projection;
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4398,9 +4398,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->view;
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4422,9 +4422,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         ::FUN_00ee6de0(&matResult, &matA, &matB);
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4444,9 +4444,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         ::FUN_00ee6de0(&matResult, &matB, &matA);
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4475,9 +4475,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         matResult = renderer->projection;
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4499,9 +4499,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
         ::FUN_00ee6de0(&matResult, &matB, &matA);
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4524,9 +4524,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, Entry* entry, Geometry* ge
             bTranspose = true;
         ptr = &matResult;
         if (bInverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;

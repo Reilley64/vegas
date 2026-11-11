@@ -70,28 +70,18 @@ struct DoublyLinkedListNode
     DoublyLinkedListNode* pNext;
 };
 
-struct FUN_00aa6980_stub
-{
-    char pad[4];
-    unsigned int f4;
-    char pad2[0x38];
-    unsigned int f40;
-    char pad3[0xc];
-    unsigned int f50;
-    void RegisterInPools();
-};
 // @fnv 0x00aa6980
-void FUN_00aa6980_stub::RegisterInPools()
+void MemoryPool::RegisterInPools()
 {
-    unsigned int index = f40 >> 2;
-    ::DAT_011f67b8[index] = (MemoryPool*)this;
-    unsigned int count = f50 >> 24;
-    if (f50 % 0x1000000 != 0)
+    unsigned int index = m_uiAllocationSize >> 2;
+    ::DAT_011f67b8[index] = this;
+    unsigned int count = m_uiPoolSize >> 24;
+    if (m_uiPoolSize % 0x1000000 != 0)
         count++;
     {
-        unsigned int base = f4 >> 24;
+        uintptr_t base = reinterpret_cast<uintptr_t>(m_pPoolBase) >> 24;
         for (unsigned int i = 0; i < count; i++)
-            ms_pPoolAddressMap[base + i] = (MemoryPool*)this;
+            ms_pPoolAddressMap[base + i] = this;
     }
 }
 
@@ -428,7 +418,7 @@ MemoryPool::MemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, const 
     iSecondReserve = nA - iFirstReserve;
     for (i = 0; i < m_uiPageCount; i++)
         m_pPageBlockCounts[i] = 0xffff;
-    reinterpret_cast<::FUN_00aa6980_stub *>(this)->RegisterInPools();
+    RegisterInPools();
 }
 
 #include "generated/data/bscore/memorypool.inc"

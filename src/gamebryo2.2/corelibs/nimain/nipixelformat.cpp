@@ -4,6 +4,7 @@
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011aa000.h"
+#include "fnv/ni_point3_startup_table.h"
 #include "layout_support.h"
 
 class NiPixelFormat
@@ -492,7 +493,7 @@ void PixelFormatReader::FUN_00a7c9f0(Format eFormat, unsigned char ucBitsPerPixe
                 apuiMasks[3] == 0xff000000)
                 *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aaac8));
             else
-                *(NiPixelFormat*)this = (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc));
+                *(NiPixelFormat*)this = ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc);
             break;
         default:
             m_eFormat = FORMAT_UNKNOWN;

@@ -15,8 +15,8 @@
 // below lowers to a frameless "rep movsd" of 17 DWORDs.
 
 // @fnv 0x00a62110
-NiPoint3StartupTable gNiPoint3StartupSrc = {{8193, 1, 0, -1, 0, 0, 264, 1, 0, 264, 2, 0, 264, 3, 0, 264, 3}};
-NiPoint3StartupTable gNiPoint3StartupDst = gNiPoint3StartupSrc;
+alignas(16) NiPoint3StartupTable gNiPoint3StartupSrc = {{8193, 1, 0, -1, 0, 0, 264, 1, 0, 264, 2, 0, 264, 3, 0, 264, 3}};
+alignas(16) NiPoint3StartupTable gNiPoint3StartupDst = gNiPoint3StartupSrc;
 
 
 // Normalizes each of count NiPoint3 vectors spaced by stride bytes, scaling by the reciprocal of its length via a lookup table.

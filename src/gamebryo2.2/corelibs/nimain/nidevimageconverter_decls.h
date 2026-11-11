@@ -14,6 +14,7 @@
 #include "fnv/symbols_00a7a000.h"
 #include "fnv/symbols_00a8b000.h"
 #include "fnv/symbols_011aa000.h"
+#include "fnv/ni_point3_startup_table.h"
 class NiMemObject
 {
   public:
@@ -74,9 +75,7 @@ class NiPixelFormat
     bool operator==(const NiPixelFormat&) const throw();
     bool operator!=(const NiPixelFormat&) const;
 };
-struct NiPoint3StartupTable;
-extern NiPoint3StartupTable gNiPoint3StartupSrc;
-#define SOURCE_FORMAT_RGB reinterpret_cast<const NiPixelFormat&>(gNiPoint3StartupSrc)
+#define SOURCE_FORMAT_RGB NiPoint3StartupTableAs<const NiPixelFormat>(gNiPoint3StartupSrc)
 struct NiPalette : public NiMemObject
 {
   public:

@@ -3395,6 +3395,7 @@ void ByteDecoder::DecodeBytes(unsigned char* src, unsigned char* dst)
 #include "fnv/symbols_010a2000.h"
 #include "fnv/symbols_00a85000.h"
 #include "fnv/symbols_00a8a000.h"
+#include "fnv/ni_point3_startup_table.h"
 // Returns 1 if a is null, -1 if b is null, otherwise returns the result of comparing the two strings pointed to by a and b.
 // @fnv 0x00a86280
 int __cdecl FUN_00a86280(const char** apStrA, const char** apStrB)
@@ -3618,7 +3619,7 @@ bool BitmapReader::ReadBitmapHeader(NiBinaryStream& stream, unsigned int& outWid
     case 4:
     case 8: format = (*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa210)); break;
     case 24: format = DAT_011aa2e8; break;
-    case 32: format = (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)); break;
+    case 32: format = ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc); break;
     default:
         DAT_00fdf100(&unk080);
         return false;
@@ -4436,7 +4437,7 @@ NiPixelData* BmpReader::FUN_00a8e810(BmpStream& stream, NiPixelData* optional)
             }
         }
     }
-    if (format == DAT_011aa2e8 || format == (*reinterpret_cast<const ::NiPixelFormat *>(&::gNiPoint3StartupSrc)))
+    if (format == DAT_011aa2e8 || format == ::NiPoint3StartupTableAs<const ::NiPixelFormat>(::gNiPoint3StartupSrc))
     {
         unsigned int pixelStride = dest->stride;
         unsigned int count = width * height;

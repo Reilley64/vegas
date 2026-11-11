@@ -5,6 +5,7 @@
 #include "fnv/symbols_00a75000.h"
 #include "fnv/tls.h"
 #include "fnv/list_node.h"
+#include "fnv/ni_point3_startup_table.h"
 #include <cstdint>
 #include <windows.h>
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -1377,7 +1378,7 @@ struct Settings_a62
 // @fnv 0x00a622d0
 void __cdecl ApplySettings(const Settings_a62& kSettings)
 {
-    (*reinterpret_cast<::Settings_a62 *>(&::gNiPoint3StartupDst)) = kSettings;
+    ::NiPoint3StartupTableAs<::Settings_a62>(::gNiPoint3StartupDst) = kSettings;
     for (unsigned int i = 0; i < 10; i++)
         g_aspObjects_11f4514[i] = 0;
 }

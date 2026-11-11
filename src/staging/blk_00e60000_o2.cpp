@@ -5,6 +5,7 @@
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/list_node.h"
+#include "fnv/ni_point3_startup_table.h"
 #include "../../include/layout_support.h"
 #include <d3d9.h>
 #include "fnv/decl/FUN_005609f0_shell.h"
@@ -6234,7 +6235,7 @@ PixelTemplate& __cdecl GetPixelTemplateForFormat(int format, PixelTemplate& outp
         pTemplate = &DAT_011aabe8;
         break;
     case 0x20:
-        pTemplate = &(*reinterpret_cast<const ::PixelTemplate *>(&::gNiPoint3StartupSrc));
+        pTemplate = &::NiPoint3StartupTableAs<const ::PixelTemplate>(::gNiPoint3StartupSrc);
         break;
     case 0x21:
         pTemplate = &DAT_011aaba0;

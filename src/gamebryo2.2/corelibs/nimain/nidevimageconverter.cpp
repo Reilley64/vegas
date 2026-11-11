@@ -3495,7 +3495,7 @@ Image* Converter::GenerateMipmaps(Image* source, Image* destination)
     if (IsRGB(sourceFormat))
         format = (*reinterpret_cast<::Mipmap::Format *>((void *)&::DAT_011aa2e8));
     else if (IsRGBA(sourceFormat))
-        format = (*reinterpret_cast<::Mipmap::Format *>(&::gNiPoint3StartupSrc));
+        format = ::NiPoint3StartupTableAs<::Mipmap::Format>(::gNiPoint3StartupSrc);
     else
         return 0;
 
@@ -3584,7 +3584,7 @@ Image* Converter::GenerateMipmaps(Image* source, Image* destination)
             }
         }
 
-        else if (reinterpret_cast<::NiPixelFormat *>(&(format))->operator==((const ::NiPixelFormat &)((*reinterpret_cast<::Mipmap::Format *>(&::gNiPoint3StartupSrc)))))
+        else if (reinterpret_cast<::NiPixelFormat *>(&(format))->operator==((const ::NiPixelFormat &)(::NiPoint3StartupTableAs<::Mipmap::Format>(::gNiPoint3StartupSrc))))
         {
 
             for (unsigned int level = 1; level < levels; ++level)

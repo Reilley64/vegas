@@ -10,8 +10,10 @@ struct NiPoint3StartupTable
     int data[17];
 };
 
-extern NiPoint3StartupTable gNiPoint3StartupSrc;
-extern NiPoint3StartupTable gNiPoint3StartupDst;
+// The alignment is written out because units copy the storage in 16-byte
+// aligned moves. The definitions in the owning unit repeat it.
+alignas(16) extern NiPoint3StartupTable gNiPoint3StartupSrc;
+alignas(16) extern NiPoint3StartupTable gNiPoint3StartupDst;
 
 // Views the storage as a unit's own record. It compiles only for a record
 // that covers exactly the 17 ints. Such a record cannot need a stricter

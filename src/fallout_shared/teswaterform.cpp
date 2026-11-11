@@ -217,146 +217,26 @@ SpellItem* FUN_0057fed0::GetMember()
     return m_pWaterSpell;
 }
 
-struct BSStr
+struct FUN_0057fef0_shell : TESWaterForm
 {
-};
-
-struct FUN_0057fef0_shell
-{
-    char m_auiShapeKeys[0x74];
-    BSStr m_str;
     void FUN_0057fef0(const char* name);
 };
 
 // @fnv 0x0057fef0
 void FUN_0057fef0_shell::FUN_0057fef0(const char* name)
 {
-    reinterpret_cast<::TextString *>(&(m_str))->FUN_004037f0(name, 0);
+    reinterpret_cast<::TextString *>(&(m_kMaterialId))->FUN_004037f0(name, 0);
 }
 
-struct FUN_00580060_shell
+struct FUN_00580060_shell : TESWaterForm
 {
-    unsigned char _0000;  // +0x00
-    unsigned char _0001;  // +0x01
-    unsigned char _0002;  // +0x02
-    unsigned char _0003;  // +0x03
-    unsigned char _0004;  // +0x04
-    unsigned char _0005;  // +0x05
-    unsigned char _0006;  // +0x06
-    unsigned char _0007;  // +0x07
-    unsigned char _0008;  // +0x08
-    unsigned char _0009;  // +0x09
-    unsigned char _000A;  // +0x0A
-    unsigned char _000B;  // +0x0B
-    unsigned char _000C;  // +0x0C
-    unsigned char _000D;  // +0x0D
-    unsigned char _000E;  // +0x0E
-    unsigned char _000F;  // +0x0F
-    unsigned char _0010;  // +0x10
-    unsigned char _0011;  // +0x11
-    unsigned char _0012;  // +0x12
-    unsigned char _0013;  // +0x13
-    unsigned char _0014;  // +0x14
-    unsigned char _0015;  // +0x15
-    unsigned char _0016;  // +0x16
-    unsigned char _0017;  // +0x17
-    unsigned char _0018;  // +0x18
-    unsigned char _0019;  // +0x19
-    unsigned char _001A;  // +0x1A
-    unsigned char _001B;  // +0x1B
-    unsigned char _001C;  // +0x1C
-    unsigned char _001D;  // +0x1D
-    unsigned char _001E;  // +0x1E
-    unsigned char _001F;  // +0x1F
-    unsigned char _0020;  // +0x20
-    unsigned char _0021;  // +0x21
-    unsigned char _0022;  // +0x22
-    unsigned char _0023;  // +0x23
-    unsigned char _0024;  // +0x24
-    unsigned char _0025;  // +0x25
-    unsigned char _0026;  // +0x26
-    unsigned char _0027;  // +0x27
-    unsigned char _0028;  // +0x28
-    unsigned char _0029;  // +0x29
-    unsigned char _002A;  // +0x2A
-    unsigned char _002B;  // +0x2B
-    unsigned char _002C;  // +0x2C
-    unsigned char _002D;  // +0x2D
-    unsigned char _002E;  // +0x2E
-    unsigned char _002F;  // +0x2F
-    unsigned char _0030;  // +0x30
-    unsigned char _0031;  // +0x31
-    unsigned char _0032;  // +0x32
-    unsigned char _0033;  // +0x33
-    unsigned char _0034;  // +0x34
-    unsigned char _0035;  // +0x35
-    unsigned char _0036;  // +0x36
-    unsigned char _0037;  // +0x37
-    unsigned char _0038;  // +0x38
-    unsigned char _0039;  // +0x39
-    unsigned char _003A;  // +0x3A
-    unsigned char _003B;  // +0x3B
-    unsigned char _003C;  // +0x3C
-    unsigned char _003D;  // +0x3D
-    unsigned char _003E;  // +0x3E
-    unsigned char _003F;  // +0x3F
-    unsigned char _0040;  // +0x40
-    unsigned char _0041;  // +0x41
-    unsigned char _0042;  // +0x42
-    unsigned char _0043;  // +0x43
-    unsigned char _0044;  // +0x44
-    unsigned char _0045;  // +0x45
-    unsigned char _0046;  // +0x46
-    unsigned char _0047;  // +0x47
-    unsigned char _0048;  // +0x48
-    unsigned char _0049;  // +0x49
-    unsigned char _004A;  // +0x4A
-    unsigned char _004B;  // +0x4B
-    unsigned char _004C;  // +0x4C
-    unsigned char _004D;  // +0x4D
-    unsigned char _004E;  // +0x4E
-    unsigned char _004F;  // +0x4F
-    unsigned char _0050;  // +0x50
-    unsigned char _0051;  // +0x51
-    unsigned char _0052;  // +0x52
-    unsigned char _0053;  // +0x53
-    unsigned char _0054;  // +0x54
-    unsigned char _0055;  // +0x55
-    unsigned char _0056;  // +0x56
-    unsigned char _0057;  // +0x57
-    unsigned char _0058;  // +0x58
-    unsigned char _0059;  // +0x59
-    unsigned char _005A;  // +0x5A
-    unsigned char _005B;  // +0x5B
-    unsigned char _005C;  // +0x5C
-    unsigned char _005D;  // +0x5D
-    unsigned char _005E;  // +0x5E
-    unsigned char _005F;  // +0x5F
-    unsigned char _0060;  // +0x60
-    unsigned char _0061;  // +0x61
-    unsigned char _0062;  // +0x62
-    unsigned char _0063;  // +0x63
-    unsigned char _0064;  // +0x64
-    unsigned char _0065;  // +0x65
-    unsigned char _0066;  // +0x66
-    unsigned char _0067;  // +0x67
-    unsigned char _0068;  // +0x68
-    unsigned char _0069;  // +0x69
-    unsigned char _006A;  // +0x6A
-    unsigned char _006B;  // +0x6B
-    unsigned char _006C;  // +0x6C
-    unsigned char _006D;  // +0x6D
-    unsigned char _006E;  // +0x6E
-    unsigned char _006F;  // +0x6F
-    unsigned char _0070;  // +0x70
-    unsigned char _0071;  // +0x71
     bool FUN_00580060();
 };
 
 // @fnv 0x00580060
 bool FUN_00580060_shell::FUN_00580060()
 {
-    if (this->_0071 & 1)
+    if (this->cFlags & 1)
         return true;
     return false;
 }
@@ -398,17 +278,15 @@ struct NP
     NP& operator=(void*);
 };
 
-struct FUN_005800c0_shell
+struct FUN_005800c0_shell : TESWaterForm
 {
-    void* m_auiShapeKeys[0x17c / 4];
-    NP m_np;  // +0x17c
     void SetNP(void* arg);
 };
 
 // @fnv 0x005800c0
 void FUN_005800c0_shell::SetNP(void* apValue)
 {
-    m_np = apValue;
+    *reinterpret_cast<NP*>(&m_kNoiseTextureData) = apValue;
 }
 
 class FormChangeMask
@@ -503,10 +381,8 @@ struct Flt
 {
     operator std::uintptr_t() const;
 };
-struct Holder
+struct Holder : TESWaterForm
 {
-    unsigned char _pad[0x74];
-    Flt m_kHandle;
     const char* FUN_0057fda0();
 public:
     void FUN_00485680();
@@ -515,19 +391,18 @@ public:
 // @fnv 0x0057fda0
 const char* Holder::FUN_0057fda0()
 {
-    return m_kHandle ? (const char*)(std::uintptr_t)m_kHandle : "";
+    Flt& kHandle = *reinterpret_cast<Flt*>(&m_kMaterialId);
+    return kHandle ? (const char*)(std::uintptr_t)kHandle : "";
 }
 
-struct FUN_00580100_obj
+struct FUN_00580100_obj : TESWaterForm
 {
-    unsigned char pad[0x70];
-    unsigned char b70;
     float FUN_00580100();
 };
 // @fnv 0x00580100
 float FUN_00580100_obj::FUN_00580100()
 {
-    return b70 / g_d100;
+    return m_ucOpacity / g_d100;
 }
 
 struct FUN_004855a0_standin

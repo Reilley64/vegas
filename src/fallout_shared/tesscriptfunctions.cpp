@@ -20290,13 +20290,6 @@ void __cdecl FUN_005d29d0()
 
 namespace fnv_005d3780 {
 struct NiProperty;
-struct ImageSpaceEffectParam {
-    float r;
-    float g;
-    float b;
-    float a;
-    ImageSpaceEffectParam(float r, float g, float b, float a);
-};
 class NiAVObject {
 };
 class NiNode {
@@ -20340,7 +20333,7 @@ struct FogPropertyStandIn {
     int unk8C;
     int unk90;
     int unk94;
-    ImageSpaceEffectParam kColor;
+    ::ImageSpaceEffectParam kColor;
 };
 class RefWith3D {
 public:
@@ -20485,9 +20478,9 @@ bool FUN_005d3780(const ScriptParameter* paramInfo, const char* scriptData, TESO
     }
     if (iRed7 >= 0 && iGreen_2 >= 0 && kIBlue >= 0 && iRed7 <= 255 && iGreen_2 <= 255 && kIBlue <= 255) {
         if (pProperty4)
-            pProperty4->kColor = ImageSpaceEffectParam((float)(iRed7 / 255.0), (float)(iGreen_2 / 255.0), (float)(kIBlue / 255.0), 1.0f);
+            pProperty4->kColor = ::ImageSpaceEffectParam((float)(iRed7 / 255.0), (float)(iGreen_2 / 255.0), (float)(kIBlue / 255.0), 1.0f);
         else
-            (*reinterpret_cast<::fnv_005d3780::ImageSpaceEffectParam *>(&::DAT_011ff3c8)) = ImageSpaceEffectParam((float)(iRed7 / 255.0), (float)(iGreen_2 / 255.0), (float)(kIBlue / 255.0), 1.0f);
+            (*reinterpret_cast<::ImageSpaceEffectParam *>(&::DAT_011ff3c8)) = ::ImageSpaceEffectParam((float)(iRed7 / 255.0), (float)(iGreen_2 / 255.0), (float)(kIBlue / 255.0), 1.0f);
     }
     return true;
 }
@@ -20501,15 +20494,6 @@ class TESObjectREFR;
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
-struct ImageSpaceEffectParam
-{
-    float r;
-    float g;
-    float b;
-    float a;
-    ImageSpaceEffectParam(float afR, float afG, float afB, float afA);
-};
-
 class NiAVObject;
 
 struct NiProperty
@@ -20520,7 +20504,7 @@ struct NiProperty
     int unk60; int unk64; int unk68; int unk6C; int unk70; int unk74; int unk78; int unk7C;
     int unk80; int unk84; int unk88; int unk8C; int unk90; int unk94; int unk98; int unk9C;
     int unkA0; int unkA4;
-    ImageSpaceEffectParam kColor;
+    ::ImageSpaceEffectParam kColor;
 };
 
 class NiAVObject
@@ -20582,9 +20566,9 @@ bool FUN_005d3930(const ScriptParameter* parameters, const char* scriptData, TES
     if (iRed7 >= 0 && iGreen_2 >= 0 && kIBlue >= 0 && iRed7 <= 255 && iGreen_2 <= 255 && kIBlue <= 255)
     {
         if (pProperty4)
-            pProperty4->kColor = ImageSpaceEffectParam(iRed7 / 255.0, iGreen_2 / 255.0, kIBlue / 255.0, 1.0f);
+            pProperty4->kColor = ::ImageSpaceEffectParam(iRed7 / 255.0, iGreen_2 / 255.0, kIBlue / 255.0, 1.0f);
         else
-            (*reinterpret_cast<::fnv_005d3930::ImageSpaceEffectParam *>(&::DAT_011ff3d8)) = ImageSpaceEffectParam(iRed7 / 255.0, iGreen_2 / 255.0, kIBlue / 255.0, 1.0f);
+            (*reinterpret_cast<::ImageSpaceEffectParam *>(&::DAT_011ff3d8)) = ::ImageSpaceEffectParam(iRed7 / 255.0, iGreen_2 / 255.0, kIBlue / 255.0, 1.0f);
     }
     return true;
 }

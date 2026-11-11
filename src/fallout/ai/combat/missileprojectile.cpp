@@ -2275,11 +2275,6 @@ struct UpdateWorld
 {
 };
 extern const char DAT_0108fd78[];
-struct UpdateColor
-{
-    float r, g, b, a;
-    UpdateColor(float, float, float, float);
-};
 struct UpdateProjectile
 {
     virtual void v0();
@@ -2538,7 +2533,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
                 UpdateVec newPosition = *GetPosition();
                 reinterpret_cast<::ObjB300 *>(this)->ApplyScale(afDeltaTime);
                 UpdateVec color = *GetPosition();
-                UpdateColor debugColor(1.0f, 1.0f, 0.0f, 1.0f);
+                ::ImageSpaceEffectParam debugColor(1.0f, 1.0f, 0.0f, 1.0f);
                 void* pDebugLine = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&newPosition)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), (*(const class ::FUN_006815c0 *)(&color)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::UpdateWorld * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pDebugLine), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::g_011f210c)))))));
             }

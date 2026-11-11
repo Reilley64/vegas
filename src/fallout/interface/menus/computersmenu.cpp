@@ -117,6 +117,7 @@
 #include "fnv/symbols_011d8000.h"
 #include "fnv/symbols_011d9000.h"
 #include "fnv/symbols_011de000.h"
+#include "fnv/image_space_effect_param.h"
 class Tile
 {
   public:
@@ -2385,11 +2386,6 @@ struct Ref
 struct Terminal
 {
 };
-struct Color
-{
-    float r, g, b, a;
-    Color(float, float, float, float);
-};
 struct Colors
 {
     bool Get(int, int*);
@@ -2808,7 +2804,7 @@ OpenTile* CreateComputerMenu(Ref* reference)
     reinterpret_cast<::SystemColorManager *>((((::fnv_00757b70::Colors *)(::FUN_00718b60()))))->GetColor(3, (*(::NiColor *)(&::DAT_011d934c)));
     Terminal* terminal = ((::fnv_00757b70::Terminal *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
     if (reinterpret_cast<::FUN_00757e80_shell *>((terminal))->IsFlagBitSet())
-        reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00757b70::Colors *)(::FUN_00718b60()))))->ApplyToChild(3, (intptr_t)&(const ::fnv_00757b70::Color &)(Color(1.0f, 1.0f, 1.0f, 0.0f)));
+        reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00757b70::Colors *)(::FUN_00718b60()))))->ApplyToChild(3, (intptr_t)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 0.0f)));
     float defaultValue = ::Tile::GetInterfaceScale();
     OpenTile* aTile = ((::fnv_00757b70::OpenTile *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::fnv_00757b70::OpenTile *)(reinterpret_cast<::InterfaceManager *>((((::fnv_00757b70::UI *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))))->FUN_00a01b00((void *)("Data\\Menus\\computers_menu.xml"))));
     OpenMenu* menu = ((::fnv_00757b70::OpenMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((aTile))->FUN_00a03c90()));

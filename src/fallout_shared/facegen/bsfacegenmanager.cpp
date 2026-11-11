@@ -159,6 +159,7 @@
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/symbols_011c5000.h"
 #include "fnv/ni_point3_startup_table.h"
+#include "fnv/image_space_effect_param.h"
 #include <vector>
 #include <string.h>
 
@@ -1276,11 +1277,6 @@ struct NiUpdateDataInit
 {
     void Init(float, bool, bool);
 };
-struct RgbaColor
-{
-    float r, g, b, a;
-    RgbaColor(float, float, float, float);
-};
 struct NiNodeHelper
 {
 };
@@ -1454,7 +1450,7 @@ struct LightPropCalls
     virtual void SetTexture2(int, void*);
     virtual void SetTexture(int, void*);
     char pad04[0x84 - 4];
-    RgbaColor kTintColor;
+    ::ImageSpaceEffectParam kTintColor;
 };
 struct ModelCalls
 {
@@ -1628,9 +1624,9 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                 {
                     unsigned int uiColor = (unsigned int)arNpcData->iHairColor;
                     pchildgeom->kTintColor =
-                        RgbaColor((float)((unsigned char)(uiColor & 0xff) / 255.0),
-                                  (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
-                                  (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
+                        ::ImageSpaceEffectParam((float)((unsigned char)(uiColor & 0xff) / 255.0),
+                                                (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
+                                                (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
                     pchildgeom->Refresh();
                 }
                 else
@@ -1645,9 +1641,9 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                     {
                         unsigned int uiColor = (unsigned int)arNpcData->iHairColor;
                         eNBTmethod->kTintColor =
-                            RgbaColor((float)((unsigned char)(uiColor & 0xff) / 255.0),
-                                      (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
-                                      (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
+                            ::ImageSpaceEffectParam((float)((unsigned char)(uiColor & 0xff) / 255.0),
+                                                    (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
+                                                    (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
                         eNBTmethod->Refresh();
                     }
                 }

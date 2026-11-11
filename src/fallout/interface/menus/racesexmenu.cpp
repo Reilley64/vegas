@@ -222,6 +222,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/image_space_effect_param.h"
 
 // The leading fields of a race and sex menu option.
 struct RaceSexOptionFields
@@ -1945,11 +1946,6 @@ struct FixedB50
     ~FixedB50();
     operator const char*() const;
 };
-struct ColorB50
-{
-    float r, g, b, a;
-    ColorB50(float, float, float, float);
-};
 struct PropertyB50
 {
     unsigned unk00;
@@ -1985,7 +1981,7 @@ struct PropertyB50
     unsigned unk78;
     unsigned unk7c;
     unsigned unk80;
-    ColorB50 color;
+    ::ImageSpaceEffectParam color;
 };
 struct PointB50
 {
@@ -2551,16 +2547,16 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                 PropertyB50* typed = (!color ? false : ((int)(color->unk1c)) == 8) ? color : 0;
                 unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
                 if (typed)
-                    typed->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                            (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                            (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                    typed->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                           (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                           (unsigned char)((property >> 16) & 255) / 255.0, 1);
                 else
                 {
                     PropertyB50* otherTyped = (!color ? false : ((int)(color->unk1c)) == 12) ? color : 0;
                     if (otherTyped)
-                        otherTyped->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                                     (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                                     (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                        otherTyped->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                                    (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                                    (unsigned char)((property >> 16) & 255) / 255.0, 1);
                 }
             }
         }
@@ -2587,9 +2583,9 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                     if (typed)
                     {
                         unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
-                        typed->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                                (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                                (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                        typed->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                               (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                               (unsigned char)((property >> 16) & 255) / 255.0, 1);
                     }
                     else
                     {
@@ -2597,9 +2593,9 @@ bool HostB50::RebuildFaceGen(bool rebuild)
                         if (otherTyped)
                         {
                             unsigned property = reinterpret_cast<::FUN_004169d0_shell *>((data))->FUN_004169d0();
-                            otherTyped->color = ColorB50((unsigned char)(property & 255) / 255.0,
-                                                         (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
-                                                         (unsigned char)((property >> 16) & 255) / 255.0, 1);
+                            otherTyped->color = ::ImageSpaceEffectParam((unsigned char)(property & 255) / 255.0,
+                                                                        (unsigned char)(((unsigned short)property >> 8) & 255) / 255.0,
+                                                                        (unsigned char)((property >> 16) & 255) / 255.0, 1);
                         }
                     }
                 }

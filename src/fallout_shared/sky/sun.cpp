@@ -69,6 +69,7 @@
 #include "fnv/symbols_011a9000.h"
 #include "fnv/symbols_011cc000.h"
 #include "fnv/symbols_011de000.h"
+#include "fnv/image_space_effect_param.h"
 #include "sun_decls.h"
 // Initializes the Sun object's fields to zero and creates a BSShaderAccumulator for SunMode, disabling occlusion tests.
 // @fnv 0x006404f0
@@ -835,11 +836,6 @@ struct Flt
 {
     operator std::uintptr_t() const;
 };
-struct RgbaColor
-{
-    RgbaColor(float, float, float, float);
-    float r, g, b, a;
-};
 struct P3
 {
 };
@@ -997,10 +993,10 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                 : 0;
         if (pshadeProperty)
         {
-            *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
-                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
-                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
+            *(::ImageSpaceEffectParam*)((char*)pshadeProperty + 0x60) =
+                ::ImageSpaceEffectParam(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                                        ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                                        ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fDiscAlpha);
         }
         pshadeProperty =
             ((((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)&this->m_pFourthSceneObject.m_pObject)))->FUN_00a59d30(3))) == 0)
@@ -1010,10 +1006,10 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
                 : 0;
         if (pshadeProperty)
         {
-            *(RgbaColor*)((char*)pshadeProperty + 0x60) =
-                RgbaColor(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
-                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
-                          ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
+            *(::ImageSpaceEffectParam*)((char*)pshadeProperty + 0x60) =
+                ::ImageSpaceEffectParam(((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[0],
+                                        ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[1],
+                                        ((float *)(::FUN_00461110((std::intptr_t)(((TESDataHandler*)apSky)))))[2], fGlareAlpha);
         }
         {
             float fxNewAim = 0.0f;

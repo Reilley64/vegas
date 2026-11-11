@@ -12586,16 +12586,6 @@ class NiPoint3PB
     float z;
 };
 
-class NiColorAPB
-{
-  public:
-    NiColorAPB(float fR, float fG, float fB, float fA);
-    float r;
-    float g;
-    float b;
-    float a;
-};
-
 class hkSimdRealPB
 {
   public:
@@ -12983,7 +12973,7 @@ void ProjPB::FUN_009becc0(float fUnused)
             m_bNearPlayer = true;
             if (::DAT_011f20a4)
             {
-                NiColorAPB kColor(0.0f, 0.0f, 1.0f, 0.6f);
+                ::ImageSpaceEffectParam kColor(0.0f, 0.0f, 1.0f, 0.6f);
                 SpherePB* pkSphere = ((::SpherePB *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(kColor), 1)));
                 reinterpret_cast<::FUN_00a5a040_Class *>((pkSphere))->FUN_00a5a040();
                 reinterpret_cast<::FUN_00440460_S *>((pkSphere))->FUN_00440460((const ::V3 *)&(Get3D()->GetWorldTranslate()));
@@ -13524,16 +13514,6 @@ class NiMatrix3P9
     NiMatrix3P9();
     NiMatrix3P9 operator*(const NiMatrix3P9& kOther) const;
     float m_afEntries[3][3];
-};
-
-class NiColorAP9
-{
-  public:
-    NiColorAP9(float fR, float fG, float fB, float fA);
-    float r;
-    float g;
-    float b;
-    float a;
 };
 
 class HitResultsP9
@@ -14097,7 +14077,7 @@ bool RefP9::FUN_009c03f0()
         bHitDetected = ::FUN_009c0d80((::Scene *)&(kQuery), (::Controller *)(::RefP9 *)(this), (intptr_t)(((::BaseFormP9 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (float *)(0), 1, fDistance) != 0;
     if ((*reinterpret_cast<::SettingP9 *>(&::g_011f20ec)).GetBool())
     {
-        NiColorAP9 kColor = ((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kQuery))->FUN_00632ce0())) ? NiColorAP9(1.0f, 0.0f, 0.0f, 1.0f) : NiColorAP9(1.0f, 1.0f, 0.0f, 1.0f);
+        ::ImageSpaceEffectParam kColor = ((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kQuery))->FUN_00632ce0())) ? ::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f) : ::ImageSpaceEffectParam(1.0f, 1.0f, 0.0f, 1.0f);
         void* pvLine = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(kPos), (const ::fnv_004b3890::FUN_004a7800 &)(kColor), (const class ::FUN_006815c0 &)((const ::NiPoint3P9 &)(kPos + kRay)), (const ::fnv_004b3890::FUN_004a7800 &)(kColor), 1)));
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugP9 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pvLine), ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingP9 *>(&::g_011f210c)))));
     }

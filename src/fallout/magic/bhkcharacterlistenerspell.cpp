@@ -36,6 +36,7 @@
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_00624000.h"
 #include "fnv/symbols_011db000.h"
+#include "fnv/image_space_effect_param.h"
 struct NiRTTI
 {
 };
@@ -645,13 +646,6 @@ class Color807
   public:
     Color807(float fR, float fG, float fB);
     float r, g, b;
-};
-
-class ColorA807
-{
-  public:
-    ColorA807(float fR, float fG, float fB, float fA);
-    float r, g, b, a;
 };
 
 class Line807
@@ -1882,7 +1876,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
     ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(static_cast<void *>(pkEvent)))));
     if (*(*reinterpret_cast<::Setting807 *>(&::g_011dbaa4)).GetBool())
     {
-        Line807* pkMarker = ((::Line807 *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(const ::ColorA807 &)(ColorA807(1.0f, 0.0f, 0.0f, 1.0f)), 1)));
+        Line807* pkMarker = ((::Line807 *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f)), 1)));
         reinterpret_cast<::FUN_00440460_S *>((pkMarker))->FUN_00440460((const ::V3 *)&(kPos));
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Debug807 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkMarker), 50.0f);
     }

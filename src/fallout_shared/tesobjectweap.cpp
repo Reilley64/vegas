@@ -195,6 +195,7 @@
 #include "fnv/decl/TESActorBase.h"
 #include "fnv/symbols_00472000.h"
 #include <math.h>
+#include "fnv/image_space_effect_param.h"
 // Resets the weapon's data block to defaults, initializes embedded sub-structures, sets casting type and sound level, and flags a reload-anim condition.
 // @fnv 0x0051ddf0
 void TESObjectWEAP::ResetFormData()
@@ -3764,7 +3765,6 @@ struct FireSmart {
  operator FireNode*() const;
  FireSmart& operator=(FireNode*);
 };
-struct FireColor { float r,g,b,a; FireColor(float,float,float,float); };
 struct FireMatrix { float xx,xy,xz,yx,yy,yz,zx,zy,zz; FireMatrix();  };
 struct FireUpdate { float time; bool a,b; int flags; FireUpdate(float,bool,bool); };
 void* FUN_00524cb0();
@@ -3863,8 +3863,8 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      if (root) {
       FireSmart marker(root->find(FUN_00524cb0()));
       if (!(FireNode*)marker) {
-       FireColor color(1,0,0,1);
-       marker = ((::FireNode *)(::fnv_00c584a0::FUN_00c584a0(1,1,4096.0f,10,10,(::fnv_00c584a0::MeshColor *)(::FireColor *)(&color))));
+       ::ImageSpaceEffectParam color(1,0,0,1);
+       marker = ((::FireNode *)(::fnv_00c584a0::FUN_00c584a0(1,1,4096.0f,10,10,(::fnv_00c584a0::MeshColor *)(::ImageSpaceEffectParam *)(&color))));
        ::AssignFixedString((char *)(((FireNode*)marker)), (std::intptr_t)(FUN_00524cb0()), {});
        FireMatrix rotation;
        reinterpret_cast<::FUN_00524ac0_shell *>(&(rotation))->FUN_00524ac0(1.57079637f);
@@ -3907,8 +3907,8 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      if (cellNode) {
       FireSmart cellMarker31(cellNode->find((void*)FUN_00524cc0()));
       if ((FireNode*)cellMarker31) ((::FireNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((FireNode*)cellMarker31)))->FUN_009611e0()))->detach(cellMarker31);
-      FireColor cellColor14(0,1,0,1);
-      cellMarker31 = ((::FireNode *)(::FUN_00c55d50((::Point3 *)(::FirePoint *)(&position6),(::Point3 *)(::FirePoint *)(&targetPosition),0.5f,0.5f,0.5f,0.5f,(::FilterData *)(::FireColor *)(&cellColor14),(::FilterData *)(0))));
+      ::ImageSpaceEffectParam cellColor14(0,1,0,1);
+      cellMarker31 = ((::FireNode *)(::FUN_00c55d50((::Point3 *)(::FirePoint *)(&position6),(::Point3 *)(::FirePoint *)(&targetPosition),0.5f,0.5f,0.5f,0.5f,(::FilterData *)(::ImageSpaceEffectParam *)(&cellColor14),(::FilterData *)(0))));
       ::AssignFixedString((char *)(((FireNode*)cellMarker31)), (std::intptr_t)((void*)FUN_00524cc0()), {});
       cellNode->attach(cellMarker31,true);
       reinterpret_cast<::FUN_00a5a040_Class *>((((FireNode*)cellMarker31)))->FUN_00a5a040();

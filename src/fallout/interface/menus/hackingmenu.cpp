@@ -115,6 +115,7 @@
 #include "fnv/decl/Flt.h"
 #include "fnv/symbols_00a0a000.h"
 #include "fnv/symbols_01272000.h"
+#include "fnv/image_space_effect_param.h"
 struct FUN_006ffe80_shell
 {
     int x;
@@ -3715,11 +3716,6 @@ struct Base84
 struct Ref84
 {
 };
-struct Color84
-{
-    float r, g, b, a;
-    Color84(float, float, float, float);
-};
 struct Palette84
 {
 };
@@ -4206,10 +4202,10 @@ Tile84* FUN_00765b80(Ref84* reference)
         delete old40;
     (*reinterpret_cast<::fnv_00765b80::Interface84 * *>(&::g_pGame)) = ((::fnv_00765b80::Interface84 *)(::fnv_004b7210::FUN_004b7210()));
     float screen13 = ::Tile::GetInterfaceScale();
-    reinterpret_cast<::SystemColorManager *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->GetColor(3, (*(::NiColor *)(&(*reinterpret_cast<::fnv_00765b80::Color84 *>(&::DAT_011d9674)))));
+    reinterpret_cast<::SystemColorManager *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->GetColor(3, (*(::NiColor *)(&(*reinterpret_cast<::ImageSpaceEffectParam *>(&::DAT_011d9674)))));
     Base84* terminal14 = ((::fnv_00765b80::Base84 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
     if (((bool)(reinterpret_cast<::FUN_00757e80_shell *>((terminal14))->IsFlagBitSet())))
-        reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->ApplyToChild(3, (intptr_t)&(const ::fnv_00765b80::Color84 &)(Color84(1.0f, 1.0f, 1.0f, 0.0f)));
+        reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->ApplyToChild(3, (intptr_t)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 0.0f)));
     (*reinterpret_cast<unsigned int *>(&::DAT_0119f27c)) = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d42d0))))));
     (*reinterpret_cast<unsigned int *>(&::DAT_0119f280)) = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d2934))))));
     Tile84* tile4 = ((::fnv_00765b80::Tile84 *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::fnv_00765b80::Tile84 *)(reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::fnv_00765b80::Interface84 * *>(&::g_pGame))))->FUN_00586150()))))->FUN_00a01b00({})));

@@ -103,6 +103,7 @@
 #include "original_bstempeffectsimpledecal.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include <math.h>
+#include "fnv/image_space_effect_param.h"
 
 // Original PC source filename label passed to the preload memory context;
 // contents and target are verified against the engine data section.
@@ -1032,11 +1033,6 @@ FUN_0068b080::~FUN_0068b080()
 }
 
 struct DecalSetup;
-struct Color4
-{
-    float r, g, b, a;
-    Color4(float, float, float, float);
-};
 struct UpdateInfo
 {
     float time;
@@ -1667,9 +1663,9 @@ bool DecalSetup::Initialize()
             if ((*reinterpret_cast<int *>(&::DAT_011c57f4)) & 32)
             {
                 Graph* geom = (Graph*)p028;
-                Color4* colors = ((::Color4 *)(reinterpret_cast<::This_004a8050 *>((geom))->GetNextProc()));
+                ::ImageSpaceEffectParam* colors = ((::ImageSpaceEffectParam *)(reinterpret_cast<::This_004a8050 *>((geom))->GetNextProc()));
                 for (int index = 0; index < reinterpret_cast<::FUN_00456650_shell *>((geom))->FUN_00456650(); index++)
-                    colors[index] = Color4(1, 1, 0, 1);
+                    colors[index] = ::ImageSpaceEffectParam(1, 1, 0, 1);
             }
             ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(::Graph *)((Graph*)p028), 0, 0);
         }
@@ -1747,11 +1743,6 @@ bool DecalSetup::Initialize()
 struct DecalPoint
 {
     float x, y, z;
-};
-struct DecalColor
-{
-    float r, g, b, a;
-    DecalColor(float, float, float, float);
 };
 struct DecalPointRecord
 {
@@ -1842,7 +1833,7 @@ struct DecalBuilder
     unsigned unkD8;
     void* texcoords;
     unsigned unkE0;
-    DecalColor* colors;
+    ::ImageSpaceEffectParam* colors;
     unsigned unkE8;
     unsigned short* triangles;
     unsigned unkF0;
@@ -1876,7 +1867,7 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
         positions = (DecalPoint*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(6144, DAT_010a2720);
         normals = (DecalPoint*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(6144, DAT_010a2720);
         texcoords = reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(4096, DAT_010a2720);
-        colors = (DecalColor*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(8192, DAT_010a2720);
+        colors = (::ImageSpaceEffectParam*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(8192, DAT_010a2720);
         triangles = (unsigned short*)reinterpret_cast<::FUN_00aa54a0_s *>((vertex_))->FUN_00aa54a0(6144, DAT_010a2720);
         DecalGeometry* aMesh = ((::DecalGeometry *)(::FUN_00559450((int *)&(geometry))));
         int _numTriangles = aMesh->FUN_004a1ff0();
@@ -1901,7 +1892,7 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
                 float a;
                 DecalPoint normal = normals[used2];
                 a = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(direction))->DotProduct((void *)&(normal)))) / ((double)(reinterpret_cast<::NiPoint3 *>(&(normal))->ComputeMagnitude())) - DAT_0119c29c) * scale;
-                colors[used2] = DecalColor(red, green, blue, a > 0.0 ? a : 0.0f);
+                colors[used2] = ::ImageSpaceEffectParam(red, green, blue, a > 0.0 ? a : 0.0f);
                 paiIndices[i] = used2;
                 used2++;
             }
@@ -1930,7 +1921,7 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
                 normals[used2] = vectors[i];
                 DecalPoint normal = normals[used2];
                 float a = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(direction))->DotProduct((void *)&(normal)))) / ((double)(reinterpret_cast<::NiPoint3 *>(&(normal))->ComputeMagnitude())) - DAT_0119c29c) * scale;
-                colors[used2] = DecalColor(red, green, blue, a > 0.0 ? a : 0.0f);
+                colors[used2] = ::ImageSpaceEffectParam(red, green, blue, a > 0.0 ? a : 0.0f);
                 paiIndices[i] = used2;
                 used2++;
             }

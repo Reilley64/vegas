@@ -68,6 +68,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_01200000.h"
+#include "fnv/image_space_effect_param.h"
 #include "testerrainlodmanager_unit.h"
 
 // @fnv 0x0057d090
@@ -749,13 +750,6 @@ class BSFogProperty
 };
 
 
-class FUN_00414430_Color
-{
-  public:
-    float r, g, b, a;
-    FUN_00414430_Color(float fR, float fG, float fB, float fA);
-};
-
 class FUN_0053a510_LandData
 {
   public:
@@ -960,9 +954,9 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                 kPosPos.x += kNormal.x;
                 kPosPos.y += kNormal.y;
                 kPosPos.z += kNormal.z;
-                FUN_00414430_Color kColor(0.0f, 0.0f, 0.0f, 0.0f);
+                ::ImageSpaceEffectParam kColor(0.0f, 0.0f, 0.0f, 0.0f);
                 if (bOnLand)
-                    reinterpret_cast<::fnv_0053fa10::TESObjectLAND *>((pkLand))->FUN_0053fa10((const ::fnv_0053fa10::LandscapeColorData *)(::fnv_0057de00::FUN_0053a510_LandData *)(&kTheLandData), (::fnv_0053fa10::RgbaColor *)(::fnv_0057de00::FUN_00414430_Color *)(&kColor));
+                    reinterpret_cast<::fnv_0053fa10::TESObjectLAND *>((pkLand))->FUN_0053fa10((const ::fnv_0053fa10::LandscapeColorData *)(::fnv_0057de00::FUN_0053a510_LandData *)(&kTheLandData), (::fnv_0053fa10::RgbaColor *)(::ImageSpaceEffectParam *)(&kColor));
                 else
                     reinterpret_cast<::xWorldC *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_00457520((const ::xPt3C *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (std::intptr_t)(&kColor));
                 float fLuminanceNum = kColor.r * 0.31 + kColor.g * 0.37 + kColor.b * 0.32;

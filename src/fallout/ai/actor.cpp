@@ -16,6 +16,7 @@
 #include "fnv/tls.h"
 #include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
+#include "fnv/image_space_effect_param.h"
 #include <intrin.h>
 #include <cstddef>
 #include <windows.h>
@@ -160877,11 +160878,6 @@ struct ImpactQuery
     float x, y, z, radius;
     ImpactQuery();
 };
-struct ImpactColor
-{
-    float r, g, b, a;
-    ImpactColor(float, float, float, float);
-};
 struct ImpactEffect
 {
 };
@@ -160963,11 +160959,11 @@ void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, 
                 ImpactPoint impulse = direction * primary;
                 if (reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::GlobalCount *>(&::g_011df838))))->GetCellStandValue() > 0)
                 {
-                    ImpactColor color(0.0f, 0.0f, 0.0f, 0.0f);
+                    ::ImageSpaceEffectParam color(0.0f, 0.0f, 0.0f, 0.0f);
                     if (source->IsSpecial())
-                        color = ImpactColor(0.0f, 0.0f, 1.0f, 1.0f);
+                        color = ::ImageSpaceEffectParam(0.0f, 0.0f, 1.0f, 1.0f);
                     else
-                        color = ImpactColor(1.0f, 0.0f, 0.0f, 1.0f);
+                        color = ::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f);
                     ImpactEffect* effect = ((::ImpactEffect *)(::FUN_00c59a50((const ::ArrowPoint &)((const ::ImpactPoint &)(impulse * 0.1f)), (const ::ArrowColor *)&(color))));
                     reinterpret_cast<::FUN_00440460_S *>((effect))->FUN_00440460((const ::V3 *)&(target));
                     reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactEffectManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(effect), reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GetterObj *>(&::g_011df754))))->FUN_00450410());

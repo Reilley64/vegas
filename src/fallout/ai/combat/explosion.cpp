@@ -6148,11 +6148,6 @@ struct Vec810
     Vec810& operator=(const Vec4810&);
 };
 Vec810 __cdecl FUN_004a3760(float, const Vec810&);
-struct Color810
-{
-    float r, g, b, a;
-    Color810(float, float, float, float);
-};
 struct Hit810;
 struct Snapshot810;
 struct Query810;
@@ -6810,7 +6805,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
     }
     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting810 *>(&::g_011d0a78)))))) > 0)
     {
-        Color810 color = blocked ? Color810(1, 0, 0, 1) : Color810(0, 1, 0, 1);
+        ::ImageSpaceEffectParam color = blocked ? ::ImageSpaceEffectParam(1, 0, 0, 1) : ::ImageSpaceEffectParam(0, 1, 0, 1);
         void* line = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(pos), (const ::fnv_004b3890::FUN_004a7800 &)(color), (const class ::FUN_006815c0 &)(points[0]), (const ::fnv_004b3890::FUN_004a7800 &)(color), 1)));
         reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::Debug810 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(line), 25.0f);
     }

@@ -53,6 +53,7 @@
 #include "fnv/symbols_00bc1000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_011d1000.h"
+#include "fnv/image_space_effect_param.h"
 class Actor;
 
 class ActiveEffect
@@ -1356,12 +1357,6 @@ namespace fnv_008034c0 {
 void* __cdecl FUN_00aa13e0(unsigned int uiSize);
 void __cdecl BoltFree(void* pvMem);
 
-struct NiColorAStandIn
-{
-    float r, g, b, a;
-    NiColorAStandIn(float fR, float fG, float fB, float fA);
-};
-
 struct NiAVObjectStandIn;
 
 struct BoltExtraData
@@ -1738,9 +1733,9 @@ void BoltEffectImpl::InitBoltEffect()
             reinterpret_cast<::FUN_005f9b10_class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1205)))))));
             reinterpret_cast<::FUN_00803a90_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1680)))))));
             reinterpret_cast<::FUN_00803a70_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803a70(*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c64)))))));
-            reinterpret_cast<::FUN_00803ab0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetArg((*(::FUN_00803ab0_arg *)&(const ::fnv_008034c0::NiColorAStandIn &)(NiColorAStandIn(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c94)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1570)))))),
+            reinterpret_cast<::FUN_00803ab0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetArg((*(::FUN_00803ab0_arg *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c94)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1570)))))),
                                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d18b4)))))), 1.0f))));
-            reinterpret_cast<::FUN_00803ae0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetData((*(::FUN_00803ae0_Data *)&(const ::fnv_008034c0::NiColorAStandIn &)(NiColorAStandIn(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d16a4)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1206)))))),
+            reinterpret_cast<::FUN_00803ae0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetData((*(::FUN_00803ae0_Data *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d16a4)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1206)))))),
                                                              *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1818)))))), 1.0f))));
             reinterpret_cast<::FUN_00803b10_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetByteAtOffset175(0);
             reinterpret_cast<::FUN_00803a50_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803a50(1);

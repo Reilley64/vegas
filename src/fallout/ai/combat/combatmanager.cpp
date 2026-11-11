@@ -149,6 +149,7 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f1000.h"
+#include "fnv/image_space_effect_param.h"
 #include "combatmanager_decls.h"
 
 
@@ -363,12 +364,6 @@ struct DetectionEvent
 
 struct TES
 {
-};
-
-struct RgbaColor
-{
-    float r, g, b, a;
-    RgbaColor(float, float, float, float);
 };
 
 struct BSShaderManager
@@ -711,9 +706,9 @@ void FUN_00991770_shell::UpdateDetectionVisuals()
                         ->GetDetectionEvent(pactor);
                 if (pdetectionEvent)
                 {
-                    RgbaColor arrowColor(0.0f, 0.25f, 0.25f, 0.5f);
-                    RgbaColor sphereColor(0.0f, ::DAT_01016264, ::DAT_01016264, 0.5f);
-                    RgbaColor color(1.0f, DAT_0108da38, ::fnv_0093c200::DAT_0108aff0, 0.5f);
+                    ::ImageSpaceEffectParam arrowColor(0.0f, 0.25f, 0.25f, 0.5f);
+                    ::ImageSpaceEffectParam sphereColor(0.0f, ::DAT_01016264, ::DAT_01016264, 0.5f);
+                    ::ImageSpaceEffectParam color(1.0f, DAT_0108da38, ::fnv_0093c200::DAT_0108aff0, 0.5f);
                     float fradius = pdetectionEvent->soundLevel + 32.0;
                     NiAVObject* psphere = ((::fnv_00991770::NiAVObject *)(::FUN_00c56680(fradius, 10, 10, (const ::Color4 *)&(sphereColor))));
                     reinterpret_cast<::FUN_00440460_S *>((psphere))->FUN_00440460((const ::V3 *)&(pdetectionEvent->pos));

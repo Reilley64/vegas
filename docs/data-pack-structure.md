@@ -1,4 +1,4 @@
-# Data pack container structure (VEGAS-52)
+# Data pack container structure (VEGAS-52, VEGAS-13)
 
 ## Scope
 
@@ -71,6 +71,66 @@ The complete validation the decision record names, and the validated pack
 only it may construct, are not written. There is no flag, constructor or
 conversion that turns a `PackStructure` into one.
 
+## Writer
+
+`fileformat::WritePackStructure` in `src/fileformat/pack_writer.h` is the
+writer of the same container, the first step of VEGAS-13. It takes the
+entries in order, each a key, a version and a payload, with the original
+version and SHA-256 for the header, and returns the bytes of the file. It
+is game library code, so setup can use the writer, and setup and the
+engine the same reader. Nothing calls it yet, and it does not prepare a pack from an
+original release.
+
+The four revision and target fields are written as 1. The directory
+follows the header and the payloads follow the directory, end to end in
+directory order. The file size and then the CRC-32 are stored last.
+
+The reader and the writer take the magic, the header and record sizes, the
+CRC-32 field offset, the revision value and the CRC-32 routine from one
+internal header and unit, `src/fileformat/pack_container.h`. Nothing else
+includes it.
+
+The writer refuses entries whose pack the reader would refuse, and keys
+that the decision record does not allow; the reader's other rules hold by
+construction. TooManyEntries and NoEntries are checked first. Then
+the three key and payload checks run in the order listed for each entry in
+turn, so a problem in an earlier entry is reported before any problem in a
+later entry. Each check has its own `PackWriteProblem`, and a failure
+throws a `PackWriteError`, which is a `std::invalid_argument`. An
+allocation failure throws `std::bad_alloc` or `std::length_error` instead.
+
+| Check | Problem |
+| --- | --- |
+| There are no more entries than the 32-bit entry count holds | `TooManyEntries` |
+| There is at least one entry | `NoEntries` |
+| Each key byte is ASCII, 0x00 to 0x7F | `KeyNotAscii` |
+| Each key is greater, compared as unsigned bytes, than the key before it | `KeyOrder` |
+| No payload is empty | `EmptyPayload` |
+
+The decision record leaves these undecided, so the writer writes them as
+given and decides nothing about them:
+
+- The original version and SHA-256. The writer does not compute a digest
+  and does not compare one with a supported set.
+- Which keys exist, which version of each is supported and which entries a
+  pack needs. A pack the writer returns is a well-formed container, not a
+  complete or valid pack.
+- The order of the entries. The writer does not sort them; out of order is
+  refused.
+
+These choices were ruled on in review:
+
+- Keys may hold any byte from 0x00 to 0x7F, as the decision record allows.
+  Allowing printable bytes only would be stricter than the record, with no
+  basis for it.
+- `PackWriteError` is a `std::invalid_argument`, not a `FormatError`: the
+  caller broke a precondition, and no bytes were malformed.
+- The `TooManyEntries` check stays, although no test reaches it. No mutant
+  changes it, so the mutation score does not cover it.
+- `pack_container.h` has no constant for the offset 64 of the file size.
+  The writer stores the file size where it wrote the field, and the reader
+  reads the header in order.
+
 ## Tests
 
 `tests/fileformat/pack_structure_test.cpp` builds every pack it reads with
@@ -87,15 +147,29 @@ test also expects a rejection for every prefix of a valid pack and for every
 single changed bit.
 
 On Windows the test links the game archive. On other hosts the archive does
-not build, so the test compiles `pack_structure.cpp` itself and links zlib;
-this is the form that runs under AddressSanitizer and
+not build, so the test compiles `pack_structure.cpp` and `pack_container.cpp`
+itself and links zlib; this is the form that runs under AddressSanitizer and
 UndefinedBehaviorSanitizer.
 
+`tests/fileformat/pack_writer_test.cpp` writes packs of one, three and five
+entries, keys of the lowest and highest ASCII bytes and a 16 MiB payload,
+reads each back with `ParsePackStructure` and expects what was written. It
+checks every stored CRC-32 with its own bit-by-bit CRC-32. It spells out a
+minimal pack of 113 bytes byte by byte: the reader must accept it and the
+writer must reproduce it exactly, so a mistake shared by the two through
+`pack_container.h` still fails. It expects each refusal with its problem
+and the problem reported first when entries have several. It does not
+include `pack_container.h` and is built the same way as the reader's test.
+
 The zlib chunk loop runs once in every test, because a second pass needs a
-file larger than 4 GB. An allocation failure is not provoked by a test.
+file larger than 4 GB. `TooManyEntries` is not reached by a test, because
+it needs more than 2^32 - 1 entries. An allocation failure is not provoked
+by a test.
 
 ## Build
 
-`pack_structure.cpp` is appended to the `game` archive as one more member.
-It has no caller in the archive, so a link that loads members on demand does
-not load it.
+`pack_structure.cpp`, `pack_container.cpp` and `pack_writer.cpp` are
+appended to the `game` archive as three more members, in that order. Only
+the reader and the writer call `pack_container.cpp`, and nothing in the
+archive calls them, so a link that loads members on demand loads none of
+the three.

@@ -59,7 +59,8 @@ struct PackWriteEntry
 // greater as unsigned bytes than the key before it; and no payload is empty.
 // Which keys and versions mean what, which entries a pack needs, and which
 // original releases are supported are not decided here, so the writer takes
-// them as given.
+// them as given. An allocation failure throws the standard exceptions,
+// std::bad_alloc or std::length_error, not PackWriteError.
 std::vector<std::byte> WritePackStructure(const std::array<std::uint16_t, 4>& originalVersion,
                                           const std::array<std::byte, 32>& originalSha256,
                                           std::span<const PackWriteEntry> entries);

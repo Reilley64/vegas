@@ -10759,7 +10759,7 @@ void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
                 (const ::S *)(::TempInfo *)(&static_cast<const TempInfo&>(TempInfo(param2->v4(), param2->v10(), param2->Read04(), param2->Read08(), param2->Read14()))));
         if (flag11_2)
         {
-            std::memset(&descB_, 0, 0x23c);
+            std::memset(&descB_, 0, sizeof(descB_));
             if (descB_.pFileName != descB_.FileName)
                 descB_.pFileName = descB_.FileName;
             SetFileName(descB_, param2);

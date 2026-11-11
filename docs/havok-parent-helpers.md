@@ -40,10 +40,19 @@ content:
 | --- | --- | --- |
 | `Parent::Parent()` | no duplicates | yes, as a duplicate |
 | the two tables of `Parent` | largest, both 16 bytes | no |
-| four type records of `Parent` | any | no |
+| two type records of `Parent` | any | no |
 
-`blk_00c00000_o2.cpp` defines three of the four type records a third time, for
-a `Parent` of its own. Fourteen more tables and type records of the three
+The two type records are the base class array `??_R2Parent@@8` and the
+locator of the `Receiver` table, `??_R4Parent@@6BReceiver@@@`. The other four
+type records of `Parent` that both objects define are equal in the two.
+
+`blk_00c00000_o2.cpp` defines four type records for a `Parent` of its own.
+Its type descriptor equals theirs. Its base class descriptor
+`??_R1A@?0A@EA@Parent@@8`, its base class array and its hierarchy descriptor
+`??_R3Parent@@8` differ from theirs. So four type records of `Parent` had
+differing definitions in the archive: two between the Havok objects, and two
+more only against the staging unit. Besides the constructor, the two tables
+and these four type records, fourteen tables and type records of the three
 classes were defined more than once with equal content.
 
 A link that loaded both objects kept the first definition of each name. In the
@@ -183,7 +192,8 @@ definitions compared by section bytes and relocations.
 | of those, with differing content | 7 | 0 |
 
 Across the archive, 489 names with selection "any" had differing definitions
-before and 485 have now. The four that leave are the type records of `Parent`.
+before and 485 have now. The four that leave are the four type records of
+`Parent` named under "What shared a name".
 None enters.
 
 ## Not covered

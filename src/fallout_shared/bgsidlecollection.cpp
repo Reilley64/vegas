@@ -60,7 +60,7 @@ void BGSIdleCollection::Load(TESFile* file)
                 if (m_ppIdleForms)
                     delete[] m_ppIdleForms;
                 m_ppIdleForms = new TESIdleForm*[m_ucPickType];
-                memset(m_ppIdleForms, 0, m_ucPickType * 4);
+                memset(m_ppIdleForms, 0, m_ucPickType * sizeof(*m_ppIdleForms));
             }
             break;
         case 0x414c4449:
@@ -201,7 +201,7 @@ bool BGSIdleCollection_shell::IsDifferentFrom(BaseFormComponent* other)
         return true;
     if ((*reinterpret_cast<const TESIdleForm**>((void *)&this->m_ppIdleForms)) && (*reinterpret_cast<const TESIdleForm**>((void *)&idle->m_ppIdleForms)) &&
         memcmp((*reinterpret_cast<const TESIdleForm**>((void *)&this->m_ppIdleForms)), (*reinterpret_cast<const TESIdleForm**>((void *)&idle->m_ppIdleForms)),
-               this->m_ucPickType * 4))
+               this->m_ucPickType * sizeof(*this->m_ppIdleForms)))
         return true;
     return false;
 }
@@ -250,7 +250,7 @@ void FUN_00479850_shell::FUN_00479850(BaseFormComponent* apCopyFC)
     if (pSource->m_ucPickType)
     {
         m_ppIdleForms = new TESIdleForm*[pSource->m_ucPickType];
-        ::__memcpy(m_ppIdleForms, pSource->m_ppIdleForms, pSource->m_ucPickType * 4);
+        ::__memcpy(m_ppIdleForms, pSource->m_ppIdleForms, pSource->m_ucPickType * sizeof(*m_ppIdleForms));
         m_ucPickType = pSource->m_ucPickType;
     }
     m_fIdleChance = pSource->m_fIdleChance;

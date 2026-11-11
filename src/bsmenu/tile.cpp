@@ -5107,38 +5107,49 @@ struct SmallArray {
     }
     ~SmallArray();
 };
-struct Tile3D {
-    Tile3D();
-    virtual ~Tile3D();
-    int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
-    int unk20; int unk24; int unk28; NodeRef unk2c; int unk30; int unk34; int unk38;
-};
-struct TileRect : Tile3D {
+// The classes the function below creates derive from Tile. TileRect, TileMenu and TileImage declare
+// the fields after the 96 bytes of Tile with the types of their own units (tilerect.h, tilemenu.h,
+// tileimage.cpp); FUN_00a21660 has no fields of its own (radialtile.cpp). FUN_00a0bc80 keeps the
+// field types of blk_00a00000_od.cpp. tiletext.cpp declares no fields of TileText: the fields below
+// reach the byte the function writes at 112, and the size of TileText is not established.
+struct TileRect : ::Tile {
     __forceinline TileRect() {}
     virtual ~TileRect();
+    bool m_bTextureLoaded;
 };
+// The overrides of TileMenu's table at 0x0106ed44 in slots 1 to 4, 6 and 7 (rows 0x00a1ef30,
+// 0x00a1f140, 0x00709a40, 0x00709a50, 0x00a1f160 and 0x00a1f310). Their bodies are not in this unit.
 class TileMenu : public TileRect {
   public:
-    __forceinline TileMenu() : unk3c(0) {}
+    __forceinline TileMenu() : pMenu(0) {}
     virtual ~TileMenu();
-    int unk3c;
+    virtual void Init(::Tile*, const char*, ::Tile*);
+    virtual ::NiNode* CalculateNode();
+    virtual int GetType();
+    virtual const char* GetImageTag();
+    virtual ::Tile* SetTraitValue(int, float, const char*);
+    virtual void FUN_00a0b020();
+    ::Menu* pMenu;
 };
-struct TileImage : Tile3D {
+struct TileImage : ::Tile {
     TileImage();
-    int unk3c; int unk40; int unk44;
+    float fScale;
+    NiPointer<::NiTexture> spTexture;
+    NiPointer<::TileShaderProperty> m_spShaderProperty;
+    bool m_bTextureLoaded;
 };
-struct TileText : Tile3D {
-    __forceinline TileText(Tile3D* parent = 0) {
-        if (parent) reinterpret_cast<::FUN_00a087d0_shell *>(this)->FUN_00a087d0((::Tile *)(parent), (::Tile *)(::fnv_00a00c20::Tile3D *)(0));
+struct TileText : ::Tile {
+    __forceinline TileText(::Tile* parent = 0) {
+        if (parent) reinterpret_cast<::FUN_00a087d0_shell *>(this)->FUN_00a087d0(parent, (::Tile *)(0));
         unk48 = 0;
     }
     virtual ~TileText();
-    int unk3c; int unk40; int unk44;
+    int unk38; int unk3c; int unk40; int unk44;
     char unk48;
 };
-struct FUN_00a0bc80 : Tile3D {
-    inline FUN_00a0bc80() { unk2c.Assign(0); unk38=0; unk3c=0; }
-    int unk3c; SmallArray first; SmallArray second;
+struct FUN_00a0bc80 : ::Tile {
+    inline FUN_00a0bc80() { reinterpret_cast<NodeRef *>(&m_spNode)->Assign(0); unk38=0; unk3c=0; }
+    int unk38; int unk3c; SmallArray first; SmallArray second;
 };
 struct FUN_00a21660 : TileImage {
     FUN_00a21660();

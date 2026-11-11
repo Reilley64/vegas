@@ -10139,7 +10139,7 @@
     "??1FUN_00a0bb50@@QAE@XZ": "0x00a0bb50",
     "?DAT_011f3348@fnv_00a00a30@@3V?$SimpleListA00@PAVFadeNodeA00@fnv_00a00a30@@@1@A": "0x011f3348",
     "__ehhandler$?FUN_00a00c20@fnv_00a00c20@@YAPAVTile@@H@Z": "0x00f1cd3f",
-    "??0Tile3D@@QAE@XZ": "0x00709860",
+    "??0Tile@@QAE@XZ": "0x00709860",
     "??_7TileRect@fnv_00a00c20@@6B@": "0x0106ed70",
     "??0TileImage@fnv_00a00c20@@QAE@XZ": "0x0070b5d0",
     "??0FUN_00a0bc80@fnv_00a00c20@@QAE@XZ": "0x00a0bc80",

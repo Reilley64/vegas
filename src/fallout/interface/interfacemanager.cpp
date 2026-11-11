@@ -7471,10 +7471,6 @@ class Menu
     virtual void HandleLeftClickPress(unsigned int, Tile*);
     virtual void HandleClick(int, Tile*);
 };
-struct FUN_007e6620_Button
-{
-    void FUN_00716b00(int);
-};
 struct FUN_007e6620_t : public Menu
 {
     void FUN_007e6700();
@@ -7498,9 +7494,9 @@ bool FUN_007e6620_t::HandleTileClick(int aiTileID)
     }
     else
     {
-        if (((bool)(::GetByteAtOffset33((char *)(((FUN_007e6620_Button*)((char*)this + 0x34)))))))
+        if (((bool)(::GetByteAtOffset33((char *)(((::TextInputField*)((char*)this + 0x34)))))))
         {
-            ((FUN_007e6620_Button*)((char*)this + 0x34))->FUN_00716b00(aiTileID);
+            ((::TextInputField*)((char*)this + 0x34))->FUN_00716b00(aiTileID);
             FUN_007e6700();
             return true;
         }

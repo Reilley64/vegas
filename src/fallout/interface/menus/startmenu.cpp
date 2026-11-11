@@ -1985,19 +1985,14 @@ struct VObj
 {
 };
 
-struct StartMenuStandIn
-{
-    void PopulateList(int);
-};
-
 
 // @fnv 0x007d0dc0
 void FUN_007d0dc0()
 {
-    if ((*reinterpret_cast<::fnv_007d0dc0::StartMenuStandIn * *>(&::fnv_007d0700::DAT_011daac0)))
+    if ((*reinterpret_cast<::ThisT * *>(&::fnv_007d0700::DAT_011daac0)))
     {
-        reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>((((VObj*)((char*)(*reinterpret_cast<::fnv_007d0dc0::StartMenuStandIn * *>(&::fnv_007d0700::DAT_011daac0)) + 0xb4))))->FUN_007d74f0(0);
-        (*reinterpret_cast<::fnv_007d0dc0::StartMenuStandIn * *>(&::fnv_007d0700::DAT_011daac0))->PopulateList(0x20);
+        reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>((((VObj*)((char*)(*reinterpret_cast<::ThisT * *>(&::fnv_007d0700::DAT_011daac0)) + 0xb4))))->FUN_007d74f0(0);
+        (*reinterpret_cast<::ThisT * *>(&::fnv_007d0700::DAT_011daac0))->PopulateList(0x20);
     }
 }
 }  // namespace fnv_007d0dc0
@@ -3136,20 +3131,15 @@ struct VObj
 void VObj::FUN_007d74f0(int)
 {}
 
-struct SM7d6
-{
-    void PopulateList(int);
-};
-
 
 // If DAT_011daac0 is set, calls FUN_007d74f0(0) on the VObj at offset 0xb4 and then PopulateList(8) on DAT_011daac0.
 // @fnv 0x007d0d40
 void FUN_007d0d40()
 {
-    if ((*reinterpret_cast<::fnv_007d0d40::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0)))
+    if ((*reinterpret_cast<::ThisT * *>(&::fnv_007d0700::DAT_011daac0)))
     {
-        reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>(((reinterpret_cast<VObj*>(reinterpret_cast<char*>((*reinterpret_cast<::fnv_007d0d40::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))) + 0xb4))))->FUN_007d74f0(0);
-        (*reinterpret_cast<::fnv_007d0d40::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))->PopulateList(8);
+        reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>(((reinterpret_cast<VObj*>(reinterpret_cast<char*>((*reinterpret_cast<::ThisT * *>(&::fnv_007d0700::DAT_011daac0))) + 0xb4))))->FUN_007d74f0(0);
+        (*reinterpret_cast<::ThisT * *>(&::fnv_007d0700::DAT_011daac0))->PopulateList(8);
     }
 }
 }  // namespace fnv_007d0d40

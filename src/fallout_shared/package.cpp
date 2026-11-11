@@ -2365,11 +2365,6 @@ struct BGSTerrainManager
 struct PackageLocationEx
 {
 };
-struct TESPackageEx
-{
-    LocationDescriptor* GetPackageSecondLocation();
-    void SetPackageType(int);
-};
 struct PackageTargetEx
 {
     int GetTargetObjectType();
@@ -2581,7 +2576,7 @@ void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
     case 1:
         if (GetTarget())
         {
-            LocationDescriptor* ploc = ((::fnv_006777b0::LocationDescriptor *)(reinterpret_cast<::FUN_00672dd0_shell *>((((TESPackageEx*)this)))->FUN_00672dd0()));
+            LocationDescriptor* ploc = ((::fnv_006777b0::LocationDescriptor *)(reinterpret_cast<::FUN_00672dd0_shell *>((((::PackageEx*)this)))->FUN_00672dd0()));
             if (ploc && (reinterpret_cast<::DurationData *>((((BoundHolder*)ploc)))->FUN_00678ca0() == 6 || ploc->GetLocationReference() ||
                          ((void *)(reinterpret_cast<::FUN_0067f430_shell *>((((PackageLocationEx*)ploc)))->GetLocationObject())) || reinterpret_cast<::FUN_0067f480_shell *>((((PackageLocationEx*)ploc)))->GetObjectType()))
                 flags18 = 7;
@@ -2717,7 +2712,7 @@ void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
         ::std::sprintf(message, "Package '%s' is not a valid package because it is missing necessary Target Or Location Info.",
                 ((const char *)(::FUN_00464f30((std::intptr_t)(((TESPackageVt*)this)->GetEditorID())))));
         flags18 = 0;
-        ((TESPackageEx*)this)->SetPackageType(6);
+        ((::PackageEx*)this)->SetPackageType(6);
     }
 }
 }  // namespace fnv_006777b0

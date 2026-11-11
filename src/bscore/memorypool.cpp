@@ -158,10 +158,6 @@ struct FUN_00aa6f90_shell : public MemoryPool
 struct FUN_00aa6eb0_shell
 {
 };
-struct Helper_00aa6eb0
-{
-    void FUN_00aa7260();
-};
 // @fnv 0x00aa6f90
 void FUN_00aa6f90_shell::FUN_00aa6f90()
 {
@@ -175,7 +171,7 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
             int u1, u2;
             if (!blistSorted)
             {
-                ((Helper_00aa6eb0*)this)->FUN_00aa7260();
+                ((::FUN_00aa7260_holder*)this)->FUN_00aa7260();
                 blistSorted = true;
             }
             reinterpret_cast<::FUN_00aa6eb0_shell *>((((FUN_00aa6eb0_shell*)this)))->FUN_00aa6eb0(i, false);

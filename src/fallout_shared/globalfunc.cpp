@@ -1567,10 +1567,6 @@ struct FUN_004b4ee0_cls
 
 namespace fnv_004b4ec0 {
 struct BSSimpleList_Ragdoll;
-struct FUN_004b4ee0_shell
-{
-    void FUN_004b4ee0();
-};
 class TESDataHandler
 {
 };
@@ -1581,7 +1577,7 @@ struct FUN_004b4ec0_shell
 // @fnv 0x004b4ec0
 void FUN_004b4ec0_shell::FUN_004b4ec0()
 {
-    ((FUN_004b4ee0_shell*)((::fnv_004b4ec0::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->FUN_004b4ee0();
+    ((::FUN_004b4ee0_cls*)((::fnv_004b4ec0::BSSimpleList_Ragdoll *)(reinterpret_cast<::FUN_009d9f40_Class *>((((TESDataHandler*)this)))->FUN_009d9f40())))->FUN_004b4ee0();
 }
 }  // namespace fnv_004b4ec0
 

@@ -138,10 +138,6 @@ struct RefObj
 {
     void FUN_00c90510();
 };
-struct RefObj2
-{
-    void FUN_00c905b0();
-};
 struct FUN_00dee6f0_class
 {
     void* m_pVTable;
@@ -159,7 +155,7 @@ void FUN_00dee6f0_class::FUN_00dee6f0(RefObj* pNewObject)
     if (pNewObject)
         pNewObject->FUN_00c90510();
     if (m_pObject)
-        ((RefObj2*)m_pObject)->FUN_00c905b0();
+        ((::hkReferencedObjectC905*)m_pObject)->FUN_00c905b0();
     m_pObject = pNewObject;
 }
 }  // namespace fnv_00dee6f0

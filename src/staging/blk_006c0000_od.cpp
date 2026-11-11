@@ -499,11 +499,6 @@ struct FUN_006d33a0_Class
     void FUN_006d33a0();
 };
 
-struct FUN_006d32c0_Class
-{
-    void FUN_006d32c0();
-};
-
 struct NavMeshPtr;
 struct PathingLocation
 {
@@ -1666,7 +1661,7 @@ struct FUN_006dc4d0_Class
 // @fnv 0x006dc4d0
 void* FUN_006dc4d0_Class::FUN_006dc4d0(unsigned int flags)
 {
-    ((FUN_006d32c0_Class*)this)->FUN_006d32c0();
+    ((::FUN_006d32c0_StandIn*)this)->FUN_006d32c0();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -2052,7 +2047,7 @@ FUN_0044cd00_Class* FUN_006c65b0_Class::FUN_006c65b0(unsigned int index)
 // @fnv 0x006d33a0
 void FUN_006d33a0_Class::FUN_006d33a0()
 {
-    reinterpret_cast<::FUN_006d32c0_StandIn *>((reinterpret_cast<FUN_006d32c0_Class*>(&this->m_f)))->FUN_006d32c0();
+    reinterpret_cast<::FUN_006d32c0_StandIn *>((reinterpret_cast<::FUN_006d32c0_StandIn*>(&this->m_f)))->FUN_006d32c0();
 }
 
 // @fnv 0x006d32c0

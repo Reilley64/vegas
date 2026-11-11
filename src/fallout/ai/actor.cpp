@@ -22524,10 +22524,6 @@ struct VP_00881680
 struct PK_00881680
 {
 };
-struct FP_00881680
-{
-    void FUN_00881830(int);
-};
 struct S8a_00881680
 {
 };
@@ -22565,7 +22561,7 @@ void FUN_00881680_shell::FUN_00881680(bool bNotRunOnceDialogue)
             {
                 if (reinterpret_cast<struct ::FUN_0041ca90 *>((ppack))->get() == 0x17)
                 {
-                    FP_00881680* pfollow = (FP_00881680*)ppack;
+                    ::FUN_00881830_Class* pfollow = (::FUN_00881830_Class*)ppack;
                     pfollow->FUN_00881830(-1);
                 }
                 reinterpret_cast<::ActorExtraShell *>((((S8a_00881680*)this)))->FUN_008a08e0(1);

@@ -1640,10 +1640,6 @@ struct GlobalObject_00869f00
 struct Arr3520
 {
 };
-struct FUN_0069d2d0_s
-{
-    void FUN_0069d2d0();
-};
 struct FUN_006b6a00_s
 {
 };
@@ -1663,7 +1659,7 @@ void FUN_00690d50_shell::FUN_00690d50(bool abCheckout)
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->Vertices))))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->Triangles))))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kEdgeExtraInfo))))->Clear(true);
-    ((FUN_0069d2d0_s*)(&this->m_kGrid))->FUN_0069d2d0();
+    ((::D2d0Cls*)(&this->m_kGrid))->FUN_0069d2d0();
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kIndexList))))->Clear(true);
     reinterpret_cast<::FUN_006c6200_cls *>((((Arr3520*)(&this->m_kObstacleUndoData))))->FUN_006c6200(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)(&this->m_kDoorPortals))))->Clear(true);

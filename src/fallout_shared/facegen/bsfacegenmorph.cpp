@@ -133,10 +133,6 @@ struct FUN_006606e0_shell
     void SetVTable();
 };
 namespace fnv_00660820 {
-struct FUN_006606b0_shell
-{
-    void SetVTable();
-};
 struct FUN_00660820_shell
 {
     void* vtable;
@@ -153,7 +149,7 @@ void FUN_00660820_shell::FUN_00660820()
         void* tmp = ptr;
         ::FUN_00401030(tmp);
     }
-    ((FUN_006606b0_shell*)this)->SetVTable();
+    ((::FUN_006606e0_shell*)this)->SetVTable();
 }
 }  // namespace fnv_00660820
 
@@ -173,10 +169,6 @@ void* FUN_00660a20_holder::DestroyIfFlagged(unsigned int flags)
 }
 
 namespace fnv_00660a50 {
-struct FUN_006606b0_shell
-{
-    void SetVTable();
-};
 struct FUN_00660a50_shell
 {
     const void* field0;
@@ -193,7 +185,7 @@ void FUN_00660a50_shell::FUN_00660a50()
         void* tmp = field4;
         ::FUN_00401030(tmp);
     }
-    ((FUN_006606b0_shell*)this)->SetVTable();
+    ((::FUN_006606e0_shell*)this)->SetVTable();
 }
 }  // namespace fnv_00660a50
 

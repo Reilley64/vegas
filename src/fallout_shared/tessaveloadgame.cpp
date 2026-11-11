@@ -914,11 +914,6 @@ struct Flt
 struct GridArray_s
 {
 };
-struct SLGStub
-{
-    void FUN_00861ee0(unsigned char);
-    void FUN_00858700(void*);
-};
 struct BufferHeader_s
 {
     int a;
@@ -1027,14 +1022,14 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
             }
             isize = formHeader.size;
             iflags = *(Flt*)pchange2;
-            iflags = reinterpret_cast<::FUN_00859120_cls *>((((SLGStub*)this)))->ClearRefrFlag(apForm, iflags);
-            ((SLGStub*)this)->FUN_00861ee0(formHeader.version);
+            iflags = reinterpret_cast<::FUN_00859120_cls *>((((::FUN_00861ee0_Class*)this)))->ClearRefrFlag(apForm, iflags);
+            ((::FUN_00861ee0_Class*)this)->FUN_00861ee0(formHeader.version);
             reinterpret_cast<::FUN_00858aa0_shell *>(&(bufferHeader4))->FUN_00858aa0((unsigned short *)(void *)(&formHeader), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apForm))->FUN_0084e3a0())), iflags);
             ((EffectSetting*)this)->SetBoltSound((TESSound*)&bufferHeader4);
             brestore = reinterpret_cast<::FUN_0047c850 *>((((FUN_00485d50_slg*)this)))->EvaluateCondition();
             reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)this)))->FUN_004534f0(1);
             reinterpret_cast<::FUN_0046a010_shell *>((((FUN_0046a010_shell*)apForm)))->FUN_0046a010(true);
-            reinterpret_cast<::s85ac30::RefLoader *>((((SLGStub*)this)))->LoadChange(apForm, iflags);
+            reinterpret_cast<::s85ac30::RefLoader *>((((::FUN_00861ee0_Class*)this)))->LoadChange(apForm, iflags);
             ((FormV*)apForm)->LoadGame(iflags, 0);
             reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)this)))->FUN_004534f0(brestore);
             ((EffectSetting*)this)->SetBoltSound(0);
@@ -1043,7 +1038,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
                 *(FUN_00863e00**)&this->unk20 = new FUN_00863e00(0x32, 0x32);
             reinterpret_cast<::S00863d90 *>(((*(NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >**)&this->unk20)))->FUN_00863d90((const unsigned int &)((const ::fnv_00858730::TESTopicInfo *const &)((TESTopicInfo*)new FUN_00857280(apForm, iflags, 0, formHeader.version))));
             _ibufferOverrun = *(char**)&this->unk14 - ((char*)ptempbuffer + isize + 4);
-            reinterpret_cast<::fnv_00858700::FUN_00858700 *>((((SLGStub*)this)))->DoIt(ptempbuffer);
+            reinterpret_cast<::fnv_00858700::FUN_00858700 *>((((::FUN_00861ee0_Class*)this)))->DoIt(ptempbuffer);
             reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)pchange2)))->Initialize((::CombatController *)(0));
             if (*(unsigned int*)((char*)this + 0x54))
             {

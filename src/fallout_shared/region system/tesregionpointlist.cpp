@@ -210,15 +210,11 @@ struct FUN_004f81e0_shell : public RegionPointList
 struct BSThread
 {
 };
-struct FUN_004f8220_stub
-{
-    bool FUN_004f8220(bool);
-};
 // Returns false if abMinPointsTest is set and GetThreadID() is below 3, or if FUN_004f8220(true) returns true; otherwise returns true.
 // @fnv 0x004f81e0
 bool FUN_004f81e0_shell::FUN_004f81e0(bool abMinPointsTest)
 {
-    if ((abMinPointsTest && reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() < 3) || ((FUN_004f8220_stub*)this)->FUN_004f8220(true))
+    if ((abMinPointsTest && reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() < 3) || ((::PointList*)this)->FUN_004f8220(true))
         return false;
     return true;
 }

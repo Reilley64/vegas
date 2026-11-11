@@ -1260,16 +1260,11 @@ struct FUN_00496420_shell : public NiQuatTransform
     void FUN_00496420(float);
 };
 
-struct _CallHelper_FUN_00496420
-{
-    void FUN_004964a0(bool);
-};
-
 // @fnv 0x00496420
 void FUN_00496420_shell::FUN_00496420(float fScale)
 {
     m_fScale = fScale;
-    reinterpret_cast<_CallHelper_FUN_00496420*>(this)->FUN_004964a0(true);
+    reinterpret_cast<::FUN_004964a0_shell*>(this)->FUN_004964a0(true);
 }
 }  // namespace fnv_00496420
 

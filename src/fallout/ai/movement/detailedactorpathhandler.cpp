@@ -1759,14 +1759,6 @@ struct ActorMoverLook
 struct FUN_009e8790_shell
 {
 };
-struct FUN_009e4c60_shell
-{
-    void UpdateLookingAngle(float, float);
-};
-struct FUN_009e7d70_shell
-{
-    float FUN_009e7d70(float);
-};
 struct PathHandlerStub
 {
     virtual void v0();
@@ -2019,7 +2011,7 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
             eresult = 5;
             break;
         case 6:
-            (*(ActorStub**)&this->pActor)->SetFurnitureHeading(((FUN_009e7d70_shell*)this)->FUN_009e7d70(afDeltaT));
+            (*(ActorStub**)&this->pActor)->SetFurnitureHeading(((::FUN_009e7d70_shell*)this)->FUN_009e7d70(afDeltaT));
             this->m_kPathVector1 = NiPoint3::ZERO;
             this->m_fPathValue13 = 0.0f;
             this->m_kPathVector5 = NiPoint3::ZERO;
@@ -2125,7 +2117,7 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
                         (*(ActorStub**)&this->pActor)->SetFurnitureHeading(fCurrentAngle);
                     flookingAngle = fgoalLookAngle;
                     if (bimmobile)
-                        ((FUN_009e4c60_shell*)this)->UpdateLookingAngle(afDeltaT, flookingAngle);
+                        ((::FUN_009e4c60_t*)this)->UpdateLookingAngle(afDeltaT, flookingAngle);
                     reinterpret_cast<::TESForm *>(((*(GlobalObject_0041a250**)&this->m_pActorMover)))->ClearData();
                 }
             }
@@ -2133,7 +2125,7 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
         eresult = 0;
     }
     if (!bimmobile)
-        ((FUN_009e4c60_shell*)this)->UpdateLookingAngle(afDeltaT, flookingAngle);
+        ((::FUN_009e4c60_t*)this)->UpdateLookingAngle(afDeltaT, flookingAngle);
     return eresult;
 }
 }  // namespace fnv_009e16e0

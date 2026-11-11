@@ -623,10 +623,6 @@ struct MM {
 extern void* DAT_011f33fc;
 extern int DAT_011f3400;
 
-struct FUN_00a152d0_shell {
-    void ClearArray();
-};
-
 struct GO {
     void* p;
     ~GO();
@@ -660,7 +656,7 @@ FUN_00a121e0::~FUN_00a121e0()
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a121e0::MM *>(&::g_memoryManager))))->FUN_00aa4060(pData);
     DAT_011f3400 = 0;
     DAT_011f33fc = 0;
-    ((FUN_00a152d0_shell*)this)->ClearArray();
+    ((::S_00a12300_Obj*)this)->ClearArray();
     pBuffer = field_4;
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a121e0::MM *>(&::g_memoryManager))))->FUN_00aa4060(pBuffer);
 }

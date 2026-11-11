@@ -126,24 +126,20 @@ class TESDataHandler;
 struct DHX
 {
 };
-struct ZX2
-{
-    bool FUN_0048d210(TESLevSpell*);
-};
 // @fnv 0x0048d290
 bool FUN_0048d290_shell::FUN_0048d290(TESForm* apSpellIn)
 {
     if (reinterpret_cast<::FUN_004516b0_shell *>((((DHX*)(*reinterpret_cast<::fnv_0048d290::TESDataHandler * *>(&::g_dataHandler)))))->FUN_004516b0())
     {
-        reinterpret_cast<::FloatValueProvider *>((((ZX2*)this)))->FUN_0048d170((SpellItem*)apSpellIn);
+        reinterpret_cast<::FloatValueProvider *>((((::SpellListTask*)this)))->FUN_0048d170((SpellItem*)apSpellIn);
         return true;
     }
     SpellItem* pSpell = dynamic_cast<SpellItem*>(apSpellIn);
     TESLevSpell* pLevSpell = dynamic_cast<TESLevSpell*>(apSpellIn);
     if (pSpell)
-        return reinterpret_cast<::FloatValueProvider *>((((ZX2*)this)))->FUN_0048d170(pSpell);
+        return reinterpret_cast<::FloatValueProvider *>((((::SpellListTask*)this)))->FUN_0048d170(pSpell);
     else if (pLevSpell)
-        return ((ZX2*)this)->FUN_0048d210(pLevSpell);
+        return ((::SpellListTask*)this)->FUN_0048d210(pLevSpell);
     return false;
 }
 }  // namespace fnv_0048d290

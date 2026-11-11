@@ -1230,11 +1230,6 @@ extern FUN_00fdf100_t DAT_00fdf100;
 
 void __cdecl FUN_00fdb2b0(void);
 
-struct FUN_00aa7300_Obj
-{
-    void FUN_00aa7300();
-};
-
 struct FUN_00aa7300_node
 {
     int m_00;
@@ -1288,7 +1283,7 @@ void FUN_00aa7370(void)
         MemoryPool* pool = DAT_011f67b8[index];
         if (pool != 0)
         {
-            reinterpret_cast<FUN_00aa7300_Obj*>(pool)->FUN_00aa7300();
+            reinterpret_cast<::FUN_00aa7300_cls*>(pool)->FUN_00aa7300();
         }
     }
 

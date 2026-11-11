@@ -911,10 +911,6 @@ struct FUN_0052d240_obj : public FUN_006e7b60
 struct FUN_006e8450_shell
 {
 };
-struct FUN_006e9af0_S
-{
-    float MeasurePathLength(float, float, unsigned int);
-};
 struct FUN_006e7970_shell
 {
 };
@@ -939,11 +935,11 @@ float FUN_006e84b0_shell::GetSplineLengthAtParameter(float afParameter)
     {
         reinterpret_cast<::FUN_006e8450_shell *>((((FUN_006e8450_shell*)&spline)))->FUN_006e8450((void *)&(const ::fnv_006e84b0::M24 &)(((::fnv_006e84b0::OwnS2 *)(reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)this)))->FUN_006e7970(i)))->GetLocationAndTangent()),
                            (void *)&(const ::fnv_006e84b0::M24 &)(((::fnv_006e84b0::OwnS2 *)(reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)this)))->FUN_006e7970(i + 1)))->GetLocationAndTangent()));
-        ftotalLength += ((FUN_006e9af0_S*)&spline)->MeasurePathLength(0.0f, 1.0f, 2);
+        ftotalLength += ((::FUN_006e9af0_cls*)&spline)->MeasurePathLength(0.0f, 1.0f, 2);
     }
     reinterpret_cast<::FUN_006e8450_shell *>((((FUN_006e8450_shell*)&spline)))->FUN_006e8450((void *)&(const ::fnv_006e84b0::M24 &)(((::fnv_006e84b0::OwnS2 *)(reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)this)))->FUN_006e7970(inode)))->GetLocationAndTangent()),
                        (void *)&(const ::fnv_006e84b0::M24 &)(((::fnv_006e84b0::OwnS2 *)(reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)this)))->FUN_006e7970(inode + 1)))->GetLocationAndTangent()));
-    ftotalLength += ((FUN_006e9af0_S*)&spline)->MeasurePathLength(0.0f, afParameter - inode, 2);
+    ftotalLength += ((::FUN_006e9af0_cls*)&spline)->MeasurePathLength(0.0f, afParameter - inode, 2);
     return ftotalLength;
 }
 }  // namespace fnv_006e84b0

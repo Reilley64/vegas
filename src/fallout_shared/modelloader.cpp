@@ -8665,10 +8665,6 @@ struct Q_0043c050
 struct S_00c3c7e0
 {
 };
-struct S_0044adb0
-{
-    void FUN_0044adb0();
-};
 struct V_00443540
 {
     virtual void v0();
@@ -8700,7 +8696,7 @@ bool FUN_00443540_shell::FUN_00443540(BSFileEntry* apTextureFileEntry, std::intp
                 if (((IOTask*)(std::uintptr_t)spexistingQueuedTexture)->FUN_0043cc60() > aePriority)
                     ((V_00443540*)(std::uintptr_t)spexistingQueuedTexture)->SetPriority(aePriority);
                 else
-                    ((S_0044adb0*)::DAT_01202d98)->FUN_0044adb0();
+                    ((::FUN_0044adb0_class*)::DAT_01202d98)->FUN_0044adb0();
                 return true;
             }
         }

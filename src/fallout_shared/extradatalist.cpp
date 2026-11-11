@@ -7441,10 +7441,6 @@ struct FUN_00431230 : public BSExtraData
     TeleportableReference* pData;
     FUN_00431230(TeleportableReference*);
 };
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
 struct Dummy_00419220
 {
     void* DeleteIfFlagged(int);
@@ -7460,7 +7456,7 @@ ExtraTeleport* FUN_00419120_shell::FUN_00419120(TeleportableReference* apTelepor
     {
         if (!apTeleport)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
         }
         else
         {
@@ -7521,10 +7517,6 @@ struct FUN_00431360 : public BSExtraData
     MapMarkerData* pData;
     FUN_00431360(MapMarkerData*);
 };
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
 struct Dummy_00419350
 {
     void* FUN_00419350(int);
@@ -7540,7 +7532,7 @@ ExtraMapMarker* FUN_00419250_shell::SetMapMarker(MapMarkerData* apMarker)
     {
         if (!apMarker)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
             pExtra = 0;
         }
         else
@@ -7605,10 +7597,6 @@ struct PtrWrap
 {
     MediaLocation* p;
 };
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
 struct Dummy_00419480
 {
     void* FUN_00419480(int);
@@ -7629,7 +7617,7 @@ ExtraAudioMarker* FUN_00419380_shell::SetAudioMarker(MediaLocation* apMarker)
     {
         if (!apMarker)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
             pExtra = 0;
         }
         else
@@ -7684,11 +7672,6 @@ struct ExtraGlobal : public BSExtraData
     ExtraGlobal(TESGlobal*);
 };
 
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
-
 // Finds the ExtraGlobal extra data (type 0x21); if present, updates or removes it, otherwise creates and adds one when apGlobal is non-null.
 // @fnv 0x00419700
 void FUN_00419700_shell::FUN_00419700(TESForm* apGlobal)
@@ -7698,7 +7681,7 @@ void FUN_00419700_shell::FUN_00419700(TESForm* apGlobal)
     {
         if (!apGlobal)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pextra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
         }
         else
         {
@@ -7921,11 +7904,6 @@ struct FUN_0040ef30 : public BSExtraData
     FUN_0040ef30(BGSMusicType*);
 };
 
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
-
 // Sets or clears the music-type extra data (type 7) on the extra data list, adding a new entry or updating the existing one.
 // @fnv 0x0041bd10
 void FUN_0041bd10_shell::FUN_0041bd10(BGSMusicType* apData)
@@ -7935,7 +7913,7 @@ void FUN_0041bd10_shell::FUN_0041bd10(BGSMusicType* apData)
     {
         if (pExtra)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
         }
     }
     else if (!pExtra)
@@ -8058,11 +8036,6 @@ struct FUN_0040f070 : public BSExtraData
     FUN_0040f070(TESClimate*);
 };
 
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
-
 // Sets or clears the climate extra data on this list: removes it when apData is null, adds a new entry when absent, otherwise updates the stored pointer.
 // @fnv 0x0041c190
 void FUN_0041c190_shell::SetClimate(TESClimate* apData)
@@ -8072,7 +8045,7 @@ void FUN_0041c190_shell::SetClimate(TESClimate* apData)
     {
         if (pExtra)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
         }
     }
     else if (!pExtra)
@@ -8122,11 +8095,6 @@ struct FUN_0040f110 : public BSExtraData
     FUN_0040f110(TESImageSpace*);
 };
 
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
-
 // Sets or clears the image-space extra data (type 0x59) on this extra data list: removes it when apData is null, adds a new entry, or updates the existing one.
 // @fnv 0x0041c290
 void FUN_0041c290_shell::SetImageSpaceExtra(TESImageSpace* apData)
@@ -8136,7 +8104,7 @@ void FUN_0041c290_shell::SetImageSpaceExtra(TESImageSpace* apData)
     {
         if (pExtra)
         {
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
         }
     }
     else if (!pExtra)
@@ -8653,11 +8621,6 @@ struct FUN_004379a0_holder : public BSExtraData
     FUN_004379a0_holder(TESObjectREFR*);
 };
 
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
-
 // @fnv 0x0042f300
 void FUN_0042f300_shell::FUN_0042f300(TESObjectREFR* apUser)
 {
@@ -8669,7 +8632,7 @@ void FUN_0042f300_shell::FUN_0042f300(TESObjectREFR* apUser)
     }
     else if (pextra && !apUser)
     {
-        ((Dummy_00410020*)this)->FUN_00410020(pextra, true);
+        ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
     }
 }
 }  // namespace fnv_0042f300
@@ -11352,10 +11315,6 @@ struct S_0041a220
 {
     bool IsNotEqual(const BSSoundHandleEx&);
 };
-struct S_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
 
 // @fnv 0x0041a800
 void FUN_0041a800_shell::FUN_0041a800(void* afSound)
@@ -11364,7 +11323,7 @@ void FUN_0041a800_shell::FUN_0041a800(void* afSound)
     if (SoundAssetTmp)
     {
         if (reinterpret_cast<::FUN_0041a1f0Class *>((((FUN_0041a1f0Class*)afSound)))->Equals((::Flt *)&(const ::fnv_0041a800::BSSoundHandleEx &)(BSSoundHandleEx())))
-            ((S_00410020*)this)->FUN_00410020(SoundAssetTmp, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(SoundAssetTmp, true);
         else
             reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::fnv_0041a800::BSSoundHandleEx &)(SoundAssetTmp->xSound))->operator=((const ::SoundPlaybackHandle &)(*(const BSSoundHandleEx*)afSound));
     }
@@ -11971,11 +11930,6 @@ struct FUN_0041bf20_Class
 {
 };
 
-struct FUN_00410020_Class
-{
-    void FUN_00410020(BSExtraData* extra, bool flag);
-};
-
 struct FUN_0041be10_Class : BaseExtraList
 {
     void SetExtraState(unsigned char state);
@@ -12000,7 +11954,7 @@ void FUN_0041be10_Class::SetExtraState(unsigned char state)
         {
             extra->pProcessData = state;
             if (reinterpret_cast<::FUN_0041bf20_Class *>((((FUN_0041bf20_Class*)extra)))->FUN_0041bf20())
-                ((FUN_00410020_Class*)this)->FUN_00410020(extra, true);
+                ((::FUN_00410020_t*)this)->FUN_00410020(extra, true);
         }
     }
 }
@@ -12011,10 +11965,6 @@ struct FUN_0040f1b0_shell : BSExtraData
 {
     void* m_pCellImpactSwapValue;
     FUN_0040f1b0_shell();
-};
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
 };
 struct ExtraDataList2 : BaseExtraList
 {
@@ -12027,7 +11977,7 @@ void ExtraDataList2::FUN_0041c390(void* apImpactSwap)
     if (!apImpactSwap)
     {
         if (pExtra)
-            ((Dummy_00410020*)this)->FUN_00410020(pExtra, true);
+            ((::FUN_00410020_t*)this)->FUN_00410020(pExtra, true);
     }
     else
     {
@@ -12271,10 +12221,6 @@ struct FUN_00420210_shell : BaseExtraList
 };
 
 namespace fnv_00420440 {
-struct FUN_00410020_shell
-{
-    void FUN_00410020(BSExtraData* extra, bool clear);
-};
 
 struct FUN_00420500 : BSExtraData
 {
@@ -12293,7 +12239,7 @@ void FUN_00420440_shell::FUN_00420440(MagicItem* spell)
 {
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x7b);
     if (extra)
-        ((FUN_00410020_shell*)this)->FUN_00410020(extra, true);
+        ((::FUN_00410020_t*)this)->FUN_00410020(extra, true);
     if (spell)
     {
         extra = new FUN_00420500;
@@ -12497,11 +12443,6 @@ struct FUN_00435f20_class : BSExtraData
     FUN_00435f20_class(float value);
 };
 
-struct FUN_00410020_stub
-{
-    void FUN_00410020(BSExtraData* extra, bool bRemove);
-};
-
 struct FUN_00422750_class : BaseExtraList
 {
     void FUN_00422750(bool bAdd, float fValue);
@@ -12522,7 +12463,7 @@ void FUN_00422750_class::FUN_00422750(bool bAdd, float fValue)
     }
     else if (extra)
     {
-        ((FUN_00410020_stub*)this)->FUN_00410020(extra, true);
+        ((::FUN_00410020_t*)this)->FUN_00410020(extra, true);
     }
 }
 }  // namespace fnv_00422750
@@ -12779,10 +12720,6 @@ struct G2
 {
     void AddHead(void**);
 };
-struct FUN_0042f000_StandIn
-{
-    void FUN_0042f000();
-};
 struct FUN_0042ef20_StandIn : BaseExtraList
 {
     void FUN_0042ef20(void* item);
@@ -12792,7 +12729,7 @@ void FUN_0042ef20_StandIn::FUN_0042ef20(void* item)
 {
     if (!item)
     {
-        ((FUN_0042f000_StandIn*)this)->FUN_0042f000();
+        ((::FUN_0042f000_cls*)this)->FUN_0042f000();
         return;
     }
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x73);
@@ -12896,10 +12833,6 @@ struct ExtraDataListRemoveTrespassPackage
     void FUN_0041cda0();
 };
 namespace fnv_0041dda0 {
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData*, bool);
-};
 struct Dummy_0041dda0
 {
     void FUN_0041dda0(BSExtraData*);
@@ -12918,7 +12851,7 @@ void Dummy_0041dda0::FUN_0041dda0(BSExtraData* extra)
         {
             reinterpret_cast<::ItemChangeListNode *>((((ContNode*)(&static_cast<::ExtraEnableStateChildren*>(pData)->kChildren))))->FUN_00905330((*(::InventoryStackRecord *const *)(&extra)));
             if (((ContNode*)(&static_cast<::ExtraEnableStateChildren*>(pData)->kChildren))->ref_008256d0())
-                ((Dummy_00410020*)this)->FUN_00410020(pData, true);
+                ((::FUN_00410020_t*)this)->FUN_00410020(pData, true);
         }
     }
 }
@@ -12932,10 +12865,6 @@ struct DroppedItemNode
 struct ExtraDroppedItemList : BSExtraData
 {
     DroppedItemNode* m_pInventoryEntryData;  // +0xc
-};
-struct Dummy_00410020
-{
-    void FUN_00410020(BSExtraData* extra, bool flag);
 };
 struct FUN_0041e0d0_shell : BaseExtraList
 {
@@ -12951,7 +12880,7 @@ void FUN_0041e0d0_shell::FUN_0041e0d0(void* apItem)
         {
             reinterpret_cast<::ItemChangeListNode *>((((DroppedItemNode*)&pextra->m_pInventoryEntryData)))->FUN_00905330((*(::InventoryStackRecord *const *)(&apItem)));
             if (((DroppedItemNode*)&pextra->m_pInventoryEntryData)->FUN_008256d0())
-                ((Dummy_00410020*)this)->FUN_00410020(pextra, true);
+                ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
         }
     }
 }
@@ -12964,10 +12893,6 @@ struct FUN_00905330_stub
 struct FUN_008256d0_stub
 {
     unsigned char FUN_008256d0();
-};
-struct FUN_00410020_stub
-{
-    void FUN_00410020(BSExtraData*, bool);
 };
 struct FUN_0041e600 : BaseExtraList
 {
@@ -12983,7 +12908,7 @@ void FUN_0041e600::DetachExtraData(void* apChild)
         {
             reinterpret_cast<::ItemChangeListNode *>((((FUN_00905330_stub*)(&static_cast<::ExtraLinkedRefChildren*>(pextra)->kChildren))))->FUN_00905330((*(::InventoryStackRecord *const *)(&apChild)));
             if (((FUN_008256d0_stub*)(&static_cast<::ExtraLinkedRefChildren*>(pextra)->kChildren))->FUN_008256d0())
-                ((FUN_00410020_stub*)this)->FUN_00410020(pextra, true);
+                ((::FUN_00410020_t*)this)->FUN_00410020(pextra, true);
         }
     }
 }

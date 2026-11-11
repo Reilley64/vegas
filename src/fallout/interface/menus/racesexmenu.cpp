@@ -875,17 +875,9 @@ struct FUN_007b5180_shell : FUN_007af610_shell
 struct FUN_00601830_shell
 {
 };
-struct FUN_007b18f0_shell
-{
-    void HandleMenuKey(int);
-};
 struct FUN_007b1e70_shell
 {
     void UpdateFaceGen(int, int, int);
-};
-struct FUN_007b25a0_shell
-{
-    void FUN_007b25a0();
 };
 struct FUN_007b51f0_shell : FUN_007adc30_shell
 {
@@ -965,10 +957,10 @@ void __cdecl FUN_007b51f0()
         {
             reinterpret_cast<::FaceNpc *>((((FUN_00601830_shell*)(void*)(*((char**)DAT_011da634 + 0xd8 / 4)))))->RandomizeFace(1, 0, 1);
             ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(7, true);
-            ((FUN_007b18f0_shell*)DAT_011da634)->HandleMenuKey(0x22);
-            ((FUN_007b18f0_shell*)DAT_011da634)->HandleMenuKey(0x23);
+            ((::B7B18F0Menu*)DAT_011da634)->HandleMenuKey(0x22);
+            ((::B7B18F0Menu*)DAT_011da634)->HandleMenuKey(0x23);
             ((FUN_007b1e70_shell*)DAT_011da634)->UpdateFaceGen(1, 1, 0);
-            ((FUN_007b25a0_shell*)DAT_011da634)->FUN_007b25a0();
+            ((::Menu511*)DAT_011da634)->FUN_007b25a0();
             ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(8, false);
             ((FUN_007adc60_shell*)DAT_011da634)->FUN_007adc60(9, false);
         }

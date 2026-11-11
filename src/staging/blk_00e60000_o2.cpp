@@ -871,11 +871,6 @@ struct E7BB50Item
     void* m_kList;
 };
 
-struct FUN_00e7b550_Class
-{
-    void DeleteAllItems();
-};
-
 struct FUN_00e7bb50_Class
 {
     void FUN_00e7bb50();
@@ -900,14 +895,14 @@ void FUN_00e7bb50_Class::FUN_00e7bb50()
     void* pObject460 = *reinterpret_cast<void**>(self + 0x460);
     if (pObject460)
     {
-        reinterpret_cast<FUN_00e7b550_Class*>(pObject460)->DeleteAllItems();
+        reinterpret_cast<::FUN_00e7b550_cls*>(pObject460)->DeleteAllItems();
         _delete(pObject460, 0x144);
     }
 
     void* pObject464 = *reinterpret_cast<void**>(self + 0x464);
     if (pObject464)
     {
-        reinterpret_cast<FUN_00e7b550_Class*>(pObject464)->DeleteAllItems();
+        reinterpret_cast<::FUN_00e7b550_cls*>(pObject464)->DeleteAllItems();
         _delete(pObject464, 0x144);
     }
 

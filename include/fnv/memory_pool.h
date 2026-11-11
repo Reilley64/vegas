@@ -63,6 +63,8 @@ class MemoryPool
     void FUN_00aa6f90();                      // 0x00aa6f90
     // Owned by src/bscore/console/memorypool_console_h_unit.cpp.
     bool CommitPage(unsigned int, char *&);   // 0x00aa6610
+    // Owned by src/staging/blk_00aa0000_od.cpp.
+    void FUN_00aa65b0();                      // 0x00aa65b0
 };
 
 #endif

@@ -5418,7 +5418,7 @@
     "?FUN_00aa4060@FNV_MemoryManager@@QAEXPAX@Z": "0x00aa4060",
     "?_fnv_zlib_memset@@YAPAXPAXHI@Z": "0x00ec61c0",
     "?DAT_01000000@@3HA": "0x01000000",
-    "?FUN_00aa65b0@VirtualReservationSearch@@QAEXXZ": "0x00aa65b0",
+    "?FUN_00aa65b0@MemoryPool@@QAEXXZ": "0x00aa65b0",
     "?FUN_00aa3e40@MemoryManagerStandIn@@QAEPAXI@Z": "0x00aa3e40",
     "?FreeMemory@FUN_00aa6650_Class@@QAE_NIPAX@Z": "0x00aa6650",
     "?UnlinkNode@MemoryPool@@QAEXPAUMemoryPool__FreePoolBlock@@@Z": "0x00aa6e60",
@@ -511059,7 +511059,7 @@
     },
     {
      "address": "0x00aa65b0",
-     "symbol": "?FUN_00aa65b0@VirtualReservationSearch@@QAEXXZ",
+     "symbol": "?FUN_00aa65b0@MemoryPool@@QAEXXZ",
      "size": 86
     },
     {

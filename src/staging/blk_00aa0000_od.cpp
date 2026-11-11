@@ -2705,40 +2705,13 @@ void Heap00aaa5b0::FUN_00aa8da0()
 }
 
 
-class VirtualReservationSearch
-{
-  public:
-    unsigned int m_00;
-    void* m_04;
-    unsigned int m_08;
-    unsigned int m_0C;
-    unsigned int m_10;
-    unsigned int m_14;
-    unsigned int m_18;
-    unsigned int m_1C;
-    unsigned int m_20;
-    unsigned int m_24;
-    unsigned int m_28;
-    unsigned int m_2C;
-    unsigned int m_30;
-    unsigned int m_34;
-    unsigned int m_38;
-    unsigned int m_3C;
-    unsigned int m_40;
-    unsigned int m_44;
-    unsigned int m_48;
-    unsigned int m_4C;
-    unsigned int m_50;
-    void FUN_00aa65b0();
-};
-
 // @fnv 0x00aa65b0
-void VirtualReservationSearch::FUN_00aa65b0()
+void MemoryPool::FUN_00aa65b0()
 {
     unsigned int i = 1;
-    while (m_04 == 0)
+    while (m_pPoolBase == 0)
     {
-        m_04 = VirtualAlloc((void*)(uintptr_t)(i << 24), m_50, 0x2000, 4);
+        m_pPoolBase = (char*)VirtualAlloc((void*)(uintptr_t)(i << 24), m_uiPoolSize, 0x2000, 4);
         if (i < 0xff)
         {
             i++;

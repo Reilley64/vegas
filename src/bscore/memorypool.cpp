@@ -9,7 +9,6 @@
 #include "fnv/decl/FUN_00aa6680_class.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NodeSorter.h"
-#include "fnv/decl/VirtualReservationSearch.h"
 #include "fnv/symbols_00aa6000.h"
 #include "fnv/symbols_01000000.h"
 #include "fnv/symbols_011f6000.h"
@@ -345,7 +344,7 @@ MemoryPool::MemoryPool(unsigned int aiBlockSize, unsigned int aiPoolSize, const 
     m_uiAllocationSize = aiBlockSize;
     if (m_uiAllocationSize)
         m_uiAllocationSize = (m_uiAllocationSize + 3) & ~3;
-    reinterpret_cast<::VirtualReservationSearch *>(this)->FUN_00aa65b0();
+    FUN_00aa65b0();
     if (!m_pPoolBase)
         return;
     m_pPageBlockCounts = (unsigned short*)new fnv_00aa66a0::PageRefCount66a0[aiPoolSize >> 12];

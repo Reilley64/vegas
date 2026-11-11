@@ -1,11 +1,9 @@
 #include "fileformat/pack_structure.h"
 
 #include "fileformat/byte_reader.h"
-
-#include <zlib.h>
+#include "fileformat/pack_container.h"
 
 #include <algorithm>
-#include <limits>
 #include <string_view>
 #include <utility>
 
@@ -15,11 +13,11 @@ namespace fileformat
 namespace
 {
 
+using pack_container::headerBytes;
+using pack_container::magic;
+using pack_container::recordBytes;
+
 constexpr std::string_view format = "data pack";
-constexpr std::string_view magic{"VEGASPK\0", 8};
-constexpr std::size_t headerBytes = 88;
-constexpr std::size_t checksumOffset = 84;
-constexpr std::size_t recordBytes = 24;
 
 [[noreturn]] void Fail(PackStructureProblem problem, std::string_view field, std::string_view text)
 {
@@ -28,24 +26,8 @@ constexpr std::size_t recordBytes = 24;
 
 void RequireOne(std::uint32_t value, PackStructureProblem problem, std::string_view field)
 {
-    if (value != 1)
+    if (value != pack_container::revision)
         Fail(problem, field, "is not 1");
-}
-
-// The CRC-32 of the file without the four bytes that store it.
-std::uint32_t Checksum(std::span<const std::byte> file)
-{
-    uLong crc = crc32(0L, Z_NULL, 0);
-    for (std::span<const std::byte> part : {file.first(checksumOffset), file.subspan(headerBytes)})
-    {
-        while (!part.empty())
-        {
-            const std::size_t chunk = std::min<std::size_t>(part.size(), std::numeric_limits<uInt>::max());
-            crc = crc32(crc, reinterpret_cast<const Bytef*>(part.data()), static_cast<uInt>(chunk));
-            part = part.subspan(chunk);
-        }
-    }
-    return static_cast<std::uint32_t>(crc);
 }
 
 } // namespace
@@ -80,7 +62,7 @@ PackStructure ParsePackStructure(std::vector<std::byte> file)
         Fail(PackStructureProblem::EntryCount, "entry count", "is not the number of records in the directory");
     if (entryCount == 0)
         Fail(PackStructureProblem::NoEntries, "entry count", "is zero");
-    if (header.U32("CRC-32") != Checksum(bytes))
+    if (header.U32("CRC-32") != pack_container::Checksum(bytes))
         Fail(PackStructureProblem::Checksum, "CRC-32", "is not that of the file");
 
     // The directory fits in the file, so its end and every offset accepted

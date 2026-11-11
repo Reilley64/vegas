@@ -66,15 +66,16 @@ include(src/fallout/sources.cmake)
 include(src/runtime/native_data_composition.cmake)
 # Keep the accepted 2,217 logical-member sequence intact; the canonical native
 # string owner, the Ni allocator holder, the native global string table owner,
-# the process memory startup, the NiRefObject lifetime owner and then the
-# structural reader of the data pack are the only appended production
-# members, in that order.
+# the process memory startup, the NiRefObject lifetime owner, the structural
+# reader of the data pack and then the data pack container layout are the only
+# appended production members, in that order.
 target_sources(game PRIVATE src/speedtree/native_string.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nisystem/ni_allocator_holder.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/native_fixed_string.cpp)
 target_sources(game PRIVATE src/bscore/memory_manager_startup.cpp)
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp)
 target_sources(game PRIVATE src/fileformat/pack_structure.cpp)
+target_sources(game PRIVATE src/fileformat/pack_container.cpp)
 # Added at the end of the source list, after them: the DDS header reader
 # (VEGAS-24). The archive lists the appended members in reverse order, so it
 # is the first member listed.

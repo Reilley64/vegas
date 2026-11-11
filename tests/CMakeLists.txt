@@ -20,7 +20,10 @@ target_include_directories(fileformat_pack_structure_test PRIVATE ${CMAKE_CURREN
 if(WIN32)
   target_link_libraries(fileformat_pack_structure_test PRIVATE game)
 else()
-  target_sources(fileformat_pack_structure_test PRIVATE ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp)
+  target_sources(fileformat_pack_structure_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_container.cpp
+  )
   target_link_libraries(fileformat_pack_structure_test PRIVATE ZLIB::ZLIBSTATIC)
 endif()
 add_test(NAME fileformat.pack_structure COMMAND fileformat_pack_structure_test)

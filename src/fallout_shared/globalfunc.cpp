@@ -5185,6 +5185,7 @@ struct StageReturn
     }
 };
 
+namespace fnv_00ba59e0 {
 struct StageReturnPtr
 {
     StageReturn* m_pStage;
@@ -5206,6 +5207,7 @@ struct StageReturnPtr
         return m_pStage;
     }
 };
+}  // namespace fnv_00ba59e0
 
 class NiRefObject
 {
@@ -5376,7 +5378,7 @@ class BeamPassShader
 void BeamPassShader::FUN_00ba59e0()
 {
     NiD3DPassPtr spRenderPass;
-    StageReturnPtr spStage;
+    ::fnv_00ba59e0::StageReturnPtr spStage;
 
     spRenderPass = m_spPass0;
     if (spRenderPass->GetStageCount() < 1)

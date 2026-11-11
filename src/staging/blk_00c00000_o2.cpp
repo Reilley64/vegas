@@ -755,6 +755,7 @@ struct NiD3DShader
 };
 
 
+namespace fnv_00c04310 {
 struct StageReturnPtr
 {
     NiD3DPass* m_pObject;
@@ -788,6 +789,7 @@ struct StageReturnPtr
         }
     }
 };
+}  // namespace fnv_00c04310
 
 struct FUN_00c04310_class
 {
@@ -802,7 +804,7 @@ struct FUN_00c04310_class
 // @fnv 0x00c04310
 void FUN_00c04310_class::ReleaseStagePasses(int)
 {
-    StageReturnPtr stageReturn;
+    ::fnv_00c04310::StageReturnPtr stageReturn;
 
     for (unsigned int i = 1; i < m_usStageCount; ++i)
     {

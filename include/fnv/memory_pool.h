@@ -53,6 +53,7 @@ class MemoryPool
     void UnlinkNode(MemoryPool__FreePoolBlock* node); // 0x00aa6e60
     void FUN_00aa7260();                      // 0x00aa7260
     void RegisterInPools();                   // 0x00aa6980
+    void ClearPoolSlots();                    // 0x00aa6a10
     // Owned by src/bscore/console/memorypool_console_h_unit.cpp.
     bool CommitPage(unsigned int, char *&);   // 0x00aa6610
 };

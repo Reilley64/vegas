@@ -5357,7 +5357,7 @@
     },
     {
      "address": "0x00aa6a10",
-     "symbol": "?ClearPoolSlots@FUN_00aa6a10_shell@@QAEXXZ",
+     "symbol": "?ClearPoolSlots@MemoryPool@@QAEXXZ",
      "size": 136
     },
     {
@@ -5423,7 +5423,7 @@
     "?FreeMemory@FUN_00aa6650_Class@@QAE_NIPAX@Z": "0x00aa6650",
     "?UnlinkNode@MemoryPool@@QAEXPAUMemoryPool__FreePoolBlock@@@Z": "0x00aa6e60",
     "?FreeAllocation@FUN_00aa6680_class@@QAEXXZ": "0x00aa6680",
-    "?ClearPoolSlots@FUN_00aa6a10_shell@@QAEXXZ": "0x00aa6a10",
+    "?ClearPoolSlots@MemoryPool@@QAEXXZ": "0x00aa6a10",
     "?SortList@NodeSorter@@QAEPAULinkedNode@@PAU2@@Z": "0x00aa70c0",
     "?RegisterInPools@MemoryPool@@QAEXXZ": "0x00aa6980",
     "?GetPoolInfo@FUN_00aa6d00_holder@@QAE?AUPoolInfo@@XZ": "0x00aa6d00",

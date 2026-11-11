@@ -337,42 +337,31 @@ void MemoryPool::FUN_00aa7260()
 
 struct MemoryPool;
 
-struct FUN_00aa6a10_shell
-{
-    char pad0[4];
-    unsigned int f4;
-    char pad8[0x38];
-    unsigned int f40;
-    char pad44[0xc];
-    unsigned int f50;
-
-    void ClearPoolSlots();
-};
 // @fnv 0x00aa6800
 MemoryPool::~MemoryPool()
 {
     if (m_pPoolBase)
     {
         reinterpret_cast<::FUN_00aa6680_class *>(this)->FreeAllocation();
-        reinterpret_cast<::FUN_00aa6a10_shell *>(this)->ClearPoolSlots();
+        ClearPoolSlots();
     }
     void* block = m_pPageBlockCounts;
     reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(block);
 }
 
-// Clears a pool entry indexed by f40>>2 and zeroes count slots starting at f4>>24, where count is f50>>24 plus one if f50 has a remainder.
+// Clears the pool entry indexed by the block size >> 2 and zeroes count slots starting at the pool base >> 24, where count is the pool size >> 24 plus one if the pool size has a remainder.
 // @fnv 0x00aa6a10
-void FUN_00aa6a10_shell::ClearPoolSlots()
+void MemoryPool::ClearPoolSlots()
 {
     unsigned int count;
-    unsigned int base = f40 >> 2;
+    unsigned int base = m_uiAllocationSize >> 2;
     ::DAT_011f67b8[base] = 0;
 
-    count = f50 >> 24;
-    if (f50 % 0x01000000u)
+    count = m_uiPoolSize >> 24;
+    if (m_uiPoolSize % 0x01000000u)
         count++;
 
-    unsigned int index = f4 >> 24;
+    uintptr_t index = reinterpret_cast<uintptr_t>(m_pPoolBase) >> 24;
     for (unsigned int i = 0; i < count; i++)
     {
         ms_pPoolAddressMap[index + i] = 0;

@@ -4814,7 +4814,7 @@ void FUN_00454fc0_shell::CompactQueuedCells()
             if (bqueuedArea && ilastNonQueuedPos != 0)
             {
                 std::memmove(&m_ppCellBufferB[ilastNonQueuedPos + 1], &m_ppCellBufferB[ilastNonQueuedPos],
-                              (i - ilastNonQueuedPos) * 4);
+                              (i - ilastNonQueuedPos) * sizeof(*m_ppCellBufferB));
                 m_ppCellBufferB[ilastNonQueuedPos] = pcell;
                 i = ilastNonQueuedPos + 1;
                 ilastNonQueuedPos = 0;

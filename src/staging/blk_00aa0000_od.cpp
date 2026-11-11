@@ -94,7 +94,6 @@ template <class T> inline T& as_lvalue(T&& value)
 #include "fnv/decl/fnv_0065ed70__FUN_0065ed70.h"
 #include "fnv/decl/fnv_0065edd0__FUN_0065edd0_class.h"
 #include "fnv/decl/fnv_0065f5a0__FUN_0065f5a0_cls.h"
-#include "fnv/decl/fnv_00aa6aa0__FUN_00aa6aa0_shell.h"
 #include "fnv/decl/fnv_00ad1740__FUN_00ad1740_cls.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00449000.h"

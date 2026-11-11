@@ -57,6 +57,7 @@ class MemoryPool
     void RegisterInPools();                   // 0x00aa6980
     void ClearPoolSlots();                    // 0x00aa6a10
     PoolInfo GetPoolInfo();                   // 0x00aa6d00
+    void* FUN_00aa6aa0(unsigned int);         // 0x00aa6aa0
     // Owned by src/bscore/console/memorypool_console_h_unit.cpp.
     bool CommitPage(unsigned int, char *&);   // 0x00aa6610
 };

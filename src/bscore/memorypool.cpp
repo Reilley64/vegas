@@ -146,18 +146,9 @@ void FUN_00aa6f90_shell::FUN_00aa6f90()
 }
 }  // namespace fnv_00aa6f90
 
-namespace fnv_00aa6aa0 {
-struct FUN_00aa6aa0_shell : public MemoryPool
-{
-    void* FUN_00aa6aa0(unsigned int);
-};
-
-struct MemoryPool_PCP
-{
-};
 // Locks the pool, allocates a new page and free list if empty, pops a free block, updates page usage, and returns the block or null.
 // @fnv 0x00aa6aa0
-void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
+void* MemoryPool::FUN_00aa6aa0(unsigned int requested)
 {
     void* pmem;
     {
@@ -196,7 +187,7 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
                                                     }
                                                     pfirstFreePage = 0;
                                                     ientriesPerPage = 0x1000 / m_uiAllocationSize;
-                                                    if (!reinterpret_cast<::MemoryPool *>((((MemoryPool_PCP*)this)))->CommitPage(inewPageIndex, pfirstFreePage))
+                                                    if (!CommitPage(inewPageIndex, pfirstFreePage))
                                                     {
                                                         l2 = &m_kCriticalSection;
                                                         l2->m_uiRecursionCount--;
@@ -238,7 +229,6 @@ void* FUN_00aa6aa0_shell::FUN_00aa6aa0(unsigned int requested)
     }
     return pmem;
 }
-}  // namespace fnv_00aa6aa0
 
 struct MemoryManager
 {

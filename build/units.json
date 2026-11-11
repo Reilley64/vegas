@@ -5362,7 +5362,7 @@
     },
     {
      "address": "0x00aa6aa0",
-     "symbol": "?FUN_00aa6aa0@FUN_00aa6aa0_shell@fnv_00aa6aa0@@QAEPAXI@Z",
+     "symbol": "?FUN_00aa6aa0@MemoryPool@@QAEPAXI@Z",
      "size": 462
     },
     {
@@ -512080,7 +512080,7 @@
     "?AllocateBuffer@FUN_00aa4290_Class@@QAEPAXII@Z": "0x00aa4290",
     "?currentAllocationContext@@3IA": "0x012722b4",
     "?FUN_00aa4960@@YAPAXI@Z": "0x00aa4960",
-    "?FUN_00aa6aa0@FUN_00aa6aa0_shell@fnv_00aa6aa0@@QAEPAXI@Z": "0x00aa6aa0",
+    "?FUN_00aa6aa0@MemoryPool@@QAEPAXI@Z": "0x00aa6aa0",
     "?RunStep@StateMachine@@QAEHPAXIPA_N@Z": "0x00866a90",
     "__ehhandler$??1FUN_00aa4a60@@UAE@XZ": "0x00f1ecc8",
     "??_7FUN_00aa4a60@@6B@": "0x010a25f8",

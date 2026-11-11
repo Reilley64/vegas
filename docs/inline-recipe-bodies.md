@@ -101,7 +101,9 @@ from this change, and none enters:
 name. Its one requirer, `bsaudiomanager`, spells the return and argument type
 `struct BSAudioDefinition&` and stays undefined. It is emitted because the
 recipe's function row at `0x00ae88c0` owns that name in this unit, not
-because an object requires it.
+because an object requires it. Since the shared declaration of the class
+(`docs/shared-audio-definition.md`) `bsaudiomanager` uses the class key and
+its six calls are bound to this definition.
 
 Each of the eleven definitions is an ordinary function in a section that
 refuses a second definition. None is select-any. The build has the same
@@ -155,7 +157,9 @@ the archive does not define.
 
 ## Not covered
 
-These were open before this change and remain open.
+These were open before this change and it closed none of them. A later
+change repaired the first part of one, the `BSAudioDefinition` storage; that
+item says what still stands.
 
 - Receivers. Every requirer reaches these members through a cast to a class
   declared without members in `include/fnv/decl/`. Whether the object it
@@ -217,11 +221,19 @@ These were open before this change and remain open.
   offsets are compiler-evaluated in the unit; the sites are the relocations
   and the instructions before them in the windows-x64 object.
 
-  These layouts must be repaired before any program links `bsaudiomanager`.
-  The same holds for the 8-byte list in `bsfacegenanimationdata`
-  (`docs/simple-list-default-constructor.md`). Until this change the
-  constructors were undefined, so such a link failed. It no longer fails on
-  these names. `bsaudiomanager` is in no linking program today.
+  The `BSAudioDefinition` sites are repaired
+  (`docs/shared-audio-definition.md`): every one of them provides 584 bytes
+  with the second pointer at `0x110`, and the two tables above are the state
+  before that repair. Before a program links `bsaudiomanager`, the items
+  under "Not covered" of that document still stand: the undefined
+  `BSSoundInfoC` constructor and the eight records that stand for
+  `BSSoundInfo`; the release size of 8 bytes in `AudioMgr70::FUN_00ad9870`,
+  at two sites; and `SoundDebugDescription`. The 8-byte lists in
+  `bsfacegenanimationdata` (`docs/simple-list-default-constructor.md`) and
+  in `projectile` must still be repaired before any program links those
+  units. Until this change the constructors were undefined, so such a link
+  failed. It no longer fails on these names. `bsaudiomanager` is in no
+  linking program today.
 - `FUN_0050ea10` calls `NiPoint3::operator-(const NiPoint3&) const`. No object
   defines it. 46 objects require it, `tesobject` newly.
 - The two destructors are a single return in the windows-x64 build. Their
@@ -232,8 +244,10 @@ These were open before this change and remain open.
 - `NiObject::DynamicCast` and `BSFaceGenMorphData::DynamicCast` call
   `NiObject_b::FUN_006532c0` and `FUN_00658930_class::GetShortAtOffsetA`
   through casts to stand-in classes, as before.
-- `BSSoundInfo::BSSoundInfo(BSSoundInfo*)` at `0x00ae8a40` is still defined in
-  the class body. The unit emits it, because it is too large to inline.
+- `BSSoundInfo::BSSoundInfo(BSSoundInfo*)` at `0x00ae8a40` was defined in the
+  class body at this change, and the unit emitted it because it is too large
+  to inline. It is defined out of line now, in the owning unit
+  (`docs/shared-audio-definition.md`). This item is closed.
 - Nothing executes these functions.
 
 ## The rest of the category

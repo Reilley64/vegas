@@ -92,11 +92,7 @@ class BSShaderManager
     };
 };
 class BSShaderProperty;
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 struct RgbaColor
 {
   public:

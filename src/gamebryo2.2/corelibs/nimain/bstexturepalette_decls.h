@@ -10,11 +10,7 @@
 #include "fnv/symbols_011f4000.h"
 #include "layout_support.h"
 
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 
 class BSFileEntry;
 class NiTexture

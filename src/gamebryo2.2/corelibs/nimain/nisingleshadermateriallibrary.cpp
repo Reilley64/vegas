@@ -10,11 +10,7 @@
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_011f5000.h"
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 struct NiMaterial;
 
 

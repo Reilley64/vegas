@@ -631,12 +631,7 @@ struct DynamicMemoryAllocator
 };
 
 
-class NiFixedString
-{
-  public:
-    const char* m_pcString;
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct TimedTextEntry
 {
     float m_fTime;

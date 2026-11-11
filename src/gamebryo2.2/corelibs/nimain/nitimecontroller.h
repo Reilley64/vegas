@@ -95,11 +95,7 @@ struct NiObject : public NiRefObject
 // ---------------------------------------------------------------------------
 // NiFixedString (4 bytes: string-table pointer).
 // ---------------------------------------------------------------------------
-class NiFixedString
-{
-  public:
-    const char* m_pString;  // +0x0
-};
+#include "fnv/native_fixed_string.h"
 
 // ---------------------------------------------------------------------------
 // NiObjectNET.

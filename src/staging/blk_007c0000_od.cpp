@@ -1310,13 +1310,7 @@ struct NiUpdateData
     unsigned int flags;
     NiUpdateData(float, bool, bool);
 };
-class NiFixedString
-{
-  public:
-    const char* text;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct FUN_00a712f0
 {
     unsigned int unk000;

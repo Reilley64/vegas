@@ -100,11 +100,7 @@ struct NiObject : public NiRefObject
     /*84*/ virtual void Unk_21(UInt32 arg);
     /*88*/ virtual NiControllerManager* GetControllerManager();
 };
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 struct NiObjectNET : public NiObject
 {
   public:

@@ -126,14 +126,7 @@ public:
     bool IsGeometryDataStreamable(bool);
 };
 class NiTriBasedGeom;
-class NiFixedString
-{
-  public:
-    const char* data;
-    operator const char*() const;
-public:
-    void *FUN_004b9900(unsigned int);
-};
+#include "fnv/native_fixed_string.h"
 struct NiUpdateData
 {
   public:

@@ -469,13 +469,7 @@ struct GeomObj
 {
 };
 
-class NiFixedString
-{
-  public:
-    const char* m_psz;
-    NiFixedString(const char* s);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct ListObj
 {
     virtual void tv00();

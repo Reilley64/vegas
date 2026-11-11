@@ -204,13 +204,7 @@ void FUN_0068a8d0_shell::FUN_0068a8d0(void* pValue)
     ((void(*)(void*))InitLoopSounds)(this);
 }
 
-class NiFixedString
-{
-  public:
-    const char* m_pString;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 
 struct BSFadeNode : public NiFixedString
 {

@@ -160,14 +160,7 @@ class TimeGlobal
 };
 
 
-class NiFixedString
-{
-  public:
-    const char* value;
-    NiFixedString(const char*);
-    ~NiFixedString();
-    operator const char*() const;
-};
+#include "fnv/native_fixed_string.h"
 struct NiPoint3
 {
     float x, y, z;

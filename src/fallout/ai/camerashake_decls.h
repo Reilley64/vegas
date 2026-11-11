@@ -3,13 +3,7 @@
 #include "fnv/symbols_00406000.h"
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_011c3000.h"
-class NiFixedString
-{
-  public:
-    const char* handle;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct NiPoint3;
 class NiAVObject
 {

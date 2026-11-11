@@ -107,11 +107,7 @@ public:
 public:
     void LinkObject(::NiStream &);
 };
-class NiFixedString
-{
-  public:
-    const char* m_pString;
-};
+#include "fnv/native_fixed_string.h"
 class NiAVObject;
 class NiStringPalette;
 class NiTextKeyExtraData;

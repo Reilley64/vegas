@@ -122,14 +122,7 @@ template <class T> class BSSimpleList
     BSSimpleList* GetNext();
     bool IsEmpty();
 };
-class NiFixedString
-{
-    const char* str;
-
-  public:
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct CloningProcess
 {
   public:

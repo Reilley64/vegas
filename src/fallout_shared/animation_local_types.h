@@ -22,10 +22,5 @@ struct NiPoint3
     NiPoint3();
     static const NiPoint3 ZERO;
 };
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-    operator const char*() const;
-};
+#include "fnv/native_fixed_string.h"
 #endif

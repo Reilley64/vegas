@@ -1563,12 +1563,7 @@ struct NiObject
     int m_aiObject[2];
 };
 
-class NiFixedString
-{
-  public:
-    operator const char*() const;
-    const char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 
 struct NiUpdateData
 {

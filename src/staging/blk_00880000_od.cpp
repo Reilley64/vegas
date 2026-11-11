@@ -984,13 +984,7 @@ struct NiPoint3
     NiPoint3 operator-(const NiPoint3&) const;
     NiPoint3 operator+(const NiPoint3&) const;
 };
-class NiFixedString
-{
-  public:
-    const char* value;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct Bound
 {
     NiPoint3 center;

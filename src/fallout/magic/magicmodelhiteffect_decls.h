@@ -61,13 +61,7 @@ class PlayerCharacter
 {
   public:
 };
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct NiUpdateData
 {
   public:

@@ -6667,12 +6667,7 @@ struct NiP2 { float x, y; NiP2(); };
 
 struct NiPoint3_ext { float x, y, z; NiPoint3_ext(); };
 
-class NiFixedString {
-public:
-    const char* value;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 
 struct Geometry5371 {
     unsigned int unk00;

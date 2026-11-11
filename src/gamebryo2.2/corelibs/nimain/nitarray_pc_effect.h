@@ -36,11 +36,7 @@ struct NiObject : public NiRefObject
 {
   public:
 };
-class NiFixedString
-{
-  public:
-    char* m_kHandle;  // +0x0
-};
+#include "fnv/native_fixed_string.h"
 class NiTimeController;
 class NiExtraData;
 struct NiObjectNET : public NiObject

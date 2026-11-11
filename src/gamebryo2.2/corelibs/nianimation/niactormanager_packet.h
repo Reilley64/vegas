@@ -12,10 +12,6 @@ struct NiGlobalStringTable
   public:
     static char* AddString(const char*);
 };
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 extern char* DAT_011f3ec0;
 extern char* DAT_011f3ec4;

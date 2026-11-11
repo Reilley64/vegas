@@ -103,11 +103,7 @@ template <class T> class NiPointer
     T* m_pObject;
     operator T*() const;
 };
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 struct NiObjectNET : public NiObject
 {
   public:

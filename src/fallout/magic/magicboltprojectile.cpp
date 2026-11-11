@@ -1422,13 +1422,7 @@ class TESForm
   public:
     virtual void v00();
 };
-class NiFixedString
-{
-  public:
-    const char* text;
-    NiFixedString(const char*);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 struct SceneNode
 {
     virtual void v00();

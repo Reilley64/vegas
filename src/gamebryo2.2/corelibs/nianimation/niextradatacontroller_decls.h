@@ -4,11 +4,7 @@
 
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/fnv_00a64df0__FUN_00a64df0_Stream.h"
-class NiFixedString
-{
-  public:
-    const char* data;
-};
+#include "fnv/native_fixed_string.h"
 struct NiStream
 {
   public:

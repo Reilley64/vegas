@@ -3799,13 +3799,7 @@ FUN_0043b750::~FUN_0043b750()
     m_iSecondInteger = 0;
 }
 
-class NiFixedString
-{
-  public:
-    NiFixedString(const char* pcString);
-    ~NiFixedString();
-    const char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 
 class NameSource
 {

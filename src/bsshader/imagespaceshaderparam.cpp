@@ -346,11 +346,7 @@ struct NiObject : public NiRefObject
     virtual NiControllerManager* GetControllerManager();
 };
 
-class NiFixedString
-{
-  public:
-    const char* str;
-};
+#include "fnv/native_fixed_string.h"
 
 struct NiObjectNET : public NiObject
 {

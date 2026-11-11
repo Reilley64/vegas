@@ -17,11 +17,7 @@
 #include "fnv/symbols_011c1000.h"
 #include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
-class NiFixedString
-{
-  public:
-    char* m_kHandle;
-};
+#include "fnv/native_fixed_string.h"
 
 extern float DAT_01094c4c;
 extern const char DAT_01093f80[];

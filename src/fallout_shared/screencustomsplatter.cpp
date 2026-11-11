@@ -351,13 +351,7 @@ void FUN_004de600()
     }
 }
 
-class NiFixedString
-{
-  public:
-    const char* m_kHandle;
-    NiFixedString(const char* str);
-    ~NiFixedString();
-};
+#include "fnv/native_fixed_string.h"
 
 struct SplatterParams
 {

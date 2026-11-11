@@ -110,11 +110,7 @@ struct NiBinaryReader
     unsigned int m_uiPosition;
     ReadProc m_pRead;
 };
-class NiFixedString
-{
-  public:
-    char* m_pObject;
-};
+#include "fnv/native_fixed_string.h"
 template <class T> void ReadBinaryValue(NiStream& stream, T& value);
 template <> void ReadBinaryValue<unsigned int>(NiStream& stream, unsigned int& value);
 struct NiObject

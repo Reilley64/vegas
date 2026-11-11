@@ -9982,7 +9982,6 @@ inline SpdString operator+(const SpdString& s, const SpdString& r)
     return SpdString(s) += r;
 }
 
-int* __cdecl _errno();
 
 struct SpdException
 {

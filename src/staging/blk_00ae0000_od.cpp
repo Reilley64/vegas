@@ -583,7 +583,6 @@ void* FUN_00ae7c40_Class::InitBuffer(int size)
     return this;
 }
 
-int __cdecl _strnicmp(const char* s1, const char* s2, size_t n);
 
 // Strips a drive prefix and a leading "data\" from source, then copies the remainder into destination with _strcpy_s.
 // @fnv 0x00af4310

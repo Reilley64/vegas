@@ -8662,7 +8662,6 @@ char FUN_00706830();
 bool IsSomethingZero();
 void FUN_0086a530();
 void __cdecl FUN_00703100();
-int __cdecl _stricmp(const char* apStr1, const char* apStr2);
 
 class VATSMenu : public Menu
 {

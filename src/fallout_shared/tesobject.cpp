@@ -7840,7 +7840,6 @@ extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void
 
 namespace std {}
 
-extern "C" char* __cdecl strcpy(char* pcDst, const char* pcSrc);
 
 struct IdName_ac34
 {
@@ -7862,7 +7861,6 @@ extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void
 
 namespace std {}
 
-extern "C" char* __cdecl strcpy(char* pcDst, const char* pcSrc);
 
 struct Point3_b2e7
 {
@@ -8378,7 +8376,6 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
     }
 }
 
-extern "C" int __cdecl sprintf(char* buffer, const char* format, ...);
 
 bool CanOpenFile(const String& path);
 

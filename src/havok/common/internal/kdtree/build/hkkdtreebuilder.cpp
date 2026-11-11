@@ -206,7 +206,6 @@ MASK_XYZW=15
 __forceinline void set(Mask m){m_uiMask=ms_kMaskValues[m];}
 private:
 hkQuadReal m_uiMask;};extern "C"{
-double __cdecl fabs([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);
 }
 namespace MathUtilities
 {inline hkReal __cdecl fabs(hkReal r){return fabsf(r);}

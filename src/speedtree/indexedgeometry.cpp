@@ -2285,7 +2285,6 @@ unsigned int FUN_00ec7c56();
 
 
 
-extern "C" int __cdecl memmove_s(void*, size_t, const void*, size_t);
 
 namespace std {
 template <class T> void _Swap_adl(T&, T&);

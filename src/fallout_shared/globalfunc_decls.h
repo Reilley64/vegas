@@ -396,7 +396,6 @@ public:
 public:
     static const ::NiPoint3 ZERO;
 };
-extern "C" float logf(float);
 struct CollisionObjectCountContext
 {
     void* pCurrentObject;

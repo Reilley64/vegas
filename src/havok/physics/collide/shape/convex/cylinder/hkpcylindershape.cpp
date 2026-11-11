@@ -967,9 +967,6 @@ hkQuadReal m_vValue;};
 typedef const VectorComponentValue&hkSimdRealParameter;
 class Vector4Comparison;
 typedef const Vector4Comparison&hkVector4ComparisonParameter;
-extern "C"{
-double __cdecl sqrt([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);
-}
 namespace MathUtilities
 {
 inline hkReal_S __cdecl sqrt(hkReal_S r){return::sqrtf(r);}

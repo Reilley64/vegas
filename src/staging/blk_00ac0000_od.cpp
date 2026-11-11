@@ -24013,7 +24013,6 @@ FUN_00acaa50::FUN_00acaa50() : GvVectorStore<BxString>()
 
 // namespace fnv_00acaa50
 
-extern "C" void __cdecl _invalid_parameter_noinfo();
 
 struct Aux
 {
@@ -45562,7 +45561,6 @@ bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
 
 typedef _iobuf FILE;
 
-extern "C" int __cdecl fputc(int, FILE*);
 
 struct CvtC9F0
 {
@@ -45799,7 +45797,6 @@ int FBC9F0::FUN_00acc9f0(int _Meta)
     C9PadEndC9F0();
 }
 
-extern "C" int __cdecl fgetc(struct _iobuf* _File);
 
 static const int acd100_EOF = -1;
 
@@ -46650,7 +46647,6 @@ class bad_alloc : public exception
 };
 }
 
-extern "C" void __cdecl _invalid_parameter_noinfo();
 
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 

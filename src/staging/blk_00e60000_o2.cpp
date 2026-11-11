@@ -12291,7 +12291,6 @@ int GskCollisionSolver::FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatu
     return HK_SUCCESS;
 }
 
-extern "C" double __cdecl _chgsign(double);
 
 struct Vertex
 {

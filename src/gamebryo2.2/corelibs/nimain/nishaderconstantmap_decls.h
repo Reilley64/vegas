@@ -130,6 +130,5 @@ class NiShaderConstantMap
 };
 // The mutable-source C++ overload is distinct from the CRT entry point.
 int strcpy_s(char*, unsigned int, char*);
-extern "C" int isdigit(int);
 
 #endif

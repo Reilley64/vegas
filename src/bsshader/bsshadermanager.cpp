@@ -4530,9 +4530,7 @@ NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
     return 0;
 }
 
-extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 
-extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
 
 void __cdecl SetRectCenterAndHalfExtents(tagRECT* apLoadedRect);
 

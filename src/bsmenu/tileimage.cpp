@@ -1005,9 +1005,7 @@ AtlasFile* FUN_00afdf00(const char*, int, unsigned int);
 
 
 
-extern "C" int __cdecl memcpy_s(void*, size_t, const void*, size_t);
 
-extern "C" int __cdecl memmove_s(void*, size_t, const void*, size_t);
 
 namespace std {
 template <class E> struct char_traits;

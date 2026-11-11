@@ -22446,7 +22446,6 @@ template <class T, class Traits, class Alloc> inline Aade20BasicString<T, Traits
     _Tidy(true);
 }
 
-extern "C" void __cdecl _invalid_parameter_noinfo();
 
 inline Aade20ConstIterator::Aade20ConstIterator(float* p, const Aade20FloatVector* vector)
 {

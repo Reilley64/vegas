@@ -7817,7 +7817,6 @@ extern SettingT_GameSettingCollection_ DAT_011d4438, DAT_011d4960, DAT_011d33a8,
 extern SettingT_GameSettingCollection_* DAT_011a03e4[3];
 int FUN_00720df0();
 bool FUN_00798440();
-extern "C" int _stricmp(const char*, const char*);
 
 // @fnv 0x0079af30
 void MapMenu::FUN_0079af30()

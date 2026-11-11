@@ -258,7 +258,6 @@ struct FormTypeDescription
 
 
 int FUN_00ec4835(const void*, const void*, unsigned int);
-extern "C" int* _errno();
 
 extern "C" int _mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);
 extern "C" int _mbsicmp(const unsigned char*, const unsigned char*);

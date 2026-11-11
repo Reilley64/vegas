@@ -731,7 +731,6 @@ class InterfaceManager
 };
 void FUN_00798840();
 void FUN_00798710();
-extern "C" int sprintf_s(char*, size_t, const char*, ...);
 template <class T> class NiPointer
 {
   public:

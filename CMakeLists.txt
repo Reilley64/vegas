@@ -48,6 +48,7 @@ set_source_files_properties(
   src/fallout_shared/pathfinding/los_map_array.cpp
   src/bscore/memory_manager_startup.cpp
   src/gamebryo2.2/corelibs/nimain/nirefobject_lifetime.cpp
+  src/gamebryo2.2/corelibs/nianimation/nianimationkey_tables.cpp
   PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/endian_u16.cpp src/runtime/endian_u32.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
 set_source_files_properties(src/runtime/havok_router_tls.cpp PROPERTIES INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include")
@@ -84,6 +85,9 @@ target_sources(game PRIVATE src/fileformat/original_identity.cpp)
 # (VEGAS-24). The archive lists the appended members in reverse order, so it
 # is the first member listed.
 target_sources(game PRIVATE src/fileformat/dds_header.cpp)
+# Added after it: the NiAnimationKey table owner (VEGAS-51), now the first
+# member listed.
+target_sources(game PRIVATE src/gamebryo2.2/corelibs/nianimation/nianimationkey_tables.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

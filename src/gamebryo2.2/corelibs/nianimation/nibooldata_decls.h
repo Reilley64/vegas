@@ -2,6 +2,7 @@
 #ifndef FNV_NIBOOLDATA_DECLS_H
 #define FNV_NIBOOLDATA_DECLS_H
 
+#include "NiAnimationKeyTables.h"
 #include "fnv/symbols_011f3000.h"
 #include "layout_support.h"
 #include "NiRefObject.h"
@@ -74,19 +75,19 @@ class BooleanKey : public AnimationKey
     bool m_bValue;
     static inline unsigned char GetKeySize(KeyType type)
     {
-        return DAT_011f3776[type];
+        return NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(5, 0) + type];
     }
     static inline NiBoolLoadFunction GetLoadFunction(KeyType type)
     {
-        return DAT_011f3e28[type];
+        return NiAnimationKeyTables::Get<AnimationKey *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(5, 0) + type);
     }
     static inline NiBoolFillFunction GetFillDerivedFunction(KeyType type)
     {
-        return DAT_011f37f8[type];
+        return NiAnimationKeyTables::Get<void (*)(AnimationKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(5, 0) + type);
     }
     static inline NiBoolDeleteFunction GetDeleteFunction(KeyType type)
     {
-        return DAT_011f3918[type];
+        return NiAnimationKeyTables::Get<void (*)(AnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(5, 0) + type);
     }
 };
 

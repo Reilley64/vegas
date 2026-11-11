@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nirotkey.cpp: TimedRotationKey (5 functions)
 
+#include "NiAnimationKeyTables.h"
 #include "fnv/decl/FUN_00a3e680_shell.h"
 #include "fnv/decl/NiKeyBasedInterpolator.h"
 #include "fnv/symbols_00aa1000.h"
@@ -27,7 +28,7 @@ NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRot
     }
     if (eType == AnimationKey::EULERKEY)
     {
-        DAT_011f3cc0[eType](fTime, pkKeys, 0, &kEulerResult);
+        NiAnimationKeyTables::Get<NiRotKeyInterpFn>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(2, 0) + eType)(fTime, pkKeys, 0, &kEulerResult);
         return kEulerResult;
     }
     {
@@ -57,7 +58,7 @@ NiQuaternion __cdecl TimedRotationKey::InterpolatePosition(float fTime, TimedRot
         const TimedRotationKey* pkLower = KEY_AT(pkKeys, uiLowerIndex, ucKeySize);
         const TimedRotationKey* pkUpper = KEY_AT(pkKeys, uiUpperIndex, ucKeySize);
         float fInterpFactor = (fTime - fLowerTime) / (fNextTime - fLowerTime);
-        DAT_011f3cc0[eType](fInterpFactor, pkLower, pkUpper, &kResult);
+        NiAnimationKeyTables::Get<NiRotKeyInterpFn>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(2, 0) + eType)(fInterpFactor, pkLower, pkUpper, &kResult);
         ruiLastIndex = uiLowerIndex;
         return kResult;
     }

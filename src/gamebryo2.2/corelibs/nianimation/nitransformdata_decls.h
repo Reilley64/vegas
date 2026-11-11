@@ -31,12 +31,6 @@ class TimedAnimationKey;
 typedef void(__cdecl* NiRotKeyDeleteFunction)(TimedRotationKey*);
 typedef void(__cdecl* NiPosKeyDeleteFunction)(PositionKeyInterpolator*);
 typedef void(__cdecl* NiFloatKeyDeleteFunction)(TimedAnimationKey*);
-extern NiRotKeyDeleteFunction DAT_011f38d0[AnimationKey::NUMKEYTYPES];
-extern NiPosKeyDeleteFunction DAT_011f38b8[AnimationKey::NUMKEYTYPES];
-extern NiFloatKeyDeleteFunction DAT_011f38a0[AnimationKey::NUMKEYTYPES];
-extern unsigned char DAT_011f3764[AnimationKey::NUMKEYTYPES];
-extern unsigned char DAT_011f375e[AnimationKey::NUMKEYTYPES];
-extern unsigned char DAT_011f3758[AnimationKey::NUMKEYTYPES];
 
 class NiTransformData : public NiObject
 {

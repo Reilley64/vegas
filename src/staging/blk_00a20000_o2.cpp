@@ -2,6 +2,7 @@
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -341,14 +342,13 @@ FUN_00a29a70::FUN_00a29a70()
 // @fnv 0x00a2baa0
 void __cdecl FUN_00a2baa0(int a, int b)
 {
-    // The tables are [6][6] arrays of function pointers indexed by a and b.
-    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3d20))[a][b] = (void*)((void (&)())::FUN_00a2b6d0);
-    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3c90))[a][b] = (void*)((void (&)())::FUN_00a2af70);
-    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3c00))[a][b] = (void*)((void (&)())::ComputeInterpolatedPosition);
-    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3b70))[a][b] = (void*)((void (&)())::FUN_00a2b130);
-    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3ae0))[a][b] = (void*)((void (&)())::IsLightEqual);
-    (*reinterpret_cast<void* (*)[6][6]>(&::DAT_011f3780))[a][b] = (void*)((void (&)())::FUN_00a2b410);
-    (*reinterpret_cast<void* (*)[6][6]>(&::g_fnv_cb_011f3810))[a][b] = (void*)((void (&)())::InsertBezPosKey);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2b6d0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2af70));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(a, b), ((void (&)())::ComputeInterpolatedPosition));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2b130));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(a, b), ((void (&)())::IsLightEqual));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(a, b), ((void (&)())::FUN_00a2b410));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(a, b), ((void (&)())::InsertBezPosKey));
 }
 
 struct FUN_00a2ceb0_cls {
@@ -459,14 +459,13 @@ void FUN_00a27e40();
 // @fnv 0x00a28620
 void FUN_00a28620(int param_1, int param_2)
 {
-    int iVar1 = (param_2 + param_1 * 6) * 4;
-    *(void**)((char*)&DAT_011f3d20 + iVar1) = (void*)((void (&)())::FUN_00a28060);
-    *(void**)((char*)&DAT_011f3c90 + iVar1) = (void*)EvaluateCubicKey;
-    *(void**)((char*)&DAT_011f3c00 + iVar1) = (void*)FUN_00a27d60;
-    *(void**)((char*)&DAT_011f3b70 + iVar1) = (void*)FUN_00a27e40;
-    *(void**)((char*)&DAT_011f3ae0 + iVar1) = (void*)BezKeyEqual;
-    *(void**)((char*)&DAT_011f3780 + iVar1) = (void*)ComputeTCBKeyTangents;
-    *(void**)((char*)&(*reinterpret_cast<int *>(&::g_fnv_cb_011f3810)) + iVar1) = (void*)FUN_00a282a0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(param_1, param_2), ((void (&)())::FUN_00a28060));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(param_1, param_2), EvaluateCubicKey);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(param_1, param_2), FUN_00a27d60);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(param_1, param_2), FUN_00a27e40);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(param_1, param_2), BezKeyEqual);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(param_1, param_2), ComputeTCBKeyTangents);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(param_1, param_2), FUN_00a282a0);
 }
 
 struct Helper { uintptr_t a; char b; };
@@ -524,18 +523,17 @@ namespace fnv_00a2d5b0 {
 void __cdecl FUN_00a291e0();
 void __cdecl FUN_00a29680();
 
-// Fills the seven function-pointer tables at index (param_2 + param_1 * 6) * 4 with the given handler addresses.
+// Fills slot Index(param_1, param_2) of seven key function tables with the given handler addresses.
 // @fnv 0x00a2d5b0
 void FUN_00a2d5b0(int param_1, int param_2)
 {
-    int iVar1 = (param_2 + param_1 * 6) * 4;
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3d20)) + iVar1) = (void*)&FUN_00a291e0;
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3c90)) + iVar1) = (void*)&((void (&)())::SelectKeyVec);
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3c00)) + iVar1) = (void*)&((void (&)())::FUN_00a2d420);
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3b70)) + iVar1) = (void*)&FUN_00a27470;
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3ae0)) + iVar1) = (void*)&((void (&)())::FUN_00a2a7e0);
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::DAT_011f3780)) + iVar1) = (void*)&FUN_00a29680;
-    *(void**)((char*)&(*reinterpret_cast<unsigned int *>(&::g_fnv_cb_011f3810)) + iVar1) = (void*)&((void (&)())::fnv_00a2d4a0::FUN_00a2d4a0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(param_1, param_2), &FUN_00a291e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::SelectKeyVec));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::FUN_00a2d420));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(param_1, param_2), &FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::FUN_00a2a7e0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(param_1, param_2), &FUN_00a29680);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(param_1, param_2), &((void (&)())::fnv_00a2d4a0::FUN_00a2d4a0));
 }
 }  // namespace fnv_00a2d5b0
 
@@ -1288,13 +1286,13 @@ void __cdecl FUN_00a29680();
 // @fnv 0x00a291f0
 void __cdecl RegisterCurveOps(int eContent, int eType)
 {
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3d20))[eContent][eType] = reinterpret_cast<void (*)()>(FUN_00a291e0);
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3c90))[eContent][eType] = A291F0CurveA;
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3c00))[eContent][eType] = A291F0CurveB;
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3b70))[eContent][eType] = A291F0CurveC;
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3ae0))[eContent][eType] = reinterpret_cast<void (*)()>(FUN_00a291a0);
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::DAT_011f3780))[eContent][eType] = FUN_00a29680;
-    (*reinterpret_cast<void (*(*)[6][6])()>(&::g_fnv_cb_011f3810))[eContent][eType] = 0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(eContent, eType), reinterpret_cast<void (*)()>(FUN_00a291e0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(eContent, eType), A291F0CurveA);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(eContent, eType), A291F0CurveB);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(eContent, eType), A291F0CurveC);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(eContent, eType), reinterpret_cast<void (*)()>(FUN_00a291a0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(eContent, eType), FUN_00a29680);
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3810][NiAnimationKeyTables::Index(eContent, eType)] = nullptr;
 }
 
 struct FUN_00a29550_stream;
@@ -1555,7 +1553,7 @@ bool UpdateArrayElements(float t, void** pOut, int* piFlag)
         int f = arr->m30[c];
         int n = arr->m14[c];
         if (n) {
-            FNV_CbFn fn = g_fnv_cb_011f3810[arr->m20[c]];
+            FNV_CbFn fn = NiAnimationKeyTables::Get<bool (*)(float, int *, int *)>(NiAnimationKeyTables::kAt011f3810, arr->m20[c]);
             bool r = fn(t, &f, &n);
             if (r) flag = 1;
             arr->m14[c] = n;
@@ -1777,8 +1775,8 @@ void A29F00KeyData::LoadKeyData(A29F00Stream& kStream)
             unsigned int eType;
             A29F00LoadBinary(kStream, eType);
             m_aeKeyType[i] = eType;
-            m_aucKeySize[i] = DAT_011f3758[eType];
-            m_ppKeyData[i] = DAT_011f3db0[eType](kStream, m_auiNumKeys[i]);
+            m_aucKeySize[i] = NiAnimationKeyTables::g_keySizes[eType];
+            m_ppKeyData[i] = NiAnimationKeyTables::Get<void *(*)(A29F00Stream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, eType)(kStream, m_auiNumKeys[i]);
         }
     }
 }
@@ -1973,7 +1971,7 @@ void ReadBlockEntries(A29FE0Context* pkContext, A29FE0Block* pkBlock) {
         pkContext->m_pDataStream->Read(&pkBlock->m_auiCount[i], 4);
         if (pkBlock->m_auiCount[i] > 0) {
             pkContext->m_pDataStream->Read(&pkBlock->m_auiType[i], 4);
-            g_apfnA29FE0Load[pkBlock->m_auiType[i]](pkContext, pkBlock->m_apvData[i], pkBlock->m_auiCount[i]);
+            NiAnimationKeyTables::Get<void (*)(A29FE0Context *, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, pkBlock->m_auiType[i])(pkContext, pkBlock->m_apvData[i], pkBlock->m_auiCount[i]);
         }
     }
 }
@@ -4415,7 +4413,7 @@ namespace fnv_00a29e00 {
 typedef void (__cdecl *FUN_00a29e00_Callback)(int, int, unsigned char);
 
 
-// For each of 3 entries, if the target is nonzero, calls the callback from DAT_011f3780 indexed by slot with target, value and flag.
+// For each of 3 entries, if the target is nonzero, calls the callback from the key function table kAt011f3780 indexed by slot with target, value and flag.
 // @fnv 0x00a29e00
 void __cdecl DispatchEntryCallbacks(void* pData)
 {
@@ -4430,7 +4428,7 @@ void __cdecl DispatchEntryCallbacks(void* pData)
             unsigned char flag = *(base + 0x2C + index);
             int value = entry[-7];
             int slot = entry[-4];
-            FUN_00a29e00_Callback callback = (*reinterpret_cast<void (*(*)[])(int, int, unsigned char)>(&::DAT_011f3780))[slot];
+            FUN_00a29e00_Callback callback = NiAnimationKeyTables::Get<void (*)(int, int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, slot);
 
             callback(target, value, flag);
         }
@@ -4725,9 +4723,9 @@ void __cdecl CopyKeyData(void* pvDest, void* pvSrc)
         unsigned int uiNumKeys = pkSrc->m_auiNumKeys[i];
         if (uiNumKeys)
         {
-            A29CF0CreateFn pfnCreateKey = DAT_011f3930[pkSrc->m_aeKeyType[i]];
+            A29CF0CreateFn pfnCreateKey = NiAnimationKeyTables::Get<void *(*)(unsigned int)>(NiAnimationKeyTables::kAt011f3930, pkSrc->m_aeKeyType[i]);
             pkDest->m_ppKeyData[i] = pfnCreateKey(uiNumKeys);
-            A29CF0CopyFn pfnCopyKey = DAT_011f39c0[pkSrc->m_aeKeyType[i]];
+            A29CF0CopyFn pfnCopyKey = NiAnimationKeyTables::Get<void (*)(void *, const void *)>(NiAnimationKeyTables::kAt011f39c0, pkSrc->m_aeKeyType[i]);
             for (unsigned int j = 0; j < uiNumKeys; j++)
                 pfnCopyKey((char*)pkDest->m_ppKeyData[i] + j * pkDest->m_aucKeySize[i],
                     (char*)pkSrc->m_ppKeyData[i] + j * pkSrc->m_aucKeySize[i]);
@@ -4840,17 +4838,17 @@ typedef void* KeyFn;
 struct NiKeyA { static void __cdecl FUN_00a27470(); };
 struct NiKeyB { static void __cdecl FUN_00a27470(); };
 struct NiKeyC { static void __cdecl FUN_00a27470(); };
-// Stores six function pointers and a null into the KeyTables arrays at [eContent][eType].
+// Stores six function pointers and a null into the key function tables at Index(eContent, eType).
 // @fnv 0x00a27aa0
 void __cdecl FUN_00a27aa0(int eContent, int eType)
 {
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3d20))[eContent][eType] = (void*)&FUN_00a291e0;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3c90))[eContent][eType] = (void*)&NiKeyA::FUN_00a27470;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3c00))[eContent][eType] = (void*)&NiKeyB::FUN_00a27470;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3b70))[eContent][eType] = (void*)&NiKeyC::FUN_00a27470;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3ae0))[eContent][eType] = (void*)static_cast<bool (*)(const ::A27760Data *, const ::A27760Data *)>(&AreDataEqual);
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3780))[eContent][eType] = (void*)&FUN_00a29680;
-    (*reinterpret_cast<void * (*)[][6]>(&::g_fnv_cb_011f3810))[eContent][eType] = 0;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(eContent, eType), &FUN_00a291e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(eContent, eType), &NiKeyA::FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(eContent, eType), &NiKeyB::FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(eContent, eType), &NiKeyC::FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(eContent, eType), static_cast<bool (*)(const ::A27760Data *, const ::A27760Data *)>(&AreDataEqual));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(eContent, eType), &FUN_00a29680);
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3810][NiAnimationKeyTables::Index(eContent, eType)] = nullptr;
 }
 
 class NiQuaternion {
@@ -5016,7 +5014,7 @@ bool FUN_00a29c20(const void* left, const CompareBlock* apRight)
             return false;
         }
         if (a->m_cnt[i] > 0) {
-            CompareFn fn = (*reinterpret_cast<bool (*(*)[])(unsigned int, unsigned int)>(&::DAT_011f3ae0))[a->m_idx[i]];
+            CompareFn fn = NiAnimationKeyTables::Get<bool (*)(unsigned int, unsigned int)>(NiAnimationKeyTables::kAt011f3ae0, a->m_idx[i]);
             for (unsigned int j = 0; j < a->m_cnt[i]; j++) {
                 unsigned int uiRightValue = apRight->m_kPointB[i] * j + apRight->m_v[i];
                 unsigned int uiLeftValue = a->m_kPointB[i] * j + a->m_v[i];
@@ -5263,7 +5261,7 @@ float TexelSampler::SampleLength(unsigned int x,unsigned int y,float value) {
   if(pCodec) {type=pCodec->converterIndex;base=pCodec->bytesPerElement;rgb=pCodec->offset0c;}
   else {type=0;base=0;}
   float afComponents[3];
-  (*reinterpret_cast<void (*(*)[])(float, unsigned int, unsigned int, float *)>(&::DAT_011f3c18))[type](value,base*x+rgb,base*y+rgb,afComponents);
+  NiAnimationKeyTables::Get<void (*)(float, unsigned int, unsigned int, float *)>(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(1, 0) + type)(value,base*x+rgb,base*y+rgb,afComponents);
   float stride=afComponents[0]*afComponents[0]+afComponents[1]*afComponents[1]+afComponents[2]*afComponents[2];
   return sqrtf(stride);
 }
@@ -5303,17 +5301,17 @@ void __cdecl FUN_00a2c6a0(FUN_00a2c6a0_Key* key, float prev, float next, float p
 
 namespace fnv_00a2aa50 {
 
-// Stores function pointers into KeyTables arrays indexed by content and type.
+// Stores function pointers into the key function tables at Index(content, type).
 // @fnv 0x00a2aa50
 void FUN_00a2aa50(int content, int type)
 {
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3d20))[content][type] = (void*)&FUN_00a291e0;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3c90))[content][type] = (void*)&FUN_00a2a7f0;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3c00))[content][type] = (void*)&FUN_00a2a890;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3b70))[content][type] = (void*)&FUN_00a27470;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3ae0))[content][type] = (void*)&FUN_00a2a7e0;
-    (*reinterpret_cast<void * (*)[][6]>(&::DAT_011f3780))[content][type] = (void*)&FUN_00a29680;
-    (*reinterpret_cast<void * (*)[][6]>(&::g_fnv_cb_011f3810))[content][type] = (void*)&((void (&)())::InsertLinPosKey);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(content, type), &FUN_00a291e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(content, type), &FUN_00a2a7f0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(content, type), &FUN_00a2a890);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3b70, NiAnimationKeyTables::Index(content, type), &FUN_00a27470);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(content, type), &FUN_00a2a7e0);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(content, type), &FUN_00a29680);
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(content, type), &((void (&)())::InsertLinPosKey));
 }
 }  // namespace fnv_00a2aa50
 

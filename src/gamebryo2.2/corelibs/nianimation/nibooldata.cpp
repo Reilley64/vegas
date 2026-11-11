@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibooldata.cpp: NiBoolData, NiBoolDataSaver (7 functions)
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -124,7 +125,6 @@ void FUN_00a53ba0_shell::FUN_00a53ba0(StrArr* apViewerStrings)
 }
 
 typedef bool(__cdecl* FUN_00a53830_elemcmp)(void* a, void* b);
-extern FUN_00a53830_elemcmp DAT_011f3b58[];
 
 class FUN_00a53830_cls
 {
@@ -138,7 +138,7 @@ class FUN_00a53830_cls
     bool Equals(FUN_00a53830_cls* other);
 };
 
-// Compares this object with other via IsSameAs, count, type and stride, then element-wise using DAT_011f3b58[m_uiType]; returns true if all match.
+// Compares this object with other via IsSameAs, count, type and stride, then element-wise using key function table kAt011f3ae0, content 5, at m_uiType; returns true if all match.
 // @fnv 0x00a53830
 bool FUN_00a53830_cls::Equals(FUN_00a53830_cls* other)
 {
@@ -158,7 +158,7 @@ bool FUN_00a53830_cls::Equals(FUN_00a53830_cls* other)
     {
         return false;
     }
-    FUN_00a53830_elemcmp pElemCmp = DAT_011f3b58[m_uiType];
+    FUN_00a53830_elemcmp pElemCmp = NiAnimationKeyTables::Get<FUN_00a53830_elemcmp>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(5, 0) + m_uiType);
     for (unsigned int uiIndex = 0; uiIndex < m_uiCount; ++uiIndex)
     {
         unsigned int off = (unsigned int)m_ucStride * uiIndex;
@@ -207,7 +207,7 @@ void NiBoolDataSaver::SaveBoolData(NiStream& stream)
     if (m_uiNumKeys > 0)
     {
         WriteValue(stream, m_eRequestType);
-        DAT_011f3ac8[m_eRequestType](stream, m_pKeyArray, m_uiNumKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStream &, BooleanKey *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(5, 0) + m_eRequestType)(stream, m_pKeyArray, m_uiNumKeys);
     }
 }
 

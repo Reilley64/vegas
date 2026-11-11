@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nicolorkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicolorkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "NiAnimationKeyTables.h"
 #include "fnv/symbols_01024000.h"
 #include "fnv/symbols_011f3000.h"
 struct NiStream;
@@ -152,7 +153,7 @@ RgbaColor __cdecl InterpolateColor(float afTime, const char* table, unsigned int
     color.b = 0.0f;
     color.a = 0.0f;
     float t = (afTime - prevVal) / (fCurTime - prevVal);
-    (*reinterpret_cast<void (*(*)[])(float, const char *, const char *, void *)>((void *)&::DAT_011f3cd8))[interp](t, table + stride * idx, table + stride * i, &color);
+    NiAnimationKeyTables::Get<void (*)(float, const char *, const char *, void *)>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(3, 0) + interp)(t, table + stride * idx, table + stride * i, &color);
     *pIdx = idx;
     return color;
 }

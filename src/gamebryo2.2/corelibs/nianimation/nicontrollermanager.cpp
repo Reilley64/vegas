@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicontrollermanager.cpp: Item, NiControllerManager, TargetStandIn, NiTFixedStringMap_NiAVObject___ and more (40 functions)
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -76,12 +77,6 @@ void NiControllerManager::Update(NiUpdateData& kData)
 }
 
 extern bool DAT_011f369b;
-extern unsigned char DAT_011f3763;
-extern void* DAT_011f3ddc;
-extern void* DAT_011f3a7c;
-extern void* DAT_011f39ec;
-extern void* DAT_011f395c;
-extern void* DAT_011f38cc;
 
 
 // If not already initialized, marks it initialized, stores five function pointers into globals, sets a byte to 0x10, calls FUN_00a2d5b0(1, 5), and returns 1.
@@ -91,12 +86,12 @@ int __cdecl FUN_00a2d610()
     if (DAT_011f369b)
         return 0;
     DAT_011f369b = true;
-    DAT_011f3ddc = (void*)&((void (&)())::CreateVertexRecords);
-    DAT_011f3a7c = (void*)&((void (&)())::FUN_00a2d470);
-    DAT_011f39ec = (void*)&((void (&)())::FUN_00a2a7b0);
-    DAT_011f395c = (void*)&((void (&)())::AllocateTempArray);
-    DAT_011f38cc = (void*)&((void (&)())::FUN_00a2a600);
-    DAT_011f3763 = 0x10;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(1, 5), &((void (&)())::CreateVertexRecords));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(1, 5), &((void (&)())::FUN_00a2d470));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f39c0, NiAnimationKeyTables::Index(1, 5), &((void (&)())::FUN_00a2a7b0));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3930, NiAnimationKeyTables::Index(1, 5), &((void (&)())::AllocateTempArray));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(1, 5), &((void (&)())::FUN_00a2a600));
+    NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(1, 5)] = 0x10;
     ::fnv_00a2d5b0::FUN_00a2d5b0(1, 5);
     return 1;
 }

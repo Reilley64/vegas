@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a3dab0
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <new>
 #include <windows.h>
@@ -198,7 +199,7 @@ struct FUN_00a3ddf0_shell
 {
     void* FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
 };
-// Reads a type index, element size and base pointer from this+0x18, then calls the DAT_011f3ca8 entry for that type with two element pointers and pData.
+// Reads a type index, element size and base pointer from this+0x18, then calls the entry of key function table kAt011f3c90, content 1, for that type with two element pointers and pData.
 // @fnv 0x00a3ddf0
 void* FUN_00a3ddf0_shell::FUN_00a3ddf0(void* pData, int aiIndexA, int aiIndexB, float fTime)
 {
@@ -217,7 +218,7 @@ void* FUN_00a3ddf0_shell::FUN_00a3ddf0(void* pData, int aiIndexA, int aiIndexB, 
         iType = 0;
         ucSize = 0;
     }
-    ((void(__cdecl*)(float, void const*, void const*, void*))DAT_011f3ca8[iType])(
+    NiAnimationKeyTables::Get<void(__cdecl*)(float, void const*, void const*, void*)>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(1, 0) + iType)(
         fTime, pcElementBase + ucSize * aiIndexA, pcElementBase + ucSize * aiIndexB, pData);
     return pData;
 }
@@ -1337,7 +1338,7 @@ void PathInterpLink::FUN_00a3ee80(NiStream& stream)
         MyPosKey* keys = info.keys;
         if (count > 0)
         {
-            CurvatureFunction curvature = DAT_011f3d38[type];
+            CurvatureFunction curvature = NiAnimationKeyTables::Get<float (*)(MyPosKey *, unsigned int)>(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(1, 0) + type);
             *(float*)&unk34 = curvature(keys, count);
         }
     }

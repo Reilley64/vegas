@@ -5,6 +5,7 @@
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
@@ -1327,15 +1328,15 @@ struct MorphKeyHelpers
 {
     static unsigned char GetKeySize(unsigned int type)
     {
-        return DAT_011f3758[type];
+        return NiAnimationKeyTables::g_keySizes[type];
     }
     static KeyCreateFn GetCreate(unsigned int type)
     {
-        return (*reinterpret_cast<void *(*(*)[])(NiStreamL &, unsigned int)>(&::DAT_011f3db0))[type];
+        return NiAnimationKeyTables::Get<void *(*)(NiStreamL &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, type);
     }
     static KeyFillFn GetFill(unsigned int type)
     {
-        return (*reinterpret_cast<void (*(*)[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
+        return NiAnimationKeyTables::Get<void (*)(void *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, type);
     }
 };
 struct MorphData

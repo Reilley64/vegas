@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nifloatdata.cpp: NiFloatData (10 functions)
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -22,10 +23,10 @@
 void NiFloatData::SetColorKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
-        (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     if (keys && count && eKeyType)
     {
-        m_ucKeyDataSize = DAT_011f3758[eKeyType];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[eKeyType];
         m_pKeyArray = keys;
         m_uiNumKeys = count;
         m_eRequestType = eKeyType;
@@ -51,7 +52,7 @@ void FUN_00a3cc80_shell::FUN_00a3cc80()
     *(const void***)this = (*reinterpret_cast<const void * (*)[]>((void *)&::fnv_00a3cd00::vftable_NiFloatData));
     if (m_pKeyArray)
     {
-        (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     }
     reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
@@ -88,7 +89,7 @@ void FUN_00a3ccb0_Cls::FUN_00a3ccb0(void* keys, unsigned int numKeys, int type)
 {
     if (keys && numKeys && type)
     {
-        m_ucKeyDataSize = ::DAT_011f3758[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[type];
         m_pKeyArray = keys;
         m_uiNumKeys = numKeys;
         m_eRequestType = type;
@@ -215,7 +216,7 @@ void FUN_00a3cfd0_shell::WriteToStream(NiStream* stream)
     if (m_uiNumKeys > 0)
     {
         stream->GetWriter()->Write(&m_eRequestType);
-        (*reinterpret_cast<void (*(*)[])(NiStream *, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eRequestType](stream, m_pKeyArray, m_uiNumKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStream *, TimedAnimationKey *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_eRequestType)(stream, m_pKeyArray, m_uiNumKeys);
     }
 }
 
@@ -298,7 +299,7 @@ bool FUN_00a3cd40_cls::FUN_00a3cd40(NiFloatData* other)
     {
         return false;
     }
-    FUN_00a3cd40_KeyCmp cmp = (*reinterpret_cast<bool (*(*)[])(void *, void *)>(&::DAT_011f3ae0))[m_eRequestType];
+    FUN_00a3cd40_KeyCmp cmp = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, m_eRequestType);
     unsigned int iKeyIndex = 0;
     if (m_uiNumKeys > 0)
     {
@@ -527,10 +528,10 @@ void FUN_00a3cf10_cls::FUN_00a3cf10(NiStream& stream)
     {
         AnimationKey::KeyType keyType;
         LoadEnum(pStreamView->m_pUnderlyingStream, keyType);
-        m_ucKeyDataSize = DAT_011f3758[keyType];
-        CreateFn_cf pCreateFn = (*reinterpret_cast<TimedAnimationKey *(*(*)[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[keyType];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[keyType];
+        CreateFn_cf pCreateFn = NiAnimationKeyTables::Get<TimedAnimationKey *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, keyType);
         TimedAnimationKey* keys = pCreateFn(stream, numKeys);
-        FillFn_cf pFillFn = (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[keyType];
+        FillFn_cf pFillFn = NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, keyType);
         pFillFn(keys, numKeys, m_ucKeyDataSize);
         reinterpret_cast<KeyOwnerStand_cf*>(this)->SetKeyData(keys, numKeys, keyType);
     }

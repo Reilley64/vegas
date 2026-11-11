@@ -1,4 +1,5 @@
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -33,14 +34,14 @@ void NiTransformData::SetRotationKeys(TimedRotationKey* keys, unsigned int count
     {
         if (m_eRotationKeyType == AnimationKey::EULERKEY)
             oldKeys->ClearFloatKeys();
-        DAT_011f38d0[m_eRotationKeyType](oldKeys);
+        NiAnimationKeyTables::Get<NiRotKeyDeleteFunction>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(2, 0) + m_eRotationKeyType)(oldKeys);
     }
     if (keys && count)
     {
         m_usNumRotKeys = (unsigned short)count;
         m_pkRotationKeys = keys;
         m_eRotationKeyType = type;
-        m_ucRotationKeySize = DAT_011f3764[type];
+        m_ucRotationKeySize = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(2, 0) + type];
     }
     else
     {
@@ -55,13 +56,13 @@ void NiTransformData::SetRotationKeys(TimedRotationKey* keys, unsigned int count
 void NiTransformData::SetPositionKeys(PositionKeyInterpolator* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pkPositionKeys)
-        DAT_011f38b8[m_ePositionKeyType](m_pkPositionKeys);
+        NiAnimationKeyTables::Get<void (*)(PositionKeyInterpolator *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(1, 0) + m_ePositionKeyType)(m_pkPositionKeys);
     if (keys && count)
     {
         m_usNumPosKeys = (unsigned short)count;
         m_pkPositionKeys = keys;
         m_ePositionKeyType = eKeyType;
-        m_ucPositionKeySize = DAT_011f375e[eKeyType];
+        m_ucPositionKeySize = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(1, 0) + eKeyType];
     }
     else
     {
@@ -77,13 +78,13 @@ void NiTransformData::SetPositionKeys(PositionKeyInterpolator* keys, unsigned in
 void NiTransformData::SetScaleKeys(TimedAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     if (m_pkScaleKeyArray)
-        (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[m_eScaleKeyType](m_pkScaleKeyArray);
+        NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, m_eScaleKeyType)(m_pkScaleKeyArray);
     if (keys && count)
     {
         m_usNumScaleKeys = (unsigned short)count;
         m_pkScaleKeyArray = keys;
         m_eScaleKeyType = type;
-        m_ucScaleKeySize = DAT_011f3758[type];
+        m_ucScaleKeySize = NiAnimationKeyTables::g_keySizes[type];
     }
     else
     {
@@ -142,21 +143,21 @@ void FUN_00a4e270_shell::DestroyTransformData()
         {
             pkRotKeys->ClearFloatKeys();
         }
-        DAT_011f38d0[*reinterpret_cast<int*>(&this->m_eRotationKeyType)](pkRotKeys);
+        NiAnimationKeyTables::Get<NiRotKeyDeleteFunction>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(2, 0) + (*reinterpret_cast<int*>(&this->m_eRotationKeyType)))(pkRotKeys);
     }
     PositionKeyInterpolator* pkPosKeys =
         this->m_pkPositionKeys;
     if (pkPosKeys)
     {
         void(__cdecl * pfnPosDeleteFunc)(PositionKeyInterpolator*) =
-            DAT_011f38b8[*reinterpret_cast<int*>(&this->m_ePositionKeyType)];
+            NiAnimationKeyTables::Get<void (*)(PositionKeyInterpolator *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(1, 0) + (*reinterpret_cast<int*>(&this->m_ePositionKeyType)));
         pfnPosDeleteFunc(pkPosKeys);
     }
     TimedAnimationKey* pkScaleKeys = this->m_pkScaleKeyArray;
     if (pkScaleKeys)
     {
         void(__cdecl * pfnScaleDeleteFunc)(TimedAnimationKey*) =
-            (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(&this->m_eScaleKeyType)];
+            NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, *reinterpret_cast<int*>(&this->m_eScaleKeyType));
         pfnScaleDeleteFunc(pkScaleKeys);
     }
     reinterpret_cast<class ::FUN_00a5d3d0 *>((reinterpret_cast<NiObject_Helper*>(this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
@@ -259,7 +260,7 @@ Obj* FUN_00a4e040()
 }
 }  // namespace fnv_00a4e040
 
-// Iterates three slots, deletes each non-null key via the function at DAT_011f38a0 indexed by the slot's index, then zeroes the key, index and count fields.
+// Iterates three slots, deletes each non-null key via the function in key function table kAt011f38a0 indexed by the slot's index, then zeroes the key, index and count fields.
 // @fnv 0x00a29ad0
 void TimedRotationKey::ClearFloatKeys()
 {
@@ -270,7 +271,7 @@ void TimedRotationKey::ClearFloatKeys()
         if (key != 0)
         {
             int iDeleteFuncIndex = *(p - 4);
-            NiFloatKeyDeleteFunction pDeleteFunc = (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[iDeleteFuncIndex];
+            NiFloatKeyDeleteFunction pDeleteFunc = NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, iDeleteFuncIndex);
             pDeleteFunc((TimedAnimationKey*)key);
         }
         *p = 0;
@@ -430,7 +431,7 @@ bool TransformDataEqual::FUN_00a4e130(NiObject* pkObject)
         m_ucScaleKeySize != pkData->m_ucScaleKeySize)
         return false;
 
-    NiAnimKeyEqualFunction pfnKeyEqual = DAT_011f3b10[m_eRotationKeyType];
+    NiAnimKeyEqualFunction pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(2, 0) + m_eRotationKeyType);
     unsigned int i;
     for (i = 0; i < m_usNumRotKeys; i++)
     {
@@ -440,7 +441,7 @@ bool TransformDataEqual::FUN_00a4e130(NiObject* pkObject)
             return false;
     }
 
-    pfnKeyEqual = DAT_011f3af8[m_ePositionKeyType];
+    pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(1, 0) + m_ePositionKeyType);
     for (i = 0; i < m_usNumPosKeys; i++)
     {
         char* pKeyB = (char*)pkData->m_pkPositionKeys + i * m_ucPositionKeySize;
@@ -449,7 +450,7 @@ bool TransformDataEqual::FUN_00a4e130(NiObject* pkObject)
             return false;
     }
 
-    pfnKeyEqual = (*reinterpret_cast<bool (*(*)[6])(void *, void *)>(&::DAT_011f3ae0))[m_eScaleKeyType];
+    pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, m_eScaleKeyType);
     for (i = 0; i < m_usNumScaleKeys; i++)
     {
         char* pKeyB = (char*)pkData->m_pkScaleKeyArray + i * m_ucScaleKeySize;
@@ -761,7 +762,7 @@ void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
     {
         SaveAnimationValue(stream, m_eRotationKeyType);
         count = m_usNumRotKeys;
-        (*reinterpret_cast<void (*(*)[])(NiStream &, TimedRotationKey *, unsigned int)>(&::DAT_011f3a80))[m_eRotationKeyType](stream, m_pkRotationKeys, count);
+        NiAnimationKeyTables::Get<void (*)(NiStream &, TimedRotationKey *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(2, 0) + m_eRotationKeyType)(stream, m_pkRotationKeys, count);
     }
     count = m_usNumPosKeys;
     SaveAnimationValue(stream, count);
@@ -769,7 +770,7 @@ void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
     {
         SaveAnimationValue(stream, m_ePositionKeyType);
         count = m_usNumPosKeys;
-        g_011f3a68[m_ePositionKeyType](stream, m_pkPositionKeys, count);
+        NiAnimationKeyTables::Get<void (*)(NiStream &, PositionKeyInterpolator *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(1, 0) + m_ePositionKeyType)(stream, m_pkPositionKeys, count);
     }
     count = m_usNumScaleKeys;
     SaveAnimationValue(stream, count);
@@ -777,7 +778,7 @@ void TransformSaveQuery::FUN_00a4e810(NiStream& stream)
     {
         SaveAnimationValue(stream, m_eScaleKeyType);
         count = m_usNumScaleKeys;
-        (*reinterpret_cast<void (*(*)[])(NiStream &, TimedAnimationKey *, unsigned int)>(&::g_apfnA29FE0Load))[m_eScaleKeyType](stream, m_pkScaleKeyArray, count);
+        NiAnimationKeyTables::Get<void (*)(NiStream &, TimedAnimationKey *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_eScaleKeyType)(stream, m_pkScaleKeyArray, count);
     }
 }
 
@@ -977,48 +978,47 @@ template <class T> inline void TransformDataReadEnum(NiStream& stream, T& value)
     reinterpret_cast<TransformDataInputView&>(stream).Read(&serialized, sizeof(serialized));
     value = static_cast<T>(serialized);
 }
-extern void(__cdecl* DAT_011f3798[])(PositionKeyInterpolator*, unsigned int, unsigned char);
 typedef TimedRotationKey*(__cdecl* RotCreateFunction)(NiStream&, unsigned int);
 typedef void(__cdecl* RotLoadFunction)(TimedRotationKey*, unsigned int, unsigned char);
 inline unsigned char GetRotKeySize(AnimationKey::KeyType type)
 {
-    return DAT_011f3764[type];
+    return NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(2, 0) + type];
 }
 inline RotCreateFunction GetRotCreateFunction(AnimationKey::KeyType type)
 {
-    return DAT_011f3de0[type];
+    return NiAnimationKeyTables::Get<TimedRotationKey *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(2, 0) + type);
 }
 inline RotLoadFunction GetRotLoadFunction(AnimationKey::KeyType type)
 {
-    return DAT_011f37b0[type];
+    return NiAnimationKeyTables::Get<void (*)(TimedRotationKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(2, 0) + type);
 }
 typedef PositionKeyInterpolator*(__cdecl* PosCreateFunction)(NiStream&, unsigned int);
 typedef void(__cdecl* PosLoadFunction)(PositionKeyInterpolator*, unsigned int, unsigned char);
 inline unsigned char GetPosKeySize(AnimationKey::KeyType type)
 {
-    return DAT_011f375e[type];
+    return NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(1, 0) + type];
 }
 inline PosCreateFunction GetPosCreateFunction(AnimationKey::KeyType type)
 {
-    return DAT_011f3dc8[type];
+    return NiAnimationKeyTables::Get<PositionKeyInterpolator *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(1, 0) + type);
 }
 inline PosLoadFunction GetPosLoadFunction(AnimationKey::KeyType type)
 {
-    return DAT_011f3798[type];
+    return NiAnimationKeyTables::Get<void(*)(PositionKeyInterpolator*, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(1, 0) + type);
 }
 typedef TimedAnimationKey*(__cdecl* ScaleCreateFunction)(NiStream&, unsigned int);
 typedef void(__cdecl* ScaleLoadFunction)(TimedAnimationKey*, unsigned int, unsigned char);
 inline unsigned char GetScaleKeySize(AnimationKey::KeyType type)
 {
-    return DAT_011f3758[type];
+    return NiAnimationKeyTables::g_keySizes[type];
 }
 inline ScaleCreateFunction GetScaleCreateFunction(AnimationKey::KeyType type)
 {
-    return (*reinterpret_cast<TimedAnimationKey *(*(*)[])(NiStream &, unsigned int)>(&::DAT_011f3db0))[type];
+    return NiAnimationKeyTables::Get<TimedAnimationKey *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, type);
 }
 inline ScaleLoadFunction GetScaleLoadFunction(AnimationKey::KeyType type)
 {
-    return (*reinterpret_cast<void (*(*)[])(TimedAnimationKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
+    return NiAnimationKeyTables::Get<void (*)(TimedAnimationKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, type);
 }
 class TransformDataLoader : public NiTransformData
 {

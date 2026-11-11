@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a45010
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -44,13 +45,13 @@ void S45280::FUN_00a45280(void* keys, unsigned int count, int type)
 {
     void* oldKeys = *(void**)((char*)this + 0x18);
     if (oldKeys)
-        DAT_011f38a0[*(int*)((char*)this + 0x1c)](oldKeys);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, *(int*)((char*)this + 0x1c))(oldKeys);
     if (keys && count)
     {
         *(unsigned int*)((char*)this + 0x14) = count;
         *(void**)((char*)this + 0x18) = keys;
         *(int*)((char*)this + 0x1c) = type;
-        *(unsigned char*)((char*)this + 0x49) = DAT_011f3758[type];
+        *(unsigned char*)((char*)this + 0x49) = NiAnimationKeyTables::g_keySizes[type];
     }
     else
     {
@@ -79,13 +80,13 @@ struct FUN_00a45340_shell
 void FUN_00a45340_shell::FUN_00a45340(void* keys, unsigned int count, unsigned int type)
 {
     if (m_pKeyArray)
-        (*reinterpret_cast<void (*(*)[10])(void *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     if (keys && count)
     {
         m_uiNumKeys = count;
         m_pKeyArray = keys;
         m_eRequestType = type;
-        m_ucKeyDataSize = ::DAT_011f3758[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[type];
     }
     else
     {
@@ -118,13 +119,13 @@ struct FUN_00a45220_shell
 void FUN_00a45220_shell::FUN_00a45220(TimedAnimationKey* keys, unsigned int numKeys, unsigned int type)
 {
     if (m_pKeyArray)
-        (*reinterpret_cast<void (*(*)[])(fnv_00a45220::TimedAnimationKey *)>(&::DAT_011f38a0))[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(fnv_00a45220::TimedAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     if (keys && numKeys)
     {
         m_uiNumKeys = numKeys;
         m_pKeyArray = keys;
         m_eRequestType = type;
-        m_ucKeyDataSize = ::DAT_011f3758[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[type];
     }
     else
     {
@@ -151,13 +152,13 @@ struct FUN_00a452e0_shell
 void FUN_00a452e0_shell::FUN_00a452e0(void* keys, unsigned int count, unsigned int type)
 {
     if (m_pKeyArray)
-        DAT_011f38a0[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, m_eRequestType)(m_pKeyArray);
     if (keys && count)
     {
         m_uiNumKeys = count;
         m_pKeyArray = keys;
         m_eRequestType = type;
-        m_ucKeyDataSize = DAT_011f3758[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[type];
     }
     else
     {
@@ -176,7 +177,7 @@ class NiRefObject
     ~NiRefObject();
 };
 
-// Sets the vtable, releases the four pointer members via DAT_011f38a0 if non-null, then calls the NiRefObject destructor.
+// Sets the vtable, releases the four pointer members via key function table kAt011f38a0 if non-null, then calls the NiRefObject destructor.
 // @fnv 0x00a45020
 void NiUVData::Destructor()
 {
@@ -184,16 +185,16 @@ void NiUVData::Destructor()
     void* p;
     p = *(void**)((char*)this + 0xc);
     if (p)
-        DAT_011f38a0[*(unsigned int*)((char*)this + 0x10)](p);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, *(unsigned int*)((char*)this + 0x10))(p);
     p = *(void**)((char*)this + 0x18);
     if (p)
-        DAT_011f38a0[*(unsigned int*)((char*)this + 0x1c)](p);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, *(unsigned int*)((char*)this + 0x1c))(p);
     p = *(void**)((char*)this + 0x24);
     if (p)
-        DAT_011f38a0[*(unsigned int*)((char*)this + 0x28)](p);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, *(unsigned int*)((char*)this + 0x28))(p);
     p = *(void**)((char*)this + 0x30);
     if (p)
-        DAT_011f38a0[*(unsigned int*)((char*)this + 0x34)](p);
+        NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, *(unsigned int*)((char*)this + 0x34))(p);
     reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
@@ -315,7 +316,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
     unsigned int i;
     bool(__cdecl * pfnKeyEqual)(void*, void*);
 
-    pfnKeyEqual = (*reinterpret_cast<bool (*(*)[])(void *, void *)>(&::DAT_011f3ae0))[m_uiUOffsetKeyStride];
+    pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, m_uiUOffsetKeyStride);
     for (i = 0; i < m_uiNumUOffsetKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pUOffsetKeys, i, m_ucByte48),
@@ -323,7 +324,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
             return false;
     }
 
-    pfnKeyEqual = (*reinterpret_cast<bool (*(*)[])(void *, void *)>(&::DAT_011f3ae0))[m_uiVOffsetKeyStride];
+    pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, m_uiVOffsetKeyStride);
     for (i = 0; i < m_uiNumVOffsetKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pVOffsetKeys, i, m_ucByte49),
@@ -331,7 +332,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
             return false;
     }
 
-    pfnKeyEqual = (*reinterpret_cast<bool (*(*)[])(void *, void *)>(&::DAT_011f3ae0))[m_uiUTilingKeyStride];
+    pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, m_uiUTilingKeyStride);
     for (i = 0; i < m_uiNumUTilingKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pUTilingKeys, i, m_ucByte4A),
@@ -339,7 +340,7 @@ bool NiUVDataStandIn::FUN_00a45090(NiUVDataStandIn* pkOther)
             return false;
     }
 
-    pfnKeyEqual = (*reinterpret_cast<bool (*(*)[])(void *, void *)>(&::DAT_011f3ae0))[m_uiVTilingKeyStride];
+    pfnKeyEqual = NiAnimationKeyTables::Get<bool (*)(void *, void *)>(NiAnimationKeyTables::kAt011f3ae0, m_uiVTilingKeyStride);
     for (i = 0; i < m_uiNumVTilingKeys; i++)
     {
         if (!pfnKeyEqual(GetKeyPointerByIndex(m_pVTilingKeys, i, m_ucByte4B),
@@ -600,10 +601,10 @@ void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte48 = ::DAT_011f3758[eType];
-        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(*(*)[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
+        m_ucByte48 = NiAnimationKeyTables::g_keySizes[eType];
+        NiUVKeyCreateFunction pfnCreate = NiAnimationKeyTables::Get<NiUVKey *(*)(NiUVStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, eType);
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (*(*)[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
+        NiUVKeyFillFunction pfnFill = NiAnimationKeyTables::Get<void (*)(NiUVKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, eType);
         pfnFill(pkKeys, uiNumKeys, m_ucByte48);
         reinterpret_cast<::fnv_00a45220::FUN_00a45220_shell *>(this)->FUN_00a45220((::fnv_00a45220::TimedAnimationKey *)(pkKeys), uiNumKeys, (*(unsigned int *)&(eType)));
     }
@@ -612,10 +613,10 @@ void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte49 = ::DAT_011f3758[eType];
-        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(*(*)[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
+        m_ucByte49 = NiAnimationKeyTables::g_keySizes[eType];
+        NiUVKeyCreateFunction pfnCreate = NiAnimationKeyTables::Get<NiUVKey *(*)(NiUVStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, eType);
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (*(*)[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
+        NiUVKeyFillFunction pfnFill = NiAnimationKeyTables::Get<void (*)(NiUVKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, eType);
         pfnFill(pkKeys, uiNumKeys, m_ucByte49);
         reinterpret_cast<::S45280 *>(this)->FUN_00a45280(pkKeys, uiNumKeys, (*(int *)&(eType)));
     }
@@ -624,10 +625,10 @@ void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte4A = ::DAT_011f3758[eType];
-        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(*(*)[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
+        m_ucByte4A = NiAnimationKeyTables::g_keySizes[eType];
+        NiUVKeyCreateFunction pfnCreate = NiAnimationKeyTables::Get<NiUVKey *(*)(NiUVStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, eType);
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (*(*)[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
+        NiUVKeyFillFunction pfnFill = NiAnimationKeyTables::Get<void (*)(NiUVKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, eType);
         pfnFill(pkKeys, uiNumKeys, m_ucByte4A);
         reinterpret_cast<::FUN_00a452e0_shell *>(this)->FUN_00a452e0(pkKeys, uiNumKeys, (*(unsigned int *)&(eType)));
     }
@@ -636,10 +637,10 @@ void NiUVDataLoader::FUN_00a453a0(NiUVStream& kStream)
     if (uiNumKeys > 0)
     {
         ReadStreamValue(kStream, eType);
-        m_ucByte4B = ::DAT_011f3758[eType];
-        NiUVKeyCreateFunction pfnCreate = (*reinterpret_cast<NiUVKey *(*(*)[])(NiUVStream &, unsigned int)>(&::DAT_011f3db0))[eType];
+        m_ucByte4B = NiAnimationKeyTables::g_keySizes[eType];
+        NiUVKeyCreateFunction pfnCreate = NiAnimationKeyTables::Get<NiUVKey *(*)(NiUVStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, eType);
         NiUVKey* pkKeys = pfnCreate(kStream, uiNumKeys);
-        NiUVKeyFillFunction pfnFill = (*reinterpret_cast<void (*(*)[])(NiUVKey *, unsigned int, unsigned char)>(&::DAT_011f3780))[eType];
+        NiUVKeyFillFunction pfnFill = NiAnimationKeyTables::Get<void (*)(NiUVKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, eType);
         pfnFill(pkKeys, uiNumKeys, m_ucByte4B);
         reinterpret_cast<::fnv_00a45340::FUN_00a45340_shell *>(this)->FUN_00a45340(pkKeys, uiNumKeys, (*(unsigned int *)&(eType)));
     }
@@ -860,24 +861,24 @@ void NiUVDataLB::FUN_00a45610(NiStreamX& kStream)
     if (m_uiNumUOffsetKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiUOffsetKeyStride);
-        (*reinterpret_cast<void (*(*)[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiUOffsetKeyStride](kStream, m_pUOffsetKeys, m_uiNumUOffsetKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStreamX &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_uiUOffsetKeyStride)(kStream, m_pUOffsetKeys, m_uiNumUOffsetKeys);
     }
     ReadBinaryValue(kStream, m_uiNumVOffsetKeys);
     if (m_uiNumVOffsetKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiVOffsetKeyStride);
-        (*reinterpret_cast<void (*(*)[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiVOffsetKeyStride](kStream, m_pVOffsetKeys, m_uiNumVOffsetKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStreamX &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_uiVOffsetKeyStride)(kStream, m_pVOffsetKeys, m_uiNumVOffsetKeys);
     }
     ReadBinaryValue(kStream, m_uiNumUTilingKeys);
     if (m_uiNumUTilingKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiUTilingKeyStride);
-        (*reinterpret_cast<void (*(*)[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiUTilingKeyStride](kStream, m_pUTilingKeys, m_uiNumUTilingKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStreamX &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_uiUTilingKeyStride)(kStream, m_pUTilingKeys, m_uiNumUTilingKeys);
     }
     ReadBinaryValue(kStream, m_uiNumVTilingKeys);
     if (m_uiNumVTilingKeys > 0)
     {
         ReadBinaryValue(kStream, m_uiVTilingKeyStride);
-        (*reinterpret_cast<void (*(*)[])(NiStreamX &, void *, unsigned int)>(&::g_apfnA29FE0Load))[m_uiVTilingKeyStride](kStream, m_pVTilingKeys, m_uiNumVTilingKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStreamX &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, m_uiVTilingKeyStride)(kStream, m_pVTilingKeys, m_uiNumVTilingKeys);
     }
 }

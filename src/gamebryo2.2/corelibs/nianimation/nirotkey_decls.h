@@ -44,7 +44,6 @@ class TimedRotationKey
 
 typedef void(__cdecl* NiRotKeyInterpFn)(float, const TimedRotationKey*, const TimedRotationKey*, NiQuaternion*);
 
-extern "C" NiRotKeyInterpFn DAT_011f3cc0[];
 
 // Placeholders for the 0x00a3ca30 span (thunk + padding + accessor); rename in one place later.
   // NiKeyBasedInterpolator vtbl (JIP-LN-NVSE)

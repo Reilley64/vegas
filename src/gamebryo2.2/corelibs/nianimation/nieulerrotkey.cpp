@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nieulerrotkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nieulerrotkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "NiAnimationKeyTables.h"
 #include "fnv/decl/TimedRotationKey.h"
 #include "fnv/symbols_011f3000.h"
 class ChannelState
@@ -24,7 +25,7 @@ void ChannelState::ClearFloatKeys()
     for (int i = 0; i < 3; ++i)
     {
         if (values[i])
-            DAT_011f38a0[channelProperties[i + 3]](values[i]);
+            NiAnimationKeyTables::Get<void (*)(void *)>(NiAnimationKeyTables::kAt011f38a0, channelProperties[i + 3])(values[i]);
         values[i] = 0;
         channelProperties[i] = 0;
         channelProperties[i + 3] = 0;
@@ -53,7 +54,7 @@ void ChannelState::SetChannelValues(void* value0, int present0, unsigned type0, 
     for (int remaining = 3; remaining; --remaining)
     {
         if (piChannelProp[-3])
-            *pucEncoded = DAT_011f3758[*piChannelProp];
+            *pucEncoded = NiAnimationKeyTables::g_keySizes[*piChannelProp];
         else
             *pucEncoded = 0;
         ++piChannelProp;

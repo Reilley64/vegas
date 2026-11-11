@@ -163,8 +163,8 @@ set_source_files_properties(${VEGAS_ROOT_SOURCES} PROPERTIES
   COMPILE_OPTIONS "-Werror=pointer-to-int-cast;-Werror=void-pointer-to-int-cast;-Werror=int-to-pointer-cast;-Werror=int-to-void-pointer-cast"
 )
 
-# The generated initializer units and the key-type registration still pass pointers through 32-bit integers to
-# staging callees, so they build without the narrowing errors.
+# The generated initializer units still pass pointers through 32-bit integers to staging callees, so they build
+# without the narrowing errors. The key-type registration keeps its place in this list and gets them below.
 set(VEGAS_ROOT_GENERATED_SOURCES
   "src/gamebryo2.2/corelibs/nianimation/nianimationkey_registration.cpp"
   "src/generated/aggregate_initializers_o2.cpp"
@@ -182,4 +182,7 @@ target_sources(game PRIVATE ${VEGAS_ROOT_GENERATED_SOURCES})
 set_source_files_properties(${VEGAS_ROOT_GENERATED_SOURCES} PROPERTIES
   INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
   COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
+)
+set_source_files_properties("src/gamebryo2.2/corelibs/nianimation/nianimationkey_registration.cpp" PROPERTIES
+  COMPILE_OPTIONS "-Werror=pointer-to-int-cast;-Werror=void-pointer-to-int-cast;-Werror=int-to-pointer-cast;-Werror=int-to-void-pointer-cast"
 )

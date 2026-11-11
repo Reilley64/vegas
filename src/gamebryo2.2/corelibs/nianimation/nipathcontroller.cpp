@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -51,7 +52,7 @@ struct FUN_00a49e10_shell
     }* p;
     void* InvokeIndexedCallback(void* a1, int a2, int a3, float f);
 };
-// Reads idx, sz and base from p (or zeros), calls DAT_011f3ca8[idx] with f and two base+sz*index pointers, and returns a1.
+// Reads idx, sz and base from p (or zeros), calls key function table kAt011f3c90, content 1, at idx with f and two base+sz*index pointers, and returns a1.
 // @fnv 0x00a49e10
 void* FUN_00a49e10_shell::InvokeIndexedCallback(void* a1, int iIndexA, int iIndexB, float fValue)
 {
@@ -71,7 +72,7 @@ void* FUN_00a49e10_shell::InvokeIndexedCallback(void* a1, int iIndexA, int iInde
         base = 0;
         sz = 0;
     }
-    (*reinterpret_cast<void (*(*)[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[idx](fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
+    NiAnimationKeyTables::Get<void (*)(float, const AnimationKey *, const AnimationKey *, void *)>(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(1, 0) + idx)(fValue, (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexA),
                       (AnimationKey const*)((char const*)base + (unsigned)sz * (unsigned)iIndexB), a1);
     return a1;
 }
@@ -704,7 +705,7 @@ float FUN_00a4a610_shell::GetKeyDerivativeLength(unsigned int uiKey1, unsigned i
     }
 
     NiPoint3A4A6 kDeriv;
-    (*reinterpret_cast<void (*(*)[])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3c18))[uiRequestType](fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
+    NiAnimationKeyTables::Get<void (*)(float, const AnimationKey *, const AnimationKey *, void *)>(NiAnimationKeyTables::kAt011f3c00, NiAnimationKeyTables::Index(1, 0) + uiRequestType)(fTime, (AnimationKey*)((char*)pkKeys + uiKey1 * ucSize),
                                 (AnimationKey*)((char*)pkKeys + uiKey2 * ucSize), &kDeriv);
     float fLengthSquared = kDeriv.x * kDeriv.x + kDeriv.y * kDeriv.y + kDeriv.z * kDeriv.z;
     return (float)sqrt(fLengthSquared);
@@ -1019,7 +1020,7 @@ void FUN_00a4adc0_cls::SetSpawnedArgs(SpawnedArg* apSpawnedArg)
         SampleData sample = {t->m_10, t->m_0c};
         if (count > 0)
         {
-            float(__cdecl * pfnSample)(const void*, unsigned int) = (*reinterpret_cast<float (*(*)[])(const void *, unsigned int)>(&::DAT_011f3d38))[sample.index];
+            float(__cdecl * pfnSample)(const void*, unsigned int) = NiAnimationKeyTables::Get<float (*)(const void *, unsigned int)>(NiAnimationKeyTables::kAt011f3d20, NiAnimationKeyTables::Index(1, 0) + sample.index);
             m_5c = pfnSample(sample.value, count);
         }
     }

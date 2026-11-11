@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatkey.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include "fnv/decl/FUN_00a3da20_cls.h"
 #include "fnv/symbols_00a26000.h"
@@ -121,19 +122,19 @@ int __cdecl RegisterFloatKeyOps()
         return 0;
 
     g_bA26E20Registered = true;
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3d20))[0] = 0;
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3c00))[0] = 0;
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3b70))[0] = 0;
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::g_fnv_cb_011f3810))[0] = 0;
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3db0))[0] = ((void (&)(void *))::FUN_00e7cd40);
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::g_apfnA29FE0Load))[0] = ((void (&)(void *))::FUN_00a29680);
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f39c0))[0] = ((void (&)(void *))::FUN_00a29680);
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3930))[0] = ((void (&)(void *))::FUN_00e7cd40);
-    ::DAT_011f38a0[0] = ((void (&)(void *))::FUN_00a29680);
-    ::DAT_011f3758[0] = 8;
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3c90))[0] = ((void (&)(void *))::FUN_00a29680);
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3ae0))[0] = ((void (&)(void *))::AreRecordsEqual);
-    (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f3780))[0] = ((void (&)(void *))::FUN_00a29680);
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3d20][NiAnimationKeyTables::Index(0, 0)] = nullptr;
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3c00][NiAnimationKeyTables::Index(0, 0)] = nullptr;
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3b70][NiAnimationKeyTables::Index(0, 0)] = nullptr;
+    NiAnimationKeyTables::g_functions[NiAnimationKeyTables::kAt011f3810][NiAnimationKeyTables::Index(0, 0)] = nullptr;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00e7cd40));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00a29680));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f39c0, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00a29680));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3930, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00e7cd40));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00a29680));
+    NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(0, 0)] = 8;
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3c90, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00a29680));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::AreRecordsEqual));
+    NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(0, 0), ((void (&)(void *))::FUN_00a29680));
     return 1;
 }
 
@@ -235,7 +236,7 @@ float __cdecl InterpolateKey(float time, const S00a26b40_Key* keys, unsigned int
     if (next < count)
     {
         float t = (time - lastTime) / (nextTime - lastTime);
-        (*reinterpret_cast<void (*(*)[])(float, const S00a26b40_Key *, const S00a26b40_Key *, float *)>(&::DAT_011f3c90))[type](t, &S00a26b40_At(keys, last, keySize), &S00a26b40_At(keys, next, keySize), &result);
+        NiAnimationKeyTables::Get<void (*)(float, const S00a26b40_Key *, const S00a26b40_Key *, float *)>(NiAnimationKeyTables::kAt011f3c90, type)(t, &S00a26b40_At(keys, last, keySize), &S00a26b40_At(keys, next, keySize), &result);
     }
     else
         result = S00a26b40_At(keys, last, keySize).value;

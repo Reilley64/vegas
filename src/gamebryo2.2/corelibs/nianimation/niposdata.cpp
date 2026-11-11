@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niposdata.cpp: NiPosData, MyPosData, Holder, PosKeyData (10 functions)
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -20,7 +21,7 @@
 void NiPosData::SetColorKeys(PositionKeyInterpolator* keys, unsigned int count, AnimationKey::KeyType eKeyType)
 {
     if (m_pKeyArray)
-        DAT_011f38b8[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(PositionKeyInterpolator *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(1, 0) + m_eRequestType)(m_pKeyArray);
     if (keys && count)
     {
         m_ucKeyDataSize = GetPosKeySize(eKeyType);
@@ -123,7 +124,7 @@ void Holder::FUN_00a48fb0()
     PositionKeyInterpolator* p = _0C;
     *(intptr_t*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0109717c));
     if (p)
-        DAT_011f38b8[_10](p);
+        NiAnimationKeyTables::Get<void (*)(PositionKeyInterpolator *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(1, 0) + _10)(p);
     reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
 }
 
@@ -137,13 +138,13 @@ struct S_00a48fe0
     unsigned char _14;
     void FUN_00a48fe0(void* keys, unsigned int numKeys, int type);
 };
-// Stores the key array, key count and type, setting a byte from DAT_011f375e indexed by type; clears all fields when keys or numKeys is null/zero.
+// Stores the key array, key count and type, setting a byte from the key sizes of content 1 indexed by type; clears all fields when keys or numKeys is null/zero.
 // @fnv 0x00a48fe0
 void S_00a48fe0::FUN_00a48fe0(void* keys, unsigned int numKeys, int type)
 {
     if (keys && numKeys)
     {
-        _14 = DAT_011f375e[type];
+        _14 = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(1, 0) + type];
         _0c = keys;
         _08 = numKeys;
         _10 = type;
@@ -179,7 +180,7 @@ bool PosKeyData::Equals(const PosKeyData* other)
         m_ucKeyDataSize != other->m_ucKeyDataSize)
         return false;
 
-    KeyEqual pfnEqualKeys = (*reinterpret_cast<bool (*(*)[])(const void *, const void *)>(&::DAT_011f3af8))[m_eRequestType];
+    KeyEqual pfnEqualKeys = NiAnimationKeyTables::Get<bool (*)(const void *, const void *)>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(1, 0) + m_eRequestType);
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
         unsigned int offset = i * m_ucKeyDataSize;
@@ -395,7 +396,7 @@ void A49300Data::SaveToStream(A49300Stream& kStream)
     if (m_uiCount > 0)
     {
         kStream.m_pBackingStream->Write(&m_uiType, 4);
-        (*reinterpret_cast<void (*(*)[])(A49300Stream &, void *, unsigned int)>(&::g_011f3a68))[m_uiType](kStream, m_pResource, m_uiCount);
+        NiAnimationKeyTables::Get<void (*)(A49300Stream &, void *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(1, 0) + m_uiType)(kStream, m_pResource, m_uiCount);
     }
 }
 

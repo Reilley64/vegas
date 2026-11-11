@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicolordata.cpp: NiColorData, NiColorDataHack, NiColorDataA3D (9 functions)
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -24,10 +25,10 @@
 void NiColorData::SetColorKeys(ColorAnimationKey* keys, unsigned int count, AnimationKey::KeyType type)
 {
     if (m_pKeyArray)
-        DAT_011f38e8[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(ColorAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(3, 0) + m_eRequestType)(m_pKeyArray);
     if (keys && count)
     {
-        m_ucKeyDataSize = DAT_011f376a[type];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(3, 0) + type];
         m_pKeyArray = keys;
         m_uiNumKeys = count;
         m_eRequestType = type;
@@ -53,7 +54,7 @@ void FUN_00a3d120_shell::DestroyColorData()
     *(const void**)this = &(*reinterpret_cast<const void * *>(&::fnv_00a3d150::vftable_NiColorData));
     if (m_pKeyArray)
     {
-        DAT_011f38e8[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void (*)(ColorAnimationKey *)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(3, 0) + m_eRequestType)(m_pKeyArray);
     }
     this->NiObject::~NiObject();
 }
@@ -119,7 +120,7 @@ bool FUN_00a3d190_shell::FUN_00a3d190(NiColorData* other)
         return false;
     if (m_ucKeyDataSize != other->m_ucKeyDataSize)
         return false;
-    bool(__cdecl * pfnKeyCompare)(ColorAnimationKey*, ColorAnimationKey*) = DAT_011f3b28[m_eRequestType];
+    bool(__cdecl * pfnKeyCompare)(ColorAnimationKey*, ColorAnimationKey*) = NiAnimationKeyTables::Get<bool (*)(ColorAnimationKey *, ColorAnimationKey *)>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(3, 0) + m_eRequestType);
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
         ColorAnimationKey* kOther = (ColorAnimationKey*)((char*)other->m_pKeyArray + m_ucKeyDataSize * i);
@@ -352,7 +353,7 @@ void NiColorDataA3D::FUN_00a3d370(A3D370Stream& kStream)
     {
         KeyTypeA3D eType;
         A3D370LoadEnum(kStream, eType);
-        CreateFunctionA3D cf = g_apfnColorKeyCreateA3D[eType];
+        CreateFunctionA3D cf = NiAnimationKeyTables::Get<NiColorKeyA3D *(*)(A3D370Stream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(3, 0) + eType);
         NiColorKeyA3D* pkKeys = cf(kStream, uiNumKeys);
         SetColorKeys(pkKeys, uiNumKeys, eType);
     }
@@ -538,7 +539,7 @@ struct FUN_00a3d410_cls : S_a3d410_Base
     unsigned unk10;
     void LoadFromStream(S_a3d410_Stream* s);
 };
-// Calls the base loader, reads a count into unk8, and if positive reads unk10 and dispatches DAT_011f3a98[unk10] with unkc and the count.
+// Calls the base loader, reads a count into unk8, and if positive reads unk10 and dispatches key function table kAt011f3a50, content 3, at unk10 with unkc and the count.
 // @fnv 0x00a3d410
 void FUN_00a3d410_cls::LoadFromStream(S_a3d410_Stream* pStream)
 {
@@ -548,7 +549,7 @@ void FUN_00a3d410_cls::LoadFromStream(S_a3d410_Stream* pStream)
     if (n > 0)
     {
         S_a3d410_Load(pStream, unk10);
-        DAT_011f3a98[unk10](pStream, unkc, n);
+        NiAnimationKeyTables::Get<void (*)(S_a3d410_Stream *, int, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(3, 0) + unk10)(pStream, unkc, n);
     }
 }
 

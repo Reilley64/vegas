@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nirotdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nirotdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "NiAnimationKeyTables.h"
 #include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -53,18 +54,16 @@ class NiRotData
     void FUN_00a48220(TimedRotationKey* pkKeys, unsigned int uiNumKeys, AnimationKey::KeyType eType);
 };
 
-extern unsigned char DAT_011f3764[];
-extern void(__cdecl* DAT_011f38d0[])(TimedRotationKey*);
 
 // Releases the current key array, then stores the new key pointer, count and interpolation type, or clears them when no keys are given.
 // @fnv 0x00a48220
 void NiRotData::FUN_00a48220(TimedRotationKey* pkKeys, unsigned int uiNumKeys, AnimationKey::KeyType eInterpType)
 {
     if (m_pKeyArray)
-        DAT_011f38d0[m_eRequestType](m_pKeyArray);
+        NiAnimationKeyTables::Get<void(*)(TimedRotationKey*)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(2, 0) + m_eRequestType)(m_pKeyArray);
     if (pkKeys && uiNumKeys)
     {
-        m_ucKeyDataSize = DAT_011f3764[eInterpType];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(2, 0) + eInterpType];
         m_pKeyArray = pkKeys;
         m_uiNumKeys = uiNumKeys;
         m_eRequestType = eInterpType;
@@ -121,7 +120,7 @@ void* StandIn::FUN_00a481e0(unsigned int auiFlags)
     TimedRotationKey* pk = m_pKeyArray;
     *(void**)this = (void*)&DAT_010984ec;
     if (pk)
-        DAT_011f38d0[m_eRequestType](pk);
+        NiAnimationKeyTables::Get<void(*)(TimedRotationKey*)>(NiAnimationKeyTables::kAt011f38a0, NiAnimationKeyTables::Index(2, 0) + m_eRequestType)(pk);
     reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiRefObject*)this)))->FUN_00a5d3d0::~FUN_00a5d3d0();
     if (auiFlags & 1)
         ::FUN_00aa1460(this, 0x18);
@@ -318,7 +317,7 @@ bool FUN_00a48160_shell::FUN_00a48160(void* pkObject)
         return false;
     if (m_ucKeyDataSize != pkData->m_ucKeyDataSize)
         return false;
-    void(__cdecl * pfnEqualFunc)(TimedRotationKey*) = (void(__cdecl*)(TimedRotationKey*))(*reinterpret_cast<void * (*)[]>(&::DAT_011f3b10))[m_eRequestType];
+    void(__cdecl * pfnEqualFunc)(TimedRotationKey*) = NiAnimationKeyTables::Get<void(__cdecl*)(TimedRotationKey*)>(NiAnimationKeyTables::kAt011f3ae0, NiAnimationKeyTables::Index(2, 0) + m_eRequestType);
     for (unsigned int ui = 0; ui < m_uiNumKeys; ++ui)
     {
         unsigned int uiKeyOffset = m_ucKeyDataSize * ui;
@@ -649,7 +648,6 @@ template <class T> void ReadStreamValue(NiStream& kStream, T& value)
     ReadValueFromBinaryStream(kStream.Istr(), &value);
 }
 
-extern unsigned char DAT_011f3764[];
 typedef TimedRotationKey*(__cdecl* CreateFunction)(NiStream&, unsigned int);
 typedef void(__cdecl* FillDerivedValsFunction)(TimedRotationKey*, unsigned int, unsigned char);
 
@@ -677,12 +675,12 @@ void FUN_00a48380_cls::FUN_00a48380(NiStream& kStream)
         AnimationKey::KeyType eRotType;
         ReadStreamValue(kStream, eRotType);
 
-        m_ucKeyDataSize = DAT_011f3764[eRotType];
+        m_ucKeyDataSize = NiAnimationKeyTables::g_keySizes[NiAnimationKeyTables::Index(2, 0) + eRotType];
 
-        CreateFunction pfnCreateFunc = ::DAT_011f3de0[eRotType];
+        CreateFunction pfnCreateFunc = NiAnimationKeyTables::Get<TimedRotationKey *(*)(NiStream &, unsigned int)>(NiAnimationKeyTables::kAt011f3db0, NiAnimationKeyTables::Index(2, 0) + eRotType);
         TimedRotationKey* pkRotKeys = pfnCreateFunc(kStream, uiNumKeys);
 
-        FillDerivedValsFunction pfnFillDerivedFunc = ::DAT_011f37b0[eRotType];
+        FillDerivedValsFunction pfnFillDerivedFunc = NiAnimationKeyTables::Get<void (*)(TimedRotationKey *, unsigned int, unsigned char)>(NiAnimationKeyTables::kAt011f3780, NiAnimationKeyTables::Index(2, 0) + eRotType);
         pfnFillDerivedFunc(pkRotKeys, uiNumKeys, m_ucKeyDataSize);
 
         reinterpret_cast<NiRotData*>(this)->FUN_00a48220(pkRotKeys, uiNumKeys, eRotType);
@@ -899,7 +897,7 @@ void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
     if (m_uiNumKeys > 0)
     {
         NiStreamLoadBinary2(kStream, m_eRequestType);
-        DAT_011f3a80[m_eRequestType](kStream, m_pKeyArray, m_uiNumKeys);
+        NiAnimationKeyTables::Get<void (*)(NiStream2 &, TimedRotationKey *, unsigned int)>(NiAnimationKeyTables::kAt011f3a50, NiAnimationKeyTables::Index(2, 0) + m_eRequestType)(kStream, m_pKeyArray, m_uiNumKeys);
     }
 }
 

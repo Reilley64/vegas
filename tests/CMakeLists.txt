@@ -810,3 +810,14 @@ add_test(NAME build.steamworks_sdk_configure
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake
     -DWORK=${CMAKE_CURRENT_BINARY_DIR}/steamworks_sdk_configure
     -P ${CMAKE_CURRENT_SOURCE_DIR}/steamworks_sdk/configure_test.cmake)
+
+# The one owner of NiAnimationKey's function tables and key sizes.
+add_executable(runtime_animation_key_tables_test runtime/animation_key_tables_test.cpp)
+target_include_directories(runtime_animation_key_tables_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+if(WIN32)
+  target_link_libraries(runtime_animation_key_tables_test PRIVATE game)
+else()
+  target_sources(runtime_animation_key_tables_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nianimation/nianimationkey_tables.cpp)
+endif()
+add_test(NAME runtime.animation_key_tables COMMAND runtime_animation_key_tables_test)

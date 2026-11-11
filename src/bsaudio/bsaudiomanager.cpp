@@ -37,7 +37,7 @@
 #include <malloc.h>
 #include "runtime/crt.h"
 #include "fnv/decl/BSGameSound.h"
-#include "fnv/decl/BSSoundInfo.h"
+#include "fnv/bs_audio_definition.h"
 #include "fnv/decl/E60Map.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
 #include "fnv/decl/FUN_00a0c6c0_cls.h"
@@ -380,12 +380,6 @@ struct SoundMessageRecord
         int d;
         FUN_00ae86d0();
     }
-};
-
-struct NiPoint3
-{
-    float x, y, z;
-    static const NiPoint3 ZERO;
 };
 
 namespace fnv_00ada0f0 {
@@ -4969,13 +4963,6 @@ struct AudioLoadTask
 };
 struct Helper
 {
-};
-struct BSAudioDefinition
-{
-    BSAudioDefinition();
-    ~BSAudioDefinition();
-public:
-    ::BSAudioDefinition &operator=(const ::BSAudioDefinition &);
 };
 struct FUN_00ae89f0
 {
@@ -10532,7 +10519,6 @@ struct DebugPlain
 struct SoundInfoWrap
 {
     FUN_00ae89f0 head;
-    char pad01c[0x238];
     __forceinline ~SoundInfoWrap()
     {
         reinterpret_cast<::BSSoundInfo *>((((SoundDtor*)this)))->BSSoundInfo::~BSSoundInfo();

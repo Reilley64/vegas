@@ -9888,39 +9888,6 @@ struct MemPool_00ae5a50
 {
 };
 
-struct Sub18_00ae5a50
-{
-    char* name;
-    char nameBuf[260];
-    char* source;
-    char sourceBuf[260];
-    float f210;
-    float f214;
-    Pos3_00ae5a50 position;
-    int f224;
-    float f228;
-    float f22c;
-    int f230;
-    int f234;
-    int f238;
-    inline void FUN_00ae8770()
-    {
-        nameBuf[0] = 0;
-        sourceBuf[0] = 0;
-        name = nameBuf;
-        source = sourceBuf;
-        f210 = 0.0f;
-        f214 = 0.0f;
-        position = DAT_011f426c;
-        f224 = 0;
-        f228 = 0.0f;
-        f22c = 0.0f;
-        f230 = 0;
-        f234 = 0;
-        f238 = 0;
-    }
-};
-
 struct Msg_00ae5a50
 {
     int f0;
@@ -9930,7 +9897,7 @@ struct Msg_00ae5a50
     int f10;
     char f14;
 
-    Sub18_00ae5a50 sub18;
+    ::BSAudioDefinition sub18;
     inline void SetC(int v)
     {
         fC = v;
@@ -9945,7 +9912,6 @@ struct Msg_00ae5a50
     }
     inline Msg_00ae5a50(int id)
     {
-        new ((void *)&(sub18)) ::BSAudioDefinition();
         f0 = id;
         SetC(0);
         Set10(0);
@@ -10470,29 +10436,6 @@ struct Vec3
     {}
 };
 
-struct DebugInit
-{
-};
-
-struct DebugInfo
-{
-    char pad000[0x108];
-    char* pSelf;
-    char name[0x104];
-    float f210, f214, f218, f21c, f220;
-    int unk224, unk228, unk22c;
-    int i230, i234, i238;
-    void SetName(Param2Ada* sound);
-    __forceinline DebugInfo()
-    {
-        new ((void *)(((DebugInit*)this))) ::BSAudioDefinition();
-    }
-    __forceinline ~DebugInfo()
-    {
-        reinterpret_cast<::BSAudioDefinition *>((((DebugInit*)this)))->BSAudioDefinition::~BSAudioDefinition();
-    }
-};
-
 struct InfoHead
 {
     int d0;
@@ -10504,16 +10447,6 @@ struct InfoHead
 struct SoundDtor
 {
     void FUN_00ae8af0();
-};
-
-struct DebugPlain
-{
-    char pad000[0x108];
-    char* pSelf;
-    char name[0x104];
-    float f210, f214, f218, f21c, f220;
-    int unk224, unk228, unk22c;
-    int i230, i234, i238;
 };
 
 struct SoundInfoWrap
@@ -10531,7 +10464,11 @@ struct TempInfo
     float b4, b8;
     int b12, b16;
     bool b20;
-    DebugPlain debug;
+    // Constructed in place below and destroyed by ~BSSoundInfo.
+    union
+    {
+        BSAudioDefinition debug;
+    };
     __forceinline TempInfo(bool debug3, float debug4, int debugB, int debugRoll4, int debug_2)
     {
         new ((void *)&(debug)) ::BSAudioDefinition();
@@ -10559,7 +10496,7 @@ struct Sub18Ada
 struct EntryInfo : InfoHead
 {
     Sub18Ada sub;
-    __forceinline void SetDebug(DebugInfo src)
+    __forceinline void SetDebug(BSAudioDefinition src)
     {
         reinterpret_cast<::BSAudioDefinition *>(&(sub))->operator=((*(const ::BSAudioDefinition *)(&src)));
     }
@@ -10582,7 +10519,7 @@ struct Mgr74Ada
 struct BSSoundInfoC
 {
     InfoHead head;
-    DebugPlain debug;
+    BSAudioDefinition debug;
     BSSoundInfoC(SoundInfoWrap*);
 };
 
@@ -10712,16 +10649,16 @@ struct Param2Ada
     }
 };
 
-__forceinline void DebugInfo::SetName(Param2Ada* sound)
+__forceinline void SetFileName(BSAudioDefinition& definition, Param2Ada* sound)
 {
     if (sound->name)
     {
-        char* dst = pSelf;
+        char* dst = definition.pFileName;
         fnv::crt::strcpy_s(dst, 0x104, sound->name);
     }
     else
     {
-        char* dst = pSelf;
+        char* dst = definition.pFileName;
         fnv::crt::strcpy_s(dst, 0x104, "NotTESSound");
     }
 }
@@ -10812,8 +10749,8 @@ void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
 {
     MemContext context4_2;
     SoundInfoWrap info15;
-    DebugInfo descB_;
-    DebugInfo debug4;
+    BSAudioDefinition descB_;
+    BSAudioDefinition debug4;
     void* pSavedB = 0;
     bool flag11_2 = ReadDebugSetting();
     if (param2)
@@ -10823,30 +10760,30 @@ void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
         if (flag11_2)
         {
             std::memset(&descB_, 0, 0x23c);
-            if (descB_.pSelf != descB_.name)
-                descB_.pSelf = descB_.name;
-            descB_.SetName(param2);
+            if (descB_.pFileName != descB_.FileName)
+                descB_.pFileName = descB_.FileName;
+            SetFileName(descB_, param2);
             if (reinterpret_cast<::BSGameSound *>((param2))->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>((param2))->CanStartPlayback())
             {
-                descB_.f220 = param2->Read150();
+                descB_.Location.z = param2->Read150();
                 Vec3 kFirst = Vec3();
-                descB_.f218 = param2->v54(&kFirst)[0];
+                descB_.Location.x = param2->v54(&kFirst)[0];
                 Vec3 kSecond = Vec3();
-                descB_.f21c = param2->v54(&kSecond)[1];
-                descB_.f210 = param2->Read140();
-                descB_.f214 = param2->Read13c();
+                descB_.Location.y = param2->v54(&kSecond)[1];
+                descB_.fFirstValue = param2->Read140();
+                descB_.fSecondValue = param2->Read13c();
             }
             else
             {
-                descB_.f220 = 0.0f;
-                descB_.f218 = 0.0f;
-                descB_.f21c = 0.0f;
-                descB_.f210 = 0.0f;
-                descB_.f214 = 0.0f;
+                descB_.Location.z = 0.0f;
+                descB_.Location.x = 0.0f;
+                descB_.Location.y = 0.0f;
+                descB_.fFirstValue = 0.0f;
+                descB_.fSecondValue = 0.0f;
             }
-            descB_.i230 = param2->Read18();
-            descB_.i234 = param2->Read1c();
-            descB_.i238 = param2->Read1e();
+            descB_.m_uiSoundParameterA = param2->Read18();
+            descB_.m_uiSoundParameterB = param2->Read1c();
+            descB_.m_uiSoundParameter6 = param2->Read1e();
         }
     }
     LockCS(&cs);

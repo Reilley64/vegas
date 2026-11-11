@@ -110,9 +110,9 @@ the undefined list that contain `D3DX` fall from 18 to 16 with this
 increment: the imports of `D3DXVec3Normalize` and
 `D3DXMatrixRotationYawPitchRoll` are no longer referenced.
 
-- 56 call lines in 9 files call the matrix inverse (`0x00ee6dda`, 23 lines),
-  the matrix transpose (`0x00ee6dd4`, 30 lines) or the vector normal
-  transform (`0x00ee6df2`, 3 lines) without arguments. Two of the eleven
+- 22 call lines in 4 files call the matrix inverse (`0x00ee6dda`, 10 lines),
+  the matrix transpose (`0x00ee6dd4`, 11 lines) or the vector normal
+  transform (`0x00ee6df2`, 1 line) without arguments. Two of the eleven
   project-code addresses, `0x00ee6dda` and `0x00ee6df2`, therefore still have
   a second definition, without parameters, in the staging unit; it calls
   through an import pointer. `0x00ee6dd4` has a declaration without
@@ -123,13 +123,62 @@ increment: the imports of `D3DXVec3Normalize` and
   types (for example `FUN_00ee6dda(ptr, 0, ptr);` and
   `FUN_00ee6dd4(ptr, ptr);` in `nid3dshaderconstantmap.cpp`), or under local
   names such as `D3DXMatrixInverse`, `Invert` and `Transpose`. That commit
-  gave each address one declaration and dropped the arguments. Every one of
-  the 56 lines was added by it, directly or in a variant unit later merged
-  into the file, in place of a call with arguments. `3f0599801`'s parent is
-  the admissible source for restoring them, which is a follow-up. Each local
-  declaration there is a stand-in type to review before its call is
-  restored; one of them, in `nid3dhlslpixelshader.cpp`, declares
-  `void FUN_00ee6dd4(void*, int)`, which is not the transpose's shape.
+  gave each address one declaration and dropped the arguments, in 56 lines
+  of 9 files, directly or in a variant unit later merged into the file.
+- 34 of the 56 lines have their arguments back, under VEGAS-90's
+  restoration rule: in `xgamesetting.cpp`, `teswater.cpp`,
+  `nid3dshaderconstantmap.cpp`, `nid3dhlslpixelshader.cpp`,
+  `nid3dhlslvertexshader.cpp`, `lighting30shader.cpp` and
+  `shadowlightshader.cpp`. Each argument list is the text of `3f0599801`'s
+  parent. Each call now binds the native definition, which takes the
+  arguments without a cast, and the argument values, their types and the
+  local types they point to are the parent's: 16 floats for a matrix and 3
+  for a point, from offset 0, except `0x00bbc050`, whose matrix type is only
+  declared in its unit (unmeasured; the 64-byte obligation is its callers').
+- The tests `runtime.d3dx_call_arguments_*` check the native callees'
+  contract with the restored argument patterns, not the repaired sites: they
+  run each function's sequence of calls on objects of the same shape. The
+  functions themselves do not link into a test and are not run. Each test
+  also checks that skipping the calls fails, which is not what the
+  argument-less calls did: `?FUN_00ee6dd4@@YAXXZ` has no definition at all,
+  and the other two argument-less names call through an import pointer with
+  whatever the registers hold.
+- The sites are checked in the objects. In the windows-x64 cross build,
+  `objects.d3dx_call_arguments_fallout_shared`, `_shader_constants` and
+  `_lighting` (`tools/function-relocations`) fail when the code section of
+  one of the 11 functions whose calls changed refers to an argument-less
+  name of the three addresses, or no longer to the native function it calls.
+  They check each function's own section: the objects of
+  `nid3dhlslpixelshader.cpp` and `nid3dshaderconstantmap.cpp` keep
+  argument-less calls in the functions listed below.
+- Rulings that this restoration follows (VEGAS-90):
+  - Each batch respells the recipe keys of its units in the same commit:
+    the native name is bound where it is called, and an argument-less key
+    leaves a unit whose object no longer requires it.
+  - The function rows at `0x00ee6dda` and `0x00ee6df2` keep naming the
+    argument-less definitions until the 22 lines below are decided.
+  - "Same conversions" means the same argument expression, value and type
+    up to the final implicit conversion into the native parameter, which
+    must keep the address: a conversion to a base at offset 0, or a null
+    constant.
+  - `0x00bbc050` is restored with the size of its matrix type unmeasured.
+  - A call whose parent callee returned `void` now binds a native function
+    that returns `void*`; the result is discarded.
+- The other 22 lines are not restored, because the parent's call does not
+  fit the tip:
+  - `0x00e85d10` in `nid3dshaderconstantmap.cpp`, 18 lines: the arguments
+    name `DAT_0126f820`, which the tip no longer declares. The tip calls
+    `0x0126f820` `g_afSCMatrixConstants`, an array of `float[16]`.
+  - `0x00e82e70` in `src/staging/blk_00e80000_o2.cpp`, 2 lines: the parent
+    declared `DAT_0126f8c0` as a 64-byte matrix of its own. In that unit at
+    the tip it is a `Matrix` of 36 bytes, less than the 64 bytes the native
+    inverse and transpose read and write.
+  - `0x00e96da0` in `nid3dhlslpixelshader.cpp`, 1 line: the parent declared
+    `void FUN_00ee6dd4(void*, int)` and passed an `int`, which is not the
+    transpose's shape.
+  - `0x00b7c7b0` in `nid3dpass.cpp`, 1 line: the parent declared the normal
+    transform with an `unsigned int` third parameter and passed an
+    `unsigned int` where the native function takes the matrix.
 - `3f0599801` did not always replace a call one for one. In
   `src/staging/blk_00ba0000_o2.cpp` it replaced
   `D3DXVec3TransformCoord(&tmp, &dir, matrix);` with the argument-less
@@ -138,11 +187,24 @@ increment: the imports of `D3DXVec3Normalize` and
   coordinate transform. It followed that unit's symbols keys at its parent,
   which bound the coordinate transform name to `0x00ee6df2` and the normal
   transform name to `0x00ee6df8`. That line no longer exists.
-- Next step: restore the 56 argument-less calls from the parent of
-  `3f0599801` under VEGAS-90's restoration rule: an argument is restored where
-  the callee's definition takes that many parameters of compatible types,
-  and each local stand-in type is reviewed first. Once no caller uses them,
-  the second definitions at `0x00ee6dda` and `0x00ee6df2` can be retired.
+- The 2 lines of `0x00e82e70` refuse because two types named `::Matrix`
+  meet at `DAT_0126f8c0`: 64 bytes in `nid3dshaderconstantmap.cpp`, and a
+  36-byte `struct Matrix { Vec3 a,b,c; }` in `blk_00e80000_o2.cpp`.
+- A translation tier could restore `0x00e85d10` and `0x00e82e70` with the
+  spelling their units already use for the same object:
+  `&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants))` for
+  `DAT_0126f820`, and `reinterpret_cast<::S00e82e70_D3DXMATRIX *>(&::DAT_0126f8c0)`
+  for `DAT_0126f8c0`. That adds casts the parent's calls did not have, and
+  waits for a coordinator ruling.
+- Another call lost its arguments the same way, outside the three D3DX
+  addresses: `nid3dhlslvertexshader.cpp` calls `::FUN_00a29680()` without
+  arguments twice, where the parent passed `(str_010f14a0, m_pcName,
+  pcVariable)` and `(str_010f14e8, m_pcName, pcVariable)`. It belongs to
+  VEGAS-90's tables.
+- Next step: decide the 22 lines above with evidence beyond the parent's
+  text, such as which object `0x00e85d10` and `0x00e82e70` really pass.
+  Once no caller uses them, the second definitions at `0x00ee6dda` and
+  `0x00ee6df2` can be retired.
 - Textures and surfaces: `0x00ee6dc2` (save texture to file), `0x00ee6de6`
   (surface copy), `0x00ee6e10`, `0x00ee6e16` and `0x00ee6e1c` (volume, cube
   and 2D texture from a file in memory) and `0x00ee6e22` (image information)

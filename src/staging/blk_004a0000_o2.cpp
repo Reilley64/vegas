@@ -238,11 +238,7 @@ struct IntSetting
 {
 };
 
-struct ImageSpaceEffectParam
-{
-    float r, g, b, a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
+#include "fnv/image_space_effect_param.h"
 
 struct TESView
 {

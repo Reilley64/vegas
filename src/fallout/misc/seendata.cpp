@@ -393,11 +393,7 @@ void FUN_0087a3e0_shell::FUN_0087a3e0(unsigned short aiCount)
 }
 }  // namespace fnv_0087a3e0
 
-struct ImageSpaceEffectParam
-{
-    float r, g, b, a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
+#include "fnv/image_space_effect_param.h"
 struct Position
 {
     float x, y, z;

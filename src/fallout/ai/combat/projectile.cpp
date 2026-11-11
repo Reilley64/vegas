@@ -7476,11 +7476,7 @@ struct HitList
     void FUN_005ae3d0(Hit*&);
     int head, next;
 };
-struct ImageSpaceEffectParam
-{
-    ImageSpaceEffectParam(float, float, float, float);
-    float r, g, b, a;
-};
+#include "fnv/image_space_effect_param.h"
 struct ProjectileHit
 {
     virtual void v0();

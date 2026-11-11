@@ -9459,11 +9459,7 @@ struct LandVector535d
     float x, y, z;
 };
 
-struct ImageSpaceEffectParam
-{
-    float r, g, b, a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
+#include "fnv/image_space_effect_param.h"
 
 struct LandReference535d
 {

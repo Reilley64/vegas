@@ -3058,11 +3058,7 @@ extern ListX DAT_011c7b8c;
 struct TesX
 {
 };
-struct ImageSpaceEffectParam
-{
-    float r, g, b, a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
+#include "fnv/image_space_effect_param.h"
 void FUN_00689210(CellX*, float, const char*, MatrixWater, NiPoint3, float, int, int);
 struct Obj;
 struct P1;

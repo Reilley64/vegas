@@ -25,15 +25,7 @@ template <class T> class NiPointer
   public:
     T* m_pObject;
 };
-struct ImageSpaceEffectParam
-{
-  public:
-    float r;
-    float g;
-    float b;
-    float a;
-    ImageSpaceEffectParam(float, float, float, float);
-};
+#include "fnv/image_space_effect_param.h"
 struct RgbaColor
 {
   public:

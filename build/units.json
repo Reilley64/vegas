@@ -523875,7 +523875,7 @@
     "?FUN_00ee6dda@@YAXXZ": "0x00ee6dda",
     "?FUN_00bb1a90@@YAXXZ": "0x00bb1a90",
     "?FUN_00e7ecd0@FUN_00e7ecd0_cls@@QAEXXZ": "0x00e7ecd0",
-    "?FUN_00ee6e04@@YGPAXPAXIII@Z": "0x00ee6e04",
+    "?FUN_00ee6e04@@YGPAXPAXMMM@Z": "0x00ee6e04",
     "?FUN_00ee6dd4@@YAXXZ": "0x00ee6dd4",
     "?DAT_01200688@@3PAMA": "0x01200688",
     "?g_01200788@@3VGlobalObjectO2_00a7b610@@A": "0x01200788",
@@ -524361,7 +524361,7 @@
     "?FUN_00ba1480@@YAMMM@Z": "0x00ba1480",
     "?FUN_00ee6dec@@YAPAXPAXPBX@Z": "0x00ee6dec",
     "?FUN_00ee6df8@@YAPAXPAXPBX1@Z": "0x00ee6df8",
-    "?FUN_00ee6e04@@YAPAXPAXIII@Z": "0x00ee6e04",
+    "?FUN_00ee6e04@@YAPAXPAXMMM@Z": "0x00ee6e04",
     "?FUN_00b4f5c0@@YAPAXXZ": "0x00b4f5c0",
     "?UpdateLightDirection@@YAXPAULightOwner@@PBUMatrix44@@M@Z": "0x00bb1960",
     "?CheckAndNotify@DecompOwner@@QAE_NAAUNiStream@@@Z": "0x00b667e0",
@@ -565979,11 +565979,6 @@
      "size": 6
     },
     {
-     "address": "0x00ee6e04",
-     "symbol": "?FUN_00ee6e04@@YAPAXPAXIII@Z",
-     "size": 6
-    },
-    {
      "address": "0x00ee6e34",
      "symbol": "?FUN_00ee6e34@@YAPAUD3DXVECTOR4@@PAU1@PBU1@PBUD3DXMATRIX@@@Z",
      "size": 6
@@ -566147,7 +566142,6 @@
     "?g_D3DXVec3TransformNormal@@3P6AXXZA": "0x00fdf420",
     "__imp__D3DXVec3TransformCoord@12": "0x00fdf414",
     "__imp__D3DXMatrixMultiplyTranspose@12": "0x00fdf410",
-    "__imp__D3DXMatrixRotationYawPitchRoll@16": "0x00fdf40c",
     "__imp__DirectInput8Create@20": "0x00fdf02c",
     "__imp__DirectSoundCreate8@12": "0x00fdf034",
     "__imp__ov_clear": "0x00fdf43c",
@@ -569442,6 +569436,11 @@
      "address": "0x00ee6dec",
      "symbol": "?FUN_00ee6dec@@YAPAXPAXPBX@Z",
      "size": 6
+    },
+    {
+     "address": "0x00ee6e04",
+     "symbol": "?FUN_00ee6e04@@YAPAXPAXMMM@Z",
+     "size": 6
     }
    ],
    "symbols": {
@@ -569450,7 +569449,9 @@
     "?SetAffineMatrix@@YAXPAMPBM_N2H@Z": "0x00e83550",
     "?FUN_00ee6dd4@@YAPAXPAXPBX@Z": "0x00ee6dd4",
     "?FUN_00ee6dec@@YAPAXPAXPBX@Z": "0x00ee6dec",
-    "__imp__D3DXVec3Normalize@8": "0x00fdf41c"
+    "__imp__D3DXVec3Normalize@8": "0x00fdf41c",
+    "?FUN_00ee6e04@@YAPAXPAXMMM@Z": "0x00ee6e04",
+    "__imp__D3DXMatrixRotationYawPitchRoll@16": "0x00fdf40c"
    }
   },
   {

@@ -51,7 +51,7 @@ void *FUN_00ee6df8(void *, const void *, const void *);
 // 0x00ee6dfe
 ::D3DXMATRIX *FUN_00ee6dfe(::D3DXMATRIX *, const ::D3DXMATRIX *, const ::D3DXMATRIX *);
 // 0x00ee6e04
-void *FUN_00ee6e04(void *, unsigned int, unsigned int, unsigned int);
+void *FUN_00ee6e04(void *, float, float, float);
 // 0x00ee6e0a
 long FUN_00ee6e0a(const char *, unsigned int, const ::D3DXMACRO *, ::ID3DXInclude *, const char *, const char *, unsigned long, ::ID3DXBuffer **, ::ID3DXBuffer **, ::ID3DXConstantTable **);
 // 0x00ee6e10

@@ -293,6 +293,29 @@ void* FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
     return pOut;
 }
 
+// Native rotation matrix from yaw, pitch and roll angles in radians, written
+// row-major into borrowed storage. Rows transform as row vectors: the result
+// is roll about z, then pitch about x, then yaw about y, in a left-handed
+// coordinate system, as the public D3DX reference describes the function.
+// @fnv 0x00ee6e04
+void* FUN_00ee6e04(void* pOut, float yaw, float pitch, float roll)
+{
+    static_assert(sizeof(float) == 4);
+    const double sy = std::sin(double(yaw)), cy = std::cos(double(yaw));
+    const double sp = std::sin(double(pitch)), cp = std::cos(double(pitch));
+    const double sr = std::sin(double(roll)), cr = std::cos(double(roll));
+    // Every element has magnitude at most 2, so narrowing cannot overflow.
+    const float rotation[16]{
+        static_cast<float>(cr * cy + sr * sp * sy), static_cast<float>(sr * cp),
+        static_cast<float>(sr * sp * cy - cr * sy), 0,
+        static_cast<float>(cr * sp * sy - sr * cy), static_cast<float>(cr * cp),
+        static_cast<float>(sr * sy + cr * sp * cy), 0,
+        static_cast<float>(cp * sy), static_cast<float>(-sp), static_cast<float>(cp * cy), 0,
+        0, 0, 0, 1};
+    std::memcpy(pOut, rotation, sizeof(rotation));
+    return pOut;
+}
+
 // Native transposed product in caller-owned matrix storage.
 // @fnv 0x00ee6dfe
 D3DXMATRIX* FUN_00ee6dfe(D3DXMATRIX* pOut, const D3DXMATRIX* first, const D3DXMATRIX* second)

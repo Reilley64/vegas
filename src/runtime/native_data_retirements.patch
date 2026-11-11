@@ -2,10 +2,299 @@
 +++ b/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
 @@ -7 +6,0 @@
 -unsigned int NiRefObject::ms_lObjectCount;
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc
+@@ -5,4 +4,0 @@
+-unsigned char DAT_011f3758[1];
+-bool (*g_fnv_cb_011f3810[1])(float, int *, int *);
+-void *(*DAT_011f3930[1])(unsigned int);
+-void (*DAT_011f39c0[1])(void *, const void *);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc
+@@ -5,3 +4,0 @@
+-unsigned char DAT_011f3776[6];
+-void (*DAT_011f3ac8[6])(NiStream &, BooleanKey *, unsigned int);
+-FUN_00a53830_elemcmp DAT_011f3b58[5];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/niboolkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/niboolkey.inc
+@@ -5 +4,0 @@
+-InterpFn DAT_011f3d08[5];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolordata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolordata.inc
+@@ -5,5 +4,0 @@
+-unsigned char DAT_011f376a[1];
+-void (*DAT_011f38e8[1])(ColorAnimationKey *);
+-void (*DAT_011f3a98[1])(S_a3d410_Stream *, int, unsigned int);
+-bool (*DAT_011f3b28[1])(ColorAnimationKey *, ColorAnimationKey *);
+-NiColorKeyA3D *(*g_apfnColorKeyCreateA3D[1])(A3D370Stream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolorkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicolorkey.inc
+@@ -5 +4,0 @@
+-int *(*volatile DAT_011f3cd8)(int, int, int, int *);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollermanager.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollermanager.inc
+@@ -6,6 +5,0 @@ bool DAT_011f369b;
+-unsigned char DAT_011f3763;
+-void *DAT_011f38cc;
+-void *DAT_011f395c;
+-void *DAT_011f39ec;
+-void *DAT_011f3a7c;
+-void *DAT_011f3ddc;
 --- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
 +++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nicontrollersequence.inc
 @@ -35 +34,0 @@
 -::HolderB3718 *DAT_011f6080;
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nieulerrotkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nieulerrotkey.inc
+@@ -5 +4,0 @@
+-void (*DAT_011f38a0[1])(void *);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatdata.inc
+@@ -5,4 +4,0 @@
+-int DAT_011f3780;
+-void (*g_apfnA29FE0Load[1])(A29FE0Context *, void *, unsigned int);
+-int DAT_011f3ae0;
+-void *(*DAT_011f3db0[1])(A29F00Stream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nifloatkey.inc
+@@ -7,4 +6,0 @@ bool g_bA26E20Registered;
+-int DAT_011f3b70;
+-int DAT_011f3c00;
+-int DAT_011f3c90;
+-int DAT_011f3d20;
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nipathcontroller.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nipathcontroller.inc
+@@ -8,3 +7,0 @@ float DAT_011a8b40[5] = {0.046910077f, 0.23076534f, 0.5f, 0.76923466f, 0.9530899
+-void (*DAT_011f3c18[6])(float, const AnimationKey *, const AnimationKey *, void *);
+-void *DAT_011f3ca8[2];
+-float (*DAT_011f3d38[2])(MyPosKey *, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/niposdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/niposdata.inc
+@@ -6,6 +5,0 @@ char str_01097164[12] = "m_uiNumKeys";
+-unsigned char DAT_011f375e[1];
+-void (*DAT_011f3798[2])(PositionKeyInterpolator *, unsigned int, unsigned char);
+-void (*DAT_011f38b8[1])(PositionKeyInterpolator *);
+-void (*g_011f3a68[1])(NiStream &, PositionKeyInterpolator *, unsigned int);
+-bool (*DAT_011f3af8[6])(void *, void *);
+-PositionKeyInterpolator *(*DAT_011f3dc8[1])(NiStream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/niposkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/niposkey.inc
+@@ -6 +5,0 @@ P3 DAT_011f365c;
+-NiPosInterpFunction DAT_011f3b88[6];
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotdata.inc
+@@ -5,6 +4,0 @@
+-unsigned char DAT_011f3764[1];
+-void (*DAT_011f37b0[1])(TimedRotationKey *, unsigned int, unsigned char);
+-void (*DAT_011f38d0[1])(TimedRotationKey *);
+-void (*DAT_011f3a80[1])(NiStream2 &, TimedRotationKey *, unsigned int);
+-bool (*DAT_011f3b10[6])(void *, void *);
+-TimedRotationKey *(*DAT_011f3de0[1])(NiStream &, unsigned int);
+--- a/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotkey.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/nianimation/nirotkey.inc
+@@ -5 +4,0 @@
+-NiRotKeyInterpFn DAT_011f3cc0[1];
+--- a/src/generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.inc
++++ b/src/generated/data/gamebryo2.2/corelibs/niparticle/nipsysemitterctlrdata.inc
+@@ -5,2 +4,0 @@
+-void (*DAT_011f37f8[6])(AnimationKey *, unsigned int, unsigned char);
+-void (*DAT_011f3918[6])(AnimationKey *);
+--- a/src/generated/data/generated/crt_callback_status_o2_variant.inc
++++ b/src/generated/data/generated/crt_callback_status_o2_variant.inc
+@@ -24,193 +23,0 @@ unsigned char DAT_011f369c;
+-unsigned char DAT_011f3759;
+-unsigned char DAT_011f375a;
+-unsigned char DAT_011f375b;
+-unsigned char DAT_011f375d;
+-unsigned char DAT_011f375f;
+-char DAT_011f3760;
+-namespace fnv_00a2bb90 { unsigned char DAT_011f3761; }
+-unsigned char g_A2AD80Flags;
+-char DAT_011f3766;
+-unsigned char DAT_011f3767;
+-unsigned char DAT_011f3768;
+-unsigned char DAT_011f3769;
+-unsigned char DAT_011f376b;
+-char DAT_011f376f;
+-unsigned char DAT_011f377b;
+-void (*DAT_011f3784)();
+-void *DAT_011f3788;
+-void *DAT_011f378c;
+-S_00a2d360_Fn DAT_011f3794;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable9[36];
+-A2AD80Callback g_A2AD80Callback10;
+-S_00a29110_Fn DAT_011f37b8;
+-RuntimeCallback DAT_011f37bc;
+-void (*DAT_011f37c0)();
+-void *DAT_011f37c4;
+-int DAT_011f37c8;
+-int DAT_011f37cc;
+-int DAT_011f37dc;
+-void *DAT_011f380c;
+-void (*DAT_011f3814)();
+-void *DAT_011f3818;
+-void *DAT_011f381c;
+-S_00a2d360_Fn DAT_011f3824;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable7[36];
+-A2AD80Callback g_A2AD80Callback11;
+-S_00a29110_Fn DAT_011f3848;
+-RuntimeCallback DAT_011f384c;
+-void (*DAT_011f3850)();
+-void *DAT_011f3854;
+-int DAT_011f3858;
+-void (*volatile DAT_011f385c)();
+-RuntimeCallbackFn DAT_011f386c;
+-void *DAT_011f389c;
+-void (*DAT_011f38a4)();
+-void *DAT_011f38a8;
+-void *DAT_011f38ac;
+-S_00a2d360_Fn DAT_011f38b4;
+-int DAT_011f38bc;
+-void (*FUN_00a28cb0_aTable4[36])();
+-namespace fnv_00a2bb90 { int DAT_011f38c4; }
+-A2AD80Callback g_A2AD80Callback7;
+-S_00a29110_Fn DAT_011f38d8;
+-RuntimeCallback DAT_011f38dc;
+-void (*DAT_011f38e0)();
+-void *DAT_011f38e4;
+-void (*volatile DAT_011f38ec)();
+-RuntimeCallbackFn DAT_011f38fc;
+-void *DAT_011f392c;
+-void (*DAT_011f3934)();
+-void *DAT_011f3938;
+-void *DAT_011f393c;
+-S_00a2d360_Fn DAT_011f3944;
+-void *DAT_011f3948;
+-int DAT_011f394c;
+-void (*FUN_00a28cb0_aTable2[36])();
+-namespace fnv_00a2bb90 { int DAT_011f3954; }
+-A2AD80Callback g_A2AD80Callback6;
+-S_00a29110_Fn DAT_011f3968;
+-RuntimeCallback DAT_011f396c;
+-void (*DAT_011f3970)();
+-void *DAT_011f3974;
+-void (*volatile DAT_011f3978)(CallbackTypeB *);
+-void (*volatile DAT_011f397c)();
+-RuntimeCallbackFn DAT_011f398c;
+-S_00a294f0_Fn DAT_011f39a8;
+-void *DAT_011f39bc;
+-void (*DAT_011f39c4)();
+-void *DAT_011f39c8;
+-void *DAT_011f39cc;
+-S_00a2d360_Fn DAT_011f39d4;
+-void *DAT_011f39d8;
+-int DAT_011f39dc;
+-void (*FUN_00a28cb0_aTable5[36])();
+-namespace fnv_00a2bb90 { int DAT_011f39e4; }
+-A2AD80Callback g_A2AD80Callback5;
+-S_00a29110_Fn DAT_011f39f8;
+-RuntimeCallback DAT_011f39fc;
+-void (*DAT_011f3a00)();
+-void *DAT_011f3a04;
+-void (*volatile DAT_011f3a08)(CallbackTypeB *);
+-void (*volatile DAT_011f3a0c)();
+-RuntimeCallbackFn DAT_011f3a1c;
+-S_00a294f0_Fn DAT_011f3a38;
+-void *DAT_011f3a4c;
+-void (*DAT_011f3a54)();
+-void *DAT_011f3a58;
+-void *DAT_011f3a5c;
+-S_00a2d360_Fn DAT_011f3a64;
+-int DAT_011f3a6c;
+-void (*FUN_00a28cb0_aTable3[36])();
+-namespace fnv_00a2bb90 { int DAT_011f3a74; }
+-A2AD80Callback g_A2AD80Callback4;
+-S_00a29110_Fn DAT_011f3a88;
+-RuntimeCallback DAT_011f3a8c;
+-void (*DAT_011f3a90)();
+-void *DAT_011f3a94;
+-void (*volatile DAT_011f3a9c)();
+-RuntimeCallbackFn DAT_011f3aac;
+-void *DAT_011f3adc;
+-void (*DAT_011f3ae4)();
+-void *DAT_011f3ae8;
+-void *DAT_011f3aec;
+-S_00a2d360_Fn DAT_011f3af4;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable0[36];
+-A2AD80Callback g_A2AD80Callback9;
+-S_00a29110_Fn DAT_011f3b18;
+-RuntimeCallback DAT_011f3b1c;
+-void (*DAT_011f3b20)();
+-void *DAT_011f3b24;
+-void (*volatile DAT_011f3b2c)();
+-RuntimeCallbackFn DAT_011f3b3c;
+-void *DAT_011f3b6c;
+-int DAT_011f3b74;
+-void *DAT_011f3b78;
+-int DAT_011f3b7c;
+-int DAT_011f3b84;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable1[36];
+-A2AD80Callback g_A2AD80Callback2;
+-int DAT_011f3ba8;
+-RuntimeCallback DAT_011f3bac;
+-unsigned int DAT_011f3bb0;
+-int DAT_011f3bb4;
+-int DAT_011f3bb8;
+-int DAT_011f3bbc;
+-int DAT_011f3bcc;
+-int DAT_011f3bfc;
+-int DAT_011f3c04;
+-void *DAT_011f3c08;
+-int DAT_011f3c0c;
+-int DAT_011f3c14;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable8[36];
+-A2AD80Callback g_A2AD80Callback1;
+-int DAT_011f3c38;
+-RuntimeCallback DAT_011f3c3c;
+-unsigned int DAT_011f3c40;
+-int DAT_011f3c44;
+-int DAT_011f3c48;
+-int DAT_011f3c4c;
+-int DAT_011f3c5c;
+-int DAT_011f3c8c;
+-void (*DAT_011f3c94)();
+-void *DAT_011f3c98;
+-void *DAT_011f3c9c;
+-S_00a2d360_Fn DAT_011f3ca4;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable6[36];
+-A2AD80Callback g_A2AD80Callback8;
+-S_00a29110_Fn DAT_011f3cc8;
+-RuntimeCallback DAT_011f3ccc;
+-void (*DAT_011f3cd0)();
+-void *DAT_011f3cd4;
+-void (*volatile DAT_011f3cdc)();
+-RuntimeCallbackFn DAT_011f3cec;
+-void *DAT_011f3d1c;
+-int DAT_011f3d24;
+-void *DAT_011f3d28;
+-int DAT_011f3d2c;
+-int DAT_011f3d34;
+-FUN_00a28cb0_KeyFn FUN_00a28cb0_aTable10[36];
+-A2AD80Callback g_A2AD80Callback0;
+-int DAT_011f3d58;
+-RuntimeCallback DAT_011f3d5c;
+-unsigned int DAT_011f3d60;
+-int DAT_011f3d64;
+-int DAT_011f3d68;
+-int DAT_011f3d6c;
+-int DAT_011f3d7c;
+-int DAT_011f3dac;
+-void (*DAT_011f3db4)();
+-void *DAT_011f3db8;
+-void *DAT_011f3dbc;
+-S_00a2d360_Fn DAT_011f3dc4;
+-int DAT_011f3dcc;
+-void (*FUN_00a28cb0_aTable11[36])();
+-namespace fnv_00a2bb90 { int DAT_011f3dd4; }
+-A2AD80Callback g_A2AD80Callback3;
+-S_00a29110_Fn DAT_011f3de8;
+-RuntimeCallback DAT_011f3dec;
+-void (*DAT_011f3df0)();
+-void *DAT_011f3df4;
+-void (*volatile DAT_011f3dfc)();
+-RuntimeCallbackFn DAT_011f3e0c;
+-AnimationKey *(*DAT_011f3e28[6])(NiStream &, unsigned int);
+-void *DAT_011f3e3c;
 --- a/src/generated/data/havok/common/base/types/hkrefvariant.inc
 +++ b/src/generated/data/havok/common/base/types/hkrefvariant.inc
 @@ -8 +7,0 @@

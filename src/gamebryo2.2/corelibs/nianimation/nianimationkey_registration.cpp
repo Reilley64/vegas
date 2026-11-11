@@ -75,7 +75,6 @@ int __cdecl FUN_00a2bb90()
 }
 }  // namespace fnv_00a2bb90
 
-typedef void(__cdecl* FUN_00a28cb0_KeyFn)();
 
 extern bool FUN_00a28cb0_bRegistered;
 
@@ -103,7 +102,6 @@ int __cdecl FUN_00a28cb0()
     return 1;
 }
 
-typedef void(__cdecl* S_00a29110_Fn)();
 extern char DAT_011f367c;
 // @fnv 0x00a29110
 int FUN_00a29110()
@@ -175,8 +173,6 @@ int FUN_00a27b00()
     return 1;
 }
 
-typedef void(__cdecl* S_00a294f0_Fn)();
-
 extern char DAT_011f367e;
 
 // The original installs one handler address into several slots, and the
@@ -199,9 +195,6 @@ int FUN_00a294f0()
     RegisterCurveOps(5, 0);
     return 1;
 }
-
-
-typedef void(__cdecl* A2AD80Callback)();
 
 extern bool g_A2AD80Initialized;
 
@@ -226,8 +219,6 @@ int __cdecl FUN_00a2ad80()
     NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(2, 1), ((void (&)())::FUN_00a2ac30));
     return 1;
 }
-
-typedef void(__cdecl* RuntimeCallback)();
 
 extern unsigned char DAT_011f3696;
 
@@ -307,8 +298,6 @@ int __cdecl FUN_00a2ce20()
     return 1;
 }
 
-typedef void(__cdecl* RuntimeCallbackFn)();
-
 extern char DAT_011f3699;
 
 
@@ -360,8 +349,6 @@ int __cdecl FUN_00a2d810()
     NiAnimationKeyTables::Set(NiAnimationKeyTables::kAt011f3810, NiAnimationKeyTables::Index(2, 5), ((void (&)())::FUN_00a2d6c0));
     return 1;
 }
-
-typedef void(__cdecl* S_00a2d360_Fn)();
 
 extern char DAT_011f369a;
 

@@ -30,13 +30,16 @@ generated files is permitted.
 
 `src/runtime/native_data_retirements.patch` is the narrowly audited native
 ownership delta. It retires duplicate scalar storage and incompatible,
-source-audited unused byte-layout tables/declarations, and it moves one sole
-legacy definition to its owner module; it does not replace required objects
-with stubs, rename incompatible receivers or clone values. The genuine owner
+source-audited unused byte-layout tables/declarations. It retires sole,
+zero-initialized definitions that nothing refers to any more because a typed
+owner now defines that storage. It moves one sole legacy definition to its
+owner module. It does not replace required objects with stubs, rename
+incompatible receivers or clone values. The genuine owner
 modules and typed declarations remain the source of the native globals and
-protocols. The patch covers sixteen hashed inputs. Twelve are the retirements
-previously reviewed for VEGAS-1, unchanged, not additional engine work. The
-other four are the three retirements and the one move below.
+protocols. The patch covers thirty-two hashed inputs. Twelve are the
+retirements previously reviewed for VEGAS-1, unchanged, not additional engine
+work. Four are the three retirements and the one move below. Sixteen are the
+VEGAS-51 retirements below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -52,8 +55,19 @@ link unchanged. The symbol name, type, size and initial value are the same;
 every consumer, including the legacy `DAT_011f4400` alternate names, still
 resolves it by that name. No other line of that input changes.
 
-Native CMake verifies the sixteen committed input hashes, copies them into the
-build directory, and applies that patch using the existing Git patch engine.
+VEGAS-51 adds sixteen generated includes: the fourteen `nianimation` key and
+key data includes, `niparticle/nipsysemitterctlrdata.inc` and
+`generated/crt_callback_status_o2_variant.inc`. Together they defined the 241
+names inside NiAnimationKey's key sizes and function tables, recipe addresses
+`0x011f3758` to `0x011f3e3f`, each as its own variable. `NiAnimationKeyTables`
+now defines that storage once, and no unit refers to a retired name. Each of
+the 241 removed lines is one definition without an initializer, so no value is
+lost or cloned. Every other line of the sixteen inputs is unchanged. They are
+includes, not complete data TUs, so the composed units stay four.
+
+Native CMake verifies the thirty-two committed input hashes, copies them into
+the build directory, and applies that patch using the existing Git patch
+engine.
 It fails closed if any input changes or the patch no longer applies. Git is
 therefore required at configure time, including builds from source archives.
 No original executable, game data, extractor or proprietary input is needed.

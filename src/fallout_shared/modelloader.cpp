@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/model_loader_matrix_value.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoInventory.h"
@@ -22383,129 +22384,81 @@ template <class T> inline T* Aade20CopyCharacters(T* out, unsigned int capacity,
     return Aade20CopyCharacters(out, capacity, in, count, secure);
 }
 
-namespace std {
-template <class T> struct char_traits
+template <class T> struct Aade20CharTraits
 {
     static void assign(T& out, const T& in)
     {
         out = in;
     }
 };
-template <class T> class allocator
-{
-  public:
-    allocator() throw()
-    {}
-    allocator(const allocator&) throw()
-    {}
-    void deallocate(T* pointer, unsigned int)
-    {
-        ::FUN_00401030(pointer);
-    }
-};
-template <class T, class Alloc> class Aade20StringAllocator
-{
-  protected:
-    Alloc allocation;
-    Aade20StringAllocator(Alloc value = Alloc()) : allocation(value)
-    {}
-};
-template <class T, class Traits, class Alloc> class basic_string : public Aade20StringAllocator<T, Alloc>
-{
-    union Storage
-    {
-        T buffer[16];
-        T* pointer;
-    } storage;
-    unsigned int length;
-    unsigned int capacity;
 
-  protected:
-    T* data()
-    {
-        return capacity >= 16 ? storage.pointer : storage.buffer;
-    }
-    void setLength(unsigned int count)
-    {
-        Traits::assign(data()[length = count], T());
-    }
-    void _Tidy(bool built = false, unsigned int remaining = 0)
-    {
-        if (!built)
-        {
-        }
-        else if (capacity >= 16)
-        {
-            T* old = storage.pointer;
-            if (remaining > 0)
-                Aade20CopyCharacters(storage.buffer, 16, old, remaining);
-            this->allocation.deallocate(old, capacity + 1);
-        }
-        capacity = 15;
-        setLength(remaining);
-    }
+template <class T> inline Aade20Allocator<T>::Aade20Allocator() throw()
+{}
 
-  public:
-    basic_string() : Aade20StringAllocator<T, Alloc>()
+template <class T> inline Aade20Allocator<T>::Aade20Allocator(const Aade20Allocator&) throw()
+{}
+
+template <class T> inline void Aade20Allocator<T>::deallocate(T* pointer, unsigned int)
+{
+    ::FUN_00401030(pointer);
+}
+
+template <class T, class Alloc>
+inline Aade20StringAllocator<T, Alloc>::Aade20StringAllocator(Alloc value) : allocation(value)
+{}
+
+template <class T, class Traits, class Alloc> inline T* Aade20BasicString<T, Traits, Alloc>::data()
+{
+    return capacity >= 16 ? storage.pointer : storage.buffer;
+}
+
+template <class T, class Traits, class Alloc>
+inline void Aade20BasicString<T, Traits, Alloc>::setLength(unsigned int count)
+{
+    Traits::assign(data()[length = count], T());
+}
+
+template <class T, class Traits, class Alloc>
+inline void Aade20BasicString<T, Traits, Alloc>::_Tidy(bool built, unsigned int remaining)
+{
+    if (!built)
     {
-        _Tidy();
     }
-    ~basic_string()
+    else if (capacity >= 16)
     {
-        _Tidy(true);
+        T* old = storage.pointer;
+        if (remaining > 0)
+            Aade20CopyCharacters(storage.buffer, 16, old, remaining);
+        this->allocation.deallocate(old, capacity + 1);
     }
-};
+    capacity = 15;
+    setLength(remaining);
+}
+
+template <class T, class Traits, class Alloc>
+inline Aade20BasicString<T, Traits, Alloc>::Aade20BasicString() : Aade20StringAllocator<T, Alloc>()
+{
+    _Tidy();
+}
+
+template <class T, class Traits, class Alloc> inline Aade20BasicString<T, Traits, Alloc>::~Aade20BasicString()
+{
+    _Tidy(true);
 }
 
 extern "C" void __cdecl _invalid_parameter_noinfo();
 
-struct Aade20ConstIterator;
-
-struct Aade20Iterator;
-
-namespace std {
-template <class T, class Alloc = allocator<T> > class vector;
-template <> class vector<float, allocator<float> >
+inline Aade20ConstIterator::Aade20ConstIterator(float* p, const Aade20FloatVector* vector)
 {
-  public:
-    void* auxiliary;
-    unsigned int allocatorAuxiliary;
-    unsigned int allocatorElements;
-    float* first;
-    float* last;
-    float* end;
-    vector();
-    ~vector();
-    Aade20Iterator begin();
-    Aade20Iterator finish();
-    Aade20Iterator makeIterator(Aade20ConstIterator) const;
-    Aade20Iterator erase(Aade20ConstIterator, Aade20ConstIterator);
-    void clear();
-};
+    owner = 0;
+    if (!vector || p < vector->first || vector->last < p)
+        _invalid_parameter_noinfo();
+    owner = vector->auxiliary;
+    value = p;
 }
 
-typedef std::vector<float> Aade20FloatVector;
-
-struct Aade20ConstIterator
-{
-    const void* owner;
-    float* value;
-    Aade20ConstIterator(float* p, const Aade20FloatVector* vector)
-    {
-        owner = 0;
-        if (!vector || p < vector->first || vector->last < p)
-            _invalid_parameter_noinfo();
-        owner = vector->auxiliary;
-        value = p;
-    }
-    bool operator!=(const Aade20ConstIterator&) const;
-};
-
-struct Aade20Iterator : Aade20ConstIterator
-{
-    Aade20Iterator(float* p, const Aade20FloatVector* vector) : Aade20ConstIterator(p, vector)
-    {}
-};
+inline Aade20Iterator::Aade20Iterator(float* p, const Aade20FloatVector* vector) : Aade20ConstIterator(p, vector)
+{}
 
 __declspec(noinline) bool Aade20ConstIterator::operator!=(const Aade20ConstIterator & other) const
 {
@@ -22556,22 +22509,12 @@ inline void Aade20FloatVector::clear()
     erase(begin(), finish());
 }
 
-struct Aade20Matrix : Aade20FloatVector
+inline Aade20Matrix::Aade20Matrix()
 {
-    unsigned int columns, rows;
-    Aade20Matrix()
-    {
-        columns = 0;
-        rows = 0;
-        reinterpret_cast<::VecStandIn *>(this)->FUN_0044a0a0();
-    }
-};
-
-struct FUN_00aade20 : Aade20Matrix
-{
-    std::basic_string<char, std::char_traits<char>, std::allocator<char> > text;
-    FUN_00aade20();
-};
+    columns = 0;
+    rows = 0;
+    reinterpret_cast<::VecStandIn *>(this)->FUN_0044a0a0();
+}
 
 // @fnv 0x00aade20
 FUN_00aade20::FUN_00aade20()

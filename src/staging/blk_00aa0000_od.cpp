@@ -9,6 +9,7 @@
 #include <cstring>
 #include <stdexcept>
 #include "runtime/crt.h"
+#include "fnv/model_loader_matrix_value.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/MemoryManager.h"
@@ -6386,29 +6387,6 @@ void BlendOwner::FUN_00aadac0(int row, int col, float t, BlendValue (*a)[2], Ble
 // FUN_00aadde0: thiscall member (1 stack arg).
 // The original default-constructs a 0x3c-byte class object (external ctor) and
 // then forwards the argument to this->FUN_00aadf50(arg).
-struct FUN_00aade20
-{
-    FUN_00aade20();
-
-    int unk00;
-    int unk01;
-    int unk02;
-    int unk03;
-    int unk04;
-    int unk05;
-    int unk06;
-    int unk07;
-    int unk08;
-    int unk09;
-    int unk0a;
-    int unk0b;
-    int unk0c;
-    int unk0d;
-    int unk0e;
-    FUN_00aade20(const FUN_00aade20&);
-    ~FUN_00aade20() throw();
-};
-
 struct Pad
 {
     int unk00;

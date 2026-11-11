@@ -47,6 +47,33 @@ void* FUN_00ee6df2(void* output, const void* input, const void* matrix)
     return output;
 }
 
+// Native three-component normalization in borrowed storage: input / |input|.
+// Project choices, not D3DX behaviour: a zero-length input gives the zero
+// vector, and the length is evaluated in double precision.
+// @fnv 0x00ee6dec
+void* FUN_00ee6dec(void* output, const void* input)
+{
+    static_assert(sizeof(float) == 4);
+    // Value copies avoid overlaying callers' vector types; staging the result
+    // supports an exact input/output alias.
+    float vector[3];
+    std::memcpy(vector, input, sizeof(vector));
+    // Squares of binary32 values are exact in binary64, so the length neither
+    // overflows nor underflows for any finite input and is rounded once.
+    const double x = vector[0], y = vector[1], z = vector[2];
+    const double length = std::sqrt(x * x + y * y + z * z);
+    float result[3]{0, 0, 0};
+    if (length != 0)
+    {
+        // Each quotient has magnitude at most 1, so narrowing cannot overflow.
+        result[0] = static_cast<float>(x / length);
+        result[1] = static_cast<float>(y / length);
+        result[2] = static_cast<float>(z / length);
+    }
+    std::memcpy(output, result, sizeof(result));
+    return output;
+}
+
 // Three-component row-vector coordinate transformation with implicit input w=1.
 // @fnv 0x00ee6df8
 void* FUN_00ee6df8(void* output, const void* input, const void* matrix)

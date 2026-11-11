@@ -565964,11 +565964,6 @@
      "size": 6
     },
     {
-     "address": "0x00ee6dec",
-     "symbol": "?FUN_00ee6dec@@YAPAXPAXPBX@Z",
-     "size": 6
-    },
-    {
      "address": "0x00ee6df2",
      "symbol": "?FUN_00ee6df2@@YAXXZ",
      "size": 6
@@ -566149,7 +566144,6 @@
     "___imp__D3DXMatrixInverse": "0x00fdf428",
     "__imp__D3DXMatrixMultiply@12": "0x00fdf424",
     "__imp__D3DXLoadSurfaceFromSurface@32": "0x00fdf3d0",
-    "__imp__D3DXVec3Normalize@8": "0x00fdf41c",
     "?g_D3DXVec3TransformNormal@@3P6AXXZA": "0x00fdf420",
     "__imp__D3DXVec3TransformCoord@12": "0x00fdf414",
     "__imp__D3DXMatrixMultiplyTranspose@12": "0x00fdf410",
@@ -569443,13 +569437,20 @@
      "address": "0x00ee6dd4",
      "symbol": "?FUN_00ee6dd4@@YAPAXPAXPBX@Z",
      "size": 6
+    },
+    {
+     "address": "0x00ee6dec",
+     "symbol": "?FUN_00ee6dec@@YAPAXPAXPBX@Z",
+     "size": 6
     }
    ],
    "symbols": {
     "__imp__D3DXMatrixTranspose@0": "0x00fdf42c",
     "?FUN_00ee6dda@@YAXXZ": "0x00ee6dda",
     "?SetAffineMatrix@@YAXPAMPBM_N2H@Z": "0x00e83550",
-    "?FUN_00ee6dd4@@YAPAXPAXPBX@Z": "0x00ee6dd4"
+    "?FUN_00ee6dd4@@YAPAXPAXPBX@Z": "0x00ee6dd4",
+    "?FUN_00ee6dec@@YAPAXPAXPBX@Z": "0x00ee6dec",
+    "__imp__D3DXVec3Normalize@8": "0x00fdf41c"
    }
   },
   {

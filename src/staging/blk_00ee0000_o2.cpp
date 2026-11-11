@@ -259,15 +259,6 @@ int FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const void* pDest
                                       ColorKey);
 }
 
-// FUN_00ee6dec: 6-byte jmp [IAT] stub forwarding to stdcall d3dx9_38 D3DXVec3Normalize.
-extern "C" __declspec(dllimport) void* D3DXVec3Normalize(void* pOut, const void* pV);
-
-// @fnv 0x00ee6dec
-void* FUN_00ee6dec(void* pOut, const void* pV)
-{
-    return D3DXVec3Normalize(pOut, pV);
-}
-
 // Import thunk for D3DXVec3TransformNormal (d3dx9_38.dll).
 // The linker emits such a thunk as a single indirect jump through the
 // import address table entry of the imported routine, so the body is a

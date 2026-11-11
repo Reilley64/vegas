@@ -305,7 +305,7 @@
 #include "fnv/decl/Host260.h"
 #include "fnv/decl/Host615730.h"
 #include "fnv/decl/IdleAnimationManager.h"
-#include "fnv/decl/ImageSpaceEffectParam.h"
+#include "fnv/image_space_effect_param.h"
 #include "fnv/decl/Inv4d1440.h"
 #include "fnv/decl/Inventory64.h"
 #include "fnv/decl/InventoryCopy__Inventory.h"

@@ -45,7 +45,7 @@
 #include "fnv/decl/FUN_00632ce0_Class.h"
 #include "fnv/decl/FUN_00645ce0_class.h"
 #include "fnv/decl/GlobalObject_008c71b0.h"
-#include "fnv/decl/ImageSpaceEffectParam.h"
+#include "fnv/image_space_effect_param.h"
 #include "fnv/decl/InterfaceManager.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/MobileObject.h"

@@ -146,7 +146,7 @@
 #include "fnv/decl/FUN_008b42e0_shell.h"
 #include "fnv/decl/FUN_008d01e0_Class.h"
 #include "fnv/decl/GlobalObject_008c71b0.h"
-#include "fnv/decl/ImageSpaceEffectParam.h"
+#include "fnv/image_space_effect_param.h"
 #include "fnv/decl/MobileObject.h"
 #include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/P3.h"

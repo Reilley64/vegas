@@ -27,7 +27,7 @@
 #include "fnv/decl/FUN_009a5480_class.h"
 #include "fnv/decl/FUN_009c1a50_shell.h"
 #include "fnv/decl/FUN_00c3a8a0_cls.h"
-#include "fnv/decl/ImageSpaceEffectParam.h"
+#include "fnv/image_space_effect_param.h"
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/NiAVObject.h"
 #include "fnv/decl/NiCamera.h"

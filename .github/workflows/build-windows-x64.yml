@@ -22,6 +22,29 @@ jobs:
         with:
           persist-credentials: false
 
+      # A pull request from a fork, a mirror or Dependabot gets no secrets. The job stops here, so
+      # it never builds without the SDK and never fails later with an authentication error.
+      - name: "Policy: Require the Steamworks SDK deploy key"
+        shell: pwsh
+        env:
+          HAS_DEPLOY_KEY: ${{ secrets.STEAMWORKS_SDK_SSH_KEY != '' }}
+        run: |
+          if ($env:HAS_DEPLOY_KEY -ne 'true') {
+            Write-Output "::error::The Steamworks SDK deploy key secret is not available to this run. Pull requests from forks cannot build windows-x64."
+            exit 1
+          }
+
+      # The SDK's licence does not allow its headers to be published, so the SDK comes from a
+      # private repository of this repository's owner, where it is in the sdk folder. The deploy
+      # key can only read that repository.
+      - name: "Source: Check out the Steamworks SDK"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository_owner }}/steamworks-sdk
+          ssh-key: ${{ secrets.STEAMWORKS_SDK_SSH_KEY }}
+          path: steamworks-sdk
+          persist-credentials: false
+
       # FFmpeg's configure script and make run under MSYS2.
       - name: "Setup: Install MSYS2 with make"
         id: msys2
@@ -47,7 +70,8 @@ jobs:
         shell: pwsh
         env:
           MSYS2_ROOT: ${{ steps.msys2.outputs.msys2-location }}
-        run: cmake --preset windows-x64 "-DMSYS2_ROOT=$env:MSYS2_ROOT"
+          STEAMWORKS_SDK: ${{ github.workspace }}/steamworks-sdk/sdk
+        run: cmake --preset windows-x64 "-DMSYS2_ROOT=$env:MSYS2_ROOT" "-DSTEAMWORKS_SDK=$env:STEAMWORKS_SDK"
 
       # Ninja keeps going after a failed target, so every target that can be built is built.
       # The step still fails when any target fails.

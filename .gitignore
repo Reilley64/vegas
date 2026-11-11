@@ -9,3 +9,6 @@
 *.esp
 /out/
 /obj/
+
+# Where CI checks out the Steamworks SDK. Its headers must not be committed.
+/steamworks-sdk/

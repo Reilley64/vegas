@@ -3,12 +3,16 @@
 VEGAS-17 owns the `bsmenu` units, and criterion 2 of VEGAS-11 asks for one
 declaration of every class that units share. This document measures every
 definition of the user interface class `Tile` and designs its shared
-declaration. No header is written and no unit moves yet. The owning unit's
-own declaration is incomplete and contradicted, and a real declaration needs
-three rulings first. They are under "Decisions needed".
+declaration. Step 1 is done: the owning unit, `tile.cpp`, now declares one
+real class in its own header. It is described under "The owner's class".
+No shared header is written and no other unit moves yet. The rulings that
+step 1 applied, and what stays open, close the document.
 
-Everything was measured on 2277431b8, for the windows-x64 build target, with
-the build's own command line for each unit. Offsets and sizes are the
+The census of copies was measured on 2277431b8, and the views of the owning
+unit on f0ed64652, whose code is the same, for the windows-x64 build
+target, with the build's own command line for each unit. Step 1 was
+built and checked on 15297e447. Sections that describe the owning unit
+before step 1 say so. Offsets and sizes are the
 compiler's, in bytes, for windows-x64.
 
 ## What was measured
@@ -37,6 +41,8 @@ use it: `lovetestermenu.cpp`, `mediaset.cpp`, `blk_00700000_od.cpp`,
 `blk_00760000_od.cpp` and `blk_007a0000_od.cpp`.
 
 ## The owning unit
+
+This section describes the unit before step 1.
 
 `build/units.json` gives `src/bsmenu/tile.cpp` 151 function rows. Seven
 carry a member name of `Tile`. Other units hold four more rows under the
@@ -216,7 +222,242 @@ function itself are stale too: `FUN_00a0bc80` clears its own two fields at
 lazy link of the game does not load the object of `tile.cpp`, so no program
 that links today contains this code.
 
+## The owner's class
+
+Step 1 is done for `tile.cpp`. The unit takes `Tile` from
+`src/bsmenu/tile_class.h`, its own header, and holds no other view of the
+object's destructor, creation or slots 7 to 9. The shared header under
+`include/fnv/` is the next step.
+
+### Layout
+
+| Offset | Member | Bytes |
+| --- | --- | --- |
+| 0 | the compiler's table pointer | 8 |
+| 8 | `TileChildListStorage m_kChildren`: head, tail, count | 24 |
+| 32 | `TileValueArrayStorage m_kValues`: table pointer, data, size, capacity | 24 |
+| 56 | `TileNameStorage m_kName`: string, two 16-bit lengths | 16 |
+| 72 | `Tile* m_pParent` | 8 |
+| 80 | `TileNodeStorage m_spNode`: one pointer | 8 |
+| 88 | `unsigned int m_uiFlags` | 4 |
+| 92 | `bool m_bFlagAfterUiFlags` | 1 |
+| 93 | `bool m_bSpeechChallengeFailure` | 1 |
+
+The class is 96 bytes with alignment 8, and 56 bytes with alignment 4 for
+the 32-bit target. The header asserts the size and each offset for
+windows-x64. Each field is established as the rulings of this step define
+it: the declared types and their order give the offset, and every access of
+`tile.cpp` through the class agrees with it. At the last commit 23 rows
+make 95 accesses through `Tile` and all agree. The byte at 92 is never
+accessed. It takes the type and name that the other copies give it, which
+leaves the object unchanged. The size is the end of
+`m_bSpeechChallengeFailure`, 94, rounded up to the alignment. Nothing in
+`tile.cpp` accesses the object between 94 and 592, so the padding of the
+old copy is gone.
+
+The four storage structs stay. `tile.cpp` casts their addresses to the
+list, array, string and pointer types it uses. Their destructors are
+declared in the header, not inline, and defined inline in `tile.cpp`, from
+the bodies of the removed view's members. They run in the order of that
+view. The shared header has to take the definitions with it, because a
+unit that includes the header and destroys a `Tile` needs them.
+
+`tile_packet_decls.h` keeps the 592-byte copy for `tile_copies_002.cpp` and
+`tile_copies_003.cpp`, which include it alone. Their objects are unchanged
+apart from the timestamp. They move with the shared header.
+
+### Virtual slots
+
+| Slot | Member of `Tile` | Body | Evidence for the slot |
+| --- | --- | --- | --- |
+| 0 | `~Tile()` | `0x009ff340`, `tile.cpp` | the function row, and the table at `0x0106ed9c` that the body stores |
+| 1 | `void Init(Tile*, const char*, Tile*)` | none | `TileMenu::Init`, `TileImage::Init` |
+| 2 | `NiNode* CalculateNode()` | none | `TileMenu::CalculateNode` |
+| 3 | `int GetType()` | none | `TileMenu::GetType`, `TileImage::GetType` |
+| 4 | `const char* GetImageTag()` | none | `TileImage::GetImageTag` |
+| 5 | `bool IsPointInside(float, float)` | `0x00a0bae0`, `tile.cpp` | slot 5 of `??_7TileMenu@@6B@` |
+| 6 | `Tile* SetTraitValue(int, float, const char*)` | none | `TileMenu::SetTraitValue`, `TileImage::SetTraitValue` |
+| 7 | `void FUN_00a0b020()` | `0x00a0b020`, `tile.cpp` | slot 7 of `??_7FUN_00a21660@@6B@` |
+| 8 | `TileShaderProperty* FUN_00a0b1f0()` | `0x00a0b1f0`, `tile.cpp` | slot 8 of both |
+| 9 | `void ApplyAlphaAndColorToChildren(NiNode*, float, void*)` | `0x00a0b280`, `tile.cpp` | slot 9 of both |
+
+The deleting destructors in slot 0 of the two generated tables show only
+that slot 0 is a destructor. The body of `~Tile` is identified by its
+function row and by the table it stores.
+
+A slot with a body keeps the name of its function row; only the class and
+the virtual key change. A slot without a body takes the name of a derived
+class's override that a function row carries, by the rule of the most
+defining rows. These names are provisional until the coordinator records
+them in the override table. Slot 4 is `GetImageTag` by that rule, while
+the copies of `Tile` in `tilemenu.h`, `tilemenu_private.h`,
+`tileimage_private.h`, `tileimage_private_decl_tileimage.h` and
+`tile3d.cpp` spell it `GetTypeStr`. Slots 1 to 4 and 6 are declared
+virtual, without a body and not pure: the repository does not show which
+function the table of `Tile` holds in them. Slots 2, 3 and 4 are the three
+of ruling R3. Slots 1 and 6 are added for the same reason: no table holds
+`FUN_009ff600_shell::InitTile` at `0x009ff600` or
+`UpdateTreeNode::FUN_00a037e0` at `0x00a037e0`, whose parameters are those
+of slots 1 and 6, so neither is respelled. The object of `tile.cpp`
+requires the five names. `Init`, `GetType` and `SetTraitValue` were
+already undefined, required by `tile3d.cpp` and `tilemenu.cpp`;
+`CalculateNode` and `GetImageTag` are new.
+
+### The table at `0x0106ed9c`
+
+`tile.cpp`'s key for `0x0106ed9c` is `??_7Tile@@6B@` from the commit that
+makes `0x009ff340` the destructor of `Tile`, the commit in which the object
+starts to emit that table. Both ends of the object's life store it. The
+destructor row at `0x009ff340` stores it: the object's relocation names the
+table of the destructor's class, and `tile.cpp`'s key binds it to
+`0x0106ed9c`. The base constructor stores it too. Its row at `0x00709860`
+is in `tile3d_h_unit.cpp`, whose object stores `??_7Tile3D@@6B@`, and that
+unit's key binds the name to `0x0106ed9c`. `src/generated` has no table at
+that address, so its ten slot addresses are not shown. `tile.cpp` is the
+only object that defines `??_7Tile@@6B@`. `tile3d_h_unit.cpp` keeps
+`??_7Tile3D@@6B@`.
+
+### The derived classes of the creation function
+
+The six classes that `FUN_00a00c20` creates derive from `Tile`. Where the
+class's own unit declares its fields, the types of that declaration decide
+the x64 size, not the 32-bit view. The compiler measured each unit's
+declaration:
+
+| Class | Fields after `Tile` in `tile.cpp` | Size | Owning unit's declaration |
+| --- | --- | --- | --- |
+| `TileRect` | `bool m_bTextureLoaded` at 96 | 104 | `tilemenu.h` (in `tilemenu.cpp`): the same, at 96, 104 bytes. `tilerect.h` declares the same field, but on a base of `0x34` padding bytes: there it is at 64 and the class is 72 bytes |
+| `TileMenu` | `Menu* pMenu` at 104 | 112 | `tilemenu.h`: the same, at 104, 8 bytes, 112 bytes. `tilemenu.cpp` reads it as 8 bytes at 104 |
+| `TileImage` | `float fScale` 96, `NiPointer<NiTexture> spTexture` 104, `NiPointer<TileShaderProperty> m_spShaderProperty` 112, `bool m_bTextureLoaded` 120 | 128 | `tileimage.cpp`: the same offsets, 128 bytes |
+| `FUN_00a21660` | none | 128 | `radialtile.cpp` declares no field; its `TileImage` there is an 8-byte view, which shows nothing about the size. The 32-bit allocation of the same text is 72 bytes, equal to `TileImage`'s |
+| `FUN_00a0bc80` | `int` 96, `int` 100, two 16-byte strings at 104 and 120 | 136 | `blk_00a00000_od.cpp`: the same types, but after its 64-byte `Tile3D` view, so there at 64, 68, 72 and 88 and 104 bytes |
+| `TileText` | four `int` from 96, one byte at 112 | 120 | not established: `tiletext.cpp` declares no field. The fields reach the byte the function writes at 112 |
+
+Every allocation now covers `Tile` and the class's fields:
+
+| Type number | Created type | Bytes on windows-x64, before | After | 32-bit layout of the same text |
+| --- | --- | --- | --- | --- |
+| `0x385` | `TileRect` | 64 | 104 | 60 |
+| `0x386`, `0x38a` | `TileImage` | 80 | 128 | 72 |
+| `0x387` | `TileText` | 80 | 120 | 76 |
+| `0x388` | `FUN_00a0bc80` | 104 | 136 | 80 |
+| `0x389` | `TileMenu` | 72 | 112 | 64 |
+| `0x38c` | `FUN_00a21660` | 80 | 128 | 72 |
+
+The function clears `TileMenu::pMenu` with an 8-byte store at 104. Before,
+a 4-byte store at 64 left the high half of the pointer unset, and
+`~TileMenu` and `TileMenu::SetTraitValue` test the whole pointer.
+`TileImage::Init` at `0x00a1f6e0` writes `fScale` at 96, resets the
+pointer at 104 and writes the byte at 120. All three stores now fall inside
+the 128 bytes allocated; before, the byte at 120 was past the 80. The
+32-bit sizes are unchanged, so this is a windows-x64 repair. The
+evidence of the change has the instruction table of the function: each
+allocation size and each store, with its reason.
+
+Where an owning unit's own declaration sits on a stale base view, as in
+`tilerect.h` and `blk_00a00000_od.cpp`, that unit keeps its copy and the
+difference is listed under "Open items".
+
+### Derived tables
+
+`tile.cpp` emits four derived tables. The 2026-11-11 (2) ruling asks, for
+each, whether the generated table at the recipe address confirms its slots.
+
+| Table in `tile.cpp` | Address | Generated table | Slots |
+| --- | --- | --- | --- |
+| `TileMenu` | `0x0106ed44` | `??_7TileMenu@@6B@` in `vtables_0106.cpp` | 5, 8 and 9 confirmed: the base's bodies. Slots 1 to 4, 6 and 7 hold TileMenu's own functions, so `tile.cpp`'s `TileMenu` declares them without a body |
+| `TileRect` | `0x0106ed70` | none | unconfirmed |
+| `TileText` | `0x01094878` | none | unconfirmed |
+| `FUN_00a0bc80` | none in the recipe | none | unconfirmed |
+
+TileMenu's overrides in the generated table, and the names `tile.cpp`
+gives them:
+
+| Slot | Function row | Name in the recipe | Override in `tile.cpp` |
+| --- | --- | --- | --- |
+| 1 | `0x00a1ef30` | `TileMenu::Init`, `tilemenu.cpp` | `TileMenu::Init` |
+| 2 | `0x00a1f140` | `TileMenu::CalculateNode`, `tilemenu.cpp` | `TileMenu::CalculateNode` |
+| 3 | `0x00709a40` | `TileMenu::GetType`, `tilemenu.cpp` | `TileMenu::GetType` |
+| 4 | `0x00709a50` | `TileMenu::FUN_00709a50`, non-virtual, `interface.cpp` | `TileMenu::GetImageTag` |
+| 6 | `0x00a1f160` | `TileMenu::SetTraitValue`, `tilemenu.cpp` | `TileMenu::SetTraitValue` |
+| 7 | `0x00a1f310` | `TileMenuStub::FUN_00a1f310`, `tilemenu.cpp` | `TileMenu::FUN_00a0b020` |
+
+An override must have the name of the slot it overrides, so slots 4 and 7
+take the base's names, not the rows' names. The classes of the creation
+function are in the namespace `fnv_00a00c20`, as the recipe's keys for
+their tables spell them, so the six names are new undefined names of that
+namespace. Without these declarations the table would bind slot 7 to
+`Tile::FUN_00a0b020` and slots 1 to 4 and 6 to the base's names, which the
+generated table contradicts. Before this series, `tile.cpp`'s `TileMenu`
+derived from `Tile3D` through `TileRect` and had one virtual slot, the
+destructor.
+
+The recipe also has rows of `TileRect::Init` at `0x00a1f370`,
+`TileRect::GetType` at `0x00709960` and `TileText::GetType` at
+`0x00a0bbd0`. Without a generated table it is not shown which slots of
+those tables hold them, so `tile.cpp` does not declare them. Their slots
+bind undefined names of the base, so nothing binds to a wrong body.
+
+### What changed per commit
+
+Every row named below keeps its address, size and unit. A script kept
+outside the repository respelled the names and checked that every label's
+slot comes from the generated table itself. Code that changes is listed by
+instruction in the evidence of the change; each changed run of
+instructions has a reason.
+
+| Commit | Respelled | Changed code | Forced unlimited link |
+| --- | --- | --- | --- |
+| The class | `IsPointInside`: row, key, label in `vtables_0106.cpp` | `TileV::FUN_00a0b420` read the child list head at 600, now at 8 | 35,224 undefined names, unchanged |
+| Slot 7 | `FUN_00a0b020`: row, label in `vtables_0109.cpp` | node pointer at 80, was 56 | +1: `tilemenu.cpp`'s call of `A0B020Tile::FUN_00a0b020` |
+| Slot 8 | `FUN_00a0b1f0`: row, labels in both | node pointer at 80, was 48 | unchanged |
+| Slot 9 | `ApplyAlphaAndColorToChildren`: row, key, labels in both | none | unchanged |
+| The destructor | row; in `tile.cpp` the handler key, `FUN_0057c730`'s parameter, the table key of `0x0106ed9c`, and the key of `FUN_009ff690` merged with the row's own name; the destructor key of five other units | flags at 88, was 56; node pointer at 80, was 48; values at 32, was 20; name at 56, was 36; delete size 96, was 64 | 0: three names leave, three enter |
+| Creation | `tile.cpp`'s key of `0x00709860` | allocation sizes, store widths and offsets, funclets and deleting destructors at the new sizes; TileMenu's table holds its six overrides | +5: `Tile3D`'s constructor and destructor leave; `Tile::Tile` and the six overrides enter |
+| The byte at 92 | none | none: the object is identical apart from the timestamp | unchanged |
+
+The +1 of the slot 7 commit is admitted by the 2026-11-11 respelling rule:
+every symbols key of the old name is respelled in the same commit or left
+honestly undefined. `tilemenu.cpp`'s call was bound correctly by address
+before: `0x00a1f310` is TileMenu's slot 7 override, and it calls the base's
+body at `0x00a0b020`. The repair renames slot 7 in `tilemenu.h` from
+`ClearTextures` to the base's name, and is a required item of the
+shared-header step.
+
+The destructor key `??1FUN_009ff340@@UAE@XZ` of `tile3d.cpp`,
+`tilemenu.cpp`, `interface.cpp`, `interfacemanager.cpp` and
+`tesscriptfunctions.cpp` is respelled with the row. The objects of
+`tilemenu.cpp` and `tesscriptfunctions.cpp` require `Tile::~Tile`; the
+other three require neither spelling.
+
+On every commit: 0 failed compile steps, 0 duplicates, 137 imports, 2,223
+archive members in the order of the tip, 525 names with differing
+definitions with none entering, warnings equal by class and position, and
+each new name defined exactly once, in `tile.cpp`. The run-time type
+records of `Tile` that `tile.cpp` now emits have the contents of the three
+objects that already defined them. The lazy link loads the same members
+and symbols as on the tip; it does not load `tile.cpp`.
+
+### New bindings
+
+`tilemenu.cpp` and `tesscriptfunctions.cpp` required `Tile::~Tile`, and it
+was defined nowhere. Both now bind it to the destructor of `tile.cpp`.
+Their own copies of `Tile` are 96 and 8 bytes. The class whose destructor
+calls it in `tesscriptfunctions.cpp`, `FUN_007099b0`, has the table at
+`0x0106ed70`, which `tilemenu.cpp` names `??_7TileRect@@6B@`.
+
+The destructor calls `FUN_009ff690`. Before, the call required
+`FUN_009ff340::FUN_009ff690`, which nothing defined. It now binds to
+`ReleaseTile::FUN_009ff690`, which `tile.cpp` defines at that row. Its view
+`ReleaseTile` agrees with `Tile` at every field up to the flags.
+
+Binding a body credits one provider, a rebuild and a link. Whether every
+caller passes a full `Tile` is open.
+
 ## The virtual table
+
+This section describes 2277431b8, before step 1, apart from where it says
+otherwise.
 
 The recipe binds four addresses under a table name of the family:
 
@@ -232,9 +473,9 @@ The recipe binds four addresses under a table name of the family:
 | `0x01094878` | `??_7TileText@fnv_00a00c20@@6B@`, `??_7FUN_00a0bbf0@@6B@` | `tile.cpp` | no |
 
 `0x0106ed9c` is the table that the class of the destructor at `0x009ff340`
-stores, so it is the table of `Tile`. No row calls it `??_7Tile@@6B@`, and
-`src/generated` has no table at that address. That the destructor stores
-this table is INFERRED from the unit's symbol row and the tagged body.
+stores, so it is the table of `Tile`. Before step 1 no row called it
+`??_7Tile@@6B@`; step 1 respells `tile.cpp`'s key, with the evidence under
+"The owner's class". `src/generated` has no table at that address.
 
 Two generated tables belong to the family: `??_7TileMenu@@6B@` and
 `??_7FUN_00a21660@@6B@` in `vtables_0109.cpp`. Both have ten slots and share
@@ -267,6 +508,9 @@ those slots is INFERRED.
 
 ## Names in the objects
 
+This section describes 2277431b8, before step 1, apart from where it says
+otherwise.
+
 The objects of the 81 units define or require 36 external names of the
 class, its table and its run-time type records. 15 are defined. 21 are
 required and defined nowhere:
@@ -285,10 +529,11 @@ The 16 use two spellings for six of the slots: `~Tile` and `Destroy`,
 `SetTraitValue` and `UpdateField`, two return types of `GetShaderProperty`,
 and two parameter types of `SetAlphaAndOverlayColor`.
 
-No object defines or requires `??_7Tile@@6B@`. The run-time type descriptor
-of `Tile` is defined in nine objects and its three hierarchy records in
-three, each from the unit's own copy of the class. Whether their contents
-are equal was not compared.
+Before step 1 no object defined or required `??_7Tile@@6B@`; now `tile.cpp`
+defines it. The run-time type descriptor of `Tile` was defined in nine
+objects and its three hierarchy records in three, each from the unit's own
+copy of the class. Step 1 adds `tile.cpp` to both, and every definition of
+each of the four records has the same contents.
 
 ## The reference the copies are compared with
 
@@ -384,7 +629,8 @@ one difference is the third parameter of slot 9, a pointer in both.
 ## Why no shared declaration is written yet
 
 The shared declaration must be the real class, and the unit that defines a
-member includes it. Three facts stand in the way.
+member includes it. Three facts stood in the way. Step 1 removed the first
+two for `tile.cpp`; the third remains.
 
 1. The owning unit cannot include a real declaration today. Its own
    definition has a pointer field for the table, a tail from offset 94 to
@@ -446,7 +692,7 @@ VEGAS-11. `FUN_00a216b0` is another class's override and never joins.
 
 The header has no body. The unit with the function row defines the member.
 The compiler emits the table of `Tile` where the destructor is defined,
-which is `tile.cpp`. No object defines that table today. A unit that
+which is `tile.cpp`. Since step 1 it does. A unit that
 derives a class from its own copy of `Tile` emits a table with slots of
 that copy; `tile3d.cpp`, `tilemenu.cpp` and `tesscriptfunctions.cpp` do so
 now, and their derived classes move with them.
@@ -475,7 +721,7 @@ per function.
 
 | Step | Units | Proof | Waits for |
 | --- | --- | --- | --- |
-| 1. The owning unit uses one view: the 592-byte definition, `FUN_009ff340` and `fnv_00a00c20::Tile3D` become the 96-byte class | `tile.cpp`, `tile_copies_002.cpp`, `tile_copies_003.cpp` | per function: instructions, relocations, allocation sizes and write extents against the tip | decisions 1 to 3 |
+| 1. The owning unit uses one view: the 592-byte definition, `FUN_009ff340` and `fnv_00a00c20::Tile3D` become the 96-byte class | `tile.cpp`; `tile_copies_002.cpp` and `tile_copies_003.cpp` keep the old copy and move in step 2 | per function: instructions, relocations, allocation sizes and write extents against the tip | done |
 | 2. The header; the units of `decl/Tile.h` and the member-only copies | up to 44 of 46 | byte-identical objects | step 1 |
 | 3. Copies with virtual functions and no field | up to 6 of 11 | byte-identical objects, condition 4 | step 1 |
 | 4. Copies of 96 bytes | 6 | byte-identical objects once the member classes are shared | one shared declaration each of the child list, the value array, `BSStringT` and `NiPointer` |
@@ -490,43 +736,144 @@ Five copies with virtual functions and no field are held: `hudmainmenu.cpp`,
 `menuconsole.cpp` uses `FUN_00700300`, and `radialtile.cpp` defines
 `FUN_00a216b0` as a member. The object comparison decides each unit.
 
-## Decisions needed
+## Rulings for step 1
 
-1. Respelling for the virtual slots. May the respelling script change, in
-   the recipe keys and in the labels of `vtables_0106.cpp` and
-   `vtables_0109.cpp`, the names of the functions in the ten slots to
-   virtual members of `Tile` and of its derived classes, under the three
-   conditions that hold for the class-key respelling? Without it
-   `Tile::IsPointInside` cannot be the virtual function that slot 5 is.
-2. Names of slots 4, 7, 8 and 9, and of the base's bodies for slots 0, 1
-   and 6. The recipe has placeholders or stand-in classes for them:
-   `FUN_00709a50`, `FUN_00a0b020`, `A0B1F0Tile::FUN_00a0b1f0`,
-   `FUN_00a0b280_shell::ApplyAlphaAndColorToChildren`,
-   `FUN_009ff340::~FUN_009ff340`, `FUN_009ff600_shell::InitTile` and
-   `UpdateTreeNode::FUN_00a037e0`. The copies offer `GetTypeStr`,
-   `ClearTextures`, `GetShaderProperty` and `SetAlphaAndOverlayColor`. The
-   reviewed override table needs an entry for each.
-3. The base's own table. Nothing in the repository shows which slots of the
-   table at `0x0106ed9c` are pure. No function row of `tile.cpp` is
-   identified as the base's body for slots 2, 3 and 4. Either they are
-   declared pure, or they are declared without a body and the object of
-   `tile.cpp` requires three names that nothing defines. Reading the table
-   needs the original release.
+The coordinator answered the three decisions this document asked for with
+five rulings for step 1. Reviews confirmed them, R4 in a tightened form.
 
-Step 1 is the largest piece of work and belongs to VEGAS-17. Which function
-rows of `tile.cpp` use each of the four views was not measured here.
+1. R1, respelling. A script kept outside the repository may respell recipe
+   keys and the labels of `vtables_0106.cpp` and `vtables_0109.cpp` so that
+   the slot functions become virtual members of `Tile`. Names only: every
+   address, size, slot, unit and order stays, the retirement patch is not
+   touched, and each label's slot is read from the generated table. Neither
+   file is a pinned input of the composition, so no pin is recomputed.
+   `docs/native-data-ownership.md` records the permission.
+2. R2, names. A slot function keeps the name of its function row, a
+   placeholder included. Only the virtual key changes.
+3. R3, slots without a body. Slots 2, 3 and 4 are declared virtual without a
+   body and not pure. Step 1 applies the same to slots 1 and 6, because no
+   generated table shows their bodies either.
+4. R4, layout evidence. A field is established when the declared types and
+   order give its offset and the owner's accesses through the class agree.
+   A field of a 32-bit view is a defect to repair, not evidence. Where a
+   derived class's owning unit declares x64 field types, those types decide
+   its size, not the 32-bit view.
+5. R5, the table. `??_7Tile@@6B@` may name `0x0106ed9c` only if the recipe
+   and the objects show it. They show that the destructor and the base
+   constructor store it; they do not show its ten slot addresses.
+
+`tile.cpp`'s key for the base constructor at `0x00709860` is respelled from
+`??0Tile3D@@QAE@XZ` to `??0Tile@@QAE@XZ` in the creation commit, because
+its object then requires `Tile::Tile`. A key that names something its
+object does not require is respelled, as ruled on VEGAS-65.
+
+## Open items
+
+- The shared header. `include/fnv/tile.h` comes next, from the owner's
+  class, with the units of `include/fnv/decl/Tile.h` and the other
+  member-only copies, as the design above says. `tile_copies_002.cpp` and
+  `tile_copies_003.cpp` move with it. It also takes the definitions of the
+  storage structs' destructors, and renames slot 7 of `tilemenu.h` from
+  `ClearTextures` to `FUN_00a0b020`, which binds `tilemenu.cpp`'s call
+  again.
+- The member classes. The header needs one shared declaration each of the
+  child list, the value array, `BSStringT` and `NiPointer` before the
+  storage structs can go and the six 96-byte copies can move.
+- 17 rows of `tile.cpp` still access the object through stand-in views
+  with 32-bit offsets, 90 accesses in all. They are step 6.
+
+| Address | Function | View | Stale accesses |
+| --- | --- | --- | --- |
+| `0x00a00b50` | `TileObject::FUN_00a00b50` | `TileObject` | 2 |
+| `0x00a01750` | `TileA01::FUN_00a01750` | `TileA01` | 1 |
+| `0x00a033b0` | `fnv_00a033b0::C00a033b0::FUN_00a033b0` | `R_Tile` | 7 |
+| `0x00a037e0` | `UpdateTreeNode::FUN_00a037e0` | `UpdateTreeNode` | 4 |
+| `0x00a03c90` | `FUN_00a03c90_shell::FUN_00a03c90` | `TileMenu` | 1 |
+| `0x00a03f70` | `fnv_00a03f70::FUN_00a03f70_shell::FUN_00a03f70` | `TileParent_00a03f70` | 1 |
+| `0x00a040a0` | `sa040a0::Owner::IsAllChildrenFlag0` | `sa040a0::Owner` | 1 |
+| `0x00a04640` | `RenderTile::FUN_00a04640` | `RenderTile` | 54 |
+| `0x00a07580` | `fnv_00a07580::FUN_00a07580` | `TileResult_00a07580` | 2 |
+| `0x00a07690` | `FUN_00a07690` | `FlaggedTile` | 5 |
+| `0x00a07a40` | `ClipTile::FUN_00a07a40` | `ClipTile` | 3 |
+| `0x00a080d0` | `FUN_00a080d0` | `FadeTile` | 1 |
+| `0x00a087d0` | `FUN_00a087d0_shell::FUN_00a087d0` | `TileFlags_00a087d0` | 1 |
+| `0x00a08a20` | `SceneNodeOwner::FUN_00a08a20` | `SceneNodeOwner` | 2 |
+| `0x00a09410` | `fnv_00a09410::EvalValue::FUN_00a09410` | `EvalTile` | 2 |
+| `0x00a0b520` | `TileWork::FUN_00a0b520` | `TileWork` | 2 |
+| `0x00a0bbf0` | `FUN_00a0bbf0::~FUN_00a0bbf0` | `TileBaseA0BBF0` | 1 |
+
+- The base constructor. `tile.cpp` calls it as `Tile::Tile`, which nothing
+  defines, and its key spells that name. The row at `0x00709860` is
+  `Tile3D::Tile3D` in `tile3d_h_unit.cpp`. The row and the `??0Tile3D` keys
+  of `interfacemanager.cpp`, `tesscriptfunctions.cpp` and
+  `blk_00a00000_od.cpp` move in the step that moves `tile3d_h_unit.cpp`.
+  Its object also writes up to byte 69 of its own 72-byte copy.
+- The derived classes in their own units. `tilerect.h` puts
+  `m_bTextureLoaded` at 64 on a base of `0x34` padding bytes, and
+  `blk_00a00000_od.cpp` puts the fields of `FUN_00a0bc80` at 64 to 103 on
+  its 64-byte `Tile3D`, so its constructor at `0x00a0bc80` writes at the
+  stale offsets 64 to 103. `radialtile.cpp`'s `TileImage` is an 8-byte view, and
+  `tiletext.cpp`'s `Tile` has no fields. Each unit stays on its copy until
+  it moves. The size of `TileText` is not established.
+- The overrides of TileMenu that `tile.cpp` declares are undefined names of
+  the namespace `fnv_00a00c20`. They bind when the classes of the creation
+  function move to the shared declarations of `TileRect` and `TileMenu`,
+  with the rows' names respelled to the slots' names where they differ
+  (`TileMenu::FUN_00709a50` for slot 4, `TileMenuStub::FUN_00a1f310` for
+  slot 7). The tables of `TileRect`, `TileText` and `FUN_00a0bc80` are
+  unconfirmed. The coordinator ruled that the overrides of slots 4 and 7
+  carry the base's names because C++ requires it, and that their rows are
+  respelled when the class moves. No recipe key names any of the six
+  overrides until the commit in which the name the object requires equals
+  the row's name.
+- The overrides of `TileRect` and `TileText` are inferred, not declared:
+  the rows `TileRect::Init` (`0x00a1f370`), `TileRect::GetType`
+  (`0x00709960`) and `TileText::GetType` (`0x00a0bbd0`). Their slots in
+  `tile.cpp`'s tables bind undefined names of the base, so nothing binds
+  to a wrong body.
+- `tile.cpp`'s key `??0FUN_00a0bc80@fnv_00a00c20@@QAE@XZ` names a
+  constructor that the object never requires; the constructor is inline.
+  The key belongs to the step that moves `blk_00a00000_od.cpp`.
+- A 4-byte view of an 8-byte pointer. The inline constructor of
+  `FUN_00a0bc80` in `tile.cpp` calls `NodeRef::Assign(int)` through a
+  `NodeRef` view, whose one field is an `int`, of the 8-byte node pointer
+  at 80. The callee is undefined and has no row. It is open with the
+  pointer truncation below.
+- Slot 5 of `??_7FUN_00a21660@@6B@` is labelled `Tile::FUN_00a216b0`, a
+  non-virtual name for the override whose row is in `radialtile.cpp`. It
+  stays until that unit moves.
+- `tilemenu.cpp` keeps its key for `A0B020Tile::FUN_00a0b020`. The name is
+  now honestly undefined; before, it bound by address to the right body,
+  the stand-in body in `tile.cpp`, under a forced link.
+- A pointer truncation (VEGAS-17 criterion 4). `Tile::~Tile` and
+  `ReleaseTile::FUN_009ff690` pass `this` to `ClearInterfaceRefs` cast to a
+  32-bit `unsigned int`, while the function takes a 64-bit argument. The
+  casts and their warnings are older than this step and unchanged. By the
+  coordinator's ruling the two casts, in `tile.cpp`'s destructor and in
+  `ReleaseTile::FUN_009ff690`, are the first item of the next step, in a
+  commit of their own with the evidence of the objects.
+- Slot names without a body are provisional, slot 4 among them, until the
+  coordinator records them in the override table.
+- The bodies of slots 1 to 4 and 6, and whether any slot of the base's
+  table is pure, are not shown in the repository.
+- Windows execution: not run.
 
 ## Not covered
 
-- Nothing was changed in `src`, `include` or `build/units.json`. No object,
-  link or test differs from 2277431b8.
-- The derived classes `TileRect`, `TileImage`, `TileText`, `TileMenu`,
-  `Tile3D` and `RadialTile` were not measured, apart from the six sizes in
-  the creation function of `tile.cpp`.
+- Step 1 changed `tile.cpp`, its two headers, names in `build/units.json`
+  and labels in `vtables_0106.cpp` and `vtables_0109.cpp`. Nothing else in
+  `src` or `include` changed.
+- The derived classes `Tile3D` and `RadialTile` were not measured. Of
+  `TileRect`, `TileImage`, `TileText`, `TileMenu`, `FUN_00a0bc80` and
+  `FUN_00a21660` only the declarations in the owning units named above
+  were measured.
 - 71 classes named `Tile` inside a namespace or another class, in 35 of the
   81 units, were counted and not measured. They are stand-ins and follow
   step 6.
 - Receivers. The tables measure each unit's declaration, not the object a
   caller passes.
-- The contents of the three definitions of the run-time type records.
+- Tests. `tile.cpp` does not compile for the host build, before or after
+  step 1, and its functions need the game archive, so no host test reaches
+  them. The header's layout assertions and the per-function instruction
+  tables in the evidence of the change stand in for a test.
 - Windows execution: not run.

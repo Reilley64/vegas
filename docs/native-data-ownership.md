@@ -1,8 +1,8 @@
 # Native data ownership composition
 
 The historical files under `src/generated/data/` are committed legacy inputs,
-not the native source of truth. Do not edit them, except for the class-key
-respelling described below, or run an extractor against the original game to
+not the native source of truth. Do not edit them, except for the
+respellings described below, or run an extractor against the original game to
 build the native reconstruction.
 
 One mechanical edit of these files is permitted by coordinator ruling for
@@ -16,7 +16,16 @@ after every existing pin has been checked against the bytes before the
 rewrite. The diff of the composed output is recorded and consists of key-only
 respellings. When a script kept outside the repository respells mangled names
 in pinned composition inputs, that diff of the composed output is kept with
-the review evidence of the change, not in the repository. No other edit of the
+the review evidence of the change, not in the repository.
+
+A second ruling for VEGAS-17 (R1 of the Tile work, `docs/shared-tile.md`)
+permits a script kept outside the repository to respell a generated virtual
+table's label so that it names a real class's virtual member. Only the class
+name changes, and the member's access code changes from non-virtual to
+virtual (`Q` to `U`); the member name and parameters stay. The slot is read
+from the generated table itself and must be that member's slot in the real
+class. The respelled file must not be a pinned composition input, so no pin
+is recomputed and the retirement patch is untouched. No other edit of the
 generated files is permitted.
 
 `src/runtime/native_data_retirements.patch` is the narrowly audited native

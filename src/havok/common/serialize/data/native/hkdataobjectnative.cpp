@@ -1896,7 +1896,7 @@ struct Node680
     hkStringDBB6 name;
     Dispatch680* owner;
 };
-extern const char DAT_010d64bc[], DAT_010d64d0[], DAT_010d64dc[], DAT_010d6394[];
+extern const char str_010d64bc[], DAT_010d64d0[], DAT_010d64dc[], DAT_010d6394[];
 extern char DAT_010d6334[];
 
 static __declspec(noinline) Node680* FUN_00dbb260(Pair680* p, Dispatch680* o)
@@ -1912,7 +1912,7 @@ static __declspec(noinline) Node680* FUN_00dbb260(Pair680* p, Dispatch680* o)
         {
             char buffer[512];
             FUN_00cb1600 stream(buffer, 512);
-            reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010d64bc)))
+            reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d64bc)))
                 .FUN_00cc0120(p->a)))->FUN_00cc01c0(DAT_010d64d0)))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((p->b))->FUN_00d46d40())))))->FUN_00cc01c0(DAT_010d64dc);
             (*reinterpret_cast<::hkErrorDBB7 * *>(&::DAT_01268360))->message(1, 0x1800473a, buffer, DAT_010d6394, 0x2c7);
             reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();
@@ -2718,7 +2718,7 @@ static __declspec(noinline) NativeDBC* FUN_00dbb260(WorldDBC* world, PairDBC* va
         {
             char buffer[512];
             FUN_00cb1600 stream(buffer, 512);
-            reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(DAT_010d64bc)))
+            reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&((*(::hkOstreamDBB7 *)(reinterpret_cast<::SinkOwner *>(&(stream))->FUN_00cc01c0(str_010d64bc)))
                 .FUN_00cc0120(value->object)))->FUN_00cc01c0(DAT_010d64d0)))))->FUN_00cc01c0(reinterpret_cast<::FnvClassNameNode *>((value->type))->FUN_00d46d40())))))->FUN_00cc01c0(DAT_010d64dc);
             (*reinterpret_cast<::hkErrorDBB7 * *>(&::DAT_01268360))->message(1, 0x1800473a, buffer, DAT_010d6394, 0x2c7);
             reinterpret_cast<struct ::FUN_00cc00e0 *>(&(stream))->FUN_00cc00e0::~FUN_00cc00e0();

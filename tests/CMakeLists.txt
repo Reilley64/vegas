@@ -473,6 +473,30 @@ add_test(NAME runtime.process_startup.unpublished_ni_startup
     -DMARKER=ni-startup-unpublished
     -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
 
+# The native owner of the single-instance strings, published from packs the
+# data pack writer makes while the test runs.
+add_executable(runtime_single_instance_strings_test runtime/single_instance_strings_test.cpp)
+target_include_directories(runtime_single_instance_strings_test PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(runtime_single_instance_strings_test PRIVATE game)
+else()
+  target_sources(runtime_single_instance_strings_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/single_instance_strings.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_container.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_writer.cpp)
+  target_link_libraries(runtime_single_instance_strings_test PRIVATE ZLIB::ZLIBSTATIC)
+endif()
+add_test(NAME runtime.single_instance_strings COMMAND runtime_single_instance_strings_test)
+add_test(NAME runtime.single_instance_strings.unpublished_read
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_single_instance_strings_test>
+    -DMODE=--read-unpublished
+    -DMARKER=read-unpublished
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+
 # Runs the built FalloutNV.exe with no arguments and requires exit code 0.
 # It shows that the process image loads, its imports resolve, the C++ runtime
 # starts, process memory initialisation completes and main returns 0. It does

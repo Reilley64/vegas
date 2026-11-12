@@ -5931,9 +5931,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         work.a = renderer->projection;
         reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.a;
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 3:
@@ -5949,9 +5951,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         work.a = renderer->view;
         reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.a;
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 5:
@@ -5966,9 +5970,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             transpose = true;
         reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = renderer->world;
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 7:
@@ -5991,9 +5997,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         ::FUN_00ee6de0(&work.f, &work.b, &work.a);
         reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.f;
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 9:
@@ -6016,9 +6024,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         ::FUN_00ee6de0(&work.e, &work.a, &work.b);
         reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.e;
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 11:
@@ -6043,9 +6053,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         ::FUN_00ee6de0(&work.g, &work.c, &work.d);
         reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot] = work.g;
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 25:
@@ -6065,9 +6077,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         ::FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
                      &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], &work.c);
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 29:
@@ -6090,9 +6104,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
         ::FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
                      &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], &work.d);
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 33:
@@ -6121,9 +6137,11 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, Mapping* apMapping
             transpose = true;
 
         if (inverse)
-            ::FUN_00ee6dda();
+            ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot], 0,
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         if (transpose)
-            ::FUN_00ee6dd4();
+            ::FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot],
+                           &reinterpret_cast<MapMatrix*>(&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants)))[slot]);
         return 9;
     }
     case 37:

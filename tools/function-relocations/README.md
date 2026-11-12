@@ -45,7 +45,7 @@ function<TAB>BATCH<TAB>UNIT<TAB>NAME<TAB>REQUIRED[ REQUIRED...]
 Every `forbid` name is forbidden in every function. `REQUIRED` names are
 separated by spaces.
 
-`d3dx-call-arguments.tsv` lists the 11 functions whose calls of the D3DX
+`d3dx-call-arguments.tsv` lists the 12 functions whose calls of the D3DX
 matrix inverse (`0x00ee6dda`), transpose (`0x00ee6dd4`) and vector normal
 transform (`0x00ee6df2`) got their arguments back (VEGAS-90). It forbids the
 three argument-less names and requires the native names each function calls.

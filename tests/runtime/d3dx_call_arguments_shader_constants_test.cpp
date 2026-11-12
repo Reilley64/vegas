@@ -1,7 +1,7 @@
 // Checks the native D3DX functions with the argument patterns that VEGAS-90
-// restored, from before 3f0599801, in five shader-constant functions:
-// 0x00e82b40 and 0x00e83db0 in nid3dshaderconstantmap.cpp, 0x00e96fb0 in
-// nid3dhlslpixelshader.cpp, and 0x00e972e0 and 0x00e974f0 in
+// restored, from before 3f0599801, in six shader-constant functions:
+// 0x00e82b40, 0x00e83db0 and 0x00e85d10 in nid3dshaderconstantmap.cpp,
+// 0x00e96fb0 in nid3dhlslpixelshader.cpp, and 0x00e972e0 and 0x00e974f0 in
 // nid3dhlslvertexshader.cpp. It tests the callees' contract, not the repaired
 // sites, which do not link into a test.
 // Each case runs the function's sequence of D3DX calls, with the same
@@ -104,6 +104,57 @@ void ConstantCases()
         }
 }
 
+// 0x00e85d10: the matrix is stored in register slot `slot` of the constant
+// table (0x0126f820, 16 floats to the slot), and that slot is inverted and
+// transposed in place, as the mapping asks:
+// ::FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(table)[slot], 0,
+// &reinterpret_cast<MapMatrix*>(table)[slot]) and ::FUN_00ee6dd4 with the
+// same slot twice.
+struct alignas(16) MapMatrix
+{
+    float m[4][4];
+};
+
+void SlotConstant(float (*table)[16], unsigned int slot, bool inverse, bool transpose, bool restored)
+{
+    MapMatrix stored;
+    for (unsigned int row = 0; row < 4; ++row)
+        for (unsigned int column = 0; column < 4; ++column)
+            stored.m[row][column] = dense.m[row][column];
+    reinterpret_cast<MapMatrix*>(table)[slot] = stored;
+    if (inverse && restored)
+        FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(table)[slot], 0, &reinterpret_cast<MapMatrix*>(table)[slot]);
+    if (transpose && restored)
+        FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(table)[slot], &reinterpret_cast<MapMatrix*>(table)[slot]);
+}
+
+void SlotCases()
+{
+    alignas(16) static float table[3][16];
+    for (bool inverse : {false, true})
+        for (bool transpose : {false, true})
+            for (bool restored : {true, false})
+            {
+                if (!restored && !inverse && !transpose)
+                    continue;
+                for (unsigned int k = 0; k < 16; ++k)
+                    table[0][k] = table[2][k] = 7;
+                D3DXMATRIX expected = inverse ? denseInverse : dense;
+                if (transpose)
+                    expected = Transposed(expected);
+                SlotConstant(table, 1, inverse, transpose, restored);
+                D3DXMATRIX actual;
+                for (unsigned int k = 0; k < 16; ++k)
+                    actual.m[k / 4][k % 4] = table[1][k];
+                if (restored)
+                    Check(Same(actual, expected), "the slot is inverted and transposed as asked");
+                else
+                    Check(!Same(actual, expected), "skipping the calls leaves the slot as it was stored");
+                for (unsigned int k = 0; k < 16; ++k)
+                    Check(table[0][k] == 7 && table[2][k] == 7, "the neighbouring slots are not written");
+            }
+}
+
 // 0x00e96fb0 and 0x00e974f0: entry pusReorderArray[i] (usIndex) of a block of
 // 16-byte registers, four registers to the entry, is transposed into kMatrix:
 // ::FUN_00ee6dd4(&kMatrix, (const Matrix16*)((const char*)pvDataSource +
@@ -168,6 +219,7 @@ void RegisterCases()
 int main()
 {
     ConstantCases();
+    SlotCases();
     RegisterCases();
     return 0;
 }

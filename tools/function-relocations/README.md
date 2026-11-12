@@ -76,9 +76,9 @@ a `NavMeshPtr` result; no object defines it. Which register carries which
 argument is not a relocation; docs/navmesh-pointer-result.md records it from
 the instructions.
 
-`mask-constants.tsv` lists the 17 functions whose numeric masks, flags and
-counts were spelled as the addresses of data names (VEGAS-93,
-docs/mask-constants.md). It forbids the five names and requires none.
+`mask-constants.tsv` lists the 18 functions whose numeric masks, flags,
+counts and limits were spelled as the addresses of data names (VEGAS-93,
+docs/mask-constants.md). It forbids the six names and requires none.
 
 ## Exit status
 

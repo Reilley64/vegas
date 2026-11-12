@@ -52,6 +52,8 @@ multiples of 4.
 | region | The recipe address is one of the five addresses above. |
 | below base | The recipe address is below `0x00400000`, where the original release is loaded, so it is in no datum of it. |
 | comment | The source states the original instruction. |
+| setting | The name's other use is the default value of an unsigned INI setting (the `u` prefix of its key). |
+| function entry | The recipe address is the entry of a function row, so it is not storage. |
 
 ## Repaired
 
@@ -74,6 +76,7 @@ copy of the repaired function and change the same way.
 | `staging/blk_00a60000_o2.cpp` | `FUN_00a77110` (`0x00a77110`), `ConvertRgbToRgba` (`0x00a77460`) | `DAT_00ff0000` | `0x00ff0000` | operator, literal, region |
 | `havok/.../collide/hkptoicountviewer.cpp` | `FUN_00d67c30` (`0x00d67c30`) | `DAT_01000001` | `0x01000001` | consumer, region |
 | `gamebryo2.2/corelibs/nicollision/niunionbv.cpp` | `FUN_00e9ecc0` (`0x00e9ecc0`) | `g_fnv_00e9ecc0_value_anchor`, plus 4 | `4` | operator, below base, comment |
+| `staging/blk_00860000_od.cpp` | `FUN_00878360` (`0x00878360`) | `g_011c5bbc_arg1` | `0x00500000` | operator, setting, function entry |
 
 For `DAT_01000000`, four other units the recipe binds the name in spell the
 literal `0x01000000`: `memorypool.cpp`, `tescreature.cpp`,
@@ -87,13 +90,19 @@ sets or clears its argument in a flags field; another caller passes
 byte and the low 24 bits; `0x01000001` sets both to one, and other callers of
 the same map insert pass `1`.
 
+`FUN_00878360` compares an unsigned difference with the constant.
+`global_object_initializers2.cpp` passes `g_011c5bbc_arg1` as the default of
+`uGeometryMemory:BudgetCaps`, 0x500000 (5 MiB), and `0x00500000` is the entry
+of the function row `BGSTerminal::Load` (coordinator, 2026-11-12). The
+object compares the 32-bit difference with `0x500001` instead of a 64-bit
+address.
+
 ### Left in place
 
-The repairs leave these definitions and bindings without a referrer. None is
-removed here: generated files may not be edited, and the recipe changes only
-under the rulings.
+The repairs leave these definitions and bindings without a referrer. They
+stay: generated files may not be edited, and the recipe changes only under
+the rulings.
 
-- `DAT_00ffffff` is defined by hand in `staging/blk_00840000_od.cpp`.
 - `DAT_01000000` is defined by the generated data of `bscore/memorypool.cpp`.
   The recipe of `fallout_shared/tesactorbasedata.cpp` also binds the string
   names `$SG5186`, `$SG5187` and `$SG5189` to `0x01000000`; that unit's
@@ -105,11 +114,19 @@ under the rulings.
   definition its C name.
 - Every recipe binding of these names stays.
 
+`g_011c5bbc_arg1` keeps a referrer: the generated initializer of
+`global_object_initializers2.cpp` passes it, declared in
+`include/original_global_object_initializers2.h`, under the same mangled
+name. No unit defines it, so the forced link still lists it as undefined.
+
+`DAT_00ffffff` was defined by hand in `staging/blk_00840000_od.cpp`. Nothing
+referred to it after the repair of `tesfile.cpp`, so that definition is
+gone; the declaration in `include/fnv/symbols_00fff000.h` stays.
+
 ## Not repaired
 
 | Name and recipe address | Uses | Why it stays open |
 | --- | --- | --- |
-| `g_011c5bbc_arg1`, `0x00500000` | `blk_00860000_od.cpp`, `FUN_00878360` (`0x00878360`): an unsigned difference is compared with its address. | Both uses are the number 0x500000 (5 MiB): `global_object_initializers2.cpp` passes it as the default of the unsigned setting `uGeometryMemory:BudgetCaps`, and `0x00500000` is the entry of a function row, `BGSTerminal::Load`, so it is not storage. Left for a follow-up repair (coordinator, 2026-11-12); the generated initializer stays under its own ruling. |
 | `DAT_01400000`, `0x01400000` | `niconsolerenderer.cpp` and `niunsharedgeometrygroup.cpp` store its address in integer fields; `nistaticgeometrygroup.cpp`, `nidynamicgeometrygroup.cpp` and `blk_00860000_od.cpp` (`FUN_00878030`) in pointer fields. | The repository cannot show that the address lies outside the original release as loaded, and the fields that receive it disagree in type. No unit defines the name. |
 | `FUN_00a00000`, `0x00a00000` | `blk_00860000_od.cpp`, `FUN_00878030`: stored in a pointer field beside the sizes `0xf00000` and `0x200000`. | Its uses are the number 0xa00000 (10 MiB budgets): `global_object_initializers2.cpp` passes it as the default of three INI settings. Left open because the fields it is stored in are typed as pointers; deciding their type is a separate step. |
 | `g_target_00cc74d0`, `0x00000014` | `blk_00cc0000_o2.cpp`, `FUN_00cc74d0`: returns its address as `void *`. | Below base, but the value is returned as a pointer, not used as an integer here, and the recipe gives the function a pointer result. No unit defines the name. |
@@ -140,8 +157,9 @@ are code addresses.
 ## The check
 
 `objects.mask_constants` runs `tools/function-relocations` with
-`mask-constants.tsv`. It forbids a relocation to any of the five names in
-each of the 17 changed functions, and fails at `cffde2737`. CTest registers
+`mask-constants.tsv`. It forbids a relocation to any of the six names in
+each of the 18 changed functions. It fails at `cffde2737`, and at
+`ffcceb42c` for `FUN_00878360`. CTest registers
 it in the windows-x64 cross build only, like the other relocation checks.
 
 No host test links any of these functions, so no behavioural test was added.

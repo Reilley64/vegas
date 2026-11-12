@@ -1,5 +1,5 @@
-# Functions whose numeric masks and flags were spelled as the addresses of
-# data names (VEGAS-93), docs/mask-constants.md. Format: README.md.
+# Functions whose numeric masks, flags and limits were spelled as the
+# addresses of data names (VEGAS-93), docs/mask-constants.md. Format: README.md.
 # The names whose addresses stood for the constants:
 forbid	?DAT_00ffffff@@3HA
 forbid	?DAT_01000000@@3HA

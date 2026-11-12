@@ -96,9 +96,10 @@ to the bodies at the recipe's rows (VEGAS-30). It forbids each name a call
 used before, which no object defines, and requires the name of the body.
 
 `table-slot-reads.tsv` lists the functions that read the slot after the end
-of a two-slot generated table (VEGAS-30). Each read 16 bytes past the start of
-the table: the windows-x64 view of the original's slot 8 bytes past it, which
-the recipe names on its own and generated data defines as its own variable.
+of a two-slot generated table (VEGAS-30, docs/table-slot-reads.md). Each read
+16 bytes past the start of the table: the windows-x64 view of the original's
+slot 8 bytes past it, which the recipe names on its own and generated data
+defines as its own variable.
 The table gives each generated table's length in a `past` line, so a listed
 function that again addresses one at or past its end fails, and requires
 the name of the slot that the function now calls through. The function still

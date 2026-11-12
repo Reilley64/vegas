@@ -375,7 +375,7 @@ The other 361 stay as they are:
 | Two or three definitions at the address, so there is no single name to take | 40 |
 | The requiring unit's recipe binds neither name, so the address is known only from the identifier | 6 |
 | Integer width, a call-behaviour repair under 2026-11-11 (3) | 3 |
-| The value differs: `g_010173f0`, below | 2 |
+| The value differed and the types differ: `g_010173f0`, below | 2 |
 | The recipe binds the requiring name to four other addresses | 1 |
 | Storage: `DAT_011b5a90` is defined as `int[1]`, and the requiring unit reads past its end into `DAT_011b5a94`, an interior alias (VEGAS-51) | 1 |
 
@@ -388,13 +388,16 @@ respelled; `DAT_010954cc` is a name the requiring unit's recipe does not
 bind; `DAT_010a05e4` is declared `char*`, but the definition is a virtual
 table array behind an asm label; `DAT_011b5a90` is the storage row.
 
-The definition of `g_010173f0` in `speedtree/frondengine.cpp` is writable
+The definition of `g_010173f0` in `speedtree/frondengine.cpp` was writable
 and zero. The recipe binds the name in 17 units, and `blk_00b20000_od.cpp`
 already passes it as the length of two other `AssignSubstring` calls. The two
 requiring declarations are `const`, and their class passes `(unsigned int)-1`
-in the same role. Binding them would knowingly give them 0 where they expect
-`npos`, and a `const` declaration would name writable storage. They wait for
-the repair of the value, VEGAS-100.
+in the same role. Binding them would have given them 0 where they expect
+`npos`. VEGAS-100 repaired the value: the definition holds all ones and stays
+writable. They still stay as they are: their declarations are `const` and
+the definition is not, and a respelling may add a `const` the declaration
+lacked but never drop one. They wait for a `const` definition, VEGAS-105.
+`docs/string-npos.md` records the users and the value.
 
 ## The object check and its named exceptions
 

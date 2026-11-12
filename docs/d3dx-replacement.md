@@ -270,7 +270,8 @@ The coordinator ruled on these calls (VEGAS-90):
   call get a mechanical comparison, the parent's argument against the tip's
   object, in a later census batch.
 
-A census of the source, by compiler parse, counts the other calls. It
+A census of the source, by compiler parse (measured at `3b9a04c29`),
+counts the other calls. It
 takes every call in a `src` unit of the windows-x64 build that writes no
 argument, to a callee whose declaration has no parameter and whose name the
 unit's recipe binds to an address. It pairs each with the parent of
@@ -326,6 +327,104 @@ source folder of the unit that holds the callee's function row:
 - It does not see calls in headers, calls through pointers, or calls the
   compiler could not resolve. The parent was parsed with the tip's compile
   commands, and 2,038 of its 3,257 units report errors.
+
+The restoration rule admits none of the 1,019 calls without a declaration
+change. Each call was tried twice, in a compiler parse of the tip with
+each unit's own compile command:
+
+- with the tip's callee as written and the parent's argument list;
+- with the parent's whole call, callee name and receiver included, so that
+  a declaration the parent called and the tip still has could bind.
+
+A call would be admitted when the restored call compiles, binds the
+function row of the same address that the unit's recipe binds, keeps the
+receiver, and passes each argument with the parent's text, value and type.
+Only a final conversion that keeps the address may be added. The census
+takes only calls whose callee declaration has no parameter. Without a
+declaration change, a call can therefore pass only through another
+declaration of the same address that its unit can already see.
+
+| Class | Reason | Calls |
+| --- | --- | ---: |
+| Admitted | | 0 |
+| Needs a declaration decision | the parent declared the address with more than one parameter list | 713 |
+| Needs a declaration decision | the call changed its form: member call, free call or construction | 288 |
+| Needs a declaration decision | the function row declares parameters (types and receiver not compared) | 9 |
+| Needs a declaration decision | the function row declares no parameter | 5 |
+| Needs a declaration decision | the function row's name has no signature | 2 |
+| By-value result (a repair, not a lost argument) | the argument was the hidden result slot; the result is now discarded | 1 |
+| Not paired by the probe | two calls of the callee on the line, one lost row | 1 |
+| Total | | 1,019 |
+
+- Each call is in the first class whose test it meets, in this order:
+  admitted, not paired, by-value result, needs a declaration
+  decision. Inside the declaration class the reasons are tested in the
+  order: function row with parameters, changed form, more than one
+  parameter list, function row without parameters, no signature.
+- "More than one parameter list": the parent's recipe binds names with
+  different parameter lists to the address. This counts the candidates for
+  separate identities at a merged address. It is an upper bound, because
+  two spellings of one parameter type count as two lists. 86 of the 713
+  calls are calls of `0x00a29680`.
+- "Changed form": the parent called a member and the tip calls a free
+  function (284 calls) or constructs a `Vec3` (2), or the parent's call,
+  written at the tip, binds a free function instead of the member the
+  parent called (2). The parent's receiver has no place at the tip. 133 of
+  the 288 calls are calls of `0x00a29680`.
+- The function row declares parameters at two addresses; their types and
+  the receiver were not compared with the parent's call. At
+  `0x00aa0ac0`, `FUN_00aa0ac0_shell::FUN_00aa0ac0(NiStream&)` takes the
+  stream. Its 7 calls in `nianimation` call the free `::FUN_00aa0ac0()`.
+  The parent passed the stream there, under several local names, mostly
+  the base class's `LoadBinary`. At `0x00ee6dd4` the transpose's 2 calls
+  are the two lines listed under "What still reaches D3DX" (one passes an
+  integer, one the 36-byte `Matrix`; both stay refused). Six of the seven
+  `0x00aa0ac0` calls had `this` as the parent's receiver, through local
+  helper classes with local stream types; `nipathinterpolator.cpp`'s parent
+  called a free `__stdcall` function taking a `Source*`.
+- The function row declares no parameter: `0x00ee6dc2` in `interface.cpp`,
+  `0x00e8a9b0` twice, `0x00a9b360` and `0x00d36990`. The row's name has no
+  signature at `0x00d36930` and `0x00d1d530`.
+- By-value result: in `tesobjectrefr.cpp`, `0x0057ada0` passed `&aOut30`
+  to `0x00413fc0` as the slot for its result. At the tip the function row,
+  `FUN_00413fc0_Class::GetRadii`, returns the 12-byte record by value; the
+  call discards it, and `aOut30` is read later without that write. This is
+  a behaviour change to repair, not a lost argument.
+- Not paired by the probe: in `tesnpc.cpp` the line holds two
+  argument-less calls of `0x004ac110`; the census has one kept and one lost
+  row for it and the probe reads only the lost rows. With its
+  zero-parameter row it would need a declaration decision anyway.
+- With the parent's whole call, 23 calls compile and bind a declaration
+  other than the address's function row: 21 that the unit's recipe does
+  not bind, often a local member of the parent's spelling, and 2 that are
+  not the row: `GetRadii` above, and `0x009fce80` in
+  `blk_009e0000_o2.cpp`. 8 more bind only after the compiler recovers from
+  an error: 7 through a spelling the compiler guessed, 1 whose line still
+  fails. That call passes
+  `(int)this` to `::FUN_009fce80(int)`, while the row declares no
+  parameter. With the tip's callee as written, only the 2 lines of
+  `0x00e82e70` compile, and they stay refused by the ruling.
+- The test that the call binds the function row is stricter than the
+  D3DX restorations. At `0x00ee6dda` and `0x00ee6df2` they bound the
+  native definition, which is not the function row. The difference changes
+  no call here: the only call that binds a native name this way is in
+  `0x00e82e70`. Two other calls bind a declaration the recipe binds only
+  by a symbols key, with no definition (`AObj::FUN_00413fc0` and
+  `::FUN_009fce80(int)`); such a declaration is not a binding target.
+- The 1,019 calls by family: `fallout_shared` 225 need a declaration
+  decision, 1 is a by-value result and 1 was not paired. All the calls of
+  every other family need a declaration decision.
+- No source, recipe or declaration changes with this classification.
+  Every further restoration from this census needs a decision first: which
+  declaration the calls of `0x00aa0ac0` use, which member declaration the
+  288 calls of changed form get, or separate identities at merged addresses
+  (the 2026-11-11 addendum on providers for restored identities).
+- Not examined: the census's other classes, the calls the census does not
+  see, and units whose parse fails. The parent's calls come from parses
+  with errors. 19 of the 1,019 calls are in 4 units whose parse crashes
+  the plugin that records type sizes. Those units were parsed again by a
+  plugin that does not record them; the type sizes it skips are not used
+  by the tests above.
 
 ## DDS header reader
 

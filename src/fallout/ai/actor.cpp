@@ -1235,7 +1235,6 @@ class TESObjectWEAP
 #include "fnv/symbols_00ceb000.h"
 #include "fnv/symbols_01050000.h"
 #include "fnv/symbols_0109b000.h"
-#include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_011ac000.h"
 #include "fnv/symbols_011af000.h"
@@ -152672,6 +152671,15 @@ struct __declspec(align(16)) StateRecord {
 struct NodeArg {
     virtual void slot0(); virtual void slot1(); virtual void slot2(); virtual NiNode* get();
 };
+// DAT_010c4dc0 holds 0x00cb9cb0, a function of one pointer
+// (docs/table-slot-reads.md). TempArray's destructor calls it with two
+// arguments: TempArray is tabled as a stale 32-bit transcription of
+// 0x00c7a630 (VEGAS-103). Until that is settled this unit keeps its own
+// declarations of the two names it uses from fnv/symbols_010c4000.h, and
+// with them the names its object requires, and does not include it.
+extern void *DAT_010c4db8;
+struct TempArray;
+extern void (*DAT_010c4dc0)(TempArray *, unsigned int);
 struct TempArray {
     void* vtable; unsigned int data,size,capacity;
     TempArray():vtable(&DAT_010c4db8),data(0),size(0),capacity(0){}

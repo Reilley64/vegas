@@ -230,7 +230,6 @@
 #include "fnv/symbols_00a25000.h"
 #include "fnv/symbols_00ad7000.h"
 #include "fnv/symbols_00af5000.h"
-#include "fnv/symbols_01000000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_0101e000.h"
@@ -8010,7 +8009,7 @@ void __cdecl FUN_007d69f0()
     DLC_007d69f0* kPDLC = ((::fnv_007d69f0::DLC_007d69f0 *)&(reinterpret_cast<::BSSystemUtility *>((FUN_00af2640()))->QDLCUtility()));
     if (!((::fnv_007d69f0::List_007d69f0 *)(reinterpret_cast<::NonActorMagicTarget *>((kPDLC))->GetActiveEffectList()))->FUN_008256d0())
     {
-        reinterpret_cast<::FUN_0075f6f0_shell *>(((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))))->FUN_0075f6f0((intptr_t)&::DAT_01000000, 1);
+        reinterpret_cast<::FUN_0075f6f0_shell *>(((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))))->FUN_0075f6f0(0x01000000, 1);
     }
     (*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList.v07();
     reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList))->FUN_00764430(-1, ((char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007d69f0::InvSetting_007d69f0 *>(&::g_011d3ad4))))->GetMenuTitle())), (int (*)(BoxItem *, BoxItem *))(0), (const char *)(0));

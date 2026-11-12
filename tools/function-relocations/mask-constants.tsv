@@ -11,3 +11,4 @@ function	tes	src/fallout_shared/tes.cpp	?FUN_00451ef0@AttachmentHandler@@QEAAXPE
 function	impactmixer	src/fallout/audio/impactmixer.cpp	?FUN_00838750@FUN_00838750_shell@@QEAA_NXZ	-
 function	impactmixer	src/fallout/audio/impactmixer.cpp	?FUN_00838780@@YAXPEAVTESObjectREFR@@@Z	-
 function	impactmixer	src/fallout/audio/impactmixer.cpp	?PlayFootstepSound@@YAXPEAUFootstepActor@@H@Z	-
+function	startmenu	src/fallout/interface/menus/startmenu.cpp	?FUN_007d69f0@fnv_007d69f0@@YAXXZ	-

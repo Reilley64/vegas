@@ -511,13 +511,67 @@ else()
 endif()
 add_test(NAME runtime.single_instance_check COMMAND runtime_single_instance_check_test)
 
-# Runs the built FalloutNV.exe with no arguments and requires exit code 0.
-# It shows that the process image loads, its imports resolve, the C++ runtime
-# starts, process memory initialisation completes and main returns 0. It does
-# not show pack handling, the engine link, startup or boot: main opens no file
-# and reads no game data, pack or working-directory content.
+# The data pack stage of main, on packs the data pack writer makes in folders
+# of the test's own while it runs.
+add_executable(runtime_data_pack_startup_test runtime/data_pack_startup_test.cpp)
+target_include_directories(runtime_data_pack_startup_test PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 if(WIN32)
-  add_test(NAME falloutnv.process_exit COMMAND FalloutNV)
+  target_link_libraries(runtime_data_pack_startup_test PRIVATE game)
+else()
+  target_sources(runtime_data_pack_startup_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/data_pack_startup.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/single_instance_strings.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_open.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_container.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_writer.cpp)
+  target_link_libraries(runtime_data_pack_startup_test PRIVATE ZLIB::ZLIBSTATIC)
+endif()
+add_test(NAME runtime.data_pack_startup COMMAND runtime_data_pack_startup_test)
+add_test(NAME runtime.data_pack_startup.refused_publishes_nothing
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_data_pack_startup_test>
+    -DMODE=--refused-then-read
+    -DMARKER=refused-then-read
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+
+# Run a copy of the built FalloutNV.exe alone in a folder of the test's own,
+# with no original executable beside it. falloutnv.process_exit writes a
+# complete synthetic pack beside the copy and requires exit code 0: the
+# process image loads, its imports resolve, the C++ runtime starts, process
+# memory initialisation completes, the pack beside the executable validates,
+# C1 is published, the single-instance and remote-session checks pass and
+# main returns 0. falloutnv.process_exit.missing_pack writes the pack only in
+# the working directory and requires exit code 2 with the missing pack
+# reported on the standard error stream. Before each run the fixture makes the
+# calls of the single-instance check with the message box recorded; when main
+# would show a box, the copy is not run and the test is skipped. Each run has
+# 60 seconds, so a run that waits fails instead of holding the runner. Neither
+# shows the engine link, startup or boot.
+if(WIN32)
+  add_executable(falloutnv_pack_fixture runtime/falloutnv_pack_fixture.cpp)
+  target_include_directories(falloutnv_pack_fixture PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+  target_link_libraries(falloutnv_pack_fixture PRIVATE game user32)
+  foreach(mode IN ITEMS with-pack without-pack)
+    if(mode STREQUAL "with-pack")
+      set(test_name falloutnv.process_exit)
+    else()
+      set(test_name falloutnv.process_exit.missing_pack)
+    endif()
+    add_test(NAME ${test_name}
+      COMMAND ${CMAKE_COMMAND}
+        -DPROGRAM=$<TARGET_FILE:FalloutNV>
+        -DFIXTURE=$<TARGET_FILE:falloutnv_pack_fixture>
+        -DFOLDER=${CMAKE_CURRENT_BINARY_DIR}/${test_name}
+        -DMODE=${mode}
+        -DTIMEOUT=60
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/falloutnv_pack_folder.cmake)
+    set_tests_properties(${test_name} PROPERTIES
+      SKIP_REGULAR_EXPRESSION "SKIPPED: the single-instance check would show a message box")
+  endforeach()
 endif()
 
 add_executable(runtime_native_string_test runtime/native_string_test.cpp)

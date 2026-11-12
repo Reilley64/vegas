@@ -1327,11 +1327,11 @@ TESTopicInfo* __cdecl GetTopicInfoByIndex(QuestDialogueInfo* info, unsigned int 
 
 struct FUN_00619c50_shell : TESTopic
 {
-    TESTopic* FindTopicByInfoID(unsigned int topicID);
+    TESTopic* FindTopicByInfoID(std::uintptr_t topicID);
 };
 
 // @fnv 0x00619c50
-TESTopic* FUN_00619c50_shell::FindTopicByInfoID(unsigned int topicID)
+TESTopic* FUN_00619c50_shell::FindTopicByInfoID(std::uintptr_t topicID)
 {
     BSSimpleList<QuestDialogueInfo*>* pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)this)->GetDiffuseColor()));
     unsigned int count_2 = 0;

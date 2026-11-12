@@ -12833,12 +12833,12 @@ class FUN_004f05c0_cls
 {
   public:
     LoaderNode* First();
-    void ApplyFlagsToEntries(unsigned int flags);
+    void ApplyFlagsToEntries(std::uintptr_t flags);
 };
 
 // Iterates the node list from First(), looks up two entries per node via FUN_00653270 and calls Method(flags) on each non-null entry.
 // @fnv 0x004f05c0
-void FUN_004f05c0_cls::ApplyFlagsToEntries(unsigned int flags)
+void FUN_004f05c0_cls::ApplyFlagsToEntries(std::uintptr_t flags)
 {
     for (LoaderNode* node = First(); node != 0; node = ((::LoaderNode *)(::fnv_004a8a90::FUN_004a8a90((char *)(node)))))
     {

@@ -23,6 +23,7 @@ forbid	?FUN_004da670@fnv_004da670@@YAHPEAX0@Z
 forbid	?FUN_00585e00@FUN_00585e00_cls@fnv_00585e00@@QEAAXH@Z
 forbid	?ProcessCellsInRadius@WORLD_SHELL@@QEAAXPEBUNiPoint3@@M0M_JI@Z
 forbid	?FUN_005aa580@@YAXH@Z
+forbid	?FUN_00c40e70@Map40@@QEAA_NPEAUIter40@@PEA_JH_N@Z
 # batch, unit, function, the agreed name the function must call:
 function	requirer	src/fallout/ai/middlehighprocess.cpp	?FUN_00913a20@Host913@@QEAA_NPEAUProc@@@Z	?FUN_00444d40@S_00444d40_Class@@QEAAX_JH00@Z
 function	requirer	src/gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.cpp	?GetOrCreateChip@Group@@QEAAPEAUChip@@PEAUData@@I@Z	?FUN_00537d60_Create@@YAPEAX_K0IHH@Z
@@ -71,3 +72,10 @@ function	requirer	src/fallout_shared/tesdatahandler.cpp	?DeleteObject@DeletionDa
 function	requirer	src/fallout/interface/menus/vatsmenu.cpp	?FUN_007f52c0@@YA_NXZ	?ProcessCellsInRadius@WORLD_SHELL@@QEAAXPEBUNiPoint3@@M0M_J_K@Z
 function	requirer	src/fallout_shared/tesdatahandler.cpp	?GetReferencesInArea@TESDataHandler@@QEAAXPEAVTESObjectCELL@@AEBUNiPoint3@@M1MP6A_NPEAVTESObjectREFR@@_J@Z3@Z	?ProcessCellsInRadius@WORLD_SHELL@@QEAAXPEBUNiPoint3@@M0M_J_K@Z
 function	requirer	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005c43d0@@YA_NHHPEAURef@@H0PEAUExtra@@HH@Z	?FUN_005aa580@@YAX_J@Z
+function	definition	src/fallout_shared/modelloader.cpp	?ApplyFlagsToEntries@FUN_004f05c0_cls@@QEAAX_K@Z	-
+function	definition	src/fallout_shared/animation.cpp	?DetachObjectModels@Target496@fnv_00496a50@@SAXPEAUData496@2@@Z	?ApplyFlagsToEntries@FUN_004f05c0_cls@@QEAAX_K@Z
+function	definition	src/fallout_shared/animation.cpp	?FUN_0049bd90@FUN_0049bd90_shell@@QEAAXPEAX@Z	?ApplyFlagsToEntries@FUN_004f05c0_cls@@QEAAX_K@Z
+function	definition	src/fallout_shared/testopic.cpp	?FindTopicByInfoID@FUN_00619c50_shell@@QEAAPEAVTESTopic@@_K@Z	-
+function	definition	src/fallout_shared/testopicinfo.cpp	?SetOwnerTopic@TESTopicInfo@@QEAAXPEAVTESTopic@@@Z	?FindTopicByInfoID@FUN_00619c50_shell@@QEAAPEAVTESTopic@@_K@Z
+function	requirer	src/fallout_shared/modelloader.cpp	?FUN_00c3fce0@S00c3fce0_cls@@QEAAXXZ	?FUN_00c40e70@Map40@@QEAA_NPEAUIter40@@PEA_J_J_N@Z
+function	requirer	src/staging/blk_00c20000_od.cpp	?FUN_00c3e1b0@IOMgr_c3e1b0@@QEAAXHH@Z	?FUN_00c40e70@Map40@@QEAA_NPEAUIter40@@PEA_J_J_N@Z

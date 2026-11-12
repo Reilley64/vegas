@@ -1,0 +1,602 @@
+address	class	units	defined	symbols
+0x00fdf044	same object under two names and type disagreement	17	DAT_00fdf044	?DAT_00fdf044@@3HA ?DAT_00fdf044@@3KA ?DAT_00fdf044@@3P6GHH@ZA ?DAT_00fdf044@@3P6GPAXK@ZA ?DAT_00fdf044@@3PAXA ?DAT_0fdf044@@3PAXA _DAT_00fdf044
+0x00fdf04c	type disagreement	2	DAT_00fdf04c	?DAT_00fdf04c@@3P6GHHH@ZA _DAT_00fdf04c
+0x00fdf054	same object under two names	7	DAT_00fdf054	?DAT_00fdf054@@3P6GXPAX@ZA ?DAT_00fdf054@fnv_00af7eb0@@3P6GXPAX@ZA ?g_pfnEntryInit@@3P6GXPAX@ZA
+0x00fdf058	same object under two names	2	DAT_00fdf058	?DAT_00fdf058@@3P6GXPAX@ZA ?DAT_00fdf058@fnv_00d055c0@@3P6GXPAX@ZA
+0x00fdf05c	same object under two names and type disagreement	22	DAT_00fdf05c	?DAT_00fdf05c@@3P6GXPAH@ZA ?DAT_00fdf05c@@3P6GXPAX@ZA ?DAT_00fdf05c@fnv_00a01b00@@3P6GXPAX@ZA ?DAT_00fdf05c@fnv_00a8dce0@@3P6GXPAX@ZA ?DAT_00fdf05c@fnv_00b08ec0@@3P6GXPAX@ZA ?DAT_00fdf05c@fnv_00d5e9b0@@3P6GXPAX@ZA ?DAT_0126820c_enter@@3P6GXPAH@ZA ?g_pEnterCriticalSection@@3PAXA _DAT_00fdf05c _fnv_EnterCriticalSection
+0x00fdf068	same object under two names and type disagreement	4	DAT_00fdf068	?DAT_00fdf068@@3P6GHPAXPAUDirectoryFindData@@@ZA _xg_FindNextFileA
+0x00fdf070	same object under two names and type disagreement	4	DAT_00fdf070	?DAT_00fdf070@@3P6GPAXPBDPAUDirectoryFindData@@@ZA _xg_FindFirstFileA
+0x00fdf07c	same object under two names and type disagreement	3	DAT_00fdf07c	?DAT_00fdf07c@@3P6GXPAX@ZA ?DAT_00fdf07c@fnv_009fe0c0@@3P6GXPAH@ZA _DAT_00fdf07c
+0x00fdf0a8	same object under two names and type disagreement	3	DAT_00fdf0a8	?DAT_00fdf0a8@@3P6GHPAX@ZA ?DAT_00fdf0a8@fnv_009fce80@@3P6GXH@ZA ?g_pfnE6EC20FreeLibrary@@3P6GHPAX@ZA
+0x00fdf0ac	same object under two names	2	DAT_00fdf0ac	?DAT_00fdf0ac@@3P6GPAXPAXPBD@ZA ?DAT_00fdf0ac@fnv_00da2840@@3P6GPAXPAXPBD@ZA
+0x00fdf0b0	same object under two names	2	DAT_00fdf0b0	?DAT_00fdf0b0@@3P6GPAXPBD@ZA ?DAT_00fdf0b0@fnv_00da2840@@3P6GPAXPBD@ZA
+0x00fdf0b4	type disagreement	3	DAT_00fdf0b4	?DAT_00fdf0b4@@3P6GPAXPAXJJPBD@ZA _DAT_00fdf0b4
+0x00fdf0d0	same object under two names and type disagreement	1	DAT_00fdf0d0	?DAT_00fdf0d0@@3P6GXPAX@ZA ?DAT_00fdf0d0@fnv_009fe0c0@@3P6GXPAH@ZA
+0x00fdf100	same object under two names and type disagreement	22	DAT_00fdf100	?DAT_00fdf100@@3P6GXPAH@ZA ?DAT_00fdf100@@3P6GXPAX@ZA ?DAT_00fdf100@fnv_00a01b00@@3P6GXPAX@ZA ?DAT_00fdf100@fnv_00a8dce0@@3P6GXPAX@ZA ?DAT_00fdf100@fnv_00b08ec0@@3P6GXPAX@ZA ?DAT_00fdf100@fnv_00c99ce0@@3P6GXPAH@ZA ?DAT_00fdf100@fnv_00d5e9b0@@3P6GXPAX@ZA ?DAT_0126813c_leave@@3P6GXPAX@ZA ?DAT_0126820c_leave@@3P6GXPAH@ZA ?__imp__LeaveCriticalSection@fnv_00a04500@@3Q6GXPAV_RTL_CRITICAL_SECTION@@@ZA _DAT_00fdf100 _fnv_LeaveCriticalSection
+0x00fdf110	same object under two names and type disagreement	1	DAT_00fdf110	?DAT_00fdf110@@3P6GPAXXZA ?DAT_00fdf110@fnv_00da2840@@3P6GPAXHH@ZA
+0x00fdf1b0	type disagreement	2	DAT_00fdf1b0	?DAT_00fdf1b0@@3P6GHPAX@ZA ?DAT_00fdf1b0@@3P6GIPAX@ZA
+0x00fdf1b4	type disagreement	2	DAT_00fdf1b4	?DAT_00fdf1b4@@3P6GXHHH@ZA _DAT_00fdf1b4
+0x00fdf1bc	same object under two names and type disagreement	2	DAT_00fdf1bc FUN_00fdf1bc	?DAT_00fdf1bc@@3P6GJPCJJJ@ZA _FUN_00fdf1bc
+0x00fdf1c0	same object under two names and type disagreement	30	DAT_00fdf1c0	?DAT_00fdf1c0@@3P6GHPAX@ZA ?DAT_00fdf1c0@@3P6GJPAX@ZA ?DAT_00fdf1c0@@3P6GXH@ZA ?DAT_00fdf1c0@@3P6GXPAX@ZA ?DAT_00fdf1c0@@3PAPAXA ?DAT_00fdf1c0@fnv_00a5ff10@@3P6GJPCJ@ZA ?DAT_00fdf1c0@fnv_00adcb20@@3P6GJPCJ@ZA ?DAT_00fdf1c0@fnv_00b672e0@@3P6GXPAH@ZA ?DAT_00fdf1c0@fnv_00b67330@@3P6GHPAI@ZA ?DAT_00fdf1c0@fnv_00c4f8e0@@3P6GHPAJ@ZA ?FUN_00fdf1c0@@3P6GXH@ZA ?FUN_00fdf1c0@@3P6GXPAX@ZA ?g_pfnInterlockedIncrement@@3P6GJPCJ@ZA _DAT_00fdf1c0 _FUN_00fdf1c0
+0x00fdf1c4	same object under two names and type disagreement	33	DAT_00fdf1c4	?DAT_00fdf1c4@@3P6GHPAX@ZA ?DAT_00fdf1c4@@3P6GJPAJ@ZA ?DAT_00fdf1c4@@3P6GPAXPAH@ZA ?DAT_00fdf1c4@@3P6GPAXPAX@ZA ?DAT_00fdf1c4@@3P6GXPAX@ZA ?DAT_00fdf1c4@@3PAXA ?DAT_00fdf1c4@fnv_009fce80@@3P6GHPAH@ZA ?DAT_00fdf1c4@fnv_00a5ff10@@3P6GJPCJ@ZA ?DAT_00fdf1c4@fnv_00b672e0@@3P6GHPAH@ZA ?DAT_00fdf1c4@fnv_00b67330@@3P6GHPAI@ZA ?DAT_00fdf1c4@fnv_00ca6b60@@3P6GHPAX@ZA ?DAT_00fdf1c4@fnv_00e88b00@@3HA ?FUN_00fdf1c4@@3P6GHPAD@ZA ?LocalDecrement@@3P6GHPAX@ZA _DAT_00fdf1c4
+0x00fdf1c8	same object under two names and type disagreement	2	DAT_00fdf1c8@fnv_009fe0c0	?DAT_00fdf1c8@fnv_009fe0c0@@3P6GXHH@ZA _DAT_00fdf1c8
+0x00fdf1cc	same object under two names and type disagreement	2	DAT_00fdf1cc	?DAT_00fdf1cc@@3P6GXPAH@ZA ?g_FNV_008c78c0_hook@@3P6GXH@ZA
+0x00fdf1d0	type disagreement	2	DAT_00fdf1d0	?DAT_00fdf1d0@@3P6GHXZA _DAT_00fdf1d0
+0x00fdf1ec	type disagreement	3	DAT_00fdf1ec	?DAT_00fdf1ec@@3P6GJPCJJ@ZA _DAT_00fdf1ec
+0x00fdf288	type disagreement	2	DAT_00fdf288	?DAT_00fdf288@@3P6GXHH@ZA ?DAT_00fdf288@@3P6GXPAXH@ZA
+0x00fdf28c	type disagreement	3	DAT_00fdf28c	?DAT_00fdf28c@@3P6GHHHHPAUTreeEntry@@@ZA ?DAT_00fdf28c@@3P6GPAXHHHPAX@ZA ?DAT_00fdf28c@@3P6GXPAXHHH@ZA
+0x00fdf45c	same object under two names and type disagreement	1	DAT_00fdf45c	?DAT_00fdf45c@@3P6GXPAVSpectatorPackage@@@ZA ?DAT_00fdf45c@fnv_009f9cd0@@3P6GXPAX@ZA
+0x00fdf460	same object under two names and type disagreement	1	DAT_00fdf460	?DAT_00fdf460@@3P6GPAXI@ZA ?DAT_00fdf460@fnv_009f9cd0@@3P6GPAXK@ZA
+0x01011584	same object under two names and type disagreement	62	DAT_01011584	?$SG3295@@3HA ?$SG3295@@3PADA ?$SG3295@@3QBDB ?$SG3295@fnv_00578870@@3PADA ?$SG3295@fnv_005c55d0@@3PADA ?$SG3295@fnv_0071d620@@3QBDB ?$SG3295@fnv_0079b460@@3QBDB ?$SG3295@fnv_0083da50@@3PADA ?$SG4382@@3PADA ?$SG4382@@3QBDB ?$SG5812@@3QBDB ?$SG5812@fnv_00479540@@3QBDB ?$SG5889@@3QBDB ?$SG5889@fnv_00618660@@3PADA ?DAT_01011584@@3DA ?DAT_01011584@@3QBDB ?DAT_01011584@fnv_00b8faf0@@3DA ?DAT_01011584@fnv_00b8fc50@@3HA ?DAT_01011584@fnv_00b8fdb0@@3DA ?DAT_01011584@fnv_00b921f0@@3MB _DAT_01011584
+0x01011d78	type disagreement	63	DAT_01011d78	?DAT_01011d78@@3MA ?DAT_01011d78@@3MB
+0x01012320	same object under two names and type disagreement	2	g_011c3230_arg1	?g_011c3230_arg1@@3QBDB _s_szPercent
+0x01012c78	same object under two names and type disagreement	12	DAT_01012c78	?$SG7038@@3PADA ?$SG7038@@3QBDB ?DAT_01012c78@@3QBDB
+0x01012cb0	same object under two names and type disagreement	12	DAT_01012cb0	?$SG7035@@3PADA ?$SG7035@@3QBDB ?DAT_01012cb0@@3QBDB
+0x010170ec	same object under two names and type disagreement	2	fnv_tesidlemanager_idle_anims	?_fnv_tesidlemanager_idle_anims@fnv_0095ee80@@3QBDB _fnv_tesidlemanager_idle_anims
+0x010176f8	same object under two names and type disagreement	7	DAT_010176f8	?DAT_010176f8@@3PAXA ?DAT_010176f8@fnv_0044dd10@@3HA _DAT_010176f8
+0x01017868	type disagreement	14	DAT_01017868	?DAT_01017868@@3MA ?DAT_01017868@@3MB
+0x010178bc	same object under two names	2	DAT_010178bc	?DAT_010178bc@@3HA ?DAT_010178bc@fnv_004505f0@@3HA
+0x01017d00	same object under two names and type disagreement	36	DAT_01017d00 DAT_01017d00@AngularDashpotApplyD4DCB0	?DAT_01017d00@@3MA ?DAT_01017d00@AngularDashpotApplyD4DCB0@@3MB
+0x01017d10	same object under two names and type disagreement	55	DAT_01017d10	?DAT_01017d10@@3T__m128@@B ?DAT_01017d10@@3T__m128@P064Intrinsics@@A ?DAT_01017d10@@3UVector@@B ?DAT_01017d10@StepReleaseFitPrivate@@3T__m128@1@B
+0x0101a3a4	same object under two names and type disagreement	3	$SG6264@fnv_00474880	?$SG6264@fnv_00474880@@3PAXA ?DAT_0101a3a4@@3HA
+0x0101e57c	same object under two names	4	g_011c9040_arg1	?DAT_0101e57c@Engage@@3MB ?g_011c9040_arg1@@3MB
+0x01020584	same object under two names and type disagreement	2	g_011cc83c_arg1	?g_011cc83c_arg1@@3QBDB _s_szSpine1
+0x0102102c	same object under two names	2	DAT_0102102c	?DAT_0102102c@@3HA ?PTR_0102102c@@3HA
+0x01029790	type disagreement	15	DAT_01029790	?DAT_01029790@@3NA ?DAT_01029790@@3NB
+0x0102b13c	same object under two names and type disagreement	2	DAT_0102b13c@fnv_00516dc0	?DAT_0102b13c@fnv_00516dc0@@3PADA _s_szUnlock
+0x0102cb10	same object under two names and type disagreement	2	DAT_0102cb10 s_szProjectileNode	?DAT_0102cb10@@3DA _s_szProjectileNode
+0x0102e388	same object under two names and type disagreement	98	DAT_0102e388	?DAT_0102e388@@3HA ?DAT_0102e388@@3PAXA ?DAT_0102e388@fnv_00e021d0@@3HA ?DAT_0102e388@fnv_00e025a0@@3HA ?DAT_0102e388@fnv_00e05d10@@3HA
+0x0102f13c	same object under two names and type disagreement	7	str_0102f13c	?$SG5957@@3HA _str_0102f13c
+0x01044aec	same object under two names and type disagreement	2	DAT_01044aec@ChangeReport kStr_Flags	?DAT_01044aec@ChangeReport@@3DA _kStr_Flags
+0x0104da48	type disagreement	72	DAT_0104da48	?DAT_0104da48@@3MA ?DAT_0104da48@@3MB
+0x0104da4c	type disagreement	33	DAT_0104da4c	?DAT_0104da4c@@3MA ?DAT_0104da4c@@3MB
+0x0104df38	same object under two names and type disagreement	2	s_acError str_0104df38	?str_0104df38@@3PADA _s_acError
+0x0105ac24	same object under two names and type disagreement	2	g_011d3744_arg1 kStr_Inventory	?g_011d3744_arg1@@3QBDB _kStr_Inventory
+0x0105c30c	same object under two names and type disagreement	2	g_011d49cc_arg1 kStr_Gender	?g_011d49cc_arg1@@3QBDB _kStr_Gender
+0x010657f8	same object under two names and type disagreement	2	DAT_010657f8@fnv_00654720 textureLiteral5	?DAT_010657f8@fnv_00654720@@3QBDB _textureLiteral5
+0x01066c5c	same object under two names and type disagreement	1	DAT_01066c5c g_vtblMultiSphere	?DAT_01066c5c@@3DA _g_vtblMultiSphere
+0x010685dc	same object under two names and type disagreement	1	str_010685dc	?str_010685dc@@3PADA _packageSourcePath
+0x01069d20	same object under two names and type disagreement	1	DAT_01069d20	?DAT_01069d20@@3PADA _s_szParticleFile
+0x0106b648	type disagreement	3	DAT_0106b648	?DAT_0106b648@@3MA _DAT_0106b648
+0x0106e4e0	same object under two names	1	DAT_0106e4e0 kBGSTerrainNodeFileLabel	_DAT_0106e4e0 _kBGSTerrainNodeFileLabel
+0x0106eb00	same object under two names and type disagreement	4	s_lit4 str_0106eb00@fnv_00785540 str_FormatCount	?str_0106eb00@fnv_00785540@@3QBDB _s_lit4 _s_szCountFormat _s_szNameCount _str_FormatCount
+0x0106eb24	same object under two names and type disagreement	2	DAT_0106eb24@InventorySelection str_InterfaceIcons	?DAT_0106eb24@InventorySelection@@3QBDB _str_InterfaceIcons
+0x0106ed0c	same object under two names and type disagreement	2	DAT_0106ed0c kCNDArrows	?DAT_0106ed0c@@3PADA _kCNDArrows
+0x0106f060	same object under two names and type disagreement	2		?$SG6265@@3PADA _s_szUIMenuMode
+0x0106f370	same object under two names and type disagreement	2	DAT_0106f370@fnv_0077a650	?DAT_0106f370@fnv_0077a650@@3QBDB _s_szUIPopUpQuestNew
+0x0106f380	same object under two names and type disagreement	2	DAT_0106f380	?DAT_0106f380@@3PADA _s_szUIMenuOK
+0x0106f8d0	same object under two names and type disagreement	6	str_0106f8d0	?$SG7947@@3QBDB _str_0106f8d0
+0x01070244	same object under two names and type disagreement	7	kListBoxEnabled	?$SG2844@fnv_007e02b0@@3QBDB ?$SG7172@fnv_007596a0@@3PADA _kListBoxEnabled
+0x01071358	same object under two names and type disagreement	2	DAT_01071358@CaravanSetup s_lit8	?DAT_01071358@CaravanSetup@@3QBDB _s_lit8
+0x01071b64	same object under two names	4	DAT_01071b64	?$SG2670@@3QBDB ?DAT_01071b64@@3QBDB
+0x01073198	same object under two names	1	kTestHeight kTestHeight2	_kTestHeight _kTestHeight2
+0x010731dc	same object under two names	1	kTemplateJustifyLeftText kTemplateJustifyLeftText2 kTemplateJustifyLeftText3	_kTemplateJustifyLeftText _kTemplateJustifyLeftText2 _kTemplateJustifyLeftText3
+0x01073220	same object under two names	1	kTemplateJustifyCenterText kTemplateJustifyCenterText2 kTemplateJustifyCenterText3	_kTemplateJustifyCenterText _kTemplateJustifyCenterText2 _kTemplateJustifyCenterText3
+0x010733d0	same object under two names	1	kTemplateJustifyRightText kTemplateJustifyRightText2 kTemplateJustifyRightText3 kTemplateJustifyRightText4 kTemplateJustifyRightText5 kTemplateJustifyRightText6	_kTemplateJustifyRightText _kTemplateJustifyRightText2 _kTemplateJustifyRightText3 _kTemplateJustifyRightText4 _kTemplateJustifyRightText5 _kTemplateJustifyRightText6
+0x010733f0	same object under two names	1	kTemplateMeter kTemplateMeter2 kTemplateMeter3	_kTemplateMeter _kTemplateMeter2 _kTemplateMeter3
+0x01073724	same object under two names and type disagreement	1	s_szWaitComplete str_01073724@fnv_0077c170	?str_01073724@fnv_0077c170@@3QBDB _s_szWaitComplete
+0x01074e34	same object under two names and type disagreement	2	DAT_01074e34 s_szTitleFormat	?DAT_01074e34@@3QBDB _s_szTitleFormat
+0x01075770	same object under two names	2	kSound_7aba00	_kSound_7aba00 _s_szPopUp
+0x0107ce34	same object under two names and type disagreement	1	DAT_0107ce34@RadioUpdate radioUpdateStaticSound	?DAT_0107ce34@RadioUpdate@@3QBDB _radioUpdateStaticSound
+0x0107db20	same object under two names	1		_DAT_0107db20 _kConversationFile
+0x01090b68	same object under two names and type disagreement	4		?$SG2706@@3QBDB ?DAT_01090b68@SearchDiagnostics@@3QBDB _text_0
+0x010918a0	same object under two names	1		_text_10 _text_7
+0x010918c4	same object under two names	1		_text_6 _text_9
+0x01092b94	same object under two names	1		?$SG7034@@3QBDB ?DAT_01092b94@@3QBDB
+0x01095a04	same object under two names and type disagreement	1	DAT_01095a04 s_sz70	?DAT_01095a04@@3QBDB _s_sz70
+0x01095cec	same object under two names and type disagreement	1	DAT_01095cec s_sz35	?DAT_01095cec@@3QBDB _s_sz35
+0x01095cfc	same object under two names and type disagreement	1	DAT_01095cfc s_sz34	?DAT_01095cfc@@3QBDB _s_sz34
+0x01096320	same object under two names and type disagreement	8	INVALID_INDEX@NiInterpController	?DAT_01096320@@3GA ?INVALID_INDEX@NiInterpController@@2GA ?INVALID_INDEX@NiInterpController@@2GB ?INVALID_INDEX@NiInterpController@fnv_004f0640@@2GA
+0x01099908	same object under two names	1		_NI_INFINITY _g_fA50F00Invalid
+0x0109afc4	same object under two names and type disagreement	3	DAT_0109afc4	?DAT_0109afc4@@3MA _g_fSnapEpsilonA6E
+0x0109b220	same object under two names and type disagreement	104	DAT_0109b220	?DAT_0109b220@@3PADA ?DAT_0109b220@@3PAXA ?DAT_0109b220@fnv_00c517b0@@3PADA ?DAT_0109b220@fnv_00c57d70@@3PADA ?DAT_0109b220@fnv_00c584a0@@3PADA ?DAT_0109b220@fnv_00c5f240@@3PADA ?DAT_0109b220@fnv_00c5f2e0@@3PADA ?EmptyFS_c55@@3HA _DAT_0109b220 _EmptyFS
+0x010a4d90	type disagreement	6	DAT_010a4d90	?DAT_010a4d90@@3NA ?DAT_010a4d90@@3NB
+0x010bcf04	same object under two names and type disagreement	2	g_01202688_arg0 s_sz50	?g_01202688_arg0@@3QBDB _s_sz50
+0x010bcf20	same object under two names and type disagreement	2	g_01202690_arg0 s_sz49	?g_01202690_arg0@@3QBDB _s_sz49
+0x010bcf34	same object under two names and type disagreement	2	g_01202698_arg0 s_sz48	?g_01202698_arg0@@3QBDB _s_sz48
+0x010bcf54	same object under two names and type disagreement	2	g_012026a0_arg0 s_sz47	?g_012026a0_arg0@@3QBDB _s_sz47
+0x010bcf6c	same object under two names and type disagreement	2	g_01202510_arg0 s_sz46	?g_01202510_arg0@@3QBDB _s_sz46
+0x010bcf80	same object under two names and type disagreement	2	g_01202550_arg0 s_sz45	?g_01202550_arg0@@3QBDB _s_sz45
+0x010bcf94	same object under two names and type disagreement	2	g_01202528_arg0 s_sz44	?g_01202528_arg0@@3QBDB _s_sz44
+0x010bcfac	same object under two names and type disagreement	2	g_012026a8_arg0 s_sz43	?g_012026a8_arg0@@3QBDB _s_sz43
+0x010bcfc4	same object under two names and type disagreement	2	g_012026b0_arg0 s_sz42	?g_012026b0_arg0@@3QBDB _s_sz42
+0x010bcfe0	same object under two names and type disagreement	2	g_012026b8_arg0 s_sz41	?g_012026b8_arg0@@3QBDB _s_sz41
+0x010bcff8	same object under two names and type disagreement	2	g_012026c8_arg0 s_sz40	?g_012026c8_arg0@@3QBDB _s_sz40
+0x010bd010	same object under two names and type disagreement	2	g_012026d0_arg0 s_sz39	?g_012026d0_arg0@@3QBDB _s_sz39
+0x010bd02c	same object under two names and type disagreement	2	g_01202530_arg0 s_sz38	?g_01202530_arg0@@3QBDB _s_sz38
+0x010bd048	same object under two names and type disagreement	2	g_01202500_arg0 s_sz37	?g_01202500_arg0@@3QBDB _s_sz37
+0x010bd05c	same object under two names and type disagreement	2	g_012026d8_arg0 s_sz36	?g_012026d8_arg0@@3QBDB _s_sz36
+0x010bd07c	same object under two names and type disagreement	2	g_012026e0_arg0 s_sz35	?g_012026e0_arg0@@3QBDB _s_sz35
+0x010bd098	same object under two names and type disagreement	2	g_012026e8_arg0 s_sz34	?g_012026e8_arg0@@3QBDB _s_sz34
+0x010bd0b8	same object under two names and type disagreement	2	g_012026f0_arg0 s_sz33	?g_012026f0_arg0@@3QBDB _s_sz33
+0x010bd0d4	same object under two names and type disagreement	2	g_012026f8_arg0 s_sz32	?g_012026f8_arg0@@3QBDB _s_sz32
+0x010bd0ec	same object under two names and type disagreement	2	g_01202700_arg0 s_sz31	?g_01202700_arg0@@3QBDB _s_sz31
+0x010bd108	same object under two names and type disagreement	2	g_01202708_arg0 s_sz30	?g_01202708_arg0@@3QBDB _s_sz30
+0x010bd124	same object under two names and type disagreement	2	g_01202548_arg0 s_sz29	?g_01202548_arg0@@3QBDB _s_sz29
+0x010bd13c	same object under two names and type disagreement	2	g_01202710_arg0 s_sz28	?g_01202710_arg0@@3QBDB _s_sz28
+0x010bd158	same object under two names and type disagreement	2	g_01202718_arg0 s_sz27	?g_01202718_arg0@@3QBDB _s_sz27
+0x010bd174	same object under two names and type disagreement	2	g_01202720_arg0 s_sz26	?g_01202720_arg0@@3QBDB _s_sz26
+0x010bd190	same object under two names and type disagreement	2	g_01202728_arg0 s_sz25	?g_01202728_arg0@@3QBDB _s_sz25
+0x010bd1a8	same object under two names and type disagreement	2	g_01202730_arg0 s_sz24	?g_01202730_arg0@@3QBDB _s_sz24
+0x010bd1c8	same object under two names and type disagreement	2	g_01202738_arg0 s_sz23	?g_01202738_arg0@@3QBDB _s_sz23
+0x010bd1e8	same object under two names and type disagreement	2	g_01202740_arg0 s_sz22	?g_01202740_arg0@@3QBDB _s_sz22
+0x010bd204	same object under two names and type disagreement	2	g_01202748_arg0 s_sz21	?g_01202748_arg0@@3QBDB _s_sz21
+0x010bd224	same object under two names and type disagreement	2	g_01202750_arg0 s_sz20	?g_01202750_arg0@@3QBDB _s_sz20
+0x010bd244	same object under two names and type disagreement	2	g_01202758_arg0 s_sz19	?g_01202758_arg0@@3QBDB _s_sz19
+0x010bd264	same object under two names and type disagreement	2	g_01202760_arg0 s_sz18	?g_01202760_arg0@@3QBDB _s_sz18
+0x010bd27c	same object under two names and type disagreement	2	g_012024e8_arg0 s_sz17	?g_012024e8_arg0@@3QBDB _s_sz17
+0x010bd290	same object under two names and type disagreement	2	g_01202768_arg0 s_sz16	?g_01202768_arg0@@3QBDB _s_sz16
+0x010bd2a4	same object under two names and type disagreement	2	g_01202770_arg0 s_sz15	?g_01202770_arg0@@3QBDB _s_sz15
+0x010bd2bc	same object under two names and type disagreement	2	g_01202558_arg0 s_sz14	?g_01202558_arg0@@3QBDB _s_sz14
+0x010bd2c8	same object under two names and type disagreement	2	g_01202508_arg0 s_sz13	?g_01202508_arg0@@3QBDB _s_sz13
+0x010bd2e0	same object under two names and type disagreement	2	g_01202778_arg0 s_sz12	?g_01202778_arg0@@3QBDB _s_sz12
+0x010bd2f4	same object under two names and type disagreement	2	g_01202780_arg0 s_sz11	?g_01202780_arg0@@3QBDB _s_sz11
+0x010bd30c	same object under two names and type disagreement	2	g_01202518_arg0 s_sz10	?g_01202518_arg0@@3QBDB _s_sz10
+0x010bd320	same object under two names and type disagreement	2	g_01202788_arg0 s_sz09	?g_01202788_arg0@@3QBDB _s_sz09
+0x010bd33c	same object under two names and type disagreement	2	g_01202790_arg0 s_sz08	?g_01202790_arg0@@3QBDB _s_sz08
+0x010bd350	same object under two names and type disagreement	2	g_01202798_arg0 s_sz07	?g_01202798_arg0@@3QBDB _s_sz07
+0x010bd368	same object under two names and type disagreement	2	g_012027a0_arg0 s_sz06	?g_012027a0_arg0@@3QBDB _s_sz06
+0x010bd384	same object under two names and type disagreement	2	g_012027a8_arg0 s_sz05	?g_012027a8_arg0@@3QBDB _s_sz05
+0x010bd39c	same object under two names and type disagreement	2	g_012027b0_arg0 s_sz04	?g_012027b0_arg0@@3QBDB _s_sz04
+0x010bd3c0	same object under two names and type disagreement	2	g_012027b8_arg0 s_sz03	?g_012027b8_arg0@@3QBDB _s_sz03
+0x010bd3e0	same object under two names and type disagreement	2	g_012024e0_arg0 s_sz02	?g_012024e0_arg0@@3QBDB _s_sz02
+0x010bd3f4	same object under two names and type disagreement	2	g_012027c0_arg0 s_sz01	?g_012027c0_arg0@@3QBDB _s_sz01
+0x010bd404	same object under two names and type disagreement	2	g_01202538_arg0 s_sz00	?g_01202538_arg0@@3QBDB _s_sz00
+0x010c44d0	same object under two names and type disagreement	77	DAT_010c44d0	?DAT_010c44d0@@3PAMA ?DAT_010c44d0@@3T__m128@@A ?DAT_010c44d0@@3T__m128@@B ?DAT_010c44d0@@3T__m128@P064Intrinsics@@A ?g_brSignMask@@3T__m128@@B ?signMask@@3T__m128@@B
+0x010c4c00	same object under two names and type disagreement	34		?DAT_010c4c00@@3T__m128@@A ?DAT_010c4c00@@3T__m128@@B ?DAT_010c4c00@@3T__m128@P064Intrinsics@@A ?DAT_010c4c00@fnv_00d31610@@3T__m128@1@A
+0x010c4c10	type disagreement	20		?DAT_010c4c10@@3T__m128@@A ?DAT_010c4c10@@3T__m128@@B ?DAT_010c4c10@@3T__m128@P064Intrinsics@@A
+0x010c7160	same object under two names and type disagreement	18		?DAT_010c7160@@3T__m128@@A ?DAT_010c7160@@3T__m128@@B ?DAT_010c7160@@3T__m128@P064Intrinsics@@B ?DAT_010c7160@@3UhkVector4@@B ?DAT_010c7160@ConstraintStepImplementation@@3T__m128@ConstraintStepStorage@1@A
+0x010c7170	same object under two names and type disagreement	31		?DAT_010c7170@@3T__m128@@A ?DAT_010c7170@@3T__m128@@B ?DAT_010c7170@@3T__m128@P064Intrinsics@@A ?DAT_010c7170@fnv_00ce5a70@@3T__m128@1@B
+0x010c71b0	type disagreement	21	DAT_010c71b0	?DAT_010c71b0@@3T__m128@@B ?DAT_010c71b0@@3T__m128@P064Intrinsics@@A
+0x010c71e0	same object under two names and type disagreement	34		?DAT_010c71e0@@3T__m128@@B ?DAT_010c71e0@@3T__m128@P064Intrinsics@@A ?DAT_010c71e0@ArrowDraw@@3T__m128@ArrowDrawMath@1@B ?DAT_010c71e0@VehicleStepD63680@@3T__m128@1@B
+0x010cbfc0	same object under two names and type disagreement	4	DAT_010cbfc0	?DAT_010cbfc0@@3T__m128@@A ?g_mask@@3T__m128@@B
+0x010ce838	same object under two names and type disagreement	1	DAT_010ce838	?DAT_010ce838@@3HA _g_vtblAgent
+0x010ec7f0	type disagreement	56	DAT_010ec7f0	?DAT_010ec7f0@@3PAMA ?DAT_010ec7f0@@3T__m128@@A ?DAT_010ec7f0@@3T__m128@@B ?DAT_010ec7f0@@3T__m128@P064Intrinsics@@B ?DAT_010ec7f0@@3T__m128@RaySimd@@B ?DAT_010ec7f0@@3UhkVector4@@A _DAT_010ec7f0
+0x010f1a7c	same object under two names	1		_DAT_010f1a7c _g_fltDefault
+0x01140cb0	same object under two names and type disagreement	4	DAT_01140cb0	?DAT_01140cb0@@3HA __TI1?AVLengthError@fnv_0065f640@@ __TI3?AUBxLengthError@xlenb0f@@ __TI3?AVlength_error@std@@
+0x01140ef8	same object under two names	7	DAT_01140ef8	_DAT_01140ef8 __TI1?AULengthErrB9739@@ __TI1?AULengthErrorB9431@@ __TI1?AUS_0065e550_Err@@ __TI1?AVC658CA0BadAlloc@@ __TI1?AVbad_alloc@std@fnv_0065e430@@ __TI1?AVbad_alloc@std@fnv_0065f9e0@@ __TI1?AVbad_alloc@std@fnv_0065fa30@@ __TI2?AULengthErrorB9718@@ __TI2?AUS_00ad53d0_bad@@ __TI2?AUbad_alloc@std@@ __TI2?AVbad_alloc@std@@
+0x0116cdb8	same object under two names	1		__TI1?AUGvBadCast@widenad3@@ __TI2?AVbad_cast@std@@
+0x01170384	same object under two names and type disagreement	9		?DAT_01170384@@3DA ?DAT_01170384@@3HA __TI1?AUS00b092a0_Exc@@ __TI2?AUFUN_00b09480@@ __TI2?AUFUN_00b09480@LodErrorDetail@@ __TI2?AUFUN_00b09480@fnv_00b09960@@ __TI2?AUFUN_00b09480@fnv_00b0a490@@ __TI2?AUFUN_00b09480@fnv_00b0d810@@ __TI2?AUFUN_00b09480@fnv_00b2cbc0@@ __TI2?AUS00b3d1b0_Err@@ __TI3?AUIdvFileError@fnv_00b2d090@@ __TI3?AUSpdParseError@@ __TI3?AUSptError@@ __TI3?AVIdvFileError@@
+0x01183028	same object under two names and type disagreement	44	DAT_01183028	?DAT_01183028@@3HA ?DAT_01183028@@3QBDB ?DAT_01183028@@3USaveOrderTypeDescriptor@@A ?DAT_01183028@fnv_00546ee0@@3Vtype_info@1@A ?DAT_01183028@fnv_0059ac20@@3DA ?DAT_01183028@fnv_0088db20@@3UEqTypeDescriptor@1@A _DAT_01183028
+0x01183108	type disagreement	7	DAT_01183108	?DAT_01183108@@3DA ?DAT_01183108@@3UOwnershipTypeDescriptor@@A
+0x01183978	same object under two names and type disagreement	3	DAT_01183978	?DAT_01183978@fnv_0088db20@@3UEqTypeDescriptor@1@A _DAT_01183978
+0x01183a1c	same object under two names and type disagreement	3	DAT_01183a1c	?DAT_01183a1c@@3Vtype_info@@B ?DAT_01183a1c@fnv_00546ee0@@3Vtype_info@1@A _DAT_01183a1c
+0x01183fb4	type disagreement	5	DAT_01183fb4	?DAT_01183fb4@@3DA ?DAT_01183fb4@@3HA
+0x011841cc	same object under two names and type disagreement	16	DAT_011841cc	?DAT_011841cc@@3DA ?DAT_011841cc@@3HA ?DAT_011841cc@@3USaveOrderTypeDescriptor@@A ?DAT_011841cc@fnv_005bdcd0@@3DA ?DAT_011841cc@fnv_005c1f00@@3PADA ?DAT_011841cc@fnv_005c2190@@3QBDB ?DAT_011841cc@fnv_005c7e60@@3DA ?DAT_011841cc@fnv_005c7f10@@3QBDB ?DAT_011841cc@fnv_005cd650@@3PADA ?DAT_011841cc@fnv_005d0060@@3HA ?DAT_011841cc@fnv_005d0ba0@@3DA ?DAT_011841cc@fnv_005dfc70@@3DA ?DAT_011841cc@fnv_005dfd30@@3HB ?DAT_011841cc@fnv_008c1010@@3HA
+0x011846a0	type disagreement	4	DAT_011846a0	?DAT_011846a0@@3DA ?DAT_011846a0@@3HA
+0x011846d4	same object under two names and type disagreement	12	DAT_011846d4	?DAT_011846d4@@3DA ?DAT_011846d4@@3HA ?DAT_011846d4@fnv_005bdcd0@@3DA ?DAT_011846d4@fnv_005c1f00@@3PADA ?DAT_011846d4@fnv_005c2190@@3QBDB ?DAT_011846d4@fnv_005c7e60@@3DA ?DAT_011846d4@fnv_005c7f10@@3QBDB ?DAT_011846d4@fnv_005cd650@@3PADA ?DAT_011846d4@fnv_005d0060@@3HA ?DAT_011846d4@fnv_005d0ba0@@3DA ?DAT_011846d4@fnv_005dfc70@@3DA ?DAT_011846d4@fnv_005dfd30@@3HB ?DAT_011846d4@fnv_008c1010@@3HA
+0x011846e8	type disagreement	4	DAT_011846e8	?DAT_011846e8@@3UOwnershipTypeDescriptor@@A _DAT_011846e8
+0x011977d8	type disagreement	7	DAT_011977d8	?DAT_011977d8@@3PAUGroupInfo@@A _DAT_011977d8
+0x011977e0	same object under two names and type disagreement	2	DAT_011977e0	?DAT_011977e0@@3PADA ?DAT_011977e0@fnv_00895110@@3PAUPickGroupInfo@1@A ?DAT_011977e0@fnv_008a73e0@@3PAUP09AGInfo@1@A
+0x011977e4	same object under two names and type disagreement	4		?DAT_011977e4@@3PAUTESAnimGroupActionEntry@@A ?DAT_011977e4@fnv_008bb650@@3PAUEntryCode@1@A ?eventActions@@3PAUEventActionEntry@@A
+0x011a9444	same object under two names	2		_DAT_011a9444 _NI_HALF_PI
+0x011a9478	type disagreement	26		?DAT_011a9478@@3UAEPoint3@@B ?DAT_011a9478@@3UNiPoint3@@A
+0x011a9ea4	same object under two names and type disagreement	10	IDENTITY@NiQuaternion	?DAT_011a9ea4@@3HA ?IDENTITY@NiQuaternion@@2UQuat16@@B ?IDENTITY@NiQuaternion@@2V1@B
+0x011ac228	same object under two names and type disagreement	1	DAT_011ac228	?DAT_011ac228@@3P6A_NPBDW4OpenMode@NiFile@@@ZA ?DAT_011ac228@fnv_00aa1a30@@3P6AXPBDW4OpenMode@NiFile@@@ZA
+0x011aea98	same object under two names and type disagreement	1	DAT_011aea98 g_fRadiansPerRevolution	?DAT_011aea98@@3MA _g_fRadiansPerRevolution
+0x011b7b88	same object under two names	10	DAT_011b7b88	?DAT_011b7b88@@3HA ?DAT_011b7b88@fnv_00d48f00@@3HA
+0x011c3580	type disagreement	2	DAT_011c3580	?DAT_011c3580@@3HA ?DAT_011c3580@@3PAVTESEffectShader@@A
+0x011c3664	type disagreement	2	originalRuntimeFloatSetting9	?originalRuntimeFloatSetting9@@3USetting_S@@A ?originalRuntimeFloatSetting9@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011c3b3c	same object under two names and type disagreement	73	g_modelLoader	?DAT_011c3b3c@@3PAUMgrObj@@A ?DAT_011c3b3c@@3PAUSceneLoader@@A ?DAT_011c3b3c@@3PAXA ?g_modelLoader@@3PAUModelLoader@@A ?g_modelLoader@@3PAUQueueModelLoader@@A ?g_modelLoader@fnv_00923020@@3PAUModelLoader@1@A ?g_modelLoader@fnv_0094e1d0@@3PAULoader@1@A ?g_modelLoader@fnv_0094eb40@@3PAUModelLoader@1@A ?xg_ModelLoader@fnv_00950c20@@3PAUxLoader@1@A
+0x011c3c10	type disagreement	2	g_011c3c10	?g_011c3c10@@3UGlobalObject_0045cf30@@A ?g_011c3c10@@3VGlobalObject_0045cf30@@A
+0x011c3c30	same object under two names and type disagreement	2	g_011c3c30	?DAT_011c3c30@@3UCountSetting@@A ?g_011c3c30@@3UGlobalObject_0045cfe0@@A
+0x011c3c3c	same object under two names and type disagreement	2	g_011c3c3c	?DAT_011c3c3c@@3UIntSetting@@A ?g_011c3c3c@@3UGlobalObject_0045cfe0@@A
+0x011c3c5c	same object under two names and type disagreement	2	g_011c3c5c	?DAT_011c3c5c@@3UFloatSetting@@A ?g_011c3c5c@@3VGlobalObject_0044f440@@A
+0x011c3c74	same object under two names and type disagreement	2	originalRuntimeFloatSetting15	?DAT_011c3c74@@3UFloatSetting@@A ?originalRuntimeFloatSetting15@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011c3ccc	same object under two names and type disagreement	2	g_011c3ccc	?DAT_011c3ccc@@3UByteSetting@@A ?g_011c3ccc@@3VGlobalObject_0045cf30@@A
+0x011c3ce8	same object under two names and type disagreement	2	originalRuntimeFloatSetting17	?DAT_011c3ce8@@3UFloatSetting@@A ?originalRuntimeFloatSetting17@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011c3d00	same object under two names and type disagreement	2	g_011c3d00	?DAT_011c3d00@@3UFloatSetting@@A ?g_011c3d00@@3VGlobalObject_0044f440@@A
+0x011c3d28	same object under two names and type disagreement	2	g_011c3d28	?DAT_011c3d28@@3UFloatSetting@@A ?g_011c3d28@@3VGlobalObject_0044f440@@A
+0x011c3d4c	same object under two names and type disagreement	2	g_011c3d4c	?DAT_011c3d4c@@3UFloatValue@@A ?g_011c3d4c@@3VGlobalObject_0044f440@@A
+0x011c3d60	same object under two names and type disagreement	2	g_011c3d60	?DAT_011c3d60@@3UFloatSetting@@A ?g_011c3d60@@3VGlobalObject_0044f440@@A
+0x011c3da0	same object under two names and type disagreement	2	g_011c3da0	?DAT_011c3da0@@3UByteSetting@@A ?g_011c3da0@@3VGlobalObject_0045cf30@@A
+0x011c3db0	same object under two names and type disagreement	2	originalRuntimeFloatSetting14	?DAT_011c3db0@@3UFloatSetting@@A ?originalRuntimeFloatSetting14@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011c3df4	same object under two names and type disagreement	2	g_011c3df4	?DAT_011c3df4@@3UFloatSetting@@A ?g_011c3df4@@3VGlobalObject_0044f440@@A
+0x011c3e18	same object under two names and type disagreement	2	g_011c3e18	?DAT_011c3e18@@3UFloatSetting@@A ?g_011c3e18@@3VGlobalObject_0044f440@@A
+0x011c3e38	same object under two names and type disagreement	3	g_011c3e38	?DAT_011c3e38@@3UCountSetting@@A ?g_011c3e38@@3UGlobalObject_0045cfe0@@A
+0x011c3e54	same object under two names and type disagreement	2	g_011c3e54	?DAT_011c3e54@@3UFloatSetting@@A ?g_011c3e54@@3VGlobalObject_0044f440@@A
+0x011c3e64	same object under two names and type disagreement	2	g_011c3e64	?DAT_011c3e64@@3UByteSetting@@A ?g_011c3e64@@3VGlobalObject_0045cf30@@A
+0x011c3e94	same object under two names and type disagreement	2	g_011c3e94	?DAT_011c3e94@@3UFloatSetting@@A ?g_011c3e94@@3VGlobalObject_0044f440@@A
+0x011c3ea4	same object under two names and type disagreement	20	g_011c3ea4	?DAT_011c3ea4@@3UIntSetting@@A ?g_011c3ea4@@3UGlobalObject_0045cfe0@@A
+0x011c3f2c	same object under two names and type disagreement	109	g_dataHandler	?DAT_011c3f2c@@3PAUMgr@@A ?DAT_011c3f2c@@3PAUSceneSource@@A ?DAT_011c3f2c@@3PAXA ?DAT_011c3f2c@fnv_00919320@@3PAUManager70@1@A ?DAT_011c3f2c@fnv_0093df50@@3PAUDataAccess@1@A ?DAT_011c3f2c@fnv_00954d40@@3PAUFUN_004615a0_This@1@A ?DAT_011c3f2c@fnv_0095c9c0@@3PAUResetHandler@1@A ?crimeHandler@@3PAUCrimeHandler@@A ?g_dataHandler@@3PAUDH@@A ?g_dataHandler@@3PAUData451@@A ?g_dataHandler@@3PAVDataHandler@@A ?g_dataHandler@fnv_0092c680@@3PAUDH@1@A ?g_dataHandler@fnv_0093cce0@@3PAULLD_DataHandler@1@A ?g_dataHandler@fnv_0093db60@@3PAUDataHandlerS@1@A ?g_dataHandler@fnv_0093dd80@@3PAUDataHandler93dd80@1@A
+0x011c5a90	same object under two names and type disagreement	2	g_011c5a90	?DAT_011c5a90@fnv_004a82d0@@3UStatTextureCount@1@A ?g_011c5a90@@3UGlobalObject_0045cfe0@@A
+0x011c5ab4	same object under two names and type disagreement	2	g_011c5ab4	?DAT_011c5ab4@@3USceneCache@@A ?g_011c5ab4@@3UGlobalObject_004a9d80@@A
+0x011c5b30	same object under two names and type disagreement	2	g_011c5b30	?DAT_011c5b30@fnv_004a82d0@@3UStatUnique@1@A ?g_011c5b30@@3UGlobalObject2_0096a2d0@@A
+0x011c5c04	type disagreement	2	g_011c5c04	?g_011c5c04@@3UGlobalObject2_0045cfe0@@A ?g_011c5c04@@3VGlobalObject2_0045cfe0@@A
+0x011c5c40	same object under two names and type disagreement	3	g_011c5c40	?DAT_011c5c40@fnv_004a8bb0@@3UClear245@1@A ?g_011c5c40@@3UGlobalObject_004a9bf0@@A
+0x011c5f58	same object under two names and type disagreement	24	DAT_011c5f58	?DAT_011c5f58@@3PAXA ?ms_pFreeList@NiTAbstractPoolAllocator_unsigned_int@@2PAULinkedListEntry@1@A
+0x011c5f80	same object under two names and type disagreement	23	g_011c5f80	?DAT_011c5f80@@3IA ?g_011c5f80@@3UGlobalObject_0096a2d0@@A ?g_011c5f80@@3VRecursiveSpinLock@@A
+0x011c63cc	same object under two names and type disagreement	18	g_011c63cc	?DAT_011c63cc@fnv_004a8bb0@@3UGlobalObject2_0045cfe0@@A ?g_011c63cc@@3UGlobalObject_0045cfe0@@A
+0x011c70cc	same object under two names	3	DAT_011c70cc	?DAT_011c70cc@@3HA ?DAT_011c70cc@fnv_004da670@@3HA
+0x011c70dc	same object under two names and type disagreement	1	DAT_011c70dc	?DAT_011c70dc@fnv_004dcdb0@@3PAUFlt@1@A _DAT_011c70dc
+0x011c70eb	same object under two names and type disagreement	4	DAT_011c70eb	?DAT_011c70eb@@3_NA ?DAT_011c70eb@fnv_004da670@@3EA
+0x011c710c	same object under two names and type disagreement	2	g_011c710c	?DAT_011c710c@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c710c@@3VGlobalObject_0045cf30@@A
+0x011c7160	same object under two names and type disagreement	2	g_011c7160	?DAT_011c7160@fnv_004da670@@3UFloatSetting@1@A ?g_011c7160@@3VGlobalObject_0044f440@@A
+0x011c7170	same object under two names and type disagreement	2	g_011c7170	?DAT_011c7170@fnv_004da670@@3UFloatSetting@1@A ?g_011c7170@@3VGlobalObject_0044f440@@A
+0x011c718c	same object under two names and type disagreement	3	g_011c718c	?DAT_011c718c@fnv_004da670@@3UGlobalObject_004a4a40@1@A ?g_011c718c@@3UGlobalObject_004a4a40@@A
+0x011c71ac	same object under two names and type disagreement	3	g_011c71ac	?DAT_011c71ac@fnv_004da670@@3UFloatSetting@1@A ?g_011c71ac@@3VGlobalObject_004de370@@A ?g_kGRGammaSetting@@3UGRSetting@@A
+0x011c71dc	same object under two names and type disagreement	3	g_011c71dc	?DAT_011c71dc@fnv_004da670@@3UG7790@1@A ?g_011c71dc@@3VGlobalObject_0045cf30@@A
+0x011c7254	same object under two names and type disagreement	2	g_011c7254	?DAT_011c7254@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7254@@3UGlobalObject_004a4a40@@A
+0x011c7284	same object under two names and type disagreement	2	g_011c7284	?DAT_011c7284@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7284@@3UGlobalObject_004a4a40@@A
+0x011c72c0	same object under two names and type disagreement	2	g_011c72c0	?g_011c72c0@@3VGlobalObject2_004a4a40@@A ?g_011c72c0@fnv_004da570@@3UGlobalObject2_004a4a40@1@A
+0x011c72cc	same object under two names and type disagreement	2	g_011c72cc	?DAT_011c72cc@fnv_004da670@@3UFloatSetting@1@A ?g_011c72cc@@3UGlobalObject_0045d060@@A
+0x011c72d8	same object under two names and type disagreement	3	g_011c72d8	?DAT_011c72d8@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c72d8@@3UGlobalObject_004a4a40@@A
+0x011c72e4	same object under two names and type disagreement	3	g_011c72e4	?DAT_011c72e4@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c72e4@@3UGlobalObject_004a4a40@@A
+0x011c72f0	same object under two names and type disagreement	2	g_011c72f0	?DAT_011c72f0@fnv_004da670@@3UFloatSetting@1@A ?g_011c72f0@@3VGlobalObject_0044f440@@A
+0x011c72fc	same object under two names and type disagreement	2	g_011c72fc	?DAT_011c72fc@fnv_004da670@@3UFloatSetting@1@A ?g_011c72fc@@3VGlobalObject_0044f440@@A
+0x011c7308	same object under two names and type disagreement	2	g_011c7308	?DAT_011c7308@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7308@@3VGlobalObject_004de2f0@@A
+0x011c7344	same object under two names and type disagreement	2	g_011c7344	?DAT_011c7344@fnv_004da670@@3UFloatSetting@1@A ?g_011c7344@@3VGlobalObject_0044f440@@A
+0x011c735c	same object under two names and type disagreement	2	g_011c735c	?DAT_011c735c@fnv_004da670@@3UFloatSetting@1@A ?g_011c735c@@3VGlobalObject_0044f440@@A
+0x011c7374	same object under two names and type disagreement	2	g_011c7374	?DAT_011c7374@fnv_004da670@@3UFloatSetting@1@A ?g_011c7374@@3VGlobalObject_0044f440@@A
+0x011c73a4	same object under two names and type disagreement	2	g_011c73a4	?DAT_011c73a4@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c73a4@@3VGlobalObject_0045cf30@@A
+0x011c73b4	same object under two names and type disagreement	4	g_011c73b4	?DAT_011c73b4@fnv_004da670@@3URefObj_011c73b4@1@A ?g_011c73b4@@3UGO@@A ?g_011c73b4@@3UGlobalObject_00633c90@@A ?g_spGRRenderer@@3UGRRendererPtr@@A
+0x011c73d0	same object under two names and type disagreement	2	g_011c73d0	?DAT_011c73d0@fnv_004da670@@3UFloatSetting@1@A ?g_011c73d0@@3VGlobalObject_0044f440@@A
+0x011c73dc	same object under two names and type disagreement	3	g_011c73dc	?DAT_011c73dc@fnv_004da670@@3UGlobalObject_004a4a40@1@A ?g_011c73dc@@3UGlobalObject_004a4a40@@A
+0x011c73e8	same object under two names and type disagreement	2	g_011c73e8	?DAT_011c73e8@fnv_004da670@@3UFloatSetting@1@A ?g_011c73e8@@3VGlobalObject_0044f440@@A
+0x011c73f4	same object under two names and type disagreement	2	g_011c73f4	?DAT_011c73f4@fnv_004da670@@3UGlobalObject_004a4a40@1@A ?g_011c73f4@@3UGlobalObject_004a4a40@@A
+0x011c7400	same object under two names and type disagreement	3	g_011c7400	?DAT_011c7400@fnv_004da670@@3UFloatSetting@1@A ?g_011c7400@@3VGlobalObject_0044f440@@A
+0x011c7418	same object under two names and type disagreement	2	g_011c7418	?DAT_011c7418@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7418@@3VGlobalObject_0045cf30@@A
+0x011c7428	same object under two names and type disagreement	2	g_011c7428	?DAT_011c7428@fnv_004da670@@3UFloatSetting@1@A ?g_011c7428@@3UGlobalObject_0045d060@@A
+0x011c7464	same object under two names and type disagreement	2	g_011c7464	?DAT_011c7464@fnv_004da670@@3UFloatSetting@1@A ?g_011c7464@@3VGlobalObject_0044f440@@A
+0x011c747c	same object under two names and type disagreement	2	g_011c747c	?DAT_011c747c@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c747c@@3VGlobalObject_0045cf30@@A
+0x011c7488	same object under two names and type disagreement	2	g_011c7488	?DAT_011c7488@fnv_004da670@@3UFloatSetting@1@A ?g_011c7488@@3VGlobalObject_0044f440@@A
+0x011c74b8	type disagreement	2	DAT_011c74b8	?DAT_011c74b8@@3UNiColor@@A _DAT_011c74b8
+0x011c74e0	same object under two names and type disagreement	3	g_011c74e0	?DAT_011c74e0@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c74e0@@3VGlobalObject_0045cf30@@A
+0x011c7504	same object under two names and type disagreement	2	g_011c7504	?DAT_011c7504@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7504@@3VGlobalObject_0045cf30@@A
+0x011c7510	same object under two names and type disagreement	2	g_011c7510	?DAT_011c7510@fnv_004da670@@3UFloatSetting@1@A ?g_011c7510@@3VGlobalObject_0044f440@@A
+0x011c7520	same object under two names and type disagreement	2	g_011c7520	?DAT_011c7520@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7520@@3UGlobalObject_004a4a40@@A
+0x011c752c	same object under two names and type disagreement	2	g_011c752c	?DAT_011c752c@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c752c@@3UGlobalObject_004a4a40@@A
+0x011c7538	same object under two names and type disagreement	2	g_011c7538	?DAT_011c7538@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7538@@3VGlobalObject_0045cf30@@A
+0x011c7568	same object under two names and type disagreement	2	DAT_011c7568@fnv_007d20f0	?DAT_011c7568@fnv_004da670@@3UFloatSetting@1@A ?DAT_011c7568@fnv_007d20f0@@3VSettingFloat@1@A
+0x011c7574	same object under two names and type disagreement	2	g_011c7574	?DAT_011c7574@fnv_004da670@@3UFloatSetting@1@A ?g_011c7574@@3VGlobalObject_0044f440@@A
+0x011c7588	same object under two names and type disagreement	2	g_011c7588 g_011c7588@fnv_004a1a00	?g_011c7588@@3VGlobalObject_0044f440@@A ?g_011c7588@fnv_004a1a00@@3UGlobalObject_0044f440@1@A
+0x011c7598	same object under two names and type disagreement	2	DAT_011c7598	?DAT_011c7598@@3VSettingFloat_007d23b0@@A ?DAT_011c7598@fnv_004da670@@3UFloatSetting@1@A
+0x011c75b0	same object under two names and type disagreement	2	g_011c75b0	?DAT_011c75b0@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c75b0@@3VGlobalObject_0045cf30@@A
+0x011c75d4	same object under two names and type disagreement	3	g_011c75d4	?DAT_011c75d4@fnv_004da670@@3UGlobalObject_004a4a40@1@A ?g_011c75d4@@3UGlobalObject_0045cfe0@@A
+0x011c75e0	same object under two names and type disagreement	2	g_011c75e0	?DAT_011c75e0@fnv_004da670@@3UFloatSetting@1@A ?g_011c75e0@@3VGlobalObject_0044f440@@A
+0x011c75f8	same object under two names and type disagreement	2	g_011c75f8	?DAT_011c75f8@fnv_004da670@@3UFloatSetting@1@A ?g_011c75f8@@3VGlobalObject_0044f440@@A
+0x011c7610	same object under two names and type disagreement	2	g_011c7610	?DAT_011c7610@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7610@@3VGlobalObject_0045cf30@@A
+0x011c7628	same object under two names and type disagreement	2	g_011c7628	?DAT_011c7628@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7628@@3UGlobalObject_0045cfe0@@A
+0x011c7634	same object under two names and type disagreement	3	g_011c7634	?DAT_011c7634@fnv_004da670@@3UFloatSetting@1@A ?g_011c7634@@3VGlobalObject_0044f440@@A
+0x011c7654	same object under two names and type disagreement	3	g_011c7654	?DAT_011c7654@fnv_004da670@@3UGlobalObject_004a4a40@1@A ?g_011c7654@@3UGlobalObject_0045cfe0@@A
+0x011c7680	same object under two names and type disagreement	2	g_011c7680	?DAT_011c7680@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7680@@3UGlobalObject_004a4a40@@A
+0x011c76b4	same object under two names and type disagreement	3	g_011c76b4	?DAT_011c76b4@fnv_004da670@@3UFloatSetting@1@A ?g_011c76b4@@3VGlobalObject_0044f440@@A
+0x011c76c0	same object under two names and type disagreement	2	g_011c76c0	?DAT_011c76c0@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c76c0@@3VGlobalObject_004de2f0@@A
+0x011c76cc	same object under two names and type disagreement	2	g_011c76cc	?DAT_011c76cc@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c76cc@@3UGlobalObject_004a4a40@@A
+0x011c771c	same object under two names and type disagreement	2	g_011c771c	?DAT_011c771c@fnv_004da670@@3UG1690@1@A ?g_011c771c@@3VGlobalObject_004de2f0@@A
+0x011c7740	same object under two names and type disagreement	2	DAT_011c7568	?DAT_011c7568@@3VGammaSettingFloat@@A ?DAT_011c7740@fnv_004da670@@3UFloatSetting@1@A
+0x011c7768	same object under two names and type disagreement	2	g_011c7768	?DAT_011c7768@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7768@@3VGlobalObject_004de2f0@@A
+0x011c7774	same object under two names and type disagreement	2	g_011c7774	?DAT_011c7774@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7774@@3VGlobalObject_0045cf30@@A
+0x011c7784	same object under two names and type disagreement	2	g_011c7784	?DAT_011c7784@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c7784@@3UGlobalObject_004a4a40@@A
+0x011c7790	same object under two names and type disagreement	2	g_011c7790	?DAT_011c7790@fnv_004da670@@3UG7790@1@A ?g_011c7790@@3VGlobalObject_004de2f0@@A
+0x011c779c	same object under two names and type disagreement	3	g_011c779c	?DAT_011c779c@fnv_004da670@@3VSettingT_GameSettingCollection_@1@A ?g_011c779c@@3UGlobalObject_004a4a40@@A
+0x011c77a8	type disagreement	2	g_011c77a8	?g_011c77a8@@3UGlobalObject_0044f440@@A ?g_011c77a8@@3VGlobalObject_0044f440@@A
+0x011c77b4	same object under two names and type disagreement	4	g_011c77b4	?DAT_011c77b4@fnv_004da670@@3UG1690@1@A ?g_011c77b4@@3VGlobalObject_004de2f0@@A
+0x011c77cc	same object under two names and type disagreement	2	g_011c77cc	?DAT_011c77cc@fnv_004da670@@3UFloatSetting@1@A ?g_011c77cc@@3VGlobalObject_0044f440@@A
+0x011c7ac4	same object under two names and type disagreement	4	g_011c7ac4	?DAT_011c7ac4@fnv_004da670@@3UG1690@1@A ?g_011c7ac4@@3VGlobalObject_004de2f0@@A
+0x011c7ae8	same object under two names and type disagreement	3	g_011c7ae8	?DAT_011c7ae8@@3USettingX@@A ?g_011c7ae8@@3VGlobalObject_0045cf30@@A ?g_kDRSetting@@3UDRSetting@@A
+0x011c7b20	same object under two names and type disagreement	3	g_011c7b20	?DAT_011c7b20@fnv_004da670@@3UG1690@1@A ?g_011c7b20@@3VGlobalObject_0045cf30@@A
+0x011c7b48	same object under two names and type disagreement	2	g_011c7b48	?DAT_011c7b48@fnv_004da670@@3UG1690@1@A ?g_011c7b48@@3VGlobalObject_0045cf30@@A
+0x011c7b6c	same object under two names and type disagreement	4	g_011c7b6c	?DAT_011c7b6c@fnv_004da670@@3UG1690@1@A ?g_011c7b6c@@3VGlobalObject_004de2f0@@A
+0x011c7b8c	same object under two names and type disagreement	3	g_011c7b8c	?DAT_011c7b8c@@3UListX@@A ?g_011c7b8c@@3VGlobalObject_0048f200@@A ?g_kDRRefList@@3UDRRefList@@A
+0x011c7d20	same object under two names and type disagreement	4	g_011c7d20	?DAT_011c7d20@s4ee050@@3UNodeList@1@A ?g_011c7d20@@3UEffectsList@@A ?g_011c7d20@@3UGlobalObject2_0096a2d0@@A
+0x011c7d34	same object under two names and type disagreement	6	g_011c7d34	?DAT_011c7d34@fnv_004a2070@@3IA ?g_011c7d34@@3UGlobalObject_00a7b610@@A ?g_011c7d34@@3VGlobalObject_00a7b610@@A _DAT_011c7d34
+0x011cafec	type disagreement	3	ms_pBodyPartData@BGSBodyPartData	?ms_pBodyPartData@BGSBodyPartData@@2PAU1@A ?ms_pBodyPartData@BGSBodyPartData@@2PAV1@A
+0x011caff0	type disagreement	2	ms_pBodyPartDataInstance@BGSBodyPartData	?ms_pBodyPartDataInstance@BGSBodyPartData@@2PAU1@A ?ms_pBodyPartDataInstance@BGSBodyPartData@@2PAV1@A
+0x011cb99c	type disagreement	3	g_011cb99c	?g_011cb99c@@3UGlobalObject_0045cf30@@A ?g_011cb99c@@3VGlobalObject_0045cf30@@A
+0x011cba40	same object under two names and type disagreement	2	g_011cba40	?g_011cba40@@3VGlobalObject_0040c150@@A ?g_k616890A3@@3VB616890Setting@@A
+0x011cbae0	same object under two names and type disagreement	2	g_011cbae0	?g_011cbae0@@3VGlobalObject_0040c150@@A ?g_k616890D1@@3VB616890Setting@@A
+0x011cbaec	same object under two names	2	g_011cbaec	?g_011cbaec@@3VGlobalObject_0040c150@@A ?g_011cbbaec@@3VGlobalObject_0040c150@@A
+0x011cbaf8	type disagreement	2	originalRuntimeFloatSetting51	?originalRuntimeFloatSetting51@@3USetting_S@@A ?originalRuntimeFloatSetting51@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011cbb10	same object under two names and type disagreement	2	g_011cbb10	?g_011cbb10@@3VGlobalObject_0040c150@@A ?g_k616890C2@@3VB616890Setting@@A
+0x011cbb1c	type disagreement	2	originalRuntimeFloatSetting50	?originalRuntimeFloatSetting50@@3USetting_S@@A ?originalRuntimeFloatSetting50@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011cbb64	same object under two names and type disagreement	2	g_011cbb64	?g_011cbb64@@3VGlobalObject_0040c150@@A ?g_k616890C0@@3VB616890Setting@@A
+0x011cbba4	same object under two names and type disagreement	2	g_011cbba4	?g_011cbba4@@3VGlobalObject_0040c150@@A ?g_k616890A1@@3VB616890Setting@@A
+0x011cbbbc	same object under two names and type disagreement	2	g_011cbbbc	?g_011cbbbc@@3VGlobalObject_0040c150@@A ?g_k616890C3@@3VB616890Setting@@A
+0x011cbbe4	same object under two names and type disagreement	2	g_011cbbe4	?g_011cbbe4@@3VGlobalObject_0040c150@@A ?g_k616890B0@@3VB616890Setting@@A
+0x011cbc1c	same object under two names and type disagreement	2	g_011cbc1c	?g_011cbc1c@@3VGlobalObject_0040c150@@A ?g_k616890D0@@3VB616890Setting@@A
+0x011cbc28	same object under two names and type disagreement	2	g_011cbc28	?g_011cbc28@@3VGlobalObject_0040c150@@A ?g_k616890C1@@3VB616890Setting@@A
+0x011cbc7c	same object under two names and type disagreement	2	g_011cbc7c	?g_011cbc7c@@3VGlobalObject_0040c150@@A ?g_k616890B3@@3VB616890Setting@@A
+0x011cbc94	same object under two names and type disagreement	2	g_011cbc94	?g_011cbc94@@3VGlobalObject_0040c150@@A ?g_k616890A2@@3VB616890Setting@@A
+0x011cbca0	same object under two names and type disagreement	2	g_011cbca0	?g_011cbca0@@3VGlobalObject_0040c150@@A ?g_k616890D3@@3VB616890Setting@@A
+0x011cbcd4	same object under two names and type disagreement	2	g_011cbcd4	?g_011cbcd4@@3VGlobalObject_0040c150@@A ?g_k616890B1@@3VB616890Setting@@A
+0x011cbd18	same object under two names and type disagreement	2	g_011cbd18	?g_011cbd18@@3VGlobalObject_0040c150@@A ?g_k616890B2@@3VB616890Setting@@A
+0x011cbd50	same object under two names and type disagreement	2	g_011cbd50	?g_011cbd50@@3VGlobalObject_0040c150@@A ?g_k616890D2@@3VB616890Setting@@A
+0x011cbd94	same object under two names and type disagreement	2	g_011cbd94	?g_011cbd94@@3VGlobalObject_0040c150@@A ?g_k616890A0@@3VB616890Setting@@A
+0x011cbe14	same object under two names and type disagreement	2	g_011cbe14	?g_011cbe14@@3VGlobalObject2_0045cfe0@@A ?g_kVoiceExtension@@3UVFSetting@@A
+0x011cd3b4	type disagreement	6	g_011cd3b4	?g_011cd3b4@@3UGlobalObject2_0040c150@@A ?g_011cd3b4@@3VGlobalObject2_0040c150@@A
+0x011cd538	type disagreement	5	g_011cd538	?g_011cd538@@3UGlobalObject2_0040c150@@A ?g_011cd538@@3VGlobalObject2_0040c150@@A
+0x011cdde0	type disagreement	6	g_011cdde0	?g_011cdde0@@3UGlobalObject2_0040c150@@A ?g_011cdde0@@3VGlobalObject2_0040c150@@A
+0x011ce00c	type disagreement	2	g_011ce00c	?g_011ce00c@@3UGlobalObject_0040e0b0@@A ?g_011ce00c@@3VGlobalObject_0040e0b0@@A
+0x011ce064	type disagreement	2	g_011ce064	?g_011ce064@@3UFloatSetting_646400@@A ?g_011ce064@@3VGlobalObject_0040e0b0@@A
+0x011ce448	same object under two names and type disagreement	2	originalRuntimeFloatSetting334	?originalRuntimeFloatSetting334@@3V?$SettingT@UGameSettingCollection@@@@A ?originalRuntimeFloatSetting334@fnv_00644540@@3V?$SettingT@UGameSettingCollection@fnv_00644540@@@1@A
+0x011ce678	same object under two names and type disagreement	2	originalRuntimeFloatSetting509	?originalRuntimeFloatSetting509@@3V?$SettingT@UGameSettingCollection@@@@A ?originalRuntimeFloatSetting509@fnv_00644520@@3V?$SettingT@UGameSettingCollection@fnv_00644520@@@1@A
+0x011ce78c	type disagreement	2	g_011ce78c	?g_011ce78c@@3UFloatSetting_646400@@A ?g_011ce78c@@3VGlobalObject_0040e0b0@@A
+0x011ce808	same object under two names and type disagreement	2	originalRuntimeFloatSetting610	?gs_011ce808@@3UFloatSetting_646400@@A ?originalRuntimeFloatSetting610@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011ce840	type disagreement	2	g_011ce840	?g_011ce840@@3UGlobalObject_0040e0b0@@A ?g_011ce840@@3VGlobalObject_0040e0b0@@A
+0x011ceb38	type disagreement	2	g_011ceb38	?g_011ceb38@@3VGlobalObject_0040e0b0@@A ?g_011ceb38@@3VSettingValue@@A
+0x011cebc8	type disagreement	2	originalRuntimeFloatSetting763	?originalRuntimeFloatSetting763@@3UFloatSetting_646400@@A ?originalRuntimeFloatSetting763@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011cec70	same object under two names and type disagreement	2	originalRuntimeFloatSetting335	?originalRuntimeFloatSetting335@@3V?$SettingT@UGameSettingCollection@@@@A ?originalRuntimeFloatSetting335@fnv_00644540@@3V?$SettingT@UGameSettingCollection@fnv_00644540@@@1@A
+0x011cecd0	same object under two names and type disagreement	2	originalRuntimeFloatSetting609	?gs_011cecd0@@3UFloatSetting_646400@@A ?originalRuntimeFloatSetting609@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011ced28	same object under two names and type disagreement	2	originalRuntimeFloatSetting745	?g_011ced28@@3VSettingValue@@A ?originalRuntimeFloatSetting745@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011cee24	same object under two names and type disagreement	2	originalRuntimeFloatSetting744	?g_011cee24@@3VSettingValue@@A ?originalRuntimeFloatSetting744@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011ceecc	type disagreement	2	g_011ceecc	?g_011ceecc@@3UFloatSetting_646400@@A ?g_011ceecc@@3VGlobalObject_0040e0b0@@A
+0x011cf1a4	type disagreement	2	originalRuntimeFloatSetting762	?originalRuntimeFloatSetting762@@3UFloatSetting_646400@@A ?originalRuntimeFloatSetting762@@3V?$SettingT@UGameSettingCollection@@@@A
+0x011cf264	same object under two names and type disagreement	2	g_011cf264	?DAT_011cfb5c@@3UFloatGetterGlobal@@A ?g_011cf264@@3VGlobalObject_0040e0b0@@A
+0x011cf314	type disagreement	2	g_011cf314	?g_011cf314@@3VGlobalObject_0040e0b0@@A ?g_011cf314@@3VSettingValue@@A
+0x011cfb5c	same object under two names and type disagreement	2	g_011cfb5c	?DAT_011cf264@@3UFloatGetterGlobal@@A ?g_011cfb5c@@3VGlobalObject_0040e0b0@@A
+0x011cfd8c	type disagreement	2	g_011cfd8c	?g_011cfd8c@@3UGlobalObject_0040e0b0@@A ?g_011cfd8c@@3VGlobalObject_0040e0b0@@A
+0x011d5a5c	type disagreement	2	g_011d5a5c	?g_011d5a5c@@3VGlobalObject_0045cf30@@A ?g_011d5a5c@@3VProcessLists@@A
+0x011d5b28	type disagreement	2	g_011d5b28	?g_011d5b28@@3UGlobalObject_0044f440@@A ?g_011d5b28@@3VGlobalObject_0044f440@@A
+0x011d5b34	same object under two names and type disagreement	2	g_011d5b34 g_011d5b34@fnv_006633e0	?g_011d5b34@@3VGlobalObject_0044f440@@A ?g_011d5b34@fnv_006633e0@@3UGlobalObject_0044f440@1@A
+0x011d5bf8	same object under two names and type disagreement	4	g_011d5bf8	?DAT_011d5bf8@@3UDumpString@@A ?g_011d5bf8@@3VGlobalObject_00a7b610@@A ?ms_kRTTI@BSFaceGenNiNode@@2UNiRTTI@@B
+0x011d5c80	type disagreement	2	g_011d5c80	?g_011d5c80@@3UGlobalObject_0044f440@@A ?g_011d5c80@@3VGlobalObject_0044f440@@A
+0x011d5c9c	same object under two names and type disagreement	2	g_011d5c9c g_011d5c9c@fnv_00666f80	?g_011d5c9c@@3VGlobalObject_0044f440@@A ?g_011d5c9c@fnv_00666f80@@3UGlobalObject_0044f440@1@A
+0x011d5d14	type disagreement	2	g_011d5d14	?g_011d5d14@@3UGlobalObject_0044f440@@A ?g_011d5d14@@3VGlobalObject_0044f440@@A
+0x011d5d24	same object under two names and type disagreement	2	g_011d5d24	?g_011d5d24@@3VGlobalObject_0044f440@@A ?g_011d5d24@fnv_00666f60@@3UGlobalObject_0044f440@1@A
+0x011d5db8	same object under two names and type disagreement	2	g_011d5db8	?g_011d5db8@@3VGlobalObject_0044f440@@A ?g_011d5db8@fnv_00666f40@@3UGlobalObject_0044f440@1@A
+0x011d8804	same object under two names and type disagreement	14	DAT_011d8804	?DAT_011d8804@@3PAUInterface@@A ?DAT_011d8804@fnv_0070f4e0@@3PAUIfaceStub@1@A ?DAT_011d8804@fnv_00712e90@@3PAUFaderManager@1@A
+0x011d8908	same object under two names	2	DAT_011d8908	?DAT_011d8908@@3_NA ?DAT_011d8908@fnv_00713c70@@3_NA
+0x011d8909	same object under two names and type disagreement	9	s_bAllowDetach	?DAT_011d8909@@3EA ?_s_bAllowDetach@@3_NA ?s_bAllowDetach@@3EA _s_bAllowDetach
+0x011d8950	type disagreement	4	g_011d8950	?g_011d8950@@3HA ?g_011d8950@@3VGlobalObject_00709f80@@A
+0x011d8a50	same object under two names and type disagreement	1	DAT_011d8a50	?DAT_011d8a50@@3_NA ?DAT_011d8a50@fnv_0070a130@@3DA
+0x011d8a5c	same object under two names	2	DAT_011d8a5c	?DAT_011d8a5c@@3FA ?DAT_011d8a5c@fnv_00717a40@@3FA
+0x011d8a5e	same object under two names	3	DAT_011d8a5e	?DAT_011d8a5e@@3FA ?DAT_011d8a5e@fnv_00717a40@@3FA
+0x011d8a64	same object under two names and type disagreement	1	DAT_011d8a64@fnv_0070a130	?DAT_011d8a64@@3IA ?DAT_011d8a64@fnv_0070a130@@3HA
+0x011d8a68	same object under two names	1	DAT_011d8a68	?DAT_011d8a68@@3MA ?DAT_011d8a68@fnv_0070a130@@3MA
+0x011d8a74	same object under two names	2	DAT_011d8a74	?DAT_011d8a74@@3FA ?DAT_011d8a74@fnv_00717a40@@3FA
+0x011d8a80	same object under two names and type disagreement	5	DAT_011d8a80	?DAT_011d8a80@@3PAUUIRoot@@A ?DAT_011d8a80@fnv_0070a0b0@@3PAUFUN_0070a100_Class@1@A ?DAT_011d8a80@fnv_00717990@@3PADA ?DAT_011d8a80@s7182e0@@3PAUGameMode@1@A _DAT_011d8a80
+0x011d8a84	same object under two names	3	DAT_011d8a84	?DAT_011d8a84@@3_NA ?DAT_011d8a84@fnv_0070c4a0@@3_NA
+0x011d8a85	same object under two names	2	DAT_011d8a85	?DAT_011d8a85@@3EA ?DAT_011d8a85@fnv_0070c4a0@@3EA
+0x011d8a90	same object under two names	3	DAT_011d8a90	?DAT_011d8a90@@3HA ?DAT_011d8a90@fnv_0070bc20@@3HA
+0x011d8aa4	same object under two names and type disagreement	2	g_011d8aa4	?DAT_011d8aa4@fnv_00710060@@3UC403e20@1@A ?g_011d8aa4@@3VGlobalObject_0044f440@@A
+0x011d8ab0	same object under two names and type disagreement	2	g_011d8ab0	?g_011d8ab0@@3VGlobalObject_0045cf30@@A ?g_011d8ab0@fnv_007134d0@@3UCrimeFlag_007134d0@1@A
+0x011d8ad4	type disagreement	2	g_011d8ad4	?g_011d8ad4@@3UGlobalObject_00719c00@@A ?g_011d8ad4@@3VGlobalObject_00719c00@@A
+0x011d8ae4	type disagreement	2	g_011d8ae4	?g_011d8ae4@@3UGlobalObject_00719c00@@A ?g_011d8ae4@@3VGlobalObject_00719c00@@A
+0x011d8afc	same object under two names and type disagreement	2	g_011d8afc	?g_011d8afc@@3VGlobalObject_0045cf30@@A ?g_011d8afc@fnv_0070bc20@@3USettingS@1@A
+0x011d8b2c	same object under two names and type disagreement	2	g_011d8b2c	?g_011d8b2c@@3V?$NiTPointerListBase@V?$NiTPointerAllocator@I@@PAVScript@@@@A ?g_011d8b2c@@3VGlobalObject_0048f200@@A ?g_011d8b2c@fnv_007182b0@@3UGlobalObject_0048f200@1@A
+0x011d8b38	same object under two names and type disagreement	2	g_011d8b38	?DAT_011d8b38@fnv_00710060@@3UC403e20@1@A ?g_011d8b38@@3VGlobalObject_0044f440@@A ?g_011d8b38@fnv_00716730@@3UGlobalObject_0044f440@1@A
+0x011d8b54	same object under two names and type disagreement	3	g_011d8b54	?DAT_011d8b54@@3UUIGlobalList@@A ?g_011d8b54@@3UDummyNode@@A ?g_011d8b54@@3UGlobalObject2_0096a2d0@@A ?g_011d8b54@fnv_00717ef0@@3UGlobalObject2_0096a2d0@1@A ?g_011d8b54@fnv_00717f80@@3UDummyNode@1@A ?g_kSources718080@@3UNode718080@@A
+0x011d8b78	same object under two names and type disagreement	2	g_011d8b78	?g_011d8b78@@3VGlobalObject_0044f440@@A ?g_011d8b78@fnv_0070bc20@@3USettingS@1@A
+0x011d8b88	same object under two names and type disagreement	3	g_011d8b88	?g_011d8b88@@3VGlobalObject_0044f440@@A ?g_011d8b88@fnv_00716730@@3UGlobalObject_0044f440@1@A
+0x011d8ba0	same object under two names and type disagreement	3	g_011d8ba0	?g_011d8ba0@@3VGlobalObject_0045cf30@@A ?g_011d8ba0@fnv_007134d0@@3UCrimeFlag_007134d0@1@A
+0x011d8bc0	same object under two names and type disagreement	2	g_011d8bc0	?g_011d8bc0@@3UGlobalObject_0045cfe0@@A ?g_011d8bc0@fnv_00717820@@3VGlobalObject2_0040c150@1@A
+0x011d8bd8	same object under two names and type disagreement	2	g_011d8bd8	?g_011d8bd8@@3UGlobalObject_0045cfe0@@A ?g_011d8bd8@@3VGlobalObject2_0040c150@@A ?g_011d8bd8@fnv_00715e00@@3UGlobalObject_0045cfe0@1@A
+0x011d8bf0	same object under two names and type disagreement	2	g_011d8bf0	?g_011d8bf0@@3UGlobalObject_0045cfe0@@A ?g_011d8bf0@fnv_00715e00@@3UGlobalObject_0045cfe0@1@A ?g_011d8bf0@fnv_00717820@@3VGlobalObject2_0040c150@1@A
+0x011d8bfc	type disagreement	2	g_011d8bfc	?g_011d8bfc@@3UGlobalObject_0045cfe0@@A ?g_011d8bfc@@3VGlobalObject2_0040c150@@A
+0x011d8c18	same object under two names and type disagreement	2	g_011d8c18	?g_011d8c18@@3UGlobalObject_0044fae0@@A ?g_011d8c18@@3VActorTaskManager@@A ?g_011d8c18@fnv_007182b0@@3UATM@1@A
+0x011d8c4c	same object under two names and type disagreement	4	g_011d8c4c	?DAT_011d8c4c@@3UGlobalObject_011d8c4c@@A ?g_011d8c4c@@3VGlobalObject_00709f00@@A
+0x011d8c5c	same object under two names and type disagreement	3	g_011d8c5c	?DAT_011d8c5c@fnv_007118d0@@3USettingX@1@A ?g_011d8c5c@@3VGlobalObject_0044f440@@A
+0x011d8cfc	same object under two names and type disagreement	3	g_011d8cfc	?g_011d8cfc@@3UGlobalObject_0045cfe0@@A ?g_011d8cfc@fnv_0071d380@@3UGlobalObject_0045cfe0@1@A
+0x011d8e90	same object under two names and type disagreement	2	DAT_011d8e90	?DAT_011d8e90@@3HA ?g_pCMPlayer@@3PAUCMPlayer@@A
+0x011d8e94	same object under two names and type disagreement	2	DAT_011d8e94@fnv_00726df0	?DAT_011d8e94@@3PAURecipeData@@A ?DAT_011d8e94@fnv_00726df0@@3HA
+0x011d8ea8	same object under two names and type disagreement	1	DAT_011d8ea8@fnv_00726df0	?DAT_011d8ea8@@3PAXA ?DAT_011d8ea8@fnv_00726df0@@3HA
+0x011d8f08	same object under two names and type disagreement	2	g_011d8f08	?g_011d8f08@@3UGlobalObject_0072ce30@@A ?g_011d8f08@@3VGlobalObject_0072ce30@@A ?g_kCMSorter@@3UCMSorter@@A
+0x011d93f8	same object under two names and type disagreement	2	DAT_011d93f8	?DAT_011d93f8@@3PAVContainerMenu@@A ?xContMenu@@3PAUxMenu@@A _DAT_011D93F8
+0x011d93fc	same object under two names and type disagreement	2	DAT_011d93fc	?DAT_011d93fc@@3HA ?DAT_011d93fc@@3PAXA ?g_011d93fc@@3PAUItem75@@A
+0x011d96b9	same object under two names	1	DAT_011d96b9	?DAT_011d96b9@@3_NA ?xbFlagB9@@3_NA
+0x011d96ba	same object under two names	1	DAT_011d96ba	?DAT_011d96ba@@3_NA ?xbFlagBA@@3_NA
+0x011d96bb	same object under two names	1	DAT_011d96bb@fnv_00771700	?DAT_011d96bb@fnv_00771700@@3_NA ?xbFlagBB@@3_NA
+0x011d96bc	same object under two names and type disagreement	1	g_011d96bc	?DAT_011d96bc@fnv_0077a650@@3PAUQManager@1@A ?DAT_011d96bc@fnv_0077f500@@3PAUQ@1@A ?g_011d96bc@@3HA
+0x011d96c0	same object under two names and type disagreement	16	g_pHudMainMenuInstance	?DAT_011d96c0@@3HA ?DAT_011d96c0@fnv_00773050@@3PAVHUDMainMenu@@A ?DAT_011d96c0@fnv_007748b0@@3PAVHUDMainMenu@@A ?HUDMainMenu_pSingleton@@3PAUHUDMainMenuEx@@A ?HUDMainMenu_pme@@3PAVHUDMainMenu@@A ?HUDMainMenu_pme@fnv_00771700@@3PAVHUDMainMenu@@A ?HUDMainMenu_pme@fnv_00773190@@3PAVHUDMainMenu@@A ?HUDMainMenu_pme@fnv_007756e0@@3PAVHUDMainMenu@@A ?HUDMainMenu_pme@fnv_0077f0d0@@3PAVHUDMainMenu@@A ?_pme@fnv_00778a90@@3PAPAVTile@1@A ?_pme@fnv_0077f420@@3PAVTile@1@A ?_pme@fnv_0077f490@@3PADA ?ammoHUD@@3PAUAmmoHUD@@A ?g_pHUDMainMenu@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@HUDMainMenu_WithPme@@2PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@HUDMainMenu_pme_access@@2PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_007728f0@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_00772c30@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_007735d0@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_00773650@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_00778990@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_0077f3c0@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_0077f500@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_0077f5e0@@3PAVHUDMainMenu@@A ?g_pHudMainMenuInstance@fnv_0077f890@@3PAVHUDMainMenu@@A ?messageHUD@@3PAUTilesMsg@@A ?xg_pme_11d96c0@@3PAUxPME@@A ?xpHUD@@3PAUHUDX@@A
+0x011d96c5	same object under two names	1	DAT_011d96c5	?DAT_011d96c5@@3_NA ?xbFlagC5@@3_NA
+0x011d970c	same object under two names and type disagreement	4	g_011d970c	?g_011d970c@@3HA ?g_011d970c@@3UGlobalObject2_0096a2d0@@A ?g_011d970c@fnv_0077b2c0@@3HA
+0x011d9730	type disagreement	2	g_011d9730	?g_011d9730@@3UGlobalObject_0044fae0@@A ?g_011d9730@@3VActorTaskManager@@A
+0x011d975c	same object under two names and type disagreement	2	g_011d975c	?g_011d975c@@3UGlobalObject_00633c90@@A ?g_011d975c@fnv_0077f0d0@@3V?$NiPointer@UFaceAnimData_0077f0d0@fnv_0077f0d0@@@@A
+0x011d9770	same object under two names and type disagreement	2	g_011d9770	?DAT_011d9770@@3DA ?DAT_011d9770@fnv_00771700@@3V?$NiPointer@VNiNode@fnv_00771700@@@@A ?g_011d9770@@3UGlobalObject_00633c90@@A ?g_011d9770@fnv_0077f0d0@@3V?$NiPointer@VNiNode@@@@A ?g_011d9770@fnv_0077f270@@3UPtr_77f270@1@A ?g_011d9770@fnv_0077f3c0@@3UStrOp@1@A
+0x011d9774	same object under two names and type disagreement	3	g_011d9774	?DAT_011d9774@@3UHUDFloatSetting@@A ?DAT_011d9774@fnv_00779070@@3UCompassSetting@1@A ?DAT_011d9774@fnv_0077c170@@3USettingX@@A ?ammoSetting@@3UAmmoSetting@@A ?g_011d9774@@3USetting772@@A ?g_011d9774@@3VGlobalObject_004de370@@A ?g_011d9774@fnv_007728f0@@3USetting_S@1@A ?g_011d9774@fnv_0077e750@@3UCompassSetting@1@A ?xsLockAlpha@@3USettingX@@A
+0x011d979c	same object under two names	1	DAT_011d979c	?DAT_011d979c@@3MA ?DAT_011d979c@fnv_00774090@@3MA ?DAT_011d979c@fnv_00778c20@@3MA ?DAT_011d979c@fnv_00779070@@3MA ?DAT_011d979c@fnv_0077eaf0@@3MA ?g_fHUDMessageFadeTime@fnv_007756e0@@3MA ?xg_f_11d979c@@3MA
+0x011d9ea4	type disagreement	4	ms_pInventoryMenu@InventoryMenu	?ms_pInventoryMenu@InventoryMenu@@2PAU1@A ?ms_pInventoryMenu@InventoryMenu@@2PAV1@A
+0x011d9eb8	same object under two names	2	ms_iKeyringOpenTileID@InventoryMenu	?DAT_011d9eb8@@3HA ?ms_iKeyringOpenTileID@InventoryMenu@@2HA
+0x011da0c4	type disagreement	6	ms_pSystemUtility@BSSystemUtility	?ms_pSystemUtility@BSSystemUtility@@2PAU1@A ?ms_pSystemUtility@BSSystemUtility@@2PAV1@A
+0x011dace0	same object under two names and type disagreement	4	ms_pInventoryMenu@StatsMenu	?DAT_011dace0@@3PAUAceObj@@A ?DAT_011dace0@fnv_007dd710@@3PAVFUN_007dd710_ctx@1@A ?DAT_011dace0@fnv_007dd8c0@@3PAVStatsMenu@@A ?ms_pInventoryMenu@StatsMenu@@2PAU1@A ?ms_pInventoryMenu@StatsMenu@@2PAV1@A
+0x011dad9c	same object under two names	1	DAT_011dad9c	?DAT_011dad9c@@3HA ?DAT_011dad9c@LockpickResistance@@3HA ?g_011dad9c@@3HA
+0x011dada4	same object under two names	1	DAT_011dada4	?DAT_011dada4@@3PAXA ?g_pE5810Interface@@3PAXA
+0x011dadb4	same object under two names and type disagreement	4	g_011dadb4	?DAT_011dadb4@@3UCameraHolder@@A ?g_011dadb4@@3UGlobalObject_00633c90@@A ?g_011dadb4@@3V?$NiPointer@VNiNode@@@@A
+0x011dade8	type disagreement	4	g_011dade8	?g_011dade8@@3UGlobalObject_00633c90@@A ?g_011dade8@@3V?$NiPointer@VNiNode@@@@A
+0x011dae48	same object under two names and type disagreement	2	g_011dae48	?g_011dae48@@3UGlobalObject2_0096a2d0@@A ?g_kE5810Queue@@3VE5810Node@@A
+0x011dae5c	same object under two names and type disagreement	4	g_011dae5c	?DAT_011dae5c@@3UBipPointer@@A ?g_011dae5c@@3UGlobalObject_00633c90@@A ?g_011dae5c@@3V?$NiPointer@VNiNode@@@@A
+0x011de134	type disagreement	20	DAT_011de134	?DAT_011de134@@3PAUHolder8512f0@@A ?DAT_011de134@@3PAUState552@@A ?DAT_011de134@@3PAVBGSSaveLoadManager@@A
+0x011de45c	same object under two names and type disagreement	103	DAT_011de45c	?DAT_011de45c@@3PAUGlobalMgr@@A ?DAT_011de45c@@3PAUInitToggle@@A ?DAT_011de45c@@3PAUSaveManager@@A ?DAT_011de45c@CellLoad@@3PAUStream@1@A ?DAT_011de45c@fnv_0055a430@@3PAUObj45c@1@A ?DAT_011de45c@fnv_00578a30@@3PAVTESSaveLoadGame@1@A ?DAT_011de45c@fnv_00585e00@@3PAVLinkProbe@1@A ?DAT_011de45c@fnv_00882b90@@3PAUAHGameMode@1@A ?DAT_011de45c@fnv_00886360@@3PAUPointerAccess@1@A ?DAT_011de45c@fnv_0088c830@@3PAUSaveLoadS@1@A ?DAT_011de45c@fnv_0088db20@@3PAUEqSaveLoad@1@A ?DAT_011de45c@fnv_008a9940@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@@3PAUSaveGameRecordWriter@@A ?g_TESSaveLoadGame@@3PAUTESSaveLoadGame@@A ?g_TESSaveLoadGame@@3PAUTESSaveLoadGame@fnv_0089fb80@@A ?g_TESSaveLoadGame@fnv_004695a0@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_00550340@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_00554b90@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_00555570@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_0055e940@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_0055ec40@@3PAULoadManager@1@A ?g_TESSaveLoadGame@fnv_0055f240@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_0055fe70@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_00560530@@3PAULoader@1@A ?g_TESSaveLoadGame@fnv_00560e70@@3PAUStreamLoad@1@A ?g_TESSaveLoadGame@fnv_00561b40@@3PAUSaveLoadX@1@A ?g_TESSaveLoadGame@fnv_005653d0@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_00573800@@3PAUMoveSave@1@A ?g_TESSaveLoadGame@fnv_00883240@@3PAULoading@1@A ?g_TESSaveLoadGame@fnv_00883800@@3PAUTransitionSave@1@A ?g_TESSaveLoadGame@fnv_008860d0@@3PAVSaveAccess@1@A ?g_TESSaveLoadGame@fnv_008a2ed0@@3PAUTESSaveLoadGame@11@A ?g_TESSaveLoadGame@fnv_008a9020@@3PAUTESSaveLoadGame@1@A ?g_TESSaveLoadGame@fnv_008a9380@@3PAUSaveManager@1@A ?g_TESSaveLoadGame@fnv_008aa210@@3PAUTESSaveLoadGame@1@A ?g_save@fnv_00561860@@3PAUZSave@1@A ?matchLoad@@3PAUMatchLoad@@A
+0x011de4e8	same object under two names and type disagreement	33	g_011de4e8	?g_011de4e8@@3UGlobalObject_0045cf30@@A ?g_011de4e8@@3ULogSetting@@A ?g_011de4e8@@3VGlobalObject_0045cf30@@A ?g_011de4e8@fnv_00554b90@@3UGlobalObject_0045cf30@1@A ?g_011de4e8@fnv_0055e940@@3UGlobalObject_0045cf30@1@A ?g_011de4e8@fnv_008a9020@@3USettingView@1@A ?g_011de4e8@fnv_008a9380@@3UDebugSetting@1@A
+0x011de7b8	same object under two names and type disagreement	40	g_011de7b8	?DAT_011de7b8@KillSupport@@3UObj867@1@A ?DAT_011de7b8@fnv_00882b90@@3UAHTimer@1@A ?DAT_011de7b8@fnv_00886360@@3UInterfaceState@1@A ?DAT_011de7b8@fnv_008c0460@@3UAlarmCalendar@1@A ?DAT_011de7b8@fnv_008c09e0@@3VAlarmCalendar@1@A ?DAT_011de7b8@p076@@3UClock@1@A ?g_011de7b8@@3VGlobalObject_008677d0@@A ?g_calendar@@3UCalendar@@A ?g_calendar@@3VCalendar_1d50@@A ?g_calendar@fnv_00546c70@@3UCalendar@1@A ?g_calendar@fnv_00550c60@@3UCalendar@1@A ?g_calendar@fnv_00881470@@3VCalendar@1@A ?g_calendar@fnv_00883240@@3UCal@1@A ?g_calendar@fnv_00883800@@3UTransitionCalendar@1@A ?xkCalendar@@3UActorUpdateCalendar@@A
+0x011dea0c	same object under two names and type disagreement	53	g_osGlobals	?DAT_011dea0c@@3PAUAttackControl@@A ?DAT_011dea0c@LockpickResistance@@3PAUPickGlobals@1@A ?DAT_011dea0c@fnv_0089a760@@3PAUHGlobals@1@A ?DAT_011dea0c@fnv_008a7d50@@3PAUOSGlobalsView@1@A ?g_osGlobals@@3PAUOsX@@A ?g_osGlobals@@3PAVOSGlobals@@A ?g_osGlobals@fnv_00558430@@3PAVOSGlobals@1@A ?g_osGlobals@fnv_00893340@@3PAUOSG_00893340@1@A
+0x011dea10	same object under two names and type disagreement	126	g_TES	?DAT_011dea10@@3PAURelationManager@@A ?DAT_011dea10@@3PAUSearchTable@@A ?DAT_011dea10@@3PAUWorldManager552@@A ?DAT_011dea10@BuildReferenceScene@@3PAUGlobals@1@A ?DAT_011dea10@KillSupport@@3PAXA ?DAT_011dea10@fnv_00548880@@3PAXA ?DAT_011dea10@fnv_005574d0@@3PAUS_011dea10_Owner@1@A ?DAT_011dea10@fnv_0055a430@@3PAUObjA10@1@A ?DAT_011dea10@fnv_00563890@@3PAUG11DEA10@1@A ?DAT_011dea10@fnv_0056fcb0@@3PAUGObj@1@A ?DAT_011dea10@fnv_005710c0@@3PAUModelEnvironment@1@A ?DAT_011dea10@fnv_00577450@@3PAUTES577@1@A ?DAT_011dea10@fnv_00886360@@3PAUSpellAccess@1@A ?DAT_011dea10@fnv_00964260@@3PAUSelWorld@1@A ?g_TES@@3HA ?g_TES@@3PAUMTES@@A ?g_TES@@3PAUWorldManager@@A ?g_TES@fnv_0055f240@@3PAUMyTES@1@A ?g_TES@fnv_005627c0@@3PAUTES_s@1@A ?g_TES@fnv_00573800@@3PAUMoveTES@1@A ?g_TES@fnv_0057b520@@3HA ?g_TES@fnv_0057b790@@3HA ?g_TES@fnv_006dcd70@@3PAUTES@1@A ?g_TES@fnv_0088e8d0@@3PAUMTES@1@A ?g_TES@fnv_00899200@@3PAUZWorld@1@A ?g_TES@fnv_009e3110@@3PAUTESHelper@1@A ?g_TES_576680@@3HA ?g_pkB930700TES@@3PAVB930700TES@@A ?resetWorld@@3PAUResetWorld@@A ?xg_TES_11dea10@@3PAUxTES@@A ?xpTES@@3PAUActorUpdateTES@@A _DAT_011dea10
+0x011dea3c	same object under two names and type disagreement	204	_g_thePlayer	?DAT_011dea3c@@3HA ?DAT_011dea3c@@3PAUDecalCell@@A ?DAT_011dea3c@@3PAUInitReference@@A ?DAT_011dea3c@@3PAXA ?DAT_011dea3c@AddBoundItemData@fnv_00574fa0@@3PAVTESObjectREFR@@A ?DAT_011dea3c@DialogueUpdate@@3PAUDlgActor@1@A ?DAT_011dea3c@KillSupport@@3PAVActor@@A ?DAT_011dea3c@LockpickResistance@@3PAUPickPlayer@1@A ?DAT_011dea3c@fnv_005453b0@@3PAUFNV_Ref@1@A ?DAT_011dea3c@fnv_00548880@@3PAUFNV_Ref@1@A ?DAT_011dea3c@fnv_00555c20@@3PAUPlayerS@1@A ?DAT_011dea3c@fnv_0055a430@@3PAUPlayer@1@A ?DAT_011dea3c@fnv_005659f0@@3PAUActor79@1@A ?DAT_011dea3c@fnv_00571760@@3PAVActor@1@A ?DAT_011dea3c@fnv_00574b30@@3PAURefOps@1@A ?DAT_011dea3c@fnv_0087e130@@3PAVProjectile@1@A ?DAT_011dea3c@fnv_0087fd90@@3PAUObj@1@A ?DAT_011dea3c@fnv_00882b90@@3PAVAHActor@1@A ?DAT_011dea3c@fnv_00886360@@3PAVActor@@A ?DAT_011dea3c@fnv_0088c830@@3PAVActor@1@A ?DAT_011dea3c@fnv_0088db20@@3PAVEqActorView@1@A ?DAT_011dea3c@fnv_0088e1e0@@3PAUImpactActor@1@A ?DAT_011dea3c@fnv_00892520@@3PAUSActor@1@A ?DAT_011dea3c@fnv_008929a0@@3PAUFNVObject@1@A ?DAT_011dea3c@fnv_00894e90@@3PAVFUN_00894e90_cls@1@A ?DAT_011dea3c@fnv_00898650@@3PAVActor@@A ?DAT_011dea3c@fnv_0089a760@@3PAUHActor@1@A ?DAT_011dea3c@fnv_008a3100@@3PAUActorUpdateShell@1@A ?DAT_011dea3c@fnv_008a5580@@3PAUUpdateActor@1@A ?DAT_011dea3c@fnv_008b0b00@@3PAUFUN_008b0b00_mgr@1@A ?DAT_011dea3c@fnv_008b2170@@3PAUAct2170@1@A ?DAT_011dea3c@fnv_008b7100@@3PAULookPlayer@1@A ?DAT_011dea3c@fnv_008b7360@@3PAUFUN_008b7360_Class@1@A ?DAT_011dea3c@fnv_008b73f0@@3PAUActorAnimationView@1@A ?DAT_011dea3c@fnv_008bb650@@3PAUPlayerView@1@A ?DAT_011dea3c@fnv_008c0ec0@@3PAUUnit@1@A ?DAT_011dea3c@fnv_008d3550@@3PAUFaceActor@1@A ?DAT_011dea3c@fnv_009339a0@@3PAUObj@1@A ?DAT_011dea3c@fnv_00964260@@3PAUSelActor@1@A ?DAT_011dea3c@s88c790@@3PAVActor@1@A ?DAT_011dea3c@s891be0@@3PAUPlayer@1@A ?_g_thePlayer@@3PAUFUN_00950c20_self@@A ?_g_thePlayer@@3PAUPawn@@A ?_g_thePlayer@@3PAUUpdatePlayer@@A ?_g_thePlayer@@3PAVPlayerCharacter@@A ?_g_thePlayer@@3PAVTESObjectREFR@@A ?_g_thePlayer@@3PAXA ?_g_thePlayer@fnv_00558ba0@@3PAVTESObjectCELL@@A ?_g_thePlayer@fnv_00573800@@3PAUMoveRef@1@A ?_g_thePlayer@fnv_00883240@@3PAUAgentActor@1@A ?_g_thePlayer@fnv_00883800@@3PAUTransitionActor@1@A ?_g_thePlayer@fnv_0088e8d0@@3PAUEActor@1@A ?_g_thePlayer@fnv_00895110@@3PAUPickActor@1@A ?_g_thePlayer@fnv_00897910@@3PAUAnimOwner@1@A ?_g_thePlayer@fnv_008a20d0@@3PAVPlayerCharacter@1@A ?_g_thePlayer@fnv_008a40e0@@3PAVActor@@A ?_g_thePlayer@fnv_008a4810@@3PAUCheckActor@1@A ?_g_thePlayer@fnv_008aa210@@3PAVPlayerCharacter@@A ?_g_thePlayer@fnv_008acc80@@3PAVPlayerCharacter@@A ?_g_thePlayer@fnv_008aff80@@3PAUActorStub@1@A ?_g_thePlayer@fnv_008b19c0@@3PAVMatchActor@1@A ?_g_thePlayer@fnv_008b8f90@@3PAUPlayerView@1@A ?_g_thePlayer@fnv_008bca90@@3HA ?_g_thePlayer@fnv_008bcdf0@@3PAVMatchActor@1@A ?_g_thePlayer@fnv_0094ca50@@3PAXA ?actorPlayer@@3PAUActorSoundView@@A ?candidatePlayer@@3PAUPlayerRef@@A ?eventPlayer@@3PAUEventActor@@A ?g_011dea3c@@3PAUMoveActor@@A ?g_011dea3c@@3PAURefr54@@A ?g_8bc3d0_player@@3PAUStub8bc3d0Player@@A ?g_pAHPlayer@@3PAUAHPlayer@@A ?g_pActPlayer@fnv_00573170@@3PAUActPlayer@1@A ?g_pHostPlayer@@3PAUHostActor@@A ?g_pkB56ACB0Player@@3PAVB56ACB0Ref@@A ?g_pkF5BB0Player@@3PAVF5BB0Actor@@A ?g_pkUAMPlayer@@3PAUUAMActor@@A ?g_player8@@3PAUActor8@@A ?g_playerRefS@@3PAURefS@@A ?g_thePlayer@@3PAUPainPlayer@@A ?g_thePlayer@@3PAURefX@@A ?g_thePlayer@@3PAUWorkerMobile@@A ?g_thePlayer@@3PAVActor@@A ?g_thePlayer@fnv_0054cd20@@3PAURefX@1@A ?g_thePlayer@fnv_00567490@@3PAUScaleReference@1@A ?g_thePlayer@fnv_00567e10@@3PAVPlayerCharacter@1@A ?g_thePlayer@fnv_00577250@@3PAVPlayerCharacter@1@A ?g_thePlayer@fnv_00579280@@3PAVReferenceView@1@A ?g_thePlayer@fnv_006751a0@@3PAURef@1@A ?g_thePlayer@fnv_006dcd70@@3PAUPC7d@1@A ?g_thePlayer@fnv_008808a0@@3PAXA ?g_thePlayer@fnv_00881680@@3PAVActor@@A ?g_thePlayer@fnv_0088d640@@3PAVActor@@A ?g_thePlayer@fnv_00891360@@3PAUW20Player@1@A ?g_thePlayer@fnv_00899cb0@@3PAVActor@@A ?g_thePlayer@fnv_008a2ed0@@3PAVActor@@A ?g_thePlayer@fnv_008a5f20@@3PAVPlayerCharacter@@A ?g_thePlayer@fnv_008a6840@@3PAVActor@@A ?g_thePlayer@fnv_008a73e0@@3PAVActor@@A ?g_thePlayer@fnv_008a8dd0@@3PAXA ?g_thePlayer@fnv_008ac8b0@@3PAUFUN_0070c3b0_Dummy@1@A ?g_thePlayer@fnv_008b0670@@3PAXA ?g_thePlayer@fnv_008b28c0@@3PAVActor@@A ?g_thePlayer@fnv_008b2c30@@3PAVActor@@A ?g_thePlayer@fnv_008bc300@@3PAURef@1@A ?g_thePlayer@fnv_008c09e0@@3PAVAlarmActorView@1@A ?g_thePlayer@fnv_008c1940@@3PAVActor@@A ?g_thePlayer@fnv_009e3110@@3PAVPlayerCharacter@1@A ?g_thePlayer@fnv_009e5690@@3PAUPC7d@1@A ?g_thePlayer@fnv_009e5ae0@@3PAUAvoidPlayer@1@A ?g_thePlayer@fnv_009e6ba0@@3PAUPlayerOps_9e6ba0@1@A ?matchPlayer@@3PAUMatchActor@@A ?pPlayer@@3PAVPlayerCharacter@@A ?pPlayer@fnv_00557dd0@@3PAURenderReference@1@A ?pPlayer@fnv_008a1760@@3PAVPlayerCharacter@@A ?pPlayer@fnv_008a6970@@3PAVActor@@A ?pPlayer@fnv_008a8e50@@3PAUPC_S@1@A ?pPlayer@fnv_008ba2f0@@3PAVPlayerCharacter@@A ?pPlayer@fnv_008c3650@@3PAUPC_S@1@A ?player88@@3PAUActor88@@A ?player@@3PAURef@@A ?player@fnv_009308f0@@3PAUSubject@1@A ?playerView@fnv_008a89a0@@3PAUActorView@1@A ?playerX@@3PAUPlayerX@@A ?resetPlayer@@3PAUResetActor@@A ?xg_pPlayer@@3PAUxPlayerX@@A ?xg_player_11dea3c@@3PAUxActor@@A ?xpPlayer@@3PAUActorUpdateActor@@A _DAT_011dea3c _g_thePlayer
+0x011f308f	same object under two names	3	DAT_011f308f	?DAT_011f308f@@3PA_NA ?DAT_011f308f@fnv_00a1c520@@3PA_NA
+0x011f329c	same object under two names and type disagreement	1	DAT_011f329c	?DAT_011f329c@@3PAPAXA ?DAT_011f329c@fnv_00a0b8d0@@3PAPAUTileElement@1@A
+0x011f32c8	same object under two names	1	DAT_011f32c8@fnv_00a01b00	?DAT_011f32c8@fnv_00a01b00@@3EA ?DAT_011f32c8@fnv_00a01e20@@3EA
+0x011f32c9	same object under two names	1	DAT_011f32c9@fnv_00a04200	?DAT_011f32c9@fnv_00a04200@@3_NA ?renderVisibilityChanged@@3_NA
+0x011f32d4	same object under two names	2	DAT_011f32d4	?DAT_011f32d4@@3HA ?renderUpdateCount@@3HA
+0x011f32dc	same object under two names and type disagreement	1	DAT_011f32dc	?DAT_011f32dc@@3HA ?DAT_011f32dc@fnv_00a0b8d0@@3IA
+0x011f32f4	same object under two names and type disagreement	1	DAT_011f32f4	?DAT_011f32f4@@3U?$BSMapBase@KPAUScrapHeapBuffer@@@@A ?DAT_011f32f4@fnv_00a00a30@@3VMapA00@1@A
+0x011f3308	same object under two names and type disagreement	1	DAT_011f3308	?DAT_011f3308@@3VScrapListShell@@A ?DAT_011f3308@fnv_00a00a30@@3VMapA00@1@A
+0x011f3318	same object under two names and type disagreement	1	DAT_011f3318	?DAT_011f3318@@3US009ff340_List@@A ?DAT_011f3318@fnv_00a07580@@3UTileQueue_00a07580@1@A ?g_kPendingTiles@@3UTileList@@A
+0x011f3320	same object under two names and type disagreement	1	DAT_011f3320	?DAT_011f3320@@3HA ?DAT_011f3320@fnv_00a04200@@3PAXA
+0x011f3324	same object under two names and type disagreement	2	DAT_011f3324	?DAT_011f3324@@3US009ff340_List@@A ?g_kRemovedTiles@@3UTileList@@A
+0x011f3330	same object under two names	2	DAT_011f3330	?DAT_011f3330@@3DA ?DAT_011f3330@fnv_00a04200@@3DA
+0x011f3348	same object under two names and type disagreement	1	DAT_011f3348@fnv_00a00a30	?DAT_011f3348@@3UFadeList@@A ?DAT_011f3348@fnv_00a00a30@@3V?$SimpleListA00@PAVFadeNodeA00@fnv_00a00a30@@@1@A
+0x011f3358	same object under two names and type disagreement	1	g_kA0A220Handlers	?DAT_011f3358@fnv_00a0a130@@3UListMap_a0a130@1@A ?g_kA0A220Handlers@@3UA0A220HandlerMap@@A
+0x011f3368	type disagreement	4	g_011f3368	?g_011f3368@@3URenderAtlasSetting@@A ?g_011f3368@@3VSetting_01017720_011f96a0@@A
+0x011f34cc	same object under two names and type disagreement	3	DAT_011f34cc@tileext	?DAT_011f34cc@@3PAVNiFixedString@@A ?DAT_011f34cc@@3PAXA ?DAT_011f34cc@tileext@@3PBDB
+0x011f34e0	same object under two names and type disagreement	2		?DAT_011f34e0@@3V?$BSMapBase@KPAUScrapHeapBuffer@@@@A ?DAT_011f34e0@fnv_00a1ca20@@3V?$BSMapBase@KPAUScrapHeapBuffer@fnv_00a1ca20@@@1@A ?DAT_011f34e0@fnv_00a1cb80@@3UFUN_00a0c900_shell@1@A ?DAT_011f34e0@fnv_00a1d410@@3UEntryMap@1@A
+0x011f34f4	same object under two names and type disagreement	2	DAT_011f34f4@fnv_00a1ca20	?DAT_011f34f4@@3HA ?DAT_011f34f4@fnv_00a1ca20@@3V?$BSMapBase@KPAUScrapHeapBuffer@fnv_00a1ca20@@@1@A ?DAT_011f34f4@fnv_00a1cb30@@3HA
+0x011f3508	same object under two names and type disagreement	3	g_menuByClassArray	?DAT_011f3508@@3UMenuArray@@A ?g_menuByClassArray@@3VMenuClassArray@@A
+0x011f426c	same object under two names and type disagreement	188	ZERO@NiPoint3	?DAT_011f426c@@3UDetectPoint3@@A ?DAT_011f426c@fnv_00654720@@3UNiPoint3@1@B ?DAT_011f426c@fnv_00adafa0@@3UVectorA@1@A ?DAT_011f426c@fnv_00adb3e0@@3UPoint@1@A ?DAT_011f426c@fnv_00adb610@@3UNiPoint3@1@A ?DAT_011f426c@fnv_00adb690@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adba70@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adbec0@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adbf50@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adbfd0@@3UNiPoint3_adbfd0@1@A ?DAT_011f426c@fnv_00adc050@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc0d0@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc160@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc1e0@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc360@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc3e0@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc460@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adc4e0@@3UNiPoint3@1@A ?DAT_011f426c@fnv_00adc5f0@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adca20@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adcaa0@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adcd00@@3UNiPoint3_audio@1@A ?DAT_011f426c@fnv_00adddd0@@3IA ?NiPoint3_ZERO@@3UNiPoint3@@B ?NiPoint3_ZERO@fnv_00524d70@@3Ublob12@1@A ?NiPoint3_ZERO@fnv_009ac200@@3UPointC@1@A ?NiPoint3_ZERO@fnv_00adbb30@@3UVector3@1@A ?NiPoint3_ZERO@fnv_00adcb20@@3US_adcb20_Point3@1@A ?NiPoint3_ZERO@fnv_00adf080@@3UNiPoint3@1@B ?ZERO@NiPoint3@@2U1@B ?ZERO@NiPoint3@fnv_006558b0@@2U12@B ?ZERO@NiPoint3@fnv_00ada0f0@@2U12@B ?ZERO@NiPoint3@fnv_00adad80@@2U12@B ?ZERO@NiPoint3B7C0@@2V1@B ?_NiPoint3_ZERO@@3HA ?_NiPoint3_ZERO@@3U_NiPoint3_pod@@A ?_NiPoint3_ZERO@fnv_00568fa0@@3UNiPoint3@1@A ?_NiPoint3_ZERO@fnv_00569000@@3UNiPoint3@1@A ?_NiPoint3_ZERO@fnv_0056fb10@@3UP3@1@A ?_NiPoint3_ZERO@fnv_0056fba0@@3UNiPoint3@1@A ?_NiPoint3_ZERO@fnv_0056fc30@@3UV3@1@A ?_NiPoint3_ZERO@fnv_00655320@@3UV3@1@A ?_NiPoint3_ZERO@fnv_00cbc550@@3HA _DAT_011f426c __NiPoint3_ZERO
+0x011f4288	same object under two names	45	g_defaultBound	?DAT_011f4288@@3UNiBound@@A ?g_defaultBound@@3UNiBound@@A
+0x011f4400	same object under two names and type disagreement	32	ms_lObjectCount@NiRefObject	?DAT_011f4400@@3HA ?DAT_011f4400@@3JC ?DAT_011f4400@fnv_00e8ead0@@3PAJA ?ms_lObjectCount@NiRefObject@@2IA ?ms_lObjectCount@NiRefObjectE81@@2JA
+0x011f4428	same object under two names and type disagreement	23	g_011f4428	?DAT_011f4428@@3UNiRTTI@@A ?DAT_011f4428@fnv_00a11560@@3UNiRTTI@1@A ?g_011f4428@@3VGlobalObjectO2_00a7b610@@A
+0x011f4748	same object under two names and type disagreement	59	ms_pRenderer@NiRenderer	?DAT_011f4748@NiRendererImpl@@3PAVFUN_00a62b60@1@A ?DAT_011f4748@gfxB6BA@@3PAURendererSurfaceB6BA@@A ?g_pD3DRenderer@@3PAXA ?ms_pRenderer@NiRenderer@@2PAU1@A ?ms_pRenderer@NiRenderer@fnv_00a80930@@2PAURendererView@2@A _DAT_011f4748
+0x011f49d8	type disagreement	10	g_011f49d8	?g_011f49d8@@3UNiRTTI_S@@B ?g_011f49d8@@3VGlobalObjectO2_00a7b610@@A
+0x011f49e0	type disagreement	14	DAT_011f49e0	?DAT_011f49e0@@3HA ?DAT_011f49e0@@3VNiFixedString@@A
+0x011f4a64	type disagreement	4	DAT_011f4a64	?DAT_011f4a64@@3PAUFUN_00e940a0_Global@@A ?DAT_011f4a64@@3PAXA
+0x011f4a68	same object under two names and type disagreement	3	g_011f4a68	?g_011f4a68@@3UGlobalObjectO2_00a7b610@@A ?g_011f4a68@@3VGlobalObjectO2_00a7b610@@A ?g_011f4a68@fnv_00a75d70@@3UGlobalObjectO2_00a7b610@1@A
+0x011f4acc	same object under two names and type disagreement	9	g_011f4acc	?DAT_011f4acc@@3UNiRTTI_S@@B ?g_011f4acc@@3VGlobalObjectO2_00a7b610@@A
+0x011f5ae0	same object under two names and type disagreement	4	g_011f5ae0	?g_011f5ae0@@3VGlobalObjectO2_00a7b610@@A ?g_01200464_arg1@@3QBDB
+0x011f5afc	same object under two names and type disagreement	3	g_011f5afc	?g_011f4100_arg1@@3QBDB ?g_011f5afc@@3VGlobalObjectO2_00a7b610@@A ?g_011f5b14_arg1@@3QBDB ?g_01202580_arg1@@3QBDB
+0x011f5b2c	type disagreement	3	g_011f5b2c	?g_011f5b2c@@3UGlobalObjectO2_00a7b610@@A ?g_011f5b2c@@3VGlobalObjectO2_00a7b610@@A
+0x011f5b58	same object under two names and type disagreement	3	g_011f5b58	?g_011f4a04_arg1@@3QBDB ?g_011f5b58@@3VGlobalObjectO2_00a7b610@@A
+0x011f5b70	same object under two names and type disagreement	4	g_011f5b70	?g_011f4a20_arg1@@3QBDB ?g_011f4a40_arg1@@3QBDB ?g_011f5b70@@3VGlobalObjectO2_00a7b610@@A
+0x011f5b90	same object under two names and type disagreement	2	g_011f5b90	?g_011f4a70_arg1@@3QBDB ?g_011f4a88_arg1@@3QBDB ?g_011f5b90@@3VGlobalObjectO2_00a7b610@@A
+0x011f5d00	same object under two names and type disagreement	3	g_011f5d00	?g_011f5d00@@3VGlobalObjectO2_00a7b610@@A ?g_011f603c_arg1@@3QBDB
+0x011f5d08	same object under two names and type disagreement	3	g_011f5d08	?g_011f5d08@@3VGlobalObjectO2_00a7b610@@A ?g_0126f75c_arg1@@3QBDB
+0x011f5d10	same object under two names and type disagreement	2	g_011f5d10	?g_011f5d10@@3VGlobalObjectO2_00a7b610@@A ?g_01270918_arg1@@3QBDB
+0x011f5d18	same object under two names and type disagreement	1	g_011f5d18	?g_011f5b0c_arg1@@3QBDB ?g_011f5d18@@3VGlobalObjectO2_00a7b610@@A
+0x011f5e38	same object under two names and type disagreement	2	g_011f5e38	?g_011f5e38@@3VGlobalObjectO2_00a7b610@@A ?g_011f6048_arg1@@3QBDB ?g_012708f8_arg1@@3QBDB
+0x011f5eb4	same object under two names and type disagreement	4	g_011f5eb4	?g_011f5eb4@@3VGlobalObjectO2_00a7b610@@A ?g_011f5f1c_arg1@@3QBDB
+0x011f5ef0	same object under two names and type disagreement	2	g_011f5ef0	?g_011f5ef0@@3VGlobalObjectO2_00a7b610@@A ?g_011f5f0c_arg1@@3QBDB ?g_01202558_arg1@@3QBDB
+0x011f5f04	same object under two names and type disagreement	2	g_011f5f04	?g_011f5f04@@3VGlobalObjectO2_00a7b610@@A ?g_0126f9f8_arg1@@3QBDB
+0x011f5f34	same object under two names and type disagreement	3	g_011f5f34	?g_011f5f34@@3VGlobalObjectO2_00a7b610@@A ?g_012007e0_arg1@@3QBDB
+0x011f5f64	same object under two names and type disagreement	4	g_011f5f64	?g_011f5f14_arg1@@3QBDB ?g_011f5f64@@3VGlobalObjectO2_00a7b610@@A ?g_012024e0_arg1@@3QBDB
+0x011f5f74	same object under two names and type disagreement	2	g_011f5f74	?g_011f5f74@@3VGlobalObjectO2_00a7b610@@A ?g_011fa000_arg1@@3QBDB
+0x011f6234	same object under two names and type disagreement	1	DAT_011f6234	?DAT_011f6234@@3V_RTL_CRITICAL_SECTION@@A ?DAT_011f6234@fnv_00aa4490@@3IA
+0x011f6238	same object under two names and type disagreement	244	g_memoryManager	?DAT_011f6238@@3UFUN_00aa46a0_holder@@A ?DAT_011f6238@@3UReviewedMemory@@A ?DAT_011f6238@fnv_00a1d410@@3UMemoryManager@1@A ?DAT_011f6238@fnv_00c5f240@@3DA ?_g_memoryManager@@3UArrowMemory@@A ?_g_memoryManager@@3UMM@@A ?_g_memoryManager@fnv_00a1cb80@@3UMemoryManager@1@A ?_g_memoryManager@fnv_00a1ddb0@@3UP03MM@1@A ?_g_memoryManager@fnv_00c5f2e0@@3UMemoryManager@@A ?g_011f6238@@3UFNVHeap@@A ?g_011f6238@@3UMemoryManager@@A ?g_memMgr@@3UMemMgr@@A ?g_memoryManager@@3UMemoryManager@@A ?g_memoryManager@@3UP03MM@@A ?g_memoryManager@@3VMemoryManager@@A ?g_memoryManager@fnv_00a1c520@@3VMemoryManager@1@A ?g_memoryManager@fnv_00a1ca20@@3VMemoryManager@1@A ?g_memoryManager@fnv_00a1e170@@3VMemoryManager@1@A ?meshMemory@fnv_00c584a0@@3UMeshAllocator@1@A _DAT_011f6238 _c42heap
+0x011f6394	same object under two names and type disagreement	82	g_timeGlobal	?DAT_011f6394@ActorUpdate3D@@3UClock@1@A ?actorClock@@3UClockView@@A ?g_kTrapMultT8@@3VGlobalT8@@A ?g_kUAMTimer@@3UUAMTimer@@A ?g_timeGlobal@@3UGameTimerRecord@@A ?g_timeGlobal@@3VTimeGlobal@@A ?xkTimer@@3UActorUpdateTimer@@A
+0x011f63b8	same object under two names and type disagreement	4	ms_pPoolAddressMap	?ms_pPoolAddressMap@@3PAPAVMemoryPool@@A ?ms_pPoolAddressMap@MemoryPool@@2PAPAV1@A
+0x011f8050	same object under two names	1	DAT_011f8050	?DAT_011f8050@@3PADA ?DAT_011f8050@fnv_00afad00@@3PADA
+0x011f8154	same object under two names	1	DAT_011f8154	?DAT_011f8154@@3_NA ?DAT_011f8154@fnv_00afa8e0@@3_NA
+0x011f8158	same object under two names and type disagreement	1	DAT_011f8158	?DAT_011f8158@@3PADA ?DAT_011f8158@fnv_00af44f0@@3PADA ?DAT_011f8158@fnv_00af4550@@3PBDB
+0x011f815c	same object under two names and type disagreement	1	DAT_011f815c	?DAT_011f815c@@3PADA ?DAT_011f815c@fnv_00af44f0@@3PADA ?DAT_011f815c@fnv_00af4550@@3PBDB
+0x011f8160	same object under two names and type disagreement	1	DAT_011f8160	?DAT_011f8160@@3PAULNode@@A ?DAT_011f8160@fnv_00af4be0@@3PAULNode@1@A ?DAT_011f8160@fnv_00af5700@@3PAUArchiveListNode@1@A ?DAT_011f8160@fnv_00af5fa0@@3PAV?$BSSimpleList@V?$NiPointer@UArchive@fnv_00af5fa0@@@fnv_00af5fa0@@@1@A ?DAT_011f8160@fnv_00af6160@@3PAV?$BSSimpleList@V?$NiPointer@UArchive@fnv_00af6160@@@fnv_00af6160@@@1@A ?DAT_011f8160@fnv_00af6540@@3PAV?$BSSimpleList@V?$NiPointer@UArchive@fnv_00af6540@@@fnv_00af6540@@@1@A ?DAT_011f8160@fnv_00af7400@@3PAULNode@1@A ?DAT_011f8160@fnv_00af7800@@3PAULNode@1@A ?_DAT_011f8160@fnv_00af5320@@3PAUArchiveListNode@1@A ?g_pArchiveList@fnv_00af6690@@3PAUArchiveNode@1@A ?g_pArchiveList_af7@@3PAUArchiveNode_af7@@A ?g_pLNode@fnv_00af5550@@3PAULNode@1@A ?g_pNode_11f8160@fnv_00af5480@@3PAULNode_af5480@1@A _DAT_011f8160
+0x011f8164	same object under two names	1	DAT_011f8164	?DAT_011f8164@@3IA ?DAT_011f8164@fnv_00afb300@@3IA ?DAT_011f8164@fnv_00afc430@@3IA
+0x011f8168	same object under two names and type disagreement	1	DAT_011f8168	?DAT_011f8168@@3PAUArchiveArray@@A ?DAT_011f8168@fnv_00afad00@@3PAUListAD2@1@A
+0x011f816c	same object under two names and type disagreement	1	DAT_011f816c	?DAT_011f816c@@3PAUArchiveArray@@A ?DAT_011f816c@fnv_00afad00@@3PAUListAD1@1@A
+0x011f8170	same object under two names and type disagreement	1	g_kCS_11f8170@fnv_00af5480	?DAT_011f8170@@3UArcCS@@A ?DAT_011f8170@fnv_00af5320@@3U_RTL_CRITICAL_SECTION@1@A ?DAT_011f8170@fnv_00af6160@@3U_RTL_CRITICAL_SECTION@1@A ?g_ArchiveListLock_af7@@3JA ?g_cs@fnv_00af5550@@3U_RTL_CRITICAL_SECTION@1@A ?g_kCS_11f8170@fnv_00af5480@@3PADA
+0x011f8190	same object under two names and type disagreement	2	DAT_011f8190	?DAT_011f8190@@3PAY08VArchivePtr@@A ?DAT_011f8190@archive_master_lookup@@3PAV?$NiPointer@UArchive@fnv_00af6540@@@fnv_00af6540@@A ?DAT_011f8190@fnv_00af4550@@3PAY08U?$ArchivePointer@VArchive@fnv_00af4550@@@1@A ?DAT_011f8190@fnv_00af67d0@@3PAY08PAVArchive@1@A ?g_files@fnv_00af5550@@3PAY08V?$NiPointer@VMyArchiveFile@fnv_00af5550@@@1@A
+0x011f81dc	same object under two names and type disagreement	9	g_fileFinder	?g_fileFinder@fnv_00af4be0@@3PAUOpenFinder@1@A ?g_fileFinder@fnv_00af5700@@3PAUFileFinder@1@A _g_fileFinder
+0x011f9148	same object under two names and type disagreement	3	g_011f9148	?g_011f9148@@3UGlobalObjectO2_0045cfe0@@A ?g_011f9148@@3VGlobalObjectO2_0045cfe0@@A ?g_011f9148@fnv_007ffb80@@3UGlobalObjectO2_0045cfe0@1@A
+0x011f917c	same object under two names and type disagreement	10	DAT_011f917c	?DAT_011f917c@@3PAVNiCamera@@A ?DAT_011f917c@fnv_00b5e870@@3PAXA
+0x011f91a7	same object under two names	9	DAT_011f91a7	?DAT_011f91a7@@3EA ?DAT_011f91a7@fnv_00b5e870@@3EA
+0x011f91ac	same object under two names and type disagreement	15	DAT_011f91ac	?DAT_011f91ac@@3PAUImageSpaceManager@@A ?DAT_011f91ac@@3PAUM08@@A ?DAT_011f91ac@fnv_00c03d80@@3PAURenderManager@1@A ?_DAT_011f91ac@@3PAUManager374@@A
+0x011f91c0	same object under two names and type disagreement	26	DAT_011f91c0	?DAT_011f91c0@@3HA ?DAT_011f91c0@fnv_00b5e870@@3HA ?DAT_011f91c0@fnv_00c16350@@3HA ?_fnv_particle_shader_renderer_level@@3HA _fnv_particle_shader_renderer_level
+0x011f91c4	same object under two names	11	DAT_011f91c4	?DAT_011f91c4@@3EA ?DAT_011f91c4@fnv_00b5e870@@3EA
+0x011f91c8	same object under two names and type disagreement	10	DAT_011f91c8	?DAT_011f91c8@@3PAPAUShadowSceneNode@@A ?DAT_011f91c8@@3PAUGlobals@@A ?DAT_011f91c8@fnv_00b5b260@@3PAUShadowSceneNode@@A ?DAT_011f91c8@fnv_00b5d300@@3PAVOwnerD@1@A
+0x011f91d8	same object under two names and type disagreement	11	DAT_011f91d8@fnv_005bf7b0	?DAT_011f91d8@@3DA ?DAT_011f91d8@fnv_005bf7b0@@3HA ?DAT_011f91d8@fnv_00b5e870@@3HA
+0x011f91e0	type disagreement	25	DAT_011f91e0	?DAT_011f91e0@@3HA ?DAT_011f91e0@@3PAPAVNiGeometry@@A
+0x011f941e	same object under two names and type disagreement	25	DAT_011f941e	?DAT_011F941E@@3EA ?DAT_011f941e@@3_NA __DAT_011F941E
+0x011f9426	same object under two names and type disagreement	15	DAT_011f9426	?DAT_011f9426@@3EA ?DAT_011f9426@@3_NA ?DAT_011f9426@fnv_00c03d80@@3_NA
+0x011f9508	same object under two names and type disagreement	44	DAT_011f9508	?DAT_011f9508@@3PAUFUN_00c04030_renderer@@A ?DAT_011f9508@@3PAUNiRenderer@@A ?g_pFnvHolder@@3PAUFnvHolder@@A ?g_pkRenderer@@3PAVGraphicsRenderer@@A
+0x011f9510	same object under two names and type disagreement	8	DAT_011f9510	?DAT_011f9510@@3HA ?DAT_011f9510@fnv_00c0bcf0@@3PAUC0BCF0Texture@1@A
+0x011f9518	same object under two names and type disagreement	5	DAT_011f9518	?DAT_011f9518@@3PAVNiTexture@@A ?DAT_011f9518@fnv_00c0bcf0@@3PAUC0BCF0Texture@1@A
+0x011f9534	same object under two names and type disagreement	6	DAT_011f9534	?DAT_011f9534@@3HA ?DAT_011f9534@@3IA ?DAT_011f9534@fnv_00c0fdc0@@3IA
+0x011f95d4	type disagreement	3	DAT_011f95d4	?DAT_011f95d4@@3DA ?DAT_011f95d4@@3IA
+0x011f9e80	same object under two names and type disagreement	2	g_011f9e80	?g_011f9e80@@3UGlobalObjectO2_00a7b610@@A ?g_011f9e80@@3VGlobalObjectO2_00a7b610@@A ?g_011f9e80@fnv_00b5c7d0@@3PBDB
+0x011f9ea0	same object under two names and type disagreement	2	DAT_011f9ea0	?DAT_011f9ea0@@3UGlobalLock_t@@A ?g_kMultiBoundLockB5D@@3VCriticalLockB5D@@A ?g_kShadowLightCS@fnv_00b5c940@@3VLightCS@1@A _DAT_011f9ea0
+0x011f9ec0	type disagreement	2	DAT_011f9ec0	?DAT_011f9ec0@@3US00b5d9f0_Lock@@A _DAT_011f9ec0
+0x012005e0	same object under two names and type disagreement	2	DAT_012005e0	?DAT_012005e0@@3HA ?g_pkPass_012005e0@@3PAUShaderPass@@A ?g_spSharedResource@@3V?$RefPtr@USharedResource@@@@A
+0x01202560	type disagreement	4	g_01202560	?g_01202560@@3PAXA ?g_01202560@@3VGlobalObjectO2_00a7b610@@A
+0x012030b0	type disagreement	4	g_012030b0	?g_012030b0@@3HA ?g_012030b0@@3VGlobalObject_00a7b610@@A
+0x012030b8	type disagreement	4	g_012030b8	?g_012030b8@@3PAXA ?g_012030b8@@3VGlobalObject_00a7b610@@A
+0x012030c0	same object under two names and type disagreement	2	g_012030c0	?g_01202820_arg1@@3QBDB ?g_012030c0@@3VGlobalObject_00a7b610@@A
+0x01203108	same object under two names and type disagreement	2	g_01203108	?DAT_01203108@@3PAXA ?g_01203108@@3VGlobalObject_00a7b610@@A _g_01203108
+0x012677d4	same object under two names and type disagreement	3	g_pkMemorySystemC68	?g_pkMemorySystemC68@@3PAVhkMemorySystemC68@@A _DAT_012677d4
+0x01267b28	type disagreement	2	g_01267b28	?g_01267b28@@3UGlobalObjectO2_0045cf30@@A ?g_01267b28@@3VGlobalObjectO2_0045cf30@@A
+0x01267c20	type disagreement	3	DAT_01267c20	?DAT_01267c20@@3MA _DAT_01267c20
+0x01267c24	same object under two names and type disagreement	3	g_01267c24 g_01267c24@fnv_005524d0	?g_01267c24@@3VGlobalObjectO2_0045cf30@@A ?g_01267c24@fnv_005524d0@@3UGlobalObjectO2_0045cf30@1@A
+0x012680f8	same object under two names and type disagreement	8	DAT_012680f8	?DAT_012680f8@@3HA ?DAT_012680f8@fnv_00cc9e60@@3HA ?DAT_012680f8@fnv_00cca4e0@@3HA ?DAT_012680f8@fnv_00cca950@@3HA ?DAT_012680f8@fnv_00ccbd70@@3HA ?DAT_012680f8@fnv_00ccd100@@3HA ?DAT_012680f8@fnv_00cce990@@3HA ?DAT_012680f8@fnv_00ccf7c0@@3HA ?DAT_012680f8@fnv_00cd7e80@@3IA ?g_iCDC40LevelACount@@3HA ?ms_uiInstances@CCA1B0Level1@@2IA _DAT_012680f8
+0x01268100	same object under two names and type disagreement	3	g_01268100	?g_01268100@@3VGlobalObjectO2_00a7b610@@A ?g_012681b4_arg1@@3QBDB ?g_01268278_arg1@@3QBDB ?g_012682d0_arg1@@3QBDB ?g_012686d4_arg1@@3QBDB ?g_01268f90_arg1@@3QBDB
+0x01268110	same object under two names and type disagreement	3	g_01268110	?g_01268110@@3VGlobalObjectO2_00a7b610@@A ?g_01268200_arg1@@3QBDB ?g_0126823c_arg1@@3QBDB
+0x01268118	same object under two names	3	DAT_01268118	?DAT_01268118@@3HA ?DAT_01268118@fnv_00cc33a0@@3HA
+0x0126811c	same object under two names and type disagreement	2	g_0126811c	?g_0126811c@@3VGlobalObjectO2_00a7b610@@A ?g_0126812c_arg1@@3QBDB ?g_012683ec_arg1@@3QBDB ?g_01268420_arg1@@3QBDB ?g_012685bc_arg1@@3QBDB
+0x01268134	same object under two names and type disagreement	2	g_01268134	?g_01268100_arg1@@3QBDB ?g_01268110_arg1@@3QBDB ?g_01268134@@3VGlobalObjectO2_00a7b610@@A ?g_01268158_arg1@@3QBDB ?g_0126818c_arg1@@3QBDB ?g_01268344_arg1@@3QBDB
+0x01268154	same object under two names and type disagreement	5	DAT_01268154	?DAT_01268154@@3HA ?DAT_01268154@fnv_00cc33a0@@3HA ?g_ctorCount1@fnv_00cc2c60@@3IA ?g_ctorCount1@fnv_00cc4340@@3IA
+0x01268158	same object under two names and type disagreement	4	g_01268158	?g_0126811c_arg1@@3QBDB ?g_01268158@@3VGlobalObjectO2_00a7b610@@A ?g_01268198_arg1@@3QBDB
+0x01268160	same object under two names and type disagreement	2	g_01268160	?g_01267824_arg1@@3QBDB ?g_01268134_arg1@@3QBDB ?g_01268160@@3VGlobalObjectO2_00a7b610@@A
+0x01268168	same object under two names and type disagreement	3	g_01268168	?g_01268168@@3VGlobalObjectO2_00a7b610@@A ?g_012683d0_arg1@@3QBDB
+0x01268188	same object under two names and type disagreement	9	DAT_01268188	?DAT_01268188@@3HA ?DAT_01268188@fnv_00cc5130@@3HA ?DAT_01268188@fnv_00cc53f0@@3HA ?DAT_01268188@fnv_00cc60b0@@3HA ?DAT_01268188@fnv_00cc6140@@3HA ?DAT_01268188@fnv_00cc7500@@3HA ?DAT_01268188@fnv_00cc8520@@3HA ?g_ctorCountA@@3HA ?g_ctorCountA@fnv_00cc8dc0@@3HA ?g_ctrA@fnv_00cc4c60@@3HA ?g_iCC9940RefObjectCount@@3HA ?g_spawnCountA@fnv_00cc7890@@3IA ?ms_iCount@CC69D0Shape@@2HA ?ms_uiInstances@BCC8770Shape@@2IA ?ms_uiInstances@CC90D0Level1@@2IA
+0x0126818c	same object under two names and type disagreement	9	g_0126818c	?g_0126818c@@3VGlobalObjectO2_00a7b610@@A ?g_01268310_arg1@@3QBDB ?g_0126831c_arg1@@3QBDB ?g_01268438_arg1@@3QBDB ?g_012685e0_arg1@@3QBDB ?g_012685ec_arg1@@3QBDB ?g_012685f8_arg1@@3QBDB ?g_01268604_arg1@@3QBDB ?g_01268610_arg1@@3QBDB ?g_0126861c_arg1@@3QBDB ?g_01268634_arg1@@3QBDB ?g_01268640_arg1@@3QBDB ?g_0126864c_arg1@@3QBDB ?g_01268f78_arg1@@3QBDB ?g_01268f84_arg1@@3QBDB ?g_01269160_arg1@@3QBDB
+0x01268194	same object under two names and type disagreement	2	DAT_01268194	?DAT_01268194@@3HA ?g_ctorCount2@fnv_00cc2c60@@3IA ?g_ctorCount2@fnv_00cc4340@@3IA
+0x01268198	same object under two names and type disagreement	4	g_01268198	?g_01268198@@3VGlobalObjectO2_00a7b610@@A ?g_012685b0_arg1@@3QBDB ?g_012685c8_arg1@@3QBDB ?g_012685d4_arg1@@3QBDB
+0x012681c0	same object under two names and type disagreement	15	g_012681c0	?g_012681c0@@3VGlobalObjectO2_00a7b610@@A ?g_012683c8_arg1@@3QBDB
+0x01268200	same object under two names and type disagreement	2	g_01268200	?g_012681c0_arg1@@3QBDB ?g_01268200@@3VGlobalObjectO2_00a7b610@@A
+0x01268224	same object under two names and type disagreement	2	g_01268224	?g_01268224@@3VGlobalObjectO2_00a7b610@@A ?g_01268230_arg1@@3QBDB ?g_012685a4_arg1@@3QBDB
+0x01268230	same object under two names and type disagreement	3	g_01268230	?g_01268230@@3VGlobalObjectO2_00a7b610@@A ?g_01268444_arg1@@3QBDB
+0x0126823c	same object under two names and type disagreement	2	g_0126823c	?g_01268224_arg1@@3QBDB ?g_0126823c@@3VGlobalObjectO2_00a7b610@@A ?g_01268248_arg1@@3QBDB
+0x01268248	same object under two names and type disagreement	2	g_01268248	?g_01268248@@3VGlobalObjectO2_00a7b610@@A ?g_01268304_arg1@@3QBDB
+0x01268250	same object under two names and type disagreement	4	DAT_01268250	?DAT_01268250@@3HA ?DAT_01268250@fnv_00cca950@@3HA ?DAT_01268250@fnv_00ccd100@@3HA ?DAT_01268250@fnv_00cce990@@3HA ?DAT_01268250@fnv_00ccf7c0@@3HA ?DAT_01268250@fnv_00cd7e80@@3IA ?g_iCDC40LevelCCount@@3HA _DAT_01268250
+0x01268254	same object under two names and type disagreement	2	g_01268254	?g_01268254@@3VGlobalObjectO2_00a7b610@@A ?g_01268264_arg1@@3QBDB ?g_01268288_arg1@@3QBDB ?g_0126832c_arg1@@3QBDB ?g_01268664_arg1@@3QBDB ?g_01268694_arg1@@3QBDB ?g_012686a0_arg1@@3QBDB ?g_012686b0_arg1@@3QBDB ?g_012686b8_arg1@@3QBDB ?g_012686c4_arg1@@3QBDB
+0x01268274	same object under two names and type disagreement	4	DAT_01268274	?DAT_01268274@@3HA ?DAT_01268274@fnv_00cca950@@3HA ?DAT_01268274@fnv_00ccd100@@3HA ?DAT_01268274@fnv_00cce990@@3HA ?DAT_01268274@fnv_00ccf7c0@@3HA ?DAT_01268274@fnv_00cd7e80@@3IA ?g_iCDC40LevelBCount@@3HA _DAT_01268274
+0x01268278	same object under two names and type disagreement	2	g_01268278	?g_01268254_arg1@@3QBDB ?g_01268278@@3VGlobalObjectO2_00a7b610@@A ?g_012683e0_arg1@@3QBDB
+0x012682c8	type disagreement	1	DAT_012682c8	?DAT_012682c8@@3MA _DAT_012682c8
+0x012682cc	same object under two names and type disagreement	3	ms_uiInstances@CCA1B0Level2	?_DAT_012682cc@fnv_00cc9e60@@3HA ?ms_uiInstances@CCA1B0Level2@@2IA
+0x012682d0	same object under two names and type disagreement	3	g_012682d0	?g_012682d0@@3VGlobalObjectO2_00a7b610@@A ?g_01268350_arg1@@3QBDB ?g_01268658_arg1@@3QBDB
+0x0126835c	same object under two names and type disagreement	125	DAT_0126835c	?DAT_0126835c@@3IA ?DAT_0126835c@@3KA ?DAT_0126835c@fnv_00d94570@@3IA ?OptMonitorStream__DAT_0126835c@@3V?$TTLD@PAVTMS@@@@A _DAT_0126835c
+0x01268364	type disagreement	6	DAT_01268364	?DAT_01268364@@3PAUFUN_00dcc670_Manager@@A _DAT_01268364
+0x01268370	same object under two names and type disagreement	35	DAT_01268370	?DAT_01268370@@3HA ?DAT_01268370@@3UTransform403@@A ?DAT_01268370@fnv_00cc81c0@@3UhkTransformStub@1@A
+0x01268380	type disagreement	5		?DAT_01268380@@3T__m128@@A ?DAT_01268380@@3ThkVector4q@@A
+0x012683b0	type disagreement	8	DAT_012683b0	?DAT_012683b0@@3MA _DAT_012683b0
+0x01268590	same object under two names and type disagreement	2	g_01268590	?DAT_01268590@@3UCpuOpaque@@A ?g_01268590@@3VGlobalObjectO2_00a7b610@@A
+0x01268598	same object under two names and type disagreement	2	g_01268598	?DAT_01268598@@3HA ?g_01268598@@3VGlobalObjectO2_00a7b610@@A ?g_pcCC1F80Name@@3PBDB
+0x012685a4	same object under two names and type disagreement	4	g_012685a4	?g_012685a4@@3VGlobalObjectO2_00a7b610@@A ?g_pcCC2950Name@@3PBDB
+0x012685ac	same object under two names and type disagreement	1	DAT_012685ac	?DAT_012685ac@@3HA ?g_ctorCount3@fnv_00cc2c60@@3IA
+0x012685b0	same object under two names and type disagreement	3	g_012685b0	?DAT_012685b0@@3HA ?g_012685b0@@3VGlobalObjectO2_00a7b610@@A
+0x012685b8	same object under two names	1	DAT_012685b8	?DAT_012685b8@@3HA ?DAT_012685b8@fnv_00cc33a0@@3HA
+0x012685bc	same object under two names and type disagreement	2	g_012685bc	?DAT_012685bc@@3HA ?g_012685bc@@3VGlobalObjectO2_00a7b610@@A ?g_pcCC3840Name@@3PBDB
+0x012685c8	same object under two names and type disagreement	3	g_012685c8	?DAT_012685c8@@3HA ?g_012685c8@@3VGlobalObjectO2_00a7b610@@A
+0x012685d0	same object under two names and type disagreement	1	DAT_012685d0	?DAT_012685d0@@3HA ?g_ctorCount3@fnv_00cc4340@@3IA ?ms_uiInstances@FUN_00cc4180@@2IA
+0x012685d4	same object under two names and type disagreement	3	g_012685d4	?DAT_012685d4@@3HA ?g_012685d4@@3VGlobalObjectO2_00a7b610@@A
+0x012685dc	same object under two names	1	g_ctorCountD	?g_ctorCountD@@3HA ?g_ctrD@fnv_00cc4c60@@3HA ?g_iCC47F0Count@@3HA
+0x012685e0	type disagreement	2	g_012685e0	?g_012685e0@@3HA ?g_012685e0@@3VGlobalObjectO2_00a7b610@@A
+0x012685e8	same object under two names	1	DAT_012685e8	?DAT_012685e8@@3HA ?DAT_012685e8@fnv_00cc5130@@3HA ?DAT_012685e8@fnv_00cc53f0@@3HA
+0x012685ec	same object under two names and type disagreement	2	g_012685ec	?g_012685ec@@3VGlobalObjectO2_00a7b610@@A ?g_unk012685ec@@3HA
+0x01268600	same object under two names	1	DAT_01268600	?DAT_01268600@@3HA ?DAT_01268600@fnv_00cc60b0@@3HA ?DAT_01268600@fnv_00cc6140@@3HA
+0x01268604	same object under two names and type disagreement	2	g_01268604	?DAT_01268604@@3HA ?g_01268604@@3VGlobalObjectO2_00a7b610@@A
+0x0126860c	same object under two names	2	DAT_0126860c	?DAT_0126860c@@3HA ?ms_iCount@CC69D0ListShape@@2HA
+0x01268618	same object under two names and type disagreement	1	DAT_01268618	?DAT_01268618@@3HA ?DAT_01268618@fnv_00cc7500@@3HA ?g_spawnCountB@fnv_00cc7890@@3IA
+0x0126861c	same object under two names and type disagreement	2	g_0126861c	?DAT_0126861c@@3HA ?g_0126861c@@3VGlobalObjectO2_00a7b610@@A
+0x01268628	same object under two names and type disagreement	3	g_01268628	?DAT_01268628@@3HA ?g_01268628@@3VGlobalObjectO2_00a7b610@@A
+0x01268630	same object under two names and type disagreement	1	DAT_01268630	?DAT_01268630@@3HA ?DAT_01268630@fnv_00cc8520@@3HA ?ms_uiInstances@BCC8770DerivedShape@@2IA
+0x01268634	same object under two names and type disagreement	2	g_01268634	?g_01268634@@3VGlobalObjectO2_00a7b610@@A ?g_unk01268634@@3HA
+0x0126863c	same object under two names and type disagreement	1	DAT_0126863c	?DAT_0126863c@@3HA ?g_ctorCountD@fnv_00cc8dc0@@3HA ?ms_uiInstances@CC90D0Level3@@2IA
+0x01268640	same object under two names and type disagreement	2	g_01268640	?DAT_01268640@@3HA ?g_01268640@@3VGlobalObjectO2_00a7b610@@A
+0x01268648	same object under two names	2	DAT_01268648	?DAT_01268648@@3HA ?g_iCC9940WrapperCount@@3HA
+0x01268654	same object under two names and type disagreement	3	ms_uiInstances@CCA1B0Level3	?DAT_01268654@fnv_00cc9e60@@3HA ?ms_uiInstances@CCA1B0Level3@@2IA
+0x01268658	same object under two names and type disagreement	2	g_01268658	?DAT_01268658@@3HA ?g_01268658@@3PBDB ?g_01268658@@3VGlobalObjectO2_00a7b610@@A
+0x01268660	same object under two names	2	DAT_01268660	?DAT_01268660@@3HA ?DAT_01268660@fnv_00cca950@@3HA
+0x01268664	same object under two names and type disagreement	2	g_01268664	?DAT_01268664@@3HA ?g_01268664@@3VGlobalObjectO2_00a7b610@@A ?g_pcCCB080Name@@3PBDB
+0x0126866c	type disagreement	1	DAT_0126866c	?DAT_0126866c@@3HA _DAT_0126866c
+0x01268670	same object under two names and type disagreement	3	g_01268670	?DAT_01268670@@3HA ?g_01268670@@3VGlobalObjectO2_00a7b610@@A
+0x01268678	same object under two names	1	DAT_01268678	?DAT_01268678@@3HA ?DAT_01268678@fnv_00ccbd70@@3HA
+0x0126867c	same object under two names and type disagreement	3	g_0126867c	?DAT_0126867c@@3HA ?g_0126867c@@3VGlobalObjectO2_00a7b610@@A
+0x01268684	same object under two names and type disagreement	2	g_01268684	?DAT_01268684@@3HA ?g_01268684@@3VGlobalObjectO2_00a7b610@@A
+0x0126868c	same object under two names	2	DAT_0126868c	?DAT_0126868c@@3HA ?DAT_0126868c@fnv_00ccd100@@3HA
+0x01268694	same object under two names and type disagreement	3	g_01268694	?g_01268694@@3VGlobalObjectO2_00a7b610@@A ?g_target_00ccd0f0@@3HA
+0x0126869c	same object under two names and type disagreement	2	g_iCDC40LevelDCount	?DAT_0126869c@fnv_00cd7e80@@3IA ?g_iCDC40LevelDCount@@3HA
+0x012686a0	same object under two names and type disagreement	3	g_012686a0	?g_012686a0@@3HA ?g_012686a0@@3VGlobalObjectO2_00a7b610@@A ?g_012686e8_arg1@@3QBDB ?g_pcCCE110Name@@3PBDB
+0x012686ac	same object under two names	2	g_iCCE900Count	?DAT_012686ac@fnv_00cce990@@3HA ?g_iCCE900Count@@3HA
+0x012686b0	same object under two names and type disagreement	2	g_012686b0	?DAT_012686b0@@3HA ?g_012686b0@@3PBDB ?g_012686b0@@3VGlobalObjectO2_00a7b610@@A
+0x012686b8	same object under two names and type disagreement	2	g_012686b8	?DAT_012686b8@@3HA ?g_012686b8@@3VGlobalObjectO2_00a7b610@@A
+0x012686c0	same object under two names	2	DAT_012686c0	?DAT_012686c0@@3HA ?DAT_012686c0@fnv_00ccf7c0@@3HA
+0x012686c4	same object under two names and type disagreement	2	g_012686c4	?DAT_012686c4@@3HA ?DAT_012686c4@fnv_00cd0480@@3PADA ?g_012686c4@@3VGlobalObjectO2_00a7b610@@A
+0x012686d0	same object under two names	6	DAT_012686d0	?DAT_012686d0@@3HA ?DAT_012686d0@fnv_00ccbd70@@3HA
+0x012686d4	same object under two names and type disagreement	4	g_012686d4	?g_012681a8_arg1@@3QBDB ?g_012681a8_arg1@fnv_00cd2fd0@@3QBDB ?g_012682dc_arg1@@3QBDB ?g_012682e8_arg1@@3QBDB ?g_0126867c_arg1@@3QBDB ?g_012686d4@@3VGlobalObjectO2_00a7b610@@A
+0x012686e8	same object under two names and type disagreement	2	g_012686e8	?DAT_012686e8@@3HA ?g_012686e8@@3VGlobalObjectO2_00a7b610@@A
+0x01268700	type disagreement	6	DAT_01268700	?DAT_01268700@@3HA ?DAT_01268700@@3VhkQsTransformDAD@@B
+0x01268748	same object under two names and type disagreement	7	g_01268748	?g_01268748@@3UGlobalObjectO2_00d472a0@@A ?g_01268798_arg1@@3QBDB ?g_012687cc_arg1@@3QBDB ?g_01268808_arg1@@3QBDB ?g_01268910_arg1@@3QBDB ?g_01268b9c_arg1@@3QBDB ?g_01268cbc_arg1@@3QBDB ?g_01268d04_arg1@@3QBDB ?g_01268e6c_arg1@@3QBDB ?g_0126908c_arg1@@3QBDB ?g_012690d4_arg1@@3QBDB ?g_01269104_arg1@@3QBDB ?g_01269514_arg1@@3QBDB ?g_0126955c_arg1@@3QBDB ?g_0126964c_arg1@@3QBDB ?g_0126967c_arg1@@3QBDB ?g_01269b28_arg1@@3QBDB ?g_0126a2b8_arg1@@3QBDB ?g_0126a2e8_arg1@@3QBDB ?g_0126a318_arg1@@3QBDB ?g_0126a348_arg1@@3QBDB ?g_0126a430_arg1@@3QBDB ?g_0126a4d8_arg1@@3QBDB ?g_0126a508_arg1@@3QBDB ?g_0126a538_arg1@@3QBDB ?g_0126a568_arg1@@3QBDB ?g_0126a598_arg1@@3QBDB ?g_0126a5c8_arg1@@3QBDB ?g_0126a628_arg1@@3QBDB ?g_0126a658_arg1@@3QBDB ?g_0126a688_arg1@@3QBDB ?g_0126a6b8_arg1@@3QBDB ?g_0126a6e8_arg1@@3QBDB ?g_0126a748_arg1@@3QBDB ?g_0126a778_arg1@@3QBDB ?g_0126a7d8_arg1@@3QBDB ?g_0126a838_arg1@@3QBDB ?g_0126a898_arg1@@3QBDB ?g_0126aa60_arg1@@3QBDB ?g_0126aa90_arg1@@3QBDB ?g_0126ab20_arg1@@3QBDB ?g_0126ab50_arg1@@3QBDB ?g_0126aca0_arg1@@3QBDB ?g_0126af40_arg1@@3QBDB ?g_0126afb8_arg1@@3QBDB ?g_0126b3d8_arg1@@3QBDB ?g_0126b450_arg1@@3QBDB ?g_0126b498_arg1@@3QBDB ?g_0126b558_arg1@@3QBDB ?g_0126b588_arg1@@3QBDB ?g_0126b600_arg1@@3QBDB ?g_0126b768_arg1@@3QBDB ?g_0126c3c8_arg1@@3QBDB ?g_0126c530_arg1@@3QBDB ?g_0126c5a8_arg1@@3QBDB ?g_0126c728_arg1@@3QBDB ?g_0126c8c0_arg1@@3QBDB ?g_0126cb48_arg1@@3QBDB ?g_0126cb90_arg1@@3QBDB ?g_0126cc20_arg1@@3QBDB ?g_0126cc68_arg1@@3QBDB ?g_0126ccf8_arg1@@3QBDB ?g_0126cd40_arg1@@3QBDB ?g_0126cd88_arg1@@3QBDB ?g_0126cdd0_arg1@@3QBDB ?g_0126cea8_arg1@@3QBDB ?g_0126d130_arg1@@3QBDB ?g_0126d1d8_arg1@@3QBDB ?g_0126d220_arg1@@3QBDB ?g_0126d490_arg1@@3QBDB ?g_0126d4d8_arg1@@3QBDB ?g_0126d508_arg1@@3QBDB ?g_0126d550_arg1@@3QBDB ?g_0126d718_arg1@@3QBDB ?g_0126ddd8_arg1@@3QBDB ?g_0126de20_arg1@@3QBDB ?g_0126e060_arg1@@3QBDB ?g_0126e378_arg1@@3QBDB ?g_0126e3c0_arg1@@3QBDB ?g_0126e408_arg1@@3QBDB ?g_0126e450_arg1@@3QBDB ?g_0126e498_arg1@@3QBDB ?g_0126e4e0_arg1@@3QBDB ?g_0126e528_arg1@@3QBDB ?g_0126e570_arg1@@3QBDB ?g_0126e5b8_arg1@@3QBDB ?g_0126e600_arg1@@3QBDB ?g_0126e648_arg1@@3QBDB ?g_0126e690_arg1@@3QBDB ?g_0126e768_arg1@@3QBDB ?g_0126e7b0_arg1@@3QBDB ?g_0126e7f8_arg1@@3QBDB ?g_0126e840_arg1@@3QBDB ?g_0126e888_arg1@@3QBDB ?g_0126e8d0_arg1@@3QBDB ?g_0126e918_arg1@@3QBDB ?g_0126e960_arg1@@3QBDB ?g_0126e9a8_arg1@@3QBDB ?g_0126e9f0_arg1@@3QBDB ?g_0126ea38_arg1@@3QBDB ?g_0126ea80_arg1@@3QBDB ?g_0126eac8_arg1@@3QBDB ?g_0126eb10_arg1@@3QBDB ?g_0126eb58_arg1@@3QBDB ?g_0126eba0_arg1@@3QBDB
+0x01268808	same object under two names and type disagreement	3	g_01268808	?g_01268808@@3UGlobalObjectO2_00d472a0@@A ?g_012688c8_arg1@@3QBDB ?g_0126902c_arg1@@3QBDB
+0x012688c8	same object under two names and type disagreement	4	g_012688c8	?g_012688c8@@3UGlobalObjectO2_00d472a0@@A ?g_01268bcc_arg1@@3QBDB
+0x01268910	same object under two names and type disagreement	7	g_01268910	?DAT_01268910@@3QBDB ?g_01268910@@3UGlobalObjectO2_00d472a0@@A ?g_01269198_arg1@@3QBDB ?g_01269a54_arg1@@3QBDB ?g_01269b84_arg1@@3QBDB ?g_01269c8c_arg1@@3QBDB ?g_0126a988_arg1@@3QBDB ?g_0126c098_arg1@@3QBDB ?g_0126dd48_arg1@@3QBDB ?g_0126e2a0_arg1@@3QBDB
+0x01268940	same object under two names and type disagreement	9	g_01268940	?g_01268940@@3UGlobalObjectO2_00d472a0@@A ?g_01268970_arg1@@3QBDB ?g_0126c188_arg1@@3QBDB ?g_0126dc70_arg1@@3QBDB ?g_0126dd90_arg1@@3QBDB ?g_0126e018_arg1@@3QBDB ?g_0126e180_arg1@@3QBDB ?g_0126e258_arg1@@3QBDB ?g_0126e2e8_arg1@@3QBDB
+0x01268970	same object under two names and type disagreement	1	g_01268970	?g_01268970@@3UGlobalObjectO2_00d472a0@@A ?g_0126e0a8_arg1@@3QBDB ?g_0126e0f0_arg1@@3QBDB
+0x01268a14	same object under two names and type disagreement	2	g_01268a14	?g_01268a14@@3UGlobalObjectO2_00d472a0@@A ?g_01268a48_arg1@@3QBDB ?g_0126b1b0_arg1@@3QBDB ?g_0126d268_arg1@@3QBDB ?g_0126d328_arg1@@3QBDB ?g_0126d3d0_arg1@@3QBDB
+0x01268b08	type disagreement	11	DAT_01268b08	?DAT_01268b08@@3HA ?DAT_01268b08@@3PAUhkSourceCC08@@A
+0x01268b9c	same object under two names and type disagreement	4	g_01268b9c	?DAT_01268b9c@@3HA ?g_01268b9c@@3UGlobalObjectO2_00d472a0@@A
+0x01268c5c	same object under two names and type disagreement	2	g_01268c5c	?g_01268c14_arg1@@3QBDB ?g_01268c5c@@3UGlobalObjectO2_00d472a0@@A ?g_0126e1c8_arg1@@3QBDB
+0x01268d94	same object under two names and type disagreement	2	g_01268d94	?g_01268d94@@3UGlobalObjectO2_00d472a0@@A ?g_01268dc4_arg1@@3QBDB ?g_01268df4_arg1@@3QBDB
+0x01268e24	same object under two names and type disagreement	3	g_01268e24	?g_01268d4c_arg1@@3QBDB ?g_01268e24@@3UGlobalObjectO2_00d472a0@@A
+0x01268f2c	same object under two names and type disagreement	4	g_01268f2c	?g_01268eb4_arg1@@3QBDB ?g_01268f2c@@3UGlobalObjectO2_00d472a0@@A ?g_0126df88_arg1@@3QBDB
+0x01268f78	same object under two names and type disagreement	2	g_01268f78	?DAT_01268f78@@3UCpuOpaque@@A ?g_01268628_arg1@@3QBDB ?g_01268f78@@3VGlobalObjectO2_00a7b610@@A
+0x01268f80	same object under two names and type disagreement	2	ms_uiInstances@CC90D0Level2	?g_ctorCountB@fnv_00cc8dc0@@3HA ?ms_uiInstances@CC90D0Level2@@2IA
+0x01268f84	same object under two names and type disagreement	2	g_01268f84	?DAT_01268f84@@3HA ?g_01268f84@@3VGlobalObjectO2_00a7b610@@A
+0x01268f8c	type disagreement	2	DAT_01268f8c	?DAT_01268f8c@@3HA _DAT_01268f8c
+0x01268f90	same object under two names and type disagreement	3	g_01268f90	?g_01268670_arg1@@3QBDB ?g_01268f90@@3VGlobalObjectO2_00a7b610@@A ?g_unk01268f90@@3HA
+0x01269204	same object under two names and type disagreement	1	DAT_01269204	?DAT_01269204@@3VHkBool@@A ?DAT_01269204@ConstraintStepImplementation@@3EA
+0x0126e5b8	same object under two names and type disagreement	3	g_0126e5b8	?g_0126c5f0_arg1@@3QBDB ?g_0126e5b8@@3UGlobalObjectO2_00d472a0@@A
+0x0126e9f0	same object under two names and type disagreement	2	g_0126e9f0	?g_0126c440_arg1@@3QBDB ?g_0126c4b8_arg1@@3QBDB ?g_0126e6d8_arg1@@3QBDB ?g_0126e720_arg1@@3QBDB ?g_0126e9f0@@3UGlobalObjectO2_00d472a0@@A
+0x0126f718	same object under two names and type disagreement	3	DAT_0126f718@fnv_00e7f2b0	?DAT_0126f718@@3PAV?$ObjectPool@VD3DRenderStateGroup@@V?$NiTNewInterface@VD3DRenderStateGroup@@@@@@A ?DAT_0126f718@fnv_00e7f2b0@@3PAVD3DRenderStateGroup@1@A
+0x0126f71c	same object under two names and type disagreement	3	DAT_0126f71c@fnv_00e7f2b0	?DAT_0126f71c@@3PAV?$ObjectPool@UNiD3DRenderStateEntry@D3DRenderStateGroup@@V?$NiTNewInterface@UNiD3DRenderStateEntry@D3DRenderStateGroup@@@@@@A ?DAT_0126f71c@fnv_00e7f2b0@@3PAUNiD3DRenderStateEntry@1@A
+0x0126f74c	same object under two names and type disagreement	25	DAT_0126f74c	?DAT_0126f74c@@3HA ?DAT_0126f74c@fnv_00be1f90@@3PAUGlobalMgr@1@A
+0x01272000	same object under two names and type disagreement	61	g_tlsBlock tls_data	?g_renderTLS@@3URenderTLS@@A ?g_tls676@@3UTls676@@A ?g_tlsBlock@@3UTlsBlk_caa4a0@@A ?g_tlsBlock@@3UTlsBlock@@A ?g_tlsBlock@@3UTlsBlock_t@@A ?threadContext9@@3EA ?threadData@@3UAudioTlsState@@A ?threadMemoryContext@fnv_00caa3f0@@3UThreadMemoryContext@1@A ?tls_data@@3PADA
+0x0127215c	same object under two names and type disagreement	1		?tls_005b98a0@@3UFUN_005b98a0_TLS@@A _FUN_005beb00_tls
+0x012722b4	same object under two names and type disagreement	54		?currentAllocationContext@@3IA ?g_tlsMemContext@@3HA ?t_uiMemContextCAA@@3IA
+0x012722bc	same object under two names and type disagreement	4	DAT_012722bc	?DAT_012722bc@@3HA ?g_threadIndex@@3IA

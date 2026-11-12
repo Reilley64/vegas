@@ -19,7 +19,6 @@
 #include "fnv/symbols_009f9000.h"
 #include "fnv/symbols_00a24000.h"
 #include "fnv/symbols_00ee8000.h"
-#include "fnv/symbols_00ff0000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01023000.h"
@@ -132,7 +131,7 @@ struct FUN_00a24f60_Class
 // @fnv 0x00a24f60
 void FUN_00a24f60_Class::FUN_00a24f60(int aiIndex, unsigned int b)
 {
-    *(char*)((char*)this + aiIndex + 0x1b94) = (char)((b & (uintptr_t)&DAT_00ff0000) >> 0x10);
+    *(char*)((char*)this + aiIndex + 0x1b94) = (char)((b & 0x00ff0000) >> 0x10);
     *(char*)((char*)this + aiIndex + 0x1bb0) = (char)((b & 0xff00) >> 8);
     *(char*)((char*)this + aiIndex + 0x1be8) = (char)(b & 0xff);
 }

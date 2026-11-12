@@ -16,3 +16,5 @@ function	startmenu	src/fallout/interface/menus/startmenu.cpp	?FUN_007d69f0@fnv_0
 function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?Convert4BitPalettedTo24Bit@@YAXIIIPEAEPEAUFUN_00a78f70_Pal@@PEAUFUN_00a78f70_Fmt@@0@Z	-
 function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?FUN_00a7a160@@YAXIIIPEAEPEBUNiPalette@@AEBVPixelFormatBitLayout@NiDevImageConverter@@PEBE2@Z	-
 function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?FUN_00a7a1f0@@YAXIIIPEAEII0PEAUFormat_a7a1f0@@@Z	-
+function	blk_00a20000_od	src/staging/blk_00a20000_od.cpp	?FUN_00a24f60@FUN_00a24f60_Class@@QEAAXHI@Z	-
+function	blk_00a20000_od	src/staging/blk_00a20000_od.cpp	?LoadControlsFromIni@ControlsIniLoader@@QEAAXXZ	-

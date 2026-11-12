@@ -1,0 +1,13 @@
+# Functions that read the slot after the end of a two-slot generated table
+# (VEGAS-30). Format: README.md.
+# Each read the slot at 16 bytes past the start of a table that has two
+# slots: the windows-x64 view of the original's slot at 8 bytes past it. The
+# recipe names that address on its own, and generated data defines it as its
+# own variable. The repaired function calls through that name.
+# The generated tables and their lengths (two 8-byte slots). No listed
+# function may address one at or past its end:
+past	?DAT_010c7310@@3HA	16
+past	?DAT_010c8d14@@3HA	16
+# batch, unit, function, the name of the slot it calls through:
+function	table	src/staging/blk_00ca0000_o2.cpp	?FUN_00ca0d40@FUN_00ca0d40_class@@QEAAXXZ	?DAT_010c7318@@3P6AXPEAX@ZEA
+function	table	src/staging/blk_00ca0000_o2.cpp	?FUN_00cba080@FUN_00cba080_class@@QEAAPEAU1@H@Z	?DAT_010c8d1c@@3P6AXPEAX@ZEA

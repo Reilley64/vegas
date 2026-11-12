@@ -477,12 +477,6 @@ FUN_00cbf400_class::FUN_00cbf400_class() : GlobalObject_0045cfe0("iNumThreads:HA
     m_f = 0;
 }
 
-struct FUN_00ca0d40_vtable
-{
-    void* slot0;
-    void* slot1;
-    void (*Free)(void*);
-};
 struct FUN_00ca0d40_class
 {
     void* m_vtbl;
@@ -491,7 +485,7 @@ struct FUN_00ca0d40_class
     unsigned int m_0c;
     void FUN_00ca0d40();
 };
-// Sets the vtable pointer to DAT_010c7310 and, if m_pData is set, frees it through slot 2 of that vtable and clears m_pData, m_08 and m_0c.
+// Sets the vtable pointer to DAT_010c7310 and, if m_pData is set, frees it through DAT_010c7318 and clears m_pData, m_08 and m_0c.
 // @fnv 0x00ca0d40
 void FUN_00ca0d40_class::FUN_00ca0d40()
 {
@@ -499,7 +493,7 @@ void FUN_00ca0d40_class::FUN_00ca0d40()
     m_vtbl = &DAT_010c7310;
     if (p)
     {
-        reinterpret_cast<FUN_00ca0d40_vtable*>(&DAT_010c7310)->Free(p);
+        DAT_010c7318(p);
         m_pData = 0;
         m_0c = 0;
         m_08 = 0;
@@ -725,6 +719,7 @@ int FUN_00ca5540_Class::GetEntryValue(int i)
 }
 
 extern int DAT_010c8d14;
+extern void(* DAT_010c8d1c)(void*);
 struct FUN_00cba080_class
 {
     void* m_vtbl;
@@ -740,7 +735,7 @@ FUN_00cba080_class* FUN_00cba080_class::FUN_00cba080(int flag)
     m_vtbl = &DAT_010c8d14;
     if (old)
     {
-        reinterpret_cast<FUN_00ca0d40_vtable*>(&DAT_010c8d14)->Free(old);
+        DAT_010c8d1c(old);
         m_data = 0;
         m_iThirdValue = 0;
         m_8 = 0;
@@ -1231,8 +1226,6 @@ struct FUN_00cba000_class
     int m_iThirdValue;
     ~FUN_00cba000_class();
 };
-
-extern void(* DAT_010c8d1c)(void*);
 
 // @fnv 0x00cba000
 FUN_00cba000_class::~FUN_00cba000_class()

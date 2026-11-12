@@ -896,6 +896,17 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when a function that read the slot after the end of a two-slot
+# generated table (VEGAS-30) again addresses that table at or past its end, or
+# no longer calls through the name the recipe gives that slot. Cross build
+# only, like the checks above.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.table_slot_reads
+    COMMAND ${GO_EXECUTABLE} run . --table table-slot-reads.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

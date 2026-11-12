@@ -34,6 +34,7 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.hacking_array_retirement` for `hacking-array-retirement.tsv`,
 `objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`,
 `objects.winmain_boot_calls` for `winmain-boot-calls.tsv`,
+`objects.table_slot_reads` for `table-slot-reads.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`, and
 `objects.integer_width_calls` for `integer-width-calls.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
@@ -93,6 +94,15 @@ the instructions.
 `src/fallout/misc/main.cpp`, whose calls of boot functions are bound by name
 to the bodies at the recipe's rows (VEGAS-30). It forbids each name a call
 used before, which no object defines, and requires the name of the body.
+
+`table-slot-reads.tsv` lists the functions that read the slot after the end
+of a two-slot generated table (VEGAS-30). Each read 16 bytes past the start of
+the table: the windows-x64 view of the original's slot 8 bytes past it, which
+the recipe names on its own and generated data defines as its own variable.
+The table gives each generated table's length in a `past` line, so a listed
+function that again addresses one at or past its end fails, and requires
+the name of the slot that the function now calls through. The function still
+stores the table's address, so the table's name is not forbidden.
 
 `mask-constants.tsv` lists the 18 functions whose numeric masks, flags,
 counts and limits were spelled as the addresses of data names (VEGAS-93,

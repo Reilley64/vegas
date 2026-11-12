@@ -5,7 +5,9 @@ in the windows-x64 object of its unit. For every function of a table it finds
 the COMDAT code section that defines the function's name, counts that
 section's relocations by target name, and fails when:
 
-- the section has a relocation to a name the table forbids, or
+- the section has a relocation to a name the table forbids,
+- the section has a relocation that addresses a name at or past the length
+  the table gives that name, or before it, or
 - the section has no relocation to a name the table requires of that function.
 
 It looks at the function's own section, not at the whole object. An object
@@ -43,10 +45,17 @@ Tab-separated. Blank lines and lines that start with `#` are skipped.
 
 ```text
 forbid<TAB>NAME
+past<TAB>NAME<TAB>LENGTH
 function<TAB>BATCH<TAB>UNIT<TAB>NAME<TAB>REQUIRED[ REQUIRED...]
 ```
 
-Every `forbid` name is forbidden in every function. `REQUIRED` names are
+Every `forbid` name is forbidden in every function. A `past` line gives a
+name's length in bytes: in every function, each relocation to that name must
+address it at an offset from 0 to below `LENGTH`. The offset is the addend
+stored in the code at the relocation. For a `REL32` relocation the stored
+addend leaves out the bytes of an immediate that follows the displacement,
+up to 4, so the check takes the addend plus 4 as the highest offset used. A
+table needs at least one `forbid` or `past` line. `REQUIRED` names are
 separated by spaces. A `REQUIRED` field of `-` requires no name.
 
 `d3dx-call-arguments.tsv` lists the 12 functions whose calls of the D3DX
@@ -102,12 +111,14 @@ document lists the names held back for that reason.
 | Status | Meaning |
 | --- | --- |
 | 0 | Every function of the batch passes. Each prints an `ok` line. |
-| 1 | A function fails. It prints a `FAIL` line with each forbidden name's relocation count and each missing required name. |
-| 2 | The check could not be completed: bad arguments or table; no batch function; a unit with no object or several; an object that is not an x64 COFF object; a function name that is not defined, defined twice, or not in a COMDAT code section; a section whose relocation count overflows. |
+| 1 | A function fails. It prints a `FAIL` line with each forbidden name's relocation count, each relocation that reaches past a name's length with its addend, and each missing required name. |
+| 2 | The check could not be completed: bad arguments or table; no batch function; a unit with no object or several; an object that is not an x64 COFF object; a function name that is not defined, defined twice, or not in a COMDAT code section; a section whose relocation count overflows; a relocation to a `past` name of a type whose addend the command does not read (it reads `ADDR64`, `ADDR32`, `ADDR32NB` and the `REL32` types). |
 
 ## What it does not see
 
 - Calls through a pointer. They have no relocation to the callee's name.
+- A read of a `past` name through a pointer loaded from memory, such as a
+  call through an object's table pointer. It has no relocation to the name.
 - How many calls a relocation stands for, and what their arguments are. The
   arguments were checked at source and in objects built with `/Od /Ob0`
   (docs/d3dx-replacement.md).

@@ -63,6 +63,16 @@ func testObject(function string, comdat bool, calls ...string) []byte {
 	return append(b, stringTable...)
 }
 
+// withAddends sets the addend stored at each relocation of an object that
+// testObject wrote: the i-th addend goes to the i-th relocation.
+func withAddends(object []byte, addends ...int32) []byte {
+	const codeAt = 20 + 40
+	for i, a := range addends {
+		binary.LittleEndian.PutUint32(object[codeAt+1+4*i:], uint32(a))
+	}
+	return object
+}
+
 const testTable = "# comment\n\nforbid\t?old@@YAXXZ\n" +
 	"function\tone\tsrc/a.cpp\t?f@@YAXXZ\t?new@@YAXXZ\n" +
 	"function\ttwo\tsrc/b.cpp\t?g@@YAXXZ\t?new@@YAXXZ\n"
@@ -131,6 +141,31 @@ func TestNoRequiredName(t *testing.T) {
 	check(t, fail, 1, "FAIL\tone\t?f@@YAXXZ\t1 relocations to ?old@@YAXXZ")
 }
 
+const pastTable = "past\t?table@@3HA\t16\n" +
+	"function\tone\tsrc/a.cpp\t?f@@YAXXZ\t-\n" +
+	"function\ttwo\tsrc/b.cpp\t?g@@YAXXZ\t-\n"
+
+func TestPastLength(t *testing.T) {
+	// Slots 0 and 1 of a 16-byte table pass; the stored addend of a REL32
+	// relocation may lie up to 4 bytes below the address used.
+	pass := setupTable(t, pastTable,
+		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA", "?table@@3HA", "?other@@YAXXZ"), 0, 8, 64),
+		withAddends(testObject("?g@@YAXXZ", true, "?table@@3HA"), 11))
+	check(t, pass, 0, "ok\ttwo\t?g@@YAXXZ")
+	end := setupTable(t, pastTable,
+		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA", "?table@@3HA"), 8, 16),
+		withAddends(testObject("?g@@YAXXZ", true, "?table@@3HA"), 0))
+	check(t, end, 1, "FAIL\tone\t?f@@YAXXZ\ta relocation to ?table@@3HA with addend 16 reaches past its 16 bytes")
+	immediate := setupTable(t, pastTable,
+		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA"), 0),
+		withAddends(testObject("?g@@YAXXZ", true, "?table@@3HA"), 12))
+	check(t, immediate, 1, "FAIL\ttwo\t?g@@YAXXZ\ta relocation to ?table@@3HA with addend 12")
+	before := setupTable(t, pastTable,
+		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA"), -8),
+		withAddends(testObject("?g@@YAXXZ", true, "?table@@3HA"), 0))
+	check(t, before, 1, "with addend -8 reaches past")
+}
+
 func TestBatchSelectsFunctions(t *testing.T) {
 	args := setup(t, testObject("?f@@YAXXZ", true, "?old@@YAXXZ"), testObject("?g@@YAXXZ", true, "?new@@YAXXZ"))
 	check(t, append(args, "--batch", "two"), 0, "ok\ttwo")
@@ -154,6 +189,8 @@ func TestTableErrors(t *testing.T) {
 		"function\tone\tsrc/a.cpp\t?f@@YAXXZ\t?new@@YAXXZ\n",
 		"forbid\t?old@@YAXXZ\nfunction\tone\tsrc/a.cpp\t?f@@YAXXZ\n",
 		"forbid\t?old@@YAXXZ\nother\tline\n",
+		"past\t?table@@3HA\t0\nfunction\tone\tsrc/a.cpp\t?f@@YAXXZ\t-\n",
+		"past\t?table@@3HA\nfunction\tone\tsrc/a.cpp\t?f@@YAXXZ\t-\n",
 	} {
 		if _, err := readTable(text); err == nil {
 			t.Errorf("table %q was accepted", text)

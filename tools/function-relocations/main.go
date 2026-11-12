@@ -2,16 +2,19 @@
 // section of a function in its unit's object refers to. For each function of
 // a table it finds the COMDAT code section that defines the function's name in
 // the object compiled from the function's unit, and fails when that section
-// has a relocation to a forbidden name or none to a required name.
+// has a relocation to a forbidden name, none to a required name, or one that
+// addresses a name at or past the length the table gives it.
 package main
 
 import (
 	"bytes"
 	"debug/pe"
+	"encoding/binary"
 	"flag"
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -26,8 +29,16 @@ type function struct {
 	requires          []string
 }
 
+// past is a name and its length in bytes: no relocation of a function may
+// address the name at or past that length.
+type past struct {
+	name   string
+	length int64
+}
+
 type table struct {
 	forbids   []string
+	pasts     []past
 	functions []function
 }
 
@@ -35,6 +46,7 @@ type table struct {
 // with '#' are skipped. The other lines are one of:
 //
 //	forbid<TAB>NAME
+//	past<TAB>NAME<TAB>LENGTH
 //	function<TAB>BATCH<TAB>UNIT<TAB>NAME<TAB>REQUIRED NAME[ REQUIRED NAME...]
 //
 // A REQUIRED field of "-" requires no name.
@@ -48,6 +60,12 @@ func readTable(text string) (table, error) {
 		switch {
 		case f[0] == "forbid" && len(f) == 2 && f[1] != "":
 			t.forbids = append(t.forbids, f[1])
+		case f[0] == "past" && len(f) == 3 && f[1] != "":
+			n, err := strconv.ParseInt(f[2], 10, 64)
+			if err != nil || n <= 0 {
+				return table{}, fmt.Errorf("table line %d has no positive length", i+1)
+			}
+			t.pasts = append(t.pasts, past{f[1], n})
 		case f[0] == "function" && len(f) == 5 && f[1] != "" && f[2] != "" && f[3] != "" && f[4] != "":
 			requires := strings.Fields(f[4])
 			if f[4] == "-" {
@@ -58,8 +76,8 @@ func readTable(text string) (table, error) {
 			return table{}, fmt.Errorf("table line %d is malformed", i+1)
 		}
 	}
-	if len(t.forbids) == 0 || len(t.functions) == 0 {
-		return table{}, fmt.Errorf("the table has no forbid line or no function line")
+	if len(t.forbids)+len(t.pasts) == 0 || len(t.functions) == 0 {
+		return table{}, fmt.Errorf("the table has no forbid or past line, or no function line")
 	}
 	return t, nil
 }
@@ -78,9 +96,41 @@ func objectFor(objects []string, unit string) (string, error) {
 	return found[0], nil
 }
 
-// targets counts the relocation targets, by name, of the COMDAT code section
-// that defines name in the object.
-func targets(object []byte, name string) (map[string]int, error) {
+// reference is one relocation of a function's code section: the name it
+// refers to, its type and, when read is set, the addend stored at its offset
+// in the code.
+type reference struct {
+	name   string
+	kind   uint16
+	addend int64
+	read   bool
+}
+
+// Relocation types of x64 COFF objects whose addend this command reads.
+const (
+	relAddr64   = 1 // IMAGE_REL_AMD64_ADDR64, 8-byte addend
+	relAddr32   = 2 // IMAGE_REL_AMD64_ADDR32
+	relAddr32NB = 3 // IMAGE_REL_AMD64_ADDR32NB
+	relRel32    = 4 // IMAGE_REL_AMD64_REL32; REL32_1 to REL32_5 are 5 to 9
+	relRel32_5  = 9
+)
+
+// reaches reports whether r may address its name at or past length bytes, or
+// before it. For the REL32 types the stored addend excludes the bytes of an
+// immediate that follows the displacement in the instruction, up to 4, so the
+// address used lies between the addend and the addend plus 4: the check takes
+// the larger one.
+func reaches(r reference, length int64) bool {
+	high := r.addend
+	if r.kind >= relRel32 && r.kind <= relRel32_5 {
+		high += 4
+	}
+	return r.addend < 0 || high >= length
+}
+
+// targets lists the relocations of the COMDAT code section that defines name
+// in the object.
+func targets(object []byte, name string) ([]reference, error) {
 	f, err := pe.NewFile(bytes.NewReader(object))
 	if err != nil {
 		return nil, err
@@ -121,15 +171,39 @@ func targets(object []byte, name string) (map[string]int, error) {
 	if s.Characteristics&overflow != 0 {
 		return nil, fmt.Errorf("the section of %s has more relocations than this command reads", name)
 	}
-	count := map[string]int{}
+	code, err := s.Data()
+	if err != nil {
+		return nil, err
+	}
+	var refs []reference
 	for _, r := range s.Relocs {
 		n, err := symbolName(r.SymbolTableIndex)
 		if err != nil {
 			return nil, err
 		}
-		count[n]++
+		size := 4
+		switch {
+		case r.Type == relAddr64:
+			size = 8
+		case r.Type == relAddr32 || r.Type == relAddr32NB || (r.Type >= relRel32 && r.Type <= relRel32_5):
+		default:
+			size = 0
+		}
+		ref := reference{name: n, kind: r.Type, read: size > 0}
+		if ref.read {
+			at := int(r.VirtualAddress)
+			if at < 0 || at+size > len(code) {
+				return nil, fmt.Errorf("a relocation of %s lies outside its section", name)
+			}
+			if size == 8 {
+				ref.addend = int64(binary.LittleEndian.Uint64(code[at:]))
+			} else {
+				ref.addend = int64(int32(binary.LittleEndian.Uint32(code[at:])))
+			}
+		}
+		refs = append(refs, ref)
 	}
-	return count, nil
+	return refs, nil
 }
 
 // Exit 0: every function of the batch passes. Exit 1: one does not. Exit 2:
@@ -180,14 +254,31 @@ func run(args []string, out, errOut io.Writer) int {
 		if err != nil {
 			return incomplete(err)
 		}
-		count, err := targets(object, fn.name)
+		refs, err := targets(object, fn.name)
 		if err != nil {
 			return incomplete(fmt.Errorf("%s: %w", fn.unit, err))
+		}
+		count := map[string]int{}
+		for _, r := range refs {
+			count[r.name]++
 		}
 		var problems []string
 		for _, n := range t.forbids {
 			if count[n] > 0 {
 				problems = append(problems, fmt.Sprintf("%d relocations to %s", count[n], n))
+			}
+		}
+		for _, p := range t.pasts {
+			for _, r := range refs {
+				if r.name != p.name {
+					continue
+				}
+				if !r.read {
+					return incomplete(fmt.Errorf("%s: relocation type %d to %s is not read", fn.unit, r.kind, p.name))
+				}
+				if reaches(r, p.length) {
+					problems = append(problems, fmt.Sprintf("a relocation to %s with addend %d reaches past its %d bytes", p.name, r.addend, p.length))
+				}
 			}
 		}
 		for _, n := range fn.requires {

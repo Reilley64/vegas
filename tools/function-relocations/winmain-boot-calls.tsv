@@ -1,0 +1,8 @@
+# WinMain (0x0086a850, src/fallout/misc/main.cpp), whose calls of boot functions
+# are bound by name to the bodies at the recipe's rows (VEGAS-30).
+# Format: README.md.
+# The names the calls used before, which no object defines:
+# the main loop, 0x0086e650
+forbid	?FUN_0086e650@Receiver86@@QEAAXXZ
+# batch, unit, function and the names of the bodies:
+function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ

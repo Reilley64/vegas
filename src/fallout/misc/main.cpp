@@ -6464,7 +6464,6 @@ struct Receiver86
     Device86* FUN_004dc020();
     void FUN_0086ba10();
     void FUN_0086ba90();
-    void FUN_0086e650();
     void FUN_00ad8740();
     void FUN_00ad8700();
     void FUN_00ad7740(int);
@@ -7016,7 +7015,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                         }
                         else
                         {
-                            ((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086e650();
+                            ((::FrameUpdate::MainLoop*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086e650();
                         }
                         if (paused1 != '\0')
                         {

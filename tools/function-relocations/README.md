@@ -30,7 +30,8 @@ CTest runs it in the windows-x64 cross build only, like
 `archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
 per batch of `d3dx-call-arguments.tsv`,
 `objects.hacking_array_retirement` for `hacking-array-retirement.tsv`,
-`objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`, and
+`objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`,
+`objects.winmain_boot_calls` for `winmain-boot-calls.tsv`, and
 `objects.mask_constants`, one test for all of `mask-constants.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
@@ -75,6 +76,11 @@ forbids the name under which the unit's recipe symbols name the callee, with
 a `NavMeshPtr` result; no object defines it. Which register carries which
 argument is not a relocation; docs/navmesh-pointer-result.md records it from
 the instructions.
+
+`winmain-boot-calls.tsv` lists WinMain (`0x0086a850`) in
+`src/fallout/misc/main.cpp`, whose calls of boot functions are bound by name
+to the bodies at the recipe's rows (VEGAS-30). It forbids each name a call
+used before, which no object defines, and requires the name of the body.
 
 `mask-constants.tsv` lists the 18 functions whose numeric masks, flags,
 counts and limits were spelled as the addresses of data names (VEGAS-93,

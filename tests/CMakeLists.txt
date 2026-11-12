@@ -876,6 +876,16 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when WinMain (0x0086a850, VEGAS-30) again calls a boot function under
+# a name that no object defines, or no longer under the name of its body.
+# Cross build only, like the checks above.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.winmain_boot_calls
+    COMMAND ${GO_EXECUTABLE} run . --table winmain-boot-calls.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

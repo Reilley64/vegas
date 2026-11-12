@@ -119792,7 +119792,7 @@
     "?FUN_0086ba10@Receiver86@@QAEXXZ": "0x0086ba10",
     "?FUN_0086ba90@OffScreenFrameHost@@QAE_NXZ": "0x0086ba90",
     "__imp_?Sleep@@YGXH@Z": "0x00fdf104",
-    "?FUN_0086e650@Receiver86@@QAEXXZ": "0x0086e650",
+    "?FUN_0086e650@MainLoop@FrameUpdate@@QAEXXZ": "0x0086e650",
     "?FUN_00ad8740@FUN_00ad8740_shell@@QAEXXZ": "0x00ad8740",
     "?FUN_00830660@@YAXXZ": "0x00830660",
     "__imp_?GetWindowLongA@@YGHHH@Z": "0x00fdf2e8",

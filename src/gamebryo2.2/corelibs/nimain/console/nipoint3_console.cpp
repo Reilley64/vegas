@@ -9,13 +9,18 @@
 #include "fnv/symbols_011f4000.h"
 #include "NiPoint3.h"
 
-// Compiler-emitted startup initializer: the 17-DWORD startup table (160-byte
-// region, first 68 bytes active here) is copied into the BSS buffer at
-// process start. The MSVC /O2 .ctors for the global copy-initialization
-// below lowers to a frameless "rep movsd" of 17 DWORDs.
+// The source is the default pixel format record: flags 1 and 32 bits per
+// pixel (8193), FORMAT_RGBA, no tiling, renderer hint -1, no extra data, then
+// the components red, green, blue and alpha, each with representation 0,
+// 8 bits and the signed byte 1 (264 is 8 + (1 << 8)). The destination starts
+// as a copy of the source, made by the dynamic initializer below.
+//
+// These values are an owner-approved native default (VEGAS-85, 2026-11-12),
+// not values recovered from the original release. They are the stored list
+// with a zero inserted before the first 264 and 264 as the 17th int.
 
 // @fnv 0x00a62110
-alignas(16) NiPoint3StartupTable gNiPoint3StartupSrc = {{8193, 1, 0, -1, 0, 0, 264, 1, 0, 264, 2, 0, 264, 3, 0, 264, 3}};
+alignas(16) NiPoint3StartupTable gNiPoint3StartupSrc = {{8193, 1, 0, -1, 0, 0, 0, 264, 1, 0, 264, 2, 0, 264, 3, 0, 264}};
 alignas(16) NiPoint3StartupTable gNiPoint3StartupDst = gNiPoint3StartupSrc;
 
 

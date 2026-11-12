@@ -2173,7 +2173,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                     {
                         Warning(
                             "MODELS: Bone %i for part '%s->%s' is unnamed.\r\nMake sure all the vertices are skinned to a named bone.",
-                            j, ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((model))->FUN_009611e0())) ? BIPED_OBJECT_TEXT(model->GetParent()) : "NULL",
+                            (int)j, ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((model))->FUN_009611e0())) ? BIPED_OBJECT_TEXT(model->GetParent()) : "NULL",
                             BIPED_OBJECT_TEXT(model));
                         continue;
                     }

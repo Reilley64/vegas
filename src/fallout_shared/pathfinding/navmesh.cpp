@@ -5,6 +5,7 @@
 #include <new>
 #include <cmath>
 #include <cstring>
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/decl/B42FA60Allocator.h"
 #include "fnv/decl/FUN_0040f6e0_class.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -185,15 +186,6 @@ public:
 
 class NavMeshTriangle;
 struct NiPoint3;
-template <> class BSSimpleArray<unsigned short, 1024>
-{
-  public:
-    virtual ~BSSimpleArray();
-    unsigned short* buffer;
-    unsigned int size;
-    unsigned int reserved;
-};
-
 class NavMeshVertex;
 class NavMeshTriangleDoorPortal;
 class NavMeshClosedDoorInfo;
@@ -535,19 +527,10 @@ template <class T, unsigned int Growth> NavMeshStaticAvoidNode* BSSimpleArray<T,
 
 template NavMeshStaticAvoidNode* BSSimpleArray<NavMeshStaticAvoidNode, 1024>::FUN_00691750(int);
 
-struct GlobalObject_00869f00
-{
-  public:
-    void* vtable;
-};
-
-
 // @fnv 0x00691800
 BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()
 {
-    GlobalObject_00869f00* pThis = reinterpret_cast<GlobalObject_00869f00*>(this);
-    pThis->vtable = &(*reinterpret_cast<void * *>(&::DAT_0106abe4));
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((pThis))->Clear(true);
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
 

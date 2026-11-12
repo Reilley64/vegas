@@ -154,6 +154,13 @@ target_include_directories(setup_prepare_pack_test PRIVATE ${CMAKE_CURRENT_SOURC
 target_link_libraries(setup_prepare_pack_test PRIVATE vegas_setup mbedtls_sha256)
 add_test(NAME setup.prepare_pack COMMAND setup_prepare_pack_test)
 
+# Setup's installation of the pack and vegas-setup's command (VEGAS-13), with
+# temporary folders and synthetic executables.
+add_executable(setup_install_pack_test setup/install_pack_test.cpp)
+target_include_directories(setup_install_pack_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(setup_install_pack_test PRIVATE vegas_setup)
+add_test(NAME setup.install_pack COMMAND setup_install_pack_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

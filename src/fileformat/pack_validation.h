@@ -16,8 +16,8 @@
 namespace fileformat
 {
 
-// What CheckPackOriginal does not check yet, because what it would be
-// checked against is not decided. An OriginalCheckedPack lists both.
+// What CheckPackOriginal does not check. ValidatePack checks both; an
+// OriginalCheckedPack lists both.
 enum class UncheckedPackRequirement
 {
     Catalogue,   // which keys exist, which version of each is supported, which entries are required
@@ -137,8 +137,8 @@ class ValidatedPack;
 ValidatedPack ValidatePack(std::vector<std::byte> file);
 
 // A data pack that passed ValidatePack, as the values decoded from it: it
-// keeps neither the file nor its directory. Only ValidatePack makes one, and it can be moved but not
-// copied. A moved-from pack keeps its values.
+// keeps neither the file nor its directory. Only ValidatePack makes one,
+// and it can be moved but not copied. A moved-from pack keeps its values.
 class ValidatedPack
 {
   public:

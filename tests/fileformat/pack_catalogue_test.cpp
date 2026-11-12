@@ -285,13 +285,17 @@ void AcceptsACompletePack(Checks& check)
     const Strings empty{"", "", "", ""};
     Accepts(check, "empty strings", CompletePack(Payload(empty)), empty);
 
-    // Every byte value but zero is kept as it is.
+    // Every byte value but zero is kept as it is. The fields hold 136
+    // characters, so two packs carry the 255 values.
     std::string everyByte;
     for (int c = 1; c < 256; ++c)
         everyByte.push_back(static_cast<char>(c));
     const Strings allBytes{std::string_view(everyByte).substr(0, 19), std::string_view(everyByte).substr(19, 59),
                            std::string_view(everyByte).substr(78, 7), std::string_view(everyByte).substr(85, 51)};
-    Accepts(check, "every byte value", CompletePack(Payload(allBytes)), allBytes);
+    Accepts(check, "byte values 1 to 136", CompletePack(Payload(allBytes)), allBytes);
+    const std::string_view rest = std::string_view(everyByte).substr(136);
+    const Strings restBytes{rest.substr(0, 19), rest.substr(19, 59), rest.substr(78, 7), rest.substr(85)};
+    Accepts(check, "byte values 137 to 255", CompletePack(Payload(restBytes)), restBytes);
 }
 
 // The decoded field holds nothing after its first zero byte, whatever the

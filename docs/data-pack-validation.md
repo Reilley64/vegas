@@ -71,8 +71,8 @@ set of its own.
 
 The comparison is of what the pack claims. Nothing here reads an
 executable or computes a digest, and a match does not prove where the
-pack came from. Each of the two is to be removed from the list by the
-change that checks it.
+pack came from. Both stay on the list: it describes what an
+`OriginalCheckedPack` has not checked, and `ValidatePack` checks them.
 
 ## Validating against the catalogue
 
@@ -222,8 +222,8 @@ itself, the key, version, size and four field capacities, and states at
 compile time that the source's catalogue is the same. Its packs are
 written by `WritePackStructure` and record the identity of
 `supported_release.h`. `ValidatePack` accepts complete packs of made-up
-strings, of the longest string each field holds, of empty strings and of
-every byte value but zero, and returns those strings with zeros after
+strings, of the longest string each field holds, of empty strings and,
+in two packs, of every byte value but zero, and returns those strings with zeros after
 them; bytes after a field's zero byte are not returned. It refuses a pack
 without `INST`, under five other keys and with two; an unknown key before,
 after and just above `INST`, the lowest key, and a key that is not ASCII,

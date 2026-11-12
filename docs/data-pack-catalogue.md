@@ -4,9 +4,10 @@
 
 This page is a design, not a description of code. Of its next increments
 only the first, catalogue version 1 and `ValidatePack`, is implemented;
-`data-pack-validation.md` describes that code. It answers what the catalogue that ADR 0001 requires must hold
-before the engine may start with a data pack, and how setup fills each entry
-from the original release. It records no value of the original release. The
+`data-pack-validation.md` describes that code. It answers what the
+catalogue that ADR 0001 requires must hold before the engine may start
+with a data pack, and how setup fills each entry from the original
+release. It records no value of the original release. The
 decisions it needed were taken on VEGAS-52 on 2026-11-12; they are under
 "Decisions".
 

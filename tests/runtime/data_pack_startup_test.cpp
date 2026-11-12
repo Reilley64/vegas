@@ -7,6 +7,7 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
@@ -58,10 +59,52 @@ std::vector<std::byte> Payload(const Strings& strings)
 // version 1 that records the supported release's identity: it is compared,
 // not proved.
 std::vector<std::byte> Pack(std::span<const std::byte> payload, std::array<char, 4> key = {'I', 'N', 'S', 'T'},
-                            std::array<std::byte, 32> sha = supported_release::Sha256())
+                            std::array<std::byte, 32> sha = supported_release::Sha256(), std::uint32_t version = 1)
 {
-    const std::array<fileformat::PackWriteEntry, 1> entries{{{key, 1, payload}}};
+    const std::array<fileformat::PackWriteEntry, 1> entries{{{key, version, payload}}};
     return fileformat::WritePackStructure(supported_release::version, sha, entries);
+}
+
+// Where the container decision puts the header fields this test changes. The
+// test states them itself and does not share them with the reader or the
+// writer.
+namespace at
+{
+constexpr std::size_t envelopeVersion = 8;
+constexpr std::size_t catalogueVersion = 12;
+constexpr std::size_t nativeDataContract = 16;
+constexpr std::size_t buildTarget = 20;
+constexpr std::size_t crc32 = 84;
+} // namespace at
+
+// CRC-32 one bit at a time, so the test does not check zlib against zlib.
+std::uint32_t Crc32(std::uint32_t crc, std::span<const std::byte> bytes)
+{
+    crc = ~crc;
+    for (const std::byte byte : bytes)
+    {
+        crc ^= static_cast<std::uint32_t>(byte);
+        for (int bit = 0; bit < 8; ++bit)
+            crc = (crc >> 1) ^ ((crc & 1) != 0 ? 0xEDB88320u : 0u);
+    }
+    return ~crc;
+}
+
+void Put32(std::vector<std::byte>& bytes, std::size_t offset, std::uint32_t value)
+{
+    for (std::size_t i = 0; i < 4; ++i)
+        bytes[offset + i] = static_cast<std::byte>(value >> (8 * i));
+}
+
+// A complete pack with the header field at `offset` set to `value` and the
+// CRC-32 stored again, so only the field is wrong.
+std::vector<std::byte> PackWithHeaderField(std::span<const std::byte> payload, std::size_t offset, std::uint32_t value)
+{
+    std::vector<std::byte> bytes = Pack(payload);
+    Put32(bytes, offset, value);
+    const std::span<const std::byte> all = bytes;
+    Put32(bytes, at::crc32, Crc32(Crc32(0, all.first(at::crc32)), all.subspan(at::crc32 + 4)));
+    return bytes;
 }
 
 // A folder of the test's own under the temporary folder, standing in for the
@@ -242,6 +285,44 @@ int main(int argc, char** argv)
         folder.WritePack(Pack(bytes));
         ExpectRefused(checks, "field without a zero byte", folder.path, "is not a valid data pack");
         ExpectPublished(checks, "field without a zero byte", firstStrings);
+    });
+
+    // A pack of another catalogue version, with another version of the entry,
+    // or made for another build: each is refused by the check that names it.
+    checks.Run("catalogue version 2", [&] {
+        Folder folder;
+        folder.WritePack(PackWithHeaderField(second, at::catalogueVersion, 2));
+        ExpectRefused(checks, "catalogue version 2", folder.path,
+                      "is not a valid data pack: data pack: catalogue version: is not 1");
+        ExpectPublished(checks, "catalogue version 2", firstStrings);
+    });
+    checks.Run("entry version 2", [&] {
+        Folder folder;
+        folder.WritePack(Pack(second, {'I', 'N', 'S', 'T'}, supported_release::Sha256(), 2));
+        ExpectRefused(checks, "entry version 2", folder.path,
+                      "is not a valid data pack: data pack: entry INST: version is not the catalogue's");
+        ExpectPublished(checks, "entry version 2", firstStrings);
+    });
+    checks.Run("envelope version 2", [&] {
+        Folder folder;
+        folder.WritePack(PackWithHeaderField(second, at::envelopeVersion, 2));
+        ExpectRefused(checks, "envelope version 2", folder.path,
+                      "is not a valid data pack: data pack: envelope version: is not 1");
+        ExpectPublished(checks, "envelope version 2", firstStrings);
+    });
+    checks.Run("native data contract 0", [&] {
+        Folder folder;
+        folder.WritePack(PackWithHeaderField(second, at::nativeDataContract, 0));
+        ExpectRefused(checks, "native data contract 0", folder.path,
+                      "is not a valid data pack: data pack: native data contract: is not 1");
+        ExpectPublished(checks, "native data contract 0", firstStrings);
+    });
+    checks.Run("build target 2", [&] {
+        Folder folder;
+        folder.WritePack(PackWithHeaderField(second, at::buildTarget, 2));
+        ExpectRefused(checks, "build target 2", folder.path,
+                      "is not a valid data pack: data pack: build target: is not 1");
+        ExpectPublished(checks, "build target 2", firstStrings);
     });
 
     checks.Run("another complete pack", [&] {

@@ -1,7 +1,5 @@
 #pragma once
 
-struct TempArray;
-
 // 0x010c4048
 extern const char g_01268694_arg0[];
 // 0x010c40a0
@@ -29,6 +27,6 @@ namespace fnv_00c75f80 { extern int DAT_010c4cf8; }
 // 0x010c4db8
 extern void *DAT_010c4db8;
 // 0x010c4dc0
-extern void (*DAT_010c4dc0)(TempArray *, unsigned int);
+extern void (__stdcall *DAT_010c4dc0)(void *);
 // 0x010c4dec
 extern int DAT_010c4dec;

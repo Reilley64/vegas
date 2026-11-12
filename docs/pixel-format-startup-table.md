@@ -4,11 +4,12 @@
 Their names are historical. The units that read them treat them as a pixel
 format record, the default 32-bit format with alpha.
 
-This is a first step. It gives the storage one complete declaration, lists
-every unit that views it, and moves nine of the 16 units onto the declaration.
-The objects of four of them do not change. Five change by aligned moves, which
-the owner accepted. It changes no stored value. What stays open is under "The
-open slot question", "The startup call" and "Not covered".
+A first step gave the storage one complete declaration, listed every unit
+that views it, and moved nine of the 16 units onto the declaration. The
+objects of four of them did not change. Five changed by aligned moves, which
+the owner accepted. A second step set the stored values to a native default
+that the owner approved, as "The stored values" says. What stays open is under
+"The stored values", "The startup call" and "Not covered".
 
 ## The owner
 
@@ -94,6 +95,7 @@ unit only takes the address and hands it to the function named.
 | `nimain/nitexturecodec.cpp` | source | `NiPixelFormat`, no layout | none | address, once, to the `PixelData` constructor |
 | `nimain/nitexture.cpp` | destination | `NiPixelFormat`, no layout | none | address, once, to `CreateCheckerboardTexture` |
 | `nimain/nifixedstring_h_unit.cpp` | source | none, a `void*` | none | address, once, to `NiTexture::FUN_0064ceb0` |
+| `tests/runtime/pixel_format_startup_table_test.cpp` (host test, outside the archive) | both | `NiPixelFormat` from `nipixelformat_decls.h`, typed fields | 68 | address to `GetPixelBitData`, `operator==` and `operator!=` |
 
 Every read and write in these units covers bytes 0 to 67 and no more. No
 unit reads or writes a single field of the storage directly. The fields are
@@ -205,9 +207,11 @@ startup. `NiConsoleRenderer` calls it with one of its formats.
 `GetTextureForType` in `nitexture.cpp` is the only reader of the
 destination: it passes it to `CreateCheckerboardTexture`.
 
-## The open slot question
+## The stored values
 
-The stored list is
+### The list before the decision
+
+Until the owner's decision the stored list was
 
 ```text
 8193, 1, 0, -1, 0,   0, 264, 1,   0, 264, 2,   0, 264, 3,   0, 264, 3
@@ -218,55 +222,64 @@ per pixel, format 1 (`FORMAT_RGBA`), tiling 0, renderer hint -1, extra data
 0. The four component records then read as component 0 with representation
 264 and 1, 2, 3 and 3 bits. That is not a format the readers can use:
 
-- 264 is not a value of the representation enum.
+- 264 is not a value of the representation enum. Under the host's
+  undefined-behaviour checker, `NiPixelFormat::operator==` reports the load of
+  264 as a `Representation` as undefined behaviour.
 - The bit counts add up to 9, not to the 32 bits per pixel.
 - All four records name component 0, so `GetComponentMask` finds no green,
   blue or alpha and returns 0 for them. This is read from source, not run.
+  `NiPixelFormat::GetPixelBitData` gives offset 0 for all four components;
+  that was run, in the host test.
 
-VEGAS-85 reports that the list may lack one zero before the first 264. With
-that zero, and the same 17-int extent, the list would be
+VEGAS-85 reported that the list may lack one zero before the first 264. The
+tree supports that reading but does not prove it:
+
+- The legacy inputs define 37 other records as lists of ints at `0x011aa210`
+  to `0x011aaf90`. In 35 of them the values of 256 or more, from int 5 on,
+  are at ints 7, 10, 13 and 16, and in the other two at ints 7 and 10. The
+  stored list was the only one with such values at ints 6, 9, 12 and 15.
+- The readers above work on that reading and not on the stored list.
+
+Neither point gives the values of the original release, which cannot be
+consulted.
+
+### The decision
+
+On 2026-11-12 the owner of VEGAS-85 approved this list as a native default:
 
 ```text
 8193, 1, 0, -1, 0,   0, 0, 264,   1, 0, 264,   2, 0, 264,   3, 0, 264
 ```
 
-which reads as components 0, 1, 2 and 3, representation 0, and 8 bits each,
-32 in all. The last int of the stored list, a 3, has no place in this
-reading.
+It is the stored list with a zero inserted before the first 264 and with 264
+as the 17th int, which drops the stored list's last 3. The second byte of each
+264, the signed flag, stays 1. The values are a reconstruction decision, not
+values recovered from the original release. The comment above the definitions
+in `nipoint3_console.cpp` says so.
 
-The tree supports the second reading but does not prove it:
+The list reads as components 0, 1, 2 and 3 (red, green, blue, alpha),
+representation 0, and 8 bits each, 32 in all. That is the only reading under
+which the readers obtain a usable format. The siblings support it: the alpha
+record of the 32-bit sibling at `0x011aaac8` is `3, 0, 264`, every colour
+component of the 46 records of `blk_00e60000_o2.inc` sets the signed byte to
+1 (65 of 65; only the luma and padding components of `DAT_011aad08` and
+`DAT_011aaf90` set it to 0), and `operator==` compares that byte.
 
-- The legacy inputs define 37 other records as lists of ints at `0x011aa210`
-  to `0x011aaf90`. In 35 of them the values of 256 or more, from int 5 on,
-  are at ints 7, 10, 13 and 16, and in the other two at ints 7 and 10. The
-  stored list is the only one with such values at ints 6, 9, 12 and 15.
-- The readers above work on the second reading and not on the first.
+The destination still starts as a copy of the source.
 
-Neither point gives the values of the original release. Four things are not
-settled by the tree:
+The change is the initializer of the source. In the windows-x64 build only
+the bytes of that list in the owner's `.data` section change, and no other
+object of the archive changes.
 
-1. Whether the 17th int is 264, as the pattern suggests. The stored list ends
-   in a 3 that the second reading drops, and nothing says where it came from.
-2. What the second byte of each 264 means. The typed records call it a signed
-   flag, and it is 1 here and in all 37 sibling records.
-3. Whether the destination should start equal to the source. It does today.
-4. What the stored list does to the readers. This consequence is probable
-   and not verified. With the stored list the component masks of components
-   1 to 3 are 0, so the checkerboard texture built from the destination
-   would lose green, blue and alpha. The same source data goes to the
-   `NiPixelData` constructor, and to the `operator==` comparisons in the DDS
-   and BMP readers and in the mipmap code.
+### What stays open
 
-Each reading needs this evidence before a value changes:
-
-- For the stored list: a reader that takes the component records as they
-  stand and yields a usable format. No such reader is in the tree.
-- For the list with the zero: a decision by the owner that the shape of the
-  sibling records and the readers' arithmetic are enough to write a native
-  default, since the values of the original release cannot be consulted.
-  The 17th int and the signed flag need the same decision.
-
-Until then the stored list stays as it is.
+- What the signed byte means for an 8-bit colour channel. It is 1 here
+  because every colour component of the sibling records sets it and
+  `operator==` compares it.
+- Whether the destination should start equal to the source. It does, as
+  before; nothing in the tree speaks against it.
+- `GetComponentMask` and `CreateCheckerboardTexture` are not run. Their unit
+  does not build for the host.
 
 ## The startup call
 
@@ -286,21 +299,38 @@ which would undo an earlier `ApplySettings`, is open.
 `runtime.pixel_format_startup_table` links the owning unit. It checks that
 the two globals do not share storage, that the destination holds a copy of
 all 17 source ints after startup, and that a change of any one destination
-int leaves the source as it was and is noticed by the comparison. It names no
-stored value, so it holds for either reading above.
+int leaves the source as it was and is noticed by the comparison.
+
+It also reads both globals through the functions of
+`nimain/nipixelformat_h_unit.cpp`, the unit that the recipe names for
+`NiPixelFormat::GetPixelBitData` (`0x00a62230`) and `operator==`
+(`0x00a76540`). On the host the test links that unit; on windows-x64 it
+links the game archive. It views the storage as that unit's `NiPixelFormat`,
+from `nipixelformat_decls.h`, whose fields lie as in the typed records above.
+It checks that:
+
+- `GetPixelBitData` gives red, green, blue and alpha the offsets 0, 8, 16
+  and 24, in both globals;
+- the source is equal, by `operator==`, to a record of the approved list, and
+  not unequal to it by `operator!=`;
+- the source holds the 17 ints of the approved list. `operator==` does not
+  compare the extra data and treats a renderer hint of -1 as any hint, so it
+  alone does not pin those two ints;
+- the list before the decision fails the offsets. It is not given to
+  `operator==`, whose load of 264 as a `Representation` is undefined.
+
+With the list before the decision in the owner, the test fails, both
+optimized and under the address and undefined-behaviour checkers.
 
 ## Not covered
 
-- No stored value and no slot changes.
 - The six units that cannot use the header stay on their own view.
-- The comment above the definitions in `nipoint3_console.cpp` speaks of a
-  160-byte region and of a `rep movsd`. VEGAS-85 supports neither. The
-  comment is left for the step that settles the values.
 - No windows-x64 executable was run. The aligned moves are shown safe from
   the objects and the link map, not by running them.
 - `FUN_00a62110` stays undefined.
 - The private copies of `NiPixelFormat` are not merged.
-- No test reaches `ApplySettings` or `CreateCheckerboardTexture`.
+- No test reaches `ApplySettings`, `CreateCheckerboardTexture` or
+  `GetComponentMask`.
 - The research note that VEGAS-85 cites,
   `docs/research/upstream-pr33-and-recent-prs-assessment.md`, is not in the
   tree and was not read. Neither was the upstream change the ticket links.

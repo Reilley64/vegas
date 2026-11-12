@@ -146,8 +146,8 @@ seven of them as a string.
 | The consuming stage runs | | |
 
 `OpenPack`, `PackOpenError` and the comparison with a supported set belong
-to the open-and-check stage of VEGAS-52. They are on its in-flight branch,
-not on the tip. `ValidatePack` takes only the bytes. It takes no supported
+to the open-and-check stage of VEGAS-52 (`data-pack-validation.md`).
+`ValidatePack` takes only the bytes. It takes no supported
 set and no list of required keys; both are the source's. It is the only maker of a
 `ValidatedPack`, which offers decoded values and no raw bytes. Every stage
 above it yields a type that cannot become one. Publication and the

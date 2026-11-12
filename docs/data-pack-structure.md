@@ -6,9 +6,9 @@
 structural stage of reading the data pack, the file `vegas-data.pack` that
 setup prepares from a player's original release. It follows the container
 that the pack decision record, ADR 0001, adopts. It is the first step of
-VEGAS-52 and no more than that: nothing calls it yet, the engine does not
-look for a pack at startup, and a pack that passes it is not a validated
-pack.
+VEGAS-52 and no more than that: `CheckPackOriginal` of
+`data-pack-validation.md` calls it, the engine does not look for a pack at
+startup, and a pack that passes it is not a validated pack.
 
 The reader takes the whole file as bytes and returns a `PackStructure` that
 owns them, with the directory as offsets into them. It reads every field
@@ -67,9 +67,12 @@ on and decides nothing about them:
 - Payload bytes are exposed raw through `EntryBytes`. The span it returns
   points into the `PackStructure`, so it cannot be called on a temporary.
 
-The complete validation the decision record names, and the validated pack
-only it may construct, are not written. There is no flag, constructor or
-conversion that turns a `PackStructure` into one.
+The check of the original is described in `data-pack-validation.md`.
+There is no flag, constructor or conversion that turns a `PackStructure`
+into an `OriginalCheckedPack` or a `ValidatedPack`: only
+`CheckPackOriginal` makes an `OriginalCheckedPack`. `ValidatedPack` is the
+name kept for the result of the complete validator, `ValidatePack`, which
+is not written.
 
 ## Writer
 
@@ -170,6 +173,7 @@ by a test.
 
 `pack_structure.cpp`, `pack_container.cpp` and `pack_writer.cpp` are
 appended to the `game` archive as three more members, in that order. Only
-the reader and the writer call `pack_container.cpp`, and nothing in the
-archive calls them, so a link that loads members on demand loads none of
-the three.
+the reader and the writer call `pack_container.cpp`, and only the
+check of `data-pack-validation.md` calls the reader. Nothing in the
+archive calls the check or the writer, so a link that loads members
+on demand loads none of the three.

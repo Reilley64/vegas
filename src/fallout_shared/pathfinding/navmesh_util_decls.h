@@ -2,6 +2,7 @@
 #ifndef NAVMESH_UTIL_DECLS_H
 #define NAVMESH_UTIL_DECLS_H
 
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -77,7 +78,6 @@ template <class T, unsigned int N = 1024> class BSSimpleArray
     unsigned int Append(const T&);
     T& GetElement(unsigned int);
 };
-template <> BSSimpleArray<unsigned short, 1024>::BSSimpleArray();
 class NavMeshVertexEdgeData
 {
   public:

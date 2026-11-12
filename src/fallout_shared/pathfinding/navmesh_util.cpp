@@ -119,7 +119,6 @@
 #include "fnv/symbols_0101e000.h"
 #include "fnv/symbols_01024000.h"
 #include "fnv/symbols_01025000.h"
-#include "fnv/symbols_0106a000.h"
 #include "fnv/symbols_0106b000.h"
 #include "fnv/symbols_011de000.h"
 #include "navmesh_util_decls.h"
@@ -215,9 +214,8 @@ unsigned short& FUN_005eeda0_this::GetBufferEntry(unsigned int aiIndex)
 
 
 // @fnv 0x006917d0
-template <> BSSimpleArray<unsigned short, 1024>::BSSimpleArray()
+BSSimpleArray<unsigned short, 1024>::BSSimpleArray()
 {
-    vtable = &::DAT_0106abe4;
     reinterpret_cast<::FUN_00692290_class *>(this)->FUN_00692290(0, 0);
 }
 

@@ -527,8 +527,10 @@ template <class T, unsigned int Growth> NavMeshStaticAvoidNode* BSSimpleArray<T,
 
 template NavMeshStaticAvoidNode* BSSimpleArray<NavMeshStaticAvoidNode, 1024>::FUN_00691750(int);
 
+// The deleting destructors call this one out of line, so that they have the
+// same code in every unit that emits them.
 // @fnv 0x00691800
-BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()
+[[gnu::noinline]] BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }

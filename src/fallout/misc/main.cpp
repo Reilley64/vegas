@@ -5,6 +5,7 @@
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/dx9_renderer_view.h"
 #include "fnv/simple_list_node_view.h"
+#include "fnv/single_instance_strings.h"
 #include <cstdint>
 #include <windows.h>
 #include <shellapi.h>
@@ -6641,9 +6642,6 @@ int __cdecl FUN_0086bc10(...);
 int __cdecl FUN_00aa47c0(...);
 
 extern unsigned int _DAT_011c16bc;
-extern char str_01082ab8[];
-extern char str_01082a7c[];
-extern char str_0104df38[];
 extern unsigned char UNK_01082a38;
 extern unsigned char UNK_01082a28;
 extern unsigned char UNK_01082a10;
@@ -6658,7 +6656,6 @@ extern unsigned char UNK_01082924;
 extern unsigned char UNK_01082910;
 extern unsigned char UNK_010828fc;
 extern unsigned char UNK_010828ec;
-extern char str_01082a48[];
 
 
 
@@ -6766,15 +6763,17 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
     uintptr_t startupFlags3;
     HWND existingWindow30;
 
-    mutex17 = CreateMutexA(0, 0, str_01082ab8);
+    // The four strings come from the data pack, through their native owner.
+    const fileformat::SingleInstanceStrings& singleInstance = fnv::startup::PublishedSingleInstanceStrings();
+    mutex17 = CreateMutexA(0, 0, singleInstance.mutexName.data());
     if (GetLastError() == 0xb7)
     {
-        MessageBoxA(0, str_01082a7c, str_0104df38, 0);
+        MessageBoxA(0, singleInstance.firstMessageText.data(), singleInstance.messageCaption.data(), 0);
         return 0;
     }
     if (GetSystemMetrics(0x1000))
     {
-        MessageBoxA(0, str_01082a48, str_0104df38, 0);
+        MessageBoxA(0, singleInstance.secondMessageText.data(), singleInstance.messageCaption.data(), 0);
         return 0;
     }
     {

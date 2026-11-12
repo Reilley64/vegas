@@ -119,16 +119,12 @@ S* FUN_00e9efb0(void* self)
 // FUN_00e9ecc0 - 6-byte leaf stub of the retail binary.
 //
 // The original code is "mov eax, 4 ; ret": the function simply hands the
-// constant 4 back to its caller.  A plain "return 4;" is folded by VC9 at the
-// pack's /O1 into the shorter "push 4 ; pop eax ; ret" sequence, so the value
-// is materialised from a relocated address expression instead.  That keeps
-// the original six-byte "mov eax, <imm32> ; ret" shape byte for byte.
-extern int g_fnv_00e9ecc0_value_anchor;
+// constant 4 back to its caller.
 
 // @fnv 0x00e9ecc0
 intptr_t FUN_00e9ecc0()
 {
-    return (intptr_t)(&g_fnv_00e9ecc0_value_anchor) + 4;
+    return 4;
 }
 
 #pragma optimize("gty", on)

@@ -146,6 +146,14 @@ else()
     FAIL_REGULAR_EXPRESSION "Python 3 was not found")
 endif()
 
+# Setup's preparation of a data pack (VEGAS-13), on synthetic executables
+# built in memory. It links setup's library, never the game archive, on every
+# host.
+add_executable(setup_prepare_pack_test setup/prepare_pack_test.cpp)
+target_include_directories(setup_prepare_pack_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(setup_prepare_pack_test PRIVATE vegas_setup mbedtls_sha256)
+add_test(NAME setup.prepare_pack COMMAND setup_prepare_pack_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

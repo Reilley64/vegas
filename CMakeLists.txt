@@ -119,4 +119,20 @@ target_include_directories(FalloutNV PRIVATE include)
 # user32: GetSystemMetrics and MessageBoxA of WinMain's first checks (VEGAS-52).
 target_link_libraries(FalloutNV PRIVATE game user32)
 
+# Setup (VEGAS-13; docs/setup.md). It compiles the PE reader and the data
+# pack sources itself, so the game archive and its members are unchanged.
+# Setup and the game never link together.
+add_library(vegas_setup STATIC
+  src/setup/staged_pack.cpp
+  src/setup/prepare_pack.cpp
+  src/fileformat/pe_file.cpp
+  src/fileformat/original_identity.cpp
+  src/fileformat/pack_writer.cpp
+  src/fileformat/pack_structure.cpp
+  src/fileformat/pack_container.cpp
+  src/fileformat/pack_validation.cpp
+)
+target_include_directories(vegas_setup PUBLIC src)
+target_link_libraries(vegas_setup PRIVATE ZLIB::ZLIBSTATIC mbedtls_sha256)
+
 add_subdirectory(tests)

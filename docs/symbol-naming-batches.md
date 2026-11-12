@@ -41,6 +41,10 @@ the pull request text quotes for VEGAS-11, and the figures cannot be compared.
 | 09e7b0d91 | move 25 class definitions (and 10 blocks they need) | 0 | 35,266, unchanged |
 | 2277431b8 | stand-in batch 4: 42 stand-ins in 22 units | 42 | 35,266 to 35,224 |
 | d0d8fd469 | 19 stand-ins become the shared ImageSpaceEffectParam | 19 | 35,185 to 35,166 |
+| 912cc318c | 16 data externs of SIMD and float constants in 10 units | 16 | 35,133 to 35,117 |
+| f27c78b21 | the TlsGetValue slot extern in `hkpworld.cpp` | 1 | 35,117 to 35,116 |
+| febe17c81 | the keyring tile id in `inventorymenu.cpp` | 1 | 35,116 to 35,115 |
+| 1e22ad003 | the message extern in `hkdataobjectnative.cpp` | 1 | 35,115 to 35,114 |
 
 No step leaves a name newly undefined, adds a duplicate symbol, or changes the
 137 imports or the archive members and their order. The archive had 2,223
@@ -327,6 +331,70 @@ name: 143 rows.
   signatures that differ once integer widths are not folded (7), the object
   check (7), a name in namespace `std` (4), and one row each for five other
   reasons.
+
+## Data externs (912cc318c, f27c78b21, febe17c81, 1e22ad003)
+
+A unit declares a global under a name of its own, often inside a private
+namespace, while the archive defines the object at the same recipe address
+under another name. The four commits respell 19 such declarations to the
+definition's name. A name is respelled only when all of these hold:
+
+- the requiring unit's `symbols` map binds the defined name to the address;
+- the archive has exactly one definition of that name;
+- the declared type is the definition's, apart from a `const` that the
+  declaration lacked, and the unit only reads the object;
+- each use agrees with the value the definition holds.
+
+The edit removes the private declaration where a global one is already
+visible, moves it to global scope where none is, or respells it in place to
+`extern "C"` where the definition has C linkage. In `hkdataobjectnative.cpp`
+two uses take the name of the string the unit defines from its generated data
+include, `str_010d64bc`, which a third use in the unit already reads. One use
+takes a descriptive name: `UpdateCurrentValue` reads
+`InventoryMenu::ms_iKeyringOpenTileID` instead of `DAT_011d9eb8`. Its unit's key for the old name merges into its
+key for the member at the same address. No other key changes, because no
+other unit had a key for the old spelling. Nothing else is declared, and no
+cast is added.
+
+Every object is equal to its tip object once the old names are respelled,
+except one function. In `hkdataobjectnative.cpp` the old name's undefined
+symbol merges into the unit's definition of `str_010d64bc`. In
+`blk_00da0000_o2.cpp`, `CleanSimd::FUN_00dad110` now sees the 0.5f constant
+at `0x01016248` as `const`. The compiler folds the load into a `mulss`
+operand: `half * rs` becomes `rs * half`, the same IEEE product, because
+multiplication is commutative and 0.5f is not NaN. The function is 5 bytes
+shorter and its unwind entry follows.
+
+The census of undefined names at 2fa5deb28 lists 380 names in this class.
+The other 361 stay as they are:
+
+| Reason | Names |
+| --- | --- |
+| One of the seven GlobalObject types that the class-key step excluded. The requiring unit declares its own type of that name, not the definition's `SettingT` class or its storage class. | 261 |
+| The types differ: a named array against a string literal (19), a virtual table (3), or another type (25) | 47 |
+| Two or three definitions at the address, so there is no single name to take | 40 |
+| The requiring unit's recipe binds neither name, so the address is known only from the identifier | 6 |
+| Integer width, a call-behaviour repair under 2026-11-11 (3) | 3 |
+| The value differs: `g_010173f0`, below | 2 |
+| The recipe binds the requiring name to four other addresses | 1 |
+| Storage: `DAT_011b5a90` is defined as `int[1]`, and the requiring unit reads past its end into `DAT_011b5a94`, an interior alias (VEGAS-51) | 1 |
+
+On x64 an array object's mangled name has no `E` after its `P` or `Q`, so
+`extern const char a[]` is `?a@@3QBDB`, while a pointer's has one. The
+demangler prints both as a pointer. A first pass of the table read the
+array spelling as a 32-bit pointer and put four names in a class of their
+own. They are counted above by their real reason: `DAT_010d64bc` is
+respelled; `DAT_010954cc` is a name the requiring unit's recipe does not
+bind; `DAT_010a05e4` is declared `char*`, but the definition is a virtual
+table array behind an asm label; `DAT_011b5a90` is the storage row.
+
+The definition of `g_010173f0` in `speedtree/frondengine.cpp` is writable
+and zero. The recipe binds the name in 17 units, and `blk_00b20000_od.cpp`
+already passes it as the length of two other `AssignSubstring` calls. The two
+requiring declarations are `const`, and their class passes `(unsigned int)-1`
+in the same role. Binding them would knowingly give them 0 where they expect
+`npos`, and a `const` declaration would name writable storage. They wait for
+the repair of the value, VEGAS-100.
 
 ## The object check and its named exceptions
 

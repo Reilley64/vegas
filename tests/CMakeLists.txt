@@ -907,6 +907,29 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when any relocation of any object of the game archive addresses a
+# table of the fifteen generated vtable units at or past its end, or before
+# it, other than the reads tools/table-bounds/allow.tsv lists, or when a read
+# it lists is gone (VEGAS-30). Each table's length is its slot count in the
+# source the build compiles: the composed copy for the four composed units.
+# Cross build only, like the checks above.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  get_target_property(vegas_vtable_sources game SOURCES)
+  list(FILTER vegas_vtable_sources INCLUDE REGEX "generated/data/vtables_01[0-9a-f][0-9a-f]\\.cpp$")
+  list(LENGTH vegas_vtable_sources vegas_vtable_count)
+  if(NOT vegas_vtable_count EQUAL 15)
+    message(FATAL_ERROR "expected 15 generated vtable units, found ${vegas_vtable_count}")
+  endif()
+  list(JOIN vegas_vtable_sources "\n" vegas_vtable_lines)
+  file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/vtable-sources.txt
+    CONTENT "${vegas_vtable_lines}\n")
+  add_test(NAME objects.table_bounds
+    COMMAND ${GO_EXECUTABLE} run . --sources ${CMAKE_CURRENT_BINARY_DIR}/vtable-sources.txt
+            --root ${PROJECT_SOURCE_DIR}
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt --allow allow.tsv
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/table-bounds)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

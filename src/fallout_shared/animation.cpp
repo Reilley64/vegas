@@ -5843,8 +5843,8 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                                      ((::AnimationBlend::BlendString *)(reinterpret_cast<::TESTopicInfoData *>((((::AnimationBlend::BlendObject *)(::FUN_00559450((int *)&(node))))))->GetLinkToList()))->FUN_0043b1b0());
                 }
                 else
-                    FUN_005b5e40(DAT_0101dbe8, ((::AnimationBlend::BlendString *)(reinterpret_cast<::TESTopicInfoData *>((previous2))->GetLinkToList()))->FUN_0043b1b0(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((previous2))->FUN_0084e3a0())),
-                                 ((::AnimationBlend::BlendString *)(reinterpret_cast<::TESTopicInfoData *>((apSequence))->GetLinkToList()))->FUN_0043b1b0(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apSequence))->FUN_0084e3a0())),
+                    FUN_005b5e40(DAT_0101dbe8, ((::AnimationBlend::BlendString *)(reinterpret_cast<::TESTopicInfoData *>((previous2))->GetLinkToList()))->FUN_0043b1b0(), ((int)(reinterpret_cast<::FUN_0084e3a0_Class *>((previous2))->FUN_0084e3a0())),
+                                 ((::AnimationBlend::BlendString *)(reinterpret_cast<::TESTopicInfoData *>((apSequence))->GetLinkToList()))->FUN_0043b1b0(), ((int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apSequence))->FUN_0084e3a0())),
                                  ((::AnimationBlend::BlendString *)(reinterpret_cast<::TESTopicInfoData *>((((::AnimationBlend::BlendObject *)(::FUN_00559450((int *)&(node))))))->GetLinkToList()))->FUN_0043b1b0());
             }
             if (synchronize && apSequence == previous2)

@@ -831,6 +831,9 @@ class NiNode;
 template <class T> class NiPointer
 {
   public:
+    T* m_pObject;
+    NiPointer(const NiPointer<T>&);
+    ~NiPointer();
     NiPointer<T>& operator=(T*);
 };
 template <> class NiPointer<NiAVObject>

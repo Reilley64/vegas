@@ -1,0 +1,15 @@
+# The function at 0x005436e0 in tesobjectcell.cpp, which duplicates a cell and
+# wraps each duplicated NavMesh with MakeNavMeshPointer (0x00464fc0) (VEGAS-96).
+# Format: README.md.
+# The callee returns an 8-byte NiPointer<NavMesh> with a destructor, so on
+# windows-x64 it takes the address of the result as its first argument. The
+# caller then destroys that result. A caller that sees the class as trivial
+# expects the result in a register, passes the mesh where the callee expects
+# the result address, and never calls the destructor: the required destructor
+# is the relocation that tells the two forms apart.
+# The name under which the unit's recipe symbols name the callee, with a
+# NavMeshPtr result. No object defines it; the call goes to the name the
+# callee defines:
+forbid	?MakeNavMeshPointer@@YA?AUNavMeshPtr@@PEAVNavMesh@@@Z
+# batch, unit, function, the callee and the destructor of its result:
+function	navmesh	src/fallout_shared/tesobjectcell.cpp	?FUN_005436e0@FUN_005436e0_shell@@QEAAPEAUTESForm_ctx3@@_NPEAX@Z	?MakeNavMeshPointer@@YA?AV?$NiPointer@VNavMesh@@@@PEAVNavMesh@@@Z ??1?$NiPointer@VNavMesh@@@@QEAA@XZ

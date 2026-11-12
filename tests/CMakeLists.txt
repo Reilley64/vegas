@@ -805,6 +805,17 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when the function at 0x005436e0 (VEGAS-96) again sees the NavMesh
+# pointer that MakeNavMeshPointer returns as a trivial class: it then passes
+# the mesh where the callee expects the address of its result and never
+# destroys the result. Cross build only, like the checks above.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.navmesh_pointer_result
+    COMMAND ${GO_EXECUTABLE} run . --table navmesh-pointer-result.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

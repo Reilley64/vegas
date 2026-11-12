@@ -7328,7 +7328,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
         u5c = uMark2;
         if (u58 > u5c + 0xffff)
         {
-            FUN_005b5e40(&(*reinterpret_cast<char *>((void *)&::DAT_01015318)), (std::uintptr_t)&(*reinterpret_cast<char *>((void *)&::DAT_0101d930)), 0x1628);
+            FUN_005b5e40(&(*reinterpret_cast<char *>((void *)&::DAT_01015318)), &(*reinterpret_cast<char *>((void *)&::DAT_0101d930)), 0x1628);
         }
         *(unsigned short*)uMark2 = (unsigned short)(u58 - u5c);
     }

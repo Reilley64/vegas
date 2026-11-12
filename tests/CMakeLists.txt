@@ -44,6 +44,17 @@ else()
 endif()
 add_test(NAME fileformat.pack_writer COMMAND fileformat_pack_writer_test)
 
+# Built the same way: the archive on Windows, the unit itself elsewhere. The
+# executables it reads are built in memory by the test.
+add_executable(fileformat_pe_file_test fileformat/pe_file_test.cpp)
+target_include_directories(fileformat_pe_file_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(fileformat_pe_file_test PRIVATE game)
+else()
+  target_sources(fileformat_pe_file_test PRIVATE ${PROJECT_SOURCE_DIR}/src/fileformat/pe_file.cpp)
+endif()
+add_test(NAME fileformat.pe_file COMMAND fileformat_pe_file_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

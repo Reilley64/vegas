@@ -1071,8 +1071,6 @@ FUN_0077fb80_cls::~FUN_0077fb80_cls()
     (*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)) = 0;
 }
 
-extern int DAT_011d9eb8;
-
 class FUN_0077ffd0_menu
 {
   public:
@@ -1104,7 +1102,7 @@ void __cdecl UpdateCurrentValue()
     int idx;
     int res5;
     if (reinterpret_cast<::FUN_00a01230_shell *>((reinterpret_cast<FUN_0077ffd0_obj*>(
-            ((::Tile *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0077ffd0_menu*>(InventoryMenu::ms_pInventoryMenu)))->FUN_00726070())))))->IsTraitNonZero(DAT_011d9eb8))
+            ((::Tile *)(reinterpret_cast<::Callees *>((reinterpret_cast<FUN_0077ffd0_menu*>(InventoryMenu::ms_pInventoryMenu)))->FUN_00726070())))))->IsTraitNonZero(InventoryMenu::ms_iKeyringOpenTileID))
     {
         tab = 5;
     }

@@ -207764,7 +207764,7 @@
     "??_VSlot4@@SAXPAX@Z": "0x00401030",
     "?IsEndianConversionRequired@TESFile@@QAE_NXZ": "0x00401680",
     "??_L@YGXPAXIHP6EX0@Z1@Z": "0x00ec782f",
-    "??0DA00694f80@fnv_0069da40@@QAE@XZ": "0x006917d0",
+    "??0?$BSSimpleArray@G$0EAA@@@QAE@XZ": "0x006917d0",
     "?FUN_005eee80@BSSimpleArrayActor@@QAEXI_N@Z": "0x005eee80",
     "?GetBufferEntry@FUN_005eeda0_this@@QAEAAGI@Z": "0x005eeda0",
     "?GetEntryByIndex@@YAPAXH@Z": "0x00408a60",

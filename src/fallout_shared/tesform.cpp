@@ -4,6 +4,7 @@
 #include <new>
 #include <cstring>
 #include "fileformat/compression.h"
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSSimpleArrayActor.h"
 #include "fnv/decl/Callees.h"
@@ -3644,17 +3645,6 @@ template <int N> struct EndianSizeTag
 {
 };
 
-class DA00694f80
-{
-  public:
-    DA00694f80();
-    virtual ~DA00694f80();
-    unsigned short& GetAt(int index);
-    int unk04;
-    int unk08;
-    int unk0C;
-};
-
 class TESFileRecordLoader
 {
   public:
@@ -3667,7 +3657,7 @@ class TESFileRecordLoader
     int unk18;
     int unk1C;
     int unk20;
-    DA00694f80* unk24;
+    BSSimpleArray<unsigned short, 1024>* unk24;
 
     bool LoadRecord(void* src, int unused, TESFile* file);
 };
@@ -3702,7 +3692,7 @@ bool TESFileRecordLoader::LoadRecord(void* src, int unused, TESFile* file)
         return false;
     }
     totalCount = unk00 * unk00;
-    unk24 = new DA00694f80[totalCount];
+    unk24 = new BSSimpleArray<unsigned short, 1024>[totalCount];
     dataPtr = (unsigned short*)((char*)src + headerSize7);
     for (i4 = 0; i4 < totalCount; ++i4)
     {

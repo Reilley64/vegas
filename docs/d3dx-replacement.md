@@ -110,8 +110,8 @@ the undefined list that contain `D3DX` fall from 18 to 16 with this
 increment: the imports of `D3DXVec3Normalize` and
 `D3DXMatrixRotationYawPitchRoll` are no longer referenced.
 
-- 22 call lines in 4 files call the matrix inverse (`0x00ee6dda`, 10 lines),
-  the matrix transpose (`0x00ee6dd4`, 11 lines) or the vector normal
+- 4 call lines in 3 files call the matrix inverse (`0x00ee6dda`, 1 line),
+  the matrix transpose (`0x00ee6dd4`, 2 lines) or the vector normal
   transform (`0x00ee6df2`, 1 line) without arguments. Two of the eleven
   project-code addresses, `0x00ee6dda` and `0x00ee6df2`, therefore still have
   a second definition, without parameters, in the staging unit; it calls
@@ -125,8 +125,8 @@ increment: the imports of `D3DXVec3Normalize` and
   names such as `D3DXMatrixInverse`, `Invert` and `Transpose`. That commit
   gave each address one declaration and dropped the arguments, in 56 lines
   of 9 files, directly or in a variant unit later merged into the file.
-- 34 of the 56 lines have their arguments back, under VEGAS-90's
-  restoration rule: in `xgamesetting.cpp`, `teswater.cpp`,
+- 52 of the 56 lines have their arguments back. 34 of them under
+  VEGAS-90's restoration rule, in `xgamesetting.cpp`, `teswater.cpp`,
   `nid3dshaderconstantmap.cpp`, `nid3dhlslpixelshader.cpp`,
   `nid3dhlslvertexshader.cpp`, `lighting30shader.cpp` and
   `shadowlightshader.cpp`. Each argument list is the text of `3f0599801`'s
@@ -135,6 +135,17 @@ increment: the imports of `D3DXVec3Normalize` and
   local types they point to are the parent's: 16 floats for a matrix and 3
   for a point, from offset 0, except `0x00bbc050`, whose matrix type is only
   declared in its unit (unmeasured; the 64-byte obligation is its callers').
+- The other 18 are the calls of `0x00e85d10` in `nid3dshaderconstantmap.cpp`,
+  under the rule's translation tier. Each of its nine cases stores a matrix
+  in register slot `slot` of the constant table at `0x0126f820`, then
+  inverts and transposes that slot in place, as the mapping asks. The parent
+  passed `&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]`. The tip no
+  longer declares `DAT_0126f820`, and the restored arguments name the same
+  object as the store before each call does:
+  `(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants))`. The parent's
+  recipe binds `DAT_0126f820`, and the tip's `g_afSCMatrixConstants`, to
+  `0x0126f820` in that unit. Each argument is a `MapMatrix*` of 64 bytes to
+  the same slot, as in the parent.
 - The tests `runtime.d3dx_call_arguments_*` check the native callees'
   contract with the restored argument patterns, not the repaired sites: they
   run each function's sequence of calls on objects of the same shape. The
@@ -146,17 +157,17 @@ increment: the imports of `D3DXVec3Normalize` and
 - The sites are checked in the objects. In the windows-x64 cross build,
   `objects.d3dx_call_arguments_fallout_shared`, `_shader_constants` and
   `_lighting` (`tools/function-relocations`) fail when the code section of
-  one of the 11 functions whose calls changed refers to an argument-less
+  one of the 12 functions whose calls changed refers to an argument-less
   name of the three addresses, or no longer to the native function it calls.
-  They check each function's own section: the objects of
-  `nid3dhlslpixelshader.cpp` and `nid3dshaderconstantmap.cpp` keep
-  argument-less calls in the functions listed below.
+  They check each function's own section: the object of
+  `nid3dhlslpixelshader.cpp` keeps an argument-less call in `0x00e96da0`,
+  listed below.
 - Rulings that this restoration follows (VEGAS-90):
   - Each batch respells the recipe keys of its units in the same commit:
     the native name is bound where it is called, and an argument-less key
     leaves a unit whose object no longer requires it.
   - The function rows at `0x00ee6dda` and `0x00ee6df2` keep naming the
-    argument-less definitions until the 22 lines below are decided.
+    argument-less definitions until the 4 lines below are decided.
   - "Same conversions" means the same argument expression, value and type
     up to the final implicit conversion into the native parameter, which
     must keep the address: a conversion to a base at offset 0, or a null
@@ -164,11 +175,16 @@ increment: the imports of `D3DXVec3Normalize` and
   - `0x00bbc050` is restored with the size of its matrix type unmeasured.
   - A call whose parent callee returned `void` now binds a native function
     that returns `void*`; the result is discarded.
-- The other 22 lines are not restored, because the parent's call does not
+  - Translation tier: where the parent's argument names a global that the
+    tip no longer declares, the restored argument may use the spelling of
+    the same object that the same unit already uses. The recipe must bind
+    both names to the same address, the final type and address passed
+    must be the parent's, and the spelling must exist verbatim in the
+    unit. The tier does not admit a unit that declares the object with
+    another layout, such as `0x00e82e70` below, or an integer passed where
+    a pointer is expected.
+- The other 4 lines are not restored, because the parent's call does not
   fit the tip:
-  - `0x00e85d10` in `nid3dshaderconstantmap.cpp`, 18 lines: the arguments
-    name `DAT_0126f820`, which the tip no longer declares. The tip calls
-    `0x0126f820` `g_afSCMatrixConstants`, an array of `float[16]`.
   - `0x00e82e70` in `src/staging/blk_00e80000_o2.cpp`, 2 lines: the parent
     declared `DAT_0126f8c0` as a 64-byte matrix of its own. In that unit at
     the tip it is a `Matrix` of 36 bytes, less than the 64 bytes the native
@@ -190,21 +206,12 @@ increment: the imports of `D3DXVec3Normalize` and
 - The 2 lines of `0x00e82e70` refuse because two types named `::Matrix`
   meet at `DAT_0126f8c0`: 64 bytes in `nid3dshaderconstantmap.cpp`, and a
   36-byte `struct Matrix { Vec3 a,b,c; }` in `blk_00e80000_o2.cpp`.
-- A translation tier could restore `0x00e85d10` and `0x00e82e70` with the
-  spelling their units already use for the same object:
-  `&(*reinterpret_cast<::Matrix *>(&::g_afSCMatrixConstants))` for
-  `DAT_0126f820`, and `reinterpret_cast<::S00e82e70_D3DXMATRIX *>(&::DAT_0126f8c0)`
-  for `DAT_0126f8c0`. That adds casts the parent's calls did not have, and
-  waits for a coordinator ruling.
-- Another call lost its arguments the same way, outside the three D3DX
-  addresses: `nid3dhlslvertexshader.cpp` calls `::FUN_00a29680()` without
-  arguments twice, where the parent passed `(str_010f14a0, m_pcName,
-  pcVariable)` and `(str_010f14e8, m_pcName, pcVariable)`. It belongs to
-  VEGAS-90's tables.
-- Next step: decide the 22 lines above with evidence beyond the parent's
-  text, such as which object `0x00e85d10` and `0x00e82e70` really pass.
-  Once no caller uses them, the second definitions at `0x00ee6dda` and
-  `0x00ee6df2` can be retired.
+  The translation tier does not restore them: the unit's own declaration
+  of `0x0126f8c0` has to be decided first.
+- Next step: decide the 4 lines above with evidence beyond the parent's
+  text, such as which object `0x00e82e70` really passes. Once no caller
+  uses them, the second definitions at `0x00ee6dda` and `0x00ee6df2` can
+  be retired.
 - Textures and surfaces: `0x00ee6dc2` (save texture to file), `0x00ee6de6`
   (surface copy), `0x00ee6e10`, `0x00ee6e16` and `0x00ee6e1c` (volume, cube
   and 2D texture from a file in memory) and `0x00ee6e22` (image information)
@@ -233,6 +240,92 @@ pixel shader loader `0x00be1750`, each have three branches:
 32 functions that create the game's shaders call one or both loaders. The
 Gamebryo program creators that compile or assemble are entries of virtual
 tables in `src/generated`.
+
+## Other calls that 3f0599801 left without arguments
+
+`3f0599801` dropped arguments from calls of other addresses too. Nothing
+in this section is repaired yet.
+
+`nid3dhlslvertexshader.cpp` calls `::FUN_00a29680()` without arguments
+twice. The parent passed `(str_010f14a0, m_pcName, pcVariable)` and
+`(str_010f14e8, m_pcName, pcVariable)`, under its own declaration
+`void __cdecl FUN_00a29680(const char*, ...)`. The restoration rule does
+not admit them: the callee's declaration at the tip,
+`void FUN_00a29680()`, and its one definition, an empty function in
+`nitimecontroller.cpp`, take no parameter, and the parent's arguments do
+not compile against it. That declaration's name `?FUN_00a29680@@YAXXZ`
+is a key of 87 recipe units.
+
+The coordinator ruled on these calls (VEGAS-90):
+
+- `0x00a29680` stays tabled. The parent declared that address in several
+  ways, likely identical functions that the linker folded into one. The
+  shared declaration is not reshaped.
+- The route is the addendum "providers for restored identities": the
+  callers that pass variadic debug output get an identity of their own,
+  bound to `0x00a29680` by `symbols` keys only. It is a batch of its own,
+  of low priority, that first lists which of the 219 calls of `0x00a29680`
+  below pass arguments with side effects.
+- The 1,139 calls below whose parent argument is now the object of a member
+  call get a mechanical comparison, the parent's argument against the tip's
+  object, in a later census batch.
+
+A census of the source, by compiler parse, counts the other calls. It
+takes every call in a `src` unit of the windows-x64 build that writes no
+argument, to a callee whose declaration has no parameter and whose name the
+unit's recipe binds to an address. It pairs each with the parent of
+`3f0599801` as the restoration pairs its calls: the function with the same
+`// @fnv` address, or else the same qualified name, and the call of the
+same address in the same position. An operand is a written argument or the
+object of a member call. Measured after the `0x00e85d10` restoration:
+
+| Class | Calls |
+| --- | ---: |
+| No argument in the parent either | 71,425 |
+| The parent's one argument is now the object of a member call | 1,139 |
+| The parent's call had more operands | 1,019 |
+| The parent's call had fewer operands | 97 |
+| Not paired: no single parent function | 1,383 |
+| Not paired: the function calls the address a different number of times | 1,530 |
+| Total | 76,593 |
+
+The 1,019 calls whose parent call had more operands, by callee family, the
+source folder of the unit that holds the callee's function row:
+
+| Family | Calls | Member calls | Callee addresses | Calling units |
+| --- | ---: | ---: | ---: | ---: |
+| `gamebryo2.2` | 284 | 11 | 22 | 101 |
+| `fallout_shared` | 227 | 168 | 62 | 84 |
+| `fallout` | 148 | 65 | 42 | 49 |
+| `havok` | 94 | 42 | 25 | 39 |
+| `staging` | 78 | 17 | 43 | 49 |
+| `bsshader` | 71 | 0 | 26 | 18 |
+| `bsmenu` | 36 | 13 | 9 | 22 |
+| `bssystem` | 32 | 32 | 1 | 14 |
+| `bscore` | 22 | 17 | 4 | 18 |
+| units directly in `src` | 12 | 12 | 1 | 5 |
+| D3DX forwarders | 5 | 0 | 4 | 4 |
+| `unmapped` | 5 | 1 | 2 | 2 |
+| `region system` | 3 | 3 | 1 | 1 |
+| `bsaudio` | 2 | 0 | 1 | 2 |
+| Total | 1,019 | 381 | 243 | 290 distinct |
+
+- The total of calling units counts each unit once. A unit that calls
+  into several families is in the row of each, so the rows add up to more
+  (408).
+- 219 of the `gamebryo2.2` calls are calls of `0x00a29680`, the two above
+  among them.
+- `bscore` also has 2 constructions.
+- The D3DX forwarders are the 4 lines above and `0x00ee6dc2`, save texture
+  to file, in `0x0079ffb0` in `interface.cpp`, where the parent passed
+  three arguments.
+- The census counts. It does not prove that an argument was lost: the
+  parent's call may have bound another function at the same address under
+  another name. The receiver class is not checked against the parent's
+  argument.
+- It does not see calls in headers, calls through pointers, or calls the
+  compiler could not resolve. The parent was parsed with the tip's compile
+  commands, and 2,038 of its 3,257 units report errors.
 
 ## DDS header reader
 

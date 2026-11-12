@@ -965,7 +965,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
         else
         {
             hkMemoryRouter* h = &hkMemoryRouter::getInstance();
-            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870(*reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18 *>(h->m_heap), reinterpret_cast<intptr_t>(item), reinterpret_cast<intptr_t>(&DAT_01000001));
+            reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870(*reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18 *>(h->m_heap), reinterpret_cast<intptr_t>(item), 0x01000001);
             char* owner = reinterpret_cast<char*>(&this->unk08);
             reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0(owner);
         }

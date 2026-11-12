@@ -1,6 +1,7 @@
 #include "fileformat/pack_writer.h"
 
 #include "fileformat/byte_writer.h"
+#include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_container.h"
 
 #include <limits>
@@ -13,6 +14,10 @@ namespace
 {
 
 constexpr std::string_view format = "data pack";
+
+// The writer writes pack_container::revision as the catalogue version, which
+// must be the source catalogue's.
+static_assert(packCatalogueVersion == pack_container::revision);
 
 [[noreturn]] void Fail(PackWriteProblem problem, std::string_view field, std::string_view text)
 {

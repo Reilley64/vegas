@@ -1,6 +1,7 @@
 #include "fileformat/pack_structure.h"
 
 #include "fileformat/byte_reader.h"
+#include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_container.h"
 
 #include <algorithm>
@@ -18,6 +19,10 @@ using pack_container::magic;
 using pack_container::recordBytes;
 
 constexpr std::string_view format = "data pack";
+
+// The reader accepts pack_container::revision as the catalogue version, which
+// must be the source catalogue's.
+static_assert(packCatalogueVersion == pack_container::revision);
 
 [[noreturn]] void Fail(PackStructureProblem problem, std::string_view field, std::string_view text)
 {

@@ -102,6 +102,15 @@ else()
 endif()
 add_test(NAME fileformat.pack_open COMMAND fileformat_pack_open_test)
 
+# Built the same way. The catalogue is a header, so elsewhere the test needs
+# no unit of its own.
+add_executable(fileformat_pack_catalogue_test fileformat/pack_catalogue_test.cpp)
+target_include_directories(fileformat_pack_catalogue_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(fileformat_pack_catalogue_test PRIVATE game)
+endif()
+add_test(NAME fileformat.pack_catalogue COMMAND fileformat_pack_catalogue_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

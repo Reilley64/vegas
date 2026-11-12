@@ -5,7 +5,9 @@ one pointer to an object that counts its references. This change gives the
 template a declaration that units can share, has the unit that owns
 `operator=(T*)` define that member for the element types other units
 require, and moves 19 units onto the declaration. It follows the method of
-`docs/shared-simple-list.md`, with one departure, the opt-in macro below.
+`docs/shared-simple-list.md`. The first increment departed from it with an
+opt-in macro; a second step, "The flip" below, made the shared header the
+default and gave the units that cannot move a keep macro.
 
 It is a first increment and a small one. Most members of the template have
 no function row under the template's name in `build/units.json`, and the
@@ -62,27 +64,26 @@ COMDAT selection "no duplicates", and is select-any now, with the same
 bytes. A second definition of that name is no longer a link error: check (b)
 is now the only detector.
 
-## The opt-in macro
+## The keep macro
 
 `include/layout_support.h` holds a body of the template with a body in the
 class for every member, and most units of the archive compile it. The owner
-cannot define a member out of line against it. So that text stands under
-`#ifndef FNV_SHARED_NI_POINTER`, and a unit that defines the macro before
-its includes gets `fnv/ni_pointer.h` instead.
+cannot define a member out of line against it. That text stands under
+`#if defined(FNV_KEEPS_OWN_NIPOINTER) || defined(NiPointer)`, and every
+other unit gets `fnv/ni_pointer.h` instead. A unit that cannot move defines
+the macro before its includes and says why. This is the keep-macro method
+of `docs/shared-simple-list.md`. A unit that has `NiPointer` defined as
+another name by a `#define` when it first includes the file keeps the text
+too, under the new name, so `fnv/ni_pointer.h` and its include guard are
+never read under another name.
 
-This is a departure from the list's method. There the shared header is the
-default and a unit that cannot move defines a keep macro. Here the macro is
-an opt-in, and `nishader.cpp` is the one unit that defines it. It is
-transitional and covers that one unit:
+The first increment had the reverse: the text stood under
+`#ifndef FNV_SHARED_NI_POINTER`, an opt-in that only `nishader.cpp`
+defined. The flip ended it; "The flip" below has how and what moved.
 
-- No second unit may opt in.
-- The next step, which the coordinator rules, is the flip: the shared header
-  becomes the default for the units on `layout_support.h` that compile and
-  keep their objects without the in-class bodies, and the others define a
-  keep macro. That step is build-proven on its own, as a declaration move.
-  A compiler scan of the reviewed candidate at 2277431b8 found 358 of the
-  399 units on that text using no member of an implicit instance; that
-  figure is a prediction, not built.
+The macro is transitional. A unit drops it when the header declares the
+members it uses and their owner emits them, or when its object is
+byte-identical without the macro.
 
 ## Element types
 
@@ -210,7 +211,8 @@ the destructor, without bodies. `NiPointer<NiNode>` in that unit is now
 still not emitted: checks (a) to (d) were not run again over its 29
 requiring units.
 
-20 units use the header's declaration: the 19 and `nishader.cpp`.
+20 units used the header's declaration after the first increment: the 19
+and `nishader.cpp`. Since the flip, 343 do.
 
 ## What changed in the link
 
@@ -243,6 +245,157 @@ from the same path, by rebuilding the units whose files changed. The fourth
 was also built fresh: 2,330 steps, none failed, 20,785 warning lines that
 are equal to the first column's once line and column are removed, and every
 object equal to the one the rebuild made.
+
+## The flip
+
+Made on fd23c6a22, in one code commit. The text of `layout_support.h`
+changed its guard from the opt-in to the keep macro or a macro name of
+`NiPointer`, and `nishader.cpp` dropped its opt-in. The rule for a unit is
+the rule for moving a unit, read for that text: it moves when it compiles
+on `fnv/ni_pointer.h` and its object is byte-identical, with only the COFF
+timestamp masked. Otherwise it defines `FNV_KEEPS_OWN_NIPOINTER`. No unit's
+object may change.
+
+The decision was measured, not predicted. The guard was flipped with no
+keep macro, in the build tree of the parent, and the 463 objects that
+depend on `layout_support.h` were rebuilt, from 462 sources. 48 did not
+compile and 29 objects differed. Those 77 units define the macro. Rebuilt
+with it, all 2,322 objects of the build are byte-identical to the parent's.
+
+### The census
+
+The compiler's AST of every unit of the build, at the parent and at the
+flip, gives the definition of the global template each unit sees, and that
+of a template that a `#define NiPointer <name>` gives the name. A unit with
+both is counted under both names.
+
+| At the parent | After the flip | Units |
+| --- | --- | --- |
+| `layout_support.h`, as `NiPointer` | `fnv/ni_pointer.h` | 323 |
+| `layout_support.h`, as `NiPointer` | the same, with the keep macro | 77 |
+| `layout_support.h`, under a macro name only | the same, by the guard | 14 |
+| `fnv/ni_pointer.h` | the same: the 19 moved units and the owner | 20 |
+| A copy in the unit or in another header, or a declaration only | the same | 258 |
+
+The 32 other units whose objects depend on `layout_support.h` see none of
+its text: a header of their own with the same include guard,
+`FNV_LAYOUT_SUPPORT_H`, comes first. Their objects are byte-identical.
+
+The macro names are `FNV_NiPointer_Canonical` (9 units),
+`FNV_NiPointer_Dummy` (2), `FNV_STUB_NiPointer` (2) and `NiPointerLayout`
+(1). Thirteen of these 14 units keep a `NiPointer` of their own, and
+`tesrace.cpp` only declares one. The guard keeps the text of
+`layout_support.h` for them under the macro name, with no keep macro:
+none of the 14 opens `fnv/ni_pointer.h`, before or after the flip.
+`debugshader.cpp`, which renames the template to `FNV_STUB_NiPointer`, is
+one of them, and its object is byte-identical without the keep macro.
+
+343 units see the shared declaration as `NiPointer`, 20 before. 77 define
+the keep macro.
+
+### Why 77 units keep the text
+
+Each unit's comment names the outcome on `fnv/ni_pointer.h` and the members
+of `layout_support.h`'s template that the unit uses, by the AST's mark on
+the members of its implicit instances.
+
+| Outcome on the shared header | Units | Members used, units per member |
+| --- | --- | --- |
+| Does not compile | 48 | destructor 40, conversion to `T*` 40, constructor from `T*` 34, `operator=(T*)` 34, `operator->` 29, copy assignment 18, `operator==` 8, copy constructor 7, `operator!=` 2 |
+| The object changes | 29 | destructor 24, constructor from `T*` 14, `operator=(T*)` 12, copy constructor 6, copy assignment 5 |
+
+A unit can use members on both sides of the header: the header declares
+`operator=(T*)` and no other member. Three units use only that member:
+`bsshadernolighting.cpp`, `nitimecontroller.cpp` and
+`nitpointerlistbase_h_unit.cpp`. The text of `layout_support.h` expands its
+body in line; on the shared header they would call `nishader.cpp`'s
+definition for element types it does not emit. Two units use only the copy
+assignment, which on the shared header is trivial: `blk_00c80000_o2.cpp`
+and `blk_00cc0000_od.cpp`. `mobileobject.cpp` and `taskqueueinterface.cpp`
+also declare explicit specialisations of the constructor and the
+destructor.
+
+By directory: 35 in `src/staging`, 14 in `gamebryo2.2`, 12 in `bsshader`,
+9 in `fallout`, 4 in `fallout_shared`, 2 in `bsmenu`, and
+`tesobjecttree.cpp`.
+
+### What changed in the link
+
+Forced link of every archive member, windows-x64, 2,230 members in the same
+order:
+
+| | fd23c6a22 | The flip |
+| --- | --- | --- |
+| Undefined names | 35,138 | 35,138 |
+| Left / entered | | 0 / 0 |
+| Duplicate symbols | 0 | 0 |
+| Imports | 137 | the same |
+| Objects that differ | | 0 |
+| Names with differing definitions in the archive | 519 | 519 |
+
+The other three cells have the same undefined names, duplicates and
+imports as before, and the lazy link's map has the same body. Every
+definition of a name that contains `NiPointer`, 528 in 510 names, has the
+same defining object, COMDAT selection and content. No recipe row changes
+and `src/generated` is untouched.
+
+Built fresh from the same path as the parent: 2,340 steps, none failed,
+20,630 warning lines, equal to the parent's per object once line and column
+are removed.
+
+The host build differs in one step. `middlehighprocess_h_unit.cpp`, a
+moved unit, did not compile there on the in-class text: the host compiler
+instantiates the destructor's body for pointees that are incomplete in that
+unit. On the shared header it compiles. The host tests have the same
+results as before, optimized and with the sanitizers.
+
+The step yields no name. It lets later steps declare a member once and
+move the units that use it.
+
+### Integration checks on the flip
+
+The four checks were run again on the archive of the flip, and (a) and (d)
+also on its parent, with each unit's own command line.
+
+- (a) and (d): 58 pairs of unit and name, in 43 units and 24 names; the
+  table is equal to the parent's, field by field. Two requiring units are
+  new to the shared header, both for `NiPointer<NiAVObject>::operator=`:
+  `fovatseffectmanager.cpp` and `magicmodelhiteffect.cpp`. Each measures
+  `NiPointer<NiAVObject>` as 8 bytes, as before, and sees `NiAVObject` as
+  incomplete or as an empty class, which passes (d). The one exception of
+  (a) stays `screensplatter.cpp`.
+- (b): the 22 names of the owner's block, one definition each, in
+  `nishader.cpp.obj`, select-any, 77 bytes, one content; 519 names with
+  differing definitions before and after, none entering. The archive test's
+  tool, `tools/differing-definitions` with `--strict`, reports 0 new and 0
+  stale on both.
+- (c): 21 forward declarations and the owner's own type, 0 mismatches.
+
+The checks of `docs/shared-simple-list.md` hold too: 1,376 defined names of
+the list, none with two definitions.
+
+### `NiNode` stays
+
+`NiPointer<NiNode>::operator=` is not emitted. One of its 29 requiring
+units, `tesobjectcell.cpp`, keeps its own copy of the template. Replacing
+that copy by the include was tried on the first-round flip, on b69278d78,
+when the copy had no field, by the rule for moving a unit, and refused: the
+object differed, in `FUN_005436e0_shell::FUN_005436e0` only. That function
+calls `MakeNavMeshPointer`, which returns a `NiPointer<NavMesh>` by value,
+and the call already misread the result: the callee returns it through a
+hidden result address, and the caller passed the mesh where that address
+belongs. VEGAS-96 repaired the call at the unit's copy, which now has the
+field and declares the copy constructor and the destructor (above, and
+`docs/navmesh-pointer-result.md`).
+
+The shared header's `NiPointer` is trivially copyable, while the
+definition its members' owners compile, the text of `layout_support.h`
+with a copy constructor and a destructor, is not. So any `NiPointer` that
+a unit on the shared header returns or passes by value across units, to or
+from a function compiled against that text, is the defect class of
+VEGAS-96; VEGAS-98 audits those calls. The flip itself changes no object.
+The name stays undefined until VEGAS-98 is resolved and checks (a) to (d)
+are run again over its requiring units.
 
 ## Integration checks
 
@@ -383,6 +536,13 @@ before.
   acceptable as recorded (the rulings above).
 - The explicit specialisations of the template, and the copies of the
   primary template that did not move.
+- The 77 units on the keep macro. They use members that the header does
+  not declare, or expand `operator=(T*)` in line, and stay on the text of
+  `layout_support.h` until the header declares those members and an owner
+  emits them for the units' element types.
+- The 14 units that read `layout_support.h` under a macro name of
+  `NiPointer`. They keep its text by the guard; their own `NiPointer` is
+  one of the copies above.
 - Namespace-scoped templates named `NiPointer`, such as
   `fnv_00b8a1f0::NiPointer`: 80 member names in 28 namespaces, 67 of them
   undefined. They are other classes under the template's name and need

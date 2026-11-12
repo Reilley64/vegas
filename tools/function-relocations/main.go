@@ -36,6 +36,8 @@ type table struct {
 //
 //	forbid<TAB>NAME
 //	function<TAB>BATCH<TAB>UNIT<TAB>NAME<TAB>REQUIRED NAME[ REQUIRED NAME...]
+//
+// A REQUIRED field of "-" requires no name.
 func readTable(text string) (table, error) {
 	var t table
 	for i, line := range strings.Split(text, "\n") {
@@ -47,7 +49,11 @@ func readTable(text string) (table, error) {
 		case f[0] == "forbid" && len(f) == 2 && f[1] != "":
 			t.forbids = append(t.forbids, f[1])
 		case f[0] == "function" && len(f) == 5 && f[1] != "" && f[2] != "" && f[3] != "" && f[4] != "":
-			t.functions = append(t.functions, function{f[1], f[2], f[3], strings.Fields(f[4])})
+			requires := strings.Fields(f[4])
+			if f[4] == "-" {
+				requires = nil
+			}
+			t.functions = append(t.functions, function{f[1], f[2], f[3], requires})
 		default:
 			return table{}, fmt.Errorf("table line %d is malformed", i+1)
 		}

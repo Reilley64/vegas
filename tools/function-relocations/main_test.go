@@ -70,6 +70,11 @@ const testTable = "# comment\n\nforbid\t?old@@YAXXZ\n" +
 // setup writes the table, the two objects and the object list, and returns
 // the arguments that name the table and the list.
 func setup(t *testing.T, a, b []byte) []string {
+	return setupTable(t, testTable, a, b)
+}
+
+// setupTable is setup with another table.
+func setupTable(t *testing.T, text string, a, b []byte) []string {
 	dir := t.TempDir()
 	write := func(name string, data []byte) string {
 		path := filepath.Join(dir, name)
@@ -81,7 +86,7 @@ func setup(t *testing.T, a, b []byte) []string {
 		}
 		return path
 	}
-	table := write("table.tsv", []byte(testTable))
+	table := write("table.tsv", []byte(text))
 	pa := write("game.dir/src/a.cpp.obj", a)
 	pb := write("game.dir/src/b.cpp.obj", b)
 	list := write("objects.txt", []byte(pa+"\n"+pb+"\n"))
@@ -114,6 +119,16 @@ func TestForbiddenTargetFails(t *testing.T) {
 func TestMissingRequiredTargetFails(t *testing.T) {
 	args := setup(t, testObject("?f@@YAXXZ", true, "?new@@YAXXZ"), testObject("?g@@YAXXZ", true))
 	check(t, args, 1, "FAIL\ttwo\t?g@@YAXXZ\tno relocation to ?new@@YAXXZ")
+}
+
+func TestNoRequiredName(t *testing.T) {
+	text := "forbid\t?old@@YAXXZ\n" +
+		"function\tone\tsrc/a.cpp\t?f@@YAXXZ\t-\n" +
+		"function\ttwo\tsrc/b.cpp\t?g@@YAXXZ\t-\n"
+	pass := setupTable(t, text, testObject("?f@@YAXXZ", true), testObject("?g@@YAXXZ", true, "?other@@YAXXZ"))
+	check(t, pass, 0, "ok\ttwo\t?g@@YAXXZ")
+	fail := setupTable(t, text, testObject("?f@@YAXXZ", true, "?old@@YAXXZ"), testObject("?g@@YAXXZ", true))
+	check(t, fail, 1, "FAIL\tone\t?f@@YAXXZ\t1 relocations to ?old@@YAXXZ")
 }
 
 func TestBatchSelectsFunctions(t *testing.T) {

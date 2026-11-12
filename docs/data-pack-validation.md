@@ -4,9 +4,9 @@
 
 `fileformat::CheckPackOriginal` in `src/fileformat/pack_validation.h` is
 the step after the structural reader of `data-pack-structure.md`: it
-decides whether a well-formed pack records an original release the caller
-supports. `fileformat::OpenPack` in `src/fileformat/pack_open.h` is the
-step a later startup calls: it reads the file of a pack and checks it.
+decides whether a well-formed pack records a supported original release.
+`fileformat::OpenPack` in `src/fileformat/pack_open.h` is the step a later
+startup calls: it reads the file of a pack and checks it.
 Both are game library code in `src/fileformat`, beside the reader and the
 writer, because the pack decision record, ADR 0001, has setup and the
 engine use the same validator. There is no engine loading code yet to put
@@ -21,9 +21,13 @@ start.
 
 ## Checking the original
 
-`CheckPackOriginal` takes the bytes of a file and the supported original
-releases, each an `OriginalIdentity`, the version and SHA-256 that
-`IdentifyOriginal` of `pe-file-reader.md` returns. It runs in this order:
+`CheckPackOriginal` takes the bytes of a file and no set. It checks them
+against `SupportedOriginals()`, the one release the source owns, described
+in `pe-file-reader.md`. Each release is an `OriginalIdentity`, the version
+and SHA-256 that `IdentifyOriginal` of `pe-file-reader.md` returns.
+`CheckPackOriginalAgainst` takes a set as well. It is for the tests of the
+comparison only, and no file under `src/` calls it. Both use one
+comparison, which runs in this order:
 
 | Check | Error | Problem |
 | --- | --- | --- |
@@ -34,11 +38,11 @@ releases, each an `OriginalIdentity`, the version and SHA-256 that
 The container checks include the four revision and target fields and that
 every payload lies inside the file, so an unsupported revision and an
 entry out of bounds are refused before the original is compared. An empty
-supported set refuses every pack.
+set given to `CheckPackOriginalAgainst` refuses every pack.
 
-Only `CheckPackOriginal` constructs an `OriginalCheckedPack`. It can be
-moved, not copied, and no constructor, conversion or flag makes one from a
-`PackStructure`. It gives:
+Only `CheckPackOriginal` and `CheckPackOriginalAgainst` construct an
+`OriginalCheckedPack`. It can be moved, not copied, and no constructor,
+conversion or flag makes one from a `PackStructure`. It gives:
 
 - `Original()`, the supported identity the header matched;
 - `Entries()`, the directory in order, keys and versions as stored;
@@ -51,20 +55,21 @@ that has been moved from still reports its original but has no entries.
 ## What it leaves unchecked
 
 `OriginalCheckedPack::Unchecked()` lists, as `UncheckedPackRequirement`,
-what is not checked yet:
+what is not checked because it is not decided:
 
 - `Catalogue`: which keys exist, which version of each is supported and
   which entries a pack needs. No key is refused or required, so a pack of
   any entries passes. Keys are not required to be ASCII here: that is left
   to the catalogue.
 - `EntryValues`: what an entry's bytes mean. No entry is decoded.
-- `SourceOwnedOriginals`: the original is compared with the set the caller
-  gives. The source holds no set yet, so no version or digest is written
-  into it.
+
+A third, `SourceOwnedOriginals`, was removed when the source took
+ownership of the supported set and production code could no longer pass a
+set of its own.
 
 The comparison is of what the pack claims. Nothing here reads an
 executable or computes a digest, and a match does not prove where the
-pack came from. Each of the three is to be removed from the list by the
+pack came from. Each of the two is to be removed from the list by the
 change that checks it.
 
 ## Rulings on the next stages
@@ -75,19 +80,27 @@ These were ruled for this stage:
   exist in the source: a supported-original set, version 1.4.0.525 with
   the SHA-256 of the supported release's complete `FalloutNV.exe`, adopted
   by the owner under the reviewed procedure; and the complete catalogue,
-  its keys, entry versions, required entries and decoding.
-- A supported set given by the caller is acceptable for this stage and its
-  tests. It is never an input to whatever constructs `ValidatedPack`: the
-  complete validator takes no set parameter.
+  its keys, entry versions, required entries and decoding. The set exists
+  now, adopted on VEGAS-52 on 2026-11-12. The catalogue does not, so
+  `main` still does not open a pack.
+- No production function takes a supported set. `OpenPack`,
+  `CheckPackOriginal` and `IdentifyOriginal` check against
+  `SupportedOriginals()`. The forms that take a set,
+  `CheckPackOriginalAgainst` and `IdentifyOriginalAgainst`, are for tests
+  of the comparison only, and no file under `src/` calls them. A set is
+  never an input to whatever constructs `ValidatedPack`: the complete
+  validator takes no set parameter.
+- Removing `SourceOwnedOriginals` from `Unchecked()` is correct, now that
+  production code cannot pass a set.
 - Keys that are not ASCII are left to the catalogue.
 
 ## Opening
 
-`OpenPack` takes a path and the supported set. It opens the file, reads it
-to the end in chunks of 1 MiB and passes the bytes to `CheckPackOriginal`.
-The size used is the number of bytes read, not one taken before reading.
-On Windows it opens the wide path, so a path outside the ANSI code page
-opens, and other processes may read the file meanwhile but not write it.
+`OpenPack` takes a path only. It opens the file, reads it to the end in
+chunks of 1 MiB and passes the bytes to `CheckPackOriginal`. The size used
+is the number of bytes read, not one taken before reading. On Windows it
+opens the wide path, so a path outside the ANSI code page opens, and other
+processes may read the file meanwhile but not write it.
 
 | Check | Error | Problem |
 | --- | --- | --- |
@@ -103,23 +116,32 @@ folder at the path opens but fails to read; both are `Unreadable`.
 `PackOpenError` is a `std::runtime_error`, not a `FormatError`, because no
 bytes were read. An allocation failure throws the standard exceptions.
 
-Only the file at the path is read. Where the path and the supported set
-come from is the caller's.
+Only the file at the path is read. Where the path comes from is the
+caller's. The supported set is the source's, `SupportedOriginals()`, and
+is not a parameter.
 
 ## Tests
 
 `tests/fileformat/pack_validation_test.cpp` writes its packs with
-`WritePackStructure` and uses made-up digests. It checks the only, the
-second and the highest-versioned identity and reads back every key,
-version and payload. It refuses an empty set, a version that differs in
-each part, every changed digest byte and the digest of another supported
-version, and expects a damaged container to be reported before its
-original. It refuses an entry index past the end, lists the unchecked
-requirements, reads the payloads of a pack moved by construction and by
+`WritePackStructure`. For the comparison it calls
+`CheckPackOriginalAgainst` with made-up digests and sets of its own. It
+checks the only, the second and the highest-versioned identity and reads
+back every key, version and payload. It refuses an empty set, a version
+that differs in each part, every changed digest byte and the digest of
+another supported version, and expects a damaged container to be reported
+before its original. With `CheckPackOriginal` it checks a pack that
+records the version and digest of `tests/fileformat/supported_release.h`,
+the supported release's identity spelled by the tests, and refuses each
+changed byte of that digest, a made-up digest and a version that differs
+in each part. Such a pack claims the release's identity: it is compared,
+not proved. On packs from `CheckPackOriginal` it refuses an entry index
+past the end and reads the payloads of a pack moved by construction and by
 assignment, and the original and empty directory of each pack it was moved
-from. It states at compile time that an `OriginalCheckedPack` cannot be
-default constructed, built from a `PackStructure` or copied, and that a
-temporary offers none of `Original()`, `Entries()` and `EntryBytes()`.
+from. It lists the unchecked requirements. It states at compile time that
+an `OriginalCheckedPack` cannot be default constructed, built from a
+`PackStructure` or copied, that a temporary offers none of `Original()`,
+`Entries()` and `EntryBytes()`, and that `CheckPackOriginal` takes no set,
+neither a span nor an array, while `CheckPackOriginalAgainst` does.
 
 `tests/fileformat/pack_open_test.cpp` writes its packs into a folder of its
 own under the temporary folder and removes it at the end. It opens a pack
@@ -128,7 +150,9 @@ than two chunks, and a pack with no other file beside it. It refuses a
 missing file, a missing folder, a folder in place of the file, a file
 without read permission and an empty file. It changes one field at a
 time, storing a matching CRC-32 again, and expects each
-`PackStructureProblem`, and it refuses an unsupported version and digest.
+`PackStructureProblem`. Its packs record the supported release's identity
+of `supported_release.h`, and it refuses a pack that records another
+version, a made-up digest or that digest with its last byte changed.
 Where permissions do not stop the test reading a file, as on Windows, the
 read permission case prints that it was not run.
 
@@ -138,6 +162,14 @@ is the form that runs under AddressSanitizer and UndefinedBehaviorSanitizer.
 
 The tests show these functions on synthetic packs only. They do not show
 a real pack, a complete pack or startup.
+
+## What remains
+
+- The complete catalogue: its keys, entry versions, required entries and
+  decoding. Until it exists `main` does not open a pack.
+- Hashing in setup: setup computes the SHA-256 of the executable it reads
+  and compares it with `SupportedOriginals()`, as `pe-file-reader.md`
+  says. The SHA-256 code is a separate change; nothing hashes yet.
 
 ## Build
 

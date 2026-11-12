@@ -250,9 +250,10 @@ source has those four capacities.
 They follow D1 and D3, with C1 as the first entry. The packs, executables and
 values in their tests are synthetic.
 
-1. **Catalogue version 1 and `ValidatePack` (VEGAS-52).** The source's
-   supported set, the catalogue of the first entry, its decoder, `ValidatePack`
-   and `ValidatedPack`. About 400 lines with tests. Tests: a pack of the entry
+1. **Catalogue version 1 and `ValidatePack` (VEGAS-52).** The catalogue of
+   the first entry, its decoder, `ValidatePack` and `ValidatedPack`; the
+   source's supported set exists (`pe-file-reader.md`). About 400 lines with
+   tests. Tests: a pack of the entry
    validates and returns the decoded values; an unknown key, a wrong entry
    version, a missing entry, an unsupported original and each shape problem
    are refused with their problem, in the stated order; the shape problems

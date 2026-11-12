@@ -6,7 +6,7 @@
 the section table and the version resource of a 32-bit x86 Windows
 executable. `fileformat::IdentifyOriginal` in
 `src/fileformat/original_identity.h` compares what it read, and a SHA-256 of
-the file, with a set of supported original releases. They are the next step
+the file, with the supported original releases. They are the next step
 of VEGAS-13 after the data pack writer: setup will use them to identify the
 original release before it prepares a pack. Nothing calls them yet.
 
@@ -111,32 +111,48 @@ children, such as the string tables, are not read.
 
 ## Original identification
 
-`IdentifyOriginal` takes a `PeFile`, a SHA-256 of the whole file and the
-supported identities, each a file version and a digest: the two values a
-data pack's header records as its original. It returns the identity whose
-version is the file version and whose digest is the digest given. Otherwise
-it throws an `UnsupportedOriginalError`, which is a `std::runtime_error`,
-not a `FormatError`, because the bytes may be well formed:
+`IdentifyOriginal` takes a `PeFile` and a SHA-256 of the whole file, and no
+set. It compares them with `SupportedOriginals()`, the set the source owns,
+below, whose identities are each a file version and a digest: the two
+values a data pack's header records as its original. It returns the
+identity whose version is the file version and whose digest is the digest
+given. Otherwise it throws an `UnsupportedOriginalError`, which is a
+`std::runtime_error`, not a `FormatError`, because the bytes may be well
+formed:
 
 | Check | Problem |
 | --- | --- |
 | A supported identity has the file version | `Version` |
 | One of those has the digest | `Digest` |
 
-An empty set refuses every executable. The product version is not
-compared.
+`IdentifyOriginalAgainst` takes a set as well. It is for the tests of the
+comparison only, and no file under `src/` calls it. An empty set given to
+it refuses every executable. The product version is not compared.
 
 The data pack's header records the original as `original_version` and
 `original_sha256`. This reader takes `original_version` to be the file
 version from the `VS_FIXEDFILEINFO`, the version `IdentifyOriginal`
 compares. The pack decision record, ADR 0001, fixes the version as
 1.4.0.525, the original release of the glossary, but does not say whether
-it is the file or the product version. It also leaves the accepted digest
-set unspecified. Until it is specified the supported set is the caller's,
-and no version or digest is written into the source. How the SHA-256 is
-computed is not decided either: zlib has none, and a hashing dependency or
-an implementation of our own needs a review first. So the caller computes
-the digest over `PeFile::bytes`, and nothing here hashes.
+it is the file or the product version. How the SHA-256 is computed is not
+decided: zlib has none, and a hashing dependency or an implementation of
+our own needs a review first. So the caller computes the digest over
+`PeFile::bytes`, and nothing here hashes.
+
+## The supported original release
+
+`SupportedOriginals()` in `src/fileformat/original_identity.h` is the set
+of supported original releases, owned by the source. It holds exactly one:
+`FalloutNV.exe` of the Steam release as Steam distributes it, file version
+1.4.0.525, with the SHA-256 of the whole file. The owner adopted it on
+VEGAS-52 on 2026-11-12. The source records only these identification
+values, the file version and the digest, and in a comment the file's size
+of 16,549,704 bytes and that decision. No other byte or value of the file
+is written into the source.
+
+`IdentifyOriginal`, and `CheckPackOriginal` and `OpenPack` of
+`data-pack-validation.md`, take no set: each checks against this one. The
+size is not compared: nothing reads it from a file.
 
 ## Rulings
 
@@ -153,6 +169,10 @@ These choices were reviewed and kept:
 - A section with bytes in the file and a virtual size of 0 is refused to
   fail closed, because the PE specification does not define it; one with
   neither is accepted.
+- `supportedOriginalReleases` is accepted as the name of the array behind
+  `SupportedOriginals()`.
+- A check of the executable's size is optional. If one is added, it runs
+  in setup before hashing, and it never replaces the digest.
 
 ## What remains
 
@@ -160,9 +180,10 @@ These choices were reviewed and kept:
   setup target once there is one; they are game archive members until
   then.
 - Setup must hash `PeFile::bytes`, the same buffer it parsed, in one
-  operation. Passing a digest to `IdentifyOriginal`, as it is offered now,
-  must not be setup's path, since nothing then ties the digest to the
-  bytes read.
+  operation, and compare the result with `SupportedOriginals()`. The
+  SHA-256 code is a separate change. Passing a digest to
+  `IdentifyOriginal`, as it is offered now, must not be setup's path,
+  since nothing then ties the digest to the bytes read.
 - Extraction, a later step, must refuse the stored bytes of executable or
   code sections and read only data.
 
@@ -172,7 +193,12 @@ These choices were reviewed and kept:
 memory, while the test runs. It states every field offset itself from the
 specification and does not share them with the reader. The files hold no
 code and nothing from the original release: section bytes are a pattern
-of the test's, and the digests are made up. No executable is committed.
+of the test's, and the digests are made up, except the supported
+release's digest of `tests/fileformat/supported_release.h`. That header
+spells the release's version and digest, the digest as text, so that the
+tests do not share the source's bytes. A fixture that records them claims
+the release's identity: it is compared, not proved. No executable is
+committed.
 
 `tests/fileformat/pe_file_test.cpp` reads a file with code, constants,
 data with a zero-initialised tail and a version resource, and checks every
@@ -193,10 +219,17 @@ resource directory that ends one byte before the end of its data entry.
 When a file has several problems it expects the one met first, in the
 stated order up to the entry point and in walk order in the resource.
 
-`tests/fileformat/original_identity_test.cpp` identifies the only, the
-second and the highest-versioned identity, and refuses an empty set, a
-version that differs in each part, a match of the product version only,
-every changed digest byte and the digest of another supported version.
+`tests/fileformat/original_identity_test.cpp` tests the comparison with
+`IdentifyOriginalAgainst`: it identifies the only, the second and the
+highest-versioned identity, and refuses an empty set, a version that
+differs in each part, a match of the product version only, every changed
+digest byte and the digest of another supported version. It checks that
+`SupportedOriginals()` holds exactly the version and digest of
+`supported_release.h`. With `IdentifyOriginal` it identifies a fixture of
+that version that claims the digest, and refuses each changed byte of that
+digest, a made-up digest and a version that differs in each part. It
+states at compile time that `IdentifyOriginal` takes no set, neither a
+span nor an array, while `IdentifyOriginalAgainst` does.
 
 On Windows the tests link the game archive. On other hosts the archive does
 not build, so the tests compile the units themselves; this is the form that

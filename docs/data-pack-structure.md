@@ -59,7 +59,9 @@ The decision record leaves these undecided, so the reader passes the values
 on and decides nothing about them:
 
 - `originalVersion` and `originalSha256` are the original release the pack
-  claims to come from. The set of supported identities is not decided.
+  claims to come from. The reader does not compare them with the supported
+  set the source owns; `CheckPackOriginal` of `data-pack-validation.md`
+  does.
 - An entry's key and version are stored as read. Which keys exist, which
   version of each is supported and which entries are required belong to the
   catalogue, which is not decided. Keys are not required to be ASCII here,
@@ -70,9 +72,9 @@ on and decides nothing about them:
 The check of the original is described in `data-pack-validation.md`.
 There is no flag, constructor or conversion that turns a `PackStructure`
 into an `OriginalCheckedPack` or a `ValidatedPack`: only
-`CheckPackOriginal` makes an `OriginalCheckedPack`. `ValidatedPack` is the
-name kept for the result of the complete validator, `ValidatePack`, which
-is not written.
+`CheckPackOriginal` and `CheckPackOriginalAgainst` make an
+`OriginalCheckedPack`. `ValidatedPack` is the name kept for the result of
+the complete validator, `ValidatePack`, which is not written.
 
 ## Writer
 

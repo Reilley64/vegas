@@ -126,6 +126,26 @@ target_include_directories(sha256_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(sha256_test PRIVATE mbedtls_sha256)
 add_test(NAME sha256.nist_vectors COMMAND sha256_test ${CMAKE_CURRENT_SOURCE_DIR}/sha256)
 
+# Setup's recipe ranges of C1 match the recipe (tools/setup-recipe-ranges).
+# Without Python 3 the configure goes on, and the test is still registered
+# and fails with that reason, so the check is never silently missing.
+find_package(Python3 COMPONENTS Interpreter)
+if(Python3_Interpreter_FOUND)
+  add_test(NAME setup.recipe_ranges
+    COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/setup-recipe-ranges/check.py
+            --recipe ${PROJECT_SOURCE_DIR}/build/units.json
+            --source ${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h)
+else()
+  string(CONCAT setup_recipe_ranges_missing
+    "Python 3 was not found when configuring, so setup.recipe_ranges cannot "
+    "run (tools/setup-recipe-ranges). Install Python 3 and configure again.")
+  message(WARNING "${setup_recipe_ranges_missing}")
+  add_test(NAME setup.recipe_ranges
+    COMMAND ${CMAKE_COMMAND} -E echo "${setup_recipe_ranges_missing}")
+  set_tests_properties(setup.recipe_ranges PROPERTIES
+    FAIL_REGULAR_EXPRESSION "Python 3 was not found")
+endif()
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

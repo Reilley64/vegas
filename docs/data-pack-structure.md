@@ -84,9 +84,9 @@ writer of the same container, the first step of VEGAS-13. It takes the
 entries in order, each a key, a version and a payload, with the original
 version and SHA-256 for the header, and returns the bytes of the file. It
 is game library code, so setup can use the writer, and setup and the
-engine the same reader. Only tests call it, among them the fixture that
-writes the pack for the `falloutnv.process_exit` test, and it does not
-prepare a pack from an original release.
+engine the same reader. Setup calls it with the entry it prepared from an
+original release (`setup.md`). Tests call it too, among them the fixture
+that writes the pack for the `falloutnv.process_exit` test.
 
 The four revision and target fields are written as 1. The directory
 follows the header and the payloads follow the directory, end to end in

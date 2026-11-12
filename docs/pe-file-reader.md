@@ -7,8 +7,8 @@ the section table and the version resource of a 32-bit x86 Windows
 executable. `fileformat::IdentifyOriginal` in
 `src/fileformat/original_identity.h` compares what it read, and a SHA-256 of
 the file, with the supported original releases. They are the next step
-of VEGAS-13 after the data pack writer: setup will use them to identify the
-original release before it prepares a pack. Nothing calls them yet.
+of VEGAS-13 after the data pack writer: setup uses them to identify the
+original release before it prepares a pack (`setup.md`).
 
 The reader takes the whole file as bytes and returns a `PeFile` that owns
 them. It reads every field with `ByteReader`, as an unsigned little-endian
@@ -177,16 +177,14 @@ These choices were reviewed and kept:
 
 ## What remains
 
-- Move `pe_file`, `original_identity` and the data pack writer into a
-  setup target once there is one; they are game archive members until
-  then.
-- Setup must hash `PeFile::bytes`, the same buffer it parsed, in one
-  operation, with the `mbedtls_sha256` target, and compare the result
-  with `SupportedOriginals()`. Passing a digest to
-  `IdentifyOriginal`, as it is offered now, must not be setup's path,
-  since nothing then ties the digest to the bytes read.
-- Extraction, a later step, must refuse the stored bytes of executable or
-  code sections and read only data.
+- `pe_file`, `original_identity` and the data pack writer stay game
+  archive members. Setup compiles them itself from the same sources, by
+  ruling D-2 of 2026-11-12 (`setup.md`).
+
+Setup hashes `PeFile::bytes`, the same buffer it parsed, in one operation,
+with the `mbedtls_sha256` target, and compares the result with
+`SupportedOriginals()`. It refuses the stored bytes of executable or code
+sections and reads only data (`setup.md`).
 
 ## Tests
 

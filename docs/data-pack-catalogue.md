@@ -2,10 +2,11 @@
 
 ## Status
 
-This page is a design, not a description of code. Of its next increments
-the first two are implemented: catalogue version 1 and `ValidatePack`,
-which `data-pack-validation.md` describes, and the pack stage in `main`
-with C1's consumer, which `data-pack-startup.md` describes. It answers what the
+This page is a design, not a description of code. Its three next increments
+are implemented: catalogue version 1 and `ValidatePack`,
+which `data-pack-validation.md` describes, the pack stage in `main`
+with C1's consumer, which `data-pack-startup.md` describes, and setup,
+which `setup.md` describes. It answers what the
 catalogue that ADR 0001 requires must hold before the engine may start
 with a data pack, and how setup fills each entry from the original
 release. It records no value of the original release. The
@@ -276,7 +277,8 @@ values in their tests are synthetic.
    executable swapping. On an unattended runner `falloutnv.process_exit` must not stop
    at a modal message, such as the second-instance or remote-session message
    box; those two branches are tested without modal UI.
-3. **Setup for catalogue version 1 (VEGAS-13).** SHA-256 of the executable,
+3. **Setup for catalogue version 1 (VEGAS-13), implemented.** `setup.md`
+   describes the code. SHA-256 of the executable,
    identification, the section rules above, decoding, writing and validation
    of the staged pack. About 500 lines with tests, beside the SHA-256 module.
    Tests: executables built in memory with synthetic bytes at the source

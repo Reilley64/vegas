@@ -14,7 +14,6 @@ class Actor
 };
 class BGSPerkEntry;
 #include "fnv/bs_simple_list.h"
-template <> void BSSimpleList<const char*>::RemoveHead();
 struct GlobalObject2_0096a2d0
 {
 };

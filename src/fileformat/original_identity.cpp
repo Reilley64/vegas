@@ -5,8 +5,11 @@
 namespace fileformat
 {
 
-OriginalIdentity IdentifyOriginal(const PeFile& pe, const std::array<std::byte, 32>& sha256,
-                                  std::span<const OriginalIdentity> supported)
+namespace
+{
+
+OriginalIdentity Identify(const PeFile& pe, const std::array<std::byte, 32>& sha256,
+                          std::span<const OriginalIdentity> supported)
 {
     const auto sameVersion = [&](const OriginalIdentity& identity) { return identity.version == pe.fileVersion; };
     if (std::ranges::none_of(supported, sameVersion))
@@ -18,6 +21,19 @@ OriginalIdentity IdentifyOriginal(const PeFile& pe, const std::array<std::byte, 
         throw UnsupportedOriginalError(OriginalProblem::Digest,
                                        "original release: SHA-256: is not that of a supported file of this version");
     return *match;
+}
+
+} // namespace
+
+OriginalIdentity IdentifyOriginal(const PeFile& pe, const std::array<std::byte, 32>& sha256)
+{
+    return Identify(pe, sha256, SupportedOriginals());
+}
+
+OriginalIdentity IdentifyOriginalAgainst(const PeFile& pe, const std::array<std::byte, 32>& sha256,
+                                         std::span<const OriginalIdentity> supported)
+{
+    return Identify(pe, sha256, supported);
 }
 
 } // namespace fileformat

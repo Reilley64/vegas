@@ -6,6 +6,8 @@ extern int DAT_010c52bc;
 extern int DAT_010c5398;
 // 0x010c53b4
 extern int DAT_010c53b4;
+// 0x010c53bc
+extern void (*DAT_010c53bc)(int *);
 // 0x010c59f4
 extern int DAT_010c59f4;
 // 0x010c5ae8

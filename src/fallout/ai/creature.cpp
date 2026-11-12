@@ -1130,7 +1130,6 @@ struct DAT_010c53b4_t
 {
     void* vtable;
     void*(* Alloc)(void*, unsigned int);
-    void(* Free)(void*, void*);
 };
 
 
@@ -1156,7 +1155,7 @@ struct LocalObj
         vptr = &(*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4));
         if (data)
         {
-            (*reinterpret_cast<::DAT_010c53b4_t *>(&::DAT_010c53b4)).Free(this, data);
+            ::DAT_010c53bc(static_cast<int *>(data));
         }
     }
 };

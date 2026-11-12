@@ -55692,7 +55692,8 @@
     "?FUN_00c80c00@@YAPAUNiObject@@PAUWorkNode_cls@@PAUWorkStack_cls@@II@Z": "0x00c80c00",
     "?GetExtraDataChecked@@YAPAXPAUNiAVObjectX@@@Z": "0x00c43490",
     "?FUN_00c68900@@YAXPAUS_00c68900_Node@@PAUS_00c68900_Context@@P6AXPAX1@Z@Z": "0x00c68900",
-    "?DAT_011afe9c@@3P6AXPAVNiCollisionObject@@PAUCollisionObjectCountContext@@@ZA": "0x011afe9c"
+    "?DAT_011afe9c@@3P6AXPAVNiCollisionObject@@PAUCollisionObjectCountContext@@@ZA": "0x011afe9c",
+    "?DAT_010c53bc@@3P6GXPAH@ZA": "0x010c53bc"
    }
   },
   {

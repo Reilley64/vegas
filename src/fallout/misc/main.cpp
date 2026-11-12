@@ -6482,7 +6482,6 @@ struct Receiver86
     void FUN_0086bae0(void*, int);
     void FUN_004a03c0();
     void FUN_00ec16d0(const char*, int, int, int, int, float);
-    void FUN_0086cf20(Receiver86*);
     int FUN_006629f0();
     void FUN_006eb8c0();
     void FUN_006c07d0();
@@ -6946,7 +6945,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 ::FUN_00866ff0();
                 reinterpret_cast<::BEC16D0MoviePlayerThread *>(((*reinterpret_cast<::Receiver86 * *>(&::DAT_0126fac4))))->FUN_00ec16d0((void *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting86 *>(&::g_011de72c))))->GetMenuTitle()))), 0, -1, 1, 1, 0.0f);
                 memoryContext11.Leave();
-                ((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086cf20((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())));
+                ((::BootInit*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086cf20((::ScenePart*)((::BSFaceGenNiNode *)(::FUN_0045c670())));
                 FUN_0086be90(((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())))->FUN_006629f0());
                 FUN_0086be80(((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())))->FUN_006629f0());
                 if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)

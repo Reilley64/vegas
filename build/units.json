@@ -119749,7 +119749,7 @@
     "?g_011de72c@@3VGlobalObject2_0045cfe0@@A": "0x011de72c",
     "?DAT_0126fac4@@3PAVBGSMoviePlayer@@A": "0x0126fac4",
     "?FUN_00ec16d0@BEC16D0MoviePlayerThread@@QAEXPAX_NH11M@Z": "0x00ec16d0",
-    "?FUN_0086cf20@Receiver86@@QAEXPAU1@@Z": "0x0086cf20",
+    "?FUN_0086cf20@BootInit@@QAEXPAUScenePart@@@Z": "0x0086cf20",
     "?FUN_006629f0@Receiver86@@QAEHXZ": "0x006629f0",
     "?FUN_0086be90@@YAHZZ": "0x0086be90",
     "?FUN_00713d80@@YAPAVGlobalObject_008c71d0@@XZ": "0x00713d80",

@@ -1839,8 +1839,6 @@ void* FUN_00852fd0_cls::InitializeBuffer(unsigned int aiCount)
     return this;
 }
 
-int __cdecl DAT_00ffffff;
-
 struct FUN_00857bf0_Class
 {
     char pad[0x4c];
@@ -2954,8 +2952,6 @@ FUN_008562c0_cls* FUN_008562c0_cls::FUN_008562c0()
     m_08 = 0xffff;
     return this;
 }
-
-extern int DAT_00ffffff;
 
 struct FUN_00857c70_StandIn
 {

@@ -361,9 +361,6 @@ bool FUN_00767b80_shell::HandleButton10(int aiButton, float afValue)
     return false;
 }
 
-struct T7021b0
-{
-};
 struct C7687d0
 {
     void FUN_007687d0();
@@ -651,16 +648,14 @@ struct FUN_007021b0_cls
     void FUN_00702220();
     void* DestroyOrFree(unsigned int flags);
 };
-// Reads a pointer from this, and if it is non-null calls its DestroyOrFree with 3.
+// Deletes the HackingArrayElement array whose pointer is the first word of
+// this. The original calls the element's vector deleting destructor
+// (0x007021b0) with flags 3 when the pointer is non-null, which is delete[]:
+// docs/hacking-element-release.md.
 // @fnv 0x007687d0
 void C7687d0::FUN_007687d0()
 {
-    T7021b0* q;
-    {
-        T7021b0* a = *reinterpret_cast<T7021b0**>(this);
-        q = a;
-    }
-    q ? ((std::intptr_t)(reinterpret_cast<::FUN_007021b0_cls *>((q))->DestroyOrFree(3))) : 0;
+    delete[] *reinterpret_cast<HackingArrayElement**>(this);
 }
 
 extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());

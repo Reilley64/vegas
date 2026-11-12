@@ -791,4 +791,15 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
       -DWORK=${CMAKE_CURRENT_BINARY_DIR}/empty_import_slots.relocations.txt
       "-DNAMES=DAT_00fdf1ec,?DAT_00fdf1ec@@3P6AJPECJJ@ZEA,?DAT_00fdf05c@@3P6AXPEAU_RTL_CRITICAL_SECTION@@@ZEA,?DAT_00fdf100@@3P6AXPEAU_RTL_CRITICAL_SECTION@@@ZEA"
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_no_relocation.cmake)
+
+# Fails when the function that deletes the hacking menu's element array
+# (0x007687d0, VEGAS-72) again calls the transcribed vector deleting destructor
+# or its 32-bit callees, or no longer calls the element's destructor and the
+# sized array delete. Cross build only, like the checks above; it uses the
+# object list and GO_EXECUTABLE that they set up.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.hacking_array_retirement
+    COMMAND ${GO_EXECUTABLE} run . --table hacking-array-retirement.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()

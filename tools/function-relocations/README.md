@@ -28,8 +28,10 @@ such as `src/fallout_shared/teswater.cpp`.
 
 CTest runs it in the windows-x64 cross build only, like
 `archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
-per batch of `d3dx-call-arguments.tsv`. CMake writes the object list of the
-game archive to `game-objects.txt` in the build's `tests` folder.
+per batch of `d3dx-call-arguments.tsv`, and
+`objects.hacking_array_retirement` for `hacking-array-retirement.tsv`. CMake
+writes the object list of the game archive to `game-objects.txt` in the
+build's `tests` folder.
 
 ## The table
 
@@ -50,6 +52,15 @@ three argument-less names and requires the native names each function calls.
 `0x00bbef90` stands for the frustum update that it inlines. With the unit's
 own flags the optimizer may merge equal calls, so the check counts names, not
 calls.
+
+`hacking-array-retirement.tsv` lists the function at `0x007687d0`, which
+deletes the hacking menu's array of `HackingArrayElement` (VEGAS-72). It
+forbids the transcribed vector deleting destructor at `0x007021b0` and the
+three names its array path calls, and requires the element's destructor and
+the sized array delete, which `delete[]` of the element type calls. The count
+before the array, the element size and the size passed to the array delete
+are not relocations; docs/hacking-element-release.md records them from the
+instructions.
 
 ## Exit status
 

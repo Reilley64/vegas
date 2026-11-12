@@ -545,10 +545,11 @@ add_test(NAME runtime.data_pack_startup.refused_publishes_nothing
 # C1 is published, the single-instance and remote-session checks pass and
 # main returns 0. falloutnv.process_exit.missing_pack writes the pack only in
 # the working directory and requires exit code 2 with the missing pack
-# reported on the standard error stream. Before each run the fixture makes the
-# calls of the single-instance check with the message box recorded; when main
-# would show a box, the copy is not run and the test is skipped. Each run has
-# 60 seconds, so a run that waits fails instead of holding the runner. Neither
+# reported on the standard error stream. Before the run with the pack the
+# fixture makes the calls of the single-instance check with the message box
+# recorded; only when it reports a remote session is the copy not run and the
+# test skipped, and a mutex that already exists fails it. Each run has 60
+# seconds, so a run that waits fails instead of holding the runner. Neither
 # shows the engine link, startup or boot.
 if(WIN32)
   add_executable(falloutnv_pack_fixture runtime/falloutnv_pack_fixture.cpp)
@@ -569,9 +570,9 @@ if(WIN32)
         -DMODE=${mode}
         -DTIMEOUT=60
         -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/falloutnv_pack_folder.cmake)
-    set_tests_properties(${test_name} PROPERTIES
-      SKIP_REGULAR_EXPRESSION "SKIPPED: the single-instance check would show a message box")
   endforeach()
+  set_tests_properties(falloutnv.process_exit PROPERTIES
+    SKIP_REGULAR_EXPRESSION "SKIPPED: the session is remote, so main would show a message box")
 endif()
 
 add_executable(runtime_native_string_test runtime/native_string_test.cpp)

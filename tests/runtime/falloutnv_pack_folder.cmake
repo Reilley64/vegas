@@ -7,12 +7,14 @@
 # run must exit 2 and report on the standard error stream that the pack
 # beside the executable is missing.
 #
-# Before the run, FIXTURE --check makes the calls of the single-instance check
-# on the same mutex name with the message box recorded. When main would show a
-# message box, because the session is remote or the mutex exists, the program
-# is not run and the test is skipped, so no message box can appear. Each run
-# also has TIMEOUT seconds: a run that waits fails instead of holding the
-# runner.
+# In with-pack mode, before the run, FIXTURE --check makes the calls of the
+# single-instance check on the same mutex name with the message box recorded,
+# and names the decision on a line of its own. Only when it names a remote
+# session is the program not run and the test skipped, so no message box can
+# appear. A mutex that already exists under a name new to this run fails the
+# test, and so does any other result. Without the pack, main returns before
+# CreateMutexA and can show no message box, so no check is made. Each run also
+# has TIMEOUT seconds: a run that waits fails instead of holding the runner.
 if(NOT DEFINED PROGRAM OR NOT DEFINED FIXTURE OR NOT DEFINED FOLDER OR NOT DEFINED MODE OR NOT DEFINED TIMEOUT)
   message(FATAL_ERROR "PROGRAM, FIXTURE, FOLDER, MODE and TIMEOUT are required")
 endif()
@@ -29,15 +31,21 @@ else()
 endif()
 string(RANDOM LENGTH 8 ALPHABET 0123456789abcdef suffix)
 set(mutex "vegas-pe-${suffix}")
-execute_process(COMMAND "${FIXTURE}" --check "${mutex}" TIMEOUT ${TIMEOUT} RESULT_VARIABLE checked
-  OUTPUT_VARIABLE checkOutput ERROR_VARIABLE checkError)
-if(checked EQUAL 3)
-  file(REMOVE_RECURSE "${FOLDER}")
-  message("SKIPPED: the single-instance check would show a message box here: ${checkOutput}")
-  return()
-endif()
-if(NOT checked EQUAL 0)
-  message(FATAL_ERROR "The single-instance check could not be made: '${checked}': ${checkOutput}${checkError}")
+if(MODE STREQUAL "with-pack")
+  execute_process(COMMAND "${FIXTURE}" --check "${mutex}" TIMEOUT ${TIMEOUT} RESULT_VARIABLE checked
+    OUTPUT_VARIABLE checkOutput ERROR_VARIABLE checkError)
+  if(checked EQUAL 3 AND checkOutput MATCHES "(^|\n)single-instance check: RemoteSession\r?\n")
+    file(REMOVE_RECURSE "${FOLDER}")
+    message("SKIPPED: the session is remote, so main would show a message box: ${checkOutput}")
+    return()
+  endif()
+  if(checkOutput MATCHES "(^|\n)single-instance check: AlreadyRunning\r?\n")
+    message(FATAL_ERROR
+      "The mutex ${mutex}, new to this run, already exists: '${checked}': ${checkOutput}${checkError}")
+  endif()
+  if(NOT checked EQUAL 0 OR NOT checkOutput MATCHES "(^|\n)single-instance check: Continue\r?\n")
+    message(FATAL_ERROR "The single-instance check could not be made: '${checked}': ${checkOutput}${checkError}")
+  endif()
 endif()
 execute_process(COMMAND "${FIXTURE}" "${pack}" "${mutex}" RESULT_VARIABLE written)
 if(NOT written EQUAL 0)

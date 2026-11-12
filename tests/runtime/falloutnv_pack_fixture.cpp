@@ -9,8 +9,11 @@
 // falloutnv_pack_fixture --check MUTEX makes the calls of the single-instance
 // check that main makes, CreateMutexA on MUTEX and the decision with the real
 // remote-session query, but records the message box instead of showing it.
-// It exits 0 when main would go on with no message box, and 3 when main would
-// show one. Its mutex handle closes when it exits.
+// It writes one line that names the decision and exits with its code:
+// "single-instance check: Continue" and 0 when main would go on with no
+// message box, "single-instance check: RemoteSession" and 3, or
+// "single-instance check: AlreadyRunning" and 4. Its mutex handle closes when
+// it exits.
 #include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_writer.h"
 #include "fileformat/supported_release.h"
@@ -51,9 +54,19 @@ int Check(std::string_view mutexName)
     std::memcpy(strings.messageCaption.data(), "Fixture", 7);
     std::memcpy(strings.secondMessageText.data(), "fixture second message", 22);
     CreateMutexA(nullptr, FALSE, strings.mutexName.data());
-    const fnv::startup::SingleInstanceOutcome outcome =
-        fnv::startup::CheckSingleInstance(strings, GetLastError(), IsRemoteSession, RecordBox);
-    return outcome == fnv::startup::SingleInstanceOutcome::Continue ? 0 : 3;
+    switch (fnv::startup::CheckSingleInstance(strings, GetLastError(), IsRemoteSession, RecordBox))
+    {
+    case fnv::startup::SingleInstanceOutcome::Continue:
+        std::printf("single-instance check: Continue\n");
+        return 0;
+    case fnv::startup::SingleInstanceOutcome::RemoteSession:
+        std::printf("single-instance check: RemoteSession\n");
+        return 3;
+    case fnv::startup::SingleInstanceOutcome::AlreadyRunning:
+        std::printf("single-instance check: AlreadyRunning\n");
+        return 4;
+    }
+    return 1;
 }
 
 int Write(const char* path, std::string_view mutexName)

@@ -155,6 +155,52 @@ VEGAS-11 replaces either view by an engine class, the same commit respells
 that element type in `nishader.cpp`'s forward declarations and
 instantiation lines.
 
+### One more element type, on 973b5d612
+
+`BSShaderPPLightingProperty`, required as `struct` by
+`middlehighprocess.cpp`, is emitted since 973b5d612. It is named in
+neither list above. Every rule of this section holds:
+
+- The requiring unit's recipe binds the name to `0x0066b0d0`.
+- The pointee is named at global scope, and every name of
+  `NiPointer<BSShaderPPLightingProperty>` in the archive uses the key
+  `struct`; `nishader.cpp` forward declares it so.
+- No recipe row gives the name to another unit.
+- (a) The unit measures `NiPointer<BSShaderPPLightingProperty>` as 8 bytes
+  with its one field at offset 0.
+- (d) The unit sees the pointee as incomplete.
+
+The unit keeps the text of `layout_support.h` (`FNV_KEEPS_OWN_NIPOINTER`)
+and declares this member as an explicit specialisation without a body
+(`middlehighprocess_decls.h:51`, again at `middlehighprocess.cpp:42223`),
+so it calls the member out of line.
+
+That declaration is a recorded ABI binding. It cannot be removed: the unit
+needs it to compile. `nigeometry_decls.h:386` declares
+`NiPointer<NiAVObject>::operator=` the same way. The unit's call binds to
+the owner's explicit instantiation of the template's member only because
+the two have the same mangled name. It is admitted on the condition that no
+unit defines the specialisation; a definition would be a second body under
+the name. Re-check it if link-time optimisation or C++ modules are enabled.
+
+The requiring unit names the pointee `class` everywhere except in its first
+declaration, `include/fnv/symbols_004b5000.h:12`, which says `struct`. The
+compiler takes the key of the first declaration, so the required name says
+`struct` (`U`), while the recipe and other units spell the class `class`
+(`V`). A commit that unifies the class-key changes the required name, and
+must respell `nishader.cpp:109` and `nishader.cpp:132` in the same commit.
+
+The owner's block has 23 names now, each with one definition, in
+`nishader.cpp.obj`, select-any, 77 bytes, one content. One name left the
+undefined list and none entered (`docs/shared-simple-list.md`, "Step 4").
+
+On 973b5d612, the other 19 undefined names of `operator=(T*)` of the
+global template stay, for the reasons of the table above: 11 pointees
+nested in a namespace or a class, the two keys of `NiScreenElements`,
+`TreeCloneView` (check (d)), `Tile`, `NiNode` (VEGAS-98 is open),
+`NiPointer<NiNode*>`, `FUN_00b668b0`, and `RefShader`, whose requirer binds
+it to `0x00a5f860`, the row of `nismartpointer_h_unit.cpp`.
+
 ## The rule for moving a unit
 
 A unit's own copy of the primary template is replaced by

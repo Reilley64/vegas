@@ -19,6 +19,9 @@ under "Step 3". It is a census of what the call sites of the remaining
 stand-ins pass, one more element type from the owner, and four stand-in
 classes replaced by the list.
 
+A fourth step, on 973b5d612, is described under "Step 4". The owner emits
+single members for three more element types.
+
 ## Where the declaration lives
 
 `include/fnv/bs_simple_list.h`. `include/fnv/` already holds the native
@@ -173,9 +176,9 @@ The integration checks on the archive of the VEGAS-72 head, on b93461c52:
 - (c) 128 and 12 forward declarations, 0 mismatches. The list of lists
   adds no forward declaration.
 
-The default constructor for `const char*` stays emitted alone, as before:
-`surgerymenu`, `activeeffect` and `tesobjectcell` require other members of
-that list and declare it as an empty class.
+The default constructor for `const char*` stays emitted alone, as before,
+until step 4: `surgerymenu`, `activeeffect` and `tesobjectcell` require
+other members of that list and declare it as an empty class.
 
 Inside the emitted element types, 22 names stay undefined because the name
 itself is not a shared member: `SetItem`, `ItemsInList`, `GetSize` and
@@ -275,7 +278,10 @@ declarations, each required by another object, 0 mismatches. Since step 2
 the check also reads the forward declarations in the two instantiation
 blocks, at the end of `tesform.cpp` and of `interfacemanager.cpp`, against
 the symbols of that member. Step 2: 127 and 12 forward declarations, 0
-mismatches.
+mismatches. Since step 4 the check also reads the forward declarations of
+the member-only block at the end of `bssimplelist_h_unit.cpp`, after its
+include of `bssimplelist_elements.inl`, against every requiring symbol of
+that list and the owner's own definitions.
 
 ## What was measured
 
@@ -1065,8 +1071,9 @@ each of the 55 element types, with the member rule per name:
 
 The 13 layout rows are `const char*` (4 names; `surgerymenu.cpp` and
 `tesobjectcell.cpp` declare it as an empty class), `DebrisModelEntry*` (3;
-`magicshaderhiteffect.cpp`, empty), `TESRace*` (3; `interface.cpp`,
-empty), `ItemListContainer*` (2; `vatsmenu.cpp`, empty) and
+`magicshaderhiteffect.cpp`, empty), `TESRace*` (3; `interface.cpp:1966`,
+the explicit class specialisation `template <> class
+BSSimpleList<TESRace*>`, 1 byte, whose only member is `GetSize`), `ItemListContainer*` (2; `vatsmenu.cpp`, empty) and
 `ListBoxItem_int_*` (1; not measured in `dialogmenu.cpp`). Each needs the
 private declaration removed or the unit moved onto the shared header.
 
@@ -1156,6 +1163,163 @@ belongs elsewhere:
   `unsigned char` to `bool` can change the code of a caller; such a change
   is refused unless every use is a truth test or the object is equal byte
   for byte.
+
+Nothing executes these functions. Windows execution: not run.
+
+## Step 4
+
+Made on 973b5d612, in three code commits. A fourth commit of the same
+change emits one more name of `NiPointer` (`docs/shared-ni-pointer.md`).
+The owning unit instantiates single members of the list, one explicit
+instantiation line each, as it already did the constructor for
+`const char*`. It does not instantiate the whole class for these element
+types.
+
+Forced link of every archive member, windows-x64, 2,232 members in the same
+order before and after:
+
+| | 973b5d612 | Step 4 |
+| --- | --- | --- |
+| Undefined names | 35,133 | 35,127 |
+| Left / entered | | 6 / 0 |
+| Duplicate symbols | 0 | 0 |
+| Imports | 137 | the same |
+| Objects that differ | | 2: the list owner and `nishader.cpp` |
+| Names with differing definitions in the archive | 519 | 519 |
+
+The six names that leave are two for `DebrisModelEntry*`, two for
+`const char*`, one for `TESRace*` and the one of `NiPointer`. Both builds
+have 2,344 steps, none failed, and 20,628 warning lines that are equal once
+line and column are removed. `src/generated` and `build/units.json` are
+untouched.
+
+`followerbarks_decls.h` declared `RemoveHead` of `BSSimpleList<const char*>`
+as an explicit specialisation, which conflicts with the owner's explicit
+instantiation of the template's member. The declaration is removed;
+`followerbarks.cpp`, the only unit that includes that header, compiles to
+the same object, the COFF timestamp masked.
+
+### The rule, per member
+
+The element rule above is applied to each undefined name, not to the
+element type. A member is instantiated for `E` when all of these hold:
+
+- No archive member defines the name, and it is a member that the shared
+  header declares, with the header's signature.
+- `E` passes the rules under "Element types": the form, a name that is no
+  placeholder, one class-key. A builtin pointee is admitted only when the
+  owner already emits a member of that list.
+- No recipe row gives the name to another unit.
+- Every unit that requires the name lays the list out as 16 bytes with
+  fields at 0 and 8, measured by the compiler in that unit.
+- The owner declares no explicit specialisation of that member for `E`.
+- Every function of the owner keeps its instructions. An instantiation must
+  not let the compiler expand the member in line where a function called it
+  out of line.
+
+An instantiated member also defines what its body calls and the compiler
+does not expand in line. `RemoveHead` destroys the node it removes, so the
+destructor is defined with it; `RemoveAll` and the item constructor are
+expanded in line and no other name is defined.
+
+### Member-only instantiation
+
+A member-only block stands where the whole class cannot be instantiated
+because some requiring unit declares the same list with another layout. It
+holds while these conditions hold:
+
+- One explicit instantiation line per required member, under a comment
+  that says why the class is not instantiated: which unit blocks it and
+  how that unit declares the list.
+- The members that an instantiated member pulls in implicitly are listed
+  from the owner's object, not from the source. Here the destructor comes
+  with `RemoveHead`, and nothing else.
+- The integration checks enumerate the names from the owner's object, so
+  that the block's names are in (a), (b) and (c) like those of the element
+  list.
+- When the 1-byte copies that block the class leave, the block is
+  re-evaluated as an instantiation of the whole class.
+
+### What was emitted
+
+| Element type | Members | Requiring units | Requiring units on a copy of their own |
+| --- | --- | --- | --- |
+| `DebrisModelEntry*` | destructor, `RemoveHead` | `bgsdebris.cpp` | none |
+| `const char*` | destructor (15 units), `RemoveHead` (6) | 15 in all | `tesworldspace.cpp`: its own template at line 549, fields `item` and `next`, the destructor declared without a body |
+| `TESRace*` | `AddHead` | `tesdatahandler.cpp` | `tesdatahandler.cpp`: its own template at `tesdatahandler_forms.h:232`, fields `item` and `next`, `AddHead(T&)` declared without a body |
+
+Each requiring unit, the two on a copy among them, measures its list as 16
+bytes with fields at 0 and 8. The two copies are admitted as
+`tesdatahandler.cpp`'s copy was in step 3: the same two fields and no body
+of the member.
+
+The recipe of every requiring unit binds `RemoveHead` and `AddHead` to the
+member's address. No requiring unit has a row that names either destructor.
+The destructor's function row is the owner's, at `0x0046ffb0`, under the
+stand-in name `EffectSettingList::~EffectSettingList`. By the scheme of the
+first step, which asks whether a requiring unit has a row at the member's
+address under another name, both bindings are recorded under that stand-in:
+
+- `DebrisModelEntry*`: `bgsdebris.cpp`, the one requiring unit, has a
+  symbol row at `0x0046ffb0` under the stand-in.
+- `const char*`: 10 of the 15 requiring units have a symbol row at
+  `0x0046ffb0` under the stand-in. The other five, `animation.cpp`,
+  `creaturesounds.cpp`, `magicitem.cpp`, `playercharacter.cpp` and
+  `tesidlemanager.cpp`, have no row at that address.
+- 10 of the 15 also bind the deleting destructor
+  `BSSimpleList<const char*>::'scalar deleting destructor'` to
+  `0x004702f0`. No windows-x64 object requires or defines a deleting
+  destructor of either list: the class has no virtual destructor, and for
+  such a class clang-cl emits no deleting destructor; a delete expression
+  calls the destructor and `operator delete`. That row has no windows-x64
+  provider and binds nothing here.
+
+A source may have more than one entry in `build/units.json`; the rows of
+all its entries count.
+
+Each of the six names, the `NiPointer` one included, has one definition in
+the archive, in the unit with the function row, select-any. The list
+members have the sizes of the other pointer instances of the same member:
+the destructor 96 bytes, `RemoveHead` 75, `AddHead` 68. In each commit the
+owner's object gains only the new definitions; every function it had keeps
+its instructions and relocations. No other name changes its definitions.
+
+### Integration checks on step 4
+
+- (a) 260 pairs of unit and list in 116 units and 137 lists; 258 pass; the
+  same two exceptions, `projectile.cpp` and `bsfacegenanimationdata.cpp`.
+  On 973b5d612: 245 pairs in 111 units and 135 lists, 243 pass. These are
+  the counts of this step's script, measured on both archives with one
+  method; they are not comparable with the figures of earlier steps.
+- (b) No name of the class `BSSimpleList` has two definitions; 1,376
+  defined names against 1,371 on 973b5d612. 519 names with differing
+  definitions before and after, none entering. Each of the six names has
+  one definition, select-any, and no name gains a definition with other
+  content or another selection.
+- (c) 128 forward declarations in the element list and 2 in the
+  member-only block, `class DebrisModelEntry` and `class TESRace`, each
+  required by another object; 0 mismatches. The forward declaration added
+  in `nishader.cpp`, `struct BSShaderPPLightingProperty`, gives the name
+  `middlehighprocess.cpp` requires, which left the undefined list.
+
+### What stays under the template's own name
+
+83 names of the global template were undefined on 973b5d612. 40 are not a
+member that the header declares with its signature: 11 have another
+signature (9 `AddHead` taking a const reference or a nested pointee, 2
+`SetItem(T&)`), 9 have a name the header does not declare (`GetSize`,
+`Remove`, `IsInList`, placeholder member names), and 20 are members for
+nested pointees, by-value items or the `struct` key of `TESRegionData*`.
+Of the other 43:
+
+| What keeps the name | Names |
+| --- | --- |
+| The pointee has a placeholder name or is a Windows SDK tag | 29 |
+| `TESRegionData*` is named under two class-keys | 4 |
+| The owning unit declares `struct EnchantmentItem`; the requirer says `class` | 1 |
+| A requiring unit declares the list without fields, 1 byte: `IsEmpty` of `const char*` (`surgerymenu.cpp`, its own template) and `AddHead` (`tesobjectcell.cpp`, the explicit class specialisation `template <> class BSSimpleList<char const*>`), `IsEmpty` of `DebrisModelEntry*` (`magicshaderhiteffect.cpp`, its own template) | 3 |
+| `AddHead` of `SpellItem*`: the owner declares an explicit specialisation. Without it the compiler expands `AddHead` in line in `BGSHeadPart::AddExtraPart` (`0x005e7790`), so an existing function would change | 1 |
+| Emitted by this step | 5 |
 
 Nothing executes these functions. Windows execution: not run.
 

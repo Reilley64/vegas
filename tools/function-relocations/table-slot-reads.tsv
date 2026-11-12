@@ -13,3 +13,4 @@ past	?DAT_010c53b4@@3HA	16
 function	table	src/staging/blk_00ca0000_o2.cpp	?FUN_00ca0d40@FUN_00ca0d40_class@@QEAAXXZ	?DAT_010c7318@@3P6AXPEAX@ZEA
 function	table	src/staging/blk_00ca0000_o2.cpp	?FUN_00cba080@FUN_00cba080_class@@QEAAPEAU1@H@Z	?DAT_010c8d1c@@3P6AXPEAX@ZEA
 function	table	src/fallout/ai/creature.cpp	?FUN_00c812d0@@YA_JPEAX0@Z	?DAT_010c53bc@@3P6AXPEAH@ZEA
+function	table	src/unmapped/debugtextparticlesystem.cpp	?FUN_00ca2ad0@Manager@@QEAA_NPEAX_K@Z	?DAT_010c7318@@3P6AXPEAX@ZEA

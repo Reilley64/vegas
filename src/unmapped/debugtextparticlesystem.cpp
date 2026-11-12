@@ -1467,7 +1467,7 @@ __forceinline PointerVec::~PointerVec()
     vtbl = &DAT_010c7310;
     if (data)
     {
-        ((VecTable*)vtbl)->free(this, data);
+        DAT_010c7318(data);
         data = 0;
         size = capacity = 0;
     }

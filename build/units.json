@@ -569826,7 +569826,8 @@
     "?FUN_00c66320@fnv_00c66320@@YAXPAT__m128@@PAXPBT2@2@Z": "0x00c66320",
     "?CollectMixedTypeNodes@@YAXPAUCA1080_NodeList@@PAUCA1080_PtrArray@@@Z": "0x00ca1080",
     "?FUN_00cb0c00@@YAXH@Z": "0x00cb0c00",
-    "?TraverseSceneNode@SceneWalker_cls@@QAEXPAUSceneNode_cls@@PAX1@Z": "0x00ca1f00"
+    "?TraverseSceneNode@SceneWalker_cls@@QAEXPAUSceneNode_cls@@PAX1@Z": "0x00ca1f00",
+    "?DAT_010c7318@@3P6GXPAX@ZA": "0x010c7318"
    }
   },
   {

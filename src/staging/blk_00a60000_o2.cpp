@@ -54,7 +54,6 @@
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00af4000.h"
-#include "fnv/symbols_00ff0000.h"
 #include "fnv/symbols_0109b000.h"
 #include "fnv/symbols_0109c000.h"
 #include "fnv/symbols_0109d000.h"
@@ -2371,7 +2370,7 @@ void __cdecl FUN_00a77110(unsigned int width, unsigned int rows, unsigned int un
     if (info->m_flags != 0xff00)
         return;
     unsigned int key = info->m_eVertexFormat;
-    if (key == (uintptr_t)&DAT_00ff0000)
+    if (key == 0x00ff0000u)
     {
         if (rows <= 0)
             return;
@@ -2499,14 +2498,14 @@ void ConvertPixelsToBytes(unsigned int count, uintptr_t rows, unsigned int auiUn
 }
 
 namespace fnv_00a77460 {
-// Converts a width-by-height RGB source image to RGBA in dst, writing 0xFF alpha and swapping channels when mask[0] matches DAT_00ff0000.
+// Converts a width-by-height RGB source image to RGBA in dst, writing 0xFF alpha and swapping channels when mask[0] is 0x00ff0000.
 // @fnv 0x00a77460
 void __cdecl ConvertRgbToRgba(unsigned int width, unsigned int height, int, unsigned char* dst, int, int,
                               const unsigned char* src, const unsigned int* mask)
 {
     if (mask[1] == 0xFF00)
     {
-        if (mask[0] == (uintptr_t)&(*reinterpret_cast<unsigned char *>(&::DAT_00ff0000)))
+        if (mask[0] == 0x00ff0000u)
         {
             if (height > 0)
             {

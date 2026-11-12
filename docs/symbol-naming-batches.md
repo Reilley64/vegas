@@ -41,10 +41,10 @@ the pull request text quotes for VEGAS-11, and the figures cannot be compared.
 | 09e7b0d91 | move 25 class definitions (and 10 blocks they need) | 0 | 35,266, unchanged |
 | 2277431b8 | stand-in batch 4: 42 stand-ins in 22 units | 42 | 35,266 to 35,224 |
 | d0d8fd469 | 19 stand-ins become the shared ImageSpaceEffectParam | 19 | 35,185 to 35,166 |
-| 912cc318c | 16 data externs of SIMD and float constants in 10 units | 16 | 35,133 to 35,117 |
-| f27c78b21 | the TlsGetValue slot extern in `hkpworld.cpp` | 1 | 35,117 to 35,116 |
-| febe17c81 | the keyring tile id in `inventorymenu.cpp` | 1 | 35,116 to 35,115 |
-| 1e22ad003 | the message extern in `hkdataobjectnative.cpp` | 1 | 35,115 to 35,114 |
+| ed5ed322a | 16 data externs of SIMD and float constants in 10 units | 16 | 35,133 to 35,117 |
+| 247ffd346 | the TlsGetValue slot extern in `hkpworld.cpp` | 1 | 35,117 to 35,116 |
+| f985938c4 | the keyring tile id in `inventorymenu.cpp` | 1 | 35,116 to 35,115 |
+| e861b865e | the message extern in `hkdataobjectnative.cpp` | 1 | 35,115 to 35,114 |
 
 No step leaves a name newly undefined, adds a duplicate symbol, or changes the
 137 imports or the archive members and their order. The archive had 2,223
@@ -332,7 +332,7 @@ name: 143 rows.
   check (7), a name in namespace `std` (4), and one row each for five other
   reasons.
 
-## Data externs (912cc318c, f27c78b21, febe17c81, 1e22ad003)
+## Data externs (ed5ed322a, 247ffd346, f985938c4, e861b865e)
 
 A unit declares a global under a name of its own, often inside a private
 namespace, while the archive defines the object at the same recipe address
@@ -351,10 +351,10 @@ visible, moves it to global scope where none is, or respells it in place to
 two uses take the name of the string the unit defines from its generated data
 include, `str_010d64bc`, which a third use in the unit already reads. One use
 takes a descriptive name: `UpdateCurrentValue` reads
-`InventoryMenu::ms_iKeyringOpenTileID` instead of `DAT_011d9eb8`. Its unit's key for the old name merges into its
-key for the member at the same address. No other key changes, because no
-other unit had a key for the old spelling. Nothing else is declared, and no
-cast is added.
+`InventoryMenu::ms_iKeyringOpenTileID` instead of `DAT_011d9eb8`. Its
+unit's key for the old name merges into its key for the member at the
+same address. No other key changes, because no other unit had a key for
+the old spelling. Nothing else is declared, and no cast is added.
 
 Every object is equal to its tip object once the old names are respelled,
 except one function. In `hkdataobjectnative.cpp` the old name's undefined

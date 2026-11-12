@@ -10514,7 +10514,6 @@ struct FUN_00cbaec0_Obj
 {
     virtual void vf00();
     virtual void vf04();
-    virtual void vf08(void* data);
     void* m_pData;
     unsigned int m_uiSize;
     unsigned int m_uiReservedSize;
@@ -10529,7 +10528,9 @@ FUN_00cbaec0_Obj* FUN_00cbaec0_Obj::ReleaseAndDestroy(unsigned char flags)
     if (oldData)
     {
         ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(oldData));
-        vf08(m_pData);
+        // Slot 2 of the table just stored, DAT_010c8d28, holds 0x00cb9cb0,
+        // which frees the one pointer it is given; it takes no object.
+        (*reinterpret_cast<void(__stdcall* const**)(void*)>(this))[2](m_pData);
         m_pData = 0;
         m_uiReservedSize = 0;
         m_uiSize = 0;

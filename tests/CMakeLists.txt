@@ -1041,6 +1041,27 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/table-bounds)
 endif()
 
+# Fails when the function at 0x00cbaec0 (VEGAS-102) again calls slot 2 of the
+# table it stores, DAT_010c8d28, with the object and its data, as a member
+# call does, instead of with the data alone. That slot holds 0x00cb9cb0,
+# which frees its one argument. The data pointer is at offset 8: the repaired
+# call loads it into rcx, the member call loaded it into rdx. It reads the
+# archive with the llvm-objdump found for archive.empty_import_slots, so it is
+# registered for the cross build only. The patterns are specific to clang-cl
+# at /O2. Blind spots: registers, not values, are matched; a call that loads
+# the data into rcx and also passes something in rdx passes.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.release_and_destroy_slot_call
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/release_and_destroy_slot_call.disassembly.txt
+      "-DFUNCTION=?ReleaseAndDestroy@FUN_00cbaec0_Obj@@QEAAPEAU1@E@Z"
+      "-DFORBID=^movq[ \t]+0x8\\(%r[a-z0-9]+\\), %rdx$"
+      "-DREQUIRE=^movq[ \t]+0x8\\(%r[a-z0-9]+\\), %rcx$"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

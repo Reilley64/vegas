@@ -31,8 +31,9 @@ CTest runs it in the windows-x64 cross build only, like
 per batch of `d3dx-call-arguments.tsv`,
 `objects.hacking_array_retirement` for `hacking-array-retirement.tsv`,
 `objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`,
-`objects.winmain_boot_calls` for `winmain-boot-calls.tsv`, and
-`objects.mask_constants`, one test for all of `mask-constants.tsv`. CMake
+`objects.winmain_boot_calls` for `winmain-boot-calls.tsv`,
+`objects.mask_constants`, one test for all of `mask-constants.tsv`, and
+`objects.integer_width_calls` for `integer-width-calls.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -85,6 +86,16 @@ used before, which no object defines, and requires the name of the body.
 `mask-constants.tsv` lists the 18 functions whose numeric masks, flags,
 counts and limits were spelled as the addresses of data names (VEGAS-93,
 docs/mask-constants.md). It forbids the six names and requires none.
+
+`integer-width-calls.tsv` lists the functions that call or take the address
+of a function whose caller and callee disagreed on an integer width only
+(VEGAS-97, docs/integer-width-calls.md). Batch `requirer` holds the calls
+whose declaration took the callee's width: it forbids each declaration's
+former name and requires the definition's. Batch `definition` holds the two
+definitions that took their callers' width, which must be defined under the
+agreed name, and the functions that call them. Whether a caller passes a
+32-bit variable through a widened declaration is not a relocation; the
+document lists the names held back for that reason.
 
 ## Exit status
 

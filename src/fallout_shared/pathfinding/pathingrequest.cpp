@@ -1,6 +1,7 @@
 // fallout_shared/pathfinding/pathingrequest.cpp: PathingRequest, PathingAvoidNodeArray, PathingRequestDebugView (24 functions)
 
 #include <new>
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/DebugLocation.h"
@@ -165,6 +166,12 @@ struct FUN_006db090_shell
 
 // @fnv 0x006db090
 void FUN_006db090_shell::FreeBuffer(void* apBuffer)
+{
+    ::FUN_00401030(apBuffer);
+}
+
+// Slot 2 of the index array's table: the body of 0x006db090.
+void BSSimpleArray<unsigned short, 1024>::FreeBuffer(void* apBuffer)
 {
     ::FUN_00401030(apBuffer);
 }

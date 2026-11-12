@@ -183146,6 +183146,7 @@
     "?GetString@_Dummy_0069e390@@QBEPBDXZ": "0x0069e390",
     "?FormatDebugString@DebugLocation@@QAEXPADI@Z": "0x006de790",
     "?FreeBuffer@FUN_006db090_shell@@QAEXPAX@Z": "0x006db090",
+    "?FreeBuffer@?$BSSimpleArray@G$0EAA@@@UAEXPAX@Z": "0x006db090",
     "?SetCantOpenDoors@FUN_006e2b50_shell@@QAEX_N@Z": "0x006e2b50",
     "?SetCanSwim@FUN_006e2b70_shell@@QAEX_N@Z": "0x006e2b70",
     "?SetInitialPathHeading@FUN_006e2bb0_shell@@QAEXM@Z": "0x006e2bb0",

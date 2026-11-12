@@ -10,9 +10,9 @@ the next table. After the three-slot `DAT_010cf9c8` it is 8 bytes of padding
 before the next table. Either read is already wrong, because neither is the
 original's slot. Once each table has a section of its own
 (the per-table sections step below) the read would land on whatever the
-linker places next. This page records how such reads were found, which were
-repaired, the one that stays open, the check that keeps them out, and the
-per-table sections step.
+linker places next. This page records how such reads were found, how each
+was repaired, the checks that keep them out, and the per-table sections
+step.
 
 ## Why the tables are short
 
@@ -22,7 +22,7 @@ slot. The recipe names it on its own as a function pointer:
 
 | Table | Slots | The slot after it |
 | --- | --- | --- |
-| `DAT_010c4db8` | 2 | `DAT_010c4dc0`, no definition |
+| `DAT_010c4db8` | 2 | `DAT_010c4dc0` |
 | `DAT_010c53b4` | 2 | `DAT_010c53bc` |
 | `DAT_010c7310` | 2 | `DAT_010c7318` |
 | `DAT_010c8d00` | 2 | `DAT_010c8d08` |
@@ -30,7 +30,8 @@ slot. The recipe names it on its own as a function pointer:
 | `DAT_010cf9c8` | 3 | `DAT_010cf9d4` |
 
 Generated data defines each slot name but `DAT_010c4dc0` as its own variable,
-holding the function the original's slot holds. The code that uses
+holding the function the original's slot holds. `DAT_010c4dc0` had no
+definition; `blk_00c60000_o2.cpp` now defines it (below). The code that uses
 `DAT_010c8d00` and `DAT_010cf9c8` already calls the slot by its own name.
 So do the destructors at `0x00ca0d70` and `0x00cba000` for `DAT_010c7310`
 and `DAT_010c8d14`. That is the form the repairs below use.
@@ -69,7 +70,7 @@ original's 32-bit offset of the slot, until `d560f01b0` gave them a
 three-slot view whose third slot lies 16 bytes in. On windows-x64 offset 8
 was the table's second slot, so neither form read the original's slot.
 `FUN_00c812d0` and `PointerVec`'s destructor have read the third slot of a
-two-slot table since the first transcription. The open place,
+two-slot table since the first transcription. The fifth place,
 `FUN_00c7a630`, named `DAT_010c4dc0` until `76ca21379`.
 
 ## Repaired
@@ -120,79 +121,192 @@ those addresses.
 What the repairs establish is which storage each call reads. Receivers,
 layouts and lifetimes of the four functions stay open.
 
-### Remainder: `0x00cb9cb0` frees nothing (VEGAS-102)
+### `0x00cb9cb0` frees its argument (VEGAS-102)
 
 The windows-x64 body of `0x00cb9cb0`, `fnv_00cb9cb0::FUN_00cb9cb0` in
-`blk_00ca0000_o2.cpp`, takes no parameter and passes a null pointer to the
-memory manager's free. Every caller of the slots that hold it therefore
-leaks the pointer it means to free, the repaired ones included. The repairs
-do not change that; VEGAS-102 tracks it.
+`blk_00ca0000_o2.cpp`, took no parameter and passed a null pointer to the
+memory manager's free, so every caller of the slots that hold it leaked the
+pointer it meant to free. It now takes that one pointer and passes it on,
+and is declared `__stdcall`, as the recipe's keys of the slots that hold it
+spell their type, but for `DAT_010c8d08` (`__cdecl`) and `DAT_010c4cec` (a
+data pointer); on windows-x64 that changes nothing.
+In the object the body is `movq %rcx, %rdx`, the address of the memory
+manager in `rcx`, and a jump to the free, where it was `xorl %edx, %edx`
+before the jump.
 
-## Open: `FUN_00c7a630`
+The body's windows-x64 name changes from
+`?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ` to
+`?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z` (route A of the 2026-11-12
+ruling). Five generated files name it through an asm label: the staging
+includes of `blk_00ba0000_o2`, `blk_00c60000_o2`, `blk_00c80000_o2` and
+`blk_00ca0000_o2`, and `vtables_010c.cpp`. The native data composition
+respells the five labels (`docs/native-data-ownership.md`); the generated
+files are unchanged. Through those labels seven slots hold the body:
+`DAT_010b7f08`, `DAT_010c4cec`, `DAT_010c53bc`, `DAT_010c7318`,
+`DAT_010c8d08`, `DAT_010c8d1c` and slot 2 of the table at `DAT_010c8d28`.
+Each slot keeps its bytes; its relocation now names the new symbol. The
+recipe's function row at `0x00cb9cb0` is respelled to the 32-bit name of
+the new declaration, `?FUN_00cb9cb0@fnv_00cb9cb0@@YGXPAX@Z`, with its
+address, size and unit unchanged.
 
-`FUN_00c7a630` in `src/staging/blk_00c60000_o2.cpp` still calls through the
-slot 16 bytes past the start of `DAT_010c4db8`. In the object that reads
-slot 0 of the next table, `FUN_00c7e970` of `Outer`. The original's slot is
-`0x010c4dc0`. By coordinator ruling (R2) the call is not repaired with a
-cast; the declaration of `DAT_010c4dc0` must be settled first:
+Not every caller passed one pointer. A census of the windows-x64 archive
+lists every function with a relocation to one of these slots or to the
+table before it, every call through such a slot by name, and every call
+through offset 16 of a table pointer in a function that stores one of the
+tables. All but two pass the pointer to free as their one argument:
 
-- The recipe spells the slot `?DAT_010c4dc0@@3P6EXPAUTempArray@@I@ZA`: a
+- `FUN_00cbaec0_Obj::ReleaseAndDestroy` (`0x00cbaec0`) in
+  `blk_00ca0000_o2.cpp` stores `DAT_010c8d28` as the object's table and
+  then called slot 2 of it as a member function, `vf08(m_pData)`, which
+  passes the object in `rcx` and the data in `rdx`. With the repaired body
+  it would have freed the object, and freed it again when flags bit 0 is
+  set. The recipe names no symbol at the slot's address, so the function
+  now calls slot 2 of the table it stored through a `__stdcall` function
+  type of one pointer and passes `m_pData` alone; the private struct loses
+  `vf08`. In the object only the argument registers change:
+  `movq 0x8(%rsi), %rdx; movq %rsi, %rcx` became `movq 0x8(%rsi), %rcx`
+  before the same `callq *0x10(%rax)`. This repair comes before the body's,
+  so no commit frees the object.
+- `FUN_00ba11e0` in `blk_00ba0000_o2.cpp` calls `DAT_010b7f08` with a
+  pointer sign-extended from the 32-bit field `m_04` of its `Buffer`. That
+  is VEGAS-104 and is not changed here (below).
+
+`actor.cpp`'s `TempArray` destructor and `FUN_00c7f060` call
+`DAT_010c4dc0` with a `TempArray` and a count under a name that no member
+defines, so they do not reach the body (below, VEGAS-103).
+
+`DAT_010b7f08` is declared and defined as `HLOCAL (*)(HLOCAL)`, a function
+that returns a pointer, and its recipe key `?DAT_010b7f08@@3P6GPAXPAX@ZA`
+says the same, while `0x00cb9cb0` returns nothing. Its only caller,
+`FUN_00ba11e0` in `blk_00ba0000_o2.cpp`, discards the result: in the object
+nothing reads `rax` after the call. It is not repaired here, because its
+type is that of a generated definition. The call through a pointer of
+another function type stays open, as does that `FUN_00ba11e0` passes a
+pointer read from the 32-bit field `m_04` of its `Buffer`. Both are
+VEGAS-104.
+
+## `FUN_00c7a630` and the slot `DAT_010c4dc0`
+
+`FUN_00c7a630` in `src/staging/blk_00c60000_o2.cpp` called through the slot
+16 bytes past the start of `DAT_010c4db8`. In the object that read slot 0
+of the next table, `FUN_00c7e970` of `Outer`. The original's slot is
+`0x010c4dc0`. By coordinator ruling (R2) the call was not repaired with a
+cast before the declaration of `DAT_010c4dc0` was settled:
+
+- The recipe spelled the slot `?DAT_010c4dc0@@3P6EXPAUTempArray@@I@ZA`: a
   `__thiscall` function of a `TempArray *` and an `unsigned int`. Its
   siblings above are `__stdcall` functions of one pointer. `FUN_00c7a630`
-  and its neighbour `FUN_00c7a690`, which calls `DAT_010c4dc0` through a cast
-  to `void (*)(void *)`, pass one pointer.
-- No unit defines `DAT_010c4dc0`. Generated data has no variable for it.
+  and its neighbour `FUN_00c7a690`, which called `DAT_010c4dc0` through a
+  cast to `void (*)(void *)`, pass one pointer.
+- No unit defined `DAT_010c4dc0`. Generated data has no variable for it.
 - `actor.cpp` declares `TempArray` with 32-bit `unsigned int` fields, and its
   destructor, which has no recipe row, stores `DAT_010c4db8` and frees its
   data through `DAT_010c4dc0(this, data)`: the shape of `0x00c7a630`. It is
   likely a stale 32-bit second transcription of that function, and the
   source of the `TempArray` spelling.
 
-`tools/table-bounds/allow.tsv` lists this read, so the standing check below
-passes with it, and `vtables_010c.cpp` stays out of the per-table sections
-step until it is repaired.
+The 2026-11-12 rulings settled it:
+
+- `include/fnv/symbols_010c4000.h` declares `DAT_010c4dc0` as
+  `void (__stdcall *)(void *)`, as its recipe key, the siblings and both
+  callers establish.
+- `blk_00c60000_o2.cpp`, the unit the recipe binds the name to and which
+  holds the rows of the table's functions, defines the slot with the
+  one-pointer body of `0x00cb9cb0`, without a cast. The value follows from
+  the siblings, which all hold `0x00cb9cb0`. The repository's earlier
+  generated data (`d4a5c0038`) gave the slot the same value; it is
+  corroboration only. The recipe key of `blk_00c60000_o2.cpp` is respelled
+  to the siblings' spelling, `?DAT_010c4dc0@@3P6GXPAX@ZA`, and the unit's
+  entry gains the key of the body it now names,
+  `?FUN_00cb9cb0@fnv_00cb9cb0@@YGXPAX@Z`.
+- `FUN_00c7a690` calls the slot by name, without its cast, and so does
+  `FUN_00c7a630`, with the same one argument, `m_p`. Its private three-slot
+  view `FUN_00c7a630_vtable` is removed. In the object its call now goes
+  through `DAT_010c4dc0` at offset 0 instead of `DAT_010c4db8` plus 16.
+- `actor.cpp`'s `TempArray` is tabled (VEGAS-103). The unit no longer
+  includes `fnv/symbols_010c4000.h` and declares the two names it used from
+  it, `DAT_010c4db8` and its two-argument view of `DAT_010c4dc0`, so its
+  object and the name it requires, `?DAT_010c4dc0@@3P6AXPEAUTempArray@@I@ZEA`,
+  do not change. That name stays undefined, and the recipe keys of
+  `actor.cpp` and of `clamped_acos.cpp`, whose source does not use the name,
+  keep the `TempArray` spelling. One storage thus has two declarations of
+  different type in two units until VEGAS-103 settles `TempArray`.
+
+What this establishes is which storage the two calls read and that the slot
+has one definition. Receivers, layouts and lifetimes of `FUN_00c7a630` and
+`FUN_00c7a690` stay open.
 
 ## The checks
 
 - `objects.table_slot_reads` runs `tools/function-relocations` with
   `table-slot-reads.tsv`. It fails when a repaired function addresses one of
-  the three tables at or past 16 bytes, or no longer refers to the slot's
-  name. It fails on the objects before the repairs.
+  the four tables at or past 16 bytes, or no longer refers to the slot's
+  name. It fails on the objects before the repairs. It also requires the
+  one-pointer name of the slot of `FUN_00c7a690`.
 - `objects.table_bounds` runs `tools/table-bounds`. It fails when any
   relocation of any object of the game archive addresses any of the 2,057
-  tables at or past its end, or before it, other than the read of
-  `FUN_00c7a630` above, or when that read is gone. Each table's length is
-  its slot count in the source the build compiles. On the objects before
-  the repairs it fails with six reads: the four functions and two unwind
-  funclets of theirs.
+  tables at or past its end, or before it. Each table's length is its slot
+  count in the source the build compiles. Its allow file lists no read. On
+  the objects before the first four repairs it failed with six reads, the
+  four functions and two unwind funclets of theirs, besides the read of
+  `FUN_00c7a630` it then allowed. On the objects before `FUN_00c7a630`'s
+  repair it now fails with that read.
+- `objects.memory_free_forwarder` disassembles `0x00cb9cb0` from the
+  archive. It fails when the body zeroes the free's pointer argument, or no
+  longer moves its own argument into it, or when no member or more than one
+  defines its name.
+- `objects.release_and_destroy_slot_call` disassembles `0x00cbaec0` from
+  the archive. It fails when the function loads its data pointer, at offset
+  8, into `rdx`, as the member call did, or not into `rcx`. It matches
+  registers, not values.
 
-Both run in the windows-x64 cross build only. For the `REL32` types both
-take the stored addend plus 4 as the offset used, because the addend leaves
-out an immediate that follows the displacement. A relocation whose stored
+All four run in the windows-x64 cross build only. For the `REL32` types
+the first two take the stored addend plus 4 as the offset used, because
+the addend leaves out an immediate that follows the displacement. A relocation whose stored
 addend lies in the last 4 bytes of a table therefore fails, although
 without an immediate the read is inside the table.
 
 ## Per-table sections
 
-Fourteen of the fifteen vtable units are compiled with `/Gw` in builds whose
-compiler takes the MSVC command line, so each of their tables has a COMDAT
-data section of its own and a link keeps only the tables something refers
-to. `vtables_010c.cpp`, which holds `DAT_010c4db8`, keeps one section for
-its tables until `FUN_00c7a630` is repaired. The host build is unchanged.
-The bytes and relocations of every table are unchanged; each table's
-section selection changes from a plain section to `NoDuplicates`.
+The fifteen vtable units are compiled with `/Gw` in builds whose compiler
+takes the MSVC command line, so each of their tables has a COMDAT data
+section of its own and a link keeps only the tables something refers to.
+The host build is unchanged. The bytes and relocations of every table are
+unchanged; each table's section selection changes from a plain section to
+`NoDuplicates`.
 
-Measured at `e904ce163` on the windows-x64 cross build, against the same
-build before the step: the forced link of every member keeps its
-undefined and duplicate names, its members and the members it loads from
-the runtime libraries, and loses 29 of 137 imports, among them the
-registry, thread and profile string functions. Each was reached only from
-tables that nothing refers to. The lazy links and today's FalloutNV link
-are unchanged. In the function-level model of what a link from WinMain
-keeps, the names left unresolved, with the projection of known aliases,
-go from 22,987 to 21,486; from the main loop from 21,791 to 20,138; and
-from the start menu from 20,425 to 18,627. The model's cut without any
+Measured at `e904ce163` on the windows-x64 cross build, for the first
+fourteen units against the same build before the step: the forced link of
+every member keeps its undefined and duplicate names, its members and the
+members it loads from the runtime libraries, and loses 29 of 137 imports,
+among them the registry, thread and profile string functions. Each was
+reached only from tables that nothing refers to. The lazy links and today's
+FalloutNV link are unchanged. In the function-level model of what a link
+from WinMain keeps, the names left unresolved, with the projection of known
+aliases, go from 22,987 to 21,486; from the main loop from 21,791 to 20,138;
+and from the start menu from 20,425 to 18,627. The model's cut without any
 vtable unit stays at 15,601 names.
+
+`vtables_010c.cpp` took the option once `FUN_00c7a630` no longer read past
+`DAT_010c4db8`. Measured on the cross build of that step against the build
+before it, from one export of each commit on `c7abe570e`: its 318 tables keep their bytes
+and relocations, 71 of them without the 8 bytes of zero padding that
+followed them in the shared section. The forced link of every member keeps
+its undefined and duplicate names and its members, and loses one of 114
+imports, `SuspendThread`. The lazy links and today's FalloutNV link are
+unchanged, and the links rooted at WinMain, the main loop and the start
+menu load the same members and leave the same names undefined, with one
+import fewer each. In the model, with the projection, the names left
+unresolved go from 21,471 to 20,979 from WinMain, from 20,124 to 19,585
+from the main loop and from 18,614 to 18,085 from the start menu. A few
+names enter: 1 from WinMain and the main loop, 19 from the start menu. The
+model takes a section of a name with differing definitions from a member
+it reaches, and with fewer members reached it takes another member's copy,
+which refers to names the earlier copy did not. The two traced cases are
+the deleting destructor of `NiFloatInterpolator` and the table of
+`hkpSymmetricAgentFlipCollector`. The real links load the same members in
+the same order before and after, so the linker keeps the same copies. The
+model's cut without any vtable unit stays at 15,586 names.
 
 ## What the scans do not see
 
@@ -204,3 +318,6 @@ vtable unit stays at 15,601 names.
   of a table's address between files or through function arguments.
 - A relocation to another name of the same storage, such as an
   `/alternatename` target.
+- For the census of the callers of `0x00cb9cb0`: a call through offset 16
+  of a table pointer in a function other than the one that stored the
+  table, and a call through a copy of a slot's value.

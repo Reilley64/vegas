@@ -99,11 +99,13 @@ used before, which no object defines, and requires the name of the body.
 of a two-slot generated table (VEGAS-30, docs/table-slot-reads.md). Each read
 16 bytes past the start of the table: the windows-x64 view of the original's
 slot 8 bytes past it, which the recipe names on its own and generated data
-defines as its own variable.
+defines as its own variable, or, for `DAT_010c4dc0`, `blk_00c60000_o2.cpp`.
 The table gives each generated table's length in a `past` line, so a listed
 function that again addresses one at or past its end fails, and requires
 the name of the slot that the function now calls through. The function still
-stores the table's address, so the table's name is not forbidden.
+stores the table's address, so the table's name is not forbidden. It also
+lists `FUN_00c7a690`, which never read past its table, and requires the
+one-pointer name of the slot it calls.
 
 `mask-constants.tsv` lists the 18 functions whose numeric masks, flags,
 counts and limits were spelled as the addresses of data names (VEGAS-93,

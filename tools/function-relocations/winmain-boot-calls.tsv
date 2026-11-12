@@ -8,5 +8,7 @@ forbid	?FUN_0086e650@Receiver86@@QEAAXXZ
 forbid	?FUN_0086cf20@Receiver86@@QEAAXPEAU1@@Z
 # the render set-up, 0x0086d590
 forbid	?FUN_0086d590@Receiver86@@QEAAXXZ
+# the window procedure, 0x0086a0a0, whose address WinMain takes
+forbid	?FUN_0086a0a0@fnv_0086a0a0@@YAJPEAUHWND__@@IIJ@Z
 # batch, unit, function and the names of the bodies:
-function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ ?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z ?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ
+function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ ?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z ?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ ?FUN_0086a0a0@fnv_0086a0a0@@YA_JPEAUHWND__@@I_K_J@Z

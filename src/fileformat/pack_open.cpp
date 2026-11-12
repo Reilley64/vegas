@@ -62,10 +62,10 @@ std::vector<std::byte> ReadAll(std::FILE* file)
 
 } // namespace
 
-OriginalCheckedPack OpenPack(const std::filesystem::path& path, std::span<const OriginalIdentity> supported)
+OriginalCheckedPack OpenPack(const std::filesystem::path& path)
 {
     std::vector<std::byte> bytes = ReadAll(OpenForReading(path).get());
-    return CheckPackOriginal(std::move(bytes), supported);
+    return CheckPackOriginal(std::move(bytes));
 }
 
 } // namespace fileformat

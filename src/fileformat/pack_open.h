@@ -5,7 +5,6 @@
 #include "fileformat/pack_validation.h"
 
 #include <filesystem>
-#include <span>
 #include <stdexcept>
 #include <string>
 
@@ -43,14 +42,14 @@ class PackOpenError : public std::runtime_error
 //   including an unsupported envelope, catalogue, native data contract or
 //   build target revision and a payload outside the file;
 // - UnsupportedOriginalError when the original it records is not one of
-//   `supported`.
+//   SupportedOriginals().
 //
 // Only the file at `path` is read: no executable and no other file. Where the
-// path and the supported set come from is the caller's. The result is an
-// OriginalCheckedPack, which is not a complete pack and does not allow the
-// engine to start. An allocation failure throws the standard exceptions, not
-// one of these.
-OriginalCheckedPack OpenPack(const std::filesystem::path& path, std::span<const OriginalIdentity> supported);
+// path comes from is the caller's; the supported set is the source's and is
+// not a parameter. The result is an OriginalCheckedPack, which is not a
+// complete pack and does not allow the engine to start. An allocation failure
+// throws the standard exceptions, not one of these.
+OriginalCheckedPack OpenPack(const std::filesystem::path& path);
 
 } // namespace fileformat
 

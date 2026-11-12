@@ -3,6 +3,7 @@
 #include "fileformat/pack_structure.h"
 #include "fileformat/pack_validation.h"
 #include "fileformat/pack_writer.h"
+#include "fileformat/supported_release.h"
 
 #include <algorithm>
 #include <array>
@@ -27,8 +28,9 @@ using fileformat::OriginalProblem;
 using fileformat::PackWriteEntry;
 using fileformat::UncheckedPackRequirement;
 
-// Only CheckPackOriginal makes an OriginalCheckedPack: nothing converts a parsed
-// structure into one, and it is moved, not copied.
+// Only CheckPackOriginal and CheckPackOriginalAgainst make an
+// OriginalCheckedPack: nothing converts a parsed structure into one, and it is
+// moved, not copied.
 static_assert(!std::is_default_constructible_v<OriginalCheckedPack>);
 static_assert(!std::is_constructible_v<OriginalCheckedPack, fileformat::PackStructure>);
 static_assert(!std::is_constructible_v<OriginalCheckedPack, fileformat::PackStructure, const OriginalIdentity&>);
@@ -36,6 +38,20 @@ static_assert(!std::is_copy_constructible_v<OriginalCheckedPack>);
 static_assert(!std::is_copy_assignable_v<OriginalCheckedPack>);
 static_assert(std::is_nothrow_move_constructible_v<OriginalCheckedPack>);
 static_assert(std::is_nothrow_move_assignable_v<OriginalCheckedPack>);
+
+// The production name takes no set, neither a span nor an array of the
+// source's type: only the form for tests of the comparison does.
+template <typename Set>
+concept CheckTakesSet = requires(std::vector<std::byte> file, Set set) {
+    fileformat::CheckPackOriginal(std::move(file), set);
+};
+template <typename Set>
+concept AgainstTakesSet = requires(std::vector<std::byte> file, Set set) {
+    fileformat::CheckPackOriginalAgainst(std::move(file), set);
+};
+static_assert(!CheckTakesSet<std::span<const OriginalIdentity>>);
+static_assert(!CheckTakesSet<std::array<OriginalIdentity, 1>>);
+static_assert(AgainstTakesSet<std::span<const OriginalIdentity>>);
 
 // Original, Entries and EntryBytes point into the pack, so only a pack that
 // outlives the call offers them.
@@ -57,7 +73,7 @@ static_assert(!OffersEntryBytes<const OriginalCheckedPack>);
 
 constexpr std::array<std::uint16_t, 4> someVersion{1, 4, 0, 525};
 
-// Digests are made up: nothing here is the digest of a real file.
+// Digests from Digest() are made up: none is the digest of a real file.
 std::array<std::byte, 32> Digest(std::uint8_t seed)
 {
     std::array<std::byte, 32> digest{};
@@ -93,7 +109,7 @@ std::vector<std::byte> Write(const std::array<std::uint16_t, 4>& version, const 
 
 OriginalCheckedPack CheckOriginal(const std::vector<std::byte>& file, std::initializer_list<OriginalIdentity> supported)
 {
-    return fileformat::CheckPackOriginal(file, std::span(supported.begin(), supported.size()));
+    return fileformat::CheckPackOriginalAgainst(file, std::span(supported.begin(), supported.size()));
 }
 
 void Accepts(Checks& check, std::string_view name, const std::array<std::uint16_t, 4>& version,
@@ -101,7 +117,7 @@ void Accepts(Checks& check, std::string_view name, const std::array<std::uint16_
              std::size_t expected)
 {
     const std::span<const OriginalIdentity> set(supported.begin(), supported.size());
-    const OriginalCheckedPack pack = fileformat::CheckPackOriginal(Write(version, sha), set);
+    const OriginalCheckedPack pack = fileformat::CheckPackOriginalAgainst(Write(version, sha), set);
     check.Equal(std::format("{}: original version", name), true, pack.Original().version == set[expected].version);
     check.Equal(std::format("{}: original SHA-256", name), true, pack.Original().sha256 == set[expected].sha256);
     check.Equal(std::format("{}: entry count", name), threeEntries.size(), pack.Entries().size());
@@ -200,7 +216,8 @@ void ChecksTheContainerFirst(Checks& check)
 
 void RefusesAnEntryIndexPastTheEnd(Checks& check)
 {
-    const OriginalCheckedPack pack = CheckOriginal(Write(someVersion, Digest(1)), {{someVersion, Digest(1)}});
+    const OriginalCheckedPack pack =
+        fileformat::CheckPackOriginal(Write(supported_release::version, supported_release::Sha256()));
     for (const std::size_t index : {threeEntries.size(), std::numeric_limits<std::size_t>::max()})
     {
         try
@@ -216,10 +233,9 @@ void RefusesAnEntryIndexPastTheEnd(Checks& check)
 
 void ListsWhatIsUnchecked(Checks& check)
 {
-    const std::array<UncheckedPackRequirement, 3> expected{
+    const std::array<UncheckedPackRequirement, 2> expected{
         UncheckedPackRequirement::Catalogue,
         UncheckedPackRequirement::EntryValues,
-        UncheckedPackRequirement::SourceOwnedOriginals,
     };
     check.Equal("unchecked", true, std::ranges::equal(expected, OriginalCheckedPack::Unchecked()));
 }
@@ -229,18 +245,62 @@ void ListsWhatIsUnchecked(Checks& check)
 // original and has no entries.
 void MovesWithItsBytes(Checks& check)
 {
-    OriginalCheckedPack first = CheckOriginal(Write(someVersion, Digest(1)), {{someVersion, Digest(1)}});
+    OriginalCheckedPack first =
+        fileformat::CheckPackOriginal(Write(supported_release::version, supported_release::Sha256()));
     OriginalCheckedPack second = std::move(first);
     check.Equal("moved payload", true, std::ranges::equal(threeEntries[2].payload, second.EntryBytes(2)));
-    check.Equal("moved-from original", true, first.Original().sha256 == Digest(1));
+    check.Equal("moved-from original", true, first.Original().sha256 == supported_release::Sha256());
     check.Equal("moved-from entries", std::size_t{0}, first.Entries().size());
 
-    OriginalCheckedPack third = CheckOriginal(Write(someVersion, Digest(2)), {{someVersion, Digest(2)}});
+    OriginalCheckedPack third = fileformat::CheckPackOriginal(fileformat::WritePackStructure(
+        supported_release::version, supported_release::Sha256(), std::span(threeEntries).first(1)));
     third = std::move(second);
+    check.Equal("move-assigned entries", threeEntries.size(), third.Entries().size());
     check.Equal("move-assigned payload", true, std::ranges::equal(threeEntries[2].payload, third.EntryBytes(2)));
-    check.Equal("move-assigned original", true, third.Original().sha256 == Digest(1));
-    check.Equal("assigned-from original", true, second.Original().sha256 == Digest(1));
+    check.Equal("move-assigned original", true, third.Original().sha256 == supported_release::Sha256());
+    check.Equal("assigned-from original", true, second.Original().sha256 == supported_release::Sha256());
     check.Equal("assigned-from entries", std::size_t{0}, second.Entries().size());
+}
+
+// Without a set, the pack is checked against the source's: a synthetic pack
+// that records the supported release's version and digest passes, and one
+// that records any other fails.
+void ChecksAgainstTheSupportedRelease(Checks& check)
+{
+    const OriginalCheckedPack pack =
+        fileformat::CheckPackOriginal(Write(supported_release::version, supported_release::Sha256()));
+    check.Equal("release: original version", true, pack.Original().version == supported_release::version);
+    check.Equal("release: original SHA-256", true, pack.Original().sha256 == supported_release::Sha256());
+    check.Equal("release: entry count", threeEntries.size(), pack.Entries().size());
+
+    const auto refuses = [&](std::string_view name, const std::array<std::uint16_t, 4>& version,
+                             const std::array<std::byte, 32>& sha, OriginalProblem expected) {
+        try
+        {
+            fileformat::CheckPackOriginal(Write(version, sha));
+            check.Fail(name, "was accepted");
+        }
+        catch (const fileformat::UnsupportedOriginalError& error)
+        {
+            if (error.Problem() != expected)
+                check.Fail(name, std::format("was refused for another reason: {}", error.what()));
+        }
+    };
+    for (std::size_t i = 0; i < 32; ++i)
+    {
+        std::array<std::byte, 32> other = supported_release::Sha256();
+        other[i] ^= std::byte{0x01};
+        refuses(std::format("release digest byte {} differs", i), supported_release::version, other,
+                OriginalProblem::Digest);
+    }
+    refuses("made-up digest", supported_release::version, Digest(1), OriginalProblem::Digest);
+    for (std::size_t part = 0; part < supported_release::version.size(); ++part)
+    {
+        std::array<std::uint16_t, 4> other = supported_release::version;
+        ++other[part];
+        refuses(std::format("release digest, version part {} differs", part), other, supported_release::Sha256(),
+                OriginalProblem::Version);
+    }
 }
 
 } // namespace
@@ -255,5 +315,6 @@ int main()
     check.Run("entry index past the end", [&] { RefusesAnEntryIndexPastTheEnd(check); });
     check.Run("unchecked requirements", [&] { ListsWhatIsUnchecked(check); });
     check.Run("move", [&] { MovesWithItsBytes(check); });
+    check.Run("source-owned release", [&] { ChecksAgainstTheSupportedRelease(check); });
     return check.ExitCode();
 }

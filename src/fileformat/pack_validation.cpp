@@ -7,10 +7,12 @@
 namespace fileformat
 {
 
-OriginalCheckedPack CheckPackOriginal(std::vector<std::byte> file, std::span<const OriginalIdentity> supported)
+namespace
 {
-    PackStructure structure = ParsePackStructure(std::move(file));
 
+// The identity of `supported` that the parsed pack records.
+const OriginalIdentity& RecordedOriginal(const PackStructure& structure, std::span<const OriginalIdentity> supported)
+{
     const auto sameVersion = [&](const OriginalIdentity& identity) {
         return identity.version == structure.originalVersion;
     };
@@ -22,7 +24,23 @@ OriginalCheckedPack CheckPackOriginal(std::vector<std::byte> file, std::span<con
     if (match == supported.end())
         throw UnsupportedOriginalError(OriginalProblem::Digest,
                                        "data pack: original SHA-256: is not supported for this version");
-    return OriginalCheckedPack(std::move(structure), *match);
+    return *match;
+}
+
+} // namespace
+
+OriginalCheckedPack CheckPackOriginal(std::vector<std::byte> file)
+{
+    PackStructure structure = ParsePackStructure(std::move(file));
+    const OriginalIdentity& original = RecordedOriginal(structure, SupportedOriginals());
+    return OriginalCheckedPack(std::move(structure), original);
+}
+
+OriginalCheckedPack CheckPackOriginalAgainst(std::vector<std::byte> file, std::span<const OriginalIdentity> supported)
+{
+    PackStructure structure = ParsePackStructure(std::move(file));
+    const OriginalIdentity& original = RecordedOriginal(structure, supported);
+    return OriginalCheckedPack(std::move(structure), original);
 }
 
 std::span<const std::byte> OriginalCheckedPack::EntryBytes(std::size_t index) const&

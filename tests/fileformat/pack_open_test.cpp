@@ -4,6 +4,7 @@
 #include "fileformat/pack_structure.h"
 #include "fileformat/pack_validation.h"
 #include "fileformat/pack_writer.h"
+#include "fileformat/supported_release.h"
 
 #include <algorithm>
 #include <array>
@@ -30,7 +31,6 @@ namespace
 namespace fs = std::filesystem;
 
 using fileformat::OriginalCheckedPack;
-using fileformat::OriginalIdentity;
 using fileformat::OriginalProblem;
 using fileformat::PackOpenProblem;
 using fileformat::PackStructureProblem;
@@ -54,9 +54,8 @@ constexpr std::size_t recordOffset = 8;
 constexpr std::size_t recordSize = 16;
 } // namespace at
 
-constexpr std::array<std::uint16_t, 4> someVersion{1, 4, 0, 525};
-
-// Digests are made up: nothing here is the digest of a real file.
+// Digests from Digest() are made up: none is the digest of a real file. The
+// packs that open record the supported release's version and digest.
 std::array<std::byte, 32> Digest(std::uint8_t seed)
 {
     std::array<std::byte, 32> digest{};
@@ -64,8 +63,6 @@ std::array<std::byte, 32> Digest(std::uint8_t seed)
         digest[i] = static_cast<std::byte>(seed + 7 * i);
     return digest;
 }
-
-const std::array<OriginalIdentity, 1> supported{{{someVersion, Digest(1)}}};
 
 std::span<const std::byte> Bytes(std::string_view text)
 {
@@ -86,9 +83,10 @@ const std::array<PackWriteEntry, 3> threeEntries{
     Entry("CCCC", 3, "ccc"),
 };
 
-std::vector<std::byte> ThreeEntryPack(const std::array<std::byte, 32>& sha = Digest(1))
+std::vector<std::byte> ThreeEntryPack(const std::array<std::uint16_t, 4>& version = supported_release::version,
+                                      const std::array<std::byte, 32>& sha = supported_release::Sha256())
 {
-    return fileformat::WritePackStructure(someVersion, sha, threeEntries);
+    return fileformat::WritePackStructure(version, sha, threeEntries);
 }
 
 // CRC-32 one bit at a time, so the test does not check zlib against zlib.
@@ -162,11 +160,14 @@ class Folder
 
 void Opens(Checks& check, std::string_view name, const Folder& folder, std::span<const PackWriteEntry> entries)
 {
-    const fs::path file =
-        folder.Write(std::format("{}.pack", name), fileformat::WritePackStructure(someVersion, Digest(1), entries));
-    const OriginalCheckedPack pack = fileformat::OpenPack(file, supported);
-    check.Equal(std::format("{}: original version", name), true, pack.Original().version == someVersion);
-    check.Equal(std::format("{}: original SHA-256", name), true, pack.Original().sha256 == Digest(1));
+    const fs::path file = folder.Write(
+        std::format("{}.pack", name),
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+    const OriginalCheckedPack pack = fileformat::OpenPack(file);
+    check.Equal(std::format("{}: original version", name), true,
+                pack.Original().version == supported_release::version);
+    check.Equal(std::format("{}: original SHA-256", name), true,
+                pack.Original().sha256 == supported_release::Sha256());
     check.Equal(std::format("{}: entry count", name), entries.size(), pack.Entries().size());
     if (pack.Entries().size() != entries.size())
         return;
@@ -181,12 +182,11 @@ void Opens(Checks& check, std::string_view name, const Folder& folder, std::span
 
 // Expects OpenPack to throw `Error` with the problem given.
 template <typename Error, typename Problem>
-void Refuses(Checks& check, std::string_view name, const fs::path& file, Problem expected,
-             std::span<const OriginalIdentity> identities = supported)
+void Refuses(Checks& check, std::string_view name, const fs::path& file, Problem expected)
 {
     try
     {
-        fileformat::OpenPack(file, identities);
+        fileformat::OpenPack(file);
         check.Fail(name, "was opened");
     }
     catch (const Error& error)
@@ -225,7 +225,7 @@ void OpensAPackAlone(Checks& check)
     for (const fs::directory_entry& entry : fs::directory_iterator(folder.path))
         others += entry.path() != file ? 1 : 0;
     check.Equal("files beside the pack", std::size_t{0}, others);
-    const OriginalCheckedPack pack = fileformat::OpenPack(file, supported);
+    const OriginalCheckedPack pack = fileformat::OpenPack(file);
     check.Equal("entries of a pack alone", threeEntries.size(), pack.Entries().size());
 }
 
@@ -313,15 +313,16 @@ void RefusesACorruptContainer(Checks& check)
 void RefusesAnUnsupportedOriginal(Checks& check)
 {
     const Folder folder;
-    const fs::path file = folder.Write("vegas-data.pack", ThreeEntryPack());
-    Refuses<fileformat::UnsupportedOriginalError>(check, "no supported identity", file, OriginalProblem::Version,
-                                                  std::span<const OriginalIdentity>());
-    const std::array<OriginalIdentity, 1> otherVersion{{{{1, 4, 0, 524}, Digest(1)}}};
-    Refuses<fileformat::UnsupportedOriginalError>(check, "another version", file, OriginalProblem::Version,
-                                                  otherVersion);
-    const std::array<OriginalIdentity, 1> otherDigest{{{someVersion, Digest(2)}}};
-    Refuses<fileformat::UnsupportedOriginalError>(check, "another digest", file, OriginalProblem::Digest,
-                                                  otherDigest);
+    const auto refuses = [&](std::string_view name, const std::array<std::uint16_t, 4>& version,
+                             const std::array<std::byte, 32>& sha, OriginalProblem expected) {
+        Refuses<fileformat::UnsupportedOriginalError>(
+            check, name, folder.Write(std::format("{}.pack", name), ThreeEntryPack(version, sha)), expected);
+    };
+    refuses("another version", {1, 4, 0, 524}, supported_release::Sha256(), OriginalProblem::Version);
+    refuses("another digest", supported_release::version, Digest(1), OriginalProblem::Digest);
+    std::array<std::byte, 32> lastByte = supported_release::Sha256();
+    lastByte.back() ^= std::byte{0x01};
+    refuses("last digest byte changed", supported_release::version, lastByte, OriginalProblem::Digest);
 }
 
 } // namespace

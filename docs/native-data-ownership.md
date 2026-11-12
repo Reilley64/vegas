@@ -97,14 +97,14 @@ relative logical-member order, and must not claim literal old member names
 are unchanged. Actual definitions/initializer bytes and complete production
 links remain required; a successful patch application alone is not proof.
 
-VEGAS-30 compiles fourteen of the fifteen generated vtable units with `/Gw`
-in builds whose compiler takes the MSVC command line, so that each of their
-tables gets a COMDAT data section of its own and a link keeps only the tables
+VEGAS-30 compiles the fifteen generated vtable units with `/Gw` in builds
+whose compiler takes the MSVC command line, so that each of their tables
+gets a COMDAT data section of its own and a link keeps only the tables
 something refers to. It is a compile option set in `CMakeLists.txt`: no
 generated file changes, and the composed units are compiled from their
 composed copies as before. The table bytes and relocations are unchanged.
-`vtables_010c.cpp` keeps one section for all its tables while a read past
-the end of its table `DAT_010c4db8` stays open (`docs/table-slot-reads.md`).
+`vtables_010c.cpp` took the option last, once the read past the end of its
+table `DAT_010c4db8` was repaired (`docs/table-slot-reads.md`).
 
 Changing these retirements requires reviewing the source owners and all real
 consumers, composing and inspecting the exact bytes, rebuilding affected

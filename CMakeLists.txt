@@ -67,17 +67,16 @@ include(src/fallout/sources.cmake)
 include(src/runtime/native_data_composition.cmake)
 # One COMDAT data section per table of the generated vtable units (VEGAS-30),
 # so that a link keeps only the tables something refers to. It is a compile
-# option, not an edit of the generated files. vtables_010c.cpp keeps one
-# section for its tables: FUN_00c7a630 still reads past the end of its table
-# DAT_010c4db8 (docs/table-slot-reads.md). Only compilers with the MSVC
-# command line take /Gw; the host's AppleClang builds the units as before.
+# option, not an edit of the generated files. No known read passes the end of
+# a table (docs/table-slot-reads.md), so all fifteen units take it. Only
+# compilers with the MSVC command line take /Gw; the host's AppleClang builds
+# the units as before.
 if(CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
   get_target_property(vegas_vtable_sources game SOURCES)
   list(FILTER vegas_vtable_sources INCLUDE REGEX "generated/data/vtables_01[0-9a-f][0-9a-f]\\.cpp$")
-  list(FILTER vegas_vtable_sources EXCLUDE REGEX "generated/data/vtables_010c\\.cpp$")
   list(LENGTH vegas_vtable_sources vegas_vtable_count)
-  if(NOT vegas_vtable_count EQUAL 14)
-    message(FATAL_ERROR "expected 14 generated vtable units with /Gw, found ${vegas_vtable_count}")
+  if(NOT vegas_vtable_count EQUAL 15)
+    message(FATAL_ERROR "expected 15 generated vtable units with /Gw, found ${vegas_vtable_count}")
   endif()
   set_property(SOURCE ${vegas_vtable_sources} TARGET_DIRECTORY game APPEND PROPERTY COMPILE_OPTIONS /Gw)
 endif()

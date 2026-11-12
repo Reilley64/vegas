@@ -31,3 +31,4 @@ src/generated/data/vtables_010c.cpp text eol=lf
 src/generated/data/vtables_010d.cpp text eol=lf
 src/generated/data/vtables_010e.cpp text eol=lf
 src/runtime/native_data_retirements.patch text eol=lf
+tests/sha256/*.rsp -text

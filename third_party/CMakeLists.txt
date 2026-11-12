@@ -32,6 +32,25 @@ set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 FetchContent_MakeAvailable(SDL3 Ogg Vorbis zlib)
 unset(CMAKE_POLICY_VERSION_MINIMUM)
 
+# SHA-256 from Mbed TLS 3.6 LTS, for setup to identify the original release
+# (VEGAS-13). Only the two files below are built: SOURCE_SUBDIR names a folder
+# without a CMakeLists.txt, so Mbed TLS's own build is never added.
+FetchContent_Declare(mbedtls
+  URL https://github.com/Mbed-TLS/mbedtls/releases/download/mbedtls-3.6.7/mbedtls-3.6.7.tar.bz2
+  URL_HASH SHA256=a7e8bcbec0e6f761b4af24f25677626b35f762f68eef79c08677a363212d11f6
+  SOURCE_SUBDIR no-cmake-build
+)
+FetchContent_MakeAvailable(mbedtls)
+add_library(mbedtls_sha256 STATIC
+  ${mbedtls_SOURCE_DIR}/library/sha256.c
+  ${mbedtls_SOURCE_DIR}/library/platform_util.c
+)
+target_include_directories(mbedtls_sha256
+  PUBLIC ${mbedtls_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/mbedtls
+  PRIVATE ${mbedtls_SOURCE_DIR}/library
+)
+target_compile_definitions(mbedtls_sha256 PUBLIC "MBEDTLS_CONFIG_FILE=\"vegas_sha256_config.h\"")
+
 # FFmpeg builds only with its own configure script and make, so on Windows it runs
 # under MSYS2's bash. Only the parts the game plays are enabled, and FFmpeg is
 # linked as DLLs.

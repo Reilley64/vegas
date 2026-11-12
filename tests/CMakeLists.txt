@@ -119,6 +119,13 @@ else()
 endif()
 add_test(NAME fileformat.pack_catalogue COMMAND fileformat_pack_catalogue_test)
 
+# The SHA-256 of Mbed TLS against NIST's test vectors, which are stored beside
+# the test. It links only the mbedtls_sha256 target, on every host.
+add_executable(sha256_test sha256/sha256_test.cpp)
+target_include_directories(sha256_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(sha256_test PRIVATE mbedtls_sha256)
+add_test(NAME sha256.nist_vectors COMMAND sha256_test ${CMAKE_CURRENT_SOURCE_DIR}/sha256)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

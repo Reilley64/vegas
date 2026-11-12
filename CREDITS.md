@@ -54,3 +54,11 @@ the first matcher and the reworker. 8 further contributors took part anonymously
 | [Crimson7077](https://github.com/Crimson7077) | 1 | 176 |
 
 The rest of the code was matched by the project's own tooling.
+
+## Third-party code
+
+The `mbedtls_sha256` target builds the SHA-256 module of [Mbed TLS](https://github.com/Mbed-TLS/mbedtls) 3.6.7,
+copyright The Mbed TLS Contributors. Mbed TLS is offered under Apache-2.0 or GPL-2.0-or-later; this project uses it
+under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+The SHA-256 test vectors in `tests/sha256` are NIST's, from the Cryptographic Algorithm Validation Program.

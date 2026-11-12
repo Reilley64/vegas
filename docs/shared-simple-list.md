@@ -1258,14 +1258,17 @@ member's address. No requiring unit has a row that names either destructor.
 The destructor's function row is the owner's, at `0x0046ffb0`, under the
 stand-in name `EffectSettingList::~EffectSettingList`. By the scheme of the
 first step, which asks whether a requiring unit has a row at the member's
-address under another name, both bindings are recorded under that stand-in:
+address under another name, the bindings are recorded under that stand-in
+where the unit has such a row, and INFERRED from the template's name where
+it has none:
 
 - `DebrisModelEntry*`: `bgsdebris.cpp`, the one requiring unit, has a
   symbol row at `0x0046ffb0` under the stand-in.
 - `const char*`: 10 of the 15 requiring units have a symbol row at
   `0x0046ffb0` under the stand-in. The other five, `animation.cpp`,
   `creaturesounds.cpp`, `magicitem.cpp`, `playercharacter.cpp` and
-  `tesidlemanager.cpp`, have no row at that address.
+  `tesidlemanager.cpp`, have no row at that address; their bindings are
+  INFERRED.
 - 10 of the 15 also bind the deleting destructor
   `BSSimpleList<const char*>::'scalar deleting destructor'` to
   `0x004702f0`. No windows-x64 object requires or defines a deleting

@@ -100,7 +100,7 @@ class, so no field is called established here.
 | `m_ucDecal` | 1 | 44 | 56 | disagreeing: defect 3 (32-bit offset) |
 | `pParentName` | 8 | 48 | 64 | not met: defect 5 writes the parent at 88, neither offset |
 | `m_uiSoundEntryCount` | 4 | 52 | 72 | not met: defect 5 reads the count from 56, neither offset; disagreeing at the 32-bit offset: defects 1 and 4 |
-| `sounds` | 8 | 56 | 80 | disagreeing: defects 1 and 4 (32-bit offset); defect 2 reaches it at 80 and sizes its block by the 32-bit entry size |
+| `sounds` | 8 | 56 | 80 | disagreeing: defects 1 and 4 (32-bit offset); `0x005f2820` reaches it at 80 and sizes its block by `sizeof(AnimGroupSound)` (defect 2, repaired) |
 
 The 32-bit offsets are those of the transcribed declaration with 4-byte
 pointers. The windows-x64 offsets start each derived field after the 16
@@ -122,6 +122,40 @@ bytes; `0x005f2820` reads and writes `m_uiSoundEntryCount` and `sounds`;
 and `SoundAssetTmp` at 16. In the 32-bit declaration it is 16 bytes, with
 `SoundAssetTmp` at 12.
 
+### The sound entry type
+
+The bodies searched for access to the entries are every function row from
+`0x005f2200` to `0x005f4e00`, and the two callers of `0x005f2b60`
+(`animation.cpp` and `actor.cpp`), which pass the object and do not reach
+an entry. The rows in that range are in `tesanimgroup.cpp` and
+`blk_005e0000_od.cpp`, and two more: `0x005f36f0` in `navmesh.cpp` and
+`0x005f4bb0` in `bgscamerapath.cpp` (defect 5), which do not reach an
+entry. `0x005f4bd0` and `0x005f4c00`, in `blk_005e0000_od.cpp`, reach
+16-byte entries through a count at 0xc and a pointer at 0x18 (0x14 in the
+32-bit layout) of the `apSequence` that `tesanimgroup.cpp` passes them, not
+of a `TESAnimGroup`; they are left out of the table. The row of `0x007f7c90`
+(defect 3) is in `tesscriptcompiler.cpp`, outside the range.
+
+In the stated search scope `AnimGroupSound` meets rules (a) to (d) of the
+rulings page: its fields and their order are the transcribed declaration's,
+the compiler measures 24 bytes in each unit on the header, every body that
+disagrees uses exactly the 32-bit size and offsets, and no body uses a
+third.
+
+| Body | Stride | Fields reached | Agrees |
+| --- | --- | --- | --- |
+| `0x005f2820`, resize (defect 2, repaired) | 24 | 0, 4, 8, 16 (8 bytes) | yes |
+| `0x005f2b60`, `FUN_005f2b60_cls::ProcessSoundEntries` | from `0x005f3710` | reads 0, 4, 8, 16 (8 bytes) | yes, for the fields |
+| `0x005f3710`, `FUN_005f3710_Class::GetEntryAt` | 16 | none | no: 32-bit size |
+| `0x005f29f0`, `0x005f2a30`, `0x005f2a70`, `0x005f2ac0`, `0x005f2b20` (defect 4) | 16 | 0, 4, 8, and 12 (4 bytes) | no: 32-bit size and offsets |
+
+`0x005f2b60` takes each entry's address from `0x005f3710`, which the
+compiler inlines, so its entries are 16 bytes apart while it reads the
+fields at their x64 offsets (defect 4). Bodies in other units that reach
+the entries through another getter or a raw offset would not be in this
+table: the units that name the class or `GetAnimGroup` were searched as
+text only.
+
 A probe kept outside the repository compiled the header on the host (macOS,
 arm64) and checked every offset there. `m_ucSectionPriorities`, `sType` and
 `frameCount` are at 12, 20 and 24, four bytes lower than on windows-x64:
@@ -132,9 +166,10 @@ alignment (8), the two agree. No body may reach a field by a fixed offset.
 ## Defects
 
 Each of these bodies reaches the object at offsets or with sizes that
-disagree with the declared members. They are recorded here, are not layout
-evidence, and are not changed by this change. Each was read in the source
-and in the windows-x64 object of its unit.
+disagree with the declared members. They are recorded here and are not
+layout evidence. Each was read in the source and in the windows-x64 object
+of its unit. Defect 2 is repaired; the others stand, each for the reason
+given with it.
 
 1. `0x005f22d0`, the destructor, `FUN_005f22d0::~FUN_005f22d0` in
    `tesanimgroup.cpp`, on a stand-in class that derives from `EBase` and
@@ -145,7 +180,14 @@ and in the windows-x64 object of its unit.
    assembled from `sType`, the padding after it and `frameCount`; the second
    is `m_ucDecal` and the padding after it; the 4 bytes are
    `m_cByteAfterSpeed` and the three blend counts. `0x005f22a0`, through
-   `TESAnimGroupDestructionView`, calls it on a `TESAnimGroup`.
+   `TESAnimGroupDestructionView`, calls it on a `TESAnimGroup`, and the
+   compiler inlines it there. On windows-x64 both bodies also store the
+   stand-in's table pointer, `??_7FUN_005f22d0@@6B@`, at offset 0 of the
+   object and then call `EBase`'s destructor, which no object defines.
+   Not repaired: the 4 bytes it zeroes are `m_uiSoundEntryCount`, which is
+   not established (defect 5), and a body on the declared members is
+   `~TESAnimGroup`, whose definition emits the class's table (see "Not
+   covered").
 2. `0x005f2820`, `FUN_005f2820_shell::FUN_005f2820` in `tesanimgroup.cpp`,
    resizes `sounds`. High priority. It allocates and copies `count << 4`
    bytes, the 32-bit size of `AnimGroupSound`, and then writes the new
@@ -155,9 +197,19 @@ and in the windows-x64 object of its unit.
    the `Sound:` keys (`tesanimgroup.cpp` lines 810 and 826), and
    `NamedObjectLoader::FUN_0043b7e0` (`0x0043b7e0`,
    `src/staging/blk_00420000_od.cpp` line 3869) calls `0x005f3a20`. The
-   lazy link of the program does not reach these bodies today. The body must
-   be repaired, sizing the block by `sizeof(AnimGroupSound)`, before any
-   program links the unit.
+   lazy link of the program does not reach these bodies today.
+
+   Repaired: the four sizes the body passes to `FUN_00401000`,
+   `Reallocate` and `__memcpy` are the count times
+   `sizeof(AnimGroupSound)`, in the `unsigned int` the callees take, and
+   the temporary copy is an array of `AnimGroupSound`. In the object the
+   four `shl` by 4 became a multiplication by 24, and nothing else in the
+   function changed: the count is still read and written at 72, `sounds` at
+   80, and the entries 24 bytes apart. The other sections of the unit's
+   object are unchanged apart from the end address of the function's
+   unwind entry. `objects.anim_group_sound_entry_size` fails when the
+   function scales a count by 16 or no longer steps through its entries 24
+   bytes apart. The count it is given is still defect 5's.
 3. The setters `0x005f3a20` calls on the object it builds, a
    `TESAnimGroupEx` derived from the class, for the text keys that set the
    blend counts and the decal. Each writes one byte at a fixed offset of a
@@ -177,6 +229,13 @@ and in the windows-x64 object of its unit.
    these keys changes `speed`, while the same body of `0x005f3a20` reads the
    blend counts at their x64 offsets, 53 to 55, and does not see the values
    it set.
+
+   Not repaired. `0x005f4b70` and `0x005f4b90` are in
+   `blk_005e0000_od.cpp`, which does not see the shared header ("Units that
+   did not move", rule 3). `0x007f7c90` and `0x008bf4e0` are bodies the
+   recipe also binds for other classes (`fopipboymanager.cpp`,
+   `package.cpp`), so a body that writes the class's field would change
+   theirs; `actor.cpp` does not see the header either.
 4. The setters `0x005f3a20` calls for the sound entries, all in
    `src/staging/blk_005e0000_od.cpp`: `FUN_005f29f0_Class::SetValueAtIndex`
    (`0x005f29f0`), `FUN_005f2a30_Class::SetEntryValue` (`0x005f2a30`),
@@ -190,7 +249,20 @@ and in the windows-x64 object of its unit.
    the pointer is assembled from `m_ucDecal` and the padding after it. The
    call of `0x005f3a20` to `SetEntryValue` passes a 64-bit value and so
    names a symbol that no object defines; the other four calls name the
-   defined bodies.
+   defined bodies. The repair does not change these setters. Their writes
+   go through the 8 bytes at 0x38, which on windows-x64 are `m_ucDecal` and
+   padding, not `sounds` (at 80); they remain a memory-safety defect.
+
+   `FUN_005f3710_Class::GetEntryAt` (`0x005f3710`, the same unit) has the
+   same fault: it compares the index with 4 bytes at 0x34 and returns the
+   pointer at 0x38 plus 16 times the index.
+   `FUN_005f2b60_cls::ProcessSoundEntries` (`0x005f2b60`) inlines it and
+   reads each entry it returns; the bound of its loop is the value
+   `BGSCameraPath::GetPrevPath` returns (defect 5).
+
+   Not repaired: the recipe has their rows in `blk_005e0000_od.cpp`, which
+   does not see the shared header, and each setter and `GetEntryAt` also
+   compares the index with `m_uiSoundEntryCount`, which is not established.
 5. Two members of `BGSCameraPath` that `0x005f3a20` calls on the object:
    `BGSCameraPath::GetPrevPath` (`0x005f36f0`,
    `src/fallout_shared/pathfinding/navmesh.cpp`) reads 8 bytes at 0x38,
@@ -320,10 +392,15 @@ size there.
 class. At this change: 13 names, one definition each.
 
 (c) The count of names with differing COMDAT definitions in the archive does
-not rise. At this change: 525 before and after.
+not rise. At the declaration move: 525 before and after; at the repair of
+defect 2: 519 before and after.
 
-The checks of `docs/shared-simple-list.md` hold unchanged: no object of the
-archive changes apart from the timestamp.
+(d) `objects.anim_group_sound_entry_size` passes: the sound entry resize
+sizes its block by the x64 entry size.
+
+The checks of `docs/shared-simple-list.md` hold unchanged. For a change that
+only moves declarations, no object of the archive changes apart from the
+timestamp; the repair of defect 2 changes `tesanimgroup.cpp.obj`.
 
 ## Not covered
 

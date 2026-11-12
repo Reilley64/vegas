@@ -33,9 +33,8 @@ class PackOpenError : public std::runtime_error
     PackOpenProblem problem;
 };
 
-// The step a later startup calls: reads the whole file at `path` and returns
-// CheckPackOriginal of its bytes. Each failure is reported before the engine
-// can use a byte of the pack:
+// Reads the whole file at `path` and returns CheckPackOriginal of its bytes.
+// Each failure is reported before the engine can use a byte of the pack:
 //
 // - PackOpenError when the file is missing or cannot be read;
 // - PackStructureError when its bytes are not a well-formed container,
@@ -50,6 +49,12 @@ class PackOpenError : public std::runtime_error
 // complete pack and does not allow the engine to start. An allocation failure
 // throws the standard exceptions, not one of these.
 OriginalCheckedPack OpenPack(const std::filesystem::path& path);
+
+// The step a later startup calls: reads the whole file at `path` as OpenPack
+// does and returns ValidatePack of its bytes. Throws PackOpenError as OpenPack
+// does, then what ValidatePack throws. Only the file at `path` is read; the
+// path is the caller's, and nothing else is a parameter.
+ValidatedPack OpenAndValidatePack(const std::filesystem::path& path);
 
 } // namespace fileformat
 

@@ -32,9 +32,11 @@ namespace fs = std::filesystem;
 
 using fileformat::OriginalCheckedPack;
 using fileformat::OriginalProblem;
+using fileformat::PackCatalogueProblem;
 using fileformat::PackOpenProblem;
 using fileformat::PackStructureProblem;
 using fileformat::PackWriteEntry;
+using fileformat::ValidatedPack;
 
 // Where the container decision puts the fields this test changes. The test
 // states them itself and does not share them with the reader or the writer.
@@ -325,6 +327,74 @@ void RefusesAnUnsupportedOriginal(Checks& check)
     refuses("last digest byte changed", supported_release::version, lastByte, OriginalProblem::Digest);
 }
 
+// Expects OpenAndValidatePack to throw `Error` with the problem given.
+template <typename Error, typename Problem>
+void RefusesToValidate(Checks& check, std::string_view name, const fs::path& file, Problem expected)
+{
+    try
+    {
+        fileformat::OpenAndValidatePack(file);
+        check.Fail(name, "was validated");
+    }
+    catch (const Error& error)
+    {
+        if (error.Problem() != expected)
+            check.Fail(name, std::format("was refused for another reason: {}", error.what()));
+    }
+    catch (const std::exception& error)
+    {
+        check.Fail(name, std::format("was refused with another kind of error: {}", error.what()));
+    }
+}
+
+// A pack of catalogue version 1: C1 under INST, version 1, its four fields of
+// 20, 60, 8 and 52 bytes holding made-up strings and zeros.
+std::vector<std::byte> CompletePack()
+{
+    std::string payload(140, '\0');
+    payload.replace(0, 4, "name");
+    payload.replace(20, 5, "first");
+    payload.replace(80, 3, "cap");
+    payload.replace(88, 6, "second");
+    const std::array<PackWriteEntry, 1> one{Entry("INST", 1, payload)};
+    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), one);
+}
+
+// The file of a complete pack opens and validates; each stage before the
+// catalogue reports through the file as it does for OpenPack.
+void OpensAndValidates(Checks& check)
+{
+    const Folder folder;
+    const ValidatedPack pack = fileformat::OpenAndValidatePack(folder.Write("vegas-data.pack", CompletePack()));
+    check.Equal("validated: original SHA-256", true, pack.Original().sha256 == supported_release::Sha256());
+    check.Equal("validated: mutex name", std::string_view("name"),
+                std::string_view(pack.SingleInstance().mutexName.data()));
+    check.Equal("validated: first message text", std::string_view("first"),
+                std::string_view(pack.SingleInstance().firstMessageText.data()));
+    check.Equal("validated: message caption", std::string_view("cap"),
+                std::string_view(pack.SingleInstance().messageCaption.data()));
+    check.Equal("validated: second message text", std::string_view("second"),
+                std::string_view(pack.SingleInstance().secondMessageText.data()));
+
+    RefusesToValidate<fileformat::PackOpenError>(check, "validate: no file", folder.path / "absent.pack",
+                                                 PackOpenProblem::Missing);
+    fs::create_directory(folder.path / "folder.pack");
+    RefusesToValidate<fileformat::PackOpenError>(check, "validate: a folder", folder.path / "folder.pack",
+                                                 PackOpenProblem::Unreadable);
+    std::vector<std::byte> catalogue2 = CompletePack();
+    Put(catalogue2, at::catalogueVersion, 2, 4);
+    Reseal(catalogue2);
+    RefusesToValidate<fileformat::PackStructureError>(check, "validate: catalogue version 2",
+                                                      folder.Write("catalogue2.pack", catalogue2),
+                                                      PackStructureProblem::CatalogueVersion);
+    RefusesToValidate<fileformat::UnsupportedOriginalError>(
+        check, "validate: another digest",
+        folder.Write("digest.pack", ThreeEntryPack(supported_release::version, Digest(1))), OriginalProblem::Digest);
+    RefusesToValidate<fileformat::PackCatalogueError>(check, "validate: three other entries",
+                                                      folder.Write("three.pack", ThreeEntryPack()),
+                                                      PackCatalogueProblem::MissingEntry);
+}
+
 } // namespace
 
 int main()
@@ -336,5 +406,6 @@ int main()
     check.Run("unreadable file", [&] { RefusesAnUnreadableFile(check); });
     check.Run("corrupt container", [&] { RefusesACorruptContainer(check); });
     check.Run("unsupported original", [&] { RefusesAnUnsupportedOriginal(check); });
+    check.Run("open and validate", [&] { OpensAndValidates(check); });
     return check.ExitCode();
 }

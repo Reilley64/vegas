@@ -68,4 +68,10 @@ OriginalCheckedPack OpenPack(const std::filesystem::path& path)
     return CheckPackOriginal(std::move(bytes));
 }
 
+ValidatedPack OpenAndValidatePack(const std::filesystem::path& path)
+{
+    std::vector<std::byte> bytes = ReadAll(OpenForReading(path).get());
+    return ValidatePack(std::move(bytes));
+}
+
 } // namespace fileformat

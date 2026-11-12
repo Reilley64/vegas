@@ -18,6 +18,7 @@ template <class Collection> class SettingT : public Setting
     SettingT(const char* key, bool value);
     virtual ~SettingT();
     static Collection* GetCollection();
+    SETTING_VALUE* Bool(); // 0x00408d60, owned by src/fallout/ai/processlists.cpp
 
   protected:
     static Collection* ms_pCollection;

@@ -55,27 +55,9 @@ class FOPipboyManager
 };
 
 // 0x00408d60 canonical binding: ?Bool@?$SettingT@VINISettingCollection@@@@QAEPATSETTING_VALUE@@XZ
-union SETTING_VALUE
-{
-  public:
-    const char* str;  // +0x0
-    int i;            // +0x0
-    unsigned int u;   // +0x0
-    float f;          // +0x0
-    bool b;           // +0x0
-    char c;           // +0x0
-    unsigned char h;  // +0x0
-};
+#include "fnv/setting_t.h"
 
 class INISettingCollection;
-
-template <class T> class SettingT
-{
-  public:
-    void* vptr_;           // +0x0 (Setting base vtable, layout only)
-    SETTING_VALUE uValue;  // +0x4
-    SETTING_VALUE* Bool();
-};
 
 // Placeholder globals.
 

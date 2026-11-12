@@ -32969,7 +32969,7 @@ public:
 };
 
 
-void __cdecl FUN_005aa580(int);
+void __cdecl FUN_005aa580(std::intptr_t);
 
 extern "C" char DAT_0103aef0;
 extern "C" char DAT_0103ae48;

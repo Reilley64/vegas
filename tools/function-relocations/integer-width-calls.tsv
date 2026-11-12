@@ -19,6 +19,10 @@ forbid	?FindEntry@FUN_00dd9270_cls@@QEAAHI@Z
 forbid	?FUN_00e89ad0@@YAXH@Z
 forbid	?FUN_00e9f400@@YA_NMHHHHPEAMPEAUS_00e9f400_P3@@_N11@Z
 forbid	?FUN_00e9f510@@YA_NMHHHHPEAMPEAUVec3e@@_N11@Z
+forbid	?FUN_004da670@fnv_004da670@@YAHPEAX0@Z
+forbid	?FUN_00585e00@FUN_00585e00_cls@fnv_00585e00@@QEAAXH@Z
+forbid	?ProcessCellsInRadius@WORLD_SHELL@@QEAAXPEBUNiPoint3@@M0M_JI@Z
+forbid	?FUN_005aa580@@YAXH@Z
 # batch, unit, function, the agreed name the function must call:
 function	requirer	src/fallout/ai/middlehighprocess.cpp	?FUN_00913a20@Host913@@QEAA_NPEAUProc@@@Z	?FUN_00444d40@S_00444d40_Class@@QEAAX_JH00@Z
 function	requirer	src/gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.cpp	?GetOrCreateChip@Group@@QEAAPEAUChip@@PEAUData@@I@Z	?FUN_00537d60_Create@@YAPEAX_K0IHH@Z
@@ -61,3 +65,9 @@ function	requirer	src/havok/common/visualize/hkserverprocesshandler.cpp	?FUN_00d
 function	requirer	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp	?FUN_00e97240@@YAXXZ	?FUN_00e89ad0@@YAX_J@Z
 function	requirer	src/gamebryo2.2/corelibs/nicollision/nipick.cpp	?InitNiStreamCallbacks@@YAXXZ	?FUN_00e9f400@@YA_NM_J000PEAMPEAUS_00e9f400_P3@@_N22@Z
 function	requirer	src/gamebryo2.2/corelibs/nicollision/nipick.cpp	?InitNiStreamCallbacks@@YAXXZ	?FUN_00e9f510@@YA_NMH_JH0PEAMPEAUVec3e@@_N22@Z
+function	requirer	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_004da670@fnv_004da670@@YA_JPEAX0@Z
+function	requirer	src/fallout/misc/main.cpp	?FUN_0086d500@@YAXPEAVOSGlobals@@@Z	?FUN_004da670@fnv_004da670@@YA_JPEAX0@Z
+function	requirer	src/fallout_shared/tesdatahandler.cpp	?DeleteObject@DeletionDataHandler@@QEAAXPEAUDeletionObject@@@Z	?FUN_00585e00@FUN_00585e00_cls@fnv_00585e00@@QEAAX_J@Z
+function	requirer	src/fallout/interface/menus/vatsmenu.cpp	?FUN_007f52c0@@YA_NXZ	?ProcessCellsInRadius@WORLD_SHELL@@QEAAXPEBUNiPoint3@@M0M_J_K@Z
+function	requirer	src/fallout_shared/tesdatahandler.cpp	?GetReferencesInArea@TESDataHandler@@QEAAXPEAVTESObjectCELL@@AEBUNiPoint3@@M1MP6A_NPEAVTESObjectREFR@@_J@Z3@Z	?ProcessCellsInRadius@WORLD_SHELL@@QEAAXPEBUNiPoint3@@M0M_J_K@Z
+function	requirer	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005c43d0@@YA_NHHPEAURef@@H0PEAUExtra@@HH@Z	?FUN_005aa580@@YAX_J@Z

@@ -8,6 +8,7 @@
 #include <cstring>
 #include <cmath>
 #include "runtime/crt.h"
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSSimpleArray42f8a0.h"
@@ -319,6 +320,12 @@ void* FUN_00691870_class::AllocateDoubleSizedBuffer(int count)
     return new char[count * 2];
 }
 
+// Slot 1 of the index array's table: the body of 0x00691870.
+void* BSSimpleArray<unsigned short, 1024>::AllocateDoubleSizedBuffer(int count)
+{
+    return new char[count * 2];
+}
+
 
 struct FUN_006918a0_class
 {
@@ -327,6 +334,12 @@ struct FUN_006918a0_class
 
 // @fnv 0x006918a0
 void FUN_006918a0_class::FUN_006918a0(void* p, int aiSize)
+{
+    Reallocate(p, aiSize << 1);
+}
+
+// Slot 3 of the index array's table: the body of 0x006918a0.
+void BSSimpleArray<unsigned short, 1024>::FUN_006918a0(void* p, int aiSize)
 {
     Reallocate(p, aiSize << 1);
 }
@@ -2048,19 +2061,6 @@ struct P3
 struct FUN_004941c0_shell
 {
     void ScaleByInverse(float value);
-};
-
-template <> class BSSimpleArray<unsigned short, 1024>
-{
-  public:
-    BSSimpleArray();
-    ~BSSimpleArray();
-
-  private:
-    void* m_table;
-    unsigned short* m_data;
-    unsigned int m_iElementCount;
-    unsigned int m_capacity;
 };
 
 
@@ -6141,9 +6141,6 @@ struct SA00694f80 : DA00694f80
 {
     void FUN_00694f80(DA00694f80*);
 };
-
-BSSimpleArray<unsigned short, 1024>::~BSSimpleArray()
-{}
 
 struct NavMeshGrid
 {

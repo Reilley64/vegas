@@ -482123,6 +482123,8 @@
     "?GetBufferElementAddress@DummyArr@@QAEHI@Z": "0x006b30e0",
     "?SetValueIfNoParams@FUN_00681500_class@@QAEXM@Z": "0x00681500",
     "?AllocateDoubleSizedBuffer@FUN_00691870_class@@QAEPAXH@Z": "0x00691870",
+    "?AllocateDoubleSizedBuffer@?$BSSimpleArray@G$0EAA@@@UAEPAXH@Z": "0x00691870",
+    "?FUN_006918a0@?$BSSimpleArray@G$0EAA@@@UAEXPAXH@Z": "0x006918a0",
     "?GetArrFlags@FUN_00695370_class@@QAEIXZ": "0x00695370",
     "?MemsetWrapper@@YAPAXPAXHI@Z": "0x00695390",
     "?InitializeWithGlobal@FUN_0069ad40_class@@QAEPAHH@Z": "0x0069ad40",

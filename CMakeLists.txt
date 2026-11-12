@@ -107,9 +107,11 @@ target_sources(game PRIVATE src/gamebryo2.2/corelibs/nianimation/nianimationkey_
 target_sources(game PRIVATE src/fileformat/pack_validation.cpp)
 # Then the step that opens the file of a data pack and checks it (VEGAS-52).
 target_sources(game PRIVATE src/fileformat/pack_open.cpp)
-# Then the native owner of the single-instance strings (VEGAS-52), now the
-# first member listed.
+# Then the native owner of the single-instance strings (VEGAS-52).
 target_sources(game PRIVATE src/fallout/misc/single_instance_strings.cpp)
+# Then the decision of the single-instance and remote-session checks
+# (VEGAS-52), now the first member listed.
+target_sources(game PRIVATE src/fallout/misc/single_instance_check.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

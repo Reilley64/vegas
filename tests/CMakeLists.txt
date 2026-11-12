@@ -821,3 +821,19 @@ else()
     ${PROJECT_SOURCE_DIR}/src/gamebryo2.2/corelibs/nianimation/nianimationkey_tables.cpp)
 endif()
 add_test(NAME runtime.animation_key_tables COMMAND runtime_animation_key_tables_test)
+
+# The key table block has one owner in the game archive (VEGAS-51).
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  find_package(Python3 COMPONENTS Interpreter)
+  get_filename_component(VEGAS_COMPILER_DIR ${CMAKE_CXX_COMPILER} DIRECTORY)
+  find_program(LLVM_OBJDUMP_EXECUTABLE llvm-objdump HINTS ${VEGAS_COMPILER_DIR})
+  if(NOT Python3_Interpreter_FOUND OR NOT LLVM_OBJDUMP_EXECUTABLE)
+    message(FATAL_ERROR
+      "Python 3 or llvm-objdump was not found. The cross build needs both to run the "
+      "archive.animation_key_tables test (tools/animation-key-tables).")
+  endif()
+  add_test(NAME archive.animation_key_tables
+    COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/animation-key-tables/check.py
+            --archive $<TARGET_FILE:game> --recipe ${PROJECT_SOURCE_DIR}/build/units.json
+            --objdump ${LLVM_OBJDUMP_EXECUTABLE})
+endif()

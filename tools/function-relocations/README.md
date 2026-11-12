@@ -1,0 +1,74 @@
+# Function relocations check
+
+Checks, function by function, which names the code of a function refers to
+in the windows-x64 object of its unit. For every function of a table it finds
+the COMDAT code section that defines the function's name, counts that
+section's relocations by target name, and fails when:
+
+- the section has a relocation to a name the table forbids, or
+- the section has no relocation to a name the table requires of that function.
+
+It looks at the function's own section, not at the whole object. An object
+may keep a forbidden name in other functions.
+
+It needs Go 1.24.11 or newer and no other module. It reads objects with the
+standard library's `debug/pe`.
+
+```text
+go test -race ./...
+go vet ./...
+go run . --table d3dx-call-arguments.tsv --objects OBJECT_LIST [--batch NAME]
+```
+
+`OBJECT_LIST` is a file with one object path per line. Each function's object
+is the one path that ends in `/UNIT.obj`, where `UNIT` is the table's unit,
+such as `src/fallout_shared/teswater.cpp`.
+
+## Where it runs
+
+CTest runs it in the windows-x64 cross build only, like
+`archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
+per batch of `d3dx-call-arguments.tsv`. CMake writes the object list of the
+game archive to `game-objects.txt` in the build's `tests` folder.
+
+## The table
+
+Tab-separated. Blank lines and lines that start with `#` are skipped.
+
+```text
+forbid<TAB>NAME
+function<TAB>BATCH<TAB>UNIT<TAB>NAME<TAB>REQUIRED[ REQUIRED...]
+```
+
+Every `forbid` name is forbidden in every function. `REQUIRED` names are
+separated by spaces.
+
+`d3dx-call-arguments.tsv` lists the 11 functions whose calls of the D3DX
+matrix inverse (`0x00ee6dda`), transpose (`0x00ee6dd4`) and vector normal
+transform (`0x00ee6df2`) got their arguments back (VEGAS-90). It forbids the
+three argument-less names and requires the native names each function calls.
+`0x00bbef90` stands for the frustum update that it inlines. With the unit's
+own flags the optimizer may merge equal calls, so the check counts names, not
+calls.
+
+## Exit status
+
+| Status | Meaning |
+| --- | --- |
+| 0 | Every function of the batch passes. Each prints an `ok` line. |
+| 1 | A function fails. It prints a `FAIL` line with each forbidden name's relocation count and each missing required name. |
+| 2 | The check could not be completed: bad arguments or table; no batch function; a unit with no object or several; an object that is not an x64 COFF object; a function name that is not defined, defined twice, or not in a COMDAT code section; a section whose relocation count overflows. |
+
+## What it does not see
+
+- Calls through a pointer. They have no relocation to the callee's name.
+- How many calls a relocation stands for, and what their arguments are. The
+  arguments were checked at source and in objects built with `/Od /Ob0`
+  (docs/d3dx-replacement.md).
+- Unwind records and other sections associated with the function.
+- A call through another argument-less declaration of the same address under a
+  different mangled name (another namespace or signature). Only the three
+  global names in the table are forbidden.
+- A restored call deleted outright while the function keeps another call to the
+  required native name. The check counts names, not calls, so exact relocation
+  counts are not compared (the optimizer merges calls).

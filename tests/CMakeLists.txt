@@ -722,3 +722,21 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
             --allowlist ${PROJECT_SOURCE_DIR}/tools/differing-definitions/allowlist.tsv
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/differing-definitions)
 endif()
+
+# Fails when a function whose D3DX calls got their arguments back (VEGAS-90)
+# again refers to an argument-less name of the matrix inverse, transpose or
+# normal transform, or no longer to the native function it calls. One test per
+# batch of tools/function-relocations/d3dx-call-arguments.tsv. Like the check
+# above it reads the windows-x64 objects on the build host with Go, so it is
+# registered for the cross build only. It uses GO_EXECUTABLE, which the block
+# above finds and requires.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    CONTENT "$<JOIN:$<TARGET_OBJECTS:game>,\n>\n")
+  foreach(d3dx_call_batch fallout_shared shader_constants lighting)
+    add_test(NAME objects.d3dx_call_arguments_${d3dx_call_batch}
+      COMMAND ${GO_EXECUTABLE} run . --table d3dx-call-arguments.tsv
+              --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt --batch ${d3dx_call_batch}
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+  endforeach()
+endif()

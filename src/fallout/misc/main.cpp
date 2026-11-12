@@ -6665,6 +6665,77 @@ extern char str_01082a48[];
 
 
 
+namespace FrameUpdate {
+struct MainLoop
+{
+    int unk00;
+    char unk04, unk05, unk06;
+    bool paused;
+    void FUN_0086f940();
+    void FUN_00483710();
+    void FUN_00871dc0();
+    void FUN_0086ff70();
+    void FUN_0086e650();
+};
+}  // namespace FrameUpdate
+struct ScenePart;
+struct BootInit
+{
+    void FUN_0086cf20(ScenePart*);
+};
+namespace fnv_0086d590 {
+struct ResourceObject;
+struct Resource
+{
+    ResourceObject* object;
+    ResourceObject* FUN_00559450();
+    void FUN_0066b0d0(void* item);
+};
+struct RenderSystem
+{
+    void FUN_0086d590();
+    int unknown_00;
+    int unknown_04;
+    int unknown_08;
+    int unknown_0c;
+    int unknown_10;
+    int unknown_14;
+    int unknown_18;
+    int unknown_1c;
+    int unknown_20;
+    int unknown_24;
+    int unknown_28;
+    int unknown_2c;
+    int unknown_30;
+    int unknown_34;
+    int unknown_38;
+    int unknown_3c;
+    int unknown_40;
+    int unknown_44;
+    int unknown_48;
+    int unknown_4c;
+    int unknown_50;
+    int unknown_54;
+    int unknown_58;
+    int unknown_5c;
+    int unknown_60;
+    int unknown_64;
+    int unknown_68;
+    int unknown_6c;
+    int unknown_70;
+    int unknown_74;
+    int unknown_78;
+    int unknown_7c;
+    int unknown_80;
+    int unknown_84;
+    Resource resource88;
+    Resource resource8c;
+    Resource resource90;
+    Resource resource94;
+    Resource resource98;
+};
+}  // namespace fnv_0086d590
+
 // Creates the game window and subsystems, runs the message/render loop until exit, then tears everything down and returns 0.
 // @fnv 0x0086a850
 int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_4)
@@ -8590,10 +8661,6 @@ class TESNPC : public TESForm
 struct TimeInit
 {
 };
-struct BootInit
-{
-    void FUN_0086cf20(ScenePart*);
-};
 // Initializes the game world, plugins, player, terrain, and scripts in sequence, logging each stage.
 // @fnv 0x0086cf20
 void BootInit::FUN_0086cf20(ScenePart* scene)
@@ -8874,17 +8941,6 @@ extern bool DAT_011deefc;
 extern bool DAT_011c6fbb;
 extern unsigned char DAT_011deef5;
 extern float DAT_011a3010, DAT_011deef8;
-struct MainLoop
-{
-    int unk00;
-    char unk04, unk05, unk06;
-    bool paused;
-    void FUN_0086f940();
-    void FUN_00483710();
-    void FUN_00871dc0();
-    void FUN_0086ff70();
-    void FUN_0086e650();
-};
 // @fnv 0x0086e650
 void MainLoop::FUN_0086e650()
 {
@@ -14098,13 +14154,6 @@ class NiFixedString
     const char* FUN_00438170(const char*);
     void FUN_004381b0();
 };
-struct ResourceObject;
-struct Resource
-{
-    ResourceObject* object;
-    ResourceObject* FUN_00559450();
-    void FUN_0066b0d0(void* item);
-};
 struct ResourceObject
 {
     ResourceObject* FUN_006629f0();
@@ -14220,49 +14269,6 @@ struct InputObject : ModuleRoot
     void FUN_0086e420(int, float, float, float, float);
     void FUN_0086e4b0();
     void FUN_0086e460(int, int, float, float, float, float);
-};
-struct RenderSystem
-{
-    void FUN_0086d590();
-    int unknown_00;
-    int unknown_04;
-    int unknown_08;
-    int unknown_0c;
-    int unknown_10;
-    int unknown_14;
-    int unknown_18;
-    int unknown_1c;
-    int unknown_20;
-    int unknown_24;
-    int unknown_28;
-    int unknown_2c;
-    int unknown_30;
-    int unknown_34;
-    int unknown_38;
-    int unknown_3c;
-    int unknown_40;
-    int unknown_44;
-    int unknown_48;
-    int unknown_4c;
-    int unknown_50;
-    int unknown_54;
-    int unknown_58;
-    int unknown_5c;
-    int unknown_60;
-    int unknown_64;
-    int unknown_68;
-    int unknown_6c;
-    int unknown_70;
-    int unknown_74;
-    int unknown_78;
-    int unknown_7c;
-    int unknown_80;
-    int unknown_84;
-    Resource resource88;
-    Resource resource8c;
-    Resource resource90;
-    Resource resource94;
-    Resource resource98;
 };
 
 extern float DAT_011fd870;

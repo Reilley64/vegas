@@ -1,7 +1,8 @@
-// Setting collections and SettingT, the setting that adds itself to its collection.
+// Setting collections. SettingT, the setting that adds itself to its collection, is in fnv/setting_t.h.
 #ifndef FNV_SETTINGT_H
 #define FNV_SETTINGT_H
 #include "Setting.h"
+#include "fnv/setting_t.h"
 
 template <class T> class NiTPrimitiveArray;
 
@@ -76,22 +77,6 @@ class SettingCollection_011cc694 : public SettingCollection<Setting>
 
 class SettingCollection_01204368 : public SettingCollection<Setting>
 {
-};
-
-template <class Collection> class SettingT : public Setting
-{
-  public:
-    SettingT(const char* key, float value);
-    SettingT(const char* key, int value);
-    SettingT(const char* key, char* value);
-    SettingT(const char* key, const char* value);
-    SettingT(const char* key, bool value);
-    virtual ~SettingT();
-    static Collection* GetCollection();
-
-  protected:
-    static Collection* ms_pCollection;
-    static void EnsureCollection();
 };
 
 template <> GameSettingCollection* SettingT<GameSettingCollection>::GetCollection();

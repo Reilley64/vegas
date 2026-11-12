@@ -1527,3 +1527,8 @@ template void BSSimpleList<const char*>::RemoveHead();
 class DebrisModelEntry;
 template BSSimpleList<DebrisModelEntry*>::~BSSimpleList();
 template void BSSimpleList<DebrisModelEntry*>::RemoveHead();
+
+// AddHead only: interface.cpp declares an explicit specialisation of this
+// list, 1 byte (docs/shared-simple-list.md).
+class TESRace;
+template void BSSimpleList<TESRace*>::AddHead(TESRace*&);

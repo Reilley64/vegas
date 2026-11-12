@@ -36,10 +36,10 @@ owner now defines that storage. It moves one sole legacy definition to its
 owner module. It does not replace required objects with stubs, rename
 incompatible receivers or clone values. The genuine owner
 modules and typed declarations remain the source of the native globals and
-protocols. The patch covers thirty-two hashed inputs. Twelve are the
+protocols. The patch covers thirty-six hashed inputs. Twelve are the
 retirements previously reviewed for VEGAS-1, unchanged, not additional engine
 work. Four are the three retirements and the one move below. Sixteen are the
-VEGAS-51 retirements below.
+VEGAS-51 retirements below. Four are the VEGAS-102 label respellings below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -66,7 +66,22 @@ definition without an initializer, so no value is lost or cloned. Every other
 line of the sixteen inputs is unchanged. They are includes, not complete data
 TUs, so the composed units stay four.
 
-Native CMake verifies the thirty-two committed input hashes, copies them into
+VEGAS-102 adds four staging includes: `staging/blk_00ba0000_o2.inc`,
+`staging/blk_00c60000_o2.inc`, `staging/blk_00c80000_o2.inc` and
+`staging/blk_00ca0000_o2.inc`. The body of `0x00cb9cb0` now takes the one
+pointer it frees, so its windows-x64 name changes from
+`?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ` to
+`?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z`
+(`docs/table-slot-reads.md`). Each of the four includes and
+`vtables_010c.cpp`, already an input, declares the body through one asm
+label of the old name. The patch rewrites those five label lines and no
+other line of the five files. The four new hashes are those of the
+committed bytes. The composed output differs from before in the five label
+lines only, and the seven slots that hold the body keep their bytes. This
+follows the earlier respellings of labels in `vtables_010c.cpp` after
+signature changes, and the 2026-11-12 coordinator ruling.
+
+Native CMake verifies the thirty-six committed input hashes, copies them into
 the build directory, and applies that patch using the existing Git patch
 engine.
 It fails closed if any input changes or the patch no longer applies. Git is

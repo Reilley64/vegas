@@ -5526,9 +5526,9 @@ struct S_00aa4060_Class
 
 
 // @fnv 0x00cb9cb0
-void __cdecl FUN_00cb9cb0()
+void __stdcall FUN_00cb9cb0(void *apMemory)
 {
-    reinterpret_cast<::FNV_MemoryManager *>((((S_00aa4060_Class*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060({});
+    reinterpret_cast<::FNV_MemoryManager *>((((S_00aa4060_Class*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(apMemory);
 }
 }  // namespace fnv_00cb9cb0
 

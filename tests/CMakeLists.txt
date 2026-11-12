@@ -1062,6 +1062,27 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
 endif()
 
+# Fails when the function at 0x00cb9cb0 (VEGAS-102), which seven slots of
+# generated data hold, again frees a null pointer instead of the
+# pointer it is given: the body passed {} to the memory manager's free and
+# took no parameter. The one-pointer body moves its argument from rcx to rdx
+# for the free. It reads the archive with the llvm-objdump found for
+# archive.empty_import_slots, so it is registered for the cross build only.
+# The patterns are specific to clang-cl at /O2. Blind spots: a body that
+# loads rdx from somewhere other than its argument after the move passes; the
+# callee and the memory manager are relocations, not checked here.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.memory_free_forwarder
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/memory_free_forwarder.disassembly.txt
+      "-DFUNCTION=?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z"
+      "-DFORBID=^xor[lq]?[ \t]+%[re]?dx, %[re]?dx$"
+      "-DREQUIRE=^movq[ \t]+%rcx, %rdx$"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

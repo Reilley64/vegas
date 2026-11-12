@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <new>
 #include <cstring>
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Array6daf.h"
 #include "fnv/decl/AvoidNodeList.h"
@@ -5929,15 +5930,6 @@ struct NearbyMeshes
     ~NearbyMeshes();
     NiPointer<NavMesh>& FUN_00877a30(unsigned int);
 };
-struct TriangleIndices
-{
-    void* table;
-    unsigned short* data;
-    unsigned int size;
-    unsigned int capacity;
-    TriangleIndices();
-    ~TriangleIndices();
-};
 struct TriangleScratch
 {
     void* table;
@@ -5978,7 +5970,7 @@ bool __cdecl IsPathingLocationClear(PathingLocation* location, float radius)
     FUN_006d8a20(location, radius, (SearchOutput*)&meshes);
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshes))->GetName())); ++i)
     {
-        TriangleIndices indices;
+        BSSimpleArray<unsigned short, 1024> indices;
         reinterpret_cast<::Obj00696c00 *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->ForwardToSub((std::intptr_t)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - RadiusPoint(radius, radius, 0.0f)),
                            (std::intptr_t)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) + RadiusPoint(radius, radius, 0.0f)), (std::intptr_t)&(indices));
         for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(indices))->GetName())); ++j)

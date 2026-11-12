@@ -181245,7 +181245,7 @@
     "?FUN_006969e0@FUN_006969e0_shell@@QAE_NPAUNiPoint3@@0@Z": "0x006969e0",
     "??0TriangleReferences@@QAE@XZ": "0x006db9e0",
     "??0NearbyMeshes@@QAE@XZ": "0x0042f800",
-    "??0TriangleIndices@@QAE@XZ": "0x006917d0",
+    "??0?$BSSimpleArray@G$0EAA@@@QAE@XZ": "0x006917d0",
     "??0RadiusPoint@@QAE@MMM@Z": "0x00416870",
     "?FUN_00877a30@NearbyMeshes@@QAEAAV?$NiPointer@VNavMesh@@@@I@Z": "0x00877a30",
     "??0TriangleReference@@QAE@PBVNavMeshInfo@@G@Z": "0x0069a660",

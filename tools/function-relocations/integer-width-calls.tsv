@@ -1,0 +1,63 @@
+# Calls whose caller and callee disagreed on an integer width only (VEGAS-97),
+# docs/integer-width-calls.md. Format: README.md.
+# The former names of the requirers' declarations, which no object defines:
+forbid	?FUN_00444d40@S_00444d40_Class@@QEAAX_JH0H@Z
+forbid	?FUN_00537d60_Create@@YAPEAXI_KIHH@Z
+forbid	?FUN_00553bf0@S00553bf0@fnv_00553bf0@@QEAA_NPEAUScriptS@2@PEAUNiPoint3@2@HM@Z
+forbid	?FUN_005a8ef0@FUN_005a8e20_cls@@QEAADHH@Z
+forbid	?FUN_00621440@FUN_00621440_cls@@QEAAHXZ
+forbid	?FUN_00623570@FUN_00623570_class@@QEAAHXZ
+forbid	?FUN_0065da80@FUN_0065e000_class@@QEAAHHH@Z
+forbid	?UpdateOrRemoveItems@@YAXH@Z
+forbid	?ForwardActorBaseData@Class87d40@@QEAAXPEAX_J1HHH@Z
+forbid	?FUN_008586d0@FUN_008586d0_class@@QEAAXHHH@Z
+forbid	?FUN_008c70c0@QuantitySet@@QEAAXIH@Z
+forbid	?FUN_009fa260@@YAHH_J0@Z
+forbid	?FUN_00a51ab0@FUN_00a51ab0_cls@@QEAAPEAU1@HHH@Z
+forbid	?FUN_00ce51f0@Transform@@QEAAXH@Z
+forbid	?FindEntry@FUN_00dd9270_cls@@QEAAHI@Z
+forbid	?FUN_00e89ad0@@YAXH@Z
+forbid	?FUN_00e9f400@@YA_NMHHHHPEAMPEAUS_00e9f400_P3@@_N11@Z
+forbid	?FUN_00e9f510@@YA_NMHHHHPEAMPEAUVec3e@@_N11@Z
+# batch, unit, function, the agreed name the function must call:
+function	requirer	src/fallout/ai/middlehighprocess.cpp	?FUN_00913a20@Host913@@QEAA_NPEAUProc@@@Z	?FUN_00444d40@S_00444d40_Class@@QEAAX_JH00@Z
+function	requirer	src/gamebryo2.2/corelibs/niconsolerenderer/nidynamicgeometrygroup.cpp	?GetOrCreateChip@Group@@QEAAPEAUChip@@PEAUData@@I@Z	?FUN_00537d60_Create@@YAPEAX_K0IHH@Z
+function	requirer	src/fallout_shared/tes.cpp	?FUN_004570d0@FUN_004570d0_cls@@QEAA_NPEAX_J1M@Z	?FUN_00553bf0@S00553bf0@fnv_00553bf0@@QEAA_NPEAUScriptS@2@PEAUNiPoint3@2@_JM@Z
+function	requirer	src/fallout_shared/tesscript.cpp	?FUN_005a9db0@SaveLocals9db0@@QEAAXPEAUBGSSaveFormBuffer@@@Z	?FUN_005a8ef0@FUN_005a8e20_cls@@QEAAD_JH@Z
+function	requirer	src/fallout/ai/playercharacter.cpp	?FUN_0094a0c0@ThisShell@@QEAAXPEAUNiPoint3@@0E@Z	?FUN_00621440@FUN_00621440_cls@@QEAA_JXZ
+function	requirer	src/fallout/ai/playercharacter.cpp	?SyncHolderValue@FUN_0095edf0_cls@@QEAAXXZ	?FUN_00621440@FUN_00621440_cls@@QEAA_JXZ
+function	requirer	src/staging/blk_00620000_od.cpp	?FUN_006234b0@FUN_006234b0_Class@@QEAAPEAU1@XZ	?FUN_00623570@FUN_00623570_class@@QEAA_JXZ
+function	requirer	src/staging/blk_00640000_od.cpp	??1FUN_0064ce20@@QEAA@XZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	??1FUN_00659600@@QEAA@XZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	??1FUN_00659710_cls@@QEAA@XZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?ApplyToCopy@FUN_0064dcf0_cls@@QEAAXHPEBUVector4f@@@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?BuildAndComparePair@FUN_0065d8e0_cls@@QEAAPEAULay_d8e0_Pair@@PEAU2@HHHH@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?CallWithSelf@FUN_0065f550_Class@fnv_0065f550@@QEAAPEAU_Out_0044a170@2@PEAU32@@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0064db50@FUN_0064db50_class@@QEAAXH_J@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0064db70@Vector64D@@QEAAXXZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0064dc50@FUN_0064dc50_cls@@QEAA?AUPairDword@@HHHH@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065cd70@B65CD70Vector@@QEAAXXZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065cef0@FUN_0065cef0_cls@@QEAAXXZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065d740@FUN_0065d740_cls@fnv_0065d740@@QEAAPEAUFNVPair8@2@PEAU32@IIII@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065ded0@FUN_0065ded0_Class@@QEAAPEAU_Out_0044a170@@PEAU2@_JH@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065e000@FUN_0065e000_class@@QEAAPEAXH_J@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065eed0@Vec_65eed0@@QEAAPEAU1@PEAU1@@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065f320@Vec_65eed0@@QEAAXXZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065f4f0@FUN_0065f4f0_cls@fnv_0065f4f0@@QEAAXXZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065f5a0@FUN_0065f5a0_cls@fnv_0065f5a0@@QEAAPEAUFNVPair8@2@PEAU32@HHHH@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?FUN_0065f700@C65F700List@@QEAA?AUC65F700Iterator@@PEAXPEAUC65F700Node@@01@Z	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/staging/blk_00640000_od.cpp	?GetOrConvertImage@FGOwner@@QEAAPEAUFGImage@@XZ	?FUN_0065da80@FUN_0065e000_class@@QEAA_JH_J@Z
+function	requirer	src/fallout/misc/saveload/bgssaveloadglobaldata.cpp	?FUN_0084c030@@YA_NIPEAUBGSLoadGameBuffer@@@Z	?UpdateOrRemoveItems@@YAX_J@Z
+function	requirer	src/gamebryo2.2/corelibs/niconsolerenderer/niconsolevbmanager.cpp	?FUN_00e8c1e0@Renderer@@QEAAPEAUVertexRecord@@PEAVNiGeometryData@@PEAUClass87d40@@IPEAU2@PEAD@Z	?ForwardActorBaseData@Class87d40@@QEAAXPEAX_J111H@Z
+function	requirer	src/fallout_shared/tessaveloadgame.cpp	?ReadTexture@Reader@SaveThumbnail@@QEAAPEAUTexture@2@PEAUFile@2@IPEAIPEADPEAG2PEAMPEAUIdentity@2@11@Z	?FUN_008586d0@FUN_008586d0_class@@QEAAX_J0H@Z
+function	requirer	src/fallout/ai/ailineartaskthread.cpp	?InitMemory@Thr@@QEAAXXZ	?FUN_008c70c0@QuantitySet@@QEAAX_KH@Z
+function	requirer	src/fallout/ai/ailineartaskthread.cpp	?StartTaskThread@AILinearTaskThread@@QEAAXXZ	?FUN_008c70c0@QuantitySet@@QEAAX_KH@Z
+function	requirer	src/fallout/ai/aitaskmanager.cpp	?DispatchTask@TaskOwner@@QEAAXXZ	?FUN_008c70c0@QuantitySet@@QEAAX_KH@Z
+function	requirer	src/fallout/ai/aitaskmanager.cpp	?InitMemory@OwnQ@fnv_008c9d70@@QEAAXXZ	?FUN_008c70c0@QuantitySet@@QEAAX_KH@Z
+function	requirer	src/staging/blk_009e0000_o2.cpp	?FUN_009fd490@@YAH_J00@Z	?FUN_009fa260@@YAH_J00@Z
+function	requirer	src/gamebryo2.2/corelibs/nianimation/nibsplinecompcolorinterpolator.cpp	?FUN_00a51890@ColorInterpolatorLayout@@QEAAPEAU1@AEAUCloningProcess@@@Z	?FUN_00a51ab0@FUN_00a51ab0_cls@@QEAAPEAU1@_JH0@Z
+function	requirer	src/staging/blk_00ce0000_o2.cpp	?FUN_00ce5300@@YAXXZ	?FUN_00ce51f0@Transform@@QEAAX_J@Z
+function	requirer	src/havok/common/visualize/hkserverprocesshandler.cpp	?FUN_00d61240@@YAXXZ	?FindEntry@FUN_00dd9270_cls@@QEAAH_K@Z
+function	requirer	src/gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp	?FUN_00e97240@@YAXXZ	?FUN_00e89ad0@@YAX_J@Z
+function	requirer	src/gamebryo2.2/corelibs/nicollision/nipick.cpp	?InitNiStreamCallbacks@@YAXXZ	?FUN_00e9f400@@YA_NM_J000PEAMPEAUS_00e9f400_P3@@_N22@Z
+function	requirer	src/gamebryo2.2/corelibs/nicollision/nipick.cpp	?InitNiStreamCallbacks@@YAXXZ	?FUN_00e9f510@@YA_NMH_JH0PEAMPEAUVec3e@@_N22@Z

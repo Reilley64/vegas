@@ -316,7 +316,7 @@ class NiGeometryData {
     unsigned int unk2c, unk30;
     C_00e8f010* bufferData;
 };
-struct Class87d40 { void ForwardActorBaseData(void*, intptr_t, intptr_t, int, int, int); };
+struct Class87d40 { void ForwardActorBaseData(void*, intptr_t, intptr_t, intptr_t, intptr_t, int); };
 struct CriticalSection { unsigned int debug, lock, recursion, owner, semaphore, spin; };
 struct Renderer {
     unsigned int unk00;

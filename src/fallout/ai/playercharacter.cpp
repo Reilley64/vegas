@@ -41540,7 +41540,7 @@ struct FUN_008d6f30_cls : FUN_004543c0_cls
 
 struct FUN_00621440_cls
 {
-    int FUN_00621440();
+    intptr_t FUN_00621440();
 };
 
 // If m_pHolder21c and FUN_008d6f30() are non-null, sets the holder to FUN_008d6f30()->FUN_004543c0() when its FUN_00621440 value differs.

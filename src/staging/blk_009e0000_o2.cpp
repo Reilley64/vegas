@@ -459,7 +459,7 @@ void FUN_009fd480(void* self)
 }
 
 extern int DAT_01093b4c;
-int FUN_009fa260(int a, intptr_t b, intptr_t c);
+int FUN_009fa260(intptr_t a, intptr_t b, intptr_t c);
 // @fnv 0x009fd490
 int FUN_009fd490(intptr_t pThis, intptr_t b, intptr_t c)
 {

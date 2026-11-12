@@ -886,6 +886,16 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when a call whose caller and callee disagreed on an integer width
+# only (VEGAS-97) again refers to the requirer's former name, or a function no
+# longer calls the agreed name. Cross build only, like the checks above.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.integer_width_calls
+    COMMAND ${GO_EXECUTABLE} run . --table integer-width-calls.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()
+
 add_test(NAME build.steamworks_sdk_configure
   COMMAND ${CMAKE_COMMAND}
     -DMODULE=${PROJECT_SOURCE_DIR}/third_party/steamworks_sdk.cmake

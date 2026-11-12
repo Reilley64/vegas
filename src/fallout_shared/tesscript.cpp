@@ -236,7 +236,7 @@ struct FUN_005a8e20_cls
     Act5a* FUN_005a90b0(void* form, bool create);
     bool FUN_005a8e20(void* form, unsigned int flag);
 public:
-    char FUN_005a8ef0(int, int);
+    char FUN_005a8ef0(std::intptr_t, int);
 };
 // @fnv 0x005a8e20
 bool FUN_005a8e20_cls::FUN_005a8e20(void* form, unsigned int flag)

@@ -18,7 +18,7 @@ void FUN_00e895f0();
 // 0x00e89670
 void ResetAndRegister(::D3DRenderStateGroup *);
 // 0x00e89ad0
-void FUN_00e89ad0(int);
+void FUN_00e89ad0(intptr_t);
 // 0x00e89d50
 const char *GetHResultName(unsigned int);
 // 0x00e89ed0

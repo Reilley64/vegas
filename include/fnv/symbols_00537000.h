@@ -12,4 +12,4 @@ template <class> class BSSimpleList;
 // 0x00537bd0
 namespace fnv_00537bd0 { const char *GetStringAtOffset(const char *); }
 // 0x00537d60
-void *FUN_00537d60_Create(unsigned int, uintptr_t, unsigned int, int, int);
+void *FUN_00537d60_Create(uintptr_t, uintptr_t, unsigned int, int, int);

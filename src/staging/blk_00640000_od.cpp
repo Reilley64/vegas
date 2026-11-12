@@ -1099,7 +1099,7 @@ struct FUN_0065dfd0_class
 };
 struct FUN_0065e000_class
 {
-    int FUN_0065da80(int a, int b);
+    intptr_t FUN_0065da80(int a, intptr_t b);
     void* FUN_0065e000(int a, intptr_t b);
 };
 

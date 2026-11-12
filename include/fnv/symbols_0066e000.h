@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActorValueOwner;
 class E6D0SaveBuffer;
@@ -17,7 +18,7 @@ void SaveE6D0Items(::E6D0SaveBuffer *);
 // 0x0066e750
 void FUN_0066e750(::BGSLoadGameBuffer *);
 // 0x0066e810
-void UpdateOrRemoveItems(int);
+void UpdateOrRemoveItems(intptr_t);
 // 0x0066e920
 void *FUN_0066e920(int);
 // 0x0066e950

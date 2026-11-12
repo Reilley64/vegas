@@ -60,10 +60,11 @@ key data includes, `niparticle/nipsysemitterctlrdata.inc` and
 `generated/crt_callback_status_o2_variant.inc`. Together they defined the 241
 names inside NiAnimationKey's key sizes and function tables, recipe addresses
 `0x011f3758` to `0x011f3e3f`, each as its own variable. `NiAnimationKeyTables`
-now defines that storage once, and no unit refers to a retired name. Each of
-the 241 removed lines is one definition without an initializer, so no value is
-lost or cloned. Every other line of the sixteen inputs is unchanged. They are
-includes, not complete data TUs, so the composed units stay four.
+now defines that storage once, described in `docs/animation-key-tables.md`,
+and no unit refers to a retired name. Each of the 241 removed lines is one
+definition without an initializer, so no value is lost or cloned. Every other
+line of the sixteen inputs is unchanged. They are includes, not complete data
+TUs, so the composed units stay four.
 
 Native CMake verifies the thirty-two committed input hashes, copies them into
 the build directory, and applies that patch using the existing Git patch

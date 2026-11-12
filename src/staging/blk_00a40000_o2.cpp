@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the destructor, the
+// conversion to T*, the copy assignment and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 // staging/blk_00a40000_o2.cpp: Owner, Controller, Arr, ExtraOwner and more (111 functions)
 
 #include "fnv/fixed_string_handle.h"

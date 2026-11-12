@@ -350,11 +350,13 @@ template <class T, unsigned int Growth> class BSSimpleArray
     void Clear(bool freeMemory);
 };
 #include "fnv/bs_string.h"
-// FNV_SHARED_NI_POINTER is an opt-in: a unit that defines it before its
-// includes takes the template from fnv/ni_pointer.h, which has no body.
-// Only nishader.cpp, the owner of NiPointer<T>::operator=(T*), defines it;
-// every other unit keeps this text. Transitional: docs/shared-ni-pointer.md.
-#ifndef FNV_SHARED_NI_POINTER
+// Units take NiPointer from fnv/ni_pointer.h, which has no body. A unit
+// whose object would change on it defines FNV_KEEPS_OWN_NIPOINTER before
+// its includes, says why, and keeps this text, which gives every member a
+// body in the class. Transitional: docs/shared-ni-pointer.md.
+// A unit that has NiPointer #defined as another name when it first includes
+// this file keeps this text too.
+#if defined(FNV_KEEPS_OWN_NIPOINTER) || defined(NiPointer)
 template <class T> class NiPointer
 {
   public:

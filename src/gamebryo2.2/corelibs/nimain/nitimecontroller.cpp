@@ -1,3 +1,6 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 
 // gamebryo2.2/corelibs/nimain/nitimecontroller.cpp
 // NiTimeController: base timing/update functionality for animation controllers.

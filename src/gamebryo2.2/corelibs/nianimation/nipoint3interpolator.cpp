@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the constructor from T*,
+// the destructor and the copy assignment.
+#define FNV_KEEPS_OWN_NIPOINTER
 // gamebryo2.2/corelibs/nianimation/nipoint3interpolator.cpp: NiPoint3Interpolator, NiPoint3InterpolatorRange, PosInterpEq (24 functions)
 
 #include <cstdint>

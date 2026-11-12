@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the destructor and the
+// conversion to T*.
+#define FNV_KEEPS_OWN_NIPOINTER
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshader.cpp: NiD3DShader, NiDX9AdditionalDepthStencilBufferData, ShaderStandIn, ShaderPrepQ (31 functions)
 
 #include <cstdint>

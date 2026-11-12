@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*
+// and the destructor.
+#define FNV_KEEPS_OWN_NIPOINTER
 // staging/blk_00cc0000_o2.cpp: CacheOwner_cls, Owner, Obj, hkVector4CDA and more (425 functions)
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkMemoryRouter.h"

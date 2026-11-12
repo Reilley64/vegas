@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the destructor and the conversion to T*.
+#define FNV_KEEPS_OWN_NIPOINTER
 // fallout_shared/pathfinding/pathbuilder.cpp: PathBuilder, PathBuilderCore, CheckLineOfSightFilterWater, NavMeshSearchLOSArray and more (60 functions)
 
 #include <cstdint>

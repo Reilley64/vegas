@@ -1,3 +1,8 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the copy constructor, the destructor, the conversion to T*, operator->,
+// operator==, the copy assignment and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 #include "fnv/tls.h"
 // bsshader/shadowscenenode.cpp: ShadowSceneNode, Base, Self, BlendOwner and more (63 functions)
 

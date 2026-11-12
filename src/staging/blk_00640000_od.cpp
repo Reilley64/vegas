@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the destructor, the conversion to T*, operator-> and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 #include "AutoMemContext.h"
 
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit

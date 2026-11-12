@@ -1,3 +1,8 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the destructor, the conversion to T*, operator->, operator==, the copy
+// assignment and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
 #include "fnv/symbols_00a81000.h"

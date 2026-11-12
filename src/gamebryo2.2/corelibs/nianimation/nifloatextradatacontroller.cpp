@@ -1,3 +1,6 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses operator->.
+#define FNV_KEEPS_OWN_NIPOINTER
 // gamebryo2.2/corelibs/nianimation/nifloatextradatacontroller.cpp: NiFloatExtraDataController (9 functions)
 
 #include <cstdint>

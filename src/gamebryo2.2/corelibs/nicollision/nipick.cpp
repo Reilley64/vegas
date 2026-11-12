@@ -1,3 +1,6 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the destructor.
+#define FNV_KEEPS_OWN_NIPOINTER
 // gamebryo2.2/corelibs/nicollision/nipick.cpp: Results, NiPick (10 functions)
 
 #include <cstdint>

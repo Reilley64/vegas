@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the copy constructor and
+// the destructor.
+#define FNV_KEEPS_OWN_NIPOINTER
 // fallout_shared/pathfinding/navmeshrender.cpp: NavMeshObstacleManager, ObstacleTask, NavRenderX, RenderTask and more (12 functions)
 
 #include "fnv/native_fixed_string.h"

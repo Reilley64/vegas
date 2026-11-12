@@ -1,3 +1,6 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 #include <cstdint>
 #include <cstddef>
 // bsshader/bsshadernolighting.cpp: BSShaderNoLighting, ShaderDispatcher, LightingShader, TechniqueShader and more (21 functions)

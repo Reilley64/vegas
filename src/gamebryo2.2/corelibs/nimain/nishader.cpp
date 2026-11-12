@@ -1,7 +1,4 @@
 // gamebryo2.2/corelibs/nimain/nishader.cpp: NiShader (10 functions)
-// This unit owns NiPointer<T>::operator=(T*), so it takes the template from
-// fnv/ni_pointer.h (docs/shared-ni-pointer.md).
-#define FNV_SHARED_NI_POINTER
 
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"

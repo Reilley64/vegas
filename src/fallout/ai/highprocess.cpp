@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the copy constructor,
+// the destructor and the conversion to T*.
+#define FNV_KEEPS_OWN_NIPOINTER
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
 // Keeps the member-only TESAnimGroup of fnv/decl/TESAnimGroup.h: the unit defines its own NiMemObject (src/fallout/ai/highprocess_decls.h).

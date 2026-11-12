@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the constructor from T*,
+// the copy constructor and the destructor.
+#define FNV_KEEPS_OWN_NIPOINTER
 // Keeps the member-only TESAnimGroup of fnv/decl/TESAnimGroup.h: the unit defines its own NiMemObject.
 #define FNV_KEEPS_OWN_TESANIMGROUP
 #include "AutoMemContext.h"

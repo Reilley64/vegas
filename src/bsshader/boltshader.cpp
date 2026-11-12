@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the conversion to T* and
+// operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 #include <cstdint>
 #include <cstddef>
 // bsshader/boltshader.cpp: BoltShader (9 functions)

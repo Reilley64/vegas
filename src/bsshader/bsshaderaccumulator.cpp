@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit's object changes. It uses the constructor from T*,
+// the destructor and operator=(T*).
+#define FNV_KEEPS_OWN_NIPOINTER
 #include <cstdint>
 #include <cstddef>
 #include "fnv/native_fixed_string.h"

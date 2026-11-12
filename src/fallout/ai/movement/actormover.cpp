@@ -1,3 +1,6 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses operator->.
+#define FNV_KEEPS_OWN_NIPOINTER
 // fallout/ai/movement/actormover.cpp: ActorMover, Mover, Tgt_b, MobileObject and more (79 functions)
 
 #include "fnv/pathing_location_fields.h"

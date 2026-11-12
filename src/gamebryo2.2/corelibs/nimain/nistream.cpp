@@ -1,3 +1,7 @@
+// Keeps the NiPointer of layout_support.h, which gives every member a body: on
+// fnv/ni_pointer.h this unit does not compile. It uses the constructor from T*,
+// the destructor, operator==, operator!= and the copy assignment.
+#define FNV_KEEPS_OWN_NIPOINTER
 #include "fnv/tls.h"
 // gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
 #include <cstdint>

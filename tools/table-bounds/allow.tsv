@@ -1,5 +1,2 @@
 # Reads past the end of a generated table that are known and still open
 # (VEGAS-30, docs/table-slot-reads.md). Format: README.md.
-# FUN_00c7a630 calls through the slot 16 bytes past the start of the two-slot
-# table DAT_010c4db8. Its repair waits for the declaration of DAT_010c4dc0.
-allow	?FUN_00c7a630@FUN_00c7a630_class@@QEAAXXZ	?DAT_010c4db8@@3PEAXEA

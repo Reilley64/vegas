@@ -15,6 +15,7 @@ function	table	src/staging/blk_00ca0000_o2.cpp	?FUN_00ca0d40@FUN_00ca0d40_class@
 function	table	src/staging/blk_00ca0000_o2.cpp	?FUN_00cba080@FUN_00cba080_class@@QEAAPEAU1@H@Z	?DAT_010c8d1c@@3P6AXPEAX@ZEA
 function	table	src/fallout/ai/creature.cpp	?FUN_00c812d0@@YA_JPEAX0@Z	?DAT_010c53bc@@3P6AXPEAH@ZEA
 function	table	src/unmapped/debugtextparticlesystem.cpp	?FUN_00ca2ad0@Manager@@QEAA_NPEAX_K@Z	?DAT_010c7318@@3P6AXPEAX@ZEA
+function	table	src/staging/blk_00c60000_o2.cpp	?FUN_00c7a630@FUN_00c7a630_class@@QEAAXXZ	?DAT_010c4dc0@@3P6AXPEAX@ZEA
 # FUN_00c7a690 calls the slot after DAT_010c4db8, which
 # blk_00c60000_o2.cpp defines, by the name of its shared one-pointer
 # declaration; it never read past the table:

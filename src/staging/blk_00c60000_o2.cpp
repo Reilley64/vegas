@@ -961,13 +961,6 @@ void FUN_00c75ad0_Class::FUN_00c75ad0(FUN_00c75ad0_T* p)
     d->f_2c = p->f_2c;
 }
 
-struct FUN_00c7a630_vtable
-{
-    void* slot0;
-    void* slot1;
-    void (*Free)(void*);
-};
-
 struct FUN_00c7a630_class
 {
     int* vtbl;
@@ -982,7 +975,7 @@ void FUN_00c7a630_class::FUN_00c7a630()
     vtbl = (int*)&(*reinterpret_cast<int *>(&::DAT_010c4db8));
     if (m_p)
     {
-        reinterpret_cast<FUN_00c7a630_vtable*>(&::DAT_010c4db8)->Free(m_p);
+        DAT_010c4dc0(m_p);
         m_p = 0;
         m_kPointB = 0;
         m_kPointA = 0;

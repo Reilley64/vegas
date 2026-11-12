@@ -61,7 +61,6 @@
 #include "fnv/symbols_00702000.h"
 #include "fnv/symbols_00837000.h"
 #include "fnv/symbols_00839000.h"
-#include "fnv/symbols_01000000.h"
 #include "fnv/symbols_01015000.h"
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01017000.h"
@@ -157,11 +156,11 @@ struct FUN_00838750_shell
     char pad00[0x410];
     DummyFlags kFlags;
 };
-// Calls FUN_00621270 on the flags sub-object with DAT_01000000 and returns whether the result is non-zero.
+// Calls FUN_00621270 on the flags sub-object with the flag 0x01000000 and returns whether the result is non-zero.
 // @fnv 0x00838750
 bool FUN_00838750_shell::FUN_00838750()
 {
-    return ((int)(reinterpret_cast<::bhkCharacterListener *>(&kFlags)->FUN_00621270((intptr_t)&DAT_01000000))) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>(&kFlags)->FUN_00621270(0x01000000))) != 0;
 }
 
 struct FUN_00541570_shell

@@ -29,8 +29,9 @@ such as `src/fallout_shared/teswater.cpp`.
 CTest runs it in the windows-x64 cross build only, like
 `archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
 per batch of `d3dx-call-arguments.tsv`,
-`objects.hacking_array_retirement` for `hacking-array-retirement.tsv`, and
-`objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`. CMake
+`objects.hacking_array_retirement` for `hacking-array-retirement.tsv`,
+`objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`, and
+`objects.mask_constants`, one test for all of `mask-constants.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -74,6 +75,10 @@ forbids the name under which the unit's recipe symbols name the callee, with
 a `NavMeshPtr` result; no object defines it. Which register carries which
 argument is not a relocation; docs/navmesh-pointer-result.md records it from
 the instructions.
+
+`mask-constants.tsv` lists the 17 functions whose numeric masks, flags and
+counts were spelled as the addresses of data names (VEGAS-93,
+docs/mask-constants.md). It forbids the five names and requires none.
 
 ## Exit status
 

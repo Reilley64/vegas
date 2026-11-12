@@ -764,6 +764,12 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
               --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt --batch ${d3dx_call_batch}
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
   endforeach()
+  # Fails when a function whose numeric mask or flag was spelled as the
+  # address of a data name (VEGAS-93) again refers to that name.
+  add_test(NAME objects.mask_constants
+    COMMAND ${GO_EXECUTABLE} run . --table mask-constants.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
 if(WIN32)

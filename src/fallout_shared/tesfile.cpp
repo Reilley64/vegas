@@ -70,7 +70,6 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_00890000.h"
 #include "fnv/symbols_00aff000.h"
-#include "fnv/symbols_00fff000.h"
 #include "fnv/symbols_010a2000.h"
 #include "fnv/symbols_01186000.h"
 #include "fnv/symbols_01187000.h"
@@ -1257,12 +1256,12 @@ bool FUN_00472bc0_shell::ReadFormHeader()
             pMaster = reinterpret_cast<::FUN_00471a10_shell *>((((FUN_00485d50_file*)this)))->GetFileByIndex((((FUN_00472bc0_view*)this)->formID >> 24) + 1);
         if (pMaster)
             ((FUN_00472bc0_view*)this)->formID = (pMaster->GetFileCompileIndex() << 24) |
-                                                 (((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff);
+                                                 (((FUN_00472bc0_view*)this)->formID & 0x00ffffffu);
         else
             ((FUN_00472bc0_view*)this)->formID = (((FUN_00472bc0_view*)this)->m_ucCompileIndex << 24) |
-                                                 (((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff);
-        if (FUN_00484b40(((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff))
-            ((FUN_00472bc0_view*)this)->formID = ((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff;
+                                                 (((FUN_00472bc0_view*)this)->formID & 0x00ffffffu);
+        if (FUN_00484b40(((FUN_00472bc0_view*)this)->formID & 0x00ffffffu))
+            ((FUN_00472bc0_view*)this)->formID = ((FUN_00472bc0_view*)this)->formID & 0x00ffffffu;
     }
     return true;
 }
@@ -1472,7 +1471,7 @@ int FUN_00471400_shell::FUN_00471400()
                 this->m_kFileMetadata.m_uiThirdUnsignedValue = 0x800;
             this->m_kFileMetadata.m_uiThirdUnsignedValue =
                 (this->m_ucCompileIndex << 24) |
-                (this->m_kFileMetadata.m_uiThirdUnsignedValue & (std::uintptr_t)&::DAT_00ffffff);
+                (this->m_kFileMetadata.m_uiThirdUnsignedValue & 0x00ffffffu);
             break;
             break;
         case 0x4d414e43: {

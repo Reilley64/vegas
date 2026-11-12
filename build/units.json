@@ -532593,7 +532593,7 @@
     "__real@4000000000000000": "0x01011590",
     "??GPoint299@@QBE?AU0@ABU0@@Z": "0x00439ef0",
     "__ehhandler$?FUN_00c4db20@S00c4db20_Self@@QAEXXZ": "0x00f2eaa1",
-    "??0FUN_006917d0_Arr@@QAE@XZ": "0x006917d0",
+    "??0?$BSSimpleArray@G$0EAA@@@QAE@XZ": "0x006917d0",
     "?FUN_00c4e760@ArrW@@QAEXI_N@Z": "0x00c4e760",
     "?NiMalloc@@YAPAXI@Z": "0x00aa1070",
     "_memmove": "0x00ec44d0",

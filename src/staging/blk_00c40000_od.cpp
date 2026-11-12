@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/bs_simple_array_ushort.h"
 #include "fnv/list_node.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B44F890Collection.h"
@@ -17836,15 +17837,6 @@ struct S00c4db20_Pt
     float x, y, z;
 };
 
-struct FUN_006917d0_Arr
-{
-    int* table;
-    unsigned short* data;
-    unsigned int size;
-    unsigned int capacity;
-    FUN_006917d0_Arr();
-};
-
 struct S00c4db20_Child
 {
     int unk00;
@@ -17858,7 +17850,7 @@ struct S00c4db20_Child
 struct S00c4db20_Self
 {
     S00c4db20_Child* m_pChildObject;
-    FUN_006917d0_Arr* m_pArr;
+    BSSimpleArray<unsigned short, 1024>* m_pArr;
     int unk08;
     int unk0c;
     int unk10;
@@ -17897,7 +17889,7 @@ void S00c4db20_Self::FUN_00c4db20()
 {
     if (m_pArr == 0)
     {
-        m_pArr = new FUN_006917d0_Arr();
+        m_pArr = new BSSimpleArray<unsigned short, 1024>();
         bool removed3 = false;
         for (int iA = 0; iA < m_iArrayLength; iA++)
         {

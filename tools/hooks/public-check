@@ -127,6 +127,17 @@ scan_text() {
   return "$found"
 }
 
+# A data pack, installed or staged, holds data of the original release, so no
+# commit adds one, in any folder and in any letter case (VEGAS-13). Git
+# matches the names, so a name it would quote in its output still matches.
+# Type changes count too, so a symbolic link that replaces a pack is refused.
+pack_pathspecs=(':(glob,icase)**/*.pack' ':(glob,icase)**/*.pack.staged')
+pack_found=0
+report_pack() {
+  echo "public-check: $1: a data pack file: $2" >&2
+  pack_found=1
+}
+
 check_ident() {
   local who=$1 email=$2
   email_allowed "$email" || report "$who" "email address $email is not allowed"
@@ -170,6 +181,9 @@ scan_history_text() {
 case ${1:-} in
   staged)
     git diff --cached -U0 --no-color --no-ext-diff | added_lines | scan_text "staged changes" || found=1
+    while IFS= read -r path; do
+      report_pack "staged changes" "$path"
+    done < <(git diff --cached --name-only --no-ext-diff --diff-filter=ACMRT -- "${pack_pathspecs[@]}")
     ident=$(git var GIT_AUTHOR_IDENT)
     check_ident "author" "$(sed -E 's/.*<([^>]*)>.*/\1/' <<<"$ident")"
     ;;
@@ -181,6 +195,9 @@ case ${1:-} in
     while read -r rev; do
       git show -U0 --no-color --no-ext-diff --format= "$rev" | added_history_lines | scan_history_text "commit $rev" || found=1
       git log -1 --format=%B "$rev" | scan_history_text "message of $rev" || found=1
+      while IFS= read -r path; do
+        report_pack "commit $rev" "$path"
+      done < <(git show --name-only --no-ext-diff --diff-filter=ACMRT --format= "$rev" -- "${pack_pathspecs[@]}")
       check_ident "author of $rev" "$(git log -1 --format=%ae "$rev")"
       check_ident "committer of $rev" "$(git log -1 --format=%ce "$rev")"
     done < <(git rev-list "$@")
@@ -194,7 +211,14 @@ case ${1:-} in
     ;;
 esac
 
+if (( pack_found )); then
+  echo "public-check: refused. A data pack never goes into the repository: remove it from the commit." >&2
+fi
 if (( found )); then
-  echo "public-check: refused. Remove the content above, or add a public string to tools/hooks/public-allow.txt." >&2
+  other=""
+  (( pack_found )) && other="other "
+  echo "public-check: refused. Remove the ${other}content above, or add a public string to tools/hooks/public-allow.txt." >&2
+fi
+if (( found || pack_found )); then
   exit 1
 fi

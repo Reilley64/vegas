@@ -7,6 +7,9 @@
 *.bsa
 *.esm
 *.esp
+# Data packs that setup writes, installed or staged (VEGAS-13).
+*.pack
+*.pack.staged
 /out/
 /obj/
 

@@ -258,7 +258,8 @@ a real pack, a pack that setup prepared or startup.
 
 - Hashing in setup: setup computes the SHA-256 of the executable it reads
   and compares it with `SupportedOriginals()`, as `pe-file-reader.md`
-  says. The SHA-256 code is a separate change; nothing hashes yet.
+  says. The SHA-256 is the `mbedtls_sha256` target; nothing but its test
+  hashes yet.
 
 ## Build
 

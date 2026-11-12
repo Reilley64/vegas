@@ -11,6 +11,13 @@ release archive, and the download fails if the archive doesn't match.
   `diffutils` packages.
 - libogg and libvorbis, from downloads.xiph.org. Their licence is the BSD-style Xiph licence.
 - zlib 1.3.2, from the madler/zlib GitHub releases. The game links it statically. Its licence is the zlib licence.
+- Mbed TLS 3.6.7, the 3.6 long-term support branch, from the Mbed-TLS/mbedtls GitHub releases. Only its SHA-256 module
+  is built, `library/sha256.c` and `library/platform_util.c`, as the `mbedtls_sha256` static library, with
+  `third_party/mbedtls/vegas_sha256_config.h` as its configuration, which enables SHA-256 alone. Mbed TLS's own CMake
+  build is not added. The library is not part of the game archive. `sha256.nist_vectors` tests it against NIST's
+  byte-oriented SHA-256 test vectors, `SHA256ShortMsg.rsp` and `SHA256Monte.rsp`, which `tests/sha256` stores
+  unchanged with their line ends. Mbed TLS is offered under Apache-2.0 or GPL-2.0-or-later and is used here under
+  Apache-2.0 (`CREDITS.md`).
 
 The build never downloads the Steamworks SDK and the SDK is never committed, because its licence does not allow the
 headers to be published. The files in `redistributable_bin` may ship with a program. A configuration that targets

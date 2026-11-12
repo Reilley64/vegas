@@ -134,10 +134,11 @@ The data pack's header records the original as `original_version` and
 version from the `VS_FIXEDFILEINFO`, the version `IdentifyOriginal`
 compares. The pack decision record, ADR 0001, fixes the version as
 1.4.0.525, the original release of the glossary, but does not say whether
-it is the file or the product version. How the SHA-256 is computed is not
-decided: zlib has none, and a hashing dependency or an implementation of
-our own needs a review first. So the caller computes the digest over
-`PeFile::bytes`, and nothing here hashes.
+it is the file or the product version. The caller computes the digest over
+`PeFile::bytes`, and nothing here hashes. The SHA-256 is the
+`mbedtls_sha256` target, the SHA-256 module of Mbed TLS 3.6 LTS
+(`third_party/README.md`), decided on VEGAS-13 on 2026-11-12. Only its
+test calls it so far.
 
 ## The supported original release
 
@@ -180,8 +181,8 @@ These choices were reviewed and kept:
   setup target once there is one; they are game archive members until
   then.
 - Setup must hash `PeFile::bytes`, the same buffer it parsed, in one
-  operation, and compare the result with `SupportedOriginals()`. The
-  SHA-256 code is a separate change. Passing a digest to
+  operation, with the `mbedtls_sha256` target, and compare the result
+  with `SupportedOriginals()`. Passing a digest to
   `IdentifyOriginal`, as it is offered now, must not be setup's path,
   since nothing then ties the digest to the bytes read.
 - Extraction, a later step, must refuse the stored bytes of executable or

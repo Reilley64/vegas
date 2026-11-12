@@ -361,7 +361,7 @@ target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
   INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
   COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
-  COMPILE_OPTIONS "-Werror=pointer-to-int-cast;-Werror=void-pointer-to-int-cast;-Werror=int-to-pointer-cast;-Werror=int-to-void-pointer-cast"
+  COMPILE_OPTIONS "-Werror=pointer-to-int-cast;-Werror=void-pointer-to-int-cast;-Werror=int-to-pointer-cast;-Werror=int-to-void-pointer-cast;-Werror=unused-result"
 )
 
 # Units that still keep pointers in 32-bit integers build without the narrowing errors until they are clean.
@@ -374,4 +374,5 @@ target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES} PROPERTIES
   INCLUDE_DIRECTORIES "${PROJECT_SOURCE_DIR}/include"
   COMPILE_DEFINITIONS "WIN32_LEAN_AND_MEAN;NOMINMAX"
+  COMPILE_OPTIONS "-Werror=unused-result"
 )

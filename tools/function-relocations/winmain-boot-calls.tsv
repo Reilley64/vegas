@@ -6,5 +6,7 @@
 forbid	?FUN_0086e650@Receiver86@@QEAAXXZ
 # BootInit, 0x0086cf20
 forbid	?FUN_0086cf20@Receiver86@@QEAAXPEAU1@@Z
+# the render set-up, 0x0086d590
+forbid	?FUN_0086d590@Receiver86@@QEAAXXZ
 # batch, unit, function and the names of the bodies:
-function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ ?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z
+function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ ?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z ?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ

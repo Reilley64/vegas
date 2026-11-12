@@ -6487,7 +6487,6 @@ struct Receiver86
     void FUN_006c07d0();
     void FUN_008c7290();
     void FUN_0086d500();
-    void FUN_0086d590();
     void FUN_00871c90(int);
 
     Receiver86* FUN_008526c0();
@@ -6935,7 +6934,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 reinterpret_cast<::fnv_0086bbd0::S86b *>((((::Receiver86 *)(::FUN_0043c4b0()))))->FUN_0086bbd0((uintptr_t)(&((int (&)(...))::fnv_005d4a40::FUN_005d4a40)), (::fnv_0086bbd0::BGSAddonNode *)(0));
                 reinterpret_cast<::S86 *>((((::Receiver86 *)(::FUN_0043c4b0()))))->FUN_0086bae0((uintptr_t)(&(*reinterpret_cast<unsigned char *>(&::fnv_00872570::FUN_00872570))), (::BGSAddonNode *)(0));
                 FUN_0086bf70();
-                ((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086d590();
+                ((::fnv_0086d590::RenderSystem*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086d590();
                 ::Interface::Init(1);
                 ::FUN_006519f0();
                 reinterpret_cast<::fnv_00871c90::FUN_00871c90_shell *>((((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))))->FUN_00871c90(1);

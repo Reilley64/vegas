@@ -174,7 +174,7 @@ void hkpLinearParametricCurveE474::FUN_00e47440(float afParam, hkVector4E474& kP
 
 namespace fnv_00e474e0 {
 
-extern const __m128 DAT_010ec7f0;
+extern "C" const __m128 DAT_010ec7f0;
 
 struct Vec_e474e0
 {
@@ -351,7 +351,7 @@ union hkVector4q
     hkVector4 m_vec;
 };
 
-extern __m128 DAT_010ec7f0;
+extern "C" const __m128 DAT_010ec7f0;
 
 
 static __forceinline void hkSetSub4(hkVector4q& out, const hkVector4q& a, const hkVector4q& b)

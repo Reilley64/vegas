@@ -24045,7 +24045,6 @@ extern __m128 DAT_010c71d0;
 extern __m128 DAT_010c71c0;
 extern __m128 DAT_010cb630;
 extern float DAT_01011d78;
-extern float DAT_01017718;
 
 
 

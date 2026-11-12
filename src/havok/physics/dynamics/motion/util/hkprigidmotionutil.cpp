@@ -1534,8 +1534,6 @@ static __forceinline float StepReleaseFitscalarCopy(float f)
     return f;
 }
 
-extern const __m128 DAT_01017d10;
-
 struct __declspec(align(16)) StepReleaseFitQuaternion
 {
     union

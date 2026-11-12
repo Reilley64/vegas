@@ -2502,7 +2502,6 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
 
 extern const __m128 DAT_010c71e0;
 extern const __m128 DAT_010c7170;
-extern const __m128 DAT_010c44d0;
 extern const __m128 DAT_010c4c00;
 extern const __m128 DAT_010c4c10;
 

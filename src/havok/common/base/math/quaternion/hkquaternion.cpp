@@ -209,7 +209,6 @@ struct PerpendicularVector
 
 extern "C" double fabs(double);
 extern const float DAT_01011d78;
-extern const float DAT_01017718;
 extern "C" void _ReadWriteBarrier();
 
 static __forceinline __m128 inverse_length(__m128 t)

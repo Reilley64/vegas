@@ -167,9 +167,6 @@ extern "C" void ZeroResult(__m128* result)
 namespace fnv_00c9e120 {
 
 
-extern const __m128 DAT_01017d10;
-extern const __m128 DAT_010c44d0;
-
 struct hkVector4C9E1 {
     __m128 m_vComponents;
 

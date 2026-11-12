@@ -864,8 +864,6 @@ void __cdecl FUN_00e52320(const RotationVector* rotation, unsigned int* packed)
 namespace fnv_00e526f0 {
 
 
-extern const __m128 DAT_01017d10;
-
 struct hkQuaternion
 {
     union

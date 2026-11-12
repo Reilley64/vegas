@@ -2759,12 +2759,12 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
     return static_cast<DA6EB0Out*>(apOut)->m_kNext;
 }
 
+extern const float DAT_01017718;
+extern const __m128 DAT_010c44d0;
 namespace CleanSimd {
 
 extern float DAT_01011d78;
-extern float DAT_01017718;
-extern float DAT_01016248;
-extern __m128 DAT_010c44d0;
+extern "C" const float DAT_01016248;
 
 struct Vector
 {
@@ -2891,7 +2891,6 @@ void __cdecl FUN_00da8340()
 
 namespace N {
 extern "C" void _ReadWriteBarrier();
-extern const __m128 DAT_010c44d0;
 class Scalar
 {
     __m128 data;
@@ -3178,7 +3177,7 @@ struct __declspec(align(16)) VecHolder
     __m128 v00;
 };
 
-extern const __m128 DAT_010ec7f0;
+extern "C" const __m128 DAT_010ec7f0;
 extern const __m128 DAT_010c44d0;
 
 struct SlabMath

@@ -18465,7 +18465,7 @@ struct LockLocal
     }
 };
 extern float DAT_01267e6c;
-extern __m128 DAT_010ec7f0;
+extern "C" const __m128 DAT_010ec7f0;
 struct BlendLocal
 {
     virtual void v0();

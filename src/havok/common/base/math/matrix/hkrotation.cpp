@@ -65,10 +65,9 @@ FUN_00cb2ff0::~FUN_00cb2ff0()
 
 #include <xmmintrin.h>
 #include <math.h>
+extern const __m128 DAT_01017d10;
 namespace fnv_00cb2e70 {
 
-
-extern __m128 DAT_01017d10;
 
 class hkBool
 {

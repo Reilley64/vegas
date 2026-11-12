@@ -121,7 +121,7 @@ The 17 that are not:
 | `NiScreenElements`, required as `class` and as `struct`; counted once per key | 2 |
 | `TreeCloneView`: its declaration contradicts the body (check (d)) | 1 |
 | `Tile`: which class the pointee is was not settled | 1 |
-| `NiNode`: `tesobjectcell.cpp` declares the template without a field, 1 byte | 1 |
+| `NiNode`: `tesobjectcell.cpp` declared the template without a field, 1 byte; it has the field since VEGAS-96, and the checks were not run again | 1 |
 | The element type is a pointer, `NiNode*` | 1 |
 | The pointee has a placeholder name, `FUN_00b668b0` | 1 |
 
@@ -197,6 +197,18 @@ owner emits them.
 `testopicinfo_topicinfo_layout_support.h` declares `~NiPointer()` as well.
 Its one unit, `testopicinfo.cpp`, never calls it, and its object is
 byte-identical; it moved.
+
+`tesobjectcell.cpp:831` keeps its copy of the primary template
+(VEGAS-96, `docs/navmesh-pointer-result.md`). The copy had no field, so
+the unit saw the `NiPointer<NavMesh>` that `MakeNavMeshPointer` returns
+as a 1-byte trivial class and misread the result. With the shared header
+the class is 8 bytes but still trivially copyable, and the result is
+expected in a register, which still disagrees with the callee. The copy
+now has the field `T* m_pObject` and declares the copy constructor and
+the destructor, without bodies. `NiPointer<NiNode>` in that unit is now
+8 bytes with the field at offset 0. `NiPointer<NiNode>::operator=` is
+still not emitted: checks (a) to (d) were not run again over its 29
+requiring units.
 
 20 units use the header's declaration: the 19 and `nishader.cpp`.
 

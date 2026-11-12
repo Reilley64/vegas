@@ -28,8 +28,9 @@ such as `src/fallout_shared/teswater.cpp`.
 
 CTest runs it in the windows-x64 cross build only, like
 `archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
-per batch of `d3dx-call-arguments.tsv`, and
-`objects.hacking_array_retirement` for `hacking-array-retirement.tsv`. CMake
+per batch of `d3dx-call-arguments.tsv`,
+`objects.hacking_array_retirement` for `hacking-array-retirement.tsv`, and
+`objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -61,6 +62,18 @@ the sized array delete, which `delete[]` of the element type calls. The count
 before the array, the element size and the size passed to the array delete
 are not relocations; docs/hacking-element-release.md records them from the
 instructions.
+
+`navmesh-pointer-result.tsv` lists the function at `0x005436e0` in
+`tesobjectcell.cpp`, which calls `MakeNavMeshPointer` (`0x00464fc0`)
+(VEGAS-96). It requires that name and the destructor of the
+`NiPointer<NavMesh>` it returns. A caller that sees that class as trivial
+never calls the destructor, and on windows-x64 it is also the caller that
+expects the result in a register instead of passing its address: a class with
+a destructor of its own is always returned through that address. The table
+forbids the name under which the unit's recipe symbols name the callee, with
+a `NavMeshPtr` result; no object defines it. Which register carries which
+argument is not a relocation; docs/navmesh-pointer-result.md records it from
+the instructions.
 
 ## Exit status
 

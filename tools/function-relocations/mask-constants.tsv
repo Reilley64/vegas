@@ -2,6 +2,9 @@
 # data names (VEGAS-93). Format: README.md.
 # The names whose addresses stood for the constants:
 forbid	?DAT_00ffffff@@3HA
+forbid	?DAT_01000000@@3HA
 # batch, unit, function, "-" (no name is required):
 function	tesfile	src/fallout_shared/tesfile.cpp	?FUN_00471400@FUN_00471400_shell@fnv_00471400@@QEAAHXZ	-
 function	tesfile	src/fallout_shared/tesfile.cpp	?ReadFormHeader@FUN_00472bc0_shell@fnv_00472bc0@@QEAA_NXZ	-
+function	tes	src/fallout_shared/tes.cpp	?FUN_00452370@FUN_00452370_shell@@QEBA_NXZ	-
+function	tes	src/fallout_shared/tes.cpp	?FUN_00451ef0@AttachmentHandler@@QEAAXPEAUAttachRef@@PEAUAttachCell@@0_N@Z	-

@@ -284,7 +284,6 @@
 #include "fnv/symbols_00b58000.h"
 #include "fnv/symbols_00b65000.h"
 #include "fnv/symbols_00c3c000.h"
-#include "fnv/symbols_01000000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01015000.h"
 #include "fnv/symbols_01017000.h"
@@ -2606,7 +2605,7 @@ struct FUN_00452370_shell
 // @fnv 0x00452370
 bool FUN_00452370_shell::FUN_00452370() const
 {
-    return (uiFormFlags & (std::uintptr_t)&DAT_01000000) ? true : false;
+    return (uiFormFlags & 0x01000000) ? true : false;
 }
 
 namespace fnv_00453940 {

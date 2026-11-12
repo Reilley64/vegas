@@ -915,3 +915,27 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
       "-DREQUIRE=^addq[ \t]+[$]0x18,"
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
 endif()
+
+# Fails when the cell's reference placement (0x00548880) no longer passes the
+# x and z of GetRadii's by-value result (0x00413fc0) to the NiPoint2
+# constructor. The body discarded the result and built the point from a local
+# nothing wrote, so at /O2 the constructor got whatever xmm1 and xmm2 held
+# (VEGAS-90). It reads the archive with the llvm-objdump found for
+# archive.empty_import_slots, so it is registered for the cross build only.
+# The check is specific to clang-cl's windows-x64 code: the result address in
+# rdx, set by one leaq. Blind spots: it does not follow branches; a load from
+# the slot that is overwritten before the constructor call passes; it does not
+# check that the constructor stores the two floats.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.cell_reference_radii_result
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/cell_reference_radii_result.disassembly.txt
+      "-DFUNCTION=?FUN_00548880@FNV_Cell@fnv_00548880@@QEAAXPEAUFNV_Ref@2@H@Z"
+      "-DCALLEE=?GetRadii@FUN_00413fc0_Class@@QEBA?AUblob12@@XZ"
+      "-DNEXT=??0NiPoint2@fnv_00548880@@QEAA@MM@Z"
+      -DSLOT_REGISTER=rdx
+      -DLOADS=0:xmm1,8:xmm2
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_call_result_loads.cmake)
+endif()

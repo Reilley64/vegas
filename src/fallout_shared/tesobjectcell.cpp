@@ -5,6 +5,7 @@
 #include "fnv/save_load_game_view.h"
 #include "fnv/game_timer.h"
 #include "fnv_result_slot.h"
+#include <bit>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -17280,7 +17281,7 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
         Diff9 = ((::fnv_00548880::FNV_Primitive *)(reinterpret_cast<::FUN_0041fbe0_shell *>((((::fnv_00548880::FNV_Sub *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041fbe0()));
         if (Diff9)
         {
-            reinterpret_cast<::FUN_00413fc0_Class *>((Diff9))->GetRadii();
+            Diff3 = std::bit_cast<::fnv_00548880::NiPoint3>(reinterpret_cast<::FUN_00413fc0_Class *>((Diff9))->GetRadii());
             NiPoint2 DiffVal(Diff3.x, Diff3.z);
             reinterpret_cast<::S00416a30 *>((Diff7))->FUN_00416a30((::P00416a30 *)(::fnv_00548880::NiPoint2 *)(&DiffVal));
         }

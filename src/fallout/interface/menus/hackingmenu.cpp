@@ -643,11 +643,6 @@ FUN_00768810::FUN_00768810(unsigned int aiSize)
         reinterpret_cast<::FUN_00768920_shell *>(&(pItems[i]))->FUN_00768920((void *)(uiSize));
 }
 
-struct FUN_007021b0_cls
-{
-    void FUN_00702220();
-    void* DestroyOrFree(unsigned int flags);
-};
 // Deletes the HackingArrayElement array whose pointer is the first word of
 // this. The original calls the element's vector deleting destructor
 // (0x007021b0) with flags 3 when the pointer is non-null, which is delete[]:
@@ -656,35 +651,6 @@ struct FUN_007021b0_cls
 void C7687d0::FUN_007687d0()
 {
     delete[] *reinterpret_cast<HackingArrayElement**>(this);
-}
-
-extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
-
-
-// Destroys the object's elements and optionally frees the allocation, returning the object or its base pointer depending on flags.
-// @fnv 0x007021b0
-void* FUN_007021b0_cls::DestroyOrFree(unsigned int flags)
-{
-    if (flags & 2)
-    {
-        FUN_00ec5fce(this, 0x8, reinterpret_cast<int*>(this)[-1], &FUN_007021b0_cls::FUN_00702220);
-
-        if (flags & 1)
-        {
-            ::FUN_00401030(reinterpret_cast<char*>(this) - 4);
-        }
-
-        return reinterpret_cast<char*>(this) - 4;
-    }
-
-    reinterpret_cast<::FUN_00702220 *>(this)->FUN_00702220::~FUN_00702220();
-
-    if (flags & 1)
-    {
-        ::FUN_00401030(this);
-    }
-
-    return this;
 }
 
 class NiNode;

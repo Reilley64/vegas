@@ -457,15 +457,6 @@ bool FUN_005f25d0(unsigned short ausType)
     return IsNine(*(int*)(GetType(ausType) * 0x24 + 0x11977e4));
 }
 
-class TESSound;
-struct SoundPlaybackEntry
-{
-    float fTime;
-    unsigned char m_bFlag;
-    char _pad_5[3];
-    float fCurrentSpeed;
-    TESSound* SoundAssetTmp;
-};
 struct FUN_005f2820_shell : public TESAnimGroup
 {
     void FUN_005f2820(unsigned int);
@@ -476,6 +467,7 @@ struct FUN_005f2820_shell : public TESAnimGroup
 // @fnv 0x005f2820
 void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
 {
+    const unsigned int entrySize = sizeof(AnimGroupSound);
     unsigned int oldSoundCount = m_uiSoundEntryCount;
     m_uiSoundEntryCount = count;
     if (!m_uiSoundEntryCount)
@@ -486,13 +478,13 @@ void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
     }
     if (oldSoundCount)
     {
-        SoundPlaybackEntry* sounds_old = (SoundPlaybackEntry*)::FUN_00401000(oldSoundCount * 16);
-        __memcpy(sounds_old, sounds, oldSoundCount * 16);
-        sounds = (AnimGroupSound*)::Reallocate(sounds, m_uiSoundEntryCount * 16);
+        AnimGroupSound* sounds_old = (AnimGroupSound*)::FUN_00401000(oldSoundCount * entrySize);
+        __memcpy(sounds_old, sounds, oldSoundCount * entrySize);
+        sounds = (AnimGroupSound*)::Reallocate(sounds, m_uiSoundEntryCount * entrySize);
         unsigned int n = oldSoundCount;
         if (oldSoundCount > m_uiSoundEntryCount)
             n = m_uiSoundEntryCount;
-        __memcpy(sounds, sounds_old, n * 16);
+        __memcpy(sounds, sounds_old, n * entrySize);
         ::FUN_00401030(sounds_old);
         for (unsigned int i = oldSoundCount; i < m_uiSoundEntryCount; i++)
         {
@@ -504,7 +496,7 @@ void FUN_005f2820_shell::FUN_005f2820(unsigned int count)
     }
     else
     {
-        sounds = (AnimGroupSound*)::FUN_00401000(m_uiSoundEntryCount * 16);
+        sounds = (AnimGroupSound*)::FUN_00401000(m_uiSoundEntryCount * entrySize);
         for (unsigned int i = 0; i < m_uiSoundEntryCount; i++)
         {
             sounds[i].SoundAssetTmp = 0;

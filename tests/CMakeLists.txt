@@ -837,3 +837,27 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
             --archive $<TARGET_FILE:game> --recipe ${PROJECT_SOURCE_DIR}/build/units.json
             --objdump ${LLVM_OBJDUMP_EXECUTABLE})
 endif()
+
+# Fails when TESAnimGroup's sound entry resize (0x005f2820) scales a count by
+# 16, the 32-bit size of TESAnimGroup::AnimGroupSound, or no longer steps
+# through the entries it writes 24 bytes apart, the windows-x64 size. The
+# body allocated count * 16 bytes and wrote 24-byte entries past the end of the
+# block (docs/shared-tesanimgroup.md). It reads the archive with the
+# llvm-objdump found for archive.empty_import_slots, so it is registered for
+# the cross build only.
+# The patterns are specific to clang-cl at /O2. Blind spots: a count scaled by
+# 16 in another way (an add chain, an lea with a multiple of 16) passes; the
+# required addq $0x18 checks that the loop still steps 24 bytes, it does not
+# tell the two sizes apart; the allocated size is not compared with the extent
+# the body writes.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.anim_group_sound_entry_size
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/anim_group_sound_entry_size.disassembly.txt
+      "-DFUNCTION=?FUN_005f2820@FUN_005f2820_shell@@QEAAXI@Z"
+      "-DFORBID=^(shl|sal)[lq]?[ \t]+[$]0x4,|^imul[lq]?[ \t]+[$]0x10,"
+      "-DREQUIRE=^addq[ \t]+[$]0x18,"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+endif()

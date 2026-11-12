@@ -2463,7 +2463,6 @@ void* FUN_00877bb0::DeleteThis(unsigned int flags)
     return this;
 }
 
-extern char const* const g_011c5bbc_arg1;
 struct FUN_00878360_Class
 {
     int m_00;
@@ -2473,12 +2472,12 @@ struct FUN_00878360_Class
     unsigned int m_10;
     bool FUN_00878360();
 };
-// Returns true unless m_10 exceeds m_08 and the difference is greater than the address of g_011c5bbc_arg1.
+// Returns true unless m_10 exceeds m_08 and the difference is greater than 0x00500000.
 // @fnv 0x00878360
 bool FUN_00878360_Class::FUN_00878360()
 {
     bool b = true;
-    if (m_10 > m_08 && (std::uintptr_t)(m_10 - m_08) > (std::uintptr_t)&g_011c5bbc_arg1)
+    if (m_10 > m_08 && (m_10 - m_08) > 0x00500000u)
         b = false;
     return b;
 }

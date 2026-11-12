@@ -6,6 +6,7 @@ forbid	?DAT_01000000@@3HA
 forbid	?DAT_00ff0000@@3HA
 forbid	DAT_01000001
 forbid	?g_fnv_00e9ecc0_value_anchor@@3HA
+forbid	?g_011c5bbc_arg1@@3QEBDEB
 # batch, unit, function, "-" (no name is required):
 function	tesfile	src/fallout_shared/tesfile.cpp	?FUN_00471400@FUN_00471400_shell@fnv_00471400@@QEAAHXZ	-
 function	tesfile	src/fallout_shared/tesfile.cpp	?ReadFormHeader@FUN_00472bc0_shell@fnv_00472bc0@@QEAA_NXZ	-
@@ -24,3 +25,4 @@ function	blk_00a60000_o2	src/staging/blk_00a60000_o2.cpp	?FUN_00a77110@@YAXIIIPE
 function	blk_00a60000_o2	src/staging/blk_00a60000_o2.cpp	?ConvertRgbToRgba@fnv_00a77460@@YAXIIHPEAEHHPEBEPEBI@Z	-
 function	hkptoicountviewer	src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp	?FUN_00d67c30@FUN_00d67c30_cls@fnv_00d67c30@@QEAAXPEAUArgBlock@2@@Z	-
 function	niunionbv	src/gamebryo2.2/corelibs/nicollision/niunionbv.cpp	?FUN_00e9ecc0@@YA_JXZ	-
+function	blk_00860000_od	src/staging/blk_00860000_od.cpp	?FUN_00878360@FUN_00878360_Class@@QEAA_NXZ	-

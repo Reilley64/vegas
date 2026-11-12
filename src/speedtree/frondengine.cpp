@@ -403,7 +403,9 @@ void FUN_00b20c30::FUN_00b20c30_Destroy(VdElemW* _First, VdElemW* _Last)
 namespace fnv_00b1ebc0 { namespace vecdb1eb { struct VdElemV; } }
 
 
-unsigned int g_010173f0;
+// 0x010173f0: npos of the string library, all bits of a 32-bit unsigned
+// int set. Its users pass it as a length or compare it with a position.
+unsigned int g_010173f0 = 0xFFFFFFFFu;
 
 struct FUN_00b1ada0_class
 {

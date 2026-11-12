@@ -996,6 +996,17 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when the npos of the string library at 0x010173f0 (VEGAS-100) is
+# again zero: defined without its all-ones initial value, in a section that
+# has no initialised contents, or with other bytes. Cross build only, like the
+# checks above.
+if(WIN32 AND NOT CMAKE_HOST_WIN32)
+  add_test(NAME objects.string_npos
+    COMMAND ${GO_EXECUTABLE} run . --table string-npos.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/data-values)
+endif()
+
 # Fails when a function that read the slot after the end of a two-slot
 # generated table (VEGAS-30) again addresses that table at or past its end, or
 # no longer calls through the name the recipe gives that slot. Cross build

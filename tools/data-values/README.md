@@ -36,6 +36,18 @@ value<TAB>UNIT<TAB>NAME<TAB>HEX
 `HEX` is the bytes the name starts with, in the order they lie in the
 object, two hex digits each.
 
+`string-npos.tsv` holds the npos of the string library at `0x010173f0`,
+defined in `src/speedtree/frondengine.cpp` (VEGAS-100). Its users read a
+32-bit unsigned int, so the row requires the four bytes `ffffffff`. The
+definition was zero-initialised before, and the row fails on that form.
+
+## Where it runs
+
+CTest runs it in the windows-x64 cross build only, like the function
+relocation checks: `objects.string_npos` for `string-npos.tsv`, on the object
+list of the game archive that CMake writes to `game-objects.txt` in the
+build's `tests` folder.
+
 ## Exit status
 
 | Status | Meaning |

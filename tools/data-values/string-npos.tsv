@@ -1,0 +1,3 @@
+# The npos of the string library at 0x010173f0 (VEGAS-100): all four
+# bytes of the 32-bit unsigned int set. The zero form is the defect.
+value	src/speedtree/frondengine.cpp	?g_010173f0@@3IA	ffffffff

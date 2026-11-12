@@ -102,12 +102,20 @@ else()
 endif()
 add_test(NAME fileformat.pack_open COMMAND fileformat_pack_open_test)
 
-# Built the same way. The catalogue is a header, so elsewhere the test needs
-# no unit of its own.
+# Built the same way. The packs it validates are written by the data pack
+# writer while the test runs.
 add_executable(fileformat_pack_catalogue_test fileformat/pack_catalogue_test.cpp)
 target_include_directories(fileformat_pack_catalogue_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
 if(WIN32)
   target_link_libraries(fileformat_pack_catalogue_test PRIVATE game)
+else()
+  target_sources(fileformat_pack_catalogue_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_container.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_writer.cpp
+  )
+  target_link_libraries(fileformat_pack_catalogue_test PRIVATE ZLIB::ZLIBSTATIC)
 endif()
 add_test(NAME fileformat.pack_catalogue COMMAND fileformat_pack_catalogue_test)
 

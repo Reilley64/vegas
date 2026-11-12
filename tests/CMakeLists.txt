@@ -55,6 +55,18 @@ else()
 endif()
 add_test(NAME fileformat.pe_file COMMAND fileformat_pe_file_test)
 
+add_executable(fileformat_original_identity_test fileformat/original_identity_test.cpp)
+target_include_directories(fileformat_original_identity_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(fileformat_original_identity_test PRIVATE game)
+else()
+  target_sources(fileformat_original_identity_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fileformat/original_identity.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pe_file.cpp
+  )
+endif()
+add_test(NAME fileformat.original_identity COMMAND fileformat_original_identity_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

@@ -19,6 +19,12 @@ uses the same element class as `FUN_00768810`. The sections before it describe
 the first change and keep its wording, except the `ArrElem` row of the
 recipe table and the two lists at the end.
 
+A third change, measured on 3a60c9e78, is described under "Array
+retirement": 007687d0 deletes the array with `delete[]` of
+`HackingArrayElement` instead of the 32-bit array path of 007021b0. The
+sections before it keep their wording, except the 007687d0 entry of
+"Producers and retirers of the element" and the list at the end.
+
 ## What the recipe records
 
 `build/units.json` is the authority for addresses.
@@ -110,8 +116,10 @@ three objects. So no executable changes behaviour with this change.
   `HackingArrayElement`. Until the second change it used `ArrElem`, a second
   declaration of the same two words whose constructor and destructor had no
   definition.
-- `C7687d0::FUN_007687d0` (007687d0) is the one caller of `DestroyOrFree`, with
-  flags 3. No object requires it.
+- `C7687d0::FUN_007687d0` (007687d0) deletes the array in the first word of
+  its receiver with `delete[]` of `HackingArrayElement`. Until the third
+  change it was the one caller of `DestroyOrFree`, with flags 3. No object
+  requires it.
 - 00768920 and `STR_0076b200::AssignFrom` (0076b200) release and replace the
   buffer of one element in place.
 
@@ -241,33 +249,93 @@ leave, and four more from the list of topic lists
 (`docs/shared-simple-list.md`). The other test executables were not linked
 here. So no executable measured here changes behaviour.
 
-## Live hazard: the array of 00768810 is retired with the 32-bit layout
+## Array retirement
 
-This was there before these changes. Its owner is VEGAS-72.
+### The pair
 
-00768810 allocates its array with `new HackingArrayElement[n]`. The
-windows-x64 compiler keeps the count in 8 bytes, eight bytes before the
-array, and the elements are 16 bytes apart. 007687d0 retires that array
-through `DestroyOrFree` (0x007021b0) with flags 3. The array path of
-`DestroyOrFree` is a transcription of the original's: it reads a 32-bit
-count four bytes before the array, steps 8 bytes per element, passing
-`FUN_007021b0_cls::FUN_00702220` to `FUN_00ec5fce`, and frees the block
-four bytes before the array. On windows-x64 it would read the wrong count,
-destroy at the wrong addresses and free a pointer the allocator did not
-return. No program runs it today: neither `FUN_00ec5fce` nor
-`FUN_007021b0_cls::FUN_00702220` has a definition, and no program that
-links contains 007687d0.
+The array that 007687d0 deletes and the arrays the unit allocates are one
+`new[]` and `delete[]` pair of one element type, in one unit:
 
-The recipe binds `FUN_007021b0_cls::FUN_00702220` to `0x00702220`, the
-function kept here, but the call is not rebound, because the count and
-stride around it are the 32-bit layout.
+- The recipe of `hackingmenu.cpp` binds the vector deleting destructor of
+  the element, `??_EHackingArrayElement@@QAEPAXI@Z`, to `0x007021b0`, and
+  binds `??_U@YAPAXI@Z` (`operator new[]`) to `0x00401000`,
+  `??_V@YAXPAX@Z` (`operator delete[]`) to `0x00401030` and
+  `??_M@YGXPAXIHP6EX0@Z@Z`, the compiler's array destructor loop, to
+  `0x00ec5fce`. These are the names a 32-bit compiler uses for `new[]` and
+  `delete[]` of a class with a destructor.
+- The transcription of 007687d0 reads the pointer in the first word of its
+  receiver and, when it is not null, calls 007021b0 with flags 3. That is
+  the 32-bit compiler's code for `delete[]` of that pointer: flag 2 for an
+  array, flag 1 to free it.
+- `FUN_00768810` (00768810) and `ElemArray::CopyFrom` (0076b0c0) allocate
+  with `new HackingArrayElement[n]` and keep the array in the first word of
+  their object. 0076b0c0 already deletes the array it replaces with
+  `delete[]` of `HackingArrayElement`.
 
-Next step: a coordinator ruling that 0x007021b0 is the compiler's vector
-deleting destructor of `HackingArrayElement`, which is what the respelled
-recipe key says. Then 007687d0 becomes a typed `delete[]`, and the
-transcribed body of `DestroyOrFree` is retired from its row. Yield:
-`FUN_007021b0_cls::FUN_00702220` leaves the undefined names of this unit.
-It needs a test that retires arrays of zero, one and many elements.
+So 007687d0 now deletes with `delete[]` of `HackingArrayElement`. The
+count, the element size and the freed block come from the windows-x64
+declaration, as at the allocation.
+
+Read from the windows-x64 object of 3a60c9e78 and of the change:
+
+| | Allocation (00768810) | Deletion (007687d0, after) | Deletion (007687d0, before) |
+| --- | --- | --- | --- |
+| Call | `??_U@YAPEAX_K@Z` with `16*n+8` bytes | `??_V@YAXPEAX_K@Z` with `16*n+8` bytes | `FUN_00401030` |
+| Count | written as 8 bytes at the block start | read as 8 bytes, 8 bytes before the array | read as 4 bytes, 4 bytes before the array |
+| Address | the array starts 8 bytes after the block | frees the address 8 bytes before the array | frees the address 4 bytes before the array |
+| Elements | 16 bytes apart | `??1FUN_00702220@@QEAA@XZ` on each, last first, 16 bytes apart | passed to `FUN_00ec5fce` with an element size of 8 |
+
+With a count of 0, the deletion destroys nothing and frees the block of 8
+bytes. `src/runtime/new.cpp` defines both array operators. In the forced
+link of every archive member they resolve to `new.cpp.obj`, which passes
+the block to `FUN_00401000` and `FUN_00401030` of
+`canonical_memory_manager.cpp`. No archive member defines them.
+
+### Behaviour change
+
+`C7687d0::FUN_007687d0` (007687d0) deletes the array in the first word of
+its receiver with `delete[]`. It no longer reaches the array path of
+`DestroyOrFree`, which read a 32-bit count four bytes before the array,
+stepped 8 bytes and freed a pointer the allocator did not return. No
+object requires 007687d0, so no program runs either form.
+
+The check `objects.hacking_array_retirement` of the windows-x64 cross build
+(`tools/function-relocations/hacking-array-retirement.tsv`) fails when the
+code of 007687d0 refers to `DestroyOrFree`, `FUN_00ec5fce`,
+`FUN_007021b0_cls::FUN_00702220` or `FUN_00401030`, or no longer to the
+element destructor and the sized array delete. It fails on the object of
+3a60c9e78 and passes on the object of the change. The count, the element
+size and the size passed are not relocations: they are the instructions in
+the table above.
+
+### Measured links
+
+Windows-x64, built from one export path for 3a60c9e78 and the change, 2,227
+archive members in the same order. One object differs, `hackingmenu.cpp.obj`,
+and in it one function, 007687d0. In each of the four link cells no name
+leaves or enters, the duplicates (none), the imports and the other
+diagnostics are those of 3a60c9e78, and the names with differing
+definitions stay 519. No name is newly defined or gains a content variant. The
+one warning of the removed line, an unused expression result, leaves.
+
+### What stays open
+
+- `DestroyOrFree` (007021b0, the function row) keeps its transcribed body,
+  with no caller in the source or in any object. Its array path is the
+  32-bit one above, and it still requires `FUN_00ec5fce` and
+  `FUN_007021b0_cls::FUN_00702220`, which no object defines. The windows-x64
+  compiler emits no vector deleting destructor for the element: it writes
+  the code of each `delete[]` where it is used. Whether the row keeps a
+  hand-written body needs a ruling.
+- The receiver of 007687d0 is `C7687d0`, an empty class. The unit declares
+  the object that holds the array several times: `FUN_00768810`,
+  `FUN_007687d0`, `MatrixWrapper`, `grid76a::G7Grid`, `ElemArray` and
+  `Struct0076b090`. `FUN_007687d0::~FUN_007687d0()` and
+  `grid76a::G7Grid::~G7Grid()` are required and not defined, and the recipe
+  binds neither name. Whether 007687d0 is that destructor is not
+  established here.
+- No test executes the deletion: `hackingmenu.cpp` does not build for a host
+  test, and no windows-x64 program that contains it links.
 
 ## Not covered
 
@@ -276,9 +344,10 @@ These were open before these changes and remain open for VEGAS-72.
 - `STR_0076b200`, `FUN_00768920_shell` and `HackingArrayElement` are three
   declarations of one element, joined by casts. Their second word is a
   `uintptr_t`, a pointer and an `unsigned int`. They are not merged here.
-- The array that 00768810 allocates is retired by 007687d0 with the 32-bit
-  count and stride (the hazard above). The array that 0076b0c0 allocates is
-  retired by 0076b0c0 itself, with the compiler's own count and stride.
+- The array that 00768810 allocates was retired by 007687d0 with the 32-bit
+  count and stride until the third change. `DestroyOrFree` keeps that path
+  with no caller (see "What stays open"). The array that 0076b0c0 allocates
+  is retired by 0076b0c0 itself, with the compiler's own count and stride.
 - The recipe key `??0SL@@QAE@XZ` at `0x0096a2d0` of this unit is the earlier
   name of the element constructor. It names nothing in the source now.
 - `FUN_008456c0` reaches its receiver through a cast and a four-byte offset

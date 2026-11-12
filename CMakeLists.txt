@@ -87,9 +87,11 @@ target_sources(game PRIVATE src/fileformat/original_identity.cpp)
 target_sources(game PRIVATE src/fileformat/dds_header.cpp)
 # Added after it: the NiAnimationKey table owner (VEGAS-51).
 target_sources(game PRIVATE src/gamebryo2.2/corelibs/nianimation/nianimationkey_tables.cpp)
-# After it, the check of the data pack's original (VEGAS-52), now the first
-# member listed.
+# After it, the check of the data pack's original (VEGAS-52).
 target_sources(game PRIVATE src/fileformat/pack_validation.cpp)
+# Then the step that opens the file of a data pack and checks it (VEGAS-52),
+# now the first member listed.
+target_sources(game PRIVATE src/fileformat/pack_open.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)

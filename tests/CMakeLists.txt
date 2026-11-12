@@ -84,6 +84,24 @@ else()
 endif()
 add_test(NAME fileformat.pack_validation COMMAND fileformat_pack_validation_test)
 
+# Built the same way. It writes its packs into a folder of its own under the
+# temporary folder and removes it when it ends.
+add_executable(fileformat_pack_open_test fileformat/pack_open_test.cpp)
+target_include_directories(fileformat_pack_open_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(fileformat_pack_open_test PRIVATE game)
+else()
+  target_sources(fileformat_pack_open_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_open.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_container.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_writer.cpp
+  )
+  target_link_libraries(fileformat_pack_open_test PRIVATE ZLIB::ZLIBSTATIC)
+endif()
+add_test(NAME fileformat.pack_open COMMAND fileformat_pack_open_test)
+
 add_executable(runtime_crt_test runtime/crt_test.cpp)
 target_include_directories(runtime_crt_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(runtime_crt_test PRIVATE game)

@@ -1518,3 +1518,9 @@ bool FUN_0048b310(void* form, void* variant)
 // Constructor only: a unit that requires another member of these lists lays
 // the list out differently (docs/shared-simple-list.md).
 template BSSimpleList<const char*>::BSSimpleList();
+
+// The destructor and RemoveHead only: a unit that requires IsEmpty of this
+// list lays it out differently (docs/shared-simple-list.md).
+class DebrisModelEntry;
+template BSSimpleList<DebrisModelEntry*>::~BSSimpleList();
+template void BSSimpleList<DebrisModelEntry*>::RemoveHead();

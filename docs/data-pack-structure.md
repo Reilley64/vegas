@@ -55,8 +55,7 @@ The CRC-32 is zlib's, fed in chunks no larger than zlib's length type holds.
 
 ## What it leaves unchecked
 
-The decision record leaves these undecided, so the reader passes the values
-on and decides nothing about them:
+The reader passes these values on and decides nothing about them:
 
 - `originalVersion` and `originalSha256` are the original release the pack
   claims to come from. The reader does not compare them with the supported
@@ -64,8 +63,9 @@ on and decides nothing about them:
   does.
 - An entry's key and version are stored as read. Which keys exist, which
   version of each is supported and which entries are required belong to the
-  catalogue, which is not decided. Keys are not required to be ASCII here,
-  because an unknown key is the catalogue's to refuse.
+  catalogue, which `ValidatePack` of `data-pack-validation.md` checks. Keys
+  are not required to be ASCII here, because an unknown key is the
+  catalogue's to refuse.
 - Payload bytes are exposed raw through `EntryBytes`. The span it returns
   points into the `PackStructure`, so it cannot be called on a temporary.
 
@@ -73,8 +73,8 @@ The check of the original is described in `data-pack-validation.md`.
 There is no flag, constructor or conversion that turns a `PackStructure`
 into an `OriginalCheckedPack` or a `ValidatedPack`: only
 `CheckPackOriginal` and `CheckPackOriginalAgainst` make an
-`OriginalCheckedPack`. `ValidatedPack` is the name kept for the result of
-the complete validator, `ValidatePack`, which is not written.
+`OriginalCheckedPack`, and only the complete validator, `ValidatePack`,
+makes a `ValidatedPack`.
 
 ## Writer
 
@@ -93,7 +93,10 @@ directory order. The file size and then the CRC-32 are stored last.
 The reader and the writer take the magic, the header and record sizes, the
 CRC-32 field offset, the revision value and the CRC-32 routine from one
 internal header and unit, `src/fileformat/pack_container.h`. Nothing else
-includes it.
+includes it. Both state at compile time that the revision value is the
+catalogue version of `src/fileformat/pack_catalogue.h`,
+`packCatalogueVersion`, so raising that version does not build until the
+reader and the writer change with it.
 
 The writer refuses entries whose pack the reader would refuse, and keys
 that the decision record does not allow; the reader's other rules hold by

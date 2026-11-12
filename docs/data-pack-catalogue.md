@@ -2,8 +2,9 @@
 
 ## Status
 
-This page is a design, not a description of code. Nothing on it is
-implemented. It answers what the catalogue that ADR 0001 requires must hold
+This page is a design, not a description of code. Of its next increments
+only the first, catalogue version 1 and `ValidatePack`, is implemented;
+`data-pack-validation.md` describes that code. It answers what the catalogue that ADR 0001 requires must hold
 before the engine may start with a data pack, and how setup fills each entry
 from the original release. It records no value of the original release. The
 decisions it needed were taken on VEGAS-52 on 2026-11-12; they are under
@@ -138,8 +139,8 @@ seven of them as a string.
 | Read the file | bytes | `PackOpenError` |
 | `ParsePackStructure` | `PackStructure` | `PackStructureError` |
 | Compare the recorded original with the source's supported set | (intermediate) | `UnsupportedOriginalError` |
-| Each directory key is in the catalogue, with its version | (intermediate) | an unknown key, an unsupported version |
 | Every required key is present | (intermediate) | a missing entry |
+| Each directory key is in the catalogue, with its version and size | (intermediate) | an unknown key, an unsupported version, a wrong size |
 | Each entry decodes | decoded values | the key and the shape problem |
 | `ValidatePack` returns | `ValidatedPack` | |
 | Publish each value to its native owner | | |
@@ -147,7 +148,9 @@ seven of them as a string.
 
 `OpenPack`, `PackOpenError` and the comparison with a supported set belong
 to the open-and-check stage of VEGAS-52 (`data-pack-validation.md`).
-`ValidatePack` takes only the bytes. It takes no supported
+A missing entry is checked first: with one required entry, a pack whose
+keys are all in the catalogue holds it, so after the key check no pack
+could miss it. `ValidatePack` takes only the bytes. It takes no supported
 set and no list of required keys; both are the source's. It is the only maker of a
 `ValidatedPack`, which offers decoded values and no raw bytes. Every stage
 above it yields a type that cannot become one. Publication and the
@@ -250,7 +253,7 @@ source has those four capacities.
 They follow D1 and D3, with C1 as the first entry. The packs, executables and
 values in their tests are synthetic.
 
-1. **Catalogue version 1 and `ValidatePack` (VEGAS-52).** The catalogue of
+1. **Catalogue version 1 and `ValidatePack` (VEGAS-52), implemented.** The catalogue of
    the first entry, its decoder, `ValidatePack` and `ValidatedPack`; the
    source's supported set exists (`pe-file-reader.md`). About 400 lines with
    tests. Tests: a pack of the entry

@@ -1,23 +1,25 @@
-# Data pack original check and opening (VEGAS-52)
+# Data pack validation and opening (VEGAS-52)
 
 ## Scope
 
 `fileformat::CheckPackOriginal` in `src/fileformat/pack_validation.h` is
 the step after the structural reader of `data-pack-structure.md`: it
 decides whether a well-formed pack records a supported original release.
-`fileformat::OpenPack` in `src/fileformat/pack_open.h` is the step a later
-startup calls: it reads the file of a pack and checks it.
-Both are game library code in `src/fileformat`, beside the reader and the
+`fileformat::ValidatePack`, in the same header, is the complete validator
+of ADR 0001: it runs that check, then checks the pack against catalogue
+version 1 of `src/fileformat/pack_catalogue.h` and decodes its entry.
+`fileformat::OpenPack` in `src/fileformat/pack_open.h` reads the file of a
+pack and checks its original; `fileformat::OpenAndValidatePack` beside it
+is the step a later startup calls: it reads the file and validates it.
+All are game library code in `src/fileformat`, beside the reader and the
 writer, because the pack decision record, ADR 0001, has setup and the
 engine use the same validator. There is no engine loading code yet to put
 them in.
 
-They are a named intermediate stage, not the complete validator of ADR
-0001. The names `ValidatePack` and `ValidatedPack` are kept for that
-validator and the type only it makes, and neither is written. Nothing
-calls these functions yet. The engine's `main` does not open a pack. A
-pack that passes is not a complete pack and does not allow the engine to
-start.
+`CheckPackOriginal` and `OpenPack` are a named intermediate stage: a pack
+that passes them is not a complete pack and does not allow the engine to
+start. Only `ValidatePack` makes a `ValidatedPack`. Nothing calls these
+functions yet, and the engine's `main` does not open a pack.
 
 ## Checking the original
 
@@ -55,7 +57,7 @@ that has been moved from still reports its original but has no entries.
 ## What it leaves unchecked
 
 `OriginalCheckedPack::Unchecked()` lists, as `UncheckedPackRequirement`,
-what is not checked because it is not decided:
+what `CheckPackOriginal` does not check. `ValidatePack` checks both:
 
 - `Catalogue`: which keys exist, which version of each is supported and
   which entries a pack needs. No key is refused or required, so a pack of
@@ -72,6 +74,55 @@ executable or computes a digest, and a match does not prove where the
 pack came from. Each of the two is to be removed from the list by the
 change that checks it.
 
+## Validating against the catalogue
+
+`ValidatePack` takes the bytes of a file only. The supported set and the
+required entries are the source's, `SupportedOriginals()` and
+`packCatalogue`; neither is a parameter. It runs `CheckPackOriginal` and
+then these checks, in this order:
+
+| Check | Error | Problem |
+| --- | --- | --- |
+| The checks of `CheckPackOriginal` | `PackStructureError`, `UnsupportedOriginalError` | as above |
+| Each catalogue entry, in turn, has an entry of its key in the pack | `PackCatalogueError` | `MissingEntry` |
+| Each entry of the pack, in turn, has a key of the catalogue | `PackCatalogueError` | `UnknownKey` |
+| ... with the catalogue's version for that key | `PackCatalogueError` | `EntryVersion` |
+| ... and the catalogue's size for that key | `PackCatalogueError` | `EntrySize` |
+| Each field of C1, in turn, holds a zero byte | `PackCatalogueError` | `FieldTerminator` |
+
+The catalogue version is checked by the structural reader, which accepts
+1, the catalogue's `packCatalogueVersion`, so a pack of another catalogue
+version fails with `PackStructureError` and `CatalogueVersion`. `PackCatalogueError` is a
+`FormatError`. Its message names the entry and, for a field, the field;
+an unknown key is not printed, since it may hold any byte.
+
+A missing entry is checked before the keys of the pack, not after them as
+the boundary table of `data-pack-catalogue.md` lists. The container
+requires at least one entry and unique keys, so when every key of a pack
+is in a catalogue of one entry, the pack holds that entry: in the other
+order no pack could fail with `MissingEntry`.
+
+Catalogue version 1 is the one entry C1 of `data-pack-catalogue.md`:
+the key `INST`, version 1, 140 bytes, four fields of 20, 60, 8 and 52
+bytes, end to end, each holding a string of the single-instance and
+remote-session checks. The field capacities are those of
+`SingleInstanceStrings`, so the size is fixed by that declaration. The
+decoder reads each field with `ByteReader`, copies it through its first
+zero byte and fills the rest of the decoded field with zeros. A byte after
+the zero byte is not copied and does not refuse the pack.
+
+`ValidatedPack` keeps the decoded values only, not the file, its
+directory or any entry's bytes. It offers `Original()`, the supported
+identity the pack matched, and `SingleInstance()`, C1's four strings; both
+are refused on a temporary. It can be moved, not copied; no constructor,
+conversion or flag makes one from bytes, a `PackStructure`, an
+`OriginalCheckedPack` or decoded values, and a moved-from pack keeps its
+values. The original is compared, not proved: nothing reads an
+executable or computes a digest.
+
+C1 holds no reference to other data, so there is no reference for the
+validator to resolve.
+
 ## Rulings on the next stages
 
 These were ruled for this stage:
@@ -81,8 +132,10 @@ These were ruled for this stage:
   the SHA-256 of the supported release's complete `FalloutNV.exe`, adopted
   by the owner under the reviewed procedure; and the complete catalogue,
   its keys, entry versions, required entries and decoding. The set exists
-  now, adopted on VEGAS-52 on 2026-11-12. The catalogue does not, so
-  `main` still does not open a pack.
+  now, adopted on VEGAS-52 on 2026-11-12, and so does catalogue version 1.
+  The pack stage joins `main` with C1's consumer, the next increment of
+  `data-pack-catalogue.md`, through `OpenAndValidatePack`; until then
+  `main` does not open a pack.
 - No production function takes a supported set. `OpenPack`,
   `CheckPackOriginal` and `IdentifyOriginal` check against
   `SupportedOriginals()`. The forms that take a set,
@@ -108,6 +161,10 @@ processes may read the file meanwhile but not write it.
 | It can be opened for reading | `PackOpenError` | `Unreadable` |
 | Its bytes can be read to the end | `PackOpenError` | `Unreadable` |
 | Then `CheckPackOriginal` of its bytes | as above | as above |
+
+`OpenAndValidatePack` reads the file in the same way, with the same
+`PackOpenError` cases, and returns `ValidatePack` of its bytes. It too
+takes a path only.
 
 `Missing` is a failure to open with `ENOENT`, which is also what a missing
 folder on the path gives. Any other failure to open, and any read error, is
@@ -154,19 +211,53 @@ time, storing a matching CRC-32 again, and expects each
 of `supported_release.h`, and it refuses a pack that records another
 version, a made-up digest or that digest with its last byte changed.
 Where permissions do not stop the test reading a file, as on Windows, the
-read permission case prints that it was not run.
+read permission case prints that it was not run. With
+`OpenAndValidatePack` it validates the file of a complete pack and reads
+back its four strings, and refuses a missing file, a folder, a pack of
+catalogue version 2, a made-up digest and a pack without the catalogue's
+entry, each with its own error.
+
+`tests/fileformat/pack_catalogue_test.cpp` spells catalogue version 1
+itself, the key, version, size and four field capacities, and states at
+compile time that the source's catalogue is the same. Its packs are
+written by `WritePackStructure` and record the identity of
+`supported_release.h`. `ValidatePack` accepts complete packs of made-up
+strings, of the longest string each field holds, of empty strings and of
+every byte value but zero, and returns those strings with zeros after
+them; bytes after a field's zero byte are not returned. It refuses a pack
+without `INST`, under five other keys and with two; an unknown key before,
+after and just above `INST`, the lowest key, and a key that is not ASCII,
+which the test stores after writing; entry versions 0, 2, 0x80000001 and
+0xFFFFFFFF; sizes 1, 139, 141 and 280; each field with no zero byte, also
+when the fields after it are all zeros; catalogue versions 0, 2 and
+0xFFFFFFFF, storing a matching CRC-32 again; each changed version part and
+the first and last changed digest byte. Each is refused with its own
+problem, and for a field the message names the field. It checks the order:
+the container before the original, the original before the catalogue, a
+missing entry before an unknown key, each entry of the pack in turn, the
+version before the size, the size before the fields and the fields in
+order. It reads the values of a pack moved by construction and by
+assignment, and of the pack moved from. It states at compile time that a
+`ValidatedPack` cannot be default constructed, copied or built from bytes,
+a `PackStructure`, an `OriginalCheckedPack` or decoded values; that
+`ValidatePack` takes bytes and no `PackStructure`, `OriginalCheckedPack`,
+set or list of entries or keys; that a `ValidatedPack` offers no
+`Entries()`, `EntryBytes()` or `bytes`; and that a temporary offers
+neither `Original()` nor `SingleInstance()`.
 
 On Windows the tests link the game archive. On other hosts the archive does
 not build, so the tests compile the units themselves and link zlib; this
 is the form that runs under AddressSanitizer and UndefinedBehaviorSanitizer.
 
 The tests show these functions on synthetic packs only. They do not show
-a real pack, a complete pack or startup.
+a real pack, a pack that setup prepared or startup.
 
 ## What remains
 
-- The complete catalogue: its keys, entry versions, required entries and
-  decoding. Until it exists `main` does not open a pack.
+- The pack stage in `main`: find the pack beside the executable, call
+  `OpenAndValidatePack`, publish C1 to its consumer and run it, the next
+  increment of `data-pack-catalogue.md`. Until then `main` does not open a
+  pack.
 - Hashing in setup: setup computes the SHA-256 of the executable it reads
   and compares it with `SupportedOriginals()`, as `pe-file-reader.md`
   says. The SHA-256 code is a separate change; nothing hashes yet.
@@ -175,5 +266,7 @@ a real pack, a complete pack or startup.
 
 `pack_validation.cpp` and `pack_open.cpp` are appended to the `game`
 archive as two more members, after the NiAnimationKey table owner and in
-that order. Nothing in the archive calls them, so a link that loads
-members on demand loads neither.
+that order. `ValidatePack` and `OpenAndValidatePack` are in those two
+members, and the catalogue is a header, `pack_catalogue.h`, with no unit.
+Nothing in the archive calls them, so a link that loads members on demand
+loads neither.

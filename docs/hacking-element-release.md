@@ -25,6 +25,11 @@ retirement": 007687d0 deletes the array with `delete[]` of
 sections before it keep their wording, except the 007687d0 entry of
 "Producers and retirers of the element" and the list at the end.
 
+A fourth change, measured on 6eafe8f01, is described under "The row at
+007021b0": the hand-written body of `DestroyOrFree` is removed. The sections
+before it keep their wording, except the first item of "What stays open"
+under "Array retirement" and the second item of "Not covered".
+
 ## What the recipe records
 
 `build/units.json` is the authority for addresses.
@@ -320,13 +325,9 @@ one warning of the removed line, an unused expression result, leaves.
 
 ### What stays open
 
-- `DestroyOrFree` (007021b0, the function row) keeps its transcribed body,
-  with no caller in the source or in any object. Its array path is the
-  32-bit one above, and it still requires `FUN_00ec5fce` and
-  `FUN_007021b0_cls::FUN_00702220`, which no object defines. The windows-x64
-  compiler emits no vector deleting destructor for the element: it writes
-  the code of each `delete[]` where it is used. Whether the row keeps a
-  hand-written body needs a ruling.
+- `DestroyOrFree` (007021b0, the function row) kept its transcribed body
+  after this change, with no caller. The fourth change removes it; see "The
+  row at 007021b0".
 - The receiver of 007687d0 is `C7687d0`, an empty class. The unit declares
   the object that holds the array several times: `FUN_00768810`,
   `FUN_007687d0`, `MatrixWrapper`, `grid76a::G7Grid`, `ElemArray` and
@@ -337,6 +338,86 @@ one warning of the removed line, an unused expression result, leaves.
 - No test executes the deletion: `hackingmenu.cpp` does not build for a host
   test, and no windows-x64 program that contains it links.
 
+## The row at 007021b0
+
+### The decision
+
+The coordinator ruled on 2026-11-12 that the hand-written body at the
+function row 0x007021b0 is removed, because nothing calls it after the third
+change. The body transcribed the vector deleting destructor of
+`HackingArrayElement` under the stand-in name
+`FUN_007021b0_cls::DestroyOrFree(unsigned int)`. The stand-in class, which
+had no other member with a body, and the declaration of `FUN_00ec5fce` that
+only this body used go with it.
+
+The recipe is not changed. Unit 466, the unit of `hackingmenu.cpp`, keeps
+the function row `?DestroyOrFree@FUN_007021b0_cls@@QAEPAXI@Z` at
+`0x007021b0`, 106 bytes, and the symbols keys
+`?DestroyOrFree@FUN_007021b0_cls@@QAEPAXI@Z` and
+`??_EHackingArrayElement@@QAEPAXI@Z` at `0x007021b0` and
+`?FUN_00702220@FUN_007021b0_cls@@QAEXXZ` at `0x00702220`. The row is now a
+function the compiler emits, with no windows-x64 provider: the windows-x64
+compiler emits no vector deleting destructor for the element and writes the
+code of each `delete[]` where it is used, as in 007687d0 and 0076b0c0. This
+matches the treatment `docs/runtime-library-map.md` gives compiler-emitted
+runtime addresses, which have no function row: nothing to map.
+
+`include/fnv/decl/FUN_007021b0_cls.h` declares `DestroyOrFree` too. No file
+includes it, before or after this change. It is not touched.
+
+### Before the removal
+
+At 6eafe8f01, read from the source and from the objects of the windows-x64
+build. The first two items cover every object: the 2,229 archive members,
+the game executable's two objects and the objects of every test executable.
+The next two cover the archive members.
+
+- No object requires `?DestroyOrFree@FUN_007021b0_cls@@QEAAPEAXI@Z`.
+  `hackingmenu.cpp.obj` defines it.
+- `hackingmenu.cpp.obj` is the one object that requires
+  `?FUN_00702220@FUN_007021b0_cls@@QEAAXXZ`. No object defines it.
+- Five archive members require `FUN_00ec5fce`: `hackingmenu.cpp.obj`,
+  `tescondition.cpp.obj`, `blk_00680000_od.cpp.obj`,
+  `blk_00b20000_od.cpp.obj` and `blk_00c40000_od.cpp.obj`.
+- No archive member defines or requires the vector or scalar deleting
+  destructor of `HackingArrayElement`.
+- In the source, the body was the one use of `FUN_007021b0_cls` and the one
+  definition of its `DestroyOrFree`; nothing called it. The other lines that name
+  the address are the comment of 007687d0, the unincluded header, and the
+  table of `objects.hacking_array_retirement`, which forbids the names, and
+  its description in `tools/function-relocations/README.md`.
+
+### Measured links
+
+Windows-x64, built from one export path for 6eafe8f01 and the change, 2,229
+archive members in the same order. One object differs,
+`hackingmenu.cpp.obj`. It loses one function, `DestroyOrFree`, and no longer
+requires `FUN_007021b0_cls::FUN_00702220()` or `FUN_00ec5fce`. No
+other function of the object changes.
+
+| Link cell | Undefined names, before and after | Change |
+| --- | --- | --- |
+| Lazy, ordinary | 0, 0 | none |
+| Lazy, unlimited | 0, 0 | none |
+| Forced, ordinary | 20, 20 | none |
+| Forced, unlimited | 35,139, 35,138 | `FUN_007021b0_cls::FUN_00702220()` leaves |
+
+In every cell the duplicates (none), the imports and the other diagnostics
+are those of 6eafe8f01. Four archive members still require
+`FUN_00ec5fce`, so it stays undefined. Per name, every definition in the
+archive is the same before and after except the one that goes, `DestroyOrFree`; no name is
+newly defined or gains a content variant, and the first definition in
+member order is in the same member for every name. The names with differing
+definitions stay 519, and the differing-definitions allowlist loses no line.
+`objects.hacking_array_retirement` passes. The worker-pool test link, which
+loads `hackingmenu.cpp.obj`, fails before and after on undefined names with
+no duplicate, and the same name leaves.
+
+### Behaviour change
+
+None in any program. No object called the body, and no program that links
+contains `hackingmenu.cpp.obj`.
+
 ## Not covered
 
 These were open before these changes and remain open for VEGAS-72.
@@ -345,8 +426,8 @@ These were open before these changes and remain open for VEGAS-72.
   declarations of one element, joined by casts. Their second word is a
   `uintptr_t`, a pointer and an `unsigned int`. They are not merged here.
 - The array that 00768810 allocates was retired by 007687d0 with the 32-bit
-  count and stride until the third change. `DestroyOrFree` keeps that path
-  with no caller (see "What stays open"). The array that 0076b0c0 allocates
+  count and stride until the third change. The fourth change removes that
+  path with the body of `DestroyOrFree`. The array that 0076b0c0 allocates
   is retired by 0076b0c0 itself, with the compiler's own count and stride.
 - The recipe key `??0SL@@QAE@XZ` at `0x0096a2d0` of this unit is the earlier
   name of the element constructor. It names nothing in the source now.

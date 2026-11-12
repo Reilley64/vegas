@@ -5,8 +5,11 @@ construction, copying and retirement. `docs/navmesh-index-array-copy.md` is its
 first part. This is the second: the constructor of the grid cell, the function
 at `0x006917d0`, now has its own name and one definition, and two declarations
 that gave it 16 bytes give it 24. The third part gives the destructor at
-`0x00691800` its name, described under "The destructor at its owner".
-Everything else on the ticket is listed under "Not covered".
+`0x00691800` its name, described under "The destructor at its owner". The
+fourth gives the array one shared declaration with the four slots of its
+table, described under "The shared declaration". Everything else on the
+ticket is listed under "Not covered" and under "What stays open after the
+shared declaration".
 
 ## The constructor
 
@@ -216,6 +219,9 @@ The virtual destructor now has its owner; see "The destructor at its owner".
 The empty body is still there, under the non-virtual spelling, and the
 declarations still stay where they are.
 
+Since the fourth part the array has a shared header and the empty body is
+gone; see "The shared declaration".
+
 ## Not covered
 
 These were open before this change and remain open.
@@ -390,9 +396,11 @@ destructor.
 Before this change `0x0069d9a0`, entry 0 of `0x0106abe4`, reached the real
 body of `0x00691800` through the free function's name, which
 `navmesh.cpp.obj` defined. That binding was correct. After it the name is
-defined nowhere, so `0x0069d9a0` reaches no body. The next step, one shared
-declaration of the array with all four slots of the table, moves
-`blk_00680000_od.cpp` onto the virtual destructor and restores the binding.
+defined nowhere, so `0x0069d9a0` reaches no body. The fourth part, one
+shared declaration of the array with all four slots of the table, restores
+the binding only for objects that store the class's table. Two stand-ins
+still store the generated table, so their slot 0 still reaches the
+transcription; see "The conditions of the third part".
 
 ### Conditions until the four slots are declared
 
@@ -448,3 +456,288 @@ constructor or destructor of this array under a stand-in's name:
 
 They leave the list only when `Words`, `TriangleIndices`, `DA00694f80` and
 `FUN_006917d0_Arr` move onto a shared declaration of the array.
+
+## The shared declaration
+
+The fourth part. `include/fnv/bs_simple_array_ushort.h` is the one shared
+declaration of `BSSimpleArray<unsigned short, 1024>`. Seven units use it,
+moved on in seven commits, and the class's table has the four slots of
+`0x0106abe4` from the first of them. This credits one provider for each
+member, rebuilt units and complete links. Receivers, layouts and lifetimes
+stay as open as the earlier parts left them, except where a paragraph below
+says what was measured.
+
+### The header
+
+It declares an explicit specialisation of the template, so it does not
+touch the other arrays that units declare from templates of their own. It
+has no body.
+
+| Member | Slot | Address | Defined by | Recipe |
+| --- | --- | --- | --- | --- |
+| `BSSimpleArray()` | | `0x006917d0` | `navmesh_util.cpp` | the function row |
+| `virtual ~BSSimpleArray()` | 0, through the compiler's vector deleting destructor, standing for `0x0069d9a0` | `0x00691800` | `navmesh.cpp` | the function row |
+| `virtual void* AllocateDoubleSizedBuffer(int)` | 1 | `0x00691870` | `blk_00680000_od.cpp` | a new symbols key; the row keeps `FUN_00691870_class` |
+| `virtual void FreeBuffer(void*)` | 2 | `0x006db090` | `pathingrequest.cpp` | a new symbols key; the row keeps `FUN_006db090_shell` |
+| `virtual void FUN_006918a0(void*, int)` | 3, return type open | `0x006918a0` | `blk_00680000_od.cpp` | a new symbols key; the row keeps `FUN_006918a0_class` |
+
+The fields are `navmesh.cpp`'s: `unsigned short* buffer`, then
+`unsigned int size` and `unsigned int reserved`. The header asserts 24
+bytes and an alignment of 8 for windows-x64. The offsets, measured by the
+compiler in each of the seven units with its own command, are the table
+pointer at 0, the buffer at 8 and the counts at 16 and 20, as
+`0x005eee80` reads them.
+
+The slots come from the generated table `0x0106abe4` in
+`vtables_0106.cpp`, which the constructor stores. Slots 1 to 3 have the
+names and parameters of their function rows, the definition's name.
+These names are provisional until the coordinator records them in the
+override table.
+
+The three slot bodies are folded. `0x00691870` and `0x006918a0` are also
+slots 1 and 3 of `0x010472e4`, the table of another array, and
+`0x006db090` is slot 2 of many tables of the generated data. So, by the
+2026-11-11 (3) addendum, each owner keeps its row and also emits the
+class's member with the address's body, and its symbols map binds the
+member's name to the address. Each pair has the same code: 10, 12 and 8
+bytes.
+
+### Slot 3's return type
+
+The return type of slot 3 is open. The header declares it `void`, as the
+function row does. The receiver `0x005ef6a0`,
+`FUN_005ef6a0Class::SetOrReplace` in `blk_005e0000_od.cpp`, declares the
+slot as returning `void*` and assigns the result to its buffer field. On
+windows-x64 that works only because the slot's body ends with a jump to
+`Reallocate` (`?Reallocate@@YAPEAXPEAXI@Z`), which leaves the new buffer
+in `rax`. Declaring the slot `void*`, with its symbols key and the
+function row respelled, is owed under VEGAS-65 before the ticket closes.
+
+### Slot 0 and the deleting destructors
+
+The compiler emits the class's table, its type records and its scalar
+deleting destructor in each unit that stores the table: `navmesh.cpp`,
+whose destructor stores it, and `navmesh_util.cpp`, whose constructor
+stores it. It emits the vector deleting destructor in each unit that
+allocates arrays of the class: `blk_00680000_od.cpp`, the unit with the
+row of `0x0069d9a0`, for the grid producers `0x0069d800` and
+`0x0069dd50`, and `tesform.cpp` for the record loader `0x0069da40`. The
+two units that store the table name the vector deleting destructor only
+as a weak name for their scalar one.
+
+In the link of every archive member the map shows the vector deleting
+destructor of `blk_00680000_od.cpp`; the equal copy of `tesform.cpp` is
+discarded and the weak names are not used. Slot 0 of the class's table
+therefore binds to a function with the structure of `0x0069d9a0`. With
+bit 2 of its argument set it destroys each element, at a stride of 24
+bytes, through the destructor at `0x00691800`, and frees the block from
+8 bytes before the first element with the sized array `operator delete`.
+Otherwise it destroys one object and, with bit 1 set, frees 24 bytes with
+the sized `operator delete`. Both deletes are those of
+`src/runtime/new.cpp`, which free through `FUN_00401030`, as `0x0069d9a0`
+does. So the scalar deleting destructor is not what slot 0 binds to there.
+In a link that loads `navmesh.cpp` or `navmesh_util.cpp` and neither
+`blk_00680000_od.cpp` nor `tesform.cpp`, the weak name falls back to the
+scalar one, which has no array path. The weak name is a search alias, as
+both objects record it, so it never makes the linker load an archive
+member: slot 0 falls back to the scalar deleting destructor in any link
+that loads no unit doing `new[]` of the class. That is safe because every
+unit that does `new[]` of the class emits a strong vector deleting
+destructor, and no code builds arrays of the class except by `new[]`. It
+stays safe only while:
+
+- no code calls slot 0 by hand with bit 2 set unless the storage came
+  from `new[]`;
+- any test executable that contains these units also links
+  `src/runtime/new.cpp`, which defines the deletes that both deleting
+  destructors call.
+
+No program links these units today.
+
+The transcription of `0x0069d9a0`,
+`fnv_0069d9a0::S_0069d9a0_cls::FUN_0069d9a0`, stays in
+`blk_00680000_od.cpp`. It is slot 0 of the generated table
+`DAT_0106abe4`, which two stand-ins still store: the constructor with two
+counts `0x0069ada0` and `NewShorts086`. It still passes an element size of
+16 and requires the free function's name `FUN_00691800`, which nothing
+defines. Its row is not respelled to the vector deleting destructor:
+the compiler emits that name in every unit that allocates arrays of the
+class, two units today, so the name could not have its one definition in
+the unit with the row.
+
+### Equal scalar deleting destructors
+
+Two units emit the scalar deleting destructor, and a link keeps one copy
+without comparing them. In `navmesh.cpp` the compiler expanded the
+destructor into it; in `navmesh_util.cpp` it calls the destructor. So
+`navmesh.cpp` defines the destructor `noinline`. Both copies then call it
+out of line and have the same code, as `0x0069d9a0` calls `0x00691800`.
+The same attribute makes `fnv_0068ed70::FUN_0068ed70::~FUN_0068ed70()`
+(`0x0068ed70`) call the destructor for its three array members again,
+in the same order, instead of expanding it; its four handlers that call
+`std::terminate` become one.
+
+### The exception specification
+
+Decided again now that slot 0 binds: the destructor keeps the implicit
+`noexcept`. The reasons of the third part hold: `noexcept(false)` would make
+`~FUN_0068ed70` looser than the `noexcept` destructors of its bases, which
+ISO C++ does not allow, and would change that function and its deleting
+destructor. The vector deleting destructor calls the destructor in a plain
+loop, with no unwinding, because the destructor cannot throw; `0x0069d9a0`
+uses the helper that also handles a throwing destructor. The repository
+does not show how the original release behaves when `0x008454f0` throws.
+The `noexcept(false)` alternative was not compiled again for this part.
+
+### Units on the header
+
+| Unit | Before | What changes in its object |
+| --- | --- | --- |
+| `navmesh.cpp` | its own specialisation, one virtual function | the destructor stores the class's table and no longer stores `DAT_0106abe4` by hand through a cast of `this`; the table has four entries; the `noinline` above |
+| `blk_00680000_od.cpp` | its own specialisation, no virtual function, with the empty body of the non-virtual destructor | slots 1 and 3; the empty body is gone; the cleanup of `0x0069d800` and `0x0069dd50` for a throwing constructor destroys the cells already built, which the empty body did not; the vector deleting destructor |
+| `pathingrequest.cpp` | none | slot 2 |
+| `navmesh_util.cpp` | its own template, an explicit table field | the constructor and `NavMesh::AddDoorObstacle` store the class's table instead of `DAT_0106abe4`; `AddDoorObstacle` destroys its array through the virtual destructor; the table, type records and scalar deleting destructor |
+| `pathfind.cpp` | the stand-in `TriangleIndices` | equal once two names are read as the array's |
+| `tesform.cpp` | the stand-in `fnv_0069da40::DA00694f80`, with a virtual destructor and three unused `int` fields, which are not layout evidence | equal once three names are read as the array's |
+| `blk_00c40000_od.cpp` | the stand-in `FUN_006917d0_Arr` | equal once one name is read as the array's |
+
+In the last three units the stand-in's only use was the array, and the
+recipe binds the stand-in's constructor to `0x006917d0`. Their objects were
+compared with the objects before, with every symbol name, section,
+relocation and symbol record, once the stand-in's names are read as the
+array's. `blk_00680000_od.cpp` and `tesform.cpp` emit the same vector
+deleting destructor.
+
+### Units that stay on their copies
+
+| Unit | Copy | Why it stays |
+| --- | --- | --- |
+| `bgsdefaultobjectmanager.cpp` | template, 16 bytes: four 32-bit words | as described under "Storage each requirer gives the constructor": its `NavMesh` needs a shared declaration first. Its object requires the non-virtual spelling of the destructor, which nothing defines now |
+| `navmeshpovsearch.cpp` | template, 16 bytes; and the stand-in `Words`, 24 bytes | `NavMeshBounds` holds the array as a member, 16 bytes there. The header would make it 24 and move the member after it. `Words` stays, and its constructor and destructor stay undefined |
+| `navmesh_loadsave.cpp`, `pathbuilder.cpp` | templates, 24 bytes, a table field and no constructor or destructor | their objects name no member of the class |
+| `blk_006a0000_od.cpp` | an empty specialisation | its object names no member of the class |
+| `bgsragdoll.cpp`, `pathinglocation.cpp`, `loadingmenu.cpp` | pointer casts only | nothing laid out |
+
+### The recipe
+
+Eight keys change. No function row, address, size or unit changes.
+
+| Unit | Address | Before | Now |
+| --- | --- | --- | --- |
+| `navmesh.cpp` | `0x0106abe4` | `?DAT_0106abe4@@3HA` | `??_7?$BSSimpleArray@G$0EAA@@@6B@` |
+| `navmesh_util.cpp` | `0x0106abe4` | `?DAT_0106abe4@@3HA` | `??_7?$BSSimpleArray@G$0EAA@@@6B@` |
+| `blk_00680000_od.cpp` | `0x00691870` | none | `?AllocateDoubleSizedBuffer@?$BSSimpleArray@G$0EAA@@@UAEPAXH@Z` |
+| `blk_00680000_od.cpp` | `0x006918a0` | none | `?FUN_006918a0@?$BSSimpleArray@G$0EAA@@@UAEXPAXH@Z` |
+| `pathingrequest.cpp` | `0x006db090` | none | `?FreeBuffer@?$BSSimpleArray@G$0EAA@@@UAEXPAX@Z` |
+| `pathfind.cpp` | `0x006917d0` | `??0TriangleIndices@@QAE@XZ` | `??0?$BSSimpleArray@G$0EAA@@@QAE@XZ` |
+| `tesform.cpp` | `0x006917d0` | `??0DA00694f80@fnv_0069da40@@QAE@XZ` | `??0?$BSSimpleArray@G$0EAA@@@QAE@XZ` |
+| `blk_00c40000_od.cpp` | `0x006917d0` | `??0FUN_006917d0_Arr@@QAE@XZ` | `??0?$BSSimpleArray@G$0EAA@@@QAE@XZ` |
+
+The two table keys change in the commit in which the unit's object stops
+naming `DAT_0106abe4` and names the class's table. `blk_00680000_od.cpp` and
+`blk_00c40000_od.cpp` keep their keys of `DAT_0106abe4`: their stand-ins
+still store it. The keys of the free function's name at `0x00691800` stay,
+as in the third part. The 32-bit spellings were read from a 32-bit compile
+of the header.
+
+### What each commit measured
+
+Forced link of every archive member with no error limit:
+
+| Commit | Objects that differ | Undefined names | Leave | Enter |
+| --- | --- | --- | --- | --- |
+| before | | 35,168 | | |
+| declare the four slots | `navmesh.cpp` | 35,171 | | the three slots of the class |
+| slots 1 and 3 | `blk_00680000_od.cpp` | 35,170 | slots 1 and 3 | the non-virtual destructor |
+| slot 2 | `pathingrequest.cpp` | 35,169 | slot 2 | |
+| construct on the header | `navmesh.cpp`, `navmesh_util.cpp` | 35,169 | | |
+| `pathfind.cpp` | `pathfind.cpp` | 35,167 | `TriangleIndices`' constructor and destructor | |
+| the record loader | `tesform.cpp` | 35,165 | `DA00694f80`'s constructor and virtual destructor | |
+| `0x00c4db20` | `blk_00c40000_od.cpp` | 35,164 | `FUN_006917d0_Arr`'s constructor | |
+
+Five stand-in names leave and the non-virtual destructor enters. On every
+commit: 0 failed build steps, 2,227 archive members in the order before, 0
+duplicates, 137 imports, the other three cells unchanged, the 15 members
+that the lazy link loads unchanged, warnings equal by class and position
+(except that `navmesh_util.cpp` no longer reports the
+`-Wduplicate-decl-specifier` warning of `fnv/symbols_0106a000.h`, which
+it stopped including), and 519 names with differing definitions, none entering or leaving; the
+differing-definitions command passes with and without `--strict`. No
+generated data changes.
+
+Every name of the class that the archive defines has one content. The
+table, the type records and the scalar deleting destructor have two equal
+definitions, in `navmesh.cpp` and `navmesh_util.cpp`; the vector deleting
+destructor has two equal definitions, in `blk_00680000_od.cpp` and
+`tesform.cpp`. The constructor, the destructor and the three slots have one
+definition each.
+
+The units do not compile for the host or do not link into a host test, so
+no test executes the class.
+
+### Coordinator rulings for this part
+
+- The compiler's special members of a shared real class (its table
+  `??_7`, its deleting destructors `??_G` and `??_E` and its type records
+  `??_R*`) are admitted as copies that the ABI requires, when every copy
+  has the same content. That is a standing check, done again if inlining
+  or link-time optimisation flags change. A strong `??_E` is emitted only
+  where `new[]` of the class occurs.
+- The row of `0x0069d9a0` is not respelled yet. Its transcription is
+  removed in the same step that moves `0x0069ada0` and `NewShorts086` onto
+  the class.
+- `[[gnu::noinline]]` on the destructor is accepted, on the condition that
+  the two scalar deleting destructors keep one content.
+- The slot names are provisional until the override table records them.
+  The repository has no override table yet, so nothing is recorded there.
+- The symbols keys of the slot copies follow the 2026-11-11 (3) addendum:
+  each owner keeps its row and the class's member gets a symbols key only.
+
+The standing check at this part: the table, the scalar deleting destructor
+and the type records each have one content in `navmesh.cpp` and
+`navmesh_util.cpp`, the scalar deleting destructor with the COMDAT
+checksum `0x322A0EFF` in both; the vector deleting destructor has one
+content in `blk_00680000_od.cpp` and `tesform.cpp`, checksum
+`0x26039FC0`. Both copies of the table hold, in order, the type locator,
+the vector deleting destructor and slots 1 to 3.
+
+### The conditions of the third part
+
+- No unit constructed the class from a declaration with fewer than four
+  slots: the first commit declares all four, and the constructor is compiled
+  from the header from the fourth on.
+- `navmesh.cpp` moved onto the header in the commit that declares the four
+  slots, so no archive holds a table of one entry beside one of four.
+- The scalar deleting destructor is not what slot 0 binds to in a link that
+  contains the vector deleting destructor; see "Slot 0 and the deleting
+  destructors".
+- The cut binding is restored only for objects that store the class's
+  table. The function row `0x0069ada0` (`FUN_0069ada0_class::FUN_0069ada0`
+  in `blk_00680000_od.cpp`) and `NewShorts086` (`blk_00c40000_od.cpp`)
+  still store the generated `DAT_0106abe4`, so their slot 0 still reaches
+  the transcription of `0x0069d9a0`, with its undefined
+  `?FUN_00691800@@YAXPEAUGlobalObject_00869f00@@@Z` and its element stride
+  of 16 bytes.
+- The cast of `this` in the destructor is gone.
+- The exception specification is decided again above.
+
+### What stays open after the shared declaration
+
+- `0x0069d9a0`'s transcription and the free name `FUN_00691800` it
+  requires, as described above.
+- `Words` in `navmeshpovsearch.cpp`: two undefined names.
+- `bgsdefaultobjectmanager.cpp`: its 16-byte arrays and the non-virtual
+  destructor's name, now undefined. Before, it bound to the empty body,
+  which cleared nothing.
+- Two tables stand for `0x0106abe4`: the class's table, under the keys of
+  `navmesh.cpp` and `navmesh_util.cpp`, and the generated `DAT_0106abe4`,
+  under the keys of `blk_00680000_od.cpp` and `blk_00c40000_od.cpp`, which
+  `0x0069ada0` and `NewShorts086` store. This is a recorded remainder
+  until those two move onto the class. The generated table's labels of
+  slots 1 to 3 could be respelled to the class's members by the ruling for
+  generated tables; that is not done.
+- Slot 3's return type, as described above.
+- `DA00694f80`'s three `int` fields in `tesform.cpp` were never used and
+  are not layout evidence.
+- The slot names wait for the override table.
+- Everything under "Not covered" that this part does not name.

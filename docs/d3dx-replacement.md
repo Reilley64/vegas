@@ -352,7 +352,7 @@ declaration of the same address that its unit can already see.
 | Needs a declaration decision | the function row declares parameters (types and receiver not compared) | 9 |
 | Needs a declaration decision | the function row declares no parameter | 5 |
 | Needs a declaration decision | the function row's name has no signature | 2 |
-| By-value result (a repair, not a lost argument) | the argument was the hidden result slot; the result is now discarded | 1 |
+| By-value result (a repair, not a lost argument) | the argument was the hidden result slot; the result was discarded | 1 |
 | Not paired by the probe | two calls of the callee on the line, one lost row | 1 |
 | Total | | 1,019 |
 
@@ -388,12 +388,48 @@ declaration of the same address that its unit can already see.
 - By-value result: in `tesobjectrefr.cpp`, `0x0057ada0` passed `&aOut30`
   to `0x00413fc0` as the slot for its result. At the tip the function row,
   `FUN_00413fc0_Class::GetRadii`, returns the 12-byte record by value; the
-  call discards it, and `aOut30` is read later without that write. This is
-  a behaviour change to repair, not a lost argument.
+  call discarded it, and `aOut30` was read later without that write. This
+  was a behaviour change, not a lost argument. The call now assigns the
+  record to `aOut30` with `std::bit_cast`, which copies the 12 bytes of
+  `blob12` into the `Vec3` and does not compile if the sizes differ. With
+  the unit's own flags the old object still passed one stack slot to
+  `GetRadii` and to both reads, because the dead temporary and the
+  never-written `aOut30` shared it; at `/Od` it read a slot nothing wrote.
+  The repaired object differs from the old one in that function's stack
+  offsets only, so no check on the built object tells the two apart.
 - Not paired by the probe: in `tesnpc.cpp` the line holds two
   argument-less calls of `0x004ac110`; the census has one kept and one lost
   row for it and the probe reads only the lost rows. With its
   zero-parameter row it would need a declaration decision anyway.
+- A second by-value result, which the census classes under "more than one
+  parameter list": in `tesobjectcell.cpp`, `0x00548880` passed `&Diff3`
+  to `0x00413fc0` and then built `NiPoint2(Diff3.x, Diff3.z)`. The tip
+  called `GetRadii`, discarded the record and read `Diff3` without that
+  write; with the unit's own flags the constructor got whatever `xmm1` and
+  `xmm2` held after the call. The call now assigns the record to `Diff3`
+  with `std::bit_cast`, which copies the 12 bytes of `blob12` into the
+  unit's `fnv_00548880::NiPoint3` (three floats) and does not compile if
+  the sizes differ. `objects.cell_reference_radii_result` fails unless the
+  function loads `x` and `z` from the record's slot into `xmm1` and `xmm2`
+  between the `GetRadii` call and the constructor call.
+- Both repairs are guarded in the build. The shared declaration of
+  `GetRadii` in `include/fnv/decl/FUN_00413fc0_Class.h` is `[[nodiscard]]`,
+  and every unit that `src/fallout_shared/sources.cmake` lists, the
+  narrowing units included, compiles with `-Werror=unused-result`. A call
+  that discards the record fails to compile at every optimisation level.
+  The attribute changes neither the mangled name nor the code. The object
+  check above also reads the code of `0x00548880`; `0x0057ada0` has no
+  object check, for the reason given in its bullet.
+- Apart from these two, no call of `0x00413fc0` discards its result: the
+  others use the record, or, in `0x0057ada0`, pass a result slot to a
+  declaration nothing defines. In `tesobjectrefr.cpp`, `0x00569880` passes
+  the record as `const NiPlane &` to `NiPlane::operator==` (`0x00439090`)
+  and as a pointer to `0x0098ddd0`. The shared `NiPlane` declares no data
+  member and the defining unit's own copy has 16 bytes, so `NiPlane` is a
+  mislabelled type for the 12-byte record. Both bodies read only its first
+  12 bytes today. `NiPlane::operator==` returns the negation of
+  `0x004390c0`, which is true when the three floats are equal, so it
+  appears to return "not equal". Both points are recorded and not changed.
 - With the parent's whole call, 23 calls compile and bind a declaration
   other than the address's function row: 21 that the unit's recipe does
   not bind, often a local member of the parent's spelling, and 2 that are

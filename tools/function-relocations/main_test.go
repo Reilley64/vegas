@@ -164,6 +164,12 @@ func TestPastLength(t *testing.T) {
 		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA"), -8),
 		withAddends(testObject("?g@@YAXXZ", true, "?table@@3HA"), 0))
 	check(t, before, 1, "with addend -8 reaches past")
+	// Offset 0 followed by an immediate of 1 to 4 bytes is stored as -1 to -4.
+	trailing := setupTable(t, pastTable,
+		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA", "?table@@3HA"), -1, -4),
+		withAddends(testObject("?g@@YAXXZ", true, "?table@@3HA"), -5))
+	check(t, trailing, 1, "ok\tone\t?f@@YAXXZ")
+	check(t, trailing, 1, "FAIL\ttwo\t?g@@YAXXZ\ta relocation to ?table@@3HA with addend -5 reaches past")
 }
 
 func TestBatchSelectsFunctions(t *testing.T) {

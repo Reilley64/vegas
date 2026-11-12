@@ -118,14 +118,16 @@ const (
 // reaches reports whether r may address its name at or past length bytes, or
 // before it. For the REL32 types the stored addend excludes the bytes of an
 // immediate that follows the displacement in the instruction, up to 4, so the
-// address used lies between the addend and the addend plus 4: the check takes
-// the larger one.
+// address used lies between the addend and the addend plus 4. The check takes
+// the larger one as the highest offset, and fails before the name only when
+// even the larger one is negative: offset 0 followed by an immediate is stored
+// as a negative addend.
 func reaches(r reference, length int64) bool {
 	high := r.addend
 	if r.kind >= relRel32 && r.kind <= relRel32_5 {
 		high += 4
 	}
-	return r.addend < 0 || high >= length
+	return high < 0 || high >= length
 }
 
 // targets lists the relocations of the COMDAT code section that defines name

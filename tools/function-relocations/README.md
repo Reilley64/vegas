@@ -54,7 +54,9 @@ name's length in bytes: in every function, each relocation to that name must
 address it at an offset from 0 to below `LENGTH`. The offset is the addend
 stored in the code at the relocation. For a `REL32` relocation the stored
 addend leaves out the bytes of an immediate that follows the displacement,
-up to 4, so the check takes the addend plus 4 as the highest offset used. A
+up to 4, so the check takes the addend plus 4 as the highest offset used.
+The same addend plus 4 is the offset it compares with 0: a read at offset 0
+followed by an immediate is stored as an addend from -1 to -4 and passes. A
 table needs at least one `forbid` or `past` line. `REQUIRED` names are
 separated by spaces. A `REQUIRED` field of `-` requires no name.
 

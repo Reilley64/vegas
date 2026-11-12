@@ -5,6 +5,7 @@
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
 #include "fnv_result_slot.h"
 #include "fnv/game_timer.h"
+#include <bit>
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <new>
@@ -44153,7 +44154,7 @@ void This57::FUN_0057ada0()
             e3 = ((::fnv_0057ada0::EObj *)(::fnv_0043b230::FUN_0043b230((const char *)(d_))));
             if (e3 != 0)
             {
-                reinterpret_cast<::FUN_00413fc0_Class *>((objTmp))->GetRadii();
+                aOut30 = std::bit_cast<::fnv_0057ada0::Vec3>(reinterpret_cast<::FUN_00413fc0_Class *>((objTmp))->GetRadii());
                 vec1_2 = *((::fnv_0057ada0::Vec3 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_0057ada0::MidObj *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((objTmp))->FUN_0056c7f0()))))));
                 kVec2 = *FUN_00430830();
                 if (reinterpret_cast<::NiPoint3 *>(&(kVec2))->FUN_004390c0((*(const ::NiPoint3 *)((*reinterpret_cast<const char (*)[]>((void *)&::NiPoint3::ZERO))))))

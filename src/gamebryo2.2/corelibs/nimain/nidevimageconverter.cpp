@@ -23,7 +23,6 @@
 #include "fnv/symbols_00a8b000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00aa2000.h"
-#include "fnv/symbols_00ff0000.h"
 #include "fnv/symbols_011aa000.h"
 #include "fnv/symbols_011c5000.h"
 #include "fnv/symbols_011f6000.h"
@@ -748,7 +747,7 @@ void Convert4BitPalettedTo24Bit(unsigned int width, unsigned int height, unsigne
             }
         }
     }
-    else if (fmt->mask0 == (uintptr_t)&DAT_00ff0000)
+    else if (fmt->mask0 == 0x00ff0000u)
     {
         for (unsigned int y = 0; y < height; y++)
         {
@@ -3707,7 +3706,7 @@ void __cdecl FUN_00a7a160(unsigned int uiWidth, unsigned int uiHeight, unsigned 
 {
     if (kSrcBits.m_uiGreenMask == 0xFF00u)
     {
-        if (kSrcBits.m_uiRedMask == (uintptr_t)&DAT_00ff0000)
+        if (kSrcBits.m_uiRedMask == 0x00ff0000u)
         {
             if (uiHeight <= 0)
                 return;
@@ -3751,7 +3750,7 @@ void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int 
     if (format->unk04 != 0xff00)
         return;
 
-    if (format->unk00 == reinterpret_cast<uintptr_t>(&DAT_00ff0000))
+    if (format->unk00 == 0x00ff0000u)
     {
         for (unsigned int row = 0; row < height; ++row)
         {

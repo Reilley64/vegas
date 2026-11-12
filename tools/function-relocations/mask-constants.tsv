@@ -3,6 +3,7 @@
 # The names whose addresses stood for the constants:
 forbid	?DAT_00ffffff@@3HA
 forbid	?DAT_01000000@@3HA
+forbid	?DAT_00ff0000@@3HA
 # batch, unit, function, "-" (no name is required):
 function	tesfile	src/fallout_shared/tesfile.cpp	?FUN_00471400@FUN_00471400_shell@fnv_00471400@@QEAAHXZ	-
 function	tesfile	src/fallout_shared/tesfile.cpp	?ReadFormHeader@FUN_00472bc0_shell@fnv_00472bc0@@QEAA_NXZ	-
@@ -12,3 +13,6 @@ function	impactmixer	src/fallout/audio/impactmixer.cpp	?FUN_00838750@FUN_0083875
 function	impactmixer	src/fallout/audio/impactmixer.cpp	?FUN_00838780@@YAXPEAVTESObjectREFR@@@Z	-
 function	impactmixer	src/fallout/audio/impactmixer.cpp	?PlayFootstepSound@@YAXPEAUFootstepActor@@H@Z	-
 function	startmenu	src/fallout/interface/menus/startmenu.cpp	?FUN_007d69f0@fnv_007d69f0@@YAXXZ	-
+function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?Convert4BitPalettedTo24Bit@@YAXIIIPEAEPEAUFUN_00a78f70_Pal@@PEAUFUN_00a78f70_Fmt@@0@Z	-
+function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?FUN_00a7a160@@YAXIIIPEAEPEBUNiPalette@@AEBVPixelFormatBitLayout@NiDevImageConverter@@PEBE2@Z	-
+function	nidevimageconverter	src/gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp	?FUN_00a7a1f0@@YAXIIIPEAEII0PEAUFormat_a7a1f0@@@Z	-

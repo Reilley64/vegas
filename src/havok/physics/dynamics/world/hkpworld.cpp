@@ -10930,6 +10930,7 @@ void RayWorld::FUN_00c91f70(const void* input,void* output) {
 }
 }  // namespace fnv_00c91f70
 
+extern void* DAT_00fdf044;
 namespace fnv_00c92040 {
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -11018,7 +11019,6 @@ struct S00c92040_Obj {
 // @fnv 0x00c92040
 void S00c92040_Obj::FUN_00c92040(const void* a, void* b)
 {
-    extern void* DAT_00fdf044;
     extern const char str_010c64a8[];
     extern const char str_010c41f8[];
     extern const char DAT_010c647c[];

@@ -791,6 +791,7 @@ if(WIN32 AND NOT CMAKE_HOST_WIN32)
       -DWORK=${CMAKE_CURRENT_BINARY_DIR}/empty_import_slots.relocations.txt
       "-DNAMES=DAT_00fdf1ec,?DAT_00fdf1ec@@3P6AJPECJJ@ZEA,?DAT_00fdf05c@@3P6AXPEAU_RTL_CRITICAL_SECTION@@@ZEA,?DAT_00fdf100@@3P6AXPEAU_RTL_CRITICAL_SECTION@@@ZEA"
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_no_relocation.cmake)
+endif()
 
 # Fails when the function that deletes the hacking menu's element array
 # (0x007687d0, VEGAS-72) again calls the transcribed vector deleting destructor

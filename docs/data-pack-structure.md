@@ -7,8 +7,9 @@ structural stage of reading the data pack, the file `vegas-data.pack` that
 setup prepares from a player's original release. It follows the container
 that the pack decision record, ADR 0001, adopts. It is the first step of
 VEGAS-52 and no more than that: `CheckPackOriginal` of
-`data-pack-validation.md` calls it, the engine does not look for a pack at
-startup, and a pack that passes it is not a validated pack.
+`data-pack-validation.md` calls it, the engine's `main` reaches it through
+the stage of `data-pack-startup.md`, and a pack that passes it is not a
+validated pack.
 
 The reader takes the whole file as bytes and returns a `PackStructure` that
 owns them, with the directory as offsets into them. It reads every field
@@ -83,8 +84,9 @@ writer of the same container, the first step of VEGAS-13. It takes the
 entries in order, each a key, a version and a payload, with the original
 version and SHA-256 for the header, and returns the bytes of the file. It
 is game library code, so setup can use the writer, and setup and the
-engine the same reader. Nothing calls it yet, and it does not prepare a pack from an
-original release.
+engine the same reader. Only tests call it, among them the fixture that
+writes the pack for the `falloutnv.process_exit` test, and it does not
+prepare a pack from an original release.
 
 The four revision and target fields are written as 1. The directory
 follows the header and the payloads follow the directory, end to end in
@@ -180,5 +182,6 @@ by a test.
 appended to the `game` archive as three more members, in that order. Only
 the reader and the writer call `pack_container.cpp`, and only the
 check of `data-pack-validation.md` calls the reader. Nothing in the
-archive calls the check or the writer, so a link that loads members
-on demand loads none of the three.
+archive calls the writer. The `FalloutNV` link reaches the reader through
+the stage of `data-pack-startup.md`, so it loads `pack_structure.cpp` and
+`pack_container.cpp`, not `pack_writer.cpp`.

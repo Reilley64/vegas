@@ -3,8 +3,9 @@
 ## Status
 
 This page is a design, not a description of code. Of its next increments
-only the first, catalogue version 1 and `ValidatePack`, is implemented;
-`data-pack-validation.md` describes that code. It answers what the
+the first two are implemented: catalogue version 1 and `ValidatePack`,
+which `data-pack-validation.md` describes, and the pack stage in `main`
+with C1's consumer, which `data-pack-startup.md` describes. It answers what the
 catalogue that ADR 0001 requires must hold before the engine may start
 with a data pack, and how setup fills each entry from the original
 release. It records no value of the original release. The
@@ -263,7 +264,8 @@ values in their tests are synthetic.
    are refused with their problem, in the stated order; the shape problems
    include an entry of the wrong size and a field with no zero byte; no path
    makes a `ValidatedPack` from a `PackStructure` or an intermediate pack.
-2. **The pack stage in `main` (VEGAS-52).** Find the pack beside the
+2. **The pack stage in `main` (VEGAS-52), implemented.**
+   `data-pack-startup.md` describes the code. Find the pack beside the
    executable, validate it, publish the entry, run the consuming stage; report
    a missing, corrupt or incompatible pack and exit non-zero. About 200 lines
    with tests. Tests: the publication and the stage run on a synthetic pack;

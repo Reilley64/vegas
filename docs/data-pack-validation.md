@@ -13,13 +13,15 @@ pack and checks its original; `fileformat::OpenAndValidatePack` beside it
 is the step a later startup calls: it reads the file and validates it.
 All are game library code in `src/fileformat`, beside the reader and the
 writer, because the pack decision record, ADR 0001, has setup and the
-engine use the same validator. There is no engine loading code yet to put
-them in.
+engine use the same validator. The engine's stage that calls
+`OpenAndValidatePack` is `fnv::startup::LoadDataPack`, described in
+`data-pack-startup.md`.
 
 `CheckPackOriginal` and `OpenPack` are a named intermediate stage: a pack
 that passes them is not a complete pack and does not allow the engine to
-start. Only `ValidatePack` makes a `ValidatedPack`. Nothing calls these
-functions yet, and the engine's `main` does not open a pack.
+start. Only `ValidatePack` makes a `ValidatedPack`. The engine's `main`
+reaches `OpenAndValidatePack` through the stage of `data-pack-startup.md`;
+nothing in the archive calls `OpenPack` or `CheckPackOriginal` directly.
 
 ## Checking the original
 
@@ -134,8 +136,8 @@ These were ruled for this stage:
   its keys, entry versions, required entries and decoding. The set exists
   now, adopted on VEGAS-52 on 2026-11-12, and so does catalogue version 1.
   The pack stage joins `main` with C1's consumer, the next increment of
-  `data-pack-catalogue.md`, through `OpenAndValidatePack`; until then
-  `main` does not open a pack.
+  `data-pack-catalogue.md`, through `OpenAndValidatePack`. It has now
+  joined, with that consumer (`data-pack-startup.md`).
 - No production function takes a supported set. `OpenPack`,
   `CheckPackOriginal` and `IdentifyOriginal` check against
   `SupportedOriginals()`. The forms that take a set,
@@ -254,10 +256,6 @@ a real pack, a pack that setup prepared or startup.
 
 ## What remains
 
-- The pack stage in `main`: find the pack beside the executable, call
-  `OpenAndValidatePack`, publish C1 to its consumer and run it, the next
-  increment of `data-pack-catalogue.md`. Until then `main` does not open a
-  pack.
 - Hashing in setup: setup computes the SHA-256 of the executable it reads
   and compares it with `SupportedOriginals()`, as `pe-file-reader.md`
   says. The SHA-256 code is a separate change; nothing hashes yet.
@@ -268,5 +266,5 @@ a real pack, a pack that setup prepared or startup.
 archive as two more members, after the NiAnimationKey table owner and in
 that order. `ValidatePack` and `OpenAndValidatePack` are in those two
 members, and the catalogue is a header, `pack_catalogue.h`, with no unit.
-Nothing in the archive calls them, so a link that loads members on demand
-loads neither.
+The stage of `data-pack-startup.md` calls `OpenAndValidatePack`, so the
+`FalloutNV` link loads both.

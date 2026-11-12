@@ -114,6 +114,15 @@ that links loads it. The one link that does load it,
 after these steps, so it makes no program. In the host build `main.cpp`
 does not compile, so no host executable can contain it.
 
+`main` in `src/main.cpp` now composes WinMain's first statements, the
+single-instance and remote-session checks (`data-pack-startup.md`), so they
+exist twice: in `FUN_0086a850` and in `main`. Exactly one of them may run in
+a process. The first `CreateMutexA` keeps its handle open, so a second one
+on the same name in the same process returns `ERROR_ALREADY_EXISTS`, and the
+second check would show the first message box and return. A program that
+calls `FUN_0086a850` from `main` must first drop the checks from one of the
+two.
+
 The remaining obligation is the true windows-x64 size of the object that
 `FUN_0086c160` builds, and which class that object is.
 

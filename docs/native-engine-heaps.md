@@ -144,7 +144,7 @@ So the two legacy entries keep rejecting, and the startup statements of
 | Recorded statement | Native startup |
 | --- | --- |
 | slot clear, member initializers | constant initialization of the global |
-| page-file preflight | not composed: it is defined in that staging unit and needs user32, which the executable's link does not name |
+| page-file preflight | not composed, only because it is defined in that staging unit, which the executable cannot link; the executable links user32 now |
 | `00aa39c0`: pool-table clear `00aa6840` | not composed: the native owner has no such tables, and the recorded loop writes 256 entries into a generated array of 144 |
 | `00aa39c0`: heap startup `00866e00` | `InitializeHeaps` |
 | `00aa39c0`: first-byte write | the owner's own initialized state |
@@ -186,10 +186,13 @@ On Windows, `falloutnv.process_exit` runs a copy of the built
 `FalloutNV.exe` with a synthetic data pack beside it and requires exit code 0.
 It shows that the executable loads, its imports resolve, the C++ runtime starts,
 `StartProcessMemory` completes, the pack validates, the single-instance and
-remote-session checks pass and `main` returns 0 (`data-pack-startup.md`). It
-needs no game data. It says nothing about the engine link, startup or boot:
-the executable links only the archive members that `main` reaches. The cross
-build registers the test but cannot run it.
+remote-session checks pass and `main` returns 0 (`data-pack-startup.md`).
+Exit code 0 cannot tell `Continue` from a refusal after a message box: the
+fixture's check before the run shows that the decision is `Continue`. When
+that check reports a remote session, the test is skipped and `main` does not
+run. It needs no game data. It says nothing about the engine link, startup
+or boot: the executable links only the archive members that `main` reaches.
+The cross build registers the test but cannot run it.
 
 ## Required whole-engine join
 

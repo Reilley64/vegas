@@ -98,6 +98,14 @@ Both boxes have type 0, `MB_OK`, and no owner window; the result of
 `MessageBoxA` is not read. The texts, caption and mutex name are those of
 the pack.
 
+The checks now exist twice: in `FUN_0086a850` and in `main`. Exactly one
+of them may run in a process. `main` keeps its mutex handle open, so a
+second `CreateMutexA` on the same name in the same process returns
+`ERROR_ALREADY_EXISTS`, and a second check would show the first message box
+and return. No program runs both today, since none contains
+`FUN_0086a850`. A program that does, and calls it from `main`, must first
+drop the checks from one of the two.
+
 `FUN_0086a850` itself also reads the four strings from
 `PublishedSingleInstanceStrings` instead of the legacy definitions
 `str_01082ab8`, `str_01082a7c`, `str_0104df38` and `str_01082a48`; its calls,
@@ -129,9 +137,15 @@ the console session or a service session was not settled here.
 The tests do not depend on it. The decision's tests record the box. Before
 `falloutnv.process_exit` runs `FalloutNV.exe`, the fixture makes the same
 calls as `main`, in the same session, on a mutex name new to the run, with
-the box recorded. When `main` would show a box there, the test does not run
-the executable and is reported as skipped. Each run of the executable also
-has 60 seconds, so a run that waits fails instead of holding the runner.
+the box recorded, and writes one line that names the decision. Only when it
+names a remote session, with exit code 3, is the executable not run; the
+test is then reported as skipped. A mutex that already exists under the
+new name fails the test, and so does any result other than `Continue` with
+exit code 0, such as an abnormal end with exit code 3. Without a pack, `main`
+returns before `CreateMutexA` and can show no box, so
+`falloutnv.process_exit.missing_pack` makes no such check. Each run of the
+executable also has 60 seconds, so a run that waits fails instead of holding
+the runner.
 
 ## Tests
 
@@ -161,10 +175,15 @@ returns the owner's published strings. It refuses a missing pack, a missing
 folder, a pack only in a folder below, a folder in place of the file, an
 empty file, a corrupt and a truncated pack, a pack that records another
 digest, a pack without the catalogue's entry and a field without a zero
-byte. Each refusal returns one line naming its class. Each refused pack
-holds other strings than the published ones, and the published strings stay
-unchanged, so no value of a refused pack is used. Last it accepts a second
-complete pack and publishes its strings.
+byte. It also refuses a pack of catalogue version 2, a pack whose entry has
+version 2, and packs made for another build: envelope version 2, native data
+contract 0 and build target 2, each with its CRC-32 stored again so that
+only the field is wrong. Each refusal returns one line naming its class;
+for the versions and the build the line also names the field the
+validator refused. `main` returns 2 for every refusal of the stage. Each
+refused pack holds other strings than the published ones, and the published
+strings stay unchanged, so no value of a refused pack is used. Last it
+accepts a second complete pack and publishes its strings.
 `runtime.data_pack_startup.refused_publishes_nothing` expects a read after a
 refused stage, with nothing published before, to abort.
 
@@ -177,6 +196,8 @@ compared, not proved. Its strings are made up, and its mutex name is new to
 the run. No original executable is in the folder, so the run can read values
 only from the pack. Exit code 0 does not tell a refusal from `Continue`;
 the fixture's check before the run shows that the decision is `Continue`.
+When that check reports a remote session, the test is skipped and `main`
+does not run.
 `falloutnv.process_exit.missing_pack` writes the pack only in the working
 directory and requires exit code 2 and the missing pack reported on the
 standard error stream. Neither test shows the engine link, startup or boot.
@@ -197,12 +218,23 @@ link loads seven members more than before: `data_pack_startup`,
 among its imports, for `GetSystemMetrics` and `MessageBoxA`; the target links
 `user32` for them.
 
+The standard link cells of the integration checks have no `user32.lib` on
+their command line, so their lazy cells show `GetSystemMetrics` and
+`MessageBoxA` undefined; the build's own link names `user32` and links.
+Moving the cells to a command line with `user32.lib`, which at
+`18b38af61` takes the forced unlimited cell from 35,079 to 35,039
+undefined names, is a separate decision and is not taken here.
+
 `src/main.cpp` now uses standard strings and paths, so its object defines the
 scalar deleting destructors of `std::exception` and `std::bad_alloc`, and the
 `FalloutNV` link keeps those copies instead of the ones in
 `src/runtime/new.cpp`. Both free the object through the replaceable
-`operator delete` of `new.cpp`: the kept copies call its sized form, the
-others had it inlined. The archive already held both forms.
+`operator delete` of `new.cpp`. The copy that inlines it, 102 bytes, exists
+only in the object of `new.cpp` that `FalloutNV` links directly; every copy
+in the game archive is the 59-byte form that calls its sized form. The kept
+copies are that form, so the content `FalloutNV` keeps now equals the
+archive's. Removing the divergent copy of `new.cpp` is follow-up work outside
+VEGAS-52.
 
 ## Not verified
 

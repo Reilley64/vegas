@@ -20,10 +20,13 @@ reads a real input. The next section states them. That criterion is met
 when this page passes review.
 
 The owner ran setup privately on an actual input on 2026-11-13, with the
-reviewed tool version `0ecb31723`. That run shows VEGAS-13's fourth and
-seventh criteria, the fifth for C1, and the input checks of the first.
-"Private run on an actual input" states what it showed, and "Not verified"
-states what it did not cover.
+reviewed tool version `0ecb31723`. For C1 only, that run shows the input
+checks of VEGAS-13's first criterion, the reproducible local preparation
+that its fourth asks for, and the private actual-input check that its
+seventh asks to document. The rest of the fourth, fifth and seventh
+criteria covers the whole catalogue and is still open. "Private run on an
+actual input" states what it showed, and "Not verified" states what it did
+not cover.
 
 ## Before setup reads a real copy
 

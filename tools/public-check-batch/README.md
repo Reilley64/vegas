@@ -21,6 +21,8 @@ The shell and range scanner read the same patterns and `tools/hooks/public-conte
 
 The scanner checks every selected commit's raw author/committer emails, message and historical added text. It refuses historical NUL before content exemptions and continues the range. Ordinary binary-file summaries without added text do not trigger that rule. This is explicit policy, not emulation of platform-dependent grep binary summaries.
 
+The scanner also refuses a selected commit that adds, changes, copies, renames to or changes the type of a data pack file (VEGAS-13): a file named `*.pack` or `*.pack.staged`, in any folder and any ASCII letter case (Git's `icase` folds only ASCII), including a symlink. Git matches the names through `git diff-tree` pathspecs, without rename detection, so a rename shows as a deletion and an addition. Deleting a pack, renaming one away and `*.packed` are not refused. A merge is checked by its combined diff. The diagnostic names the commit, not the file.
+
 Each message and added-text record gets an isolated pinned gitleaks stdin reader with empty path/commit metadata. Rules compile once, ignores use a checked private snapshot and no detector state crosses record boundaries. The complete range is never concatenated for secret scanning.
 
 Exit 0 means complete and clear, 1 means complete with policy refusals, and 2 means operationally incomplete. The JSON summary states completion. Diagnostics name a commit/category without private payloads. Ordinary refusals do not shorten history coverage.

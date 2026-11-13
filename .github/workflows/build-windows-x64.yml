@@ -59,7 +59,8 @@ jobs:
         with:
           arch: x64
 
-      # The scan after the build is a Go program that is run from its source.
+      # The archive and object checks of the test suite are Go programs that are run from their
+      # source.
       - name: "Setup: Install Go"
         uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6; public upstream revision, gitleaks:allow
         with:
@@ -80,20 +81,12 @@ jobs:
         shell: pwsh
         run: cmake --build --preset windows-x64 -- -k 0
 
-      # Report only: this step cannot fail the job. The allowlist was measured on the cross
-      # build, and the names depend on the compiler and the standard library. The NEW and
-      # STALE lines printed here are this toolchain's difference from that list. Runs after
-      # a failed build as well, and then reports that it cannot read the archive.
-      - name: "Scan: Report names with differing definitions"
-        if: ${{ !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
-        continue-on-error: true
-        shell: pwsh
-        working-directory: tools/differing-definitions
-        run: go run . --archive ../../out/build/windows-x64/game.lib --allowlist allowlist.tsv
-
       # Runs after a failed build as well. CTest reports a test whose executable was not built
       # as Not Run or Failed and exits non-zero, so a missing test is never counted as passed.
-      # Each test gets five minutes, so a hang cannot use up the job's time limit.
+      # Each test gets five minutes, so a hang cannot use up the job's time limit. The suite
+      # includes the objects.* and archive.* checks of the game archive, with
+      # archive.differing_definitions, which reads the archive with the same allowlist as the
+      # cross build. They use Go, Python 3 and the llvm-objdump beside clang-cl.
       - name: "Test: Run the file-format suite"
         if: ${{ !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
         run: ctest --preset windows-x64 --timeout 300

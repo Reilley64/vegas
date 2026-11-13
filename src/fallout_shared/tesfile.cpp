@@ -1083,9 +1083,9 @@ std::uintptr_t __cdecl GetOwnerFileByID(unsigned int aiID)
 
 
 // @fnv 0x00c3bb80
-int* FUN_00c3bb80()
+char* FUN_00c3bb80()
 {
-    return &(*reinterpret_cast<int *>(&::DAT_01202c50));
+    return ::DAT_01202c50;
 }
 
 

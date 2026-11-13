@@ -2,7 +2,7 @@
 #include <cstdint>
 
 // 0x00c3bb80
-int *FUN_00c3bb80();
+char *FUN_00c3bb80();
 // 0x00c3bb90
 void FUN_00c3bb90(const char *);
 // 0x00c3bbd0

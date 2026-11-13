@@ -1546,7 +1546,7 @@ void __cdecl FUN_00c3bd30(unsigned char ucParam1, unsigned char ucParam2, unsign
     DAT_011f6388 = reinterpret_cast<AbstractHeapLogger*>(MessageHandler::pHandler);
 }
 
-int __cdecl GetFileSize(int* buf, int* out);
+int __cdecl GetFileSize(char* buf, int* out);
 
 struct BSCoreMessage
 {
@@ -1573,7 +1573,7 @@ FUN_00c3bda0_Class::~FUN_00c3bda0_Class()
     if (GetFileSize(FUN_00c3bb80(), &info[7]) == 0)
     {
         if (info[7] == 0x46 && info[8] == 0)
-            FUN_00aff0b0((const char*)FUN_00c3bb80());
+            FUN_00aff0b0(FUN_00c3bb80());
     }
     if (MessageHandler::pHandler == (MessageHandler*)this)
         MessageHandler::pHandler = 0;

@@ -869,9 +869,6 @@ struct Input
 struct OS
 {
 };
-struct Setting
-{
-};
 struct Effect
 {
     int unk00;
@@ -927,34 +924,34 @@ void Effect::UpdateGrabEffect(float delta)
     if (reinterpret_cast<::HotkeyWheelDisplay *>((((::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(6, 0) && reinterpret_cast<::HotkeyWheelDisplay *>((((::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(4, 0))
     {
         if (velocity >
-            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1169)))))) * 0.1f)
+            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1169)))))) * 0.1f)
             released = true;
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
     }
     else if (reinterpret_cast<::HotkeyWheelDisplay *>((((::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(4, 0))
     {
-        if (velocity < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168)))))))
-            velocity = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168))))));
-        velocity += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1169)))))) * delta;
-        if (velocity > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170)))))))
-            velocity = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170))))));
+        if (velocity < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168)))))))
+            velocity = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168))))));
+        velocity += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1169)))))) * delta;
+        if (velocity > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170)))))))
+            velocity = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170))))));
     }
     else if (reinterpret_cast<::HotkeyWheelDisplay *>((((::Input *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::OS * *>(&::g_osGlobals))))->FUN_00877720()))))->SetHotkeyItem(6, 0))
     {
-        if (velocity > -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168)))))))
-            velocity = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168))))));
-        velocity -= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1169)))))) * delta;
-        if (velocity < -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170)))))))
-            velocity = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170))))));
+        if (velocity > -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168)))))))
+            velocity = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1168))))));
+        velocity -= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1169)))))) * delta;
+        if (velocity < -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170)))))))
+            velocity = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1170))))));
     }
     else
         velocity = 0.0f;
     strength = reinterpret_cast<::FUN_0082af40_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetTelekinesisStrength();
     strength += velocity * delta;
-    if (strength < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1171)))))))
-        strength = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1171))))));
-    if (strength > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1112)))))) * ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d18fc)))))))
-        strength = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1112)))))) * ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d18fc))))));
+    if (strength < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1171)))))))
+        strength = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1171))))));
+    if (strength > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1112)))))) * ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d18fc)))))))
+        strength = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1112)))))) * ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d18fc))))));
     reinterpret_cast<::FUN_0082aab0_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->SetField644(strength);
     if (!skipCost)
         reinterpret_cast<::fnv_00960520::Projectile *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_00960520(delta);
@@ -1094,7 +1091,7 @@ void TelekinesisEffectT::FUN_0082afa0()
                 NiPoint3T kAngles = (*(const ::NiPoint3T *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerCameraT * *>(&::_g_thePlayer))))->GetData()));
                 reinterpret_cast<::FUN_00a59660_cls *>(&(kRotationBasis))->FUN_00a59660(kAngles.z, kAngles.x, kAngles.y);
                 reinterpret_cast<::FUN_00439f50_class *>((void *)&(kRotationBasis))->FUN_00439f50(1, (::NiPoint3 *)&(kForward));
-                NiPoint3T kIntersectionOffset = kForward * (::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingTableT *>(&::originalRuntimeFloatSetting1172)))) + m_fHitDistance);
+                NiPoint3T kIntersectionOffset = kForward * (::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GameSettingTableT *>(&::originalRuntimeFloatSetting1172)))) + m_fHitDistance);
                 hkVector4T kMotionVelocity;
                 ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kMotionVelocity)), (*(const ::fnv_004a3e00::NiPoint3 *)(&kIntersectionOffset)));
                 hkSimdRealT kMass(::FUN_004b5400((void *)(pkTarget)));

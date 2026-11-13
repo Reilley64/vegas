@@ -117142,7 +117142,7 @@
     "??2ShaderEffect@@SAPAXI@Z": "0x00aa13e0",
     "??0ShaderEffect@@QAE@PAUTelekinesisReference@@PAUShaderDefinition@@M@Z": "0x0081f580",
     "?FUN_00973fd0@FUN_00973fd0_cls@@QAEXPAVFnvArgObj@@@Z": "0x00973fd0",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "__real@3fb99999a0000000": "0x0101ffa0",
     "?Update@ValueModifierEffect@@QAEXM@Z": "0x0082c660",
     "?FUN_0082aeb0@FUN_0082aeb0_shell@@QAEPAXXZ": "0x0082aeb0",
@@ -117188,7 +117188,7 @@
     "?FUN_00802dd0@ValueModifierEffect_LoadGame_Helper@@QAEXPAVActor@@@Z": "0x00802dd0",
     "?GetFloatAtOffset1C@@YAMPAD@Z": "0x00495460",
     "?FUN_004ae750@@YAHPAX@Z": "0x004ae750",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_006fa820@fnv_006fa820@@YAPBDPBD@Z": "0x006fa820"
    }
   },
@@ -117223,7 +117223,7 @@
     "?GetData@TESRecipe@@QAEPAVRecipeCraftingInfo@@XZ": "0x00430830",
     "?FUN_00439f50@FUN_00439f50_class@@QAEXIPAUNiPoint3@@@Z": "0x00439f50",
     "?originalRuntimeFloatSetting1172@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011d17e8",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "??DNiPoint3T@@QBE?AV0@M@Z": "0x0045bb20",
     "??0hkVector4T@@QAE@XZ": "0x006815c0",
     "?FUN_004a3e00@fnv_004a3e00@@YAAAVbhkCharacterController@1@AAV21@ABUNiPoint3@1@@Z": "0x004a3e00",
@@ -117236,7 +117236,7 @@
     "?FUN_005615d0@Owner5615@@QAEXH@Z": "0x005615d0",
     "?FUN_00a59660@FUN_00a59660_cls@@QAEXMMM@Z": "0x00a59660",
     "?FUN_004ae750@@YAHPAX@Z": "0x004ae750",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_004b5400@@YAMPAX@Z": "0x004b5400",
     "?FUN_005615d0@Owner5615_o2_od_oy_noo2@@QAEXH@Z": "0x005615d0"
    }

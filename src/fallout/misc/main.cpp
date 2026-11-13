@@ -11776,8 +11776,6 @@ struct FUN_00b631d0_obj
 {
 };
 
-void FUN_00706320(int aiValue);
-
 
 struct FUN_008774a0_shell
 {

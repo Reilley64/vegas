@@ -12,3 +12,8 @@ forbid	?FUN_0086d590@Receiver86@@QEAAXXZ
 forbid	?FUN_0086a0a0@fnv_0086a0a0@@YAJPEAUHWND__@@IIJ@Z
 # batch, unit, function and the names of the bodies:
 function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ ?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z ?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ ?FUN_0086a0a0@fnv_0086a0a0@@YA_JPEAUHWND__@@I_K_J@Z
+# Functions of the same unit on the boot path whose calls are bound by name
+# to the bodies at the recipe's rows (VEGAS-30, boot path 2).
+# 0x00706320, which FUN_008774a0 called under a name scoped to itself:
+forbid	?FUN_00706320@fnv_008774a0@@YAXH@Z
+function	callees	src/fallout/misc/main.cpp	?FUN_008774a0@FUN_008774a0_shell@fnv_008774a0@@QEAAX_N@Z	?FUN_00706320@@YAXH@Z

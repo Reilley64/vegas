@@ -48,10 +48,11 @@ made it. Only a commit reachable from the reviewed integration branch is a
 reviewed version. For such a commit,
 `git merge-base --is-ancestor HEAD <remote>/<branch>` exits with status 0.
 An unmerged branch is not reviewed. `vegas-setup` does not print the commit
-you built it from, so record it yourself, privately, beside the pack.
-Build from a checkout of a reviewed commit with no local changes
-(`git status --porcelain` prints nothing). Keep the output of `git rev-parse HEAD` in that checkout, the
-branch name and the date you made the pack.
+you built it from, so record it yourself, privately, beside the pack. Build
+from a checkout of a reviewed commit with no local changes
+(`git status --porcelain` prints nothing). Keep the output of
+`git rev-parse HEAD` in that checkout, the branch name and the date you made
+the pack.
 
 **Maintenance.** The ranges in `src/setup/single_instance_ranges.h` and the
 recipe check, `tools/setup-recipe-ranges`, belong to setup and change with

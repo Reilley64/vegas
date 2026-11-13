@@ -264,7 +264,8 @@ has one definition. Receivers, layouts and lifetimes of `FUN_00c7a630` and
   8, into `rdx`, as the member call did, or not into `rcx`. It matches
   registers, not values.
 
-All four run in the windows-x64 cross build only. For the `REL32` types
+All four ran in the windows-x64 cross build only; since VEGAS-95 they run
+in the Windows CI job as well. For the `REL32` types
 the first two take the stored addend plus 4 as the offset used, because
 the addend leaves out an immediate that follows the displacement. A relocation whose stored
 addend lies in the last 4 bytes of a table therefore fails, although

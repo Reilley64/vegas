@@ -38,8 +38,8 @@ object path per line.
 
 ## Where it runs
 
-CTest runs it in the windows-x64 cross build only, as
-`objects.table_bounds`. CMake writes the vtable units of the game target to
+CTest runs it in every windows-x64 build, the cross build and the Windows CI
+job's, as `objects.table_bounds`. CMake writes the vtable units of the game target to
 `vtable-sources.txt` in the build's `tests` folder, after the four composed
 units have replaced their originals (docs/native-data-ownership.md), and
 fails at configure time when there are not fifteen. The object list is the

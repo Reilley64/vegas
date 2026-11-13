@@ -220,11 +220,11 @@ game never link together. `vegas-setup` is `src/setup/setup_main.cpp`
 linked with the library. On Windows it takes the folder as a wide string, so
 a path outside the ANSI code page works.
 
-On a Windows host, building setup does not need Python. Only the
-`setup.recipe_ranges` test needs it. A configure without Python 3 warns, and
-that test then fails and says why. A cross build from another host also
-needs a clang-cl toolchain file, and its configure stops without Python 3
-(`tests/CMakeLists.txt`).
+On a Windows host, building setup does not need Python. Only tests need it:
+`setup.recipe_ranges` and the archive checks. A configure without Python 3
+warns, and `setup.recipe_ranges` and `objects.tools` then fail and say why. A
+cross build from another host also needs a clang-cl toolchain file, and its
+configure stops without Python 3 (`tests/CMakeLists.txt`).
 
 **Distributing a binary.** `vegas-setup` contains Mbed TLS's SHA-256 code,
 which this project uses under Apache-2.0 (`third_party/README.md`). Anyone

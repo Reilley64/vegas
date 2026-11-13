@@ -84,13 +84,13 @@ name. A recorded name is an open conflict, not an accepted one.
 Where it runs. The set of names depends on the compiler and the standard
 library, and the list was measured on the cross build.
 
-- CTest runs the check as `archive.differing_definitions` in the cross build
-  only. Configuring that build fails with a message when Go is not found.
+- CTest runs the check as `archive.differing_definitions` in the cross build.
+  Configuring that build fails with a message when Go is not found.
 - The windows-x64 workflow builds natively with another clang and the MSVC
-  standard library. It runs the command on its own archive in a step that
-  reports and cannot fail the job. Its `NEW` and `STALE` lines are what the
-  next increment compares with the list, to decide between one list per
-  toolchain and a common subset.
+  standard library. Its report step printed 0 `NEW` and 0 `STALE` lines at
+  `891a44f50`, so one list holds for both toolchains, and since VEGAS-95 its
+  test suite runs the check and fails the job with it
+  (`docs/windows-ci-object-checks.md`).
 
 On this machine `find_program(go)` also finds Go in CMake's own system
 prefixes, so removing Go from `PATH` alone does not show the failure. The

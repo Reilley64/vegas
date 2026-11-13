@@ -28,8 +28,8 @@ such as `src/fallout_shared/teswater.cpp`.
 
 ## Where it runs
 
-CTest runs it in the windows-x64 cross build only, like
-`archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
+CTest runs it in every windows-x64 build, the cross build and the Windows CI
+job's, like `archive.differing_definitions`: `objects.d3dx_call_arguments_BATCH`, one test
 per batch of `d3dx-call-arguments.tsv`,
 `objects.hacking_array_retirement` for `hacking-array-retirement.tsv`,
 `objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`,

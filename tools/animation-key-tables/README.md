@@ -17,9 +17,11 @@ followed by two summary lines. The exit status is 1 when there is a problem.
 
 ## Where it runs
 
-CTest runs it as `archive.animation_key_tables` in the cross build only, the
-same as `archive.differing_definitions`. Configuring the cross build fails
-when Python 3 or `llvm-objdump` is not found. The compile-time guard beside
+CTest runs it as `archive.animation_key_tables` in every windows-x64 build,
+the cross build and the Windows CI job's, the same as
+`archive.differing_definitions`. Configuring the cross build fails when
+Python 3 or `llvm-objdump` is not found; on a Windows host `objects.tools`
+fails instead. The compile-time guard beside
 it: `nianimationkey_registration.cpp` builds with the `-Werror` pointer
 narrowing checks set in `src/root_sources.cmake`, so a registration that casts
 a function to a 32-bit integer does not compile.

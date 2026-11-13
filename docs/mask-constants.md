@@ -159,8 +159,9 @@ are code addresses.
 `objects.mask_constants` runs `tools/function-relocations` with
 `mask-constants.tsv`. It forbids a relocation to any of the six names in
 each of the 18 changed functions. It fails at `cffde2737`, and at
-`ffcceb42c` for `FUN_00878360`. CTest registers
-it in the windows-x64 cross build only, like the other relocation checks.
+`ffcceb42c` for `FUN_00878360`. CTest registered
+it in the windows-x64 cross build only, like the other relocation checks;
+since VEGAS-95 it runs in the Windows CI job as well.
 
 No host test links any of these functions, so no behavioural test was added.
 Windows execution was not available.

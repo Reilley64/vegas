@@ -22,13 +22,16 @@ The set of names depends on the compiler and on the standard library. The
 allowlist was measured on the cross build: clang-cl on a host that is not
 Windows, with the Windows SDK and CRT that `xwin` downloads.
 
-- CTest runs the check as `archive.differing_definitions` in that cross build
-  only. Configuring the cross build fails when Go is not found.
-- A native Windows build has no such test. Its workflow runs the command
-  against the same allowlist in a step that reports and cannot fail the job.
-  Whether that toolchain yields the same names is not known. Until its `NEW`
-  and `STALE` lines have been compared with the allowlist, the list holds for
-  the cross build only.
+- CTest runs the check as `archive.differing_definitions` in every
+  windows-x64 build: the cross build, and a build on a Windows host such as
+  the Windows CI job, whose test suite fails the job with it. Configuring the
+  cross build fails when Go is not found; on a Windows host `objects.tools`
+  fails instead (`tests/CMakeLists.txt`).
+- The Windows CI job builds with clang-cl 20.1.8 and the standard library of
+  Visual Studio. At `891a44f50` its archive had the same 519 names as the
+  allowlist, 0 new and 0 stale, so one list holds for both toolchains
+  (`docs/windows-ci-object-checks.md`). When a change makes them part, the
+  check fails on one of them, and the list cannot match both.
 
 ## What is compared
 

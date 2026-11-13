@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Compare two COFF objects with the header timestamp masked.
 
-usage: objcmp.py A.obj B.obj [--map FILE] [--expect-kept FILE] [--base-holds-new] [--json] [OLD=NEW ...]
+usage: objcmp.py A.obj B.obj [--map FILE] [--expect-kept FILE] [--base-holds-new] [--function-order FILE]
+                 [--json] [OLD=NEW ...]
 
 A is the base object, B the head object. Each OLD=NEW pair (from the command
 line, or one per line of FILE) is a respelling of the base: a symbol of A
@@ -26,12 +27,18 @@ BESIDE-KEPT lines. A FILE with no site acts as no option. With
 merge: A's OLD must be one undefined external symbol that some relocation
 targets, B must hold no OLD, and B must equal A once OLD is respelled NEW
 and its symbol and address-significance entries merge into NEW's; that is
-"merged" and exits 0. --json prints the same facts as one JSON object,
-with the per-symbol lines.
+"merged" and exits 0. With --function-order FILE (one name per line), the
+COMDAT sections that the named functions lead, and their associative
+children, may change place: every other section keeps its place among the
+others, sections and symbols are equal as multisets, and the named
+functions' address-significance entries may move; that is "reordered" (or
+"merged and reordered") and exits 0. --json prints the same facts as one
+JSON object, with the per-symbol lines.
 
 Exit status: 0 identical, kept or merged, 1 differs or refused, 2 usage
 error or unreadable input.
 """
+import collections
 import difflib
 import json
 import struct
@@ -494,10 +501,14 @@ def merged_sequence(seq_a, seq_b, news, name, entry=None, anywhere=False):
             ok = False
         elif in_b and not anywhere and slot(seq_b, in_b[0]) not in {slot(seq_a, i) for i in in_a}:
             ok = False
-    if ok:
-        return list(seq_b)
+    return list(seq_b) if ok else first_kept(seq_a, news, name, entry)
+
+
+def first_kept(seq, news, name, entry=None):
+    """SEQ with only the first entry of each name in NEWS, which is entry[NEW]
+    when ENTRY is given."""
     out, seen = [], set()
-    for x in seq_a:
+    for x in seq:
         if name(x) in news:
             if name(x) in seen:
                 continue
@@ -507,19 +518,24 @@ def merged_sequence(seq_a, seq_b, news, name, entry=None, anywhere=False):
     return out
 
 
-def merge_view(a, b, raw_a, merges):
+def merge_view(a, b, raw_a, merges, anywhere=False):
     """A's comparison (the renames applied, so that each merged OLD is spelled
     NEW) with the merges done as B shows them, when B shows them as allowed,
     and both address-significance tables' byte sizes left out (their indices
     differ once a symbol goes). B's one symbol of NEW stands at the place of
     A's OLD or NEW; its one address-significance entry anywhere, as the table
-    lists symbols in symbol-table order and is a set to the linker."""
+    lists symbols in symbol-table order and is a set to the linker. With
+    ANYWHERE (sections may change place) the symbols are A's with OLD's symbol
+    dropped, to be compared as a multiset."""
     news = set(merges.values())
     header, sections, order, symbols = a
     entry = {s[1]: symbols[i] for i, s in enumerate(raw_a.symbols) if s[1] in news}
     if set(entry) != news:
         return a, b  # MERGE-NEW names it
-    symbols = merged_sequence(symbols, b[3], news, lambda s: s[0], entry)
+    if anywhere:
+        symbols = first_kept(symbols, news, lambda s: s[0], entry)
+    else:
+        symbols = merged_sequence(symbols, b[3], news, lambda s: s[0], entry)
     sections, sections_b = dict(sections), dict(b[1])
     for key, s in sections.items():
         if s["name"] == ".llvm_addrsig":
@@ -530,6 +546,63 @@ def merge_view(a, b, raw_a, merges):
         if s["name"] == ".llvm_addrsig":
             sections_b[key] = dict(s, size=None)
     return (header, sections, order, symbols), (b[0], sections_b, b[2], b[3])
+
+
+def movable_keys(coff, names):
+    """The keys of the COMDAT sections that a name in NAMES leads, and of their
+    associative children, never a .CRT$ section: initializer order is
+    behaviour."""
+    parent = {}
+    for number, s in enumerate(coff.sections, 1):
+        if s["associated"] and 0 < s["associated"] <= len(coff.keys):
+            parent[coff.keys[number - 1]] = coff.keys[s["associated"] - 1]
+    out = set()
+    for number, s in enumerate(coff.sections, 1):
+        key, seen = coff.keys[number - 1], set()
+        if not s["characteristics"] & COMDAT or s["name"].startswith(".CRT$"):
+            continue
+        root = key
+        while root in parent and root not in seen:
+            seen.add(root)
+            root = parent[root]
+        if root in names:
+            out.add(key)
+    return out
+
+
+def order_view(a, b, movable, names, out):
+    """A's and B's comparisons with the moves of the MOVABLE sections undone,
+    when every other section keeps its place among the others; prints an
+    ORDER-FIXED line per other section that changed place among the others.
+    Symbols compare as a multiset, and the address-significance entries of
+    NAMES may change place. Returns the two views, the number of lines
+    printed and the moves [(key, place in A, place in B)]."""
+    header, sections, order, symbols = a
+    header_b, sections_b, order_b, symbols_b = b
+    common_a = [k for k in order if k in sections_b]
+    common_b = [k for k in order_b if k in sections]
+    fixed_a, fixed_b = [k for k in common_a if k not in movable], [k for k in common_b if k not in movable]
+    printed, moves = 0, []
+    matcher = difflib.SequenceMatcher(None, fixed_a, fixed_b, autojunk=False)
+    for op, a1, a2, _, _ in matcher.get_opcodes():
+        for key in fixed_a[a1:a2] if op != "equal" else ():
+            out("ORDER-FIXED\t%s\tchanged place; only the listed functions' sections may" % key)
+            printed += 1
+    if not printed:
+        moves = [(key, order.index(key), order_b.index(key)) for key in common_a
+                 if key in movable and order.index(key) != order_b.index(key)]
+    # The ORDER- lines name what moved; compare() sees the shared sections in A's order.
+    order_b = common_a + [k for k in order_b if k not in sections]
+    if collections.Counter(symbols) == collections.Counter(symbols_b):
+        symbols_b = symbols
+    sections_b = dict(sections_b)
+    for key, s in sections.items():
+        other = sections_b.get(key)
+        if s["name"] == ".llvm_addrsig" and other and other["name"] == ".llvm_addrsig":
+            rest = [n for n in s["body"] if n not in names], [n for n in other["body"] if n not in names]
+            if rest[0] == rest[1] and all(s["body"].count(n) == other["body"].count(n) for n in names):
+                sections_b[key] = dict(other, body=s["body"], size=s["size"])
+    return (header, sections, order, symbols), (header_b, sections_b, order_b, symbols_b), printed, moves
 
 
 def read_lines(path):
@@ -574,7 +647,7 @@ def main(argv):
     base_holds_new = "--base-holds-new" in args
     args = [a for a in args if a not in ("--json", "--base-holds-new")]
     paths = {}
-    for option in ("--map", "--expect-kept"):
+    for option in ("--map", "--expect-kept", "--function-order"):
         if option in args:
             at = args.index(option)
             paths[option] = args[at + 1] if at + 1 < len(args) else None
@@ -584,13 +657,16 @@ def main(argv):
     if len(args) < 2 or any(a.startswith("-") for a in args[:2]):
         print(__doc__.strip().split("\n\n")[1], file=sys.stderr)
         return 2
-    if base_holds_new and "--expect-kept" in paths:
-        print("objcmp.py: --expect-kept does not combine with --base-holds-new", file=sys.stderr)
+    if (base_holds_new or "--function-order" in paths) and "--expect-kept" in paths:
+        print("objcmp.py: --expect-kept does not combine with --base-holds-new or --function-order", file=sys.stderr)
         return 2
     path_a, path_b = args[:2]
     try:
         renames = read_renames(args[2:], paths.get("--map"))
         expected = read_kept(paths["--expect-kept"], renames) if "--expect-kept" in paths else None
+        order_names = None
+        if "--function-order" in paths:
+            order_names = {line for line in read_lines(paths["--function-order"]) if line and not line.startswith("#")}
         with open(path_a, "rb") as f:
             data_a = f.read()
         with open(path_b, "rb") as f:
@@ -619,7 +695,7 @@ def main(argv):
             lines.append("RENAME-KEPT\tB still holds %s" % old)
             refused += 1
     applied = any(spelled(old, coff_a.names) for old in renames)
-    found, retargets, kept, into, calls = 0, {}, [], {}, {}
+    found, retargets, kept, into, calls, moves = 0, {}, [], {}, {}, []
     if masked(data_a) == masked(data_b):
         verdict, status = "identical: the bytes are equal with the timestamp masked", 0
         lines = []
@@ -631,21 +707,38 @@ def main(argv):
         verdict, status = ("refused: A holds both spellings of a rename; compare without that rename, or with "
                            "the commit before A as the base"), 1
         found = None
-    elif merges:
+    elif merges or order_names is not None:
         raw_a = Coff(data_a, {})
         merge_problems, into, calls = merge_checks(raw_a, merges)
         lines += merge_problems
-        view_a, view_b = merge_view(coff_a.compared(), coff_b.compared(), raw_a, merges)
-        found = compare(view_a, view_b, lines.append, shifts=not as_json) + len(merge_problems)
+        view_a, view_b = coff_a.compared(), coff_b.compared()
+        if merges:
+            view_a, view_b = merge_view(view_a, view_b, raw_a, merges, anywhere=order_names is not None)
+        printed = 0
+        if order_names is not None:
+            view_a, view_b, printed, moves = order_view(view_a, view_b, movable_keys(coff_a, order_names),
+                                                        order_names, lines.append)
+        found = compare(view_a, view_b, lines.append, shifts=not as_json) + len(merge_problems) + printed
         retargets, kept = sites(raw_a, coff_a, coff_b, renames)
-        if found == 0 and refused == 0:
-            own = sum(1 for old in merges if into.get(old) == "definition")
-            verdict, status = ("merged: equal with the timestamp masked once the renames are applied, %d OLD "
-                               "name(s) merged into the NEW that the base holds: %d into its own definition, %d "
-                               "into its existing reference" % (len(merges), own, len(merges) - own)), 0
-        else:
+        own = sum(1 for old in merges if into.get(old) == "definition")
+        merge_text = ("%d OLD name(s) merged into the NEW that the base holds: %d into its own definition, %d into "
+                      "its existing reference" % (len(merges), own, len(merges) - own))
+        move_text = "%d section(s) of the listed function(s) changed place" % len(moves)
+        renamed = " once the renames are applied" if applied else ""
+        if found or refused:
             verdict = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else "")
             status = 1
+        elif merges and moves:
+            verdict, status = ("merged and reordered: equal with the timestamp masked once the renames are "
+                               "applied, %s; %s" % (merge_text, move_text)), 0
+        elif merges:
+            verdict, status = "merged: equal with the timestamp masked once the renames are applied, " + merge_text, 0
+        elif moves:
+            verdict, status = "reordered: equal with the timestamp masked%s, but %s" % (renamed, move_text), 0
+        elif applied:
+            verdict, status = "identical: equal with the timestamp masked once the renames are applied", 0
+        else:
+            verdict, status = "differs: the bytes differ, but no section, relocation or symbol does", 1
     else:
         found = compare(coff_a.compared(), coff_b.compared(), lines.append, shifts=not as_json)
         retargets, kept = sites(Coff(data_a, {}) if renames else coff_a, coff_a, coff_b, renames)
@@ -676,6 +769,7 @@ def main(argv):
     retargets = sorted((old, new, count, by_map, keys) for (old, new), (count, keys, by_map) in retargets.items())
     merge_rows = [(old, merges[old], into[old], calls[old]) for old in sorted(merges)
                   if status == 0 and verdict.startswith("merged")]
+    moves = moves if status == 0 else []
     if as_json:
         report = dict(
             verdict=verdict, result=verdict.split(":")[0], exit=status, differences=found, rename_lines=refused,
@@ -688,6 +782,8 @@ def main(argv):
         if base_holds_new:
             report["merges"] = [dict(old=old, new=new, into=where, relocations=count)
                                 for old, new, where, count in merge_rows]
+        if order_names is not None:
+            report["moved"] = [dict(section=key, a=at_a, b=at_b) for key, at_a, at_b in moves]
         print(json.dumps(report, indent=1, sort_keys=True))
         return status
     summary = ["RETARGET\t%s -> %s\t%d site(s)\t%s\t%s"
@@ -699,6 +795,7 @@ def main(argv):
     summary += ["MERGED\t%s -> %s\tinto the base's %s\t%d relocation(s)"
                 % (old, new, "own definition" if where == "definition" else "existing reference", count)
                 for old, new, where, count in merge_rows]
+    summary += ["MOVED\t%s\tplace %d -> %d" % move for move in moves]
     for line in [verdict] + notes + lines + summary:
         print(line)
     return status

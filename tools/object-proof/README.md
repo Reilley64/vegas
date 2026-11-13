@@ -57,13 +57,15 @@ compile_commands.json at compile time).
   hold absolute paths of the machine: keep OUT outside the checkout and
   never commit them.
 - `compare` prints, per variant, `objcmp.py`'s report and the warnings
-  comparison. It passes `--map`, `--expect-kept`, `--base-holds-new` and
-  renames on; for JSON, run `objcmp.py --json` per variant.
+  comparison. It passes `--map`, `--expect-kept`, `--base-holds-new`,
+  `--function-order` and renames on; for JSON, run `objcmp.py --json` per
+  variant.
 
 ## Comparing objects
 
 ```sh
-python3 tools/object-proof/objcmp.py BASE.obj HEAD.obj [--map FILE] [--expect-kept FILE] [--base-holds-new] [--json] [OLD=NEW ...]
+python3 tools/object-proof/objcmp.py BASE.obj HEAD.obj [--map FILE] [--expect-kept FILE] [--base-holds-new] \
+        [--function-order FILE] [--json] [OLD=NEW ...]
 ```
 
 The first line is the verdict:
@@ -74,6 +76,8 @@ The first line is the verdict:
 | `identical: ... once the renames are applied` | 0 | equal structure with a rename applied to the base |
 | `kept: ... except the N expected kept site(s)` | 0 | equal except exactly the `--expect-kept` sites |
 | `merged: ... N OLD name(s) merged into the NEW that the base holds: K into its own definition, L into its existing reference` | 0 | with `--base-holds-new`: equal once each merge is done |
+| `reordered: ... but N section(s) of the listed function(s) changed place` | 0 | with `--function-order`: equal but for the listed functions' sections' places |
+| `merged and reordered: ...; N section(s) of the listed function(s) changed place` | 0 | both of the above |
 | `refused: A holds both spellings of a rename ...` | 1 | nothing compared; the RENAME- lines follow |
 | `differs: N difference(s)[, M RENAME- line(s)][, K kept-site mismatch(es)]` | 1 | N counts the difference lines below, not the RENAME- lines |
 | `differs: the bytes differ, but no section ...` | 1 | no rename applies and the structure is equal |
@@ -93,11 +97,13 @@ associative section as `parent|name`). Then the summary.
 | `SECTION-ORDER` | the shared sections are in another order; `-order`/`+order` give the moved ones |
 | `SYMBOL-ONLY-A`, `SYMBOL-ONLY-B` | name, value, section, type, storage class |
 | `SYMBOL-SHIFT` | section, count, distance, the lowest moved symbol and its value in A: symbols that differ only by value, by that distance, in that section, in place of their `SYMBOL-ONLY` lines (as when an array before them grew) |
+| `ORDER-FIXED` | with `--function-order`: a section that is not the listed functions' changed place among the others |
 | `MERGE-OLD`, `MERGE-NEW`, `MERGE-NO-CALL` | with `--base-holds-new`: the base holds OLD other than as one undefined external symbol, or holds NEW other than as one external symbol; no relocation of the base targets OLD |
 | `BESIDE-KEPT` | under `--expect-kept`, when the kept sites are the listed ones: what still differs once they are undone (a difference line, `B still holds OLD`, or OLD's address-significance count) |
 | `RETARGET` | summary: A's target as A spells it `->` B's target at one offset of a section both hold, count, `by the map` or `not by the map`, the sections |
 | `KEPT-SITE` | summary: section, offset, OLD, NEW of a relocation where B still targets OLD and the respelled A targets NEW |
 | `KEPT-MISSING`, `KEPT-UNEXPECTED` | an expected kept site (section, OLD) not found; a kept site (section, offset, OLD) not expected |
+| `MOVED` | summary of a `reordered` verdict: a listed function's section, its place in the base and in the head (0-based) |
 | `MERGED` | summary of a `merged` verdict: OLD `->` NEW, into the base's own definition or its existing reference, the number of the base's relocations to OLD |
 
 A refused comparison prints no summary. For the instructions of a differing
@@ -147,6 +153,31 @@ Otherwise the verdict is `differs`, with `MERGE-` lines for the first
 condition and the difference lines of the comparison with each merge done.
 Byte-identical objects stay `identical: the bytes are equal`: the call was
 not bound. The option does not combine with `--expect-kept` (exit 2).
+
+### Function order
+
+When a bound call names an owner that the unit defines inline, clang emits
+the owner's body where a function first uses it, so the head may emit it
+earlier. `--function-order FILE` (one mangled function name per line, `#`
+comments) proves such a unit: the COMDAT sections that a listed name leads,
+and their associative children (`.pdata`, `.xdata`), may change place,
+never a `.CRT$` section (initializer order is behaviour). The verdict is
+`reordered` (with `--base-holds-new`, `merged and reordered`) and the exit 0
+only when:
+
+- every other section keeps its place among the other sections (else
+  `ORDER-FIXED`); the listed functions' sections may also change order
+  among themselves;
+- the sections are equal one by one, by key: name, characteristics, COMDAT
+  selection, size, bytes and relocations (offset, type and target name),
+  and the associative parent through the section symbol;
+- the symbols are equal as a multiset, so `SYMBOL-ORDER` does not count,
+  and the address-significance table holds the same entries, each other
+  than a listed function's in the base's order;
+- everything else is as without the option, merges included.
+
+Equal objects with nothing moved keep their `identical` verdict. The option
+does not combine with `--expect-kept` (exit 2).
 
 ### Kept sites
 
@@ -214,7 +245,9 @@ lines), `retargets`
 `offset`, `old`, `new`), `kept_missing` (`function`, `old`) and
 `kept_unexpected` (`function`, `offset`, `old`); with `--base-holds-new`
 also `merges` (`old`, `new`, `into`: `definition` or `reference`,
-`relocations`), filled when the verdict is `merged`. Usage errors and
+`relocations`), filled when the verdict is `merged`, and with
+`--function-order` `moved` (`section`, `a`, `b`: its places), filled when
+the verdict is `reordered`. Usage errors and
 unreadable input print to stderr and exit 2, with no JSON.
 
 ## Comparing warnings
@@ -230,7 +263,7 @@ the classes whose counts changed and the lines only in A (`-`) or B (`+`).
 
 ## Exit status
 
-All three commands: 0 identical, kept, merged (or compiled), 1 differs, refused (or
+All three commands: 0 identical, kept, merged, reordered (or compiled), 1 differs, refused (or
 a compile failed), 2 usage error, unreadable input, a compiler that cannot
 start or a `--source` that compile refuses.
 
@@ -240,7 +273,9 @@ start or a `--source` that compile refuses.
   (RENAME-MERGES) or the head still holds OLD (RENAME-KEPT). An unmatched
   rename does not relax the comparison. Under `--base-holds-new`, a merge is
   the one place where the base may hold both, and NEW's symbol may take
-  OLD's place and its address-significance entry any place.
+  OLD's place and its address-significance entry any place. Under
+  `--function-order` the symbols compare as a multiset: which symbol stands
+  where in the table is not compared.
 - With a rename that applies, these are not compared: the string-table
   layout and any bytes after it; where the section bytes sit in the file;
   the section headers' virtual size, virtual address and line-number

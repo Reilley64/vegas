@@ -39,15 +39,25 @@
 # added or removed alone, the relocations only change order, a call goes to
 # another name or with another type, a second call is retargeted, code or
 # the owner's body changes, or the head's NEW is another kind of symbol, or
-# combines it with --expect-kept. The tests write small objects,
-# logs and a fake compiler and run on every host. Blind spot: the objects
+# combines it with --expect-kept; or when objcmp.py --function-order stops
+# calling a unit whose listed function's COMDAT sections and associative
+# children moved, also among themselves, "reordered" (or "merged and
+# reordered") and one where nothing moved "identical", or calls one so where
+# a non-COMDAT section (one the listed function leads too) or an unlisted
+# function's section changed place, two .CRT$XCU entries swapped, a .CRT$
+# child moved with its parent, a section was added, a moved section's bytes
+# changed, a relocation was retargeted, a symbol moved to another section,
+# another address-significance entry moved or the listed function's entry
+# went, or combines it with --expect-kept; or when SYMBOL-ORDER is reported
+# where the symbol multisets differ. The tests write small objects, logs and
+# a fake compiler and run on every host. Blind spot: the objects
 # are hand-made, not compiler output. A test method added to the .py but not
 # to this list never runs.
 set(tools_object_proof_cases identical timestamp rename refused_renames unmatched_rename
     structural_differences difference unreadable warnings proof_compile counts section_equal
     alignment addrsig_encoding base_holds_both summary symbol_shift expect_kept kept_holes
     expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol
-    refusal_alone base_holds_new merge_attacks)
+    refusal_alone base_holds_new merge_attacks function_order symbol_order_only_when_equal)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

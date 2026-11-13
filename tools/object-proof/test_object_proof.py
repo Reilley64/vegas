@@ -159,6 +159,38 @@ def merge_unit(targets, undefined, new_defined=True, addrsig=None, types=None, c
     return obj(sections, symbols)
 
 
+def order_unit(specs, undefined=(), addrsig=None, labels=()):
+    """An object of the sections in SPECS, in that order: (name, leader, data,
+    comdat, targets), with leader the external symbol at its offset 0 (or
+    None), comdat None, "any" or the leader of its associative parent, and
+    one call per target at 0x1, 0x6 and on. undefined lists the undefined
+    symbols; labels adds static symbols (name, value, leader of the section)."""
+    sections, symbols, parents = [], [], []
+    for number, (name, leader, data, comdat, targets) in enumerate(specs, 1):
+        characteristics = (CODE if name.startswith(".text") else RDATA) | (COMDAT if comdat else 0)
+        sections.append([name, data, characteristics, []])
+        symbols.append([name, 0, number, 0, 3, 0 if not comdat else 2 if comdat == "any" else 5])
+        if comdat not in (None, "any"):
+            parents.append((len(symbols) - 1, [spec[1] for spec in specs].index(comdat) + 1))
+        if leader:
+            symbols.append([leader, 0, number, 0x20, 2, None])
+    leaders = [spec[1] for spec in specs]
+    symbols += [[name, value, leaders.index(leader) + 1, 0, 3, None] for name, value, leader in labels]
+    symbols += [[name, 0, 0, 0x20, 2, None] for name in undefined]
+    positions = [symbol[0] for symbol in symbols]
+    for section, spec in zip(sections, specs):
+        section[3] = [(1 + 5 * i, positions.index(target), 4) for i, target in enumerate(spec[4])]
+    if addrsig is not None:
+        with_addrsig(sections, symbols, *addrsig)
+    data = bytearray(obj(sections, symbols))
+    # obj() writes no associative section number: set it in each such aux record.
+    table = struct.unpack_from("<I", data, 8)[0]
+    for position, number in parents:
+        index = sum(1 if symbol[5] is None else 2 for symbol in symbols[:position])
+        struct.pack_into("<H", data, table + 18 * (index + 1) + 12, number)
+    return bytes(data)
+
+
 FAKE_COMPILER = """import json, shutil, sys
 template, source = sys.argv[1], sys.argv[-1]
 print(json.dumps(sys.argv[1:]))
@@ -1044,6 +1076,116 @@ class ObjectProofTest(unittest.TestCase):
         # A reference merge whose head's NEW is another kind of symbol.
         check(merge_unit([OLD, NEW], [OLD, NEW], new_defined=False),
               merge_unit([NEW, NEW], [], new_defined=False, extra=[(NEW, 0, 0, 0, 2)]))
+
+    def test_function_order(self):
+        # With --function-order, the listed functions' COMDAT sections and
+        # their associative children may change place; nothing else may.
+        owner, caller, other, x = "?owner@@YAXXZ", "?caller@@YAXXZ", "?other@@YAXXZ", "?x@@YAXXZ"
+        listed = self.write("order.txt", ("# moved\n%s\n" % owner).encode())
+        text = (".text$mn", None, b"", None, [])
+        call = (".text$mn", caller, b"\xe8\0\0\0\0\xc3", "any", [owner])
+        rest = (".text$mn", other, b"\xc3", "any", [x])
+        body = (".text$mn", owner, b"\xc3", "any", [])
+        pdata = (".pdata", None, b"\0" * 4, owner, [])
+        base = order_unit([text, call, rest, body, pdata], [x])
+        head = order_unit([text, body, pdata, call, rest], [x])
+        code, out, _ = self.objcmp(base, head)
+        self.assertEqual(code, 1, out)
+        self.assertIn("SECTION-ORDER\tthe sections both objects hold are in a different order", out.splitlines())
+        code, out, _ = self.objcmp(base, head, "--function-order", listed)
+        self.assertEqual(code, 0, out)
+        self.assertEqual(out.splitlines(), [
+            "reordered: equal with the timestamp masked, but 2 section(s) of the listed function(s) changed place",
+            "MOVED\t%s\tplace 3 -> 1" % owner, "MOVED\t%s|.pdata\tplace 4 -> 2" % owner], out)
+        code, out, _ = self.objcmp(base, head, "--function-order", listed, "--json")
+        report = json.loads(out)
+        self.assertEqual((code, report["result"]), (0, "reordered"), out)
+        self.assertEqual(report["moved"], [dict(section=owner, a=3, b=1), dict(section=owner + "|.pdata", a=4, b=2)])
+        # A merge into the base's own definition whose body is now emitted first.
+        rename = "%s=%s" % (OLD, owner)
+        merge_base = order_unit([text, (".text$mn", caller, b"\xe8\0\0\0\0\xc3", "any", [OLD]), rest, body, pdata],
+                                [x, OLD], addrsig=(caller, OLD, owner))
+        merge_head = order_unit([text, body, pdata, call, rest], [x], addrsig=(owner, caller))
+        code, out, _ = self.objcmp(merge_base, merge_head, rename, "--base-holds-new", "--function-order", listed)
+        self.assertEqual(code, 0, out)
+        self.assertEqual(out.splitlines()[0], "merged and reordered: equal with the timestamp masked once the renames "
+                         "are applied, 1 OLD name(s) merged into the NEW that the base holds: 1 into its own "
+                         "definition, 0 into its existing reference; 2 section(s) of the listed function(s) changed "
+                         "place", out)
+        code, out, _ = self.objcmp(merge_base, merge_head, rename, "--base-holds-new")
+        self.assertEqual(code, 1, out)
+
+        def differs(a, b, *expected):
+            code, out, _ = self.objcmp(a, b, "--function-order", listed)
+            self.assertEqual(code, 1, out)
+            self.assertTrue(out.startswith("differs: "), out)
+            for line in expected:
+                self.assertIn(line, out.splitlines(), out)
+            return out
+        # Nothing moved: the verdict stays "identical".
+        renamed = order_unit([text, call, (".text$mn", other, b"\xc3", "any", ["?y@@YAXXZ"]), body, pdata],
+                             ["?y@@YAXXZ"])
+        code, out, _ = self.objcmp(base, renamed, "--function-order", listed, "%s=?y@@YAXXZ" % x)
+        self.assertEqual((code, out.splitlines()[0]),
+                         (0, "identical: equal with the timestamp masked once the renames are applied"), out)
+        # A non-COMDAT section that the listed function leads, a non-COMDAT
+        # section, or a COMDAT section of an unlisted function changes place.
+        plain = (".text$mn", owner, b"\xc3", None, [])
+        differs(order_unit([text, call, rest, plain], [x]), order_unit([text, plain, call, rest], [x]),
+                "ORDER-FIXED\t%s\tchanged place; only the listed functions' sections may" % owner)
+        rdata = (".rdata", None, b"\1\2\3\4", None, [])
+        out = differs(order_unit([text, rdata, call, body], [x]), order_unit([text, call, rdata, body], [x]))
+        self.assertTrue(out.splitlines()[1].startswith("ORDER-FIXED\t"), out)
+        differs(base, order_unit([text, rest, call, body, pdata], [x]),
+                "ORDER-FIXED\t%s\tchanged place; only the listed functions' sections may" % other)
+        # Initializer order: two .CRT$XCU entries swapped, and one that is the
+        # listed function's associative child moved with it.
+        crt1, crt2 = (".CRT$XCU", None, b"\0" * 8, None, [caller]), (".CRT$XCU", None, b"\0" * 8, None, [other])
+        differs(order_unit([text, call, rest, crt1, crt2], [x, owner]),
+                order_unit([text, call, rest, crt2, crt1], [x, owner]), "\t+reloc\t0x1\ttype 4\t%s" % other)
+        crt = (".CRT$XCU", None, b"\0" * 8, owner, [])
+        differs(order_unit([text, call, rest, body, crt], [x]), order_unit([text, body, crt, call, rest], [x]),
+                "ORDER-FIXED\t%s|.CRT$XCU\tchanged place; only the listed functions' sections may" % owner)
+        # The listed functions' sections may change order among themselves too.
+        code, out, _ = self.objcmp(base, order_unit([text, pdata, body, call, rest], [x]), "--function-order", listed)
+        self.assertEqual((code, out.splitlines()[0].split(":")[0]), (0, "reordered"), out)
+        # An extra section; a byte changed in a moved section.
+        differs(base, order_unit([text, body, pdata, call, rest, rdata], [x]),
+                "SECTION-ONLY-B\t#.rdata/1\t.rdata\t4 bytes")
+        differs(base, order_unit([text, (".text$mn", owner, b"\xcc", "any", []), pdata, call, rest], [x]))
+        # Symbols equal as a multiset but a relocation retargeted; a label in another section.
+        out = differs(order_unit([text, call, rest, body, pdata], [x, "?y@@YAXXZ"]),
+                      order_unit([text, body, pdata, (".text$mn", caller, b"\xe8\0\0\0\0\xc3", "any", ["?y@@YAXXZ"]),
+                                  rest], [x, "?y@@YAXXZ"]), "\t+reloc\t0x1\ttype 4\t?y@@YAXXZ")
+        out = differs(order_unit([text, call, rest, body, pdata], [x], labels=[("lab", 1, caller)]),
+                      order_unit([text, body, pdata, call, rest], [x], labels=[("lab", 1, owner)]))
+        self.assertNotIn("SYMBOL-ORDER", out)
+        # The listed function's address-significance entry may move; another entry may not.
+        a = order_unit([text, call, rest, body, pdata], [x], addrsig=(caller, other, owner))
+        code, out, _ = self.objcmp(a, order_unit([text, body, pdata, call, rest], [x], addrsig=(owner, caller, other)),
+                                   "--function-order", listed)
+        self.assertEqual(code, 0, out)
+        differs(a, order_unit([text, body, pdata, call, rest], [x], addrsig=(other, caller, owner)))
+        differs(a, order_unit([text, body, pdata, call, rest], [x], addrsig=(caller, other)))
+        # The option does not combine with --expect-kept.
+        kept = self.write("kept.txt", ("%s %s\n" % (caller, OLD)).encode())
+        code, out, err = self.objcmp(base, head, "--function-order", listed, "--expect-kept", kept, rename)
+        self.assertEqual(code, 2, out + err)
+
+    def test_symbol_order_only_when_equal(self):
+        # SYMBOL-ORDER is reported only when the symbol multisets are equal.
+        sections, symbols = calls()
+        a = obj(sections, symbols)
+        symbols[3], symbols[4] = symbols[4], symbols[3]
+        sections[0][3] = [(1, 4, 4), (6, 3, 4)]
+        code, out, _ = self.objcmp(a, obj(sections, symbols))
+        self.assertEqual(code, 1, out)
+        self.assertIn("SYMBOL-ORDER\tthe same symbols in a different order", out.splitlines(), out)
+        symbols[5][0] = "local2"
+        code, out, _ = self.objcmp(a, obj(sections, symbols))
+        self.assertEqual(code, 1, out)
+        self.assertNotIn("SYMBOL-ORDER", out)
+        self.assertIn("SYMBOL-ONLY-B\tlocal2\t4\t#.rdata/1\t0\t3", out.splitlines(), out)
 
     def test_unreadable(self):
         good = self.write("good.obj", coff())

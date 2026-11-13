@@ -1466,3 +1466,21 @@ if(vegas_object_checks)
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
+
+# The startup and blocker map (tools/startup-map).
+# docs.startup_map.generator runs the generator's own tests. It reads the
+# source folder only, on every host. Without Python 3 the configure goes on,
+# and the test is still registered and fails with that reason.
+if(Python3_Interpreter_FOUND)
+  add_test(NAME docs.startup_map.generator
+    COMMAND ${Python3_EXECUTABLE} -B ${PROJECT_SOURCE_DIR}/tools/startup-map/test_startup_map.py)
+else()
+  string(CONCAT docs_startup_map_missing
+    "Python 3 was not found when configuring, so the startup map tests cannot "
+    "run (tools/startup-map). Install Python 3 and configure again.")
+  message(WARNING "${docs_startup_map_missing}")
+  foreach(name docs.startup_map.generator)
+    add_test(NAME ${name} COMMAND ${CMAKE_COMMAND} -E echo "${docs_startup_map_missing}")
+    set_tests_properties(${name} PROPERTIES FAIL_REGULAR_EXPRESSION "Python 3 was not found")
+  endforeach()
+endif()

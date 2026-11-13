@@ -7,7 +7,7 @@ the step after the structural reader of `data-pack-structure.md`: it
 decides whether a well-formed pack records a supported original release.
 `fileformat::ValidatePack`, in the same header, is the complete validator
 of ADR 0001: it runs that check, then checks the pack against catalogue
-version 1 of `src/fileformat/pack_catalogue.h` and decodes its entry.
+version 2 of `src/fileformat/pack_catalogue.h` and decodes its entries.
 `fileformat::OpenPack` in `src/fileformat/pack_open.h` reads the file of a
 pack and checks its original; `fileformat::OpenAndValidatePack` beside it
 is the step a later startup calls: it reads the file and validates it.
@@ -90,40 +90,45 @@ then these checks, in this order:
 | Each entry of the pack, in turn, has a key of the catalogue | `PackCatalogueError` | `UnknownKey` |
 | ... with the catalogue's version for that key | `PackCatalogueError` | `EntryVersion` |
 | ... and the catalogue's size for that key | `PackCatalogueError` | `EntrySize` |
-| Each field of C1, in turn, holds a zero byte | `PackCatalogueError` | `FieldTerminator` |
+| Each field, in turn, holds a zero byte: C1's four, then the class name | `PackCatalogueError` | `FieldTerminator` |
 
 The catalogue version is checked by the structural reader, which accepts
-1, the catalogue's `packCatalogueVersion`, so a pack of another catalogue
-version fails with `PackStructureError` and `CatalogueVersion`. `PackCatalogueError` is a
+only the catalogue's `packCatalogueVersion`, now 2, so a pack of another
+catalogue version, a pack of version 1 among them, fails with
+`PackStructureError` and `CatalogueVersion`. `PackCatalogueError` is a
 `FormatError`. Its message names the entry and, for a field, the field;
 an unknown key is not printed, since it may hold any byte.
 
 A missing entry is checked before the keys of the pack, not after them as
 the boundary table of `data-pack-catalogue.md` lists. The container
 requires at least one entry and unique keys, so when every key of a pack
-is in a catalogue of one entry, the pack holds that entry: in the other
-order no pack could fail with `MissingEntry`.
+was in catalogue version 1, which had one entry, the pack held that entry:
+in the other order no pack could have failed with `MissingEntry`. Version 2
+keeps the order, the catalogue's entries in key order.
 
-Catalogue version 1 is the one entry C1 of `data-pack-catalogue.md`:
-the key `INST`, version 1, 140 bytes, four fields of 20, 60, 8 and 52
-bytes, end to end, each holding a string of the single-instance and
-remote-session checks. The field capacities are those of
-`SingleInstanceStrings`, so the size is fixed by that declaration. The
-decoder reads each field with `ByteReader`, copies it through its first
-zero byte and fills the rest of the decoded field with zeros. A byte after
-the zero byte is not copied and does not refuse the pack.
+Catalogue version 2 has two entries, C1 and the main window class of
+`data-pack-catalogue.md`. C1 has the key `INST`, version 1, 140 bytes, four
+fields of 20, 60, 8 and 52 bytes, end to end, each holding a string of the
+single-instance and remote-session checks. The main window class has the
+key `WNDC`, version 1, 256 bytes, one field holding the class name. The
+field capacities are those of `SingleInstanceStrings` and
+`MainWindowClass`, so each size is fixed by its declaration. The decoder
+reads each field with `ByteReader`, copies it through its first zero byte
+and fills the rest of the decoded field with zeros. A byte after the zero
+byte is not copied and does not refuse the pack.
 
 `ValidatedPack` keeps the decoded values only, not the file, its
 directory or any entry's bytes. It offers `Original()`, the supported
-identity the pack matched, and `SingleInstance()`, C1's four strings; both
-are refused on a temporary. It can be moved, not copied; no constructor,
-conversion or flag makes one from bytes, a `PackStructure`, an
-`OriginalCheckedPack` or decoded values, and a moved-from pack keeps its
-values. The original is compared, not proved: nothing reads an
-executable or computes a digest.
+identity the pack matched, `SingleInstance()`, C1's four strings, and
+`WindowClass()`, the class name; each is refused on a temporary. It can be
+moved, not copied; no constructor, conversion or flag makes one from bytes,
+a `PackStructure`, an `OriginalCheckedPack` or decoded values, and a
+moved-from pack keeps its values. The original is compared, not proved:
+nothing reads an executable or computes a digest.
 
-C1 holds no reference to other data, so there is no reference for the
-validator to resolve.
+Neither entry holds a reference to other data, so there is no reference
+for the validator to resolve. The original reaches the class name through
+a pointer; the pack holds the string, never the pointer (D10).
 
 ## Rulings on the next stages
 
@@ -134,7 +139,8 @@ These were ruled for this stage:
   the SHA-256 of the supported release's complete `FalloutNV.exe`, adopted
   by the owner under the reviewed procedure; and the complete catalogue,
   its keys, entry versions, required entries and decoding. The set exists
-  now, adopted on VEGAS-52 on 2026-11-12, and so does catalogue version 1.
+  now, adopted on VEGAS-52 on 2026-11-12, and so does the catalogue, now
+  version 2.
   The pack stage joins `main` with C1's consumer, the next increment of
   `data-pack-catalogue.md`, through `OpenAndValidatePack`. It has now
   joined, with that consumer (`data-pack-startup.md`).
@@ -215,37 +221,42 @@ version, a made-up digest or that digest with its last byte changed.
 Where permissions do not stop the test reading a file, as on Windows, the
 read permission case prints that it was not run. With
 `OpenAndValidatePack` it validates the file of a complete pack and reads
-back its four strings, and refuses a missing file, a folder, a pack of
-catalogue version 2, a made-up digest and a pack without the catalogue's
-entry, each with its own error.
+back its four strings and its class name, and refuses a missing file, a
+folder, a pack of the next catalogue version, a made-up digest and a pack
+without the catalogue's entries, each with its own error.
 
-`tests/fileformat/pack_catalogue_test.cpp` spells catalogue version 1
-itself, the key, version, size and four field capacities, and states at
-compile time that the source's catalogue is the same. Its packs are
-written by `WritePackStructure` and record the identity of
+`tests/fileformat/pack_catalogue_test.cpp` spells catalogue version 2
+itself, the two keys, versions and sizes and the five field capacities,
+and states at compile time that the source's catalogue is the same. Its
+packs are written by `WritePackStructure` and record the identity of
 `supported_release.h`. `ValidatePack` accepts complete packs of made-up
-strings, of the longest string each field holds, of empty strings and,
-in two packs, of every byte value but zero, and returns those strings with zeros after
-them; bytes after a field's zero byte are not returned. It refuses a pack
-without `INST`, under five other keys and with two; an unknown key before,
-after and just above `INST`, the lowest key, and a key that is not ASCII,
-which the test stores after writing; entry versions 0, 2, 0x80000001 and
-0xFFFFFFFF; sizes 1, 139, 141 and 280; each field with no zero byte, also
-when the fields after it are all zeros; catalogue versions 0, 2 and
-0xFFFFFFFF, storing a matching CRC-32 again; each changed version part and
-the first and last changed digest byte. Each is refused with its own
-problem, and for a field the message names the field. It checks the order:
-the container before the original, the original before the catalogue, a
+strings, of the longest string each field holds, of empty strings and, in
+two packs, of every byte value but zero, and returns those strings with
+zeros after them; bytes after a field's zero byte are not returned. It
+refuses a pack without `INST`, under five other keys, with two and with
+`WNDC` alone; a pack without `WNDC`, with `INST` alone and beside four other
+keys; an unknown key before, between, after and just above each entry, the
+lowest key, and a key that is not ASCII, which the test stores after
+writing; entry versions 0, 2, 0x80000001 and 0xFFFFFFFF of each entry;
+sizes 1, 139, 141 and 280 of C1 and 1, 255, 257 and 512 of the class name;
+each field with no zero byte, C1's also when the fields after it are all
+zeros; catalogue versions 0, 1, 3 and 0xFFFFFFFF, storing a matching CRC-32
+again, and a pack of catalogue version 1 as setup prepared it, C1 alone;
+each changed version part and the first and last changed digest byte. Each
+is refused with its own problem, and for an entry or a field the message
+names it. It checks the order: the container before the original, the
+original before the catalogue, a missing `INST` before a missing `WNDC`, a
 missing entry before an unknown key, each entry of the pack in turn, the
 version before the size, the size before the fields and the fields in
-order. It reads the values of a pack moved by construction and by
-assignment, and of the pack moved from. It states at compile time that a
-`ValidatedPack` cannot be default constructed, copied or built from bytes,
-a `PackStructure`, an `OriginalCheckedPack` or decoded values; that
-`ValidatePack` takes bytes and no `PackStructure`, `OriginalCheckedPack`,
-set or list of entries or keys; that a `ValidatedPack` offers no
-`Entries()`, `EntryBytes()` or `bytes`; and that a temporary offers
-neither `Original()` nor `SingleInstance()`.
+order, C1's before the class name. It reads the values of a pack moved by
+construction and by assignment, and of the pack moved from. It states at
+compile time that a `ValidatedPack` cannot be default constructed, copied or
+built from bytes, a `PackStructure`, an `OriginalCheckedPack` or decoded
+values; that `ValidatePack` takes bytes and no `PackStructure`,
+`OriginalCheckedPack`, set or list of entries or keys; that a
+`ValidatedPack` offers no `Entries()`, `EntryBytes()` or `bytes`; and that a
+temporary offers none of `Original()`, `SingleInstance()` and
+`WindowClass()`.
 
 On Windows the tests link the game archive. On other hosts the archive does
 not build, so the tests compile the units themselves and link zlib; this

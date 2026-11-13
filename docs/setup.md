@@ -5,9 +5,10 @@
 Setup prepares the data pack, `vegas-data.pack`, from a player's own copy of
 the original release and installs it in the install folder, beside
 `FalloutNV.exe`. The engine reads it there at startup
-(`data-pack-startup.md`). This page describes setup for catalogue version 1,
-which has one entry, C1, the single-instance strings
-(`data-pack-catalogue.md`). Setup does not replace `FalloutNV.exe` yet.
+(`data-pack-startup.md`). This page describes setup for catalogue version 2,
+which has two entries: C1, the single-instance strings, and the main window
+class (`data-pack-catalogue.md`). Setup does not replace `FalloutNV.exe`
+yet.
 
 Setup follows the pack decision record, ADR 0001, and the rulings D-1 to D-5
 of VEGAS-52 and VEGAS-13 of 2026-11-12.
@@ -24,9 +25,10 @@ reviewed tool version `0ecb31723`. For C1 only, that run shows the input
 checks of VEGAS-13's first criterion, the reproducible local preparation
 that its fourth asks for, and the private actual-input check that its
 seventh asks to document. The rest of the fourth, fifth and seventh
-criteria covers the whole catalogue and is still open. "Private run on an
-actual input" states what it showed, and "Not verified" states what it did
-not cover.
+criteria covers the whole catalogue and is still open. That run used
+catalogue version 1, before setup read the main window class. "Private run
+on an actual input" states what it showed, and "Not verified" states what
+it did not cover.
 
 ## Before setup reads a real copy
 
@@ -61,12 +63,14 @@ the date you made the pack, privately, beside the pack. The line is the
 builder's own statement about a binary they built, and it does not count
 ignored files. A downloaded binary's line is only as good as its source.
 
-**Maintenance.** The ranges in `src/setup/single_instance_ranges.h` and the
-recipe check, `tools/setup-recipe-ranges`, belong to setup and change with
-it. Their authority is the recipe, `build/units.json`. A change that moves
-or renames a `str_` name of `src/fallout/misc/main.cpp`, or binds a new
-address inside one of the four fields, makes `setup.recipe_ranges` fail.
-That change also updates the header and this page.
+**Maintenance.** The ranges in `src/setup/single_instance_ranges.h` and
+`src/setup/main_window_class_range.h` and the recipe check,
+`tools/setup-recipe-ranges`, belong to setup and change with it. Their
+authority is the recipe, `build/units.json`. A change that moves or renames
+a `str_` name of `src/fallout/misc/main.cpp`, binds a new address inside
+one of the four fields, or moves or renames the pointer to the class name,
+makes `setup.recipe_ranges` fail. That change also updates the header and
+this page.
 
 ## Using setup
 
@@ -123,7 +127,7 @@ second line says how setup ended. Its exit status says the same:
 | 3 | Setup cannot open or read `FalloutNV.exe`. |
 | 4 | `FalloutNV.exe` is not a 32-bit x86 executable with a readable version resource. A 64-bit executable, such as the one this project builds, gets this status. |
 | 5 | `FalloutNV.exe` is not a supported original release. Its file version or its SHA-256 differs. |
-| 6 | Setup cannot read a string of C1 as it is stored (see "Checks"). |
+| 6 | Setup cannot read a string of the catalogue as it is stored (see "Checks"). |
 | 7 | The validator refuses the pack that setup wrote. This is a defect in setup. |
 | 8 | Setup cannot write the staged file. |
 | 9 | Setup reads the staged file back, and the validator refuses it, or it does not hold the prepared values. |
@@ -159,7 +163,7 @@ value on Windows is not verified.
       the `mbedtls_sha256` target;
    3. identifies the original with `fileformat::IdentifyOriginal`, against
       the source's supported set;
-   4. reads C1's four strings (see "Checks");
+   4. reads C1's four strings and the class name (see "Checks");
    5. writes the pack with `fileformat::WritePackStructure`, using the
       identified original's version and SHA-256;
    6. checks the written bytes with `fileformat::ValidatePack`, the
@@ -177,8 +181,10 @@ value on Windows is not verified.
    every start.
 
 Setup decrypts nothing. It neither decrypts nor bypasses SteamStub, and it
-refuses a string in `.bind`. It reads C1's strings only from the stored
-bytes of data sections.
+refuses a string or a pointer in `.bind`. It reads the strings and the
+pointer only from the stored bytes of data sections. It reads the base
+relocation table where the header's data directory places it, in the stored
+bytes of one section.
 
 ## Checks
 
@@ -226,6 +232,43 @@ the other three addresses, so nothing more is known of them.
 Setup copies each string through its first zero byte and fills the rest of
 its field with zeros. It never copies a byte past that zero byte.
 
+### The class name
+
+The original does not store the class name at an address the recipe
+binds. It stores a 32-bit pointer to it at `0x011a2fe8`, and the recipe
+binds that address under the name `?_DAT_011a2fe8@@3PADA` in three units,
+`src/fallout/misc/main.cpp` among them. `src/setup/main_window_class_range.h`
+holds that address and name, and the field's capacity, 256 bytes. The
+capacity is the length limit that Windows documents for a window class
+name, not a recipe bound.
+
+The pack holds the string, never the pointer. Setup reads the class name
+after C1's four fields. It checks the pointer and then the string, and
+refuses with the first `setup::ExtractError` below that applies:
+
+| Problem | When |
+| --- | --- |
+| `NoSection`, `SteamStubSection`, `CodeSection`, `NotInitializedData`, `ZeroTail` | the four bytes of the pointer fail the section checks of C1's fields |
+| `RelocationTable` | the base relocation table is not in the stored bytes of one section, or a block's size is less than 8, odd or past the table's end |
+| `NoRelocation` | no 32-bit (`HIGHLOW`) base relocation is at the pointer's address, or the header has five data directories or fewer and so no table |
+| `NoSection`, `SteamStubSection`, `CodeSection`, `NotInitializedData` | the address the pointer holds, less the image base, fails the section checks |
+| `WritableSection` | the string's section is marked as writable, so it is not read-only data |
+| `ZeroTail` | the string reaches the end of its section's stored bytes before a zero byte |
+| `NoTerminator` | no zero byte within 256 bytes |
+
+The message names "class name pointer" or "class name string", so the
+same problem of the pointer and of the string gives two different
+messages. Setup reads the whole relocation table and refuses a malformed
+block wherever it is. It copies the class name through its first zero byte
+and fills the rest of the field with zeros, as for C1.
+
+`setup.recipe_ranges` checks the pointer's row. Its name must be a char
+pointer named for its address. The recipe entries of `main.cpp`, merged,
+must bind it, and no unit may bind it at another address. The distance to
+the next address that the recipe binds must be at least 4 bytes. The recipe
+binds no address of the string, so setup has no recipe-target check and no
+known-string check for its text, and the capacity is not a recipe fact.
+
 ## Build
 
 `vegas_setup` is a static library of the setup units and of the PE reader and
@@ -270,10 +313,19 @@ which the recipe literal fixes.
 
 - `setup.prepare_pack` covers the round trip, each refusal of "Checks" in
   order, copying through the zero byte, an unsupported executable and a
-  64-bit one. A synthetic executable is never a supported original release.
-  So the test runs the same code as steps 1 to 5 of `PrepareDataPack`, but
-  with `IdentifyOriginalAgainst` and a set that holds the synthetic
-  executable's own identity. It checks the written bytes with
+  64-bit one. For the class name it covers a pointer with no relocation
+  table, with five data directories or fewer, with a relocation of another
+  address, page or type, a byte before or after it or overlapping it, and in
+  a third block; a malformed table, among them a block 2 bytes past the
+  table and a table in its section's zero tail; the pointer in `.bind`,
+  code, uninitialized data, the zero tail and no section; the string below
+  the image base, in no section, in code, in writable data, in `.bind`, in a
+  section without data, in the zero tail and running into it; a class name
+  without a zero byte, with 256 bytes before its zero byte, with its zero
+  byte last and empty. A synthetic executable is never a supported original
+  release. So the test runs the same code as steps 1 to 5 of
+  `PrepareDataPack`, but with `IdentifyOriginalAgainst` and a set that holds
+  the synthetic executable's own identity. It checks the written bytes with
   `CheckPackOriginalAgainst`. Then it writes the same entry with the
   supported release's identity, which is compared, not proved, and requires
   `ValidatePack` to accept it with the same strings. That form exists only
@@ -283,7 +335,12 @@ which the recipe literal fixes.
   a staged file that does not validate or holds other values, a staged name
   or pack name that a folder already uses, and statuses 1 to 5 of
   `RunSetup`, with the folder unchanged.
-- `setup.recipe_ranges` runs the recipe check above.
+- `setup.recipe_ranges` runs the recipe check above, with its check of the
+  class name's pointer.
+- `setup.recipe_ranges.pointer_bound` runs it on a copy of the recipe, in the
+  build folder, in which one more unit binds an address 2 bytes after the
+  pointer. It requires status 1 and one problem, from check g. A configure
+  without Python 3 does not register it.
 - `setup.build_commit_line` runs `vegas-setup` with no argument. It requires
   status 1, the commit line and then the usage line, and shows the commit
   line. It checks the line's format, not a particular commit. A cross build
@@ -337,6 +394,10 @@ and not full-game acceptance.
   showed none. Nobody has yet seen C1's strings in the message boxes of
   `main` (`data-pack-startup.md`). This page records no run of setup or of
   this project's `FalloutNV.exe` in a desktop session.
+- No real input has been read for catalogue version 2. Whether the pointer
+  at `0x011a2fe8` has a base relocation and points into read-only data, and
+  whether its string ends within 256 bytes, is checked only on synthetic
+  executables here.
 - No real input has triggered the refusal statuses 6 to 11 of `RunSetup`.
   The private run of setup ended only with status 0.
 - No test reaches statuses 0 and 6 to 11 of `RunSetup`, because they need a

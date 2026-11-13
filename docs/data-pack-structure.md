@@ -30,7 +30,7 @@ check has its own `PackStructureProblem`, and a failure throws a
 | The bytes hold the 88-byte header | `HeaderTruncated` |
 | The first 8 bytes are `VEGASPK` and a zero byte | `Magic` |
 | The envelope version is 1 | `EnvelopeVersion` |
-| The catalogue version is 1 | `CatalogueVersion` |
+| The catalogue version is the source catalogue's, `packCatalogueVersion` | `CatalogueVersion` |
 | The native data contract is 1 | `NativeDataContract` |
 | The build target is 1, windows-x64 | `BuildTarget` |
 | `file_bytes` is the number of bytes given | `FileBytes` |
@@ -88,17 +88,20 @@ engine the same reader. Setup calls it with the entry it prepared from an
 original release (`setup.md`). Tests call it too, among them the fixture
 that writes the pack for the `falloutnv.process_exit` test.
 
-The four revision and target fields are written as 1. The directory
-follows the header and the payloads follow the directory, end to end in
-directory order. The file size and then the CRC-32 are stored last.
+The envelope version, the native data contract and the build target are
+written as 1, and the catalogue version as `packCatalogueVersion`. The
+directory follows the header and the payloads follow the directory, end to
+end in directory order. The file size and then the CRC-32 are stored last.
 
 The reader and the writer take the magic, the header and record sizes, the
 CRC-32 field offset, the revision value and the CRC-32 routine from one
 internal header and unit, `src/fileformat/pack_container.h`. Nothing else
-includes it. Both state at compile time that the revision value is the
-catalogue version of `src/fileformat/pack_catalogue.h`,
-`packCatalogueVersion`, so raising that version does not build until the
-reader and the writer change with it.
+includes it. The revision value, 1, is that of the envelope version, the
+native data contract and the build target. The catalogue version is not
+the revision value: the writer writes `packCatalogueVersion` of
+`src/fileformat/pack_catalogue.h`, and the reader accepts only that value
+and names it when it refuses another. Under ADR 0001 as amended on
+2026-11-13, any change to the required entries raises it by one.
 
 The writer refuses entries whose pack the reader would refuse, and keys
 that the decision record does not allow; the reader's other rules hold by
@@ -154,7 +157,9 @@ size bound: its first payload size wraps the end to 0, where a second payload
 spans the whole file. One passes every check but the comparison of a key with
 the one before it: its third key lies between the first and the second. The
 test also expects a rejection for every prefix of a valid pack and for every
-single changed bit.
+single changed bit. Its packs carry the source's catalogue version, and it
+refuses 0, the versions next to the source's and versions that differ from
+it in a higher byte only.
 
 On Windows the test links the game archive. On other hosts the archive does
 not build, so the test compiles `pack_structure.cpp` and `pack_container.cpp`
@@ -165,11 +170,12 @@ UndefinedBehaviorSanitizer.
 entries, keys of the lowest and highest ASCII bytes and a 16 MiB payload,
 reads each back with `ParsePackStructure` and expects what was written. It
 checks every stored CRC-32 with its own bit-by-bit CRC-32. It spells out a
-minimal pack of 113 bytes byte by byte: the reader must accept it and the
-writer must reproduce it exactly, so a mistake shared by the two through
-`pack_container.h` still fails. It expects each refusal with its problem
-and the problem reported first when entries have several. It does not
-include `pack_container.h` and is built the same way as the reader's test.
+minimal pack of 113 bytes byte by byte, catalogue version 2 included: the
+reader must accept it and the writer must reproduce it exactly, so a
+mistake shared by the two through `pack_container.h` still fails. It expects
+each refusal with its problem and the problem reported first when entries
+have several. It does not include `pack_container.h` and is built the same
+way as the reader's test.
 
 The zlib chunk loop runs once in every test, because a second pass needs a
 file larger than 4 GB. `TooManyEntries` is not reached by a test, because

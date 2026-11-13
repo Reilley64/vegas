@@ -25,6 +25,11 @@ registered: it then fails, and its output says that Python 3 was not found.
 The cross build for Windows still needs Python 3 for other tests, and its
 configure fails without it.
 
+`setup.recipe_ranges.pointer_bound` runs the command on a copy of the recipe,
+in the build folder, in which one more unit binds an address 2 bytes after the
+class name's pointer, and requires that check **g** alone refuses it. It is
+registered only when Python 3 is found.
+
 ## What is checked
 
 - **a.** `singleInstanceRanges` has exactly four rows, each on one line in the

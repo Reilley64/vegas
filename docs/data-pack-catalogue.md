@@ -6,12 +6,13 @@ This page is a design, not a description of code. Its three next increments
 are implemented: catalogue version 1 and `ValidatePack`,
 which `data-pack-validation.md` describes, the pack stage in `main`
 with C1's consumer, which `data-pack-startup.md` describes, and setup,
-which `setup.md` describes. It answers what the
+which `setup.md` describes. Catalogue version 2, under "Catalogue version
+2", is implemented as well. It answers what the
 catalogue that ADR 0001 requires must hold before the engine may start
 with a data pack, and how setup fills each entry from the original
 release. It records no value of the original release. The
-decisions it needed were taken on VEGAS-52 on 2026-11-12; they are under
-"Decisions".
+decisions it needed were taken on VEGAS-52 on 2026-11-12 and 2026-11-13;
+they are under "Decisions".
 
 The measurements are of commit `3b9a04c29`, built for windows-x64 with the
 preset, linked as the `FalloutNV` executable is. The page was later moved onto
@@ -107,7 +108,9 @@ It records its native owner as not ready, and it is not a startup stage.
 
 The catalogue in the source gives each entry its source ranges as original
 addresses, its shape and its decoder. The recipe is the authority for the
-addresses: each range starts at an address the recipe binds. Setup:
+addresses: each range starts at an address the recipe binds, or, for a
+string the original reaches through a stored pointer (ruling B of
+2026-11-13), the pointer is stored at an address the recipe binds. Setup:
 
 1. Reads the executable with `ParsePeFile` and identifies it with
    `IdentifyOriginal` against the source's supported set, the one identity
@@ -151,9 +154,10 @@ seven of them as a string.
 
 `OpenPack`, `PackOpenError` and the comparison with a supported set belong
 to the open-and-check stage of VEGAS-52 (`data-pack-validation.md`).
-A missing entry is checked first: with one required entry, a pack whose
-keys are all in the catalogue holds it, so after the key check no pack
-could miss it. `ValidatePack` takes only the bytes. It takes no supported
+A missing entry is checked first: with the one required entry of version
+1, a pack whose keys were all in the catalogue held it, so after the key
+check no pack could have missed it. Version 2 keeps that order.
+`ValidatePack` takes only the bytes. It takes no supported
 set and no list of required keys; both are the source's. It is the only maker of a
 `ValidatedPack`, which offers decoded values and no raw bytes. Every stage
 above it yields a type that cannot become one. Publication and the
@@ -235,15 +239,49 @@ Further decisions of the coordinator, recorded on VEGAS-52 on 2026-11-12:
   zero byte and fills the rest of the field with zeros; it never copies a
   byte past a terminator. Validation requires the exact entry size and a
   terminator inside each field.
-- **D9, raising the catalogue version.** Catalogue version 2 needs an owner
-  amendment of ADR 0001's header rule before the first raise.
+- **D9, raising the catalogue version.** ADR 0001 was amended on
+  2026-11-13: a pack's catalogue version must equal the source's
+  `fileformat::packCatalogueVersion`, and any change to the required
+  entries raises it by one. The engine refuses every other version. A
+  version's catalogue lists every entry the engine reads at that version.
 - **D10, pointers.** Raw pointers are never pack values.
 
-The structural reader accepts catalogue version 1 only. That follows the
-structural decision of 2026-11-11 on VEGAS-52 and ADR 0001's header rule,
-which sets the catalogue version to exactly 1. The first change to the
-required entries raises the version to 2 under D5, so under D9 the owner
-amends that rule before it, and the structural reader changes with it.
+The structural reader accepts exactly `packCatalogueVersion` of
+`src/fileformat/pack_catalogue.h`, and the writer writes it. It is a
+constant of its own, apart from the value 1 that the envelope version,
+the native data contract and the build target keep.
+
+Rulings of the coordinator on catalogue version 2, recorded on VEGAS-52 on
+2026-11-13:
+
+- **Content.** Version 2 holds C1 unchanged and one more entry, the main
+  window class. Its consumer is the second-window check of `0x0086a850`,
+  composed in `main`: `FindWindowA` on the class name, and if a window is
+  found, `SetForegroundWindow` and return 0. Of the ten statements after
+  the single-instance and remote-session checks, it is the only one whose
+  trial link leaves no name undefined.
+- **A, order.** `main` composes the statements of `0x0086a850` in their
+  order among those it composes. A statement whose closure cannot link yet
+  may be skipped. `data-pack-startup.md` lists every skipped statement with
+  its prerequisite and names the side effects that the original performs
+  before a later early return.
+- **B, a string reached through a pointer.** Allowed, and D10 holds: the
+  pack carries the string, never the pointer. Setup reads the pointer at
+  the recipe-bound address `0x011a2fe8`, requires a base relocation entry
+  for it, follows it to stored read-only initialized data and requires the
+  zero byte within the capacity. There is no recipe bound and no
+  known-string check for the text itself.
+- **C, capacity.** 256 bytes, the length limit Windows documents for a
+  window class name. The entry has exactly that size (D6), and the zero
+  byte must lie inside it.
+- **D.** The defect of the `DAT_01202fa0` buffer is VEGAS-109. It gates
+  the four log-path statements and a later entry for their suffix strings,
+  not version 2.
+- **E.** `FUN_0086a850` in `src/fallout/misc/main.cpp` reads the class name
+  from the owner, as it reads C1's strings. The two other units that read
+  the pointer, `filefinder.cpp` and `renderer.cpp`, keep the legacy data
+  until their consumers move (D1).
+- **F.** The key is `WNDC`, and the owner group is "main window class".
 
 The consequence: the pack stage enters `main` only together with C1's
 consumer, not before. Catalogue version 1 requires that one entry and the
@@ -288,6 +326,39 @@ values in their tests are synthetic.
    shape and an unsupported executable are refused; a C1 string is copied
    through its zero byte, never past it, and its field is filled with
    zeros.
+4. **Catalogue version 2 (VEGAS-52, VEGAS-13), implemented.** The
+   catalogue version as a constant of its own, the `WNDC` entry and its
+   owner, setup's string reached through a pointer, the composed
+   second-window check in `main`, and `FUN_0086a850` reading the class name
+   from the owner. "Catalogue version 2" below states the content;
+   `data-pack-startup.md`, `data-pack-validation.md` and `setup.md`
+   describe the code.
+
+## Catalogue version 2
+
+Version 2 is implemented. It holds two entries, in key order:
+
+| Key | Owner group | Version | Fields | Size |
+| --- | --- | --- | --- | --- |
+| `INST` | C1, the single-instance and remote-session strings | 1 | 20, 60, 8 and 52 bytes | 140 bytes |
+| `WNDC` | the main window class | 1 | the class name, 256 bytes | 256 bytes |
+
+`fileformat::MainWindowClass` declares the `WNDC` field, so its size fixes
+the entry's (D6). The field holds the class name, then a zero byte, then
+zeros to its end, as C1's fields do (D8). The class name is also the
+title `0x0086a850` gives the main window.
+
+The original stores no class name at a recipe-bound address. It stores a
+32-bit pointer to it at `0x011a2fe8`, which the recipe binds under one
+name in three units, `src/fallout/misc/main.cpp`, `filefinder.cpp` and
+`renderer.cpp`, with a recipe bound of 8 bytes. Setup reads the string
+through that pointer under ruling B (`setup.md`). The capacity is ruling
+C's, not a recipe bound.
+
+The consumer is the second-window check, which `main` composes after the
+single-instance and remote-session checks (`data-pack-startup.md`). It
+skips the eight statements between them under ruling A. A pack of
+catalogue version 1 is refused for its catalogue version.
 
 ## Not verified
 
@@ -303,3 +374,7 @@ values in their tests are synthetic.
   value computed at run time.
 - No Windows executable was run.
 - The page was not measured again on the tip it was moved onto.
+- For version 2, no original executable was read either. That the pointer
+  at `0x011a2fe8` is stored, covered by a base relocation and points into
+  read-only initialized data, and that its string ends within 256 bytes,
+  is not checked in this repository.

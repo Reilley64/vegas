@@ -174,9 +174,10 @@ tables. All but two pass the pointer to free as their one argument:
   pointer sign-extended from the 32-bit field `m_04` of its `Buffer`. That
   is VEGAS-104 and is not changed here (below).
 
-`actor.cpp`'s `TempArray` destructor and `FUN_00c7f060` call
+`actor.cpp`'s `TempArray` destructor and `FUN_00c7f060` called
 `DAT_010c4dc0` with a `TempArray` and a count under a name that no member
-defines, so they do not reach the body (below, VEGAS-103).
+defined, so they did not reach the body. They and four more callers of the
+same kind now pass one pointer (VEGAS-103, below).
 
 `DAT_010b7f08` is declared and defined as `HLOCAL (*)(HLOCAL)`, a function
 that returns a pointer, and its recipe key `?DAT_010b7f08@@3P6GPAXPAX@ZA`
@@ -233,12 +234,151 @@ The 2026-11-12 rulings settled it:
   object and the name it requires, `?DAT_010c4dc0@@3P6AXPEAUTempArray@@I@ZEA`,
   do not change. That name stays undefined, and the recipe keys of
   `actor.cpp` and of `clamped_acos.cpp`, whose source does not use the name,
-  keep the `TempArray` spelling. One storage thus has two declarations of
-  different type in two units until VEGAS-103 settles `TempArray`.
+  keep the `TempArray` spelling. One storage thus had two declarations of
+  different type in two units until VEGAS-103 repaired `TempArray` (below):
+  the unit includes the header again, and its recipe key has the shared
+  spelling. `clamped_acos.cpp`'s key keeps the `TempArray` spelling.
 
 What this establishes is which storage the two calls read and that the slot
 has one definition. Receivers, layouts and lifetimes of `FUN_00c7a630` and
 `FUN_00c7a690` stay open.
+
+## Array classes whose slot 2 frees one pointer (VEGAS-103)
+
+Three of the original's tables hold `0x00cb9cb0` in their third entry, the
+slot that frees an array's data. For the first two, generated data defines
+that entry as a variable of its own after a two-slot table. The recipe's
+rows and keys tie each table to classes in two units:
+
+| Table | Slot 0, slot 1 | Slot 2 | Rows of its functions | Classes in the source |
+| --- | --- | --- | --- | --- |
+| `DAT_010c4db8` | `0x00c7a690`, `0x00c7a5d0` | `DAT_010c4dc0` | `0x00c7a630`, `0x00c7a690` | `FUN_00c7a630_class`, `FUN_00c7a690_class` in `blk_00c60000_o2.cpp`; `TempArray` in `actor.cpp` |
+| `DAT_010c4ce4` | `0x00c7a6e0`, `0x00c75f40` | `DAT_010c4cec` | `0x00c7a660`, `0x00c7a6e0` | `S_00c7a660_Foo`, `FUN_00c7a6e0_class` in `blk_00c60000_o2.cpp`; `SkeletonBuild::BoneRecordArray` in `actor.cpp` |
+| `DAT_010c8d28` | `0x00cbaec0`, `0x00c75f40` | slot 2 (slot 3 `0x00cb9cc0`) | `0x00cbaec0`, `0x00cbadb0` | `FUN_00cbaec0_Obj`, `FUN_00cbadb0_Obj`, `ArrayCBAF90`, `AryType` in `blk_00ca0000_o2.cpp` |
+
+Slot 0 of each is the deleting destructor; the other row is the destructor.
+The recipe binds `??_7BoneRecordArray@SkeletonBuild@@6B@` to `0x010c4ce4`
+and the tables of `ArrayCBAF90`, `FUN_00cbadb0_Obj` and `AryType` to
+`0x010c8d28`. `TempArray` stores `DAT_010c4db8` by hand.
+
+### The layout the bodies use
+
+Every class is a table pointer, the data, a count and a capacity. On
+windows-x64 the bodies that use these arrays read the data as a pointer at
+8, and the count and the capacity as 32-bit integers at 16 and 20, 24 bytes
+in all:
+
+- `AppendSlot` (`0x00c7a730`), which `FUN_00c7bcb0` calls on the
+  `TempArray` of `FUN_00c7f060`, compares the count at 16 with the capacity
+  at 20, stores the allocated data at 8 and increments the count.
+- `RestoreNodeTransforms` (`0x00c75c00`) reads the data at 8 and the count
+  at 16 of the same array.
+- `actor.cpp`'s `BoneRecordArray`, whose fields `FUN_00c7e3b0` reads, and
+  the four classes of `DAT_010c8d28` declare that layout.
+
+Two declarations disagree:
+
+- `actor.cpp`'s `TempArray` declared the data as a 32-bit `unsigned int`.
+  That put the count at 12 and the capacity at 16, and its constructor left
+  the bytes at 20 unset. It is a stale 32-bit view and is repaired (below).
+- The four destructors in `blk_00c60000_o2.cpp`, `0x00c7a630`,
+  `0x00c7a690`, `0x00c7a660` and `0x00c7a6e0`, declare the count and the
+  capacity as pointers, at 16 and 24. Each stores 16 zero bytes at 8 and 8
+  zero bytes at 24, which is past the end of a 24-byte array. Their offsets
+  are neither the 32-bit ones nor those of the other bodies. They are not
+  changed here, because that changes four functions of the recipe's rows
+  (open, below).
+
+### Repaired
+
+Each call passes the data alone, as the slot's one-pointer body takes it.
+None of them is reached by a linked program today: the names they called
+had no definition, or the tables they read are those the compiler emits for
+the source's classes, whose slot 2 is a member that no unit defines.
+
+| Function | Unit | Before | Now |
+| --- | --- | --- | --- |
+| `TempArray`'s destructor, and inlined twice into `FUN_00c7f060` (normal and unwind path) | `actor.cpp` | `DAT_010c4dc0(this, data)`, data 32-bit, under `?DAT_010c4dc0@@3P6AXPEAUTempArray@@I@ZEA` | `DAT_010c4dc0(data)` through the shared declaration |
+| `BoneRecordArray`'s destructor and `RemoveAll`, inlined into `FUN_00c7e3b0` | `actor.cpp` | member call `Free(m_pBase)`: through `__imp_?Free@BoneRecordArray@SkeletonBuild@@UEAAXPEAX@Z`, and through slot 2 of the object's table | `DAT_010c4cec` by name, through a function type of one pointer |
+| `~FUN_00cbadb0_Obj` and its deleting destructor | `blk_00ca0000_o2.cpp` | member call `releaseItem(m_items)` through slot 2 of the object's table | slot 2 of the object's table, through a function type of one pointer |
+| `ArrayCBAF90::RemoveAll`, inlined into the deleting destructors of `ArrayCBAF90` and `FUN_00cbaf90`, into `~FUN_00cbaf90` and into `FUN_00cbb130` | `blk_00ca0000_o2.cpp` | member call `Deallocate(m_pBase)` through slot 2 of the object's table | the same |
+
+- `TempArray`'s data is now a pointer, so its count and capacity are at 16
+  and 20, as the bodies above read them, and its constructor clears all 16
+  bytes after the table pointer. The unit includes `fnv/symbols_010c4000.h`
+  again, and its own declarations of `DAT_010c4db8` and `DAT_010c4dc0` go.
+  `actor.cpp`'s recipe key of the slot is respelled to
+  `?DAT_010c4dc0@@3P6GXPAX@ZA`.
+- `DAT_010c4cec` is declared in `fnv/symbols_010c4000.h` as `void *`, the
+  type of its generated definition, and is called through a cast to a
+  function of one pointer, as the destructors of the same table in
+  `blk_00c60000_o2.cpp` call it. `actor.cpp`'s recipe key at `0x010c4cec`,
+  `__imp_?Free@BoneRecordArray@SkeletonBuild@@UAEXPAX@Z`, is respelled to the
+  slot's own name, `?DAT_010c4cec@@3PAXA`. The undefined name
+  `__imp_?Free@BoneRecordArray@SkeletonBuild@@UEAAXPEAX@Z` leaves.
+- In `blk_00ca0000_o2.cpp` the calls take the form `ReleaseAndDestroy`
+  has used since VEGAS-102. The private struct `FUN_00cbadb0_Dispatch`,
+  which only the call used, is removed.
+- The classes keep their declared virtual functions, so the tables the
+  compiler emits for them do not change; those tables still name the
+  members `Free`, `releaseItem` and `Deallocate`, which stay undefined.
+
+In each object only the arguments of these calls change, and the
+registers and stack slots that follow from them; the per-function
+comparison is kept with the review evidence. `TempArray` also moves its
+count and capacity, as above.
+
+### Open
+
+The classes stay private copies in their units; none moves onto one shared
+class.
+
+- No shared declaration exists for any of the three. A shared header of a
+  real polymorphic class declares every slot (the 2026-11-11 ruling), but
+  slot 2 holds a function of one pointer, which a virtual member of the
+  class cannot be on windows-x64. How such a class declares its table needs
+  a ruling.
+- A shared layout with 32-bit counts changes the code of the four
+  destructors in `blk_00c60000_o2.cpp`, which store at 24. Until that is
+  decided, calling `0x00c7a630` from `actor.cpp` in place of `TempArray`'s
+  own destructor, which has no row, would store past the end of the 24-byte
+  stack array.
+- `AppendSlot` inlines `FUN_00c76180_cls::SetValue` (`0x00c76180`), whose
+  class declares the data as a 32-bit `int` at 8.
+- `CBADDynamicArray::FUN_00cbadf0` (`0x00cbadf0`) calls `CA0E60Array::Free`
+  with the object and the buffer, and `FUN_00cb9d50` (`0x00cb9d50`) with the
+  object as the array and the end of the buffer, converted to an integer, as
+  the count; in the parent of `3f0599801` it passed the end and the number
+  of new items. The second call is inlined as a fill of the object with zero
+  bytes. The recipe maps no table to `CA0E60Array`, so whether its slot 2
+  holds `0x00cb9cb0` is not established.
+
+## ReleaseItems (VEGAS-106)
+
+`ReleaseItems` (`0x00cba0d0`, `blk_00ca0000_o2.cpp`) releases each of
+`count` items of an array: it decrements each item's reference count and
+destroys the item through its table when the count reaches zero. Its recipe
+row, `?ReleaseItems@@YAXPAPAVFUN_00cba0d0_cls@@I@Z`, and the declaration in
+`fnv/symbols_00cba000.h` take the array and a 32-bit count, as its
+definition did in the parent of `3f0599801`. Five calls passed the object
+as the array and a pointer converted to an integer as the count, and
+`1fbc6eb1f` widened the definition's count to `uintptr_t` to keep the
+converted pointer's width:
+
+| Caller | Passed in the parent of `3f0599801` |
+| --- | --- |
+| `FUN_00cbaec0_Obj::ReleaseAndDestroy` | the data and the size |
+| `~FUN_00cbadb0_Obj` | the items and their count |
+| `ArrayCBAF90::RemoveAll` | the data and the size |
+| `CBADDynamicArray::FUN_00cbadf0`, emptying | the buffer and the size |
+| `CBADDynamicArray::FUN_00cbadf0`, shrinking | the buffer from the new size, and the number of items past it |
+
+Each call passes those again, the array converted to the parameter's type,
+and the definition takes the row's 32-bit count, so it is defined under the
+row's name. `ReleaseItems` is inlined into each caller; in the objects the
+inlined loop now walks the array loaded from the object's data field, up to
+the count loaded from the size field, where it walked the object itself up
+to the data pointer's value.
 
 ## The checks
 
@@ -260,12 +400,32 @@ has one definition. Receivers, layouts and lifetimes of `FUN_00c7a630` and
   longer moves its own argument into it, or when no member or more than one
   defines its name.
 - `objects.release_and_destroy_slot_call` disassembles `0x00cbaec0` from
-  the archive. It fails when the function loads its data pointer, at offset
-  8, into `rdx`, as the member call did, or not into `rcx`. It matches
-  registers, not values.
+  the archive. It traces `rcx` at the slot call back to where it was set
+  and fails unless that is the load of the data pointer at offset 8; the
+  member call passed the object there and the data in `rdx`. It matches
+  registers, not values. Until VEGAS-106 it matched the load into `rcx`
+  itself.
+- `objects.slot_free_calls` runs `tools/function-relocations` with
+  `slot-free-calls.tsv`. It fails when a repaired function of `actor.cpp`
+  refers to the old name of the slot it calls, or no longer to the slot's
+  own name.
+- `objects.slot_free_argument.*` traces `rcx` at each repaired call back
+  to where it was set and fails unless that is the load of the data field:
+  for `TempArray`'s destructor, the deleting destructor of
+  `BoneRecordArray`, and the six functions of `blk_00ca0000_o2.cpp`.
+- `objects.release_items_array.*` traces the array of each inlined loop of
+  `ReleaseItems` back to the load of the data field, in the eight functions
+  that inline it, and fails when it reaches the object or the address of a
+  member. `objects.release_items_count` fails unless `ReleaseItems` is
+  defined under the row's name and tests a 32-bit count.
 
-All four ran in the windows-x64 cross build only; since VEGAS-95 they run
-in the Windows CI job as well. For the `REL32` types
+The tracing checks run `tests/archive/expect_register_origin.cmake`. They
+follow address order, not control flow, and do not check the count
+`ReleaseItems` is given.
+
+The first four ran in the windows-x64 cross build only; since VEGAS-95 they
+run in the Windows CI job as well. The checks after them are registered
+under the same condition. For the `REL32` types
 the first two take the stored addend plus 4 as the offset used, because
 the addend leaves out an immediate that follows the displacement. A relocation whose stored
 addend lies in the last 4 bytes of a table therefore fails, although

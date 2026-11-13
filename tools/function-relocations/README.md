@@ -163,9 +163,10 @@ value accessor at `0x0043d4d0` (VEGAS-111, docs/setting-value-offset.md). It
 forbids the accessor's 32-bit form, which took an `int *` and read 4 bytes
 into the setting and which no object defines, and requires the form that
 takes the shared `Setting`. The sample holds three readers of the processor
-count setting and one caller for each other form of argument. Whether an
-argument is a setting is not a relocation; the document classifies every
-call.
+count setting and one caller for each other form of argument. Its batch
+`main` lists the 14 functions of `src/fallout/misc/main.cpp` that call the
+accessor (VEGAS-115). Whether an argument is a setting is not a relocation;
+the document classifies every call.
 
 `float-setting-accessor.tsv` does the same for the float setting accessor
 at `0x00403e20` (VEGAS-116, docs/setting-value-offset.md). It forbids the

@@ -191,9 +191,18 @@ instructions.
 | --- | --- | --- |
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
 | S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | a later catalogue entry for their four suffix strings; the members that hold the builders and their buffers (see the user folder buffer below) |
-| S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | the owner of that setting, which a generated dynamic initializer builds (D2); the closure of `magicitem.cpp` |
+| S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor and `Setting::IsPrefSetting`, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address, and `IsPrefSetting` has no row); a native `DAT_01202800`, which the accessor returns for a null setting and which generated data defines too; the closure of `magicitem.cpp`, which defines the accessor |
 | S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings; 260 bytes of storage for `DAT_01202e98`, which it writes through `FUN_0086d480` (VEGAS-112, see the user folder buffer below) |
 | S8 | a processor count of 1 set to 2 | as S6 |
+
+The coordinator named four prerequisites for S6 and S8 (VEGAS-52): the
+first three above and the accessor's offset. The offset is met. The
+accessor read 4 bytes into the setting, the value's offset in the 32-bit
+layout, which on windows-x64 is the upper half of the setting's table
+pointer. Since VEGAS-111 it reads the value at 8. Since VEGAS-115 S6's
+call, which writes the processor count, and S8's two, which read it and
+write 2, take the shared `Setting` (docs/setting-value-offset.md). S6 and
+S8 stay skipped for the other three and the closure of `magicitem.cpp`.
 
 At `891a44f50`, a link of `main` with any one of them composed, made as
 `FalloutNV` links, loaded most of the game archive and left names

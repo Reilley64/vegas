@@ -149,9 +149,9 @@ model, not a link.
     `interface.cpp` and `tesscriptfunctions.cpp`: pointers from a
     parameter, a field or a collection lookup whose producer is a
     stand-in.
-- **`main.cpp`.** Its 41 calls stay for the owner of that unit. 26 of them
-  are on `g_011c3ea4`, the processor count, among them WinMain's three
-  writes. They would move the same way.
+- **`main.cpp`.** Its 41 calls stayed for the owner of that unit. 26 of
+  them are on `g_011c3ea4`, the processor count, among them WinMain's three
+  writes. VEGAS-115 moved all 41 (see "main.cpp" below).
 
 ## What the settings were
 
@@ -176,12 +176,13 @@ From the source and the objects; nothing was run.
   these objects was not traced.
 - `iNumHWThreads:General` (`g_011c3ea4`) is on the boot path. WinMain
   (`0x0086a850`, `main.cpp`) writes the processor count into it and then
-  2 when the count is 1 (WinMain's three writes, through the old form),
+  2 when the count is 1 (WinMain's three writes, through the old form until VEGAS-115),
   and reads it at four; the main loop (`0x0086e650`) reads it seven
   times. `main.cpp` also reads `iFileLogging:MESSAGES`, `iFPSClamp:General`,
   `iActorShadowCountExt:Display`, `iActorShadowCountInt:Display`,
   `uGridsToLoad:General` and the three `iRetain...:Archive` settings this
-  way. These calls are tabled; the moved readers of `g_011c3ea4` in
+  way. VEGAS-111 tabled these calls and VEGAS-115 moved them; the moved
+  readers of `g_011c3ea4` in
   `aitaskmanager.cpp`, `processlists.cpp`, `tes.cpp`, `tesobjectcell.cpp`
   and eight other units now read the value at 8.
 
@@ -219,7 +220,9 @@ the table: 21 of these relocations remain, in 8 members.
 - `objects.setting_value_accessor_callers` (`tools/function-relocations`,
   `setting-value-accessor.tsv`) forbids the old form in eight callers and
   requires the new one: three readers of `g_011c3ea4` and one caller for
-  each other argument form. It fails on the objects of 64f08c9d9.
+  each other argument form. It fails on the objects of 64f08c9d9. Its
+  batch `main` (VEGAS-115) adds the 14 functions of `main.cpp` that call
+  the accessor.
 - No host test compiles `magicitem.cpp` or a caller, so no test runs the
   accessor.
 
@@ -244,23 +247,139 @@ same member. With the new name read as the old one, two definitions change:
 the accessor and `FUN_004a9050`. The names with differing definitions stay
 519 in the archive and 521 in the link inputs, the same names.
 
+## main.cpp
+
+VEGAS-115, measured on the windows-x64 cross build of 142e4676c and of the
+two code commits, built from one source path. Nothing was run. `main.cpp`'s 41 calls, classified by the
+rule above, all take the shared `Setting`. The first commit moved 40. The
+41st moved in a second commit, once `main.cpp`'s own copy of a generated
+class was removed:
+
+| Class | Calls |
+| --- | --- |
+| Moved: a global that generated data defines as a setting of the shared class | 41 |
+
+`main.cpp` defines no `::Setting` of its own. At its end it sees only the
+declaration that `include/fnv/symbols_0043d000.h` gives the shared class,
+which is incomplete there. Its own types for these globals are the targets of the
+`reinterpret_cast` inside each argument, and they are not changed. Most are
+empty: the namespaced copies of `GlobalObject2_0040c150` and
+`GlobalObject_0045cfe0`, `Setting86`, `InitSetting`, `ShadowIntSetting` and
+`Options86`. Two have fields of their own, `FrameUpdate::Service` (the main
+loop's seven calls) and `fnv_00873200::ViewNode` (one call). No call reads a
+field through them: only the address is passed on. A moved call's conversion to `int *` becomes a
+conversion to `::Setting *`. The address is the same. The first 40 calls
+pass 11 globals, each defined in
+`src/generated/global_object_initializers.cpp` as a
+`GlobalObject_0045cfe0` or a `GlobalObject_004a4a40`. The compiler lays out
+both there at 24 bytes, with `uValue` at 8. The 41st passes `g_011d10d4`,
+defined in `src/generated/global_object_initializers2.cpp` as a
+`GlobalObject2_0040c150`. The compiler lays out that class there at 24
+bytes with `uValue` at 8, and at 12 bytes with `uValue` at 4 in the i686
+compile, the same offsets as `Setting` in that unit.
+
+| Setting | Global | Reads | Writes |
+| --- | --- | --- | --- |
+| `iNumHWThreads:General` | `g_011c3ea4` | 23 | 3 |
+| `uGridsToLoad:General` | `g_011c63cc` | 2 | |
+| `iActorShadowCountInt:Display` | `g_011c72d8` | 2 | |
+| `iActorShadowCountExt:Display` | `g_011c72e4` | 2 | |
+| `iTake:CameraPath` | `g_011deecc` | 2 | |
+| `iActivatePickLength` | `g_011d10d4` | 1 | |
+| `iRetainFilenameStringTable:Archive` | `g_011deaa0` | 1 | |
+| `iRetainDirectoryStringTable:Archive` | `g_011deb24` | 1 | |
+| `iRetainFilenameOffsetTable:Archive` | `g_011dec40` | 1 | |
+| `iFPS:CameraPath` | `g_011dee00` | 1 | |
+| `iFPSClamp:General` | `g_011dee60` | 1 | |
+| `iFileLogging:MESSAGES` | `g_011dee6c` | 1 | |
+
+The three writes are WinMain's (`0x0086a850`). S6 of
+docs/data-pack-startup.md writes the processor count, S8 writes 2 when it
+is 1, and a statement after the second-window check does the same again.
+WinMain reads the processor count four times, and the main loop
+(`0x0086e650`) reads it seven times.
+
+The 41st call is in `0x0086f6a0`. It passes `iActivatePickLength`,
+`g_011d10d4`, to `TaskQueueInterface::ThreadProcessInput`. `main.cpp`
+defined an empty `struct GlobalObject2_0040c150` at global scope, and
+generated data defines the class of that name with the class-key `class`.
+So `main.cpp`'s object referred to
+`?g_011d10d4@@3UGlobalObject2_0040c150@@A`, which no object defines, and
+the first commit left the call on the old form, the case of the 89 calls
+above. The second commit removes the struct, as VEGAS-117 prescribes for a
+unit's own copy of a generated class. `main.cpp` then sees only the
+declaration of the generated class that its symbol headers give, so its
+object refers to the `V` spelling, which
+`global_object_initializers2.cpp.obj` defines and `main.cpp`'s recipe key
+already spelled. The class's ten other uses at global scope in `main.cpp`
+are targets of an existing `reinterpret_cast` of the address of
+`g_011c3ea4`. They compile against the declaration with no cast added. The
+class is incomplete in `main.cpp`, so no layout of it is used there. The
+four namespaced copies of the name are not changed. On windows-x64 and in
+the i686 compile, every class layout of `main.cpp` is the same apart from
+the removed struct.
+
+In the first commit `main.cpp`'s recipe kept its two keys of the old name,
+`YA` and `YI`, and gained the new name beside each in the same spelling.
+The second commit removes both old keys, so the new keys remain.
+
+At the unit's flags, with `/Ob0` and with `/Od /Gy`, no instruction
+changes in either commit:
+
+- First commit: with the old name respelled as the new one in the base
+  object, the objects differ at one site: the 41st call's relocation in
+  `0x0086f6a0` still targets the old name, so the old name stays an
+  undefined symbol beside the new one. With `/Od /Gy` the address significance
+  table also lists the added name. The moved calls are in 14 functions;
+  in `0x0086f6a0` two of its three calls moved.
+- Second commit: two relocations in `0x0086f6a0` change target, from the
+  `U` spelling of `g_011d10d4` to the `V` spelling and from the old form
+  to the new one. The undefined symbols of the old form and of the `U`
+  spelling leave the object, and the `V` spelling enters. The address
+  significance table names the `V` spelling in place of the `U` one, and
+  with `/Od /Gy` it no longer lists the old form.
+
+`setting-value-accessor.tsv`'s batch `main` lists all 14 functions. It
+fails on the objects of 142e4676c, and for `0x0086f6a0` on those of the
+first commit.
+
+The link cells with `user32.lib` and without have the same lists at
+142e4676c and after each commit. The forced unlimited cell with
+`user32.lib` has 35,031 undefined names throughout, the old name among
+them. 31 members referred to it at 142e4676c, with 283 relocations; 31
+with 245 after the first commit; 30 with 244 after the second, and
+`main.cpp` is no longer among them. The `U` spelling of `g_011d10d4` stays
+undefined too, because `actor.cpp` refers to it. The entry link rooted at
+WinMain has 34,756 undefined names throughout and loads the same members.
+After the first commit it loads `magicitem.cpp.obj` earlier, for the new
+name that WinMain now calls. So the section model of that link takes nine
+select-any sections from `magicitem.cpp.obj` instead of from other
+members: six RTTI type descriptors and three string literals. Each of the
+nine names has one content in all of its definitions, and none of the 30
+names that `magicitem.cpp.obj` defines has more than one. After the second
+commit the section model has one unresolved name fewer, 10,912 to 10,911:
+the `U` spelling of `g_011d10d4`, which `0x0086f6a0` no longer reaches. No
+section changes member. No program that links today contains
+`main.cpp.obj` or `magicitem.cpp.obj`: the lazy link of FalloutNV.exe's
+inputs loads 24 members of the game archive, neither of them.
+
 ## Remainder
 
-Each part stays open; tickets follow.
+Each part stays open under the ticket named with it. `main.cpp` is done:
+41 of its 41 calls take the shared `Setting` (VEGAS-115).
 
-- `main.cpp`: 41 calls, among them WinMain's S6 and S8, the writes of the
-  processor count (docs/data-pack-startup.md).
-- The 10 units that define a `::Setting` of their own: 109 calls.
-- The 11 units' own copies of generated classes: 89 calls, 63 names.
-- 16 calls on 1-byte objects, among them those on the objects at
-  `0x011c3c90` and `0x011cf788`, which need an owner.
-- 31 calls whose argument is not a global.
+- VEGAS-117, the other 245 calls and a guard:
+  - The 10 units that define a `::Setting` of their own: 109 calls.
+  - The 11 units' own copies of generated classes: 89 calls, 63 names.
+  - 16 calls on 1-byte objects, among them those on the objects at
+    `0x011c3c90` and `0x011cf788`, which need an owner.
+  - 31 calls whose argument is not a global.
+  - A standing check that only the listed members refer to the old name
+    (30 members after VEGAS-115, `main.cpp` no longer among them).
 - The float accessor `FUN_00403e20`: repaired by VEGAS-116; its own
   remainder is listed under "The float accessor".
-- 21 direct reads 4 bytes into a setting, in 8 members, since VEGAS-116
-  (22 in 9 before it).
-- A standing check that only the listed members refer to the old name (31
-  members at 64f08c9d9 with this change).
+- VEGAS-118: 21 direct reads 4 bytes into a setting, in 8 members, since
+  VEGAS-116 (22 in 9 before it).
 
 ## The float accessor (VEGAS-116)
 

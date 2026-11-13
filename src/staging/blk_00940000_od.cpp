@@ -335,7 +335,7 @@ void SetScaledValue(float value)
 {
     if ((*reinterpret_cast<void * *>(&::g_pHudMainMenuInstance)))
     {
-        (*reinterpret_cast<SetScaledValue_HUD * *>(&::g_pHudMainMenuInstance))->m_fRadiationUpdateTimer = value * *(float*)((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::fnv_0094c3a0::GlobalObject_0044f440 *>(&::g_011d9748)))))));
+        (*reinterpret_cast<SetScaledValue_HUD * *>(&::g_pHudMainMenuInstance))->m_fRadiationUpdateTimer = value * *(float*)((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&(*reinterpret_cast<::fnv_0094c3a0::GlobalObject_0044f440 *>(&::g_011d9748)))))));
     }
 }
 }  // namespace fnv_0094c3a0
@@ -3453,11 +3453,11 @@ void Update97::UpdateScopeZoom(float elapsed)
     {
         float weapon;
         Data97* unusedScale = actor->getData() ? (Data97*)((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((actor->getData()))->GetName())) : 0;
-        float normalVertical = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_0120315c))));
-        float scope = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203168))));
-        float normalHorizontal = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203174))));
-        weapon = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_011e0970))));
-        float speed = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting659))));
+        float normalVertical = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::g_0120315c))));
+        float scope = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::g_01203168))));
+        float normalHorizontal = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::g_01203174))));
+        weapon = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::g_011e0970))));
+        float speed = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting659))));
         float resetVertical = 1.0f;
         reinterpret_cast<::_Cam_00712e60 *>((((::Other97 *)(reinterpret_cast<::BSFaceGenNiNode *>((((::Manager97 *)(::FUN_0045c670()))))->GetAnimationData()))))->FUN_00712e60(*(const ::_Rect16_00712e60 *)nullptr);
         if (unusedScale && actor->isScoped())
@@ -3515,26 +3515,26 @@ void Update97::UpdateScopeZoom(float elapsed)
                                             reinterpret_cast<::FUN_00439ef0_class *>((((::Vec97 *)(::FUN_0045bb80((std::intptr_t)((*reinterpret_cast<::World97 * *>(&::DAT_011e07d0))))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
                                             e = reinterpret_cast<::NiPoint3 *>(&(g))->ComputeMagnitude();
                                             d = reinterpret_cast<::Twin_0084d030 *>((a))->GetStoredFloatValue() * ((double)(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::Setting97 *>(&::g_011e0b84))))->FUN_00450410())) / e;
-                                            c = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting661)))) - ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting660))));
-                                            f = e / ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting662))));
+                                            c = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting661)))) - ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting660))));
+                                            f = e / ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting662))));
                                             if (f > 1.0)
                                                 f = 1.0f;
-                                            h = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting660)))) + c * f;
+                                            h = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting660)))) + c * f;
                                             vertical = LogFloat(d) * h;
-                                            if (vertical < ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting664)))))
-                                                vertical = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting664))));
+                                            if (vertical < ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting664)))))
+                                                vertical = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting664))));
                                             step = vertical;
-                                            if (step >= ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203150)))))
-                                                step = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::g_01203150))));
+                                            if (step >= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::g_01203150)))))
+                                                step = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::g_01203150))));
                                             static FUN_00939880* horizontalBlend = new FUN_00939880;
                                             static FUN_00939880* verticalBlend = new FUN_00939880;
                                             if (previous != (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc)))
                                             {
                                                 float i = 0.75f;
                                                 if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 1)
-                                                    i = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1258))));
+                                                    i = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1258))));
                                                 else if (((intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::Setting97 *>(&::g_011f2250))))->GetName())) == 2)
-                                                    i = ::FUN_00403e20((float *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1259))));
+                                                    i = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting97 *>(&::originalRuntimeFloatSetting1259))));
                                                 reinterpret_cast<::FadeCurve *>((horizontalBlend))->FUN_00946020(currentHorizontal, vertical, i);
                                                 reinterpret_cast<::FadeCurve *>((verticalBlend))->FUN_00946020(currentVertical, step, i);
                                                 previous = (*reinterpret_cast<::Actor97 * *>(&::DAT_011f21cc));
@@ -3624,9 +3624,6 @@ struct ItemEntry
 {
 };
 struct Entry;
-struct Setting
-{
-};
 struct Quest
 {
 };
@@ -4241,7 +4238,7 @@ void Owner::FUN_0095f6c0(float delta)
                 if (item && item->FUN_SLOT94())
                 {
                     float value = ::FUN_004b5400((void *)(item));
-                    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting989)))))) >= value)
+                    if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting989)))))) >= value)
                     {
                         reinterpret_cast<::GrabHost *>(this)->FUN_0095f930((::GrabRef *)(actor), 1, 1000.0f);
                         if (::FUN_00559450((int *)&(state)))

@@ -41,8 +41,9 @@ compile_commands.json at compile time).
   to FILE with the unit's own name kept, and passes it to every variant. The
   export is never written, so a failed compile cannot leave it dirty.
   Headers still come from the export. It exits 2 with one line, and
-  compiles nothing, when FILE is not a file, when the compiler is not
-  clang (`clang`, `clang-cl` or `clang++`, maybe with a version), or when
+  compiles nothing, when FILE is not a file, when the compiler's file name
+  is not clang's (`clang`, `clang-cl` or `clang++`, maybe with a version and
+  `.exe`, `.cmd` or `.bat`; a wrapper of another name is refused), or when
   the command does not name the unit exactly as the entry's `file` spells
   it (a symlink against its real path, a relative path against an absolute
   one). Before the variants it runs a canary: the `flags` command with the
@@ -90,7 +91,7 @@ associative section as `parent|name`). Then the summary.
 | `-addrsig`, `+addrsig` | under a differing `.llvm_addrsig`: each name removed, added or moved, with its position in the table |
 | `SECTION-ORDER` | the shared sections are in another order; `-order`/`+order` give the moved ones |
 | `SYMBOL-ONLY-A`, `SYMBOL-ONLY-B` | name, value, section, type, storage class |
-| `SYMBOL-SHIFT` | section, count, distance: symbols that differ only by value, by that distance, in that section, in place of their `SYMBOL-ONLY` lines (as when an array before them grew) |
+| `SYMBOL-SHIFT` | section, count, distance, the lowest moved symbol and its value in A: symbols that differ only by value, by that distance, in that section, in place of their `SYMBOL-ONLY` lines (as when an array before them grew) |
 | `BESIDE-KEPT` | under `--expect-kept`, when the kept sites are the listed ones: what still differs once they are undone (a difference line, `B still holds OLD`, or OLD's address-significance count) |
 | `RETARGET` | summary: A's target as A spells it `->` B's target at one offset of a section both hold, count, `by the map` or `not by the map`, the sections |
 | `KEPT-SITE` | summary: section, offset, OLD, NEW of a relocation where B still targets OLD and the respelled A targets NEW |
@@ -154,12 +155,21 @@ What `--expect-kept` does not check:
 - which of several kept sites of one OLD in one function is kept: sites
   match by FUNCTION and OLD, not offset. Read the offsets of the `KEPT-SITE`
   lines; a batch tool records `kept_sites[].offset` per variant.
-- where the head's OLD symbol stands in its symbol table: it is dropped
-  before the comparison.
+- where the head's OLD symbol stands in its symbol table, or OLD's entry in
+  the address-significance table: both are dropped before the comparison.
 - a kept call before the first moved call: clang orders undefined symbols
   by first use, so the head holds `NEW` after OLD's place, the symbol order
   differs (`BESIDE-KEPT\tSYMBOL-ORDER`) and the unit differs (exit 1). The
   order is not relaxed; prove such a unit from the `KEPT-SITE` lines.
+- a kept call whose OLD loses its address use: when the base takes OLD's
+  address and the head takes only NEW's, the head no longer marks OLD
+  address-significant and the unit differs (`BESIDE-KEPT\tB marks OLD
+  address-significant 0 time(s), A 1`, exit 1), in some variants only.
+  The count is not relaxed; prove such a unit from the `KEPT-SITE` lines.
+- inlining: the variants may hold a kept call in different functions (in
+  the callers under `flags`, in the inlined function under `ob0` and `od`).
+  `proof.py compare` passes one list to all three; run `objcmp.py` per
+  variant with that variant's list.
 
 ### JSON
 
@@ -220,8 +230,10 @@ start or a `--source` that compile refuses.
   address-significance table's byte size (the head's holds other indices).
 - `SYMBOL-SHIFT` pairs a symbol of A with one of B of the same name,
   section, type and storage class; a static of one name in two places may
-  pair with the other. The relocations to statics that moved still print
-  one `-reloc`/`+reloc` pair each.
+  pair with the other. The line gives a count and the lowest moved symbol,
+  not every name (`--json` has each symbol), and only for symbols a section
+  defines. The relocations to statics that moved still print one
+  `-reloc`/`+reloc` pair each.
 - One object at a time: which COMDAT copy a link selects, and inlined copies
   in other units, are not seen.
 - The warnings comparison ignores notes, errors and cl.exe-style lines

@@ -679,8 +679,8 @@ class ObjectProofTest(unittest.TestCase):
         code, out, _ = self.objcmp(a, b)
         self.assertEqual(code, 1, out)
         self.assertEqual([line for line in out.splitlines() if line.startswith("SYMBOL-")],
-                         ["SYMBOL-SHIFT\t?buf@@3PADA\t3 symbol(s)\tby +0x100",
-                          "SYMBOL-SHIFT\t?buf@@3PADA\t1 symbol(s)\tby -0x18",
+                         ["SYMBOL-SHIFT\t?buf@@3PADA\t3 symbol(s)\tby +0x100\tfrom ?a@@3HA at 0x10",
+                          "SYMBOL-SHIFT\t?buf@@3PADA\t1 symbol(s)\tby -0x18\tfrom ?c@@3HA at 0x20",
                           "SYMBOL-ONLY-A\t?d@@3HA\t36\t?buf@@3PADA\t0\t2",
                           "SYMBOL-ONLY-B\t?e@@3HA\t36\t?buf@@3PADA\t0\t2"], out)
         code, out, _ = self.objcmp(a, b, "--json")
@@ -694,6 +694,25 @@ class ObjectProofTest(unittest.TestCase):
                              ("?a@@3HA\t272", "2"), ("?b@@3HA\t276", "2"), ("s\t280", "3"), ("?c@@3HA\t8", "2"),
                              ("?e@@3HA\t36", "2"))], out)
         self.assertEqual(report["differences"], 2, out)
+        # A symbol that moves to another section is no shift, and two
+        # sections that shift by one distance print a line each.
+        def two(first, second, moved):
+            sections, symbols = calls()
+            sections += [[".bss", b"\0" * 0x40, 0xC0300080, []], [".data", b"\0" * 0x40, 0xC0300040, []]]
+            symbols += [[".bss", 0, 3, 0, 3, 0], ["?buf@@3PADA", 0, 3, 0, 2, None], ["?a@@3HA", first, 3, 0, 2, None],
+                        [".data", 0, 4, 0, 3, 0], ["?tab@@3PADA", 0, 4, 0, 2, None], ["?b@@3HA", second, 4, 0, 2, None],
+                        ["?c@@3HA"] + moved + [0, 2, None], ["@feat.00", first, -1, 0, 3, None]]
+            return obj(sections, symbols)
+
+        code, out, _ = self.objcmp(two(0x10, 0x10, [0x20, 3]), two(0x18, 0x18, [0x28, 4]))
+        self.assertEqual(code, 1, out)
+        self.assertEqual([line for line in out.splitlines() if line.startswith("SYMBOL-")],
+                         ["SYMBOL-SHIFT\t?buf@@3PADA\t1 symbol(s)\tby +0x8\tfrom ?a@@3HA at 0x10",
+                          "SYMBOL-SHIFT\t?tab@@3PADA\t1 symbol(s)\tby +0x8\tfrom ?b@@3HA at 0x10",
+                          "SYMBOL-ONLY-A\t?c@@3HA\t32\t?buf@@3PADA\t0\t2",
+                          "SYMBOL-ONLY-A\t@feat.00\t16\t(absolute)\t0\t3",
+                          "SYMBOL-ONLY-B\t?c@@3HA\t40\t?tab@@3PADA\t0\t2",
+                          "SYMBOL-ONLY-B\t@feat.00\t24\t(absolute)\t0\t3"], out)
 
     def test_expect_kept(self):
         x, x2, y, y2 = "?x@@YAXXZ", "?x2@@YAXXZ", "?y@@YAXXZ", "?y2@@YAXXZ"
@@ -801,6 +820,20 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertEqual(out.count("BESIDE-KEPT\tSYMBOL-ONLY-B\t%s\t" % x), 2, out)
         self.assertIn("BESIDE-KEPT\t\t+reloc\t0x10\ttype 4\t%s" % x, out.splitlines())
+        # Each address-significance table is counted by itself.
+        def tables(names, targets, first, second):
+            sections = [[".text$mn", b"\xe8\0\0\0\0" * 3 + b"\xc3", CODE | COMDAT,
+                         [(1 + 5 * i, 2 + names.index(name), 4) for i, name in enumerate(targets)]]]
+            symbols = [[".text$mn", 0, 1, 0, 3, 2], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None]]
+            symbols += [[name, 0, 0, 0x20, 2, None] for name in names]
+            with_addrsig(sections, symbols, *first)
+            with_addrsig(sections, symbols, *second)
+            return obj(sections, symbols)
+
+        code, out, _ = self.objcmp(tables([x, y], [x, x, y], (x,), ()), tables([x, x2, y2], [x, x2, y2], (x, x2), (x,)),
+                                   *renames + ("--expect-kept", one))
+        self.assertEqual(code, 1, out)
+        self.assertIn("BESIDE-KEPT\tB marks %s address-significant 1 time(s), A 0" % x, out.splitlines())
 
     def test_expect_kept_file(self):
         # A section key that starts with # can be listed; other lines that

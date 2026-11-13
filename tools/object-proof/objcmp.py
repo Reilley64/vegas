@@ -307,7 +307,7 @@ def compare(a, b, out, shifts=False):
                 parts.append("size %d -> %d, %d bytes differ%s" % (x["size"], y["size"], len(differing), where))
         else:
             equal.append("names" if isinstance(x["body"], tuple) else "bytes")
-        if x["size"] == y["size"]:
+        if x["size"] == y["size"] is not None:
             equal.append("size %s" % x["size"])
         elif x["body"] == y["body"]:
             parts.append("size %d -> %d" % (x["size"], y["size"]))
@@ -354,12 +354,13 @@ def compare(a, b, out, shifts=False):
         for item in list(only_a) if shifts else ():
             # The same symbol at another value of the same section.
             match = [other for other in only_b if other[0] == item[0] and other[2:] == item[2:]]
-            if match:
-                moved.setdefault((item[2], match[0][1] - item[1]), []).append(item[0])
+            if match and not item[2].startswith("("):
+                moved.setdefault((item[2], match[0][1] - item[1]), []).append((item[1], item[0]))
                 only_a.remove(item)
                 only_b.remove(match[0])
-        for (key, delta), names in moved.items():
-            out("SYMBOL-SHIFT\t%s\t%d symbol(s)\tby %+#x" % (key, len(names), delta))
+        for (key, delta), group in moved.items():
+            out("SYMBOL-SHIFT\t%s\t%d symbol(s)\tby %+#x\tfrom %s at 0x%x"
+                % (key, len(group), delta, min(group)[1], min(group)[0]))
         for item in only_a:
             out("SYMBOL-ONLY-A\t%s" % describe(item))
         for item in only_b:
@@ -425,9 +426,9 @@ def only_kept(a, b, kept, renames, shifts):
             del symbols[at[0]]
         else:
             symbols[at[0]] = (new,) + symbols[at[0]][1:]
-        marked = sum(s["body"].count(new) for s in a[1].values() if s["name"] == ".llvm_addrsig")
-        for s in sections.values():
+        for key, s in sections.items():
             if s["name"] == ".llvm_addrsig":
+                marked = a[1][key]["body"].count(new) if a[1].get(key, {}).get("name") == ".llvm_addrsig" else 0
                 if holds_new and s["body"].count(old) != marked:
                     beside.append("BESIDE-KEPT\tB marks %s address-significant %d time(s), A %d"
                                   % (old, s["body"].count(old), marked))
@@ -552,7 +553,7 @@ def main(argv):
         else:
             verdict = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else "")
             status = 1
-    missing, unexpected = [] if merged else list(expected or ()), []
+    missing, unexpected = [] if found is None else list(expected or ()), []
     for site in kept if expected else ():  # a list with no site acts as no option
         # Each expected (FUNCTION, OLD) takes one kept site; the rest are mismatches.
         if (site[0], site[3]) in missing:

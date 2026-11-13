@@ -1467,11 +1467,14 @@ if(vegas_object_checks)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
-# The startup and blocker map (tools/startup-map).
-# docs.startup_map.generator runs the generator's own tests. It reads the
-# source folder only, on every host. Without Python 3 the configure goes on,
-# and the test is still registered and fails with that reason.
+# The startup and blocker map (tools/startup-map). docs.startup_map fails when
+# README.md or docs/startup-map.md differs from what the generator writes from
+# map.json; docs.startup_map.generator runs the generator's own tests. Both
+# read the source folder only, on every host. Without Python 3 the configure
+# goes on, and both tests are still registered and fail with that reason.
 if(Python3_Interpreter_FOUND)
+  add_test(NAME docs.startup_map
+    COMMAND ${Python3_EXECUTABLE} -B ${PROJECT_SOURCE_DIR}/tools/startup-map/startup_map.py --check)
   add_test(NAME docs.startup_map.generator
     COMMAND ${Python3_EXECUTABLE} -B ${PROJECT_SOURCE_DIR}/tools/startup-map/test_startup_map.py)
 else()
@@ -1479,7 +1482,7 @@ else()
     "Python 3 was not found when configuring, so the startup map tests cannot "
     "run (tools/startup-map). Install Python 3 and configure again.")
   message(WARNING "${docs_startup_map_missing}")
-  foreach(name docs.startup_map.generator)
+  foreach(name docs.startup_map docs.startup_map.generator)
     add_test(NAME ${name} COMMAND ${CMAKE_COMMAND} -E echo "${docs_startup_map_missing}")
     set_tests_properties(${name} PROPERTIES FAIL_REGULAR_EXPRESSION "Python 3 was not found")
   endforeach()

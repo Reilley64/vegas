@@ -63,6 +63,11 @@ class Validation(unittest.TestCase):
     def test_valid_input_passes(self):
         self.assertEqual(self.problems(valid()), [])
 
+    def test_checked_in_map_passes(self):
+        data, found = startup_map.load(os.path.join(startup_map.HERE, "map.json"))
+        self.assertEqual(found, [])
+        self.assertIsNotNone(data)
+
     def test_dangling_edge_is_refused(self):
         data = valid()
         data["edges"].append(edge("a", "missing"))

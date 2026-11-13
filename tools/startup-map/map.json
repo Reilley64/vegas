@@ -1,0 +1,505 @@
+{
+  "snapshot": {
+    "source_commit": "3503a01a13615f0c6125f7038d6d9b119a830b80",
+    "evidence_date": "2026-11-13",
+    "ticket_states_date": "2026-11-13"
+  },
+  "nodes": [
+    {
+      "id": "setup_prepare",
+      "label": "vegas-setup prepares vegas-data.pack, catalogue version 2",
+      "kind": "setup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "vegas": "VEGAS-13",
+      "source": "docs/setup.md (What setup does; Private run on an actual input, catalogue version 2); setup.prepare_pack passes in Windows CI run 43401627088",
+      "detail": "vegas-setup reads the player's FalloutNV.exe, identifies the supported original release, reads C1's four strings and the main window class from stored data sections, writes the pack and validates it with the engine's validator. The private run of 2026-11-13 used tool version d5d1d60ec. src/setup and src/main.cpp have not changed between d5d1d60ec and the snapshot commit, and include/fnv has changed only in three symbol headers of the user folder buffer and the slot-table repairs. VEGAS-13 stays open for the rest of the catalogue."
+    },
+    {
+      "id": "setup_install",
+      "label": "vegas-setup installs the pack beside FalloutNV.exe",
+      "kind": "setup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "vegas": "VEGAS-13",
+      "source": "docs/setup.md (What setup does, step 3); setup.install_pack passes in Windows CI run 43401627088",
+      "detail": "vegas-setup writes vegas-data.pack.staged, reads it back, renames it over vegas-data.pack and reads that back. The private runs replaced an existing pack and left no staged file."
+    },
+    {
+      "id": "main_memory",
+      "label": "Step 1: Memory start-up, StartProcessMemory",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "source": "src/main.cpp (main); docs/data-pack-startup.md (What main does, 1); runtime.process_startup in Windows CI run 43401627088; private run in docs/setup.md",
+      "detail": "A refusal returns 1."
+    },
+    {
+      "id": "main_timer",
+      "label": "Step 2: Game timer start",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "vegas": "VEGAS-70",
+      "source": "src/main.cpp (main); docs/game-timer.md; runtime.game_timer in Windows CI run 43401627088; private run in docs/setup.md"
+    },
+    {
+      "id": "main_folder",
+      "label": "Step 3: Folder of the executable, GetModuleFileNameW",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "vegas": "VEGAS-52",
+      "source": "src/main.cpp (ExecutableFolder); docs/data-pack-startup.md (What main does, 3); falloutnv.process_exit runs the copy from another working directory",
+      "detail": "ADR 0001 resolves the pack beside the executable, never in the working directory. A failure writes one line and returns 2."
+    },
+    {
+      "id": "main_pack",
+      "label": "Step 4: Pack load and validation, catalogue version 2",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "vegas": "VEGAS-52",
+      "source": "src/main.cpp; include/fnv/data_pack_startup.h (LoadDataPack); runtime.data_pack_startup and falloutnv.process_exit.missing_pack in Windows CI run 43401627088; private run in docs/setup.md",
+      "detail": "A missing, unreadable, invalid or catalogue version 1 pack writes one line on the standard error stream and returns 2. The private run of 2026-11-13 gave status 2 with no pack, with a corrupted copy and beside a catalogue version 1 pack."
+    },
+    {
+      "id": "main_publish",
+      "label": "Step 4: Publish C1 and the main window class to their owners",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-executed",
+      "vegas": "VEGAS-52",
+      "source": "include/fnv/single_instance_strings.h; include/fnv/main_window_class.h; runtime.single_instance_strings and runtime.main_window_class in Windows CI run 43401627088; docs/data-pack-startup.md",
+      "detail": "LoadDataPack publishes neither value until the whole pack validates. A read before publication terminates the process."
+    },
+    {
+      "id": "main_single",
+      "label": "Step 5: Single-instance and remote-session checks",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-ci-test",
+      "vegas": "VEGAS-52",
+      "source": "src/main.cpp (CreateMutexA, CheckSingleInstance); runtime.single_instance_check and falloutnv.process_exit in Windows CI run 43401627088; docs/data-pack-startup.md (C1's consumer)",
+      "detail": "These are the first statements of WinMain 0x0086a850, and main composes them. The CI fixture shows the decision is Continue before it runs the executable. The private runs inferred the Continue path and did not observe it. The message-box branches ran only in the decision's test, with the box recorded."
+    },
+    {
+      "id": "main_second",
+      "label": "Steps 6 and 7: Second-window check, then main returns 0",
+      "kind": "startup-step",
+      "state": "accepted",
+      "tier": "windows-ci-test",
+      "vegas": "VEGAS-52",
+      "source": "src/main.cpp (CheckSecondWindow); runtime.second_window_check and falloutnv.process_exit in Windows CI run 43401627088; docs/data-pack-startup.md (The second-window check)",
+      "detail": "No run has found a window of the class, so the AlreadyOpen branch ran only in the decision's test. main composes nothing of WinMain after this check."
+    },
+    {
+      "id": "s1",
+      "label": "S1 crash-log configuration, FUN_00c3bd30",
+      "kind": "winmain-statement",
+      "state": "waiting",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-52",
+      "source": "docs/data-pack-startup.md (Skipped statements)",
+      "detail": "S1 waits on the stand-in Setting86::FUN_00408d60, which no object defines; a native MessageHandler in place of the legacy table DAT_010c14a8 that its callee 0x00c3c460 stores; and the closure of blk_00c20000_od.cpp. At 891a44f50 a link of main with any one skipped statement composed, made as FalloutNV links, left names undefined."
+    },
+    {
+      "id": "s2_s5",
+      "label": "S2 to S5, the four log paths",
+      "kind": "winmain-statement",
+      "state": "waiting",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-52",
+      "source": "docs/data-pack-startup.md (Skipped statements; The user folder buffer); docs/data-pack-catalogue.md (D)",
+      "detail": "The four builders are FUN_00c3bb90, fnv_00c3bbe0::FUN_00c3bbe0, FUN_00c3bc30 and fnv_00c3bc80::FUN_00c3bc80. They wait on a later catalogue entry for their four suffix strings, on 260 bytes of storage for DAT_01202b48, which S3 writes and VEGAS-112 repairs, and on the members that hold the builders and their buffers. At function granularity a composition of S2 to S5 needs blk_00c20000_od.cpp, blk_004c0000_od.cpp, tesfile.cpp and crt.cpp, and three names of the common controls library that blk_004c0000_od.cpp refers to: ImageList_Destroy, ImageList_LoadImageA and InitCommonControlsEx. VEGAS-109 repaired the user folder buffer DAT_01202fa0 that the builders copy."
+    },
+    {
+      "id": "s6",
+      "label": "S6 GetSystemInfo, processor count into its setting",
+      "kind": "winmain-statement",
+      "state": "waiting",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-52",
+      "source": "docs/data-pack-startup.md (Skipped statements); VEGAS-52 comment of 2026-11-13",
+      "detail": "S6 writes the processor count into the setting g_011c3ea4 through FUN_0043d4d0. The repository names two prerequisites: the owner of that setting, which a generated dynamic initializer builds (D2), and the closure of magicitem.cpp. A VEGAS-52 comment of 2026-11-13, measured at 11d59dc97, names four. A generated unit defines the setting, and that unit's startup initializer builds it and reads original data (D2). Building it natively needs the constructor of INISettingCollection and Setting::IsPrefSetting, and no object defines either. DAT_01202800 is generated data too. FUN_0043d4d0 returns the setting's address plus 4, and the x64 value is at plus 8 (VEGAS-111). The coordinator ruled that S6 and S8 stay skipped until these four are met and that VEGAS-111 repairs the accessor first. In WinMain's order, S6 and S8 come before the second-window check."
+    },
+    {
+      "id": "s7",
+      "label": "S7 BGSSaveLoadManager::GetSaveDirectory",
+      "kind": "winmain-statement",
+      "state": "waiting",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-52",
+      "source": "docs/data-pack-startup.md (Skipped statements)",
+      "detail": "S7 waits on the closure of bgssaveloadmanager.cpp, _DAT_011a2ff0 and FUN_0086d480 of main.cpp, and catalogue entries for its strings. It writes into DAT_01202fa0, the user folder buffer that VEGAS-109 repaired, and into DAT_01202e98, which VEGAS-112 repairs. The table of skipped statements does not list VEGAS-112 for S7, so its edge is curated from the ticket's comment of 2026-11-13."
+    },
+    {
+      "id": "s8",
+      "label": "S8 processor count of 1 set to 2",
+      "kind": "winmain-statement",
+      "state": "waiting",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-52",
+      "source": "docs/data-pack-startup.md (Skipped statements); VEGAS-52 comment of 2026-11-13",
+      "detail": "S8 has the prerequisites of S6."
+    },
+    {
+      "id": "winmain",
+      "label": "WinMain 0x0086a850, misc/main.cpp",
+      "kind": "boot-body",
+      "state": "blocked",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-30",
+      "source": "src/fallout/misc/main.cpp (FUN_0086a850); docs/winmain-boot-names.md",
+      "detail": "WinMain reaches the main loop, BootInit and the render set-up by name and takes the window procedure's address, and objects.winmain_boot_calls checks this. No linking program contains misc/main.cpp.obj. Measured at d5d1d60ec and with the last call repair, the build has 86 executables, 66 of their links read game.lib, and only runtime_havok_worker_pool_test loads that object. That link fails."
+    },
+    {
+      "id": "mainloop",
+      "label": "Main loop 0x0086e650, FrameUpdate::MainLoop",
+      "kind": "boot-body",
+      "state": "blocked",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-30",
+      "source": "docs/winmain-boot-names.md (Steps, 54c52298b)",
+      "detail": "The main loop reads g_osGlobals through MainLoop, a flag at offset 7 that include/OSGlobals.h names layoutPadding7."
+    },
+    {
+      "id": "bootinit",
+      "label": "BootInit 0x0086cf20",
+      "kind": "boot-body",
+      "state": "blocked",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-30",
+      "source": "docs/winmain-boot-names.md (Steps, edc9b18d5); docs/boot-real-classes.md",
+      "detail": "BootInit constructs the player character through main.cpp's PlayerInit copy. Its ScenePart argument is a cast from BSFaceGenNiNode that stays a reinterpret cast only while the two classes are unrelated."
+    },
+    {
+      "id": "render",
+      "label": "Render set-up 0x0086d590, RenderSystem",
+      "kind": "boot-body",
+      "state": "blocked",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-30",
+      "source": "docs/winmain-boot-names.md (Steps, 11d745b9b; What the steps do not prove; Call repairs)",
+      "detail": "The render set-up constructs the shadow scene node and other Gamebryo objects through main.cpp's private copies. Its callee FUN_008706b0 now calls 0x008707c0 by the row's name."
+    },
+    {
+      "id": "wndproc",
+      "label": "Window procedure 0x0086a0a0",
+      "kind": "boot-body",
+      "state": "blocked",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-30",
+      "source": "src/staging/blk_00860000_od.cpp; include/fnv/symbols_0086a000.h; docs/winmain-boot-names.md (01b67a2f3)",
+      "detail": "A staging unit defines it, and only WinMain reaches it, by taking its address."
+    },
+    {
+      "id": "c_calls_bound",
+      "label": "Calls of 0x008774a0 and 0x008707c0 repaired and bound to their rows",
+      "kind": "contract",
+      "state": "accepted",
+      "tier": "object-check",
+      "vegas": "VEGAS-90",
+      "source": "docs/winmain-boot-names.md (Call repairs); objects.boot_call_repairs passes in Windows CI run 43401627088 and in the cross build of the snapshot commit",
+      "detail": "WinMain passes the constant 1 to the bool parameter of 0x008774a0, under the admission constant to bool. FUN_008706b0 passes the texture pointer to the void* parameter of 0x008707c0, under R5a. Neither call adds a cast. The forced link at d5d1d60ec loses one undefined name with each repair. The receivers stay open."
+    },
+    {
+      "id": "c_call_repair",
+      "label": "Call repairs that change a conversion on main.cpp calls",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "curated",
+      "vegas": "VEGAS-90",
+      "tracker_state": "Needs triage",
+      "source": "docs/winmain-boot-names.md (WinMain's other undefined names; The boot functions' callees; Two calls that stay open); VEGAS-30 rulings of 2026-11-13; VEGAS-90",
+      "detail": "128 names that misc/main.cpp.obj references and no member defines need a change of argument, result or pointer conversion, counted at 891a44f50. The repairs of 0x008774a0 and 0x008707c0 bound two of them, c_calls_bound. FUN_008706b0's calls of 0x00870bd0 and 0x00870a00 stay open. The first waits on the definition repair of VEGAS-97, and the second on a shared declaration of the texture type. The rulings refuse an added explicit cast at a call site."
+    },
+    {
+      "id": "c_870bd0",
+      "label": "0x00870bd0 definition repair, parameter int to void*",
+      "kind": "contract",
+      "state": "in-progress",
+      "tier": "curated",
+      "vegas": "VEGAS-97",
+      "tracker_state": "In progress",
+      "source": "VEGAS-97 (queued 2026-11-13); VEGAS-30 ruling of 2026-11-13; docs/winmain-boot-names.md (Two calls that stay open); docs/pointer-truncation-census.tsv (fnv_00870bd0::RenderCoordinator::FUN_00870bd0, open)",
+      "detail": "RenderCoordinator::FUN_00870bd0 uses the value only as an address and its one caller passes a texture pointer. The repair respells the row from QAEXH_N to QAEXPAX_N, as b6619dc9a did for 0x008707c0, and 0x00876830's second parameter becomes void* too. VEGAS-97 is a child of VEGAS-44. This cast also falls under the criterion of VEGAS-44 that no cast truncates a pointer. The coordinator queued this repair on VEGAS-97 on 2026-11-13."
+    },
+    {
+      "id": "c_shared_classes",
+      "label": "Shared declarations of the 12 classes the boot bodies construct",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md (census at 1b3b79d69)",
+      "detail": "Their constructor and destructor names are undefined. Binding one needs one declaration of the class that main.cpp and the row's unit share, so that the size that new passes and the fields that the body writes agree. Eight of the twelve are Gamebryo classes. VEGAS-11 owns shared declarations in general."
+    },
+    {
+      "id": "c_niobject",
+      "label": "Shared NiObject with its virtual slot table",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md (The census; What would let them move); VEGAS-30 ruling (3) of 2026-11-13: bases go base first; VEGAS-11 rulings of 2026-11-13",
+      "detail": "include/NiObject.h declares a layout but no virtual slot of its own class, so it is not a shared declaration under the method. The census at 1b3b79d69 counts 219 copies, 11 x64 layouts and 7 undecided offsets. Its base NiRefObject is already shared in include/fnv/ni_ref_object.h. Under the VEGAS-11 rulings of 2026-11-13, a copy moves onto a shared polymorphic header only when its open slots have the shared symbol at every index, the header declares the constructors and destructors from the start, and a shared header lands with its first unit."
+    },
+    {
+      "id": "c_niobjectnet",
+      "label": "Shared NiObjectNET with its virtual slot table",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md; include/NiObjectNET.h",
+      "detail": "The census counts 94 copies, 9 x64 layouts and 2 undecided offsets, and both offsets come from one copy in staging/blk_00a40000_o2.cpp. Under the VEGAS-11 rulings of 2026-11-13, its controller field is the raw NiTimeController* that the owner counts by hand, and the NiObjectNET and NiProperty headers wait until a unit can move."
+    },
+    {
+      "id": "c_niproperty",
+      "label": "Shared NiProperty with its virtual slot table",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md; include/NiProperty.h",
+      "detail": "The census counts 68 copies, 19 x64 layouts and 4 undecided offsets. NiTexturingProperty and BSFogProperty have it as a base. main.cpp names its copy of 0x0049ec80 NiAlphaProperty, and no declaration of the class that 0x0049ec80 constructs has a NiProperty base."
+    },
+    {
+      "id": "c_niavobject",
+      "label": "Shared NiAVObject with its virtual slot table",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md",
+      "detail": "The census counts 203 copies, 42 x64 layouts and 47 undecided offsets."
+    },
+    {
+      "id": "c_ninode",
+      "label": "Shared NiNode with its virtual slot table",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md",
+      "detail": "The census counts 240 copies, 45 x64 layouts and 43 undecided offsets. The shadow scene node and 0x00c503d0 derive from their units' copies of it, 0x00bc2980 holds one as padding, and 0x00a5ecb0 is the census's NiNode itself."
+    },
+    {
+      "id": "c_player",
+      "label": "Type the placeholder fields of PlayerCharacter 0x00938180",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md (Why each class stops; What would let them move); VEGAS-30 ruling of 2026-11-13 on placeholder integers",
+      "detail": "The row's class names 266 of 420 leaves by 32-bit offset; 29 copies have a pointer where it has an integer. include/PlayerCharacter.h, partly typed, is the starting point. A placeholder becomes a 32-bit integer when rows other than the constructor use it as one and none stores an address through it. No ticket owns this work on the ticket-state date."
+    },
+    {
+      "id": "c_tes",
+      "label": "Type the placeholder fields of TES 0x00450770",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/boot-real-classes.md (Why each class stops; What would let them move)",
+      "detail": "The row's class declares int fields where speedtree/bstreemanager_types_TES.h declares pointers. WinMain and 0x0086bee0 call its destructor through a member-only declaration with a non-virtual destructor. No ticket owns this work on the ticket-state date."
+    },
+    {
+      "id": "c_hand_tables",
+      "label": "Constructors that store a table address by hand",
+      "kind": "contract",
+      "state": "waiting",
+      "tier": "curated",
+      "vegas": "VEGAS-110",
+      "tracker_state": "Needs triage",
+      "source": "docs/boot-real-classes.md (What would let them move); VEGAS-110; VEGAS-110 comment of 2026-11-13",
+      "detail": "They are 0x00c46970, 0x00bc2980 and 0x0049ec80, and the member constructor 0x00872ea0. Making them polymorphic changes each constructor's object, so it is a repair with its own object proof, not a declaration move. A VEGAS-110 comment of 2026-11-13 records that three of the four constructors wait on the shared Gamebryo base declarations, because their classes derive from those bases. docs/boot-real-classes.md names the base of 0x00bc2980 only, its NiNode, so the two curated edges name NiNode and NiProperty, which between them need all five bases."
+    },
+    {
+      "id": "c_setting_t",
+      "label": "SettingT accessor 0x00408d60 through main.cpp stand-ins",
+      "kind": "contract",
+      "state": "in-progress",
+      "tier": "curated",
+      "vegas": "VEGAS-70",
+      "tracker_state": "In progress",
+      "source": "docs/winmain-boot-names.md (WinMain's other undefined names); docs/shared-setting-t.md",
+      "detail": "The shared template declares SettingT::Bool, and its row's unit defines it. main.cpp calls 0x00408d60 through stand-ins that return bool* or unsigned char*, where the template's Bool returns SETTING_VALUE*. docs/shared-setting-t.md says the names leave when the unit moves onto the shared template, with an object proof. No source records that this move has started. The node shows VEGAS-70's state."
+    },
+    {
+      "id": "c_receiver",
+      "label": "Receiver and size of g_osGlobals, RenderSystem, FUN_008706b0",
+      "kind": "contract",
+      "state": "unknown",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "docs/winmain-boot-names.md (What the steps do not prove); VEGAS-30 ruling of 2026-11-13",
+      "detail": "WinMain allocates 0xa4 bytes and FUN_0086c160 builds the object. The compiler measures RenderSystem at 0xB0 bytes on windows-x64, and the bound body touches bytes 0xA0 to 0xB0. main.cpp reads the global through many private classes. FUN_008706b0 passes a 1-byte shell as RenderMgr, which is 0x98 bytes, and as RenderCoordinator, which is 0x8c bytes. No source records an owner or a route for the true size and class."
+    },
+    {
+      "id": "c_differing",
+      "label": "No name a main.cpp program keeps has differing definitions",
+      "kind": "contract",
+      "state": "ready",
+      "tier": "curated",
+      "vegas": "VEGAS-89",
+      "tracker_state": "Ready for agent",
+      "source": "docs/differing-definitions.md; docs/winmain-boot-names.md (What the repairs do not prove); archive.differing_definitions; VEGAS-30 ruling of 2026-11-13; VEGAS-89",
+      "detail": "Before any program loads misc/main.cpp.obj, no name its link keeps may be in the differing-definitions list. From the 0x008707c0 repair on, 22 type-information names get another first-loaded copy in the model links rooted at WinMain, at WinMain with main and at the main loop, and for 15 of them the two copies differ. These links are models that no program uses."
+    },
+    {
+      "id": "c_dup_checks",
+      "label": "Drop the duplicated startup checks from main or from WinMain",
+      "kind": "contract",
+      "state": "unknown",
+      "tier": "source",
+      "vegas": "VEGAS-52",
+      "source": "docs/data-pack-startup.md (C1's consumer; The second-window check); docs/winmain-boot-names.md",
+      "detail": "The single-instance and second-window checks exist in main and in FUN_0086a850. A program that calls FUN_0086a850 from main must first drop them from one of the two. Which one is not decided."
+    },
+    {
+      "id": "g_main_obj",
+      "label": "A linking program contains misc/main.cpp.obj",
+      "kind": "gate",
+      "state": "blocked",
+      "tier": "lazy-link",
+      "vegas": "VEGAS-30",
+      "source": "docs/winmain-boot-names.md (What the steps do not prove; The boot functions' callees)",
+      "detail": "Addendum (3) of 2026-11-10 on the rules page admitted the naming steps on the boot path only because no linking program contains this object. misc/main.cpp does not compile on the host."
+    },
+    {
+      "id": "g_engine_link",
+      "label": "runtime_havok_worker_pool_test links, the engine-link gate",
+      "kind": "gate",
+      "state": "blocked",
+      "tier": "windows-ci-test",
+      "vegas": "VEGAS-30",
+      "source": "Windows CI run 43401627088 at 3503a01a1: 140 of 141 tests pass, runtime.havok_worker_pool is Not Run because its link fails; docs/winmain-boot-names.md",
+      "detail": "It is the one link of the build that loads misc/main.cpp.obj. The CI log shows the first undefined names of the link, under the linker's default error limit."
+    },
+    {
+      "id": "g_next",
+      "label": "main runs WinMain's next stage: window, BootInit, render set-up, main loop",
+      "kind": "gate",
+      "state": "blocked",
+      "tier": "source",
+      "vegas": "VEGAS-30",
+      "source": "src/main.cpp (the statements after the second-window check are not composed); docs/data-pack-startup.md"
+    },
+    {
+      "id": "g_menu",
+      "label": "Boot to the main menu",
+      "kind": "gate",
+      "state": "blocked",
+      "tier": "curated",
+      "vegas": "VEGAS-30",
+      "source": "VEGAS-30 (in progress on 2026-11-13)",
+      "detail": "VEGAS-30 asks that FalloutNV.exe links as one 64-bit executable and reaches the main menu with a prepared pack."
+    },
+    {
+      "id": "t_vegas109",
+      "label": "DAT_01202fa0, the user folder buffer, defined as 260 bytes",
+      "kind": "ticket",
+      "state": "accepted",
+      "tier": "object-check",
+      "vegas": "VEGAS-109",
+      "tracker_state": "Done",
+      "source": "VEGAS-109; docs/data-pack-startup.md (The user folder buffer); objects.log_path_buffer passes in Windows CI run 43401627088 and in the cross build of the snapshot commit",
+      "detail": "Since VEGAS-109 the buffer is one array of 260 characters, declared in include/fnv/symbols_01202000.h and defined in blk_004c0000_od.cpp, and its seven users read it without a cast. FUN_004dc110 returns it as char *. The repaired users have not run, because FalloutNV does not load their members and no test calls them."
+    },
+    {
+      "id": "t_vegas112",
+      "label": "DAT_01202b48 and DAT_01202e98 defined as a byte and an int, written as 260-byte buffers",
+      "kind": "ticket",
+      "state": "ready",
+      "tier": "curated",
+      "vegas": "VEGAS-112",
+      "tracker_state": "Needs triage",
+      "source": "VEGAS-112; docs/data-pack-startup.md (Skipped statements; The user folder buffer)",
+      "detail": "Units under src/generated define both. S3's builder writes up to 260 bytes into DAT_01202b48, and S7 writes up to 260 bytes into DAT_01202e98 through FUN_0086d480. The VEGAS-109 work found them. docs/data-pack-startup.md lists the storage of DAT_01202b48 among the prerequisites of S2 to S5, and the ticket names DAT_01202e98 as the buffer that S7 writes. Generated data defines both, so their repair goes through the audited composition."
+    },
+    {
+      "id": "t_vegas111",
+      "label": "FUN_0043d4d0 returns a setting's address plus 4; the x64 value is at plus 8",
+      "kind": "ticket",
+      "state": "in-progress",
+      "tier": "curated",
+      "vegas": "VEGAS-111",
+      "tracker_state": "In progress",
+      "source": "VEGAS-111; VEGAS-52 comment of 2026-11-13; src/fallout_shared/magic/magicitem.cpp (FUN_0043d4d0 returns pThis[1])",
+      "detail": "On x64 the setting's table pointer fills bytes 0 to 7 and its value is at plus 8, so S6 as transcribed would write the processor count into the table pointer. The ticket counts 69 references in 19 archive members and callers in 122 recipe units."
+    }
+  ],
+  "edges": [
+    {"from": "setup_install", "to": "setup_prepare", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/setup/run_setup.h (RunSetup: PrepareDataPack, then InstallDataPack)"}},
+    {"from": "main_pack", "to": "setup_install", "kind": "requires", "provenance": "measured", "basis": {"kind": "windows-ci", "ref": "falloutnv.process_exit.missing_pack: exit 2 without a pack beside the executable"}},
+    {"from": "main_timer", "to": "main_memory", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/main.cpp: main returns 1 when memory start-up refuses"}},
+    {"from": "main_pack", "to": "main_folder", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/main.cpp: LoadDataPack takes the folder"}},
+    {"from": "main_publish", "to": "main_pack", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "include/fnv/data_pack_startup.h: publication only after the whole pack validates"}},
+    {"from": "main_single", "to": "main_publish", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/main.cpp: the checks read the published strings from the stage's result"}},
+    {"from": "main_second", "to": "main_single", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/main.cpp: main returns 0 after either message box"}},
+    {"from": "c_setting_t", "to": "s1", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "docs/data-pack-startup.md: link of main with a skipped statement composed, as FalloutNV links, at 891a44f50"}},
+    {"from": "s2_s5", "to": "t_vegas109", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-catalogue.md (D): VEGAS-109 gated the four log-path statements and is repaired"}},
+    {"from": "t_vegas112", "to": "s2_s5", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (Skipped statements): S2 to S5 need 260 bytes of storage for DAT_01202b48, which S3 writes; (The user folder buffer): that defect is VEGAS-112; VEGAS-112 comment of 2026-11-13"}},
+    {"from": "t_vegas112", "to": "s7", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-112 comment of 2026-11-13: GetSaveDirectory, S7, writes up to 260 bytes into DAT_01202e98 through FUN_0086d480, and DAT_01202e98 is defined as an int"}},
+    {"from": "t_vegas111", "to": "s6", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-52 comment of 2026-11-13: the accessor defect is repaired first under VEGAS-111"}},
+    {"from": "t_vegas111", "to": "s8", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-52 comment of 2026-11-13: S6 and S8 stay skipped with the same four prerequisites"}},
+    {"from": "winmain", "to": "mainloop", "kind": "calls", "provenance": "measured", "basis": {"kind": "object-check", "ref": "objects.winmain_boot_calls"}},
+    {"from": "winmain", "to": "bootinit", "kind": "calls", "provenance": "measured", "basis": {"kind": "object-check", "ref": "objects.winmain_boot_calls"}},
+    {"from": "winmain", "to": "render", "kind": "calls", "provenance": "measured", "basis": {"kind": "object-check", "ref": "objects.winmain_boot_calls"}},
+    {"from": "winmain", "to": "wndproc", "kind": "calls", "provenance": "measured", "basis": {"kind": "object-check", "ref": "objects.winmain_boot_calls: WinMain takes its address"}},
+    {"from": "winmain", "to": "g_main_obj", "kind": "requires", "provenance": "measured", "basis": {"kind": "recipe", "ref": "build/units.json: 0x0086a850 is a function row of src/fallout/misc/main.cpp"}},
+    {"from": "g_main_obj", "to": "c_calls_bound", "kind": "requires", "provenance": "measured", "basis": {"kind": "link", "ref": "docs/winmain-boot-names.md (Call repairs): each repair takes one undefined name of misc/main.cpp.obj from the forced link at d5d1d60ec"}},
+    {"from": "c_call_repair", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 891a44f50: names misc/main.cpp.obj references that no member defines; docs/winmain-boot-names.md"}},
+    {"from": "c_shared_classes", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 1b3b79d69: each of the twelve names is undefined and only main.cpp requires it; docs/boot-real-classes.md"}},
+    {"from": "c_setting_t", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 891a44f50: the folded accessor names misc/main.cpp.obj references; docs/winmain-boot-names.md"}},
+    {"from": "c_receiver", "to": "g_main_obj", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/winmain-boot-names.md; VEGAS-30 ruling of 2026-11-13"}},
+    {"from": "c_differing", "to": "g_main_obj", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 ruling of 2026-11-13"}},
+    {"from": "c_call_repair", "to": "c_870bd0", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 ruling of 2026-11-13: the cast-free route for 0x00870bd0 is this repair"}},
+    {"from": "c_niobjectnet", "to": "c_niobject", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "include/NiObjectNET.h: NiObjectNET derives from NiObject"}},
+    {"from": "c_niproperty", "to": "c_niobjectnet", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "include/NiProperty.h: NiProperty derives from NiObjectNET"}},
+    {"from": "c_niavobject", "to": "c_niobjectnet", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md: bases base first; VEGAS-30 ruling (3) of 2026-11-13"}},
+    {"from": "c_ninode", "to": "c_niavobject", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md: bases base first; VEGAS-30 ruling (3) of 2026-11-13"}},
+    {"from": "c_shared_classes", "to": "c_ninode", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md (What would let them move)"}},
+    {"from": "c_shared_classes", "to": "c_niproperty", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md (What would let them move)"}},
+    {"from": "c_shared_classes", "to": "c_player", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md (What would let them move)"}},
+    {"from": "c_shared_classes", "to": "c_tes", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md (What would let them move)"}},
+    {"from": "c_hand_tables", "to": "c_shared_classes", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-110; docs/boot-real-classes.md"}},
+    {"from": "c_hand_tables", "to": "c_ninode", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-110 comment of 2026-11-13: three of its four constructors belong to classes that derive from the Gamebryo bases and wait on the shared base declarations; docs/boot-real-classes.md (What would let them move)"}},
+    {"from": "c_hand_tables", "to": "c_niproperty", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-110 comment of 2026-11-13: three of its four constructors belong to classes that derive from the Gamebryo bases and wait on the shared base declarations; docs/boot-real-classes.md (What would let them move)"}},
+    {"from": "g_engine_link", "to": "g_main_obj", "kind": "requires", "provenance": "measured", "basis": {"kind": "link", "ref": "docs/winmain-boot-names.md (What the repairs do not prove): of 86 executables at d5d1d60ec and with the last call repair, only this link loads misc/main.cpp.obj"}},
+    {"from": "g_next", "to": "main_second", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/fallout/misc/main.cpp: FUN_0086a850 returns 0 when the second-window check finds a window and runs the statements otherwise"}},
+    {"from": "g_next", "to": "winmain", "kind": "requires", "provenance": "measured", "basis": {"kind": "recipe", "ref": "build/units.json: the next stage's bodies are function rows of src/fallout/misc/main.cpp"}},
+    {"from": "g_next", "to": "c_dup_checks", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (C1's consumer)"}},
+    {"from": "g_menu", "to": "g_next", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30"}},
+    {"from": "c_870bd0", "to": "winmain", "kind": "estimated-unlock", "provenance": "modelled", "basis": {"kind": "model", "ref": "single-name unlock model at 891a44f50 (VEGAS-30, 2026-11-13)"}, "estimate": {"value": 132, "unit": "closure names", "basis": "names that binding MainStub::FUN_00870bd0 alone newly brings into the raw section closure from WinMain; single-name count, not additive, not a link"}},
+    {"from": "c_player", "to": "bootinit", "kind": "estimated-unlock", "provenance": "modelled", "basis": {"kind": "model", "ref": "single-name unlock model at 891a44f50 (VEGAS-30, 2026-11-13)"}, "estimate": {"value": 40, "unit": "closure names", "basis": "names that binding the PlayerInit constructor alone newly brings into the raw section closure from WinMain; single-name count, not additive, not a link"}},
+    {"from": "c_tes", "to": "winmain", "kind": "estimated-unlock", "provenance": "modelled", "basis": {"kind": "model", "ref": "single-name unlock model at 891a44f50 (VEGAS-30, 2026-11-13)"}, "estimate": {"value": 27, "unit": "closure names", "basis": "names that binding the destructor 0x00450770 alone newly brings into the raw section closure from WinMain; single-name count, not additive, not a link"}}
+  ],
+  "measurements": [
+    {"label": "Forced link of every member with no error limit, as undefined names, duplicate names and imports", "value": "35,030, 0 and 133", "command": "forced-unlimited link cell with user32.lib, the method of 891a44f50", "commit": "3503a01a1", "date": "2026-11-13", "tier": "forced-link"},
+    {"label": "Lazy link of FalloutNV's inputs, as undefined names and imports", "value": "0 and 91", "command": "lazy link cells with user32.lib", "commit": "3503a01a1", "date": "2026-11-13", "tier": "lazy-link"},
+    {"label": "Names with differing definitions in the game archive", "value": "519", "command": "tools/differing-definitions --list", "commit": "3503a01a1", "date": "2026-11-13", "tier": "object-check"},
+    {"label": "Projected boot closure from WinMain, a model and not a link", "value": "20,970 names, 42 of them user32 names; 20,928 without them", "command": "boot-closure section model, projected through recipe bodies, on the forced link without user32.lib", "commit": "3503a01a1", "date": "2026-11-13", "tier": "model"},
+    {"label": "Windows CI tests", "value": "140 of 141 pass; runtime.havok_worker_pool Not Run, its link fails", "command": "Windows CI run 43401627088", "commit": "3503a01a1", "date": "2026-11-13", "tier": "windows-ci-test"}
+  ],
+
+  "coverage": [
+    "The map covers the accepted steps of main in src/main.cpp, in order, and the setup steps that make the pack.",
+    "It covers the eight statements of WinMain that main skips, as docs/data-pack-startup.md tables them.",
+    "It covers the four boot bodies that WinMain reaches by name, and the contracts that docs/winmain-boot-names.md and docs/boot-real-classes.md record for them, by class and not name by name.",
+    "Tickets appear only where a node names them; ticket states are the tracker's on the date above."
+  ],
+  "limitations": [
+    "The map is not a call graph. It shows four calls of WinMain and no others; the boot closure has about 21,000 names.",
+    "Forced-link counts measure the whole archive. They say nothing about what a running game reaches. VEGAS-30's first criterion is about FalloutNV.exe's own link. Nobody measured which of these names a boot to the main menu reaches.",
+    "Estimates are single-name model counts. They are not additive and no link measured them.",
+    "The state of a node with a tracker state comes from the tracker's state on the ticket-state date, and curated edges come from tickets, tracker comments and rulings. No machine check confirms them, and they can be stale the day after the snapshot.",
+    "The map leaves out VEGAS-100 and VEGAS-105, because neither src/main.cpp nor src/fallout/misc/main.cpp names g_010173f0. Nobody measured their relation to the boot closure.",
+    "The map leaves out VEGAS-103, in progress with its criterion 2 tabled to VEGAS-113, and VEGAS-106, done, because no source of a node names them. The repairs of VEGAS-103, integrated at b7007f0f7, took two names from the forced link.",
+    "The edges from VEGAS-112 to S3 and S7 and from VEGAS-110 to the shared bases are curated relationships recorded on those tickets on 2026-11-13. The table of skipped statements does not list VEGAS-112 for S7, and no check measures either.",
+    "No source states that the next stage waits on S1 to S8; the map draws no such edge.",
+    "The generator checks the input's structure, not its truth. A wrong source reference passes."
+  ]
+}

@@ -22,10 +22,10 @@ the file, and the only date and commit are the snapshot's.
 
 ## Where it runs
 
-CTest runs the tests as `docs.startup_map.generator` on every host, the
-Windows CI job's included. When configuring does not find Python 3, it warns,
-and CTest still registers `docs.startup_map.generator`, which then fails with
-that reason.
+CTest runs `--check` as `docs.startup_map` and the tests as
+`docs.startup_map.generator` on every host, the Windows CI job's included.
+When configuring does not find Python 3, it warns, and CTest still registers
+both tests, which then fail with that reason.
 
 ## The input
 

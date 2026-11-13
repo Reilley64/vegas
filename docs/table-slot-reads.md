@@ -126,10 +126,13 @@ layouts and lifetimes of the four functions stay open.
 The windows-x64 body of `0x00cb9cb0`, `fnv_00cb9cb0::FUN_00cb9cb0` in
 `blk_00ca0000_o2.cpp`, took no parameter and passed a null pointer to the
 memory manager's free, so every caller of the slots that hold it leaked the
-pointer it meant to free. It now takes that one pointer and passes it on,
-and is declared `__stdcall`, as the recipe's keys of the slots that hold it
-spell their type, but for `DAT_010c8d08` (`__cdecl`) and `DAT_010c4cec` (a
-data pointer); on windows-x64 that changes nothing.
+pointer it meant to free. It now takes that one pointer and passes it on.
+The source declares it with no calling-convention keyword, as VEGAS-12
+requires of game code; the host test `source.calling_convention_keywords`
+fails when one is written there. The recipe spells it stdcall, as do the
+keys of the slots that hold it but for `DAT_010c8d08` (`__cdecl`) and
+`DAT_010c4cec` (a data pointer), because the recipe records the original's
+convention; on windows-x64 the convention changes nothing.
 In the object the body is `movq %rcx, %rdx`, the address of the memory
 manager in `rcx`, and a jump to the free, where it was `xorl %edx, %edx`
 before the jump.
@@ -145,8 +148,8 @@ files are unchanged. Through those labels seven slots hold the body:
 `DAT_010b7f08`, `DAT_010c4cec`, `DAT_010c53bc`, `DAT_010c7318`,
 `DAT_010c8d08`, `DAT_010c8d1c` and slot 2 of the table at `DAT_010c8d28`.
 Each slot keeps its bytes; its relocation now names the new symbol. The
-recipe's function row at `0x00cb9cb0` is respelled to the 32-bit name of
-the new declaration, `?FUN_00cb9cb0@fnv_00cb9cb0@@YGXPAX@Z`, with its
+recipe's function row at `0x00cb9cb0` is respelled to the 32-bit stdcall
+name of the new signature, `?FUN_00cb9cb0@fnv_00cb9cb0@@YGXPAX@Z`, with its
 address, size and unit unchanged.
 
 Not every caller passed one pointer. A census of the windows-x64 archive
@@ -161,12 +164,12 @@ tables. All but two pass the pointer to free as their one argument:
   passes the object in `rcx` and the data in `rdx`. With the repaired body
   it would have freed the object, and freed it again when flags bit 0 is
   set. The recipe names no symbol at the slot's address, so the function
-  now calls slot 2 of the table it stored through a `__stdcall` function
-  type of one pointer and passes `m_pData` alone; the private struct loses
-  `vf08`. In the object only the argument registers change:
-  `movq 0x8(%rsi), %rdx; movq %rsi, %rcx` became `movq 0x8(%rsi), %rcx`
-  before the same `callq *0x10(%rax)`. This repair comes before the body's,
-  so no commit frees the object.
+  now calls slot 2 of the table it stored through a function type of one
+  pointer, with no calling-convention keyword, and passes `m_pData`
+  alone; the private struct loses `vf08`. In the object only the argument
+  registers change: `movq 0x8(%rsi), %rdx; movq %rsi, %rcx` became
+  `movq 0x8(%rsi), %rcx` before the same `callq *0x10(%rax)`. This repair
+  comes before the body's, so no commit frees the object.
 - `FUN_00ba11e0` in `blk_00ba0000_o2.cpp` calls `DAT_010b7f08` with a
   pointer sign-extended from the 32-bit field `m_04` of its `Buffer`. That
   is VEGAS-104 and is not changed here (below).
@@ -208,8 +211,9 @@ cast before the declaration of `DAT_010c4dc0` was settled:
 The 2026-11-12 rulings settled it:
 
 - `include/fnv/symbols_010c4000.h` declares `DAT_010c4dc0` as
-  `void (__stdcall *)(void *)`, as its recipe key, the siblings and both
-  callers establish.
+  `void (*)(void *)`, as its recipe key, the siblings and both callers
+  establish. The key spells the pointer stdcall; the source writes no
+  calling-convention keyword (VEGAS-12).
 - `blk_00c60000_o2.cpp`, the unit the recipe binds the name to and which
   holds the rows of the table's functions, defines the slot with the
   one-pointer body of `0x00cb9cb0`, without a cast. The value follows from

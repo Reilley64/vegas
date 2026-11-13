@@ -1443,10 +1443,6 @@ struct FUN_0086f890_shell : public Main
     unsigned char unk07;
 };
 
-struct GlobalObject2_0040c150
-{
-};
-
 
 
 // @fnv 0x0086f890
@@ -3904,7 +3900,7 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
         ::FUN_0086f830(::fnv_00563f30::DAT_011c3c08);
         reinterpret_cast<::FUN_0087a6b0_shell *>((((FUN_0087a6b0_shell*)((::fnv_0086f6a0::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087a6b0();
     }
-    ::TaskQueueInterface::ThreadProcessInput(*((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&(*reinterpret_cast<::fnv_0086f6a0::GlobalObject2_0040c150 *>(&::g_011d10d4))))))));
+    ::TaskQueueInterface::ThreadProcessInput(*((int *)&(::FUN_0043d4d0((::Setting *)(((GlobalObject_0045cfe0*)&(*reinterpret_cast<::fnv_0086f6a0::GlobalObject2_0040c150 *>(&::g_011d10d4))))))));
     ::TaskQueueInterface::ThreadProcessSecondaryInput();
     reinterpret_cast<::fnv_00991600::FUN_00991600_shell *>(((*reinterpret_cast<::fnv_0086f6a0::FUN_00991600_t * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00991600(::DAT_011dea2b || ::DAT_011dea2d || *((bool*)this + 7));
 }

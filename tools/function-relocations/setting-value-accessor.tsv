@@ -18,11 +18,11 @@ function	callers	src/fallout/interface/menus/levelupmenu.cpp	?FUN_00784c80@fnv_0
 function	callers	src/bgsencounterzone.cpp	?FUN_005260a0@FUN_005260a0_shell@@QEAAXI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 # batch, unit, function, the accessor: every function of main.cpp that calls
 # the accessor (VEGAS-115), WinMain's three writes of the processor count
-# among them. 0x0086f6a0 is not listed: it keeps one call on the 32-bit form,
-# on g_011d10d4, a name that no object defines.
+# among them.
 function	main	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	main	src/fallout/misc/main.cpp	?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	main	src/fallout/misc/main.cpp	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086f6a0@FUN_0086f6a0_shell@fnv_0086f6a0@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	main	src/fallout/misc/main.cpp	?FUN_0086f890@FUN_0086f890_shell@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	main	src/fallout/misc/main.cpp	?FUN_0086fc60@FUN_0086fc60_shell@fnv_0086fc60@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	main	src/fallout/misc/main.cpp	?FUN_0086ff70@Main86@fnv_0086ff70@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

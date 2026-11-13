@@ -879,9 +879,6 @@ struct Controller
     virtual void method289();
     virtual void Action(int);
 };
-struct Setting
-{
-};
 struct BeamEffect
 {
     virtual void method0();
@@ -1110,8 +1107,8 @@ bool BeamEffect::FUN_009c43e0(intptr_t value, bool silent)
                     (lifetime != 3.4028234663852886e+38 || reinterpret_cast<::fnv_009c3930::FUN_009c3930_shell *>(this)->IsFightReactionAllowed((::fnv_009c3930::Actor *)(value), (::fnv_009c3930::Actor *)(shooter), (::fnv_009c3930::TESFaction *)(container))))
                 {
                     ::TopicMenuController::IncrementMiscStat(11);
-                    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011cecdc)))))) > 0)
-                        (*reinterpret_cast<::Controller * *>(&::_g_thePlayer))->Action(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011cecdc)))))));
+                    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011cecdc)))))) > 0)
+                        (*reinterpret_cast<::Controller * *>(&::_g_thePlayer))->Action(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011cecdc)))))));
                 }
             }
         }

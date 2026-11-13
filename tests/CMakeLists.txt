@@ -1133,11 +1133,15 @@ endif()
 # Fails when the function at 0x00cbaec0 (VEGAS-102) again calls slot 2 of the
 # table it stores, DAT_010c8d28, with the object and its data, as a member
 # call does, instead of with the data alone. That slot holds 0x00cb9cb0,
-# which frees its one argument. The data pointer is at offset 8: the repaired
-# call loads it into rcx, the member call loaded it into rdx. It reads the
-# archive with llvm-objdump. The patterns are specific to clang-cl at /O2.
-# Blind spots: registers, not values, are matched; a call that loads the data
-# into rcx and also passes something in rdx passes.
+# which frees its one argument. The check traces rcx at the call through
+# offset 16 of the table back to where it was set, which must be the load of
+# the data pointer at offset 8; the member call passed the object there. It
+# reads the archive with llvm-objdump. The patterns are specific to clang-cl
+# at /O2. Blind spots: registers, not values, are matched; the trace follows
+# address order, not control flow; a call that also passes something in rdx
+# passes. Since VEGAS-106 the compiler loads the data into another register,
+# which the inlined ReleaseItems also walks, and copies it to rcx, so the
+# check no longer matches a load into rcx itself.
 if(vegas_object_checks)
   add_test(NAME objects.release_and_destroy_slot_call
     COMMAND ${CMAKE_COMMAND}
@@ -1145,9 +1149,11 @@ if(vegas_object_checks)
       -DARCHIVE=$<TARGET_FILE:game>
       -DWORK=${CMAKE_CURRENT_BINARY_DIR}/release_and_destroy_slot_call.disassembly.txt
       "-DFUNCTION=?ReleaseAndDestroy@FUN_00cbaec0_Obj@@QEAAPEAU1@E@Z"
-      "-DFORBID=^movq[ \t]+0x8\\(%r[a-z0-9]+\\), %rdx$"
-      "-DREQUIRE=^movq[ \t]+0x8\\(%r[a-z0-9]+\\), %rcx$"
-      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+      "-DSITE=^callq \\*0x10\\(%rax\\)$"
+      -DREGISTER=rcx
+      "-DORIGIN=^movq 0x8\\(%r[a-z0-9]+\\), BASE$"
+      -DCOUNT=1
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
 endif()
 
 # Fails when the function at 0x00cb9cb0 (VEGAS-102), which seven slots of
@@ -1312,3 +1318,54 @@ else()
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/second_window_check.cpp)
 endif()
 add_test(NAME runtime.second_window_check COMMAND runtime_second_window_check_test)
+
+# Fails when a function that releases the items of an array (VEGAS-106) again
+# passes ReleaseItems (0x00cba0d0) its own object as the item array, and a
+# pointer converted to an integer as the count, instead of the array and its
+# count. ReleaseItems is inlined into each: the check traces the array of
+# every inlined step back to the load of the array field, at the offset
+# given, and fails when it reaches the object's own pointer or the address of
+# a member. Each function's number of inlined steps is fixed. A second check
+# fails when the definition at the row's name, which takes a 32-bit count, is
+# missing or again takes a 64-bit one. They read the archive with llvm-objdump.
+# The patterns are specific to clang-cl at /O2. Blind spots: the trace follows
+# address order, not control flow; the count is not traced; a call of
+# ReleaseItems that is not inlined is not checked.
+if(vegas_object_checks)
+  set(vegas_release_items_arrays
+    "FUN_00cbadf0|?FUN_00cbadf0@CBADDynamicArray@@QEAAXI_N@Z|0x8|2"
+    "FUN_00cbadb0|??1FUN_00cbadb0_Obj@@UEAA@XZ|0x8|1"
+    "FUN_00cbadb0_deleting|??_GFUN_00cbadb0_Obj@@UEAAPEAXI@Z|0x8|1"
+    "ReleaseAndDestroy|?ReleaseAndDestroy@FUN_00cbaec0_Obj@@QEAAPEAU1@E@Z|0x8|1"
+    "ArrayCBAF90_deleting|??_GArrayCBAF90@@UEAAPEAXI@Z|0x8|1"
+    "FUN_00cbaf90|??1FUN_00cbaf90@@UEAA@XZ|0x18|1"
+    "FUN_00cbaf90_deleting|??_GFUN_00cbaf90@@UEAAPEAXI@Z|0x18|1"
+    "FUN_00cbb130|?FUN_00cbb130@FUN_00cbb130_Class@@QEAAPEAXE@Z|0x18|1")
+  foreach(vegas_entry IN LISTS vegas_release_items_arrays)
+    string(REPLACE "|" ";" vegas_entry "${vegas_entry}")
+    list(GET vegas_entry 0 vegas_label)
+    list(GET vegas_entry 1 vegas_function)
+    list(GET vegas_entry 2 vegas_offset)
+    list(GET vegas_entry 3 vegas_steps)
+    add_test(NAME objects.release_items_array.${vegas_label}
+      COMMAND ${CMAKE_COMMAND}
+        -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+        -DARCHIVE=$<TARGET_FILE:game>
+        -DWORK=${CMAKE_CURRENT_BINARY_DIR}/release_items_array.${vegas_label}.disassembly.txt
+        "-DFUNCTION=${vegas_function}"
+        "-DSITE=^movq \\(%(r[a-z0-9]+),%r[a-z0-9]+,8\\), %rcx$"
+        "-DFOLLOWED_BY=^decl 0x8\\(%rcx\\)$"
+        "-DORIGIN=^movq ${vegas_offset}\\(%r[a-z0-9]+\\), BASE$"
+        -DCOUNT=${vegas_steps}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
+  endforeach()
+  add_test(NAME objects.release_items_count
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/release_items_count.disassembly.txt
+      "-DFUNCTION=?ReleaseItems@@YAXPEAPEAVFUN_00cba0d0_cls@@I@Z"
+      "-DFORBID=^testq[ \t]+%rdx, %rdx$"
+      "-DREQUIRE=^testl[ \t]+%edx, %edx$"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+endif()

@@ -5853,7 +5853,7 @@ class FUN_00cba0d0_cls
 
 // For each of count items, decrements the reference count and calls v1() when it reaches zero.
 // @fnv 0x00cba0d0
-void ReleaseItems(FUN_00cba0d0_cls** items, uintptr_t count)
+void ReleaseItems(FUN_00cba0d0_cls** items, unsigned int count)
 {
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -9556,7 +9556,7 @@ void CBADDynamicArray::FUN_00cbadf0(unsigned int requestedSize, bool compact)
     {
         if (m_pBuffer != 0)
         {
-            ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(m_pBuffer));
+            ::ReleaseItems((::FUN_00cba0d0_cls **)(m_pBuffer), m_uiSize);
             if (compact)
             {
                 Free(m_pBuffer);
@@ -9585,7 +9585,7 @@ void CBADDynamicArray::FUN_00cbadf0(unsigned int requestedSize, bool compact)
     }
     else if (requestedSize < m_uiSize)
     {
-        ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(m_pBuffer + requestedSize));
+        ::ReleaseItems((::FUN_00cba0d0_cls **)(m_pBuffer + requestedSize), m_uiSize - requestedSize);
         m_uiSize = requestedSize;
         if (compact && requestedSize <= m_uiCapacity / 4)
         {
@@ -10501,7 +10501,7 @@ FUN_00cbadb0_Obj::~FUN_00cbadb0_Obj()
 {
     if (m_items)
     {
-        ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(m_items));
+        ::ReleaseItems((::FUN_00cba0d0_cls **)(m_items), m_uiItemCount);
         reinterpret_cast<FUN_00cbadb0_Dispatch*>(this)->releaseItem(m_items);
         m_items = 0;
         m_pRayCursor = 0;
@@ -10527,7 +10527,7 @@ FUN_00cbaec0_Obj* FUN_00cbaec0_Obj::ReleaseAndDestroy(unsigned char flags)
     *reinterpret_cast<int**>(this) = &DAT_010c8d28;
     if (oldData)
     {
-        ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(oldData));
+        ::ReleaseItems((::FUN_00cba0d0_cls **)(oldData), m_uiSize);
         // Slot 2 of the table just stored, DAT_010c8d28, holds 0x00cb9cb0,
         // which frees the one pointer it is given; it takes no object.
         (*reinterpret_cast<void(* const**)(void*)>(this))[2](m_pData);
@@ -10552,7 +10552,7 @@ struct ArrayCBAF90
     {
         if (m_pBase)
         {
-            ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(m_pBase));
+            ::ReleaseItems((::FUN_00cba0d0_cls **)(m_pBase), m_uiSize);
             Deallocate(m_pBase);
             m_pBase = 0;
             m_uiAllocated = 0;

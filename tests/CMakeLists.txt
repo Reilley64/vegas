@@ -146,6 +146,15 @@ if(Python3_Interpreter_FOUND)
             --recipe ${PROJECT_SOURCE_DIR}/build/units.json
             --source ${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h
             --pointer-source ${PROJECT_SOURCE_DIR}/src/setup/main_window_class_range.h)
+  # Check g on a recipe copy that binds an address 2 bytes after the pointer.
+  add_test(NAME setup.recipe_ranges.pointer_bound
+    COMMAND ${CMAKE_COMMAND} -DPYTHON=${Python3_EXECUTABLE}
+      -DCHECK=${PROJECT_SOURCE_DIR}/tools/setup-recipe-ranges/check.py
+      -DRECIPE=${PROJECT_SOURCE_DIR}/build/units.json
+      -DSOURCE=${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h
+      -DPOINTER_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/main_window_class_range.h
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/recipe_ranges_pointer_bound
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/recipe_ranges_pointer_bound.cmake)
 else()
   string(CONCAT setup_recipe_ranges_missing
     "Python 3 was not found when configuring, so setup.recipe_ranges cannot "

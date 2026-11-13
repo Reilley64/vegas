@@ -12374,7 +12374,6 @@ union SETTING_VALUE
 
 struct NiUpdateData
 {
-    NiUpdateData(float f, bool bb, bool g);
     float m_f;
     bool m_kPointB;
     bool m_g;
@@ -12520,10 +12519,10 @@ void FUN_00877730()
         reinterpret_cast<::BGSDehydrationStage *>((obj))->FUN_0050f9a0((::SpellItem *)(0xff));
         reinterpret_cast<::FUN_00439410_cls *>(((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()))->FUN_00439410((::ArgObject *)(::fnv_00877730::NiObject *)((NiObject*)obj));
     }
-    NiUpdateData upd1(0.0f, false, false);
+    ::NiUpdateData upd1(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()))->FUN_00a59c60((std::intptr_t)&(upd1));
     reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::fnv_00877730::GOa4 *>(&::g_011deda4)).FUN_00559450()))->FUN_00a5a040();
-    NiUpdateData updTmp(0.0f, false, false);
+    ::NiUpdateData updTmp(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>(((*reinterpret_cast<::fnv_00877730::GOa4 *>(&::g_011deda4)).FUN_00559450()))->FUN_00a59c60((std::intptr_t)&(updTmp));
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(void *)((*reinterpret_cast<::fnv_00877730::GO34 *>(&::g_011deb34)).FUN_00559450()), 0, 0);
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(void *)(((void *)(::fnv_0043b230::FUN_0043b230((const char *)(((ModelOps*)(void*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00877730::ProcObj * *>(&::DAT_011dea20))))->FUN_0045cd60())))))))), 0, 0);

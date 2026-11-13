@@ -26,3 +26,7 @@ function	callees	src/fallout/misc/main.cpp	?FUN_00873200@MainView@fnv_00873200@@
 # 0x00b6b790, which FUN_00874ac0 called through a class scoped to itself:
 forbid	?EndAllAndResetRendererState@BSRenderedTexture@fnv_00874ac0@@SAXXZ
 function	callees	src/fallout/misc/main.cpp	?FUN_00874ac0@FUN_00874ac0_shell@fnv_00874ac0@@QEAAX_N@Z	?EndAllAndResetRendererState@BSRenderedTexture@@SAXXZ
+# 0x0043d410, the NiUpdateData constructor, which FUN_00877730 called
+# through a copy of the class scoped to itself:
+forbid	??0NiUpdateData@fnv_00877730@@QEAA@M_N0@Z
+function	callees	src/fallout/misc/main.cpp	?FUN_00877730@fnv_00877730@@YAXXZ	??0NiUpdateData@@QEAA@M_N0@Z

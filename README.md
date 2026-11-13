@@ -14,9 +14,10 @@ flowchart TB
   main_start["main, steps 1 to 3: memory, timer, folder of the executable<br/>ACCEPTED"]
   main_pack["Step 4: load, validate and publish the pack<br/>ACCEPTED"]
   main_checks["Steps 5 to 7: single-instance and second-window checks, main returns 0<br/>ACCEPTED"]
+  gate_whole["Gate: FalloutNV links by whole members; in a model at c3ad69b43 one composed statement leaves 34,718 names undefined<br/>WAITING"]
   skip_s1["S1 crash-log set-up, skipped: waits on the SettingT stand-in and a MessageHandler<br/>WAITING"]
-  skip_paths["S2 to S5 and S7 log and save paths, skipped: wait on catalogue strings, VEGAS-112's buffers, their members<br/>WAITING"]
-  skip_cpu["S6 and S8 processor count, skipped: wait on main.cpp's accessor calls and the setting's owner<br/>WAITING"]
+  skip_paths["S2 to S5 and S7 log and save paths, skipped: wait on catalogue strings and the members that hold their code<br/>WAITING"]
+  skip_cpu["S6 and S8 processor count, skipped: wait on native setting owners and the closure of magicitem.cpp<br/>WAITING"]
   next["Next stage: window, BootInit, render set-up, main loop<br/>BLOCKED"]
   gate_main_obj["Gate: a linking program contains misc/main.cpp.obj; waits on call repairs, shared classes, other contracts<br/>BLOCKED"]
   gate_engine["Gate: runtime_havok_worker_pool_test links<br/>BLOCKED"]
@@ -24,6 +25,9 @@ flowchart TB
   setup --> main_pack
   main_start --> main_pack
   main_pack --> main_checks
+  gate_whole -.-> skip_s1
+  gate_whole -.-> skip_paths
+  gate_whole -.-> skip_cpu
   gate_main_obj --> next
   gate_main_obj --> gate_engine
   main_checks --> next
@@ -31,15 +35,15 @@ flowchart TB
   classDef accepted fill:#d8f0d8,stroke:#2e7d32,color:#000
   class setup,main_start,main_pack,main_checks accepted
   classDef waiting fill:#ffe2c4,stroke:#c25e00,color:#000
-  class skip_s1,skip_paths,skip_cpu waiting
+  class gate_whole,skip_s1,skip_paths,skip_cpu waiting
   classDef blocked fill:#f8d4d4,stroke:#b71c1c,color:#000
   class next,gate_main_obj,gate_engine,gate_menu blocked
   classDef curated stroke-dasharray:6 4
   class gate_menu curated
 ```
 
-Each box stands for one or more nodes of the full map and shows their state in capitals. An arrow points from what is needed to what needs it. A dashed box or arrow is curated, which means that a person stated it and no machine check proves it.
+Each box stands for one or more nodes of the full map and shows their state in capitals. An arrow points from what is needed, or from a gate that holds a statement, to what waits on it. A dashed box or arrow is curated, which means that a person stated it and no machine check proves it.
 
-The map is a snapshot of `c3ad69b43` with evidence as of 2026-11-13. [docs/startup-map.md](docs/startup-map.md) has the full diagram and lists every node, edge, source and limitation.
+The map is a snapshot of `1e23468c4` with evidence as of 2026-11-13. [docs/startup-map.md](docs/startup-map.md) has the full diagram and lists every node, edge, source and limitation.
 
 <!-- startup-map:end -->

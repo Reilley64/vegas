@@ -1,6 +1,6 @@
 {
   "snapshot": {
-    "source_commit": "c3ad69b439289d6e7229347b920f02a363815496",
+    "source_commit": "1e23468c42aff50dfb1957b85c7703e888f2c64a",
     "evidence_date": "2026-11-13",
     "ticket_states_date": "2026-11-13"
   },
@@ -9,9 +9,10 @@
     {"id": "main_start", "label": "main, steps 1 to 3: memory, timer, folder of the executable"},
     {"id": "main_pack", "label": "Step 4: load, validate and publish the pack"},
     {"id": "main_checks", "label": "Steps 5 to 7: single-instance and second-window checks, main returns 0"},
+    {"id": "gate_whole", "label": "Gate: FalloutNV links by whole members; in a model at c3ad69b43 one composed statement leaves 34,718 names undefined"},
     {"id": "skip_s1", "label": "S1 crash-log set-up, skipped: waits on the SettingT stand-in and a MessageHandler"},
-    {"id": "skip_paths", "label": "S2 to S5 and S7 log and save paths, skipped: wait on catalogue strings, VEGAS-112's buffers, their members"},
-    {"id": "skip_cpu", "label": "S6 and S8 processor count, skipped: wait on main.cpp's accessor calls and the setting's owner"},
+    {"id": "skip_paths", "label": "S2 to S5 and S7 log and save paths, skipped: wait on catalogue strings and the members that hold their code"},
+    {"id": "skip_cpu", "label": "S6 and S8 processor count, skipped: wait on native setting owners and the closure of magicitem.cpp"},
     {"id": "next", "label": "Next stage: window, BootInit, render set-up, main loop"},
     {"id": "gate_main_obj", "label": "Gate: a linking program contains misc/main.cpp.obj; waits on call repairs, shared classes, other contracts"},
     {"id": "gate_engine", "label": "Gate: runtime_havok_worker_pool_test links"},
@@ -26,8 +27,8 @@
       "state": "accepted",
       "tier": "windows-executed",
       "vegas": "VEGAS-13",
-      "source": "docs/setup.md (What setup does; Private run on an actual input, catalogue version 2); setup.prepare_pack passes in Windows CI run 43421396743",
-      "detail": "vegas-setup reads the player's FalloutNV.exe, identifies the supported original release, reads C1's four strings and the main window class from stored data sections, writes the pack and validates it with the engine's validator. The private run of 2026-11-13 used tool version d5d1d60ec. src/setup and src/main.cpp have not changed between d5d1d60ec and the snapshot commit. include/fnv has changed in nine headers: four symbol headers, two per-address declaration headers, the shared NiObject header and the two headers of the shared setting class. VEGAS-13 stays open for the rest of the catalogue."
+      "source": "docs/setup.md (What setup does; Private run on an actual input, catalogue version 2); setup.prepare_pack passes in Windows CI run 43466130320",
+      "detail": "vegas-setup reads the player's FalloutNV.exe, identifies the supported original release, reads C1's four strings and the main window class from stored data sections, writes the pack and validates it with the engine's validator. The private run of 2026-11-13 used tool version d5d1d60ec. src/setup and src/main.cpp have not changed between d5d1d60ec and the snapshot commit. include/fnv has changed in twelve headers: seven symbol headers, two per-address declaration headers, the shared NiObject header and the two headers of the shared setting class. VEGAS-13 stays open for the rest of the catalogue."
     },
     {
       "id": "setup_install",
@@ -37,7 +38,7 @@
       "state": "accepted",
       "tier": "windows-executed",
       "vegas": "VEGAS-13",
-      "source": "docs/setup.md (What setup does, step 3); setup.install_pack passes in Windows CI run 43421396743",
+      "source": "docs/setup.md (What setup does, step 3); setup.install_pack passes in Windows CI run 43466130320",
       "detail": "vegas-setup writes vegas-data.pack.staged, reads it back, renames it over vegas-data.pack and reads that back. The private runs replaced an existing pack and left no staged file."
     },
     {
@@ -47,7 +48,7 @@
       "group": "main_start",
       "state": "accepted",
       "tier": "windows-executed",
-      "source": "src/main.cpp (main); docs/data-pack-startup.md (What main does, 1); runtime.process_startup in Windows CI run 43421396743; private run in docs/setup.md",
+      "source": "src/main.cpp (main); docs/data-pack-startup.md (What main does, 1); runtime.process_startup in Windows CI run 43466130320; private run in docs/setup.md",
       "detail": "A refusal returns 1."
     },
     {
@@ -58,7 +59,7 @@
       "state": "accepted",
       "tier": "windows-executed",
       "vegas": "VEGAS-70",
-      "source": "src/main.cpp (main); docs/game-timer.md; runtime.game_timer in Windows CI run 43421396743; private run in docs/setup.md"
+      "source": "src/main.cpp (main); docs/game-timer.md; runtime.game_timer in Windows CI run 43466130320; private run in docs/setup.md"
     },
     {
       "id": "main_folder",
@@ -79,7 +80,7 @@
       "state": "accepted",
       "tier": "windows-executed",
       "vegas": "VEGAS-52",
-      "source": "src/main.cpp; include/fnv/data_pack_startup.h (LoadDataPack); runtime.data_pack_startup and falloutnv.process_exit.missing_pack in Windows CI run 43421396743; private run in docs/setup.md",
+      "source": "src/main.cpp; include/fnv/data_pack_startup.h (LoadDataPack); runtime.data_pack_startup and falloutnv.process_exit.missing_pack in Windows CI run 43466130320; private run in docs/setup.md",
       "detail": "A missing, unreadable, invalid or catalogue version 1 pack writes one line on the standard error stream and returns 2. The private run of 2026-11-13 gave status 2 with no pack, with a corrupted copy and beside a catalogue version 1 pack."
     },
     {
@@ -90,7 +91,7 @@
       "state": "accepted",
       "tier": "windows-executed",
       "vegas": "VEGAS-52",
-      "source": "include/fnv/single_instance_strings.h; include/fnv/main_window_class.h; runtime.single_instance_strings and runtime.main_window_class in Windows CI run 43421396743; docs/data-pack-startup.md",
+      "source": "include/fnv/single_instance_strings.h; include/fnv/main_window_class.h; runtime.single_instance_strings and runtime.main_window_class in Windows CI run 43466130320; docs/data-pack-startup.md",
       "detail": "LoadDataPack publishes neither value until the whole pack validates. A read before publication terminates the process."
     },
     {
@@ -101,7 +102,7 @@
       "state": "accepted",
       "tier": "windows-ci-test",
       "vegas": "VEGAS-52",
-      "source": "src/main.cpp (CreateMutexA, CheckSingleInstance); runtime.single_instance_check and falloutnv.process_exit in Windows CI run 43421396743; docs/data-pack-startup.md (C1's consumer)",
+      "source": "src/main.cpp (CreateMutexA, CheckSingleInstance); runtime.single_instance_check and falloutnv.process_exit in Windows CI run 43466130320; docs/data-pack-startup.md (C1's consumer)",
       "detail": "These are the first statements of WinMain 0x0086a850, and main composes them. The CI fixture shows the decision is Continue before it runs the executable. The private runs inferred the Continue path and did not observe it. The message-box branches ran only in the decision's test, with the box recorded."
     },
     {
@@ -112,7 +113,7 @@
       "state": "accepted",
       "tier": "windows-ci-test",
       "vegas": "VEGAS-52",
-      "source": "src/main.cpp (CheckSecondWindow); runtime.second_window_check and falloutnv.process_exit in Windows CI run 43421396743; docs/data-pack-startup.md (The second-window check)",
+      "source": "src/main.cpp (CheckSecondWindow); runtime.second_window_check and falloutnv.process_exit in Windows CI run 43466130320; docs/data-pack-startup.md (The second-window check)",
       "detail": "No run has found a window of the class, so the AlreadyOpen branch ran only in the decision's test. main composes nothing of WinMain after this check."
     },
     {
@@ -135,7 +136,7 @@
       "tier": "lazy-link",
       "vegas": "VEGAS-52",
       "source": "docs/data-pack-startup.md (Skipped statements; The user folder buffer); docs/data-pack-catalogue.md (D)",
-      "detail": "The four builders are FUN_00c3bb90, fnv_00c3bbe0::FUN_00c3bbe0, FUN_00c3bc30 and fnv_00c3bc80::FUN_00c3bc80. They wait on a later catalogue entry for their four suffix strings, on 260 bytes of storage for DAT_01202b48, which S3 writes and VEGAS-112 repairs, and on the members that hold the builders and their buffers. At function granularity a composition of S2 to S5 needs blk_00c20000_od.cpp, blk_004c0000_od.cpp, tesfile.cpp and crt.cpp, and three names of the common controls library that blk_004c0000_od.cpp refers to: ImageList_Destroy, ImageList_LoadImageA and InitCommonControlsEx. VEGAS-109 repaired the user folder buffer DAT_01202fa0 that the builders copy."
+      "detail": "The four builders are FUN_00c3bb90, fnv_00c3bbe0::FUN_00c3bbe0, FUN_00c3bc30 and fnv_00c3bc80::FUN_00c3bc80. They wait on a later catalogue entry for their four suffix strings and on the members that hold the builders and their buffers. VEGAS-109 repaired the user folder buffer DAT_01202fa0 that the builders copy, and VEGAS-112 repaired DAT_01202b48, S3's destination, which is now an array of 260 characters (491cf9664; objects.path_buffer_extents). Since a76d79f3b FUN_00c3bb80 in tesfile.cpp returns DAT_01202c50, the buffer of S2, as char *. A scratch composition of S2 to S5 into main, linked as FalloutNV links at 11d59dc97, loaded 2,011 members and left 34,719 names undefined. At function granularity it needs blk_00c20000_od.cpp, blk_004c0000_od.cpp, tesfile.cpp and crt.cpp, and three names of the common controls library that blk_004c0000_od.cpp refers to: ImageList_Destroy, ImageList_LoadImageA and InitCommonControlsEx."
     },
     {
       "id": "s6",
@@ -145,8 +146,8 @@
       "state": "waiting",
       "tier": "lazy-link",
       "vegas": "VEGAS-52",
-      "source": "docs/data-pack-startup.md (Skipped statements); docs/setting-value-offset.md (Tabled calls; What the settings were; Remainder); VEGAS-52 comment of 2026-11-13",
-      "detail": "S6 writes the processor count into the setting g_011c3ea4 through FUN_0043d4d0. The repository names two prerequisites: the owner of that setting, which a generated dynamic initializer builds (D2), and the closure of magicitem.cpp. A VEGAS-52 comment of 2026-11-13, measured at 11d59dc97, names four. A generated unit defines the setting, and that unit's startup initializer builds it and reads original data (D2). Building it natively needs the constructor of INISettingCollection and Setting::IsPrefSetting, and no object defines either. DAT_01202800 is generated data too. The coordinator ruled that S6 and S8 stay skipped until these four are met and that VEGAS-111 repairs the accessor first. Since c3ad69b43 the accessor takes the shared Setting and returns its value at plus 8 (VEGAS-111). main.cpp's 41 calls of it, WinMain's three writes of the processor count among them, stay on the old form int& FUN_0043d4d0(int*), which no object defines; VEGAS-115 moves them. In WinMain's order, S6 and S8 come before the second-window check."
+      "source": "docs/data-pack-startup.md (Skipped statements); docs/setting-value-offset.md (main.cpp; Remainder); VEGAS-52 comment of 2026-11-13; VEGAS-115 comment of 2026-11-13",
+      "detail": "S6 writes the processor count into the setting g_011c3ea4 through FUN_0043d4d0. docs/data-pack-startup.md lists what it waits on: a native owner of that setting, which generated data defines and whose unit's one startup initializer builds it and reads original data (D2); for a native setting, the constructor of INISettingCollection and Setting::IsPrefSetting, which no object defines; a native DAT_01202800, which generated data defines too; and the closure of magicitem.cpp, which defines the accessor. The coordinator's fourth prerequisite of 2026-11-13, the accessor's offset, is met: since VEGAS-111 the accessor reads the value at plus 8, and since VEGAS-115 S6's call and S8's two take the shared Setting. In WinMain's order, S6 and S8 come before the second-window check."
     },
     {
       "id": "s7",
@@ -156,8 +157,8 @@
       "state": "waiting",
       "tier": "lazy-link",
       "vegas": "VEGAS-52",
-      "source": "docs/data-pack-startup.md (Skipped statements)",
-      "detail": "S7 waits on the closure of bgssaveloadmanager.cpp, _DAT_011a2ff0 and FUN_0086d480 of main.cpp, and catalogue entries for its strings. It writes into DAT_01202fa0, the user folder buffer that VEGAS-109 repaired, and into DAT_01202e98, which VEGAS-112 repairs. The table of skipped statements does not list VEGAS-112 for S7, so its edge is curated from the ticket's comment of 2026-11-13."
+      "source": "docs/data-pack-startup.md (Skipped statements; The user folder buffer)",
+      "detail": "S7 waits on the closure of bgssaveloadmanager.cpp, _DAT_011a2ff0 and FUN_0086d480 of main.cpp, and catalogue entries for its strings. It writes up to 260 characters into DAT_01202e98 through FUN_0086d480, an array of 260 characters since VEGAS-112 (8ff7d94e0), and into DAT_01202fa0, the user folder buffer that VEGAS-109 repaired."
     },
     {
       "id": "s8",
@@ -233,7 +234,7 @@
       "state": "accepted",
       "tier": "object-check",
       "vegas": "VEGAS-90",
-      "source": "docs/winmain-boot-names.md (Call repairs); objects.boot_call_repairs passes in Windows CI run 43421396743 and in the cross build of the snapshot commit",
+      "source": "docs/winmain-boot-names.md (Call repairs); objects.boot_call_repairs passes in Windows CI run 43466130320 and in the cross build of 4567abc37",
       "detail": "WinMain passes the constant 1 to the bool parameter of 0x008774a0, under the admission constant to bool. FUN_008706b0 passes the texture pointer to the void* parameters of 0x008707c0 and, after the definition repair of VEGAS-97, of 0x00870bd0, under R5a. No call adds a cast. The forced link loses one undefined name with each repair, measured at d5d1d60ec for the first two and at 3503a01a1 for the third. The receivers stay open."
     },
     {
@@ -256,10 +257,20 @@
       "state": "accepted",
       "tier": "object-check",
       "vegas": "VEGAS-97",
-      "source": "docs/winmain-boot-names.md (Call repairs; The definition repair of 0x00870bd0); 8b5ca7a49 to cf506ccc0; objects.boot_call_repairs passes in Windows CI run 43421396743 and in the cross build of the snapshot commit; VEGAS-97 comment of 2026-11-13",
-      "detail": "Since cf506ccc0 RenderCoordinator::FUN_00870bd0 and the second parameter of 0x00876830 take void*, and FUN_008706b0 calls the row's name under R5a. No cast is added and five go. The forced link loses MainStub::FUN_00870bd0. In the section-level reachability model rooted at WinMain, without projection, the body becomes reachable, and through it the model reaches 122 names that no archive member defines; VEGAS-97 counted them on 3503a01a1, and the snapshot's measurement finds the same 122 among the names that enter that model. This is a count of what a model can reach. It is not a link result, not a run and not a claim about a boot, and all 122 were already undefined in the forced link. The receiver stays open. VEGAS-97 stays in progress for the rest of its census."
+      "source": "docs/winmain-boot-names.md (Call repairs; The definition repair of 0x00870bd0); 8b5ca7a49 to cf506ccc0; objects.boot_call_repairs passes in Windows CI run 43466130320 and in the cross build of 4567abc37; VEGAS-97 comment of 2026-11-13",
+      "detail": "Since cf506ccc0 RenderCoordinator::FUN_00870bd0 and the second parameter of 0x00876830 take void*, and FUN_008706b0 calls the row's name under R5a. No cast is added and five go. The forced link loses MainStub::FUN_00870bd0. In the section-level reachability model rooted at WinMain, without projection, the body becomes reachable, and through it the model reaches 122 names that no archive member defines; VEGAS-97 counted them on 3503a01a1, and the measurement at c3ad69b43 finds the same 122 among the names that enter that model. This is a count of what a model can reach. It is not a link result, not a run and not a claim about a boot, and all 122 were already undefined in the forced link. The receiver stays open. VEGAS-97 stays in progress for the rest of its census."
     },
-    {"id": "c_870a00", "label": "0x00870a00 call waits on a shared declaration of the texture type", "kind": "contract", "group": null, "state": "waiting", "tier": "source", "vegas": "VEGAS-97", "source": "docs/winmain-boot-names.md (The call that stays open); VEGAS-30 ruling of 2026-11-13; VEGAS-97 comment of 2026-11-13", "detail": "FUN_008706b0 passes the texture pointer where the row SceneRendererStub870::FUN_00870a00(TexStub870*, bool) takes a class that is only declared. An explicit cast at the call was refused on 2026-11-13. MainStub::FUN_00870a00 stays undefined. The VEGAS-97 comment of 2026-11-13 keeps the call open on that ticket."},
+    {
+      "id": "c_870a00",
+      "label": "0x00870a00 call waits on a shared declaration of the texture type",
+      "kind": "contract",
+      "group": null,
+      "state": "waiting",
+      "tier": "source",
+      "vegas": "VEGAS-97",
+      "source": "docs/winmain-boot-names.md (The call that stays open); VEGAS-30 ruling of 2026-11-13; VEGAS-97 comment of 2026-11-13",
+      "detail": "FUN_008706b0 passes the texture pointer where the row SceneRendererStub870::FUN_00870a00(TexStub870*, bool) takes a class that is only declared. An explicit cast at the call was refused on 2026-11-13. MainStub::FUN_00870a00 stays undefined. The VEGAS-97 comment of 2026-11-13 keeps the call open on that ticket."
+    },
     {
       "id": "c_shared_classes",
       "label": "Shared declarations of the 12 classes the boot bodies construct",
@@ -407,6 +418,17 @@
       "detail": "The single-instance and second-window checks exist in main and in FUN_0086a850. A program that calls FUN_0086a850 from main must first drop them from one of the two. Which one is not decided."
     },
     {
+      "id": "g_whole_members",
+      "label": "FalloutNV links by whole members",
+      "kind": "gate",
+      "group": "gate_whole",
+      "state": "waiting",
+      "tier": "model",
+      "vegas": "VEGAS-30",
+      "source": "VEGAS-30 comment of 2026-11-13 (acceleration research, measured at c3ad69b43); docs/data-pack-startup.md (Skipped statements; The user folder buffer)",
+      "detail": "Composing any one of S1 to S8 or the window procedure into main loads 2,020 archive members and leaves 34,718 names undefined under the present link rule (measured, model, at c3ad69b43). The link of FalloutNV loads whole archive members, so one composed statement brings in every member that its members reach; the comment records that the model reproduces lld-link's count (34,718 = 34,718). This is a model result, not a run and not a claim about what a boot reaches, and it was not measured again at the snapshot commit. docs/data-pack-startup.md records a scratch composition of S2 to S5 at 11d59dc97 that loaded 2,011 members and left 34,719 names undefined. The owner has not decided whether to change the link rule."
+    },
+    {
       "id": "g_main_obj",
       "label": "A linking program contains misc/main.cpp.obj",
       "kind": "gate",
@@ -425,7 +447,7 @@
       "state": "blocked",
       "tier": "windows-ci-test",
       "vegas": "VEGAS-30",
-      "source": "Windows CI run 43421396743 at c3ad69b43: 143 of 145 tests pass, runtime.havok_worker_pool is Not Run because its link fails; docs/winmain-boot-names.md",
+      "source": "Windows CI run 43466130320 at 1e23468c4: 157 of 158 tests pass, runtime.havok_worker_pool is Not Run because its link fails; docs/winmain-boot-names.md",
       "detail": "It is the one link of the build that loads misc/main.cpp.obj. The CI log shows the first undefined names of the link, under the linker's default error limit."
     },
     {
@@ -458,44 +480,44 @@
       "tier": "object-check",
       "vegas": "VEGAS-109",
       "tracker_state": "Done",
-      "source": "VEGAS-109; docs/data-pack-startup.md (The user folder buffer); objects.log_path_buffer passes in Windows CI run 43421396743 and in the cross build of the snapshot commit",
+      "source": "VEGAS-109; docs/data-pack-startup.md (The user folder buffer); objects.log_path_buffer passes in Windows CI run 43466130320 and in the cross build of 4567abc37",
       "detail": "Since VEGAS-109 the buffer is one array of 260 characters, declared in include/fnv/symbols_01202000.h and defined in blk_004c0000_od.cpp, and its seven users read it without a cast. FUN_004dc110 returns it as char *. The repaired users have not run, because FalloutNV does not load their members and no test calls them."
     },
     {
       "id": "t_vegas112",
-      "label": "DAT_01202b48 and DAT_01202e98 defined as a byte and an int, written as 260-byte buffers",
+      "label": "DAT_01202b48 and DAT_01202e98 are arrays of 260 characters, as their writers need",
       "kind": "ticket",
       "group": null,
-      "state": "ready",
-      "tier": "curated",
+      "state": "accepted",
+      "tier": "object-check",
       "vegas": "VEGAS-112",
-      "tracker_state": "Needs triage",
-      "source": "VEGAS-112; docs/data-pack-startup.md (Skipped statements; The user folder buffer)",
-      "detail": "Units under src/generated define both. S3's builder writes up to 260 bytes into DAT_01202b48, and S7 writes up to 260 bytes into DAT_01202e98 through FUN_0086d480. The VEGAS-109 work found them. docs/data-pack-startup.md lists the storage of DAT_01202b48 among the prerequisites of S2 to S5, and the ticket names DAT_01202e98 as the buffer that S7 writes. Generated data defines both, so their repair goes through the audited composition."
+      "tracker_state": "Done",
+      "source": "VEGAS-112; VEGAS-112 comments of 2026-11-13; docs/data-pack-startup.md (Skipped statements; The user folder buffer); docs/native-data-ownership.md; objects.path_buffer_extents, with its rows for both arrays, passes in Windows CI run 43466130320",
+      "detail": "Since 491cf9664 DAT_01202b48, S3's destination, is one array of 260 characters defined by blk_00c20000_od.cpp. Since 8ff7d94e0 DAT_01202e98, S7's destination, is one array of 260 characters defined by main.cpp beside FUN_0086d480, which returns it as char *. The generated byte and int are retired through the audited composition, and objects.path_buffer_extents fails when either array reaches fewer than 260 bytes. Since a76d79f3b FUN_00c3bb80 in tesfile.cpp returns DAT_01202c50, the buffer of S2, as char * instead of int *, and its callers pass it without a cast. The closing comment of 2026-11-13 records the forced link at 35,031 undefined names at every state, measured on 4567abc37, with one stand-in spelling swapped. The repaired users have not run."
     },
     {
       "id": "t_vegas111",
-      "label": "FUN_0043d4d0 reads the setting value at plus 8; 286 calls stay on the old form",
+      "label": "FUN_0043d4d0 reads the setting value at plus 8; 245 calls stay on the old form",
       "kind": "ticket",
       "group": null,
       "state": "in-progress",
       "tier": "object-check",
       "vegas": "VEGAS-111",
       "tracker_state": "In progress",
-      "source": "VEGAS-111; VEGAS-111 comment of 2026-11-13; docs/setting-value-offset.md; objects.setting_value_accessor and objects.setting_value_accessor_callers pass in Windows CI run 43421396743 and in the cross build of the snapshot commit",
-      "detail": "Since c3ad69b43 the accessor takes the shared Setting and returns its value, at plus 8 on x64, and 406 of its 692 calls, in 101 units, call that form. The other 286 calls keep the old form int& FUN_0043d4d0(int*), which no object defines, so the forced link gains that one name on purpose. The VEGAS-111 comment of 2026-11-13 records criterion 1 as met in part and criteria 2 and 3 as met, and keeps the ticket open until VEGAS-115, main.cpp's 41 calls, and VEGAS-117, the other 245 calls and a guard of the old name, land. VEGAS-116, the float accessor FUN_00403e20, and VEGAS-118, 22 direct reads 4 bytes into a setting, are related. No linking program contains the accessor or a caller, and nothing was run."
+      "source": "VEGAS-111; VEGAS-111 comment of 2026-11-13; docs/setting-value-offset.md; objects.setting_value_accessor and objects.setting_value_accessor_callers pass in Windows CI run 43466130320 and in the cross build of 4567abc37",
+      "detail": "Since c3ad69b43 the accessor takes the shared Setting and returns its value, at plus 8 on x64. With VEGAS-115's 41 calls of main.cpp, 447 of its 692 calls take that form. The other 245 keep the old form int& FUN_0043d4d0(int*), which no object defines, so the forced link keeps that one name on purpose. The VEGAS-111 comment of 2026-11-13 keeps the ticket open until VEGAS-115, now done, and VEGAS-117, the other 245 calls and a guard of the old name, land. VEGAS-116 repaired the float accessor FUN_00403e20 the same way at 18b9194e2, with its remainder in VEGAS-122, and VEGAS-118, direct reads 4 bytes into a setting, is related. No linking program contains the accessor or a caller, and nothing was run."
     },
     {
       "id": "t_vegas115",
-      "label": "41 calls of FUN_0043d4d0 in main.cpp, S6 and S8 among them, on the old form",
+      "label": "main.cpp's 41 calls of FUN_0043d4d0 take the shared Setting",
       "kind": "ticket",
       "group": null,
-      "state": "ready",
-      "tier": "source",
+      "state": "accepted",
+      "tier": "object-check",
       "vegas": "VEGAS-115",
-      "tracker_state": "Needs triage",
-      "source": "VEGAS-115; docs/setting-value-offset.md (The calls; Tabled calls; What the settings were; Remainder)",
-      "detail": "src/fallout/misc/main.cpp keeps 41 calls of int& FUN_0043d4d0(int*), which no object defines since c3ad69b43. 26 of them are on g_011c3ea4, iNumHWThreads:General, among them WinMain's three writes of the processor count, S6 and S8, and the main loop reads it seven times. The ticket moves each call whose argument is shown to be a setting of the shared class onto the form that takes Setting*, handles main.cpp's own member-only Setting without a second definition of the real class or a new cast, and updates the prerequisites of S6 and S8 in docs/data-pack-startup.md."
+      "tracker_state": "Done",
+      "source": "VEGAS-115; VEGAS-115 comment of 2026-11-13; docs/setting-value-offset.md (main.cpp; Checks); objects.setting_value_accessor_callers passes in Windows CI run 43466130320 and in the cross build of 4567abc37",
+      "detail": "Since 4f2fa453d all 41 calls of FUN_0043d4d0 in src/fallout/misc/main.cpp take the shared Setting, among them WinMain's three writes of the processor count, S6 and S8; none is tabled. The 41st moved when main.cpp's empty copy of the generated class GlobalObject2_0040c150 was removed. The batch main of objects.setting_value_accessor_callers covers main.cpp's 14 calling functions. The VEGAS-115 comment records the forced link unchanged by the move, and at 4567abc37 main.cpp.obj no longer refers to the old form. No linking program contains main.cpp.obj, and nothing was run."
     }
   ],
   "edges": [
@@ -507,11 +529,16 @@
     {"from": "main_single", "to": "main_publish", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/main.cpp: the checks read the published strings from the stage's result"}},
     {"from": "main_second", "to": "main_single", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "src/main.cpp: main returns 0 after either message box"}},
     {"from": "c_setting_t", "to": "s1", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "docs/data-pack-startup.md: link of main with a skipped statement composed, as FalloutNV links, at 891a44f50"}},
+    {"from": "g_whole_members", "to": "s1", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 comment of 2026-11-13: composing any one of S1 to S8 into main loads 2,020 archive members and leaves 34,718 names undefined under the present link rule (measured, model, at c3ad69b43)"}},
+    {"from": "g_whole_members", "to": "s2_s5", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 comment of 2026-11-13: composing any one of S1 to S8 into main loads 2,020 archive members and leaves 34,718 names undefined under the present link rule (measured, model, at c3ad69b43)"}},
+    {"from": "g_whole_members", "to": "s6", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 comment of 2026-11-13: composing any one of S1 to S8 into main loads 2,020 archive members and leaves 34,718 names undefined under the present link rule (measured, model, at c3ad69b43)"}},
+    {"from": "g_whole_members", "to": "s7", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 comment of 2026-11-13: composing any one of S1 to S8 into main loads 2,020 archive members and leaves 34,718 names undefined under the present link rule (measured, model, at c3ad69b43)"}},
+    {"from": "g_whole_members", "to": "s8", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 comment of 2026-11-13: composing any one of S1 to S8 into main loads 2,020 archive members and leaves 34,718 names undefined under the present link rule (measured, model, at c3ad69b43)"}},
     {"from": "s2_s5", "to": "t_vegas109", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-catalogue.md (D): VEGAS-109 gated the four log-path statements and is repaired"}},
-    {"from": "t_vegas112", "to": "s2_s5", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (Skipped statements): S2 to S5 need 260 bytes of storage for DAT_01202b48, which S3 writes; (The user folder buffer): that defect is VEGAS-112; VEGAS-112 comment of 2026-11-13"}},
-    {"from": "t_vegas112", "to": "s7", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-112 comment of 2026-11-13: GetSaveDirectory, S7, writes up to 260 bytes into DAT_01202e98 through FUN_0086d480, and DAT_01202e98 is defined as an int"}},
-    {"from": "t_vegas115", "to": "s6", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/setting-value-offset.md (Tabled calls; Remainder): main.cpp's 41 calls of the old form, among them WinMain's writes of the processor count, S6 and S8, wait for the owner of main.cpp; VEGAS-115"}},
-    {"from": "t_vegas115", "to": "s8", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/setting-value-offset.md (Tabled calls; Remainder): main.cpp's 41 calls of the old form, among them WinMain's writes of the processor count, S6 and S8, wait for the owner of main.cpp; VEGAS-115"}},
+    {"from": "s2_s5", "to": "t_vegas112", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (The user folder buffer): S3 writes up to 260 bytes into DAT_01202b48, which VEGAS-112 repaired at 491cf9664; VEGAS-112 comment of 2026-11-13"}},
+    {"from": "s7", "to": "t_vegas112", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (The user folder buffer): S7 copies up to 260 characters into DAT_01202e98, which VEGAS-112 repaired at 8ff7d94e0; VEGAS-112 comment of 2026-11-13"}},
+    {"from": "s6", "to": "t_vegas115", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (Skipped statements): S6 and S8 waited on the accessor's offset and main.cpp's calls of the old form, and since VEGAS-115 S6's call and S8's two take the shared Setting; docs/setting-value-offset.md (main.cpp)"}},
+    {"from": "s8", "to": "t_vegas115", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/data-pack-startup.md (Skipped statements): S6 and S8 waited on the accessor's offset and main.cpp's calls of the old form, and since VEGAS-115 S6's call and S8's two take the shared Setting; docs/setting-value-offset.md (main.cpp)"}},
     {"from": "t_vegas111", "to": "t_vegas115", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-111 comment of 2026-11-13: criterion 1 is met in part, and the ticket stays open until VEGAS-115 and VEGAS-117 land"}},
     {"from": "winmain", "to": "mainloop", "kind": "calls", "provenance": "measured", "basis": {"kind": "object-check", "ref": "objects.winmain_boot_calls"}},
     {"from": "winmain", "to": "bootinit", "kind": "calls", "provenance": "measured", "basis": {"kind": "object-check", "ref": "objects.winmain_boot_calls"}},
@@ -520,7 +547,7 @@
     {"from": "winmain", "to": "g_main_obj", "kind": "requires", "provenance": "measured", "basis": {"kind": "recipe", "ref": "build/units.json: 0x0086a850 is a function row of src/fallout/misc/main.cpp"}},
     {"from": "g_main_obj", "to": "c_calls_bound", "kind": "requires", "provenance": "measured", "basis": {"kind": "link", "ref": "docs/winmain-boot-names.md (Call repairs): each repair takes one undefined name of misc/main.cpp.obj from the forced link, at d5d1d60ec for the first two and at 3503a01a1 for the third"}},
     {"from": "c_call_repair", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 891a44f50: names misc/main.cpp.obj references that no member defines; docs/winmain-boot-names.md"}},
-    {"from": "c_870a00", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at c3ad69b43: MainStub::FUN_00870a00 is undefined and misc/main.cpp.obj references it; docs/winmain-boot-names.md (The call that stays open)"}},
+    {"from": "c_870a00", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 4567abc37: MainStub::FUN_00870a00 is undefined and misc/main.cpp.obj references it; docs/winmain-boot-names.md (The call that stays open)"}},
     {"from": "c_shared_classes", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 1b3b79d69: each of the twelve names is undefined and only main.cpp requires it; docs/boot-real-classes.md"}},
     {"from": "c_setting_t", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 891a44f50: the folded accessor names misc/main.cpp.obj references; docs/winmain-boot-names.md"}},
     {"from": "c_receiver", "to": "g_main_obj", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/winmain-boot-names.md; VEGAS-30 ruling of 2026-11-13"}},
@@ -546,12 +573,13 @@
     {"from": "c_tes", "to": "winmain", "kind": "estimated-unlock", "provenance": "modelled", "basis": {"kind": "model", "ref": "single-name unlock model at 891a44f50 (VEGAS-30, 2026-11-13)"}, "estimate": {"value": 27, "unit": "closure names", "basis": "names that binding the destructor 0x00450770 alone newly brings into the raw section closure from WinMain; single-name count, not additive, not a link"}}
   ],
   "measurements": [
-    {"label": "Forced link of every member with no error limit, as undefined names, duplicate names and imports", "value": "35,030, 0 and 133", "command": "forced-unlimited link cell with user32.lib, the method of 891a44f50", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "forced-link"},
-    {"label": "Lazy link of FalloutNV's inputs, as undefined names and imports", "value": "0 and 91", "command": "lazy link cells with user32.lib", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "lazy-link"},
-    {"label": "Names with differing definitions in the game archive", "value": "519", "command": "tools/differing-definitions --list", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "object-check"},
-    {"label": "Projected boot closure from WinMain, a model and not a link", "value": "20,970 names, 42 of them user32 names; 20,928 without them", "command": "boot-closure section model, projected through recipe bodies, on the forced link without user32.lib", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "model"},
-    {"label": "Section-level reachability model from WinMain without projection, a model and not a link", "value": "10,911 unresolved names, 36 of them user32 names; 10,875 without them, where docs/winmain-boot-names.md gives 10,753 to 10,874 at 3503a01a1. Against 10,789 at 3503a01a1 with those names: 123 enter, the 122 that VEGAS-97 counted through 0x00870bd0 and the old accessor form of VEGAS-111, and MainStub::FUN_00870bd0 leaves", "command": "boot-closure raw section model on the forced link without user32.lib, the method of 891a44f50", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "model"},
-    {"label": "Windows CI tests", "value": "143 of 145 pass; runtime.havok_worker_pool Not Run, its link fails; docs.startup_map.generator fails two of its tests on Windows", "command": "Windows CI run 43421396743", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "windows-ci-test"}
+    {"label": "Forced link of every member with no error limit, as undefined names, duplicate names and imports", "value": "35,031, 0 and 133", "command": "forced-unlimited link cell with user32.lib, the method of 891a44f50", "commit": "4567abc37", "date": "2026-11-13", "tier": "forced-link"},
+    {"label": "Lazy link of FalloutNV's inputs, as undefined names and imports", "value": "0 and 91", "command": "lazy link cells with user32.lib", "commit": "4567abc37", "date": "2026-11-13", "tier": "lazy-link"},
+    {"label": "Names with differing definitions in the game archive", "value": "519", "command": "tools/differing-definitions --list", "commit": "4567abc37", "date": "2026-11-13", "tier": "object-check"},
+    {"label": "Projected boot closure from WinMain, a model and not a link", "value": "20,971 names, 42 of them user32 names; 20,929 without them", "command": "boot-closure section model, projected through recipe bodies, on the forced link without user32.lib", "commit": "4567abc37", "date": "2026-11-13", "tier": "model"},
+    {"label": "Section-level reachability model from WinMain without projection, a model and not a link", "value": "10,911 unresolved names, the count at c3ad69b43; user32 names count as unresolved in this model. Against c3ad69b43: float & FUN_00403e20(float *), the old float accessor form of VEGAS-116, enters, and the U spelling of g_011d10d4 leaves (VEGAS-115)", "command": "boot-closure raw section model on the forced link without user32.lib, the method of 891a44f50", "commit": "4567abc37", "date": "2026-11-13", "tier": "model"},
+    {"label": "Composing any one of S1 to S8 or the window procedure into main, as FalloutNV links, a model and not a link", "value": "2,020 archive members loaded and 34,718 names undefined", "command": "member model of FalloutNV's link, acceleration research recorded on VEGAS-30 on 2026-11-13", "commit": "c3ad69b43", "date": "2026-11-13", "tier": "model"},
+    {"label": "Windows CI tests", "value": "157 of 158 pass; runtime.havok_worker_pool Not Run, its link fails", "command": "Windows CI run 43466130320", "commit": "1e23468c4", "date": "2026-11-13", "tier": "windows-ci-test"}
   ],
 
   "coverage": [
@@ -567,10 +595,11 @@
     "The state of a node with a tracker state comes from the tracker's state on the ticket-state date, and curated edges come from tickets, tracker comments and rulings. No machine check confirms them, and they can be stale the day after the snapshot.",
     "The map leaves out VEGAS-100 and VEGAS-105, because neither src/main.cpp nor src/fallout/misc/main.cpp names g_010173f0. Nobody measured their relation to the boot closure.",
     "The map leaves out VEGAS-103, in progress with its criterion 2 tabled to VEGAS-113, and VEGAS-106, done, because no source of a node names them. The repairs of VEGAS-103, integrated at b7007f0f7, took two names from the forced link.",
-    "The edges from VEGAS-112 to S3 and S7 and from VEGAS-110 to the shared bases are curated relationships recorded on those tickets on 2026-11-13. The table of skipped statements does not list VEGAS-112 for S7, and no check measures either. The edges from VEGAS-115 to S6 and S8 come from docs/setting-value-offset.md, and the edge from VEGAS-111 to VEGAS-115 from a VEGAS-111 comment of 2026-11-13; no check measures them either.",
-    "The map leaves out VEGAS-117, which the VEGAS-111 comment of 2026-11-13 names with VEGAS-115 as what keeps VEGAS-111 open, and VEGAS-116 and VEGAS-118, which it calls related. No source names any of the three as a prerequisite of a startup statement or a boot body, and nobody measured their relation to the boot closure. The VEGAS-111 node names them.",
+    "The edges from VEGAS-110 to the shared bases come from a VEGAS-110 comment of 2026-11-13, and the edge from VEGAS-111 to VEGAS-115 from a VEGAS-111 comment of 2026-11-13. The edges from S2 to S5 and S7 to VEGAS-109 and VEGAS-112, and from S6 and S8 to VEGAS-115, record repairs that are done; they come from docs/data-pack-startup.md and docs/setting-value-offset.md, and no statement waits on them. All of these edges are curated, and no check measures them.",
+    "The map leaves out VEGAS-117, which the VEGAS-111 comment of 2026-11-13 names as what keeps VEGAS-111 open, VEGAS-118, which it calls related, and VEGAS-116, integrated at 18b9194e2 with its remainder in VEGAS-122. No source names any of them as a prerequisite of a startup statement or a boot body. VEGAS-122 moved main.cpp's 13 calls of the float accessor to the shared Setting at 04ae5e7ac (docs/setting-value-offset.md, main.cpp (VEGAS-122)). The VEGAS-111 node names the tickets.",
+    "The figures labelled 4567abc37 were not measured again at the snapshot commit. The VEGAS-112 and VEGAS-122 commits between them were measured state by state on 4567abc37 (VEGAS-112 comment of 2026-11-13; docs/setting-value-offset.md, main.cpp (VEGAS-122)): the forced unlimited cell keeps 35,031 undefined names with one stand-in spelling swapped, GetFileSize(int *, int *) for GetFileSize(char *, int *), and duplicates, imports, the lazy cells and the names with differing definitions do not change. The boot-closure models were not run on them.",
+    "The gate FalloutNV links by whole members rests on a model measured at c3ad69b43 and recorded on VEGAS-30 on 2026-11-13. It was not measured again at the snapshot commit, and its edges to S1 to S8 are curated from that record. The same model gives the same figure for the window procedure, and the map draws no edge from the gate to it. The gate is not the only thing the statements wait on. Each also has the prerequisites that its node and docs/data-pack-startup.md list, and most of those have no node, so the table of unfinished prerequisites names the gate alone for S2 to S8. Nobody measured whether a statement would link under another link rule.",
     "No source states that the next stage waits on S1 to S8; the map draws no such edge.",
-    "In Windows CI run 43421396743 at the snapshot commit the test docs.startup_map.generator fails: two of its tests run --check on a file on another drive than the repository, and the generator cannot name that file relative to the repository. docs.startup_map passes.",
     "The generator checks the input's structure, not its truth. A wrong source reference passes."
   ]
 }

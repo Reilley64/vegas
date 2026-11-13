@@ -326,7 +326,8 @@ def validate(data):
         if not group_states:
             problems.append("overview group " + group + " has no node")
         elif len(set(group_states)) > 1:
-            problems.append("overview group " + group + " mixes the states " + ", ".join(sorted(set(map(str, group_states)))))
+            mixed = ", ".join(sorted(set(map(str, group_states))))
+            problems.append("overview group " + group + " mixes the states " + mixed)
     if not problems:
         found = cycle(groups, [{"kind": "requires", "from": needer, "to": needed}
                                for needed, needer, _ in overview_edges(data)])
@@ -474,8 +475,8 @@ def readme_block(data):
         overview_mermaid(data),
         "",
         "Each box stands for one or more nodes of the full map and shows their state in capitals. An arrow points "
-        "from what is needed to what needs it. A dashed box or arrow is curated, which means that a person stated it "
-        "and no machine check proves it.",
+        "from what is needed, or from a gate that holds a statement, to what waits on it. A dashed box or arrow is "
+        "curated, which means that a person stated it and no machine check proves it.",
         "",
         "The map is a snapshot of `" + _short(snap["source_commit"]) + "` with evidence as of " + snap["evidence_date"]
         + ". [docs/startup-map.md](docs/startup-map.md) has the full diagram and lists every node, edge, source and "

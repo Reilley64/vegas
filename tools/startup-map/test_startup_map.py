@@ -332,7 +332,8 @@ class Rendering(unittest.TestCase):
                   "blocker, a `calls` arrow at the caller and an `estimate` arrow at the work.")
         self.assertIn(arrows, page)
         self.assertIn("distinct kinds of evidence", page)
-        self.assertIn("An arrow points from what is needed to what needs it.", block)
+        self.assertIn("An arrow points from what is needed, or from a gate that holds a statement, to what waits on "
+                      "it.", block)
         for text in (page, block):
             for word in ("weakest", "strongest"):
                 self.assertNotIn(word, text)
@@ -454,6 +455,15 @@ class Overview(unittest.TestCase):
         self.assertIn("  ga --> gb", lines)
         self.assertNotIn("  ga -.-> gb", lines)
 
+    def test_overview_arrow_of_a_blocks_edge_starts_at_the_blocker(self):
+        data = valid()
+        data["overview"].append({"id": "gc", "label": "Group c"})
+        data["nodes"][2]["group"] = "gc"
+        self.assertEqual(startup_map.validate(data), [])
+        lines = startup_map.overview_mermaid(data).splitlines()
+        # c blocks b, curated. The estimate from c to a is not drawn.
+        self.assertEqual([line for line in lines if "->" in line], ["  ga --> gb", "  gc -.-> gb"])
+
     def test_overview_box_is_dashed_when_every_node_is_curated(self):
         data = valid()
         data["nodes"][2]["group"] = "gc"
@@ -462,7 +472,8 @@ class Overview(unittest.TestCase):
         data["nodes"].append(node("d", tier="curated", group="ga"))
         self.assertEqual(startup_map.validate(data), [])
         lines = startup_map.overview_mermaid(data).splitlines()
-        self.assertEqual([line for line in lines if line.endswith(" curated") and "class " in line], ["  class gc curated"])
+        curated = [line for line in lines if line.endswith(" curated") and "class " in line]
+        self.assertEqual(curated, ["  class gc curated"])
         self.assertNotIn("curated", startup_map.overview_mermaid(valid()))
 
     def test_readme_shows_the_overview_and_the_page_the_full_diagram(self):

@@ -33,3 +33,8 @@ function	main	src/fallout/misc/main.cpp	?FUN_0086d590@RenderSystem@fnv_0086d590@
 function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?FUN_0095f6c0@Owner@@QEAAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?SetScaledValue@fnv_0094c3a0@@YAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?UpdateScopeZoom@Update97@@QEAAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of bgsterminal.cpp whose
+# calls of the accessor all moved (VEGAS-122), since the unit's own empty
+# Setting went. It reads fHackLevelMult. 0x005017a0 keeps five calls on the
+# 32-bit form, and ActivateTerminal holds one of them inlined.
+function	bgsterminal	src/fallout_shared/bgsterminal.cpp	?FUN_005011a0@FUN_00501270_shell@@QEAAHPEAVTESObjectREFR@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

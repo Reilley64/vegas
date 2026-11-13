@@ -1061,9 +1061,6 @@ struct Audio
 {
     Sound GetSoundHandleByEditorID(const char*, unsigned int);
 };
-struct Setting
-{
-};
 struct Activate
 {
     virtual void Run(Ref*, Ref*);
@@ -1227,7 +1224,7 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
                 }
             }
             if (crime)
-                reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting282)))))));
+                reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting282)))))));
         }
         ::FUN_0047a560((::TESObjectREFR *)(target), (::TESObjectREFR *)(user), (::BGSOpenCloseForm *)(0));
     }
@@ -1311,7 +1308,7 @@ int FUN_00501270_shell::FUN_005011a0(TESObjectREFR* apRef)
     {
         unsigned int level =
             apRef ? reinterpret_cast<::fnv_00567e10::FUN_00567e10_shell *>((reinterpret_cast<RefLevel*>(apRef)))->FUN_00567e10(false) : reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<void * *>(&::_g_thePlayer))))->FUN_0087f9f0();
-        result += (unsigned int)((double)level * *((float *)&(::FUN_00403e20(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting33))))));
+        result += (unsigned int)((double)level * *((float *)&(::FUN_00403e20(&(*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting33))))));
         if (result > 4)
             result = 4;
     }

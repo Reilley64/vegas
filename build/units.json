@@ -140274,6 +140274,7 @@
     "?Set@?$BSStringT@D@@QAE_NPBDI@Z": "0x4037f0",
     "?DispatchMessageToSink@@YA_NPBDH00ME@Z": "0x007052f0",
     "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_00410140@RemoveExtraList@@QAEXE@Z": "0x00410140",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_005b5e40@@YAHZZ": "0x5b5e40"

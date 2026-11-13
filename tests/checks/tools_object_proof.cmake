@@ -8,14 +8,14 @@
 # stops ignoring positions, path prefixes and line endings; or when proof.py
 # compile and compare stop passing the variant flags, removing stale objects
 # and reporting a failed compile, a compiler that cannot start or a warnings
-# difference; when objcmp.py counts RENAME- lines as differences, stops
-# saying what a changed section keeps equal, stops naming each added,
-# removed or moved address-significance entry, stops printing changed
-# characteristics in hexadecimal with a changed alignment, reads a padded or
-# truncated address-significance index, or stops refusing, with no artefact
-# line, a base that holds both spellings of a rename, or its summary or
-# --json report stops listing the retargets, kept sites and symbols that a
-# section shifts, or --expect-kept passes a comparison with a kept site
+# difference; when objcmp.py counts RENAME- lines as differences or lets
+# them alone pass, stops saying what a changed section keeps equal or naming
+# each added, removed or moved address-significance entry, stops printing
+# changed characteristics in hexadecimal with a changed alignment, reads a
+# padded or truncated address-significance index, stops refusing, with no
+# artefact line, a base that holds both spellings of a rename, its summary
+# or --json report stops listing the retargets, kept sites and symbols that
+# a section shifts, or --expect-kept passes a comparison with a kept site
 # missing, extra or in another function, or with any other difference
 # beside them (an OLD symbol other than an undefined external of NEW's type
 # and value 0, another rename's OLD, OLD marked address-significant other
@@ -35,7 +35,8 @@
 set(tools_object_proof_cases identical timestamp rename refused_renames unmatched_rename
     structural_differences difference unreadable warnings proof_compile counts section_equal
     alignment addrsig_encoding base_holds_both summary symbol_shift expect_kept kept_holes
-    expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol)
+    expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol
+    refusal_alone)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

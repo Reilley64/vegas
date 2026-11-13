@@ -495,6 +495,21 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual(got, 1, out)
         self.assertEqual(out.count("KEPT-SITE"), 2, out)
 
+    def test_refusal_alone(self):
+        # B still holds OLD in a label, which no rename respells: with no
+        # other difference, the RENAME- lines alone still make it differ.
+        def unit(callee):
+            return obj([(".text$mn", b"\xe8\0\0\0\0\xc3", CODE, [(1, 2, 4)])],
+                       [(".text$mn", 0, 1, 0, 3, 0), ("?caller@@YAXXZ", 0, 1, 0x20, 2, None),
+                        (callee, 0, 0, 0x20, 2, None), ("lbl?callee@@YAXXZ", 5, 1, 0, 6, None)])
+
+        code, out, _ = self.objcmp(unit("?callee@@YAXXZ"), unit("?other_callee@@YAXXZ"),
+                                   "?callee@@YAXXZ=?other_callee@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.splitlines()[:3], ["differs: 0 difference(s), 2 RENAME- line(s)",
+                                                "RENAME-MERGES\tB holds both ?callee@@YAXXZ and ?other_callee@@YAXXZ",
+                                                "RENAME-KEPT\tB still holds ?callee@@YAXXZ"], out)
+
     def test_counts(self):
         # RENAME- lines are counted apart from the differences.
         code, out, _ = self.objcmp(coff(), coff(caller="?new_caller@@YAXXZ"),

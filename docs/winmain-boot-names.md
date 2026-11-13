@@ -187,3 +187,96 @@ remain. None of the others is bound here:
   declarations already come from the Windows SDK headers. They resolve
   only when the import libraries are on the link line, which is a build
   decision and not a naming step.
+
+## The boot functions' callees
+
+Later VEGAS-30 steps bind five more names that functions of `main.cpp`
+on the boot path called and no object defined. Each call went through a
+declaration scoped to the calling function's own namespace
+(`fnv_<address of the caller>`), while the unit already declares the row's
+function or class at file scope with the same signature.
+
+| Commit | Address | Caller | Bound to | Forced link, undefined names |
+| --- | --- | --- | --- | --- |
+| 2235d9f30 | `0x00706320` | `FUN_008774a0` | `FUN_00706320(int)` | 35,079 to 35,078 |
+| 21b703730 | `0x004a0e90` | `FUN_00876850` | `FUN_004a0e90()` | 35,078 to 35,077 |
+| 76b06a11b | `0x004a0e90` | `FUN_00873200` | `FUN_004a0e90()` | 35,077 to 35,076 |
+| b8345b3e2 | | | moves `BSRenderedTexture` before `FUN_00874ac0` | 35,076, unchanged |
+| 355dac128 | `0x00b6b790` | `FUN_00874ac0` | `BSRenderedTexture::EndAllAndResetRendererState()` | 35,076 to 35,075 |
+| d365ec8de | `0x0043d410` | `FUN_00877730` | `NiUpdateData::NiUpdateData(float, bool, bool)` | 35,075 to 35,074 |
+
+The counts were measured on a windows-x64 build of the same changes on top
+of `891a44f50`, at one export path, before they were applied unchanged to
+this history. They use the historical link command, which names no
+`user32.lib`; with the command that links it, the method since `891a44f50`,
+the same five names leave 35,039 (35,034, derived and not linked). The projected closure from WinMain, which
+follows names to bodies under other names, loses one name with each
+binding step: 20,979 to 20,974. No step leaves a name newly undefined,
+adds a duplicate symbol, or changes the imports, the archive members,
+their order, or the list of names with differing definitions.
+
+Each step changes one declaration and no cast:
+
+- `0x00706320` and `0x004a0e90`: the scoped declaration of the free
+  function is removed, so the call names the file-scope declaration with
+  the same signature.
+- `0x00b6b790` is a static member, so the call has no receiver. The call
+  now names the file-scope `BSRenderedTexture`, a copy of
+  `include/fnv/decl/BSRenderedTexture.h` that the unit declares itself and
+  whose static member the unit's other functions call, and the scoped class, which nothing else
+  used, is removed. That class was defined after `FUN_00874ac0`, so the
+  step before moves its definition there verbatim. The move leaves the
+  object identical apart from the timestamp.
+- `0x0043d410`: `FUN_00877730`, which `BootInit` calls, built two locals
+  of its own copy of `NiUpdateData`. The copy's fields agree with
+  `include/fnv/decl/NiUpdateData.h`, which the unit includes and the
+  constructor's owner uses: a float and five bools, 12 bytes with
+  alignment 4. The locals now take that class. The copy's constructor
+  declaration, which nothing else used, is removed. Other functions of
+  `main.cpp` build copies that disagree with the header, with an `int` at
+  offset 4 or 8, and stay on them.
+
+The unit's `symbols` key of the scoped name is merged into the key of the
+row's name, which the unit already had at the same address.
+
+The object proof is the one above, with the old name mapped to the new.
+For four steps every section is equal apart from `.llvm_addrsig`, which
+names the same symbols. The step at `0x00706320` also changes the code of
+`FUN_008774a0` at the unit's flags and with `/Ob0`: the call no longer
+sets the argument register to 0, and the function is two bytes shorter.
+The compiler now sees, in the same object, that `FUN_00706320` does not
+read its parameter. WinMain's existing call of the same function is
+compiled the same way. With `/Od /Gy` the function is equal apart from the
+call's target. Warnings are unchanged.
+
+`objects.winmain_boot_calls` checks these functions too, as the table's
+batch `callees`. Each binding step's table fails on its parent's object.
+
+These steps prove no more than the ones above. `FUN_00706320`'s body does
+not read its `int` parameter; whether the original function reads it is
+not established. Which object `FUN_00877730`'s update data describes, and
+what the callee does with it, is open. The binding is admitted on the same
+condition: no linking program contains `main.cpp`. Measured again on the
+windows-x64 build of `891a44f50` and of the last step, 83 executables are
+linked, 64 read `game.lib`, and only `runtime_havok_worker_pool_test`
+loads `main.cpp`'s object. That link fails with undefined names in both
+builds.
+
+The other names that these functions and the boot functions call were
+refused for one of these reasons:
+
+- The call goes through `this` of the calling function's class, while the
+  row's class is another private class of the unit, as for `0x0086bc60`
+  above. This includes three of the main loop's own calls.
+- A constructor or destructor of the unit's private copy of a real
+  class, such as the player character `BootInit` creates and the scene
+  nodes of the render set-up. Binding them needs a shared declaration of
+  the class with an established layout: `new` of the copy passes the
+  copy's size.
+- The unit's private copy disagrees with the shared declaration it
+  includes (`NiUpdateData` in `BootInit` and the render set-up).
+- Template members and shared classes other work owns: `SettingT`,
+  `NiPointer`, `ImageSpaceEffectParam`, `NiFixedString` and the list
+  templates.
+- Binding would change an argument, result or receiver conversion, or the
+  form of the call, as for the names listed above.

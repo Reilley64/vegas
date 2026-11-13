@@ -94,6 +94,8 @@ the instructions.
 `src/fallout/misc/main.cpp`, whose calls of boot functions are bound by name
 to the bodies at the recipe's rows (VEGAS-30). It forbids each name a call
 used before, which no object defines, and requires the name of the body.
+Its batch `callees` lists five more functions of the same unit on the boot
+path, bound the same way (docs/winmain-boot-names.md).
 
 `table-slot-reads.tsv` lists the functions that read the slot after the end
 of a two-slot generated table (VEGAS-30, docs/table-slot-reads.md). Each read

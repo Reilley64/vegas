@@ -153885,17 +153885,20 @@ struct BoneRecordArray {
     unsigned int m_uiSize;
     unsigned int m_uiMaxSize;
     BoneRecordArray() : m_pBase(0), m_uiSize(0), m_uiMaxSize(0) {}
+    // The data is freed through DAT_010c4cec, the slot after this class's
+    // table (0x010c4ce4), by name: it holds 0x00cb9cb0, which frees the one
+    // pointer it is given and takes no object (VEGAS-103).
     virtual ~BoneRecordArray()
     {
         if (m_pBase)
-            Free(m_pBase);
+            ((void (*)(void *))DAT_010c4cec)(m_pBase);
     }
     virtual void* Alloc(unsigned int n);
     __declspec(dllimport) virtual void Free(void* p);
     void RemoveAll()
     {
         if (m_pBase) {
-            Free(m_pBase);
+            ((void (*)(void *))DAT_010c4cec)(m_pBase);
             m_pBase = 0;
             m_uiMaxSize = 0;
             m_uiSize = 0;

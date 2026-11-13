@@ -37938,7 +37938,7 @@
     "?FUN_00cb1410@SkeletonBuild@@YAPBDH@Z": "0x00cb1410",
     "?FUN_00cb0c10@SStringPtr@@QAEPAXPBD@Z": "0x00cb0c10",
     "?FUN_00b601a0@S_00b601a0_Map@@QAEXXZ": "0x00b601a0",
-    "__imp_?Free@BoneRecordArray@SkeletonBuild@@UAEXPAX@Z": "0x010c4cec",
+    "?DAT_010c4cec@@3PAXA": "0x010c4cec",
     "?FUN_00ceb2c0@@YAPAUSkeleton@@PAUBodyList@@PAUConstraintList@@@Z": "0x00ceb2c0",
     "?FUN_00cea810@@YAPAURagdoll@@PAUSkeleton@@ABU?$Array@PAURigidBody@@@@ABU?$Array@PAUConstraint@@@@@Z": "0x00cea810",
     "?ApplyToCollisionBodies@@YAXPAUC7B140AVObject@@PAX1@Z": "0x00c7b140",

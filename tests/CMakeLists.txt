@@ -1434,3 +1434,23 @@ if(vegas_object_checks)
       -DCOUNT=1
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
 endif()
+
+# Fails when the deleting destructor of actor.cpp's BoneRecordArray
+# (VEGAS-103) no longer passes the data pointer, loaded from offset 8, in rcx
+# to the slot after its table. The member call it replaced passed the object
+# there and the data in rdx. It reads the archive with llvm-objdump; the
+# patterns are specific to clang-cl at /O2. Blind spot: the copies inlined
+# into FUN_00c7e3b0 are covered by objects.slot_free_calls, by name only.
+if(vegas_object_checks)
+  add_test(NAME objects.slot_free_argument.BoneRecordArray
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/slot_free_argument.BoneRecordArray.disassembly.txt
+      "-DFUNCTION=??_GBoneRecordArray@SkeletonBuild@@UEAAPEAXI@Z"
+      "-DSITE=^callq \\*\\(%rip\\)$"
+      -DREGISTER=rcx
+      "-DORIGIN=^movq 0x8\\(%r[a-z0-9]+\\), BASE$"
+      -DCOUNT=1
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
+endif()

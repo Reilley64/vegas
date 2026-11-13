@@ -22,6 +22,8 @@ namespace ArrowDraw { extern double DAT_010c4ab0; }
 extern "C" extern int DAT_010c4b60;
 // 0x010c4ca4
 extern int DAT_010c4ca4;
+// 0x010c4cec
+extern void *DAT_010c4cec;
 // 0x010c4cf8
 namespace fnv_00c75f80 { extern int DAT_010c4cf8; }
 // 0x010c4db8

@@ -1675,7 +1675,6 @@ struct Interface
 };
 struct MainStub
 {
-    void FUN_008707c0(BSRenderedTexture*, bool);
     void FUN_00870a00(BSRenderedTexture*, bool);
     void FUN_00870bd0(BSRenderedTexture*, bool);
 };
@@ -1686,7 +1685,7 @@ void FUN_008706b0_shell::FUN_008706b0(BSRenderedTexture* pTexture, bool bCheckMe
     ::FUN_00870790((::_Fake_FUN_00870790 *)(((::fnv_008706b0::ShadowSceneNode *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), 
         (*(::NiPoint3 *)&(const ::fnv_008706b0::P3 &)(((::fnv_008706b0::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData()->FUN_0045bb80())));
     if (bCheckMenu && !Interface::IsMenuActive((Interface::enumMenus)0x3f5, 0))
-        ((MainStub*)this)->FUN_008707c0(pTexture, f);
+        ((::fnv_008707c0::RenderMgr*)this)->FUN_008707c0(pTexture, f);
     else if (f)
         ((MainStub*)this)->FUN_00870a00(pTexture, bFlag);
     else

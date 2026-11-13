@@ -4,5 +4,8 @@
 # The names the calls used before, which no object defines:
 # 0x008774a0, called by WinMain with the constant 1 for its bool parameter
 forbid	?FUN_008774a0@Receiver86@@QEAAXH@Z
+# 0x008707c0, whose texture parameter is void*
+forbid	?FUN_008707c0@MainStub@fnv_008706b0@@QEAAXPEAUBSRenderedTexture@2@_N@Z
 # batch, unit, function and the names of the bodies:
 function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_008774a0@FUN_008774a0_shell@fnv_008774a0@@QEAAX_N@Z
+function	render	src/fallout/misc/main.cpp	?FUN_008706b0@FUN_008706b0_shell@fnv_008706b0@@QEAAXPEAUBSRenderedTexture@2@_N1@Z	?FUN_008707c0@RenderMgr@fnv_008707c0@@QEAAXPEAX_N@Z

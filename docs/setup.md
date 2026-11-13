@@ -20,15 +20,16 @@ the reviewed tool version and the maintenance responsibility before setup
 reads a real input. The next section states them. That criterion is met
 when this page passes review.
 
-The owner ran setup privately on an actual input on 2026-11-13, with the
-reviewed tool version `0ecb31723`. For C1 only, that run shows the input
-checks of VEGAS-13's first criterion, the reproducible local preparation
-that its fourth asks for, and the private actual-input check that its
-seventh asks to document. The rest of the fourth, fifth and seventh
-criteria covers the whole catalogue and is still open. That run used
-catalogue version 1, before setup read the main window class. "Private run
-on an actual input" states what it showed, and "Not verified" states what
-it did not cover.
+The owner ran setup privately on an actual input twice on 2026-11-13. The
+first run used the reviewed tool version `0ecb31723` and catalogue version
+1, before setup read the main window class. The second used the reviewed
+tool version `d5d1d60ec` and catalogue version 2. For C1 and the main
+window class only, the runs show the input checks of VEGAS-13's first
+criterion, the reproducible local preparation that its fourth asks for,
+and the private actual-input check that its seventh asks to document. The
+rest of the fourth, fifth and seventh criteria covers the whole catalogue
+and is still open. "Private run on an actual input" states what the runs
+showed, and "Not verified" states what they did not cover.
 
 ## Before setup reads a real copy
 
@@ -358,12 +359,28 @@ which the recipe literal fixes.
   an empty folder while `GIT_DIR`, or `GIT_DIR` and `GIT_WORK_TREE`, name
   that repository. A configure that finds no git does not register them.
 
+Windows CI runs the test suite on every push. On 2026-11-13, at
+`534a1d77c`, it passed
+`setup.build_commit_line` and the other `setup.build_commit_*` tests. At
+`d5d1d60ec` it passed every setup test, among them
+`setup.recipe_ranges.pointer_bound`, and the four runtime tests that
+catalogue version 2 added: `runtime.main_window_class`,
+`runtime.main_window_class.unpublished_read`,
+`runtime.data_pack_startup.refused_publishes_no_window_class` and
+`runtime.second_window_check`. It also passed `falloutnv.process_exit`,
+which CTest did not report as skipped. Both CI runs are marked failed,
+because the executable of `runtime.havok_worker_pool`, a test outside
+setup, did not link, and CTest reported that test as not run.
+
 ## Private run on an actual input
 
-On 2026-11-13 the owner ran `vegas-setup`, built from the reviewed tool
-version `0ecb31723`, on their own Steam copy of `FalloutNV.exe`. The pack,
-the original file and every value read from them stay private. This page
-records outcomes and statuses only.
+On 2026-11-13 the owner ran `vegas-setup` twice on their own Steam copy of
+`FalloutNV.exe`. The packs, the original file and every value read from
+them stay private. This page records outcomes and statuses only.
+
+### Catalogue version 1
+
+The first run used setup built from the reviewed tool version `0ecb31723`.
 
 - The identity check accepted the copy as the supported original release.
 - Setup ran on two separate copies of the executable. Each run ended with
@@ -385,21 +402,50 @@ records outcomes and statuses only.
   standard error stream it reported that the pack is not a valid data pack
   because its CRC-32 is not that of the file.
 
+### Catalogue version 2
+
+The second run used setup built from the reviewed tool version
+`d5d1d60ec`.
+
+- Setup printed its commit line, which named `d5d1d60ec` and ended with
+  `no local changes`, and then its status line, both on the standard
+  error stream.
+- Setup ran on two separate copies of the executable, and again on a
+  folder that already held a pack, which it replaced. Each run ended with
+  status 0, and the three packs were identical byte for byte.
+- No run left a `vegas-data.pack.staged` file.
+- A separate PE check, independent of setup's code, found exactly one
+  32-bit (`HIGHLOW`) base relocation at the address of the class name's
+  pointer, and none overlapping the pointer. The pointer's target lies in
+  the stored bytes of a read-only initialized-data section, not in code
+  and not in `.bind`. The class name's zero byte lies within its 256-byte
+  capacity. The same check found C1's four strings as the first run did.
+- This project's `FalloutNV.exe`, built from the same commit, exited with
+  status 0 beside the new pack, with no original executable present.
+- Beside an earlier pack of catalogue version 1, it exited with status 2
+  and refused the pack for its catalogue version. With no pack, and beside
+  a corrupted copy of the pack, it also exited with status 2.
+- Exit status 0 alone does not show the `Continue` path, because `main`
+  also returns 0 after a message box and when it finds a window of the
+  class (`data-pack-startup.md`). Before and after the runs, the session
+  had no window of the game's class and no mutex with the pack's mutex
+  name, and it was not a remote session. From that, `main` is inferred to
+  have taken the `Continue` path. No run observed it.
+
 These runs are private actual-input checks. They are not synthetic tests
 and not full-game acceptance.
 
 ## Not verified
 
-- The private run ran in session 0, where no user sees a message box, and
-  showed none. Nobody has yet seen C1's strings in the message boxes of
-  `main` (`data-pack-startup.md`). This page records no run of setup or of
-  this project's `FalloutNV.exe` in a desktop session.
-- No real input has been read for catalogue version 2. Whether the pointer
-  at `0x011a2fe8` has a base relocation and points into read-only data, and
-  whether its string ends within 256 bytes, is checked only on synthetic
-  executables here.
+- The first private run ran in session 0, where no user sees a message
+  box, and showed none. The second did not run in a desktop session
+  either. Nobody has yet seen C1's strings in the message boxes of `main`
+  (`data-pack-startup.md`). This page records no run of setup or of this
+  project's `FalloutNV.exe` in a desktop session.
+- No run on a real input has taken the branches of `main` that show a
+  message box or that find a window of the class.
 - No real input has triggered the refusal statuses 6 to 11 of `RunSetup`.
-  The private run of setup ended only with status 0.
+  The private runs of setup ended only with status 0.
 - No test reaches statuses 0 and 6 to 11 of `RunSetup`, because they need a
   supported original release. A test of `InstallDataPack` on its own covers
   statuses 8 to 10. Status 11 needs the installed file to change between the
@@ -407,16 +453,8 @@ and not full-game acceptance.
 - Setup does not flush the staged file to the disk before the rename. After
   a power failure the pack may be missing or refused. The engine then
   reports it, and setup can run again.
-- Apart from the private run, nobody has run a Windows executable of
-  setup. The Windows build of `vegas-setup` and its tests compiles and
-  links. Windows CI runs the test suite on every push, but at 91357ecf7,
-  d8f06e7b0 and 0ecb31723 its configure step failed before any test ran,
-  so no CI run of the setup tests is recorded here.
 - Nobody has checked the exit status of an uncaught allocation failure on
   Windows.
-- Nobody has run a Windows executable of `vegas-setup` that prints the
-  commit line. The line on Windows, the `setup.build_commit_*` tests on
-  Windows and `build_commit.cmake` under a Windows git are not verified.
 - `build_commit.cmake` removes only `GIT_DIR`, `GIT_WORK_TREE` and
   `GIT_INDEX_FILE` from its environment. Other git environment variables,
   such as `GIT_CEILING_DIRECTORIES`, `GIT_OBJECT_DIRECTORY`, `GIT_COMMON_DIR`

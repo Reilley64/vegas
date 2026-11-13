@@ -228,7 +228,8 @@ service, only `MB_SERVICE_NOTIFICATION` moves it to the active desktop, and
 `main` does not set it. `GetSystemMetrics(SM_REMOTESESSION)` is non-zero
 only in a Remote Desktop Services client session and 0 in the console
 session. Whether a hosted Windows runner runs its jobs in a client session,
-the console session or a service session was not settled here.
+the console session or a service session was not settled here. The CI runs
+under "Not verified" show only that it was not a client session.
 
 The tests do not depend on it. The decision's tests record the box. Before
 `falloutnv.process_exit` runs `FalloutNV.exe`, the fixture makes the same
@@ -364,12 +365,17 @@ VEGAS-52.
 - No Windows executable was run here. The two `falloutnv` tests and the
   Windows forms of the other tests run in CI only.
 - No test uses a real pack, a pack prepared by setup or an original
-  executable. The owner's private run of 2026-11-13 (`setup.md`) ran this
-  stage on a pack setup prepared: status 0 beside it, status 2 with no pack
-  and with a corrupted copy.
-- Whether a hosted Windows runner reports a remote session, and so whether
-  CI runs or skips `falloutnv.process_exit`, is not known.
+  executable. The owner's private runs of 2026-11-13 (`setup.md`) ran this
+  stage on packs setup prepared. The first, at catalogue version 1, gave
+  status 0 beside its pack, and status 2 with no pack and with a corrupted
+  copy. The second, at catalogue version 2, gave status 0 beside its pack,
+  and status 2 with no pack, with a corrupted copy and beside a pack of
+  catalogue version 1, which it refused for its catalogue version.
+- Windows CI ran `falloutnv.process_exit` at `c7abe570e`, on 2026-11-12,
+  and at `891a44f50`, `1b3b79d69`, `534a1d77c` and `d5d1d60ec`, on
+  2026-11-13. Each time it passed and CTest did not report it as skipped,
+  so the fixture's check did not name a remote session on those runners.
+  Which kind of session a hosted Windows runner gives its jobs is still
+  not known, and a later runner may report a remote session.
 - No run has found a window of the class, so the `AlreadyOpen` branch of
   `main` has run only as the decision's test, with the calls recorded.
-- No pack setup prepared from a real original holds the main window class
-  yet; the owner's private run predates catalogue version 2.

@@ -362,9 +362,11 @@ catalogue version 1 is refused for its catalogue version.
 
 ## Not verified
 
-- No original executable was read. That the ranges above lie in data
-  sections, and that the legacy extents match the stored bytes, is not
-  checked.
+- No original executable was read for this page's measurements. That the
+  ranges above lie in data sections, and that the legacy extents match the
+  stored bytes, is not checked. The owner's private runs of 2026-11-13
+  (`setup.md`) read an original executable for C1 and the main window
+  class only.
 - Which values of "Values already written in the source" the original
   stores in a data section is not checked.
 - The census is a parser of the legacy text, not of objects. It reads the
@@ -372,9 +374,12 @@ catalogue version 1 is refused for its catalogue version.
 - The reachability follows relocations only. It follows virtual tables as
   data, so it may reach more than runs, and it sees no call made through a
   value computed at run time.
-- No Windows executable was run.
+- No Windows executable was run for this page's measurements.
 - The page was not measured again on the tip it was moved onto.
-- For version 2, no original executable was read either. That the pointer
-  at `0x011a2fe8` is stored, covered by a base relocation and points into
-  read-only initialized data, and that its string ends within 256 bytes,
-  is not checked in this repository.
+- For version 2, the owner's second private run of 2026-11-13 (`setup.md`) read
+  an original executable. Setup ended with status 0, so its checks of the
+  pointer at `0x011a2fe8` and of its string passed. A separate PE check
+  found exactly one 32-bit base relocation at the pointer, its target in
+  the stored bytes of a read-only initialized-data section, and the
+  string's zero byte within 256 bytes. No test in this repository checks
+  this on an original executable.

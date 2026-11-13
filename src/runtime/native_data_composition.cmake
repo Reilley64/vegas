@@ -43,6 +43,58 @@ function(vegas_compose_native_data)
     "src/generated/data/vtables_010d.cpp|ed67c8bec41ed476610646445144816f71541b77d7c26c6fcf85a97380e1f469"
     "src/generated/data/vtables_010e.cpp|76c6ec007716bece303350f4d4f1a296ca216cb9aa1a0082dbf9024d835812d4"
   )
+  # A pin holds only while every checkout keeps the committed bytes. Without
+  # eol=lf or -text in .gitattributes a Windows checkout converts an input to
+  # CRLF and its pin no longer matches; the patch needs the same attribute. git
+  # check-attr needs a repository, so a source archive is not checked here;
+  # there the hash check still covers the inputs and a converted patch does
+  # not apply. The check reads this machine's effective attributes: a global
+  # attributes file, .git/info/attributes or an uncommitted .gitattributes
+  # line can make it pass locally, while CI's fresh checkout still stops. It
+  # covers the end-of-line attributes only; ident and working-tree-encoding
+  # are left to the hash check and git apply.
+  set(paths)
+  foreach(input IN LISTS inputs)
+    string(REPLACE "|" ";" fields "${input}")
+    list(GET fields 0 path)
+    list(APPEND paths "${path}")
+  endforeach()
+  file(RELATIVE_PATH patch_path "${PROJECT_SOURCE_DIR}" "${patch}")
+  list(APPEND paths "${patch_path}")
+  # The prefix is empty only at the top of a work tree.
+  execute_process(
+    COMMAND "${GIT_EXECUTABLE}" rev-parse --show-prefix
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" RESULT_VARIABLE rev_parse_result
+    OUTPUT_VARIABLE prefix OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_VARIABLE rev_parse_error ERROR_STRIP_TRAILING_WHITESPACE)
+  if(rev_parse_result EQUAL 0 AND prefix STREQUAL "")
+    execute_process(
+      COMMAND "${GIT_EXECUTABLE}" check-attr text eol -- ${paths}
+      WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}" RESULT_VARIABLE checked
+      OUTPUT_VARIABLE attributes ERROR_VARIABLE diagnostic)
+    if(NOT checked EQUAL 0)
+      message(FATAL_ERROR "Cannot read the attributes of the native data composition inputs: ${diagnostic}")
+    endif()
+    string(REPLACE "\r" "" attributes "\n${attributes}")
+    set(unprotected)
+    foreach(path IN LISTS paths)
+      string(FIND "${attributes}" "\n${path}: eol: lf\n" lf)
+      string(FIND "${attributes}" "\n${path}: text: unset\n" binary)
+      if(lf LESS 0 AND binary LESS 0)
+        list(APPEND unprotected "${path}")
+      endif()
+    endforeach()
+    if(unprotected)
+      list(JOIN unprotected "\n  " unprotected)
+      message(FATAL_ERROR "Native data composition inputs or patch without eol=lf or -text in .gitattributes, so a Windows checkout changes their committed bytes:\n  ${unprotected}")
+    endif()
+  else()
+    set(skipped "Native data composition: the source root is not the top of a readable Git work tree; the inputs' line-ending attributes are not checked")
+    if(NOT rev_parse_error STREQUAL "")
+      string(APPEND skipped "\n${rev_parse_error}")
+    endif()
+    message(STATUS "${skipped}")
+  endif()
   foreach(input IN LISTS inputs)
     string(REPLACE "|" ";" fields "${input}")
     list(GET fields 0 path)

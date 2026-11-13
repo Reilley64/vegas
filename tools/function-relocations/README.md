@@ -38,8 +38,9 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.table_slot_reads` for `table-slot-reads.tsv`,
 `objects.slot_free_calls` for `slot-free-calls.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`,
-`objects.integer_width_calls` for `integer-width-calls.tsv`, and
-`objects.log_path_buffer` for `log-path-buffer.tsv`. CMake
+`objects.integer_width_calls` for `integer-width-calls.tsv`,
+`objects.log_path_buffer` for `log-path-buffer.tsv`, and
+`objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -155,6 +156,15 @@ declared as an array of 260 characters, a loaded value would need a cast.
 A smaller array under the same name is not caught by
 `objects.log_path_buffer`; the `static_assert` in `FUN_004dc110` covers the
 size of the buffer's definition.
+
+`setting-value-accessor.tsv` lists a sample of the callers of the setting
+value accessor at `0x0043d4d0` (VEGAS-111, docs/setting-value-offset.md). It
+forbids the accessor's 32-bit form, which took an `int *` and read 4 bytes
+into the setting and which no object defines, and requires the form that
+takes the shared `Setting`. The sample holds three readers of the processor
+count setting and one caller for each other form of argument. Whether an
+argument is a setting is not a relocation; the document classifies every
+call.
 
 ## Exit status
 

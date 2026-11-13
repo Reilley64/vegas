@@ -87,6 +87,10 @@ engine.
 It fails closed if any input changes or the patch no longer applies. Git is
 therefore required at configure time, including builds from source archives.
 No original executable, game data, extractor or proprietary input is needed.
+A new pin needs its own `text eol=lf` line in `.gitattributes`: when the
+source root is the top of a Git work tree, the configure stops when a pinned
+input or the patch has neither `eol=lf` nor `-text`, since a Windows checkout
+would change its bytes.
 
 The composed include directory precedes the legacy source directory. Each of
 the four affected complete data TUs replaces its original target entry at

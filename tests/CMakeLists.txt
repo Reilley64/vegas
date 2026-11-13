@@ -924,20 +924,56 @@ else()
 endif()
 add_test(NAME fileformat.dds_header COMMAND fileformat_dds_header_test)
 
-# Fails when an external name of the game archive has definitions that differ
-# between members and is not recorded in the allowlist. The allowlist was
-# measured on the cross build, with its compiler and standard library, and the
-# set of names depends on both. So the test is registered for the cross build
-# only, and a native Windows build has no such test. The tool reads the archive
-# on the build host and is run with Go, which the cross build therefore
-# requires.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# The checks of the game archive and its objects below read the windows-x64
+# objects on the build host: with Go, with the llvm-objdump beside clang-cl and
+# with Python 3. They are registered in every windows-x64 build, the cross build
+# and a build on a Windows host such as the Windows CI job (VEGAS-95). A cross
+# build stops when a tool is not found. On a Windows host the configure goes on
+# with a warning, as for setup.recipe_ranges, and objects.tools is registered in
+# place of the checks and fails with that reason, so they are never silently
+# missing.
+set(vegas_object_checks FALSE)
+if(WIN32)
   find_program(GO_EXECUTABLE go)
+  get_filename_component(compiler_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
+  find_program(LLVM_OBJDUMP_EXECUTABLE llvm-objdump HINTS "${compiler_dir}")
+  set(vegas_object_tools_missing "")
   if(NOT GO_EXECUTABLE)
-    message(FATAL_ERROR
-      "Go was not found. The cross build needs Go to run the "
-      "archive.differing_definitions test (tools/differing-definitions).")
+    list(APPEND vegas_object_tools_missing "Go")
   endif()
+  if(NOT LLVM_OBJDUMP_EXECUTABLE)
+    list(APPEND vegas_object_tools_missing "llvm-objdump")
+  endif()
+  if(NOT Python3_Interpreter_FOUND)
+    list(APPEND vegas_object_tools_missing "Python 3")
+  endif()
+  if(vegas_object_tools_missing)
+    list(JOIN vegas_object_tools_missing ", " vegas_object_tools_missing)
+    string(CONCAT vegas_object_tools_message
+      "${vegas_object_tools_missing} not found when configuring, so the objects.* "
+      "and archive.* checks of the game archive cannot run. Install the missing "
+      "tools and configure again.")
+    if(NOT CMAKE_HOST_WIN32)
+      message(FATAL_ERROR "${vegas_object_tools_message}")
+    endif()
+    message(WARNING "${vegas_object_tools_message}")
+    add_test(NAME objects.tools
+      COMMAND ${CMAKE_COMMAND} -E echo "${vegas_object_tools_message}")
+    set_tests_properties(objects.tools PROPERTIES
+      FAIL_REGULAR_EXPRESSION "not found when configuring")
+  else()
+    set(vegas_object_checks TRUE)
+  endif()
+endif()
+
+# Fails when an external name of the game archive has definitions that differ
+# between members and is not recorded in the allowlist, or when a recorded name
+# no longer differs. The set of names depends on the compiler and the standard
+# library. The allowlist was measured on the cross build; at 891a44f50 the
+# Windows CI job's toolchain (clang-cl 20.1.8 with the standard library of
+# Visual Studio) gave the same 519 names, so the test runs in both. The tool
+# reads the archive with Go.
+if(vegas_object_checks)
   add_test(NAME archive.differing_definitions
     COMMAND ${GO_EXECUTABLE} run . --archive $<TARGET_FILE:game>
             --allowlist ${PROJECT_SOURCE_DIR}/tools/differing-definitions/allowlist.tsv
@@ -948,10 +984,8 @@ endif()
 # again refers to an argument-less name of the matrix inverse, transpose or
 # normal transform, or no longer to the native function it calls. One test per
 # batch of tools/function-relocations/d3dx-call-arguments.tsv. Like the check
-# above it reads the windows-x64 objects on the build host with Go, so it is
-# registered for the cross build only. It uses GO_EXECUTABLE, which the block
-# above finds and requires.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# above it reads the windows-x64 objects on the build host with Go.
+if(vegas_object_checks)
   file(GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
     CONTENT "$<JOIN:$<TARGET_OBJECTS:game>,\n>\n")
   foreach(d3dx_call_batch fallout_shared shader_constants lighting)
@@ -978,16 +1012,8 @@ endif()
 # InterlockedExchangeAdd as null, because no x64 library exports the function,
 # under a C++ name that a C name of the same slot is redirected to. The two
 # critical section slot names with this C++ type have no definition at all.
-# The archive is read with llvm-objdump on the build host, so the test is
-# registered for the cross build only, like archive.differing_definitions.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
-  get_filename_component(compiler_dir "${CMAKE_CXX_COMPILER}" DIRECTORY)
-  find_program(LLVM_OBJDUMP_EXECUTABLE llvm-objdump HINTS "${compiler_dir}")
-  if(NOT LLVM_OBJDUMP_EXECUTABLE)
-    message(FATAL_ERROR
-      "llvm-objdump was not found. The cross build needs it to run the "
-      "archive.empty_import_slots test.")
-  endif()
+# The archive is read with llvm-objdump on the build host.
+if(vegas_object_checks)
   add_test(NAME archive.empty_import_slots
     COMMAND ${CMAKE_COMMAND}
       -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
@@ -1000,9 +1026,9 @@ endif()
 # Fails when the function that deletes the hacking menu's element array
 # (0x007687d0, VEGAS-72) again calls the transcribed vector deleting destructor
 # or its 32-bit callees, or no longer calls the element's destructor and the
-# sized array delete. Cross build only, like the checks above; it uses the
-# object list and GO_EXECUTABLE that they set up.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# sized array delete. It uses the object list and GO_EXECUTABLE of the checks
+# above.
+if(vegas_object_checks)
   add_test(NAME objects.hacking_array_retirement
     COMMAND ${GO_EXECUTABLE} run . --table hacking-array-retirement.tsv
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
@@ -1012,8 +1038,8 @@ endif()
 # Fails when the function at 0x005436e0 (VEGAS-96) again sees the NavMesh
 # pointer that MakeNavMeshPointer returns as a trivial class: it then passes
 # the mesh where the callee expects the address of its result and never
-# destroys the result. Cross build only, like the checks above.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# destroys the result.
+if(vegas_object_checks)
   add_test(NAME objects.navmesh_pointer_result
     COMMAND ${GO_EXECUTABLE} run . --table navmesh-pointer-result.tsv
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
@@ -1022,8 +1048,7 @@ endif()
 
 # Fails when WinMain (0x0086a850, VEGAS-30) again calls a boot function under
 # a name that no object defines, or no longer under the name of its body.
-# Cross build only, like the checks above.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+if(vegas_object_checks)
   add_test(NAME objects.winmain_boot_calls
     COMMAND ${GO_EXECUTABLE} run . --table winmain-boot-calls.tsv
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
@@ -1032,8 +1057,8 @@ endif()
 
 # Fails when a call whose caller and callee disagreed on an integer width
 # only (VEGAS-97) again refers to the requirer's former name, or a function no
-# longer calls the agreed name. Cross build only, like the checks above.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# longer calls the agreed name.
+if(vegas_object_checks)
   add_test(NAME objects.integer_width_calls
     COMMAND ${GO_EXECUTABLE} run . --table integer-width-calls.tsv
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
@@ -1042,9 +1067,8 @@ endif()
 
 # Fails when the npos of the string library at 0x010173f0 (VEGAS-100) is
 # again zero: defined without its all-ones initial value, in a section that
-# has no initialised contents, or with other bytes. Cross build only, like the
-# checks above.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# has no initialised contents, or with other bytes.
+if(vegas_object_checks)
   add_test(NAME objects.string_npos
     COMMAND ${GO_EXECUTABLE} run . --table string-npos.tsv
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
@@ -1053,9 +1077,8 @@ endif()
 
 # Fails when a function that read the slot after the end of a two-slot
 # generated table (VEGAS-30) again addresses that table at or past its end, or
-# no longer calls through the name the recipe gives that slot. Cross build
-# only, like the checks above.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# no longer calls through the name the recipe gives that slot.
+if(vegas_object_checks)
   add_test(NAME objects.table_slot_reads
     COMMAND ${GO_EXECUTABLE} run . --table table-slot-reads.tsv
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
@@ -1067,8 +1090,7 @@ endif()
 # it, other than the reads tools/table-bounds/allow.tsv lists, or when a read
 # it lists is gone (VEGAS-30). Each table's length is its slot count in the
 # source the build compiles: the composed copy for the four composed units.
-# Cross build only, like the checks above.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+if(vegas_object_checks)
   get_target_property(vegas_vtable_sources game SOURCES)
   list(FILTER vegas_vtable_sources INCLUDE REGEX "generated/data/vtables_01[0-9a-f][0-9a-f]\\.cpp$")
   list(LENGTH vegas_vtable_sources vegas_vtable_count)
@@ -1090,11 +1112,10 @@ endif()
 # call does, instead of with the data alone. That slot holds 0x00cb9cb0,
 # which frees its one argument. The data pointer is at offset 8: the repaired
 # call loads it into rcx, the member call loaded it into rdx. It reads the
-# archive with the llvm-objdump found for archive.empty_import_slots, so it is
-# registered for the cross build only. The patterns are specific to clang-cl
-# at /O2. Blind spots: registers, not values, are matched; a call that loads
-# the data into rcx and also passes something in rdx passes.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# archive with llvm-objdump. The patterns are specific to clang-cl at /O2.
+# Blind spots: registers, not values, are matched; a call that loads the data
+# into rcx and also passes something in rdx passes.
+if(vegas_object_checks)
   add_test(NAME objects.release_and_destroy_slot_call
     COMMAND ${CMAKE_COMMAND}
       -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
@@ -1110,12 +1131,11 @@ endif()
 # generated data hold, again frees a null pointer instead of the
 # pointer it is given: the body passed {} to the memory manager's free and
 # took no parameter. The one-pointer body moves its argument from rcx to rdx
-# for the free. It reads the archive with the llvm-objdump found for
-# archive.empty_import_slots, so it is registered for the cross build only.
-# The patterns are specific to clang-cl at /O2. Blind spots: a body that
-# loads rdx from somewhere other than its argument after the move passes; the
-# callee and the memory manager are relocations, not checked here.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+# for the free. It reads the archive with llvm-objdump. The patterns are
+# specific to clang-cl at /O2. Blind spots: a body that loads rdx from
+# somewhere other than its argument after the move passes; the callee and the
+# memory manager are relocations, not checked here.
+if(vegas_object_checks)
   add_test(NAME objects.memory_free_forwarder
     COMMAND ${CMAKE_COMMAND}
       -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
@@ -1144,16 +1164,9 @@ else()
 endif()
 add_test(NAME runtime.animation_key_tables COMMAND runtime_animation_key_tables_test)
 
-# The key table block has one owner in the game archive (VEGAS-51).
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
-  find_package(Python3 COMPONENTS Interpreter)
-  get_filename_component(VEGAS_COMPILER_DIR ${CMAKE_CXX_COMPILER} DIRECTORY)
-  find_program(LLVM_OBJDUMP_EXECUTABLE llvm-objdump HINTS ${VEGAS_COMPILER_DIR})
-  if(NOT Python3_Interpreter_FOUND OR NOT LLVM_OBJDUMP_EXECUTABLE)
-    message(FATAL_ERROR
-      "Python 3 or llvm-objdump was not found. The cross build needs both to run the "
-      "archive.animation_key_tables test (tools/animation-key-tables).")
-  endif()
+# The key table block has one owner in the game archive (VEGAS-51). It reads
+# the archive with Python 3 and llvm-objdump.
+if(vegas_object_checks)
   add_test(NAME archive.animation_key_tables
     COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/animation-key-tables/check.py
             --archive $<TARGET_FILE:game> --recipe ${PROJECT_SOURCE_DIR}/build/units.json
@@ -1164,15 +1177,13 @@ endif()
 # 16, the 32-bit size of TESAnimGroup::AnimGroupSound, or no longer steps
 # through the entries it writes 24 bytes apart, the windows-x64 size. The
 # body allocated count * 16 bytes and wrote 24-byte entries past the end of the
-# block (docs/shared-tesanimgroup.md). It reads the archive with the
-# llvm-objdump found for archive.empty_import_slots, so it is registered for
-# the cross build only.
+# block (docs/shared-tesanimgroup.md). It reads the archive with llvm-objdump.
 # The patterns are specific to clang-cl at /O2. Blind spots: a count scaled by
 # 16 in another way (an add chain, an lea with a multiple of 16) passes; the
 # required addq $0x18 checks that the loop still steps 24 bytes, it does not
 # tell the two sizes apart; the allocated size is not compared with the extent
 # the body writes.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+if(vegas_object_checks)
   add_test(NAME objects.anim_group_sound_entry_size
     COMMAND ${CMAKE_COMMAND}
       -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
@@ -1188,13 +1199,12 @@ endif()
 # x and z of GetRadii's by-value result (0x00413fc0) to the NiPoint2
 # constructor. The body discarded the result and built the point from a local
 # nothing wrote, so at /O2 the constructor got whatever xmm1 and xmm2 held
-# (VEGAS-90). It reads the archive with the llvm-objdump found for
-# archive.empty_import_slots, so it is registered for the cross build only.
+# (VEGAS-90). It reads the archive with llvm-objdump.
 # The check is specific to clang-cl's windows-x64 code: the result address in
 # rdx, set by one leaq. Blind spots: it does not follow branches; a load from
 # the slot that is overwritten before the constructor call passes; it does not
 # check that the constructor stores the two floats.
-if(WIN32 AND NOT CMAKE_HOST_WIN32)
+if(vegas_object_checks)
   add_test(NAME objects.cell_reference_radii_result
     COMMAND ${CMAKE_COMMAND}
       -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}

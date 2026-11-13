@@ -128,7 +128,77 @@ func (s *scanner) scanRange(ctx context.Context, dir, temp string, revs []string
 	if waitErr != nil {
 		return fmt.Errorf("Git reader failed")
 	}
+	if err = s.scanPacks(ctx, dir, manifest.Name()); err != nil {
+		return err
+	}
 	s.result.Complete = true
+	return nil
+}
+
+// A data pack, installed or staged, holds data of the original release, so no
+// commit adds one, in any folder and in any letter case (VEGAS-13). Git matches
+// the names. A deletion or a rename away from such a name is not refused.
+var packPathspecs = []string{":(glob,icase)**/*.pack", ":(glob,icase)**/*.pack.staged"}
+
+func (s *scanner) scanPacks(ctx context.Context, dir, manifest string) error {
+	input, err := os.Open(manifest)
+	if err != nil {
+		return fmt.Errorf("range workspace I/O failed")
+	}
+	defer input.Close()
+	expected, err := os.Open(manifest)
+	if err != nil {
+		return fmt.Errorf("range workspace I/O failed")
+	}
+	defer expected.Close()
+	ids := bufio.NewReader(expected)
+	nextID := func() string { id, _ := ids.ReadString('\n'); return strings.TrimSuffix(id, "\n") }
+	// --always names every selected commit, so a missing one is detected. A pack
+	// name ends in .pack or .pack.staged and so never equals a commit name.
+	cmd := command(ctx, dir, append([]string{"diff-tree", "--stdin", "-r", "--root", "--cc", "--always", "--name-only", "-z", "--diff-filter=ACMRT", "--"}, packPathspecs...)...)
+	cmd.Stdin = input
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return fmt.Errorf("range workspace I/O failed")
+	}
+	if err = cmd.Start(); err != nil {
+		return fmt.Errorf("cannot start Git name reader")
+	}
+	parseErr := func() error {
+		r := bufio.NewReader(stdout)
+		current, next := "", nextID()
+		for {
+			field, e := r.ReadString(0)
+			if e == io.EOF && field == "" {
+				if next != "" {
+					return fmt.Errorf("missing selected commit")
+				}
+				return nil
+			}
+			if e != nil {
+				return fmt.Errorf("truncated Git name record")
+			}
+			field = strings.TrimSuffix(field, "\x00")
+			switch {
+			case field == next:
+				current, next = field, nextID()
+			case current == "":
+				return fmt.Errorf("unexpected selected commit")
+			default:
+				s.report("files of "+current, "data pack file")
+			}
+		}
+	}()
+	if parseErr != nil {
+		_ = cmd.Process.Kill()
+	}
+	waitErr := cmd.Wait()
+	if parseErr != nil {
+		return parseErr
+	}
+	if waitErr != nil {
+		return fmt.Errorf("Git name reader failed")
+	}
 	return nil
 }
 func readLine(r *bufio.Reader) ([]byte, error) { return r.ReadBytes('\n') }

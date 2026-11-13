@@ -788,3 +788,130 @@ func TestRootGitleaksCPPPolicy(t *testing.T) {
 		check(t, strings.Join([]string{"api_key", "\"S_00dc5970_Handle\";"}, " = "), true)
 	})
 }
+
+func write(t *testing.T, dir, name, text string) {
+	t.Helper()
+	path := filepath.Join(dir, name)
+	if e := os.MkdirAll(filepath.Dir(path), 0700); e != nil {
+		t.Fatal(e)
+	}
+	if e := os.WriteFile(path, []byte(text), 0600); e != nil {
+		t.Fatal(e)
+	}
+}
+func symlink(t *testing.T, dir, target, name string) {
+	t.Helper()
+	if e := os.Symlink(target, filepath.Join(dir, name)); e != nil {
+		t.Fatal(e)
+	}
+}
+
+// The fixture base, outside the scanned range, holds a pack, a pack-named
+// symlink and ordinary files, so changes to each can be scanned.
+func TestDataPackNamesRefusedOnlyWhenAddedOrChanged(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		change func(t *testing.T, dir string)
+		refuse bool
+	}{
+		{"add-in-folder-any-case", func(t *testing.T, dir string) { write(t, dir, "a/b/Data.PaCk", "pack\x00data") }, true},
+		{"add-staged-any-case", func(t *testing.T, dir string) { write(t, dir, "Data.Pack.STAGED", "pack") }, true},
+		{"add-symlink", func(t *testing.T, dir string) { symlink(t, dir, "ordinary.bin", "linked.pack") }, true},
+		{"modify", func(t *testing.T, dir string) { write(t, dir, "old.pack", "changed") }, true},
+		{"copy", func(t *testing.T, dir string) { write(t, dir, "c/copy.pack", "base pack\n") }, true},
+		{"rename-to", func(t *testing.T, dir string) { git(t, dir, "mv", "ordinary.bin", "renamed.pack.staged") }, true},
+		{"type-change-to-symlink", func(t *testing.T, dir string) {
+			git(t, dir, "rm", "-q", "old.pack")
+			symlink(t, dir, "ordinary.bin", "old.pack")
+		}, true},
+		{"type-change-from-symlink", func(t *testing.T, dir string) {
+			git(t, dir, "rm", "-q", "link.pack")
+			write(t, dir, "link.pack", "pack")
+		}, true},
+		{"packed", func(t *testing.T, dir string) { write(t, dir, "x/data.packed", "packed") }, false},
+		{"other-suffix", func(t *testing.T, dir string) { write(t, dir, "data.pack.bak", "backup") }, false},
+		{"folder-named-pack", func(t *testing.T, dir string) { write(t, dir, "d.pack/notes.txt", "notes") }, false},
+		{"delete", func(t *testing.T, dir string) { git(t, dir, "rm", "-q", "old.pack", "link.pack") }, false},
+		{"rename-away", func(t *testing.T, dir string) { git(t, dir, "mv", "old.pack", "moved.bin") }, false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			dir, p := fixture(t)
+			write(t, dir, "old.pack", "base pack\n")
+			write(t, dir, "ordinary.bin", "ordinary\n")
+			symlink(t, dir, "ordinary.bin", "link.pack")
+			git(t, dir, "add", "-A")
+			base := commit(t, dir, "base", "ordinary\n")
+			tc.change(t, dir)
+			git(t, dir, "add", "-A")
+			change := commit(t, dir, "change", "ordinary\n")
+			after := commit(t, dir, "after", "after\n")
+			code, out := invoke(t, dir, p, base+"..HEAD")
+			want, label := 0, "files of "+change+": data pack file"
+			if tc.refuse {
+				want = 1
+			}
+			if code != want || tc.refuse != strings.Contains(out, label) || strings.Contains(out, after) || strings.Contains(out, base) || !strings.Contains(out, `"complete":true`) {
+				t.Fatalf("code %d: %s", code, out)
+			}
+		})
+	}
+}
+func TestDataPackNamesInRootAndMerges(t *testing.T) {
+	dir, p := fixture(t)
+	write(t, dir, "root.pack", "pack")
+	git(t, dir, "add", "-A")
+	root := commit(t, dir, "root", "ordinary\n")
+	git(t, dir, "rm", "-q", "root.pack")
+	clean := commit(t, dir, "clean", "ordinary\n")
+	git(t, dir, "checkout", "-q", "-b", "side")
+	commit(t, dir, "side", "side\n")
+	git(t, dir, "checkout", "-q", "master")
+	git(t, dir, "merge", "-q", "--no-ff", "-m", "ordinary merge", "side")
+	ordinary := git(t, dir, "rev-parse", "HEAD")
+	git(t, dir, "checkout", "-q", "-b", "other", clean)
+	write(t, dir, "other.txt", "other")
+	git(t, dir, "add", "-A")
+	git(t, dir, "commit", "-q", "-m", "other")
+	git(t, dir, "checkout", "-q", "master")
+	git(t, dir, "merge", "-q", "--no-ff", "--no-commit", "other")
+	write(t, dir, "merged/Merge.PACK", "pack")
+	git(t, dir, "add", "-A")
+	git(t, dir, "commit", "-q", "-m", "merge adds a pack")
+	merge := git(t, dir, "rev-parse", "HEAD")
+	code, out := invoke(t, dir, p, "HEAD")
+	if code != 1 || strings.Count(out, "data pack file") != 2 || !strings.Contains(out, "files of "+root+": data pack file") || !strings.Contains(out, "files of "+merge+": data pack file") {
+		t.Fatalf("code %d: %s", code, out)
+	}
+	code, out = invoke(t, dir, p, root+".."+ordinary)
+	if code != 0 {
+		t.Fatalf("ordinary merge: %d %s", code, out)
+	}
+}
+func TestPartialGitNameOutputCannotPass(t *testing.T) {
+	dir, p := fixture(t)
+	commit(t, dir, "root", "ordinary\n")
+	commit(t, dir, "second", "second\n")
+	real, err := exec.LookPath("git")
+	if err != nil {
+		t.Fatal(err)
+	}
+	shims := t.TempDir()
+	t.Setenv("REAL_GIT", real)
+	t.Setenv("PATH", shims+string(os.PathListSeparator)+os.Getenv("PATH"))
+	for _, tc := range []struct{ name, script, want string }{
+		{"missing-commit", "head -n 1 | \"$REAL_GIT\" \"$@\"; exit 0", "missing selected commit"},
+		{"unframed", "\"$REAL_GIT\" \"$@\" >/dev/null; printf 'data.pack'; exit 0", "truncated Git name record"},
+		{"failure", "\"$REAL_GIT\" \"$@\"; exit 7", "Git name reader failed"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			script := "#!/bin/sh\nif [ \"$1\" = diff-tree ]; then " + tc.script + "; fi\nexec \"$REAL_GIT\" \"$@\"\n"
+			if err = os.WriteFile(filepath.Join(shims, "git"), []byte(script), 0700); err != nil {
+				t.Fatal(err)
+			}
+			code, out := invoke(t, dir, p, "HEAD")
+			if code != 2 || !strings.Contains(out, tc.want) || !strings.Contains(out, `"complete":false`) {
+				t.Fatalf("%d %s", code, out)
+			}
+		})
+	}
+}

@@ -7217,19 +7217,19 @@ bool __cdecl FUN_005b72f0(const ScriptParameter* apParameters, const char* apCom
 {
     if ((*reinterpret_cast<const char *const *>(&::_DAT_011a2ff0))) {
         char buf[260];
-        ::TaskQueueInterface::CopyStringToBuffer(buf, 260, ((char *)(::FUN_004dc110())));
+        ::TaskQueueInterface::CopyStringToBuffer(buf, 260, ::FUN_004dc110());
         strcat_s(buf, 260, (*reinterpret_cast<const char *const *>(&::_DAT_011a2ff0)));
         reinterpret_cast<::C5E0200File *>((SettingT<INISettingCollection>::GetCollection()))->FUN_005e0200(buf);
     }
     if ((*reinterpret_cast<const char *const *>((void *)&::DAT_011a2ff4))) {
         char buf[260];
-        ::TaskQueueInterface::CopyStringToBuffer(buf, 260, ((char *)(::FUN_004dc110())));
+        ::TaskQueueInterface::CopyStringToBuffer(buf, 260, ::FUN_004dc110());
         strcat_s(buf, 260, (*reinterpret_cast<const char *const *>((void *)&::DAT_011a2ff4)));
         reinterpret_cast<::C5E0200File *>((SettingT<INISettingCollection>::GetCollection()))->FUN_005e0200(buf);
     }
     if (::DAT_011a2ff8) {
         char buf[260];
-        ::TaskQueueInterface::CopyStringToBuffer(buf, 260, ((char *)(::FUN_004dc110())));
+        ::TaskQueueInterface::CopyStringToBuffer(buf, 260, ::FUN_004dc110());
         strcat_s(buf, 260, ::DAT_011a2ff8);
         reinterpret_cast<::C5E0200File *>((SettingT<INIPrefSettingCollection>::GetCollection()))->FUN_005e0200(buf);
     }
@@ -46038,7 +46038,7 @@ bool __cdecl FUN_005ba7c0(
         reinterpret_cast<::FUN_008029c0_class *>((((::fnv_005ba7c0::StringFormattingUtility *)(std::uintptr_t)(::FUN_005ba8d0()))))->FUN_008029c0({}, {});
 
         ::TaskQueueInterface::CopyStringToBuffer(
-            customIni, 0x104, ((char *)(::FUN_004dc110())));
+            customIni, 0x104, ::FUN_004dc110());
         strcat_s(customIni, 0x104, str_01039c8c);
 
         WritePrivateProfileStringA(

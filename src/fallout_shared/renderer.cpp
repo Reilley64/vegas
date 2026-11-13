@@ -1568,7 +1568,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     DAT_011c6fc0 = ahWnd;
     DAT_011c6fc4 = ahInstance;
     char buf21[260];
-    ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
+    ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ::FUN_004dc110());
     void* file32 = std::fopen(buf21, (const char*)&DAT_0102156c);
     if (file32 != 0)
     {
@@ -1667,7 +1667,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         {
             std::intptr_t ft = ((std::intptr_t)(::BSShaderManager::GetRenderModeName()));
             (void)ft;
-            ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
+            ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ::FUN_004dc110());
             file32 = std::fopen(buf21, (const char*)&DAT_01021568);
             if (file32 != 0)
             {
@@ -1960,7 +1960,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     }
     ::FUN_004dc2d0(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c71ac))))->f);
     std::intptr_t t1404 = ((std::intptr_t)(::BSShaderManager::GetRenderModeName()));
-    ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
+    ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ::FUN_004dc110());
     file32 = std::fopen(buf21, (const char*)&DAT_01021568);
     if (file32 != 0)
     {

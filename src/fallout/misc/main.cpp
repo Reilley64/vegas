@@ -6914,10 +6914,10 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 }
                 reinterpret_cast<::C5E0200File *>((((::Receiver86 *)(::FUN_00877950()))))->FUN_005e0200((const char *)(const void *)(&UNK_01082990));
                 reinterpret_cast<::C5E0200File *>((FUN_0044f560()))->FUN_005e0200((const char *)(path2));
-                ::TaskQueueInterface::CopyStringToBuffer(path2, 0x104, (const char *)(((intptr_t)(::FUN_004dc110()))));
+                ::TaskQueueInterface::CopyStringToBuffer(path2, 0x104, ::FUN_004dc110());
                 FUN_00406d50(path2, 0x104, _DAT_011a2ff0);
                 reinterpret_cast<::C5E0200File *>((FUN_004de490()))->FUN_005e0200((const char *)(path2));
-                ::TaskQueueInterface::CopyStringToBuffer(path2, 0x104, (const char *)(((intptr_t)(::FUN_004dc110()))));
+                ::TaskQueueInterface::CopyStringToBuffer(path2, 0x104, ::FUN_004dc110());
                 FUN_00406d50(path2, 0x104, ::DAT_011a2ff8);
                 reinterpret_cast<::C5E0200File *>((((::Receiver86 *)(::FUN_0045d180()))))->FUN_005e0200((const char *)(path2));
                 reinterpret_cast<::C5E0200File *>((FUN_004de490()))->FUN_005e0200((const char *)(path2));

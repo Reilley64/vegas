@@ -326,7 +326,7 @@ void SaveLoadList::LoadSaveFiles()
                     if (list)
                         reinterpret_cast<::FUN_0085fbd0_class *>(this)->DeleteAllItems();
                     list = new SL;
-                    lstrcpyA(path, ((char *)(::FUN_004dc110())));
+                    lstrcpyA(path, ::FUN_004dc110());
                     lstrcatA(path, ((const char *)(::FUN_00464f30(reinterpret_cast<std::intptr_t>((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))));
                     lstrcatA(path, "*.ess");
                     handle = FindFirstFileA(path, (_WIN32_FIND_DATAA*)&findData);
@@ -336,7 +336,7 @@ void SaveLoadList::LoadSaveFiles()
                         {
                             if (findData.nFileSizeHigh || findData.nFileSizeLow)
                             {
-                                ::FUN_00406d00(fullPath, 260, "%s%s%s", ((char *)(::FUN_004dc110())),
+                                ::FUN_00406d00(fullPath, 260, "%s%s%s", ::FUN_004dc110(),
                                            ((const char *)(::FUN_00464f30(reinterpret_cast<std::intptr_t>((*reinterpret_cast<::StartMenu *>(&::g_011c3f74)).GetMenuTitle())))), findData.cFileName);
                                 file = new FUN_0085fb40(fullPath, 0, 0x20000);
                                 reinterpret_cast<::FUN_00470440 *>((((AEList*)list)))->FUN_007a7eb0((::BGSPerkEntry *)(::DebrisData *)((DebrisData*)file), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(((int (&)(DebrisData *, DebrisData *))::CompareFileWriteTimes)));

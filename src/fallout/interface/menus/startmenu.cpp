@@ -7839,7 +7839,7 @@ struct GlobalObject2_0045cfe0;
 // @fnv 0x0084ff30
 int FUN_0084ff30_shell::CreateScriptMessageDirectory(char* pcPathBuffer)
 {
-    ::TaskQueueInterface::CopyStringToBuffer(pcPathBuffer, 0x104u, ((char *)(::FUN_004dc110())));
+    ::TaskQueueInterface::CopyStringToBuffer(pcPathBuffer, 0x104u, ::FUN_004dc110());
     strcat_s(pcPathBuffer, 0x104u, ((const char *)(::FUN_00464f30((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>((((InventoryMenuSetting*)&::g_011c3f74)))->GetMenuTitle())))))));
     return CreateDirectoryA(pcPathBuffer, 0);
 }
@@ -8612,7 +8612,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
         reinterpret_cast<::FUN_0084ff30_shell *>((((SaveManagerAccess*)(*reinterpret_cast<::fnv_007cbaf0::SaveManagerAccess * *>(&::DAT_011de134)))))->CreateScriptMessageDirectory(s);
     else
     {
-        ::TaskQueueInterface::CopyStringToBuffer(s, 260, ((char *)(::FUN_004dc110())));
+        ::TaskQueueInterface::CopyStringToBuffer(s, 260, ::FUN_004dc110());
         FUN_00406d50(s, 260, ((const char *)(::FUN_00464f30((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007cbaf0::SettingOpsLocal *>(&::g_011c3f74))))->GetMenuTitle())))))));
     }
     FUN_00406d50(s, 260, "*");

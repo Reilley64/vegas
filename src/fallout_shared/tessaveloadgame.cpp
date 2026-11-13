@@ -3769,12 +3769,12 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             BuildSaveFilename(basename9);
         else
             ::TaskQueueInterface::CopyStringToBuffer(basename9, 260, name);
-        ::FUN_00406d00(pathX, 260, "%s%s%s.ess", ((char *)(::FUN_004dc110())), ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
+        ::FUN_00406d00(pathX, 260, "%s%s%s.ess", ::FUN_004dc110(), ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
                   basename9);
         if (mode == 0)
         {
             char directory6[260];
-            ::TaskQueueInterface::CopyStringToBuffer(directory6, 260, ((char *)(::FUN_004dc110())));
+            ::TaskQueueInterface::CopyStringToBuffer(directory6, 260, ::FUN_004dc110());
             strcat_s(directory6, 260, ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))));
             CreateDirectoryA(directory6, 0);
             int kBackupCount = 1;
@@ -3784,7 +3784,7 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             {
                 char destination3[260];
                 char source_[260];
-                ::TaskQueueInterface::CopyStringToBuffer(source_, 260, ((char *)(::FUN_004dc110())));
+                ::TaskQueueInterface::CopyStringToBuffer(source_, 260, ::FUN_004dc110());
                 strcat_s(source_, 260, ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))));
                 strcat_s(source_, 260, basename9);
                 for (int suffix = 0; suffix < backup; ++suffix)
@@ -6070,7 +6070,7 @@ void SaveNamer::BuildSaveFilename(char* output)
                     *bad3 = ' ';
                 cursorA = bad3 + 1;
             }
-            ::FUN_00406d00(fullPath, 260, DAT_010806b8, ((const char *)(::FUN_004dc110())), ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00860ae0::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
+            ::FUN_00406d00(fullPath, 260, DAT_010806b8, ::FUN_004dc110(), ((const char *)(::FUN_00464f30((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00860ae0::SaveSetting *>(&::g_011c3f74))))->GetMenuTitle())))))),
                          filename);
             available9 = !FUN_00456a20(fullPath, 0, 0, -1);
             counter++;

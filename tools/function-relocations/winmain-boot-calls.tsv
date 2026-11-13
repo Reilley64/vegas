@@ -17,3 +17,6 @@ function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0P
 # 0x00706320, which FUN_008774a0 called under a name scoped to itself:
 forbid	?FUN_00706320@fnv_008774a0@@YAXH@Z
 function	callees	src/fallout/misc/main.cpp	?FUN_008774a0@FUN_008774a0_shell@fnv_008774a0@@QEAAX_N@Z	?FUN_00706320@@YAXH@Z
+# 0x004a0e90, which FUN_00876850 called under a name scoped to itself:
+forbid	?FUN_004a0e90@fnv_00876850@@YAPEAXXZ
+function	callees	src/fallout/misc/main.cpp	?FUN_00876850@FUN_00876850_shell@fnv_00876850@@QEAAXPEAUBSRenderedTexture@2@PEAUImageSpaceManager@2@PEAUGraphicsRenderer@2@PEAUSun@2@@Z	?FUN_004a0e90@@YAPEAXXZ

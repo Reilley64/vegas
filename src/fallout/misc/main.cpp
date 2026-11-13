@@ -4567,7 +4567,6 @@ struct FUN_00b65660_s
 struct FUN_00b630c0_s
 {
 };
-void* __cdecl FUN_004a0e90();
 struct BSTextureManager
 {
 };

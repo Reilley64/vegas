@@ -17,7 +17,7 @@ void SetBSStringCapacity(unsigned int);
 // 0x004dc100
 void FUN_004dc100(int);
 // 0x004dc110
-char **FUN_004dc110();
+char *FUN_004dc110();
 // 0x004dc1e0
 int FUN_004dc1e0();
 // 0x004dc1f0

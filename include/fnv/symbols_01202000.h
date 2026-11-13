@@ -314,4 +314,4 @@ extern ::GlobalObject_00a7b610 g_01202e84;
 // 0x01202e8c
 extern ::GlobalObject_00a7b610 g_01202e8c;
 // 0x01202fa0
-extern char *DAT_01202fa0;
+extern char DAT_01202fa0[260];

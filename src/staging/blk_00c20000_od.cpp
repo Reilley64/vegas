@@ -438,7 +438,7 @@ namespace fnv_00c3bbe0 {
 // @fnv 0x00c3bbe0
 void __cdecl FUN_00c3bbe0(const char* pcSuffix)
 {
-    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, &(*reinterpret_cast<char *>(&::DAT_01202fa0)));
+    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, ::DAT_01202fa0);
     fnv::crt::strcat_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, pcSuffix);
 }
 }  // namespace fnv_00c3bbe0
@@ -457,7 +457,7 @@ namespace fnv_00c3bc80 {
 // @fnv 0x00c3bc80
 void __cdecl FUN_00c3bc80(const char* pcSuffix)
 {
-    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, (*reinterpret_cast<char (*)[256]>(&::DAT_01202fa0)));
+    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, ::DAT_01202fa0);
     fnv::crt::strcat_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, pcSuffix);
 }
 }  // namespace fnv_00c3bc80

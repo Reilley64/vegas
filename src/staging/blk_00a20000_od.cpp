@@ -7658,7 +7658,7 @@ void S_00a22e10_Cls::FUN_00a22e10()
     int i;
     char szPath[0x104];
     char buf[0x40];
-    fnv::crt::strcpy_s(szPath, 0x104, (*reinterpret_cast<char (*)[]>(&::DAT_01202fa0)));
+    fnv::crt::strcpy_s(szPath, 0x104, ::DAT_01202fa0);
     const char* dir = ::DAT_011a2ff8;
     fnv::crt::strcat_s(szPath, 0x104, dir);
     for (i = 0; i < 0x1c; i++)

@@ -37,8 +37,9 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.boot_call_repairs` for `boot-call-repairs.tsv`,
 `objects.table_slot_reads` for `table-slot-reads.tsv`,
 `objects.slot_free_calls` for `slot-free-calls.tsv`,
-`objects.mask_constants`, one test for all of `mask-constants.tsv`, and
-`objects.integer_width_calls` for `integer-width-calls.tsv`. CMake
+`objects.mask_constants`, one test for all of `mask-constants.tsv`,
+`objects.integer_width_calls` for `integer-width-calls.tsv`, and
+`objects.log_path_buffer` for `log-path-buffer.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -136,6 +137,20 @@ definitions that took their callers' width, which must be defined under the
 agreed name, and the functions that call them. Whether a caller passes a
 32-bit variable through a widened declaration is not a relocation; the
 document lists the names held back for that reason.
+
+`log-path-buffer.tsv` lists the seven functions that read or write the user
+folder buffer at `0x01202fa0` (VEGAS-109): WinMain's four log-path builders,
+the function at `0x004dc110` that returns the buffer, and the two functions
+that build the Controls INI path. The buffer was defined as an 8-byte pointer:
+three of them passed its null value to `strcpy_s` as the source, and the
+others read or returned the 8-byte object as the buffer. The table forbids
+the pointer's name, gives the buffer's 260 bytes in a `past` line and
+requires the buffer's name. Whether a function passes the buffer's address
+or a value loaded from it is not told apart by a relocation; with the buffer
+declared as an array of 260 characters, a loaded value would need a cast.
+A smaller array under the same name is not caught by
+`objects.log_path_buffer`; the `static_assert` in `FUN_004dc110` covers the
+size of the buffer's definition.
 
 ## Exit status
 

@@ -2365,11 +2365,14 @@ int __cdecl FUN_004dc0b0()
     return DAT_011f94b8;
 }
 
-char* DAT_01202fa0;
+char DAT_01202fa0[260];
 // @fnv 0x004dc110
-char** FUN_004dc110()
+char* FUN_004dc110()
 {
-    return &DAT_01202fa0;
+    // Callers write up to 260 characters through the result. The recipe
+    // binds the next address, 0x012030a4, 260 bytes after the buffer.
+    static_assert(sizeof(DAT_01202fa0) == 260);
+    return DAT_01202fa0;
 }
 
 

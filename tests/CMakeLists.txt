@@ -1454,3 +1454,15 @@ if(vegas_object_checks)
       -DCOUNT=1
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
 endif()
+
+# Fails when a function that reads or writes the user folder buffer at
+# 0x01202fa0 (VEGAS-109) again refers to the 8-byte pointer the buffer was
+# defined as, addresses the buffer at or past its 260 bytes, or no longer
+# refers to the buffer. It uses the object list and GO_EXECUTABLE of the
+# checks above.
+if(vegas_object_checks)
+  add_test(NAME objects.log_path_buffer
+    COMMAND ${GO_EXECUTABLE} run . --table log-path-buffer.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()

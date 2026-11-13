@@ -126,6 +126,15 @@ target_include_directories(sha256_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(sha256_test PRIVATE mbedtls_sha256)
 add_test(NAME sha256.nist_vectors COMMAND sha256_test ${CMAKE_CURRENT_SOURCE_DIR}/sha256)
 
+# Fails when a __thiscall, __fastcall or __stdcall keyword is written in game
+# code: the C and C++ files under src/ and include/, src/generated included
+# (VEGAS-12). Comments and literals do not count; a raw string that does not
+# end fails. It reads the source folder only, on every host.
+add_executable(source_calling_convention_keywords_test source/calling_convention_keywords_test.cpp)
+target_include_directories(source_calling_convention_keywords_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME source.calling_convention_keywords
+  COMMAND source_calling_convention_keywords_test ${PROJECT_SOURCE_DIR})
+
 # Setup's recipe ranges of C1 match the recipe (tools/setup-recipe-ranges).
 # Without Python 3 the configure goes on, and the test is still registered
 # and fails with that reason, so the check is never silently missing.

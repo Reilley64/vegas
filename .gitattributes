@@ -22,6 +22,10 @@ src/generated/data/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeage
 src/generated/data/havok/physics/collide/shape/convex/cylinder/hkpcylindershape.inc text eol=lf
 src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc text eol=lf
 src/generated/data/staging/blk_00860000_od.inc text eol=lf
+src/generated/data/staging/blk_00ba0000_o2.inc text eol=lf
+src/generated/data/staging/blk_00c60000_o2.inc text eol=lf
+src/generated/data/staging/blk_00c80000_o2.inc text eol=lf
+src/generated/data/staging/blk_00ca0000_o2.inc text eol=lf
 src/generated/data/staging/blk_00d20000_o2.inc text eol=lf
 src/generated/data/staging/blk_00d40000_o2.inc text eol=lf
 src/generated/data/staging/blk_00d60000_o2.inc text eol=lf

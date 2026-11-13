@@ -521,11 +521,12 @@ name to the new body.
   `tesreputation.cpp`, `blk_00980000_od.cpp`), 4 fields of a slot in
   `aiformulas.cpp`, 6 parameters or locals (`tesscriptfunctions.cpp` 5,
   `interface.cpp` 1) and `this` in `blk_00440000_od.cpp`.
-- **`main.cpp`.** Its 13 calls stay for the owner of that unit. All read:
+- **`main.cpp`.** Its 13 calls stayed for the owner of that unit. All read:
   `fHavokTauRatio`, `fAnimationMult:General`, nine `fLODFadeOut...:LOD`
   settings, `fScopeScissorAmount:Display` and `fLODLandDropAmount:LOD`.
   Each argument is a global that generated data defines as a setting of
-  the shared class; they would move the same way.
+  the shared class. VEGAS-122 moved all 13 (see "main.cpp (VEGAS-122)"
+  below).
 
 ### Not decided
 
@@ -613,11 +614,79 @@ read as the old one, two definitions change: the accessor and
 `FUN_006463e0`. The names with differing definitions stay 519 in the
 archive and 521 in the link inputs, the same names.
 
+### main.cpp (VEGAS-122)
+
+Measured on the windows-x64 cross build of 4567abc37 and of the code
+commit, built from one source path. Nothing was run. `main.cpp`'s 13 calls,
+classified by the rule above, all take the shared `Setting`:
+
+| Class | Calls |
+| --- | --- |
+| Moved: a global that generated data defines as a setting of the shared class | 13 |
+
+`main.cpp`'s object refers to each argument under the name that one object
+of the archive defines, with no `/alternatename` pragma between them. One
+is `originalRuntimeFloatSetting807`, a `SettingT<GameSettingCollection>`
+defined in `src/generated/setting_float_initializers.cpp`; twelve are
+`GlobalObject_0044f440`, defined in
+`src/generated/global_object_initializers.cpp`. Measured in those two
+units, both classes derive from `Setting` of `include/fnv/setting_class.h`
+and are 24 bytes with `uValue` at 8, and 12 bytes with `uValue` at 4 in the
+i686 compile. `main.cpp` defines no `::Setting` of its own and sees the
+declaration that `include/fnv/symbols_00403000.h` gives the shared class.
+Its own types inside each argument, the empty structs `SetA`,
+`SettingFloat` and two `SettingView`, are only the targets of the existing
+`reinterpret_cast` of the address, and they are not changed. A moved
+call's conversion of its argument to `float *` becomes a conversion to
+`::Setting *`. The address is the same, and no cast is added.
+
+| Setting | Global | Function | Reads |
+| --- | --- | --- | --- |
+| `fHavokTauRatio` | `originalRuntimeFloatSetting807` | `0x0086f260` | 1 |
+| `fAnimationMult:General` | `g_011c5724` | `0x0086f260` | 1 |
+| `fLODFadeOutObjectMultComplex:LOD` | `g_011dec24` | `0x0086efe0` | 1 |
+| `fLODFadeOutItemMultComplex:LOD` | `g_011deb10` | `0x0086efe0` | 1 |
+| `fLODFadeOutActorMultComplex:LOD` | `g_011ded8c` | `0x0086efe0` | 1 |
+| `fLODFadeOutObjectMultCity:LOD` | `g_011dec7c` | `0x0086efe0` | 1 |
+| `fLODFadeOutItemMultCity:LOD` | `g_011dee54` | `0x0086efe0` | 1 |
+| `fLODFadeOutActorMultCity:LOD` | `g_011ded98` | `0x0086efe0` | 1 |
+| `fLODFadeOutObjectMultInterior:LOD` | `g_011dea80` | `0x0086efe0` | 1 |
+| `fLODFadeOutItemMultInterior:LOD` | `g_011deddc` | `0x0086efe0` | 1 |
+| `fLODFadeOutActorMultInterior:LOD` | `g_011decc8` | `0x0086efe0` | 1 |
+| `fScopeScissorAmount:Display` | `g_011dea8c` | `0x00870bd0` | 1 |
+| `fLODLandDropAmount:LOD` | `g_011dedc8` | `0x0086d590` | 1 |
+
+All 13 calls move, so `main.cpp`'s recipe entry respells both keys of the
+old name, `YA` and `YI`, to the new name in the same spelling. 56 sources
+now keep a key of the old name (117 keys, 92 merged), and 174 have a key of
+the new one (336 keys, 296 merged).
+
+At the unit's flags, with `/Ob0` and with `/Od /Gy`, the object of
+`main.cpp` is the same as before once the old name is read as the new one:
+no instruction changes. At the unit's flags the four functions hold 11
+relocations to the accessor for the 13 calls, because the compiler shares
+calls between the branches of `0x0086efe0`; all 11 now target the new
+form, and the undefined symbol of the old form leaves the object.
+
+`float-setting-accessor.tsv`'s batch `main` lists the four functions. It
+fails on the objects of 4567abc37.
+
+The link cells with `user32.lib` and without have the same lists before
+and after. The forced unlimited cell with `user32.lib` has 35,031
+undefined names, the old form among them: 50 members of the archive referred
+to it at 4567abc37, and 49 after the change. Per name, over every
+definition in the archive and in FalloutNV's link inputs, the four functions
+change their content hash, each still one variant in `main.cpp.obj` with
+the same selection; no name enters or leaves. The names with differing
+definitions stay 519 in the archive and 521 in the link inputs, the same
+names. No program that links today contains `main.cpp.obj`: the lazy link
+of FalloutNV.exe's inputs loads 24 members of the game archive, not it.
+
 ### Remainder
 
-Each part stays open.
+`main.cpp` is done: 13 of its 13 calls take the shared `Setting`
+(VEGAS-122). Each other part stays open.
 
-- `main.cpp`: 13 calls.
 - The 15 units that define a `::Setting` of their own: 345 calls.
 - The 16 units' declarations of generated classes with the key `struct`:
   68 calls, 62 names.
@@ -629,4 +698,5 @@ Each part stays open.
 - The names `DAT_011cf264` and `DAT_011cfb5c` in `blk_00640000_od.cpp`,
   whose recipe keys and pragmas give each the other's address.
 - A standing check that only the listed members refer to the old name (50
-  members at d586c94f0 with this change).
+  members at d586c94f0 with this change; 49 since `main.cpp`'s calls
+  moved).

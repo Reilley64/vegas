@@ -172,7 +172,9 @@ the document classifies every call.
 at `0x00403e20` (VEGAS-116, docs/setting-value-offset.md). It forbids the
 form that took a `float *`, which no object defines, and requires the form
 that takes the shared `Setting`. The sample holds three readers of the HUD
-opacity setting and one caller for each other form of argument.
+opacity setting and one caller for each other form of argument. Its batch
+`main` lists the four functions of `src/fallout/misc/main.cpp` that call the
+accessor (VEGAS-122).
 
 ## Exit status
 

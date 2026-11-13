@@ -36,11 +36,11 @@ owner now defines that storage. It moves one sole legacy definition to its
 owner module. It does not replace required objects with stubs, rename
 incompatible receivers or clone values. The genuine owner
 modules and typed declarations remain the source of the native globals and
-protocols. The patch covers thirty-seven hashed inputs. Twelve are the
+protocols. The patch covers thirty-eight hashed inputs. Twelve are the
 retirements previously reviewed for VEGAS-1, unchanged, not additional engine
 work. Four are the three retirements and the one move below. Sixteen are the
 VEGAS-51 retirements below. Four are the VEGAS-102 label respellings below.
-One is the VEGAS-112 retirement below.
+Two are the VEGAS-112 retirements below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -91,7 +91,16 @@ definition, which had no initializer, so no value is lost or cloned. Every
 other line of the input is unchanged. Its pin is the hash of the committed bytes,
 which do not change.
 
-Native CMake verifies the thirty-seven committed input hashes, copies them into
+VEGAS-112 also adds `fallout/misc/main.inc`. It defined `DAT_01202e98`,
+the buffer into which `BGSSaveLoadManager::GetSaveDirectory` copies a folder
+of up to 260 characters, as a 4-byte `int`. `main.cpp`, the unit that
+includes it, now defines the buffer as an array of 260 characters
+(`docs/data-pack-startup.md`). The patch removes the one line of the old
+definition, which had no initializer, so no value is lost or cloned. Every
+other line of the input is unchanged. Its pin is the hash of the committed
+bytes, which do not change.
+
+Native CMake verifies the thirty-eight committed input hashes, copies them into
 the build directory, and applies that patch using the existing Git patch
 engine.
 It fails closed if any input changes or the patch no longer applies. Git is

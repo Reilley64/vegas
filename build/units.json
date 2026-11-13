@@ -118460,7 +118460,7 @@
     },
     {
      "address": "0x0086d480",
-     "symbol": "?FUN_0086d480@@YAPAHXZ",
+     "symbol": "?FUN_0086d480@@YAPADXZ",
      "size": 10
     },
     {
@@ -119431,7 +119431,7 @@
     "?FUN_00401030@@YAXPAX@Z": "0x00401030",
     "??1FUN_0086c880@fnv_0086c880@@QAE@XZ": "0x0086c880",
     "?DAT_011dea18@@3HA": "0x011dea18",
-    "?DAT_01202e98@@3HA": "0x01202e98",
+    "?DAT_01202e98@@3PADA": "0x01202e98",
     "?DAT_011c6fc8@@3DA": "0x011c6fc8",
     "?DAT_011f91ec@@3P6AIPAVNiAVObject@@@ZA": "0x011f91ec",
     "?DAT_011f91de@@3_NA": "0x011f91de",
@@ -119910,7 +119910,7 @@
     "?FUN_00990f20@@YAXXZ": "0x00990f20",
     "_strlen": "0x00ec6130",
     "?FUN_00464f30@@YAHH@Z": "0x00464f30",
-    "?FUN_0086d480@@YAPAHXZ": "0x0086d480",
+    "?FUN_0086d480@@YAPADXZ": "0x0086d480",
     "?GetFile@TESForm@@QAEPAVTESFile@@H@Z": "0x00484e60",
     "__ehhandler$?FUN_0086cf20@BootInit@@QAEXPAUScenePart@@@Z": "0x00f1400e",
     "??0MemScope@@QAE@H_NPBDH@Z": "0x00404eb0",
@@ -125010,7 +125010,7 @@
     "_g_versionInfoFormat": "0x0107fbe0",
     "@__security_check_cookie@4": "0x00ec408c",
     "?strcat_s@@YAHPADIPBD@Z": "0x00406d50",
-    "?FUN_0086d480@@YAPAHXZ": "0x0086d480",
+    "?FUN_0086d480@@YAPADXZ": "0x0086d480",
     "?FUN_004dc110@@YAPADXZ": "0x004dc110",
     "?FUN_00c3bbd0@@YAPADXZ": "0x00c3bbd0",
     "?FUN_00c3bc20@@YAPADXZ": "0x00c3bc20",

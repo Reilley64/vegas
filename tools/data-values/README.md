@@ -55,7 +55,12 @@ definition was zero-initialised before, and the row fails on that form.
 log-path builder at `0x00c3bbe0` (VEGAS-112), defined in
 `src/staging/blk_00c20000_od.cpp`. The builder writes up to 260 characters
 there, so the row requires an extent of 260 bytes. Generated data defined it
-as one byte, and the row fails on that form.
+as one byte, and the row fails on that form. It also holds
+`?DAT_01202e98@@3PADA`, the buffer that `FUN_0086d480` returns, defined in
+`src/fallout/misc/main.cpp` (VEGAS-112). `GetSaveDirectory` copies a folder
+of up to 260 characters there, so the row requires 260 bytes. Generated data
+defined it as a 4-byte `int`, `?DAT_01202e98@@3HA`; on that form the object
+defines no array of the row's name, and the check stops with exit status 2.
 
 ## Where it runs
 

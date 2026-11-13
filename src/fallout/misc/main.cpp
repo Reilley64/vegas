@@ -2779,12 +2779,15 @@ int __cdecl FUN_0086d470()
     return DAT_011dea18;
 }
 
-extern int DAT_01202e98;
-
+char DAT_01202e98[260];
 // @fnv 0x0086d480
-int* __cdecl FUN_0086d480()
+char* __cdecl FUN_0086d480()
 {
-    return &DAT_01202e98;
+    // BGSSaveLoadManager::GetSaveDirectory copies a folder of up to 260
+    // characters there. The recipe binds the next address, 0x01202fa0, 264
+    // bytes after the buffer.
+    static_assert(sizeof(DAT_01202e98) == 260);
+    return DAT_01202e98;
 }
 
 namespace fnv_0086d580 {
@@ -7621,7 +7624,7 @@ struct HandlerInit
 {
 };
 extern intptr_t DAT_011a2ffc;
-int* FUN_0086d480();
+char* FUN_0086d480();
 struct PointInit
 {
     float x, y, z;
@@ -8777,7 +8780,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
             }
         }
     }
-    if (reinterpret_cast<::PluginListReader *>(this)->FUN_00872430((const char *)(int *)(FUN_0086d480()), (const char *)(DAT_011a2ffc)))
+    if (reinterpret_cast<::PluginListReader *>(this)->FUN_00872430(FUN_0086d480(), (const char *)(DAT_011a2ffc)))
         found3 = true;
     if (!found3)
     {

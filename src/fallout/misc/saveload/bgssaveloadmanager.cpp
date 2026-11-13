@@ -213,7 +213,7 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
         DAT_00fdf274(0, 28, 0, 0, folder);
         fnv::crt::strcat_s(folder, 260, DAT_01082da0);
         DAT_00fdf0b8(folder, 0);
-        TaskQueueInterface::CopyStringToBuffer(((char *)(::FUN_0086d480())), 260, folder);
+        TaskQueueInterface::CopyStringToBuffer(::FUN_0086d480(), 260, folder);
         DAT_00fdf274(0, 5, 0, 0, folder);
         fnv::crt::strcat_s(folder, 260, DAT_01082d94);
         DAT_00fdf0b8(folder, 0);
@@ -223,7 +223,7 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
     }
     else
     {
-        TaskQueueInterface::CopyStringToBuffer(((char *)(::FUN_0086d480())), 260, g_011dece4_arg1);
+        TaskQueueInterface::CopyStringToBuffer(::FUN_0086d480(), 260, g_011dece4_arg1);
         TaskQueueInterface::CopyStringToBuffer(::FUN_004dc110(), 260, g_011dece4_arg1);
     }
     TaskQueueInterface::CopyStringToBuffer(pcPath, 260, ::FUN_004dc110());

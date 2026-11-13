@@ -1452,14 +1452,14 @@ struct GlobalObject2_0040c150
 // @fnv 0x0086f890
 void FUN_0086f890_shell::FUN_0086f890()
 {
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
     {
         reinterpret_cast<::fnv_0096eb40::FUN_0096eb40_cls *>((&(*reinterpret_cast<int *>(&::g_011e0e80))))->FUN_0096eb40();
     }
 
     if ((!DAT_011dea2b || DAT_011dea2d) && !DAT_011dea2e && !unk07)
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
         {
             reinterpret_cast<::TaskOwnerTarget *>((&DAT_011e0fe0))->FUN_008c94e0();
             reinterpret_cast<::FUN_00991dc0_shell *>((BGSSaveLoadGlobalDataWorldspacePtr))->FUN_00991dc0();
@@ -1505,7 +1505,7 @@ void FUN_008705d0(void* pThis)
 {
     reinterpret_cast<::FUN_0086f640_shell *>((pThis))->FUN_0086f640();
     reinterpret_cast<::FUN_0086f890_shell *>((pThis))->FUN_0086f890();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008705d0::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008705d0::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
     {
         ::fnv_00552570::FUN_00552570();
     }
@@ -1541,7 +1541,7 @@ void FUN_00870680(void*);
 void FUN_00870610_shell::FUN_00870610()
 {
     ::fnv_005aa720::FUN_005aa720();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00870610::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00870610::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
     {
         reinterpret_cast<::FUN_0087a710_shell *>((((::fnv_00870610::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087a710();
         reinterpret_cast<::TaskQueueInterface *>((((::fnv_00870610::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->ProcessTaskQueue();
@@ -2457,7 +2457,7 @@ void __cdecl FUN_00876d20()
 {
     ::FUN_00af43a0(*(*reinterpret_cast<::fnv_00876d20::ProcessLists *>(&::g_011dee3c)).GetLifeStateControlFlag(), (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00876d20::StartMenu *>(&::g_011c4030))))->GetMenuTitle()))), (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00876d20::StartMenu *>(&::g_011deb94))))->GetMenuTitle()))), 0x200000);
     ::FUN_00af4460(*(*reinterpret_cast<::fnv_00876d20::ProcessLists *>(&::g_011debdc)).GetLifeStateControlFlag());
-    ::FUN_00af4470(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00876d20::GlobalObject2_0040c150 *>(&::g_011deb24)))))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00876d20::GlobalObject2_0040c150 *>(&::g_011deaa0)))))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00876d20::GlobalObject2_0040c150 *>(&::g_011dec40)))))));
+    ::FUN_00af4470(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00876d20::GlobalObject2_0040c150 *>(&::g_011deb24)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00876d20::GlobalObject2_0040c150 *>(&::g_011deaa0)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00876d20::GlobalObject2_0040c150 *>(&::g_011dec40)))))));
     ::FUN_00af4490(*(*reinterpret_cast<::fnv_00876d20::ProcessLists *>(&::g_011dec4c)).GetLifeStateControlFlag(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00876d20::StartMenu *>(&::g_011dec68))))->GetMenuTitle())));
     ::fnv_00af4550::FUN_00af4550();
 }
@@ -3004,7 +3004,7 @@ void FUN_0086fc60_shell::FUN_0086fc60()
     NiUpdateDataH UpdateData;
     if ((!::DAT_011dea2b || ::FrameUpdate::DAT_011dea2c || ::DAT_011dea2d) && !*((bool*)this + 7))
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
         {
             reinterpret_cast<::EffectProcessLists *>(&((*reinterpret_cast<::fnv_0086fc60::ProcessListsH *>(&::g_011e0e80))))->FUN_009746c0(::fnv::timer::Seconds());
         }
@@ -3012,7 +3012,7 @@ void FUN_0086fc60_shell::FUN_0086fc60()
         {
             reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_0086fc60::ProcessListsH *>(&::g_011e0e80))))->UpdateInterfaceTempEffects(::fnv::timer::Seconds());
         }
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1 && !::DAT_011dea2b)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1 && !::DAT_011dea2b)
         {
             reinterpret_cast<::Zt5TES *>(((*reinterpret_cast<::fnv_0086fc60::TES * *>(&::g_TES))))->FUN_00453550(::DAT_011dea30);
         }
@@ -3021,7 +3021,7 @@ void FUN_0086fc60_shell::FUN_0086fc60()
             reinterpret_cast<::Zt5TES *>(((*reinterpret_cast<::fnv_0086fc60::TES * *>(&::g_TES))))->FUN_004537c0();
         }
         new ((void *)&(UpdateData)) ::NiUpdateData(::DAT_011dea30, true, false);
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086fc60::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
         {
             reinterpret_cast<::ProcessOwner_j61 *>((((::fnv_0086fc60::SceneGraphH *)(::FUN_0045a190()))))->FUN_00c50610(&UpdateData);
         }
@@ -3886,7 +3886,7 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
         }
     }
     reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80))))->UpdateMagicTempEffects(0.0f);
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086f6a0::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086f6a0::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
         reinterpret_cast<::FUN_0096c970_shell *>((((FUN_0096c970_shell*)&(*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80)))))->FUN_0096c970();
     else
         reinterpret_cast<::fnv_0096c860::FUN_0096c860_shell *>(&((*reinterpret_cast<::fnv_0086f6a0::ProcessLists *>(&::g_011e0e80))))->FUN_0096c860();
@@ -3895,7 +3895,7 @@ void FUN_0086f6a0_shell::FUN_0086f6a0()
     ppipboy = ((::fnv_0086f6a0::FOPipboyManager *)(::fnv_00705990::FUN_00705990()));
     if (::FUN_0086f840((char*)ppipboy))
         reinterpret_cast<::FUN_007fa990_cls *>((ppipboy))->FUN_007fa990();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086f6a0::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086f6a0::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
     {
         ::fnv_0054ae30::FUN_0054ae30();
         reinterpret_cast<::FUN_0087a6d0_shell *>((((FUN_0087a6d0_shell*)((::fnv_0086f6a0::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087a6d0();
@@ -5031,7 +5031,7 @@ void __cdecl FUN_00877260(::NiPoint3 apos)
     ::NiPoint3 rot = ::NiPoint3::ZERO;
     if (!pcell)
     {
-        pcell = *(TESObjectCELL**)((::fnv_00877260::GridCell *)(reinterpret_cast<::TES *>((((TES*)::g_TES)))->FUN_00457050((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00877260::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))) >> 1, (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00877260::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))) >> 1)));
+        pcell = *(TESObjectCELL**)((::fnv_00877260::GridCell *)(reinterpret_cast<::TES *>((((TES*)::g_TES)))->FUN_00457050((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00877260::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))) >> 1, (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00877260::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))) >> 1)));
     }
     if (pcell)
     {
@@ -6862,11 +6862,11 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
             ::FUN_00c3bc30((const char *)(unsigned char *)(&UNK_01082a10));
             ::fnv_00c3bc80::FUN_00c3bc80((const char *)(unsigned char *)(&UNK_01082a00));
             GetSystemInfo(&systemInfo7);
-            *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = systemInfo7.dwNumberOfProcessors;
+            *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = systemInfo7.dwNumberOfProcessors;
             ::BGSSaveLoadManager::GetSaveDirectory(path2);
-            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
+            if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
             {
-                *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = 2;
+                *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = 2;
             }
             // The class name comes from the data pack, through its native owner.
             const fileformat::MainWindowClass& mainWindowClass = fnv::startup::PublishedMainWindowClass();
@@ -6939,9 +6939,9 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 FUN_00406d50(path2, 0x104, ::DAT_011a2ff8);
                 reinterpret_cast<::C5E0200File *>((((::Receiver86 *)(::FUN_0045d180()))))->FUN_005e0200((const char *)(path2));
                 reinterpret_cast<::C5E0200File *>((FUN_004de490()))->FUN_005e0200((const char *)(path2));
-                if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
+                if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
                 {
-                    *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = 2;
+                    *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = 2;
                 }
                 if (((unsigned char)(::fnv_004da570::FUN_004da570())))
                 {
@@ -6960,7 +6960,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 reinterpret_cast<::FUN_00b012f0_shell *>((((::Receiver86 *)&(::BSFileCache::GetRandomGenerator()))))->FUN_00b012f0((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting86 *>(&::g_011dee78))))->GetMenuTitle()))), (intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting86 *>(&::g_011ded2c))))->GetMenuTitle()))));
                 fileAllocation4 = (Receiver86*)::FUN_00401000(16);
                 fileSystem2 = fileAllocation4
-                                  ? ((::Receiver86 *)(new ((void *)(fileAllocation4)) ::FUN_00afdc60((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting86 *>(&::g_011dece4))))->GetMenuTitle()))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting86 *>(&::g_011dee6c)))))), 0)))
+                                  ? ((::Receiver86 *)(new ((void *)(fileAllocation4)) ::FUN_00afdc60((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting86 *>(&::g_011dece4))))->GetMenuTitle()))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting86 *>(&::g_011dee6c)))))), 0)))
                                   : 0;
                 FUN_0086bce0(&(*reinterpret_cast<unsigned char *>((void *)&::g_011d21e4_arg1)));
                 ::FUN_00c3bd30(enableMemory0, *(*reinterpret_cast<::Setting86 *>(&::g_011dec88)).FUN_00408d60(), *(*reinterpret_cast<::Setting86 *>(&::g_011dee20)).FUN_00408d60(),
@@ -7024,7 +7024,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 ((::BootInit*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_0086cf20((::ScenePart*)((::BSFaceGenNiNode *)(::FUN_0045c670())));
                 FUN_0086be90(((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())))->FUN_006629f0());
                 FUN_0086be80(((Receiver86*)((::BSFaceGenNiNode *)(::FUN_0045c670())))->FUN_006629f0());
-                if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+                if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
                 {
                     reinterpret_cast<::AIThreadManager *>((((::Receiver86 *)(::FUN_00713d80()))))->StartRenderingTaskThread();
                 }
@@ -7187,7 +7187,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                     ::FUN_00a819e0();
                 }
                 reinterpret_cast<::fnv_00448420::ModelLoader *>(((*reinterpret_cast<::Receiver86 * *>(&::g_modelLoader))))->FUN_00448420();
-                if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+                if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
                 {
                     reinterpret_cast<::FUN_008c73a0_shell *>((((::Receiver86 *)(::FUN_00713d80()))))->FUN_008c73a0();
                 }
@@ -8818,7 +8818,7 @@ void BootInit::FUN_0086cf20(ScenePart* scene)
     ::FUN_0040fbe0();
     reinterpret_cast<::FUN_00465040_shell *>(((*reinterpret_cast<::HandlerInit * *>(&::g_dataHandler))))->InitAllScripts();
     if (reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::InitSetting *>(&::g_011dee60))))->GetCellStandValue() > 0 && reinterpret_cast<::TESObjectCELL *>(&((*reinterpret_cast<::InitSetting *>(&::g_011dee60))))->GetCellStandValue() < 200)
-        ::fnv::timer::SetFrequency(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::InitSetting *>(&::g_011dee60)))))));
+        ::fnv::timer::SetFrequency(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::InitSetting *>(&::g_011dee60)))))));
 }
 
 namespace FrameUpdate {
@@ -9081,12 +9081,12 @@ void MainLoop::FUN_0086e650()
             reinterpret_cast<::BatchTES *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::g_TES))))->FUN_004556d0(0);
         (*reinterpret_cast<::FrameUpdate::Service *>(&::g_011deb7c)).FUN_00559450()->Advance(::fnv::timer::Seconds());
         reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011de7b8))))->Update(::fnv::timer::Seconds());
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
             reinterpret_cast<::FUN_00455640_shell *>(((*reinterpret_cast<::FrameUpdate::Service * *>(&::g_TES))))->FUN_00455640();
     }
     reinterpret_cast<::FUN_0040fbf0_shell *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::DAT_011f11a0))))->FUN_0040fbf0((char *)(0));
     reinterpret_cast<::fnv_00978550::FUN_00978550_shell *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011e0e80))))->FUN_00978550();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) != 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) != 1)
     {
         if ((!::DAT_011dea2b || ::DAT_011dea2d) && !::DAT_011dea2e && !paused)
         {
@@ -9113,7 +9113,7 @@ void MainLoop::FUN_0086e650()
     ::GarbageCollector::ClearTempEffects();
     ::fnv_006652e0::FUN_006652e0((::fnv_006652e0::NiAVObject *)(::FrameUpdate::Service *)(((::FrameUpdate::Service *)(::FUN_00524c90()))), ::DAT_011dea2b || paused);
     reinterpret_cast<::fnv_0086fbe0::MainStandIn *>(this)->FUN_0086fbe0();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
         ::FUN_0086fd70((void *)this);
     reinterpret_cast<::TESForm *>(this)->ClearData();
     ::FUN_0049fff0((::BGSDecalManager *)(FUN_0049fef0()));
@@ -9129,7 +9129,7 @@ void MainLoop::FUN_0086e650()
     bool update = (!::DAT_011dea2b || ::DAT_011dea2d) && !::DAT_011dea2e && !paused;
     if (update)
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) > 1)
         {
             ::AIThreadManager::SetThreadingEnabled(true);
             reinterpret_cast<::FUN_008c78c0_Class *>((((::FrameUpdate::Service *)(::FUN_00713d80()))))->FUN_008c78c0();
@@ -9138,7 +9138,7 @@ void MainLoop::FUN_0086e650()
             reinterpret_cast<::fnv_008ca070::Obj *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::DAT_011e0fe0))))->FUN_008ca070();
     }
     reinterpret_cast<::fnv_0086fc60::FUN_0086fc60_shell *>(this)->FUN_0086fc60();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) > 1 && !update)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) > 1 && !update)
     {
         ::FUN_0086fd70((void *)this);
         if (::FUN_00702360())
@@ -9147,7 +9147,7 @@ void MainLoop::FUN_0086e650()
     if (!paused)
         reinterpret_cast<::ScriptLocals *>((((::FrameUpdate::Service *)(::GetPathManager()))))->ProcessPendingTasks();
     reinterpret_cast<::FUN_006a61b0_cls *>((((::FrameUpdate::Service *)(::FUN_00552ba0()))))->FUN_006a61b0();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) == 1)
     {
         if (*(*reinterpret_cast<::FrameUpdate::Service *>(&::g_011d73e4)).FUN_00408d60())
             reinterpret_cast<::fnv_006c3640::C006c3640 *>((((::FrameUpdate::Service *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c3640();
@@ -9176,7 +9176,7 @@ void MainLoop::FUN_0086e650()
     }
     if ((!::DAT_011dea2b || ::DAT_011dea2d) && !::DAT_011dea2e && !paused)
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FrameUpdate::Service *>(&::g_011c3ea4)))))) > 1)
             reinterpret_cast<::FUN_008c7990_Class *>((((::FrameUpdate::Service *)(::FUN_00713d80()))))->FUN_008c7990();
         else
             reinterpret_cast<::FUN_008ca300_shell *>(&((*reinterpret_cast<::FrameUpdate::Service *>(&::DAT_011e0fe0))))->FUN_008ca300();
@@ -9246,7 +9246,7 @@ void RenderMgr::FUN_008707c0(void* p1, bool p2)
     FUN_00871290();
     intptr_t res4 = FUN_00872f50(renderer, p1, p2, flag_);
     reinterpret_cast<::fnv_00874b90::FUN_00874b90_shell *>(this)->FUN_00874b90((::fnv_00874b90::ImageSpaceManager *)(ism2), (::fnv_00874b90::GraphicsRenderer *)(renderer), flag_, (::fnv_00874b90::BSRenderedTexture *)(p1));
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
         ::AIThreadManager::SetThreadingEnabled(0);
     reinterpret_cast<::ThreadStageSignalDetail::RenderingStageController *>((((::fnv_008707c0::MTHelper *)(::TaskThreadManager::GetSingleton()))))->FUN_00ba30f0(0, 0x15);
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_008707c0::MTHelper *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 0x15, {});
@@ -9541,7 +9541,7 @@ void ShadowHost::FUN_00871290()
     {
         DAT_011def08 = false;
         FUN_005bf770(true);
-        int limit = ((intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::ShadowEnvironment * *>(&::g_TES))))->GetPrevPath())) ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72d8)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72e4))))));
+        int limit = ((intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::ShadowEnvironment * *>(&::g_TES))))->GetPrevPath())) ? *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72d8)))))) : *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72e4))))));
         reinterpret_cast<::TexturePool *>((FUN_004a0ea0(((void *)(::FUN_0043c4b0())))))->ResizeActivePool({}, {});
     }
     if (((bool)(::fnv_005bf7b0::FUN_005bf7b0())) && ((bool)(::fnv_00871a10::FUN_00871a10())))
@@ -9549,7 +9549,7 @@ void ShadowHost::FUN_00871290()
         FUN_00b4f570();
         ShadowSystem* system = ((::ShadowSystem *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
         ::FUN_00b5b060((char *)(system), {});
-        int limit = ((intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::ShadowEnvironment * *>(&::g_TES))))->GetPrevPath())) ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72d8)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72e4))))));
+        int limit = ((intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::ShadowEnvironment * *>(&::g_TES))))->GetPrevPath())) ? *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72d8)))))) : *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ShadowIntSetting *>(&::g_011c72e4))))));
         reinterpret_cast<::TexturePool *>((FUN_004a0ea0(((void *)(::FUN_0043c4b0())))))->ResizeActivePool({}, {});
         if (!limit)
             reinterpret_cast<::ShadowSceneNode *>((system))->UpdateShadowLights();
@@ -12377,7 +12377,7 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::fnv_00873200::ViewNode *)(((::fnv_00873200::ViewNode *)(::fnv_008746b0::FUN_008746b0()))), (::BSShaderAccumulator *)(::fnv_00873200::ViewNode *)(m_94.FUN_00559450()), false);
     reinterpret_cast<::FUN_004a0fd0_shell *>((process))->FUN_004a0fd0((::NiNode *)(::fnv_00873200::ViewNode *)(0));
     reinterpret_cast<::BGSExplosion *>((otherProcess))->FUN_004fb0b0((::BGSImpactDataSet *)(false));
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00873200::ViewNode *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00873200::ViewNode *>(&::g_011c3ea4)))))) > 1)
         ::AIThreadManager::SetThreadingEnabled(0);
     if ((*reinterpret_cast<bool *>(&::DAT_011f94a9)))
         ::FUN_008744a0((::ScaleSource *)(::fnv_00873200::ViewNode *)(root3->FUN_006629f0()));
@@ -13199,12 +13199,12 @@ void Main86::FUN_0086ff70()
             if (DAT_011dea40)
             {
                 DAT_011dea44 = 0;
-                reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc))))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc)))))) + 1);
+                reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc))))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc)))))) + 1);
                 char outputDirectory[0x104];
                 ::FUN_00406d00(outputDirectory, 0x104, DAT_01082ca4, ((intptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0086ff70::GlobalText86 *>(&::g_011deb04))))->GetMenuTitle())),
-                             *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc)))))));
+                             *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011deecc)))))));
                 CreateDirectoryA(outputDirectory, 0);
-                ::fnv::timer::SetFrequency(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011dee00)))))));
+                ::fnv::timer::SetFrequency(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011dee00)))))));
             }
             else
                 ::fnv::timer::SetFrequency(0);
@@ -13222,7 +13222,7 @@ void Main86::FUN_0086ff70()
     }
     reinterpret_cast<::fn_00c51f20::Owner *>((reinterpret_cast<Resource86*>((*reinterpret_cast<::fnv_0086ff70::Global86 *>(&::g_011deb7c)).FUN_00559450())))->FUN_00c51f20();
     reinterpret_cast<::fnv_004a03c0::DD *>((core))->FUN_004a03c0();
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086ff70::Options86 *>(&::g_011c3ea4)))))) > 1)
         ::AIThreadManager::SetThreadingEnabled(0);
 }
 }  // namespace fnv_0086ff70

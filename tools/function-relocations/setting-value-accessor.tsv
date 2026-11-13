@@ -16,3 +16,20 @@ function	callers	src/fallout/interface/interfacemanager.cpp	?InitInterface@FUN_0
 function	callers	src/fallout/ai/sandboxpackage.cpp	?SelectSandboxActivity@SandBoxActorPackageData_ext@fnv_009f4700@@QEAAXPEAVActor@@PEAVTESPackage@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	callers	src/fallout/interface/menus/levelupmenu.cpp	?FUN_00784c80@fnv_00784c80@@YA_JXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	callers	src/bgsencounterzone.cpp	?FUN_005260a0@FUN_005260a0_shell@@QEAAXI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of main.cpp that calls
+# the accessor (VEGAS-115), WinMain's three writes of the processor count
+# among them. 0x0086f6a0 is not listed: it keeps one call on the 32-bit form,
+# on g_011d10d4, a name that no object defines.
+function	main	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086cf20@BootInit@@QEAAXPEAUScenePart@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086e650@MainLoop@FrameUpdate@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086f890@FUN_0086f890_shell@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086fc60@FUN_0086fc60_shell@fnv_0086fc60@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086ff70@Main86@fnv_0086ff70@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_008705d0@fnv_008705d0@@YAXPEAX@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00870610@FUN_00870610_shell@fnv_00870610@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_008707c0@RenderMgr@fnv_008707c0@@QEAAXPEAX_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00871290@ShadowHost@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00873200@MainView@fnv_00873200@@QEAAXPEAUViewNode@2@H_N1@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00876d20@fnv_00876d20@@YAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00877260@fnv_00877260@@YAXUNiPoint3@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

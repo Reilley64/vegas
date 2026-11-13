@@ -1690,9 +1690,6 @@ void Shell_759030::PlayNoteSound(BGSNote* apNote)
         ->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apNote->FUN_005e9100()))->FUN_0084e3a0())), 0x101)))->FUN_00ad8830(false);
 }
 
-struct Setting
-{
-};
 struct TextTile
 {
 };
@@ -1813,7 +1810,7 @@ struct TextMenu
 void TextMenu::SetTextSource(TextSource* source)
 {
     reinterpret_cast<::TileProcessor *>((fielde8))->ProcessAllTiles();
-    DAT_0119f278 = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011d4bb8)))))) > 0 ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011d4bb8)))))) : 1000;
+    DAT_0119f278 = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d4bb8)))))) > 0 ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d4bb8)))))) : 1000;
     reinterpret_cast<::Tile *>((field2c))->Set(0xfa3, 0);
     reinterpret_cast<::Tile *>((field30))->Set(0xfa9, 0);
     reinterpret_cast<::Tile *>((field30))->Set(0xfa3, 1);
@@ -2075,7 +2072,7 @@ void CHMenu::FUN_007586e0(bool abAddRecent)
     kListBox.Clear();
     if (abAddRecent)
         kRecent.AddHead(pChallenge);
-    (*reinterpret_cast<unsigned int *>(&::DAT_0119f278)) = (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CHUIntSetting *>(&::g_011d3de4)))))) > 0) ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CHUIntSetting *>(&::g_011d3de4)))))) : 1000;
+    (*reinterpret_cast<unsigned int *>(&::DAT_0119f278)) = (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::CHUIntSetting *>(&::g_011d3de4)))))) > 0) ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::CHUIntSetting *>(&::g_011d3de4)))))) : 1000;
 
     const char* pDescription = pChallenge->kDescription.Get(pChallenge, 0x43534544);
     CHValue* pTextValue = ((::CHValue *)(reinterpret_cast<::FUN_00a00f30_shell *>((pTile44))->FUN_00a00f30(0xfc4)));
@@ -3392,7 +3389,7 @@ void HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
                 {
                     reinterpret_cast<::FUN_00759da0_shell *>((m_pManager))->InsertAtPosition(((const char *)(::FUN_00559450((int *)&(obj->m_str)))), (intptr_t)(((::fnv_00757f70::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>((m_pTiles[5]))->FUN_00a00f30(0xfc4)))),
                                                  (intptr_t)(reinterpret_cast<::FUN_00a00e90_shell *>((m_pTiles[5]))->FindTraitValue(0xfa3)), 0);
-                    m_a0 = ((unsigned int)(::FUN_00457fe0())) + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00757f70::TickObj *>(&::g_011d3e50)))))) * 1000;
+                    m_a0 = ((unsigned int)(::FUN_00457fe0())) + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00757f70::TickObj *>(&::g_011d3e50)))))) * 1000;
                 }
                 if (obj->m_note)
                 {
@@ -3518,8 +3515,8 @@ void TerminalTextMenu::BuildAnimation()
     unsigned int promptDelay;
     {
         StrMem text;
-        unsigned int introDelay = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d3de4)))))) > 0 ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d3de4)))))) : 1000;
-        promptDelay = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d4e4c)))))) > 0 ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d4e4c)))))) : 1000;
+        unsigned int introDelay = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d3de4)))))) > 0 ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d3de4)))))) : 1000;
+        promptDelay = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d4e4c)))))) > 0 ? 1000 / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00758ad0::TimingSetting *>(&::g_011d4e4c)))))) : 1000;
         ::DAT_0119f278 = introDelay;
         animation->InsertAtPosition(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_00758ad0::TextSetting *>(&::g_011d3a38))))->IsDLCAvailable())), (intptr_t)reinterpret_cast<::FUN_00a00f30_shell *>((introTile))->FUN_00a00f30(0xfc4),
                                     (intptr_t)reinterpret_cast<::FUN_00a00e90_shell *>((introTile))->FindTraitValue(0xfa3), -1);

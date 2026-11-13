@@ -37,3 +37,11 @@ function	main	src/fallout/misc/main.cpp	?FUN_00877260@fnv_00877260@@YAXUNiPoint3
 # that calls the accessor (VEGAS-117), since the unit's own empty Setting
 # went. It reads iMineDisarmExperience.
 function	beamprojectile	src/fallout/ai/combat/beamprojectile.cpp	?FUN_009c43e0@BeamEffect@@QEAA_N_J_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of computersmenu.cpp
+# that calls the accessor (VEGAS-117), since the unit's own empty Setting
+# went. They read the terminal display rates, iComputersResultDisplayTimeout
+# and iHackingInputRate.
+function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?BuildAnimation@TerminalTextMenu@fnv_00758ad0@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?FUN_00757f70@HostF@fnv_00757f70@@QEAAXHPEAUTileF@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?FUN_007586e0@CHMenu@@QEAAX_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?SetTextSource@TextMenu@@QEAAXPEAUTextSource@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

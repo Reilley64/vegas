@@ -190,9 +190,9 @@ instructions.
 | | Statement | Prerequisite |
 | --- | --- | --- |
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
-| S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | a later catalogue entry for their four suffix strings; 260 bytes of storage for `DAT_01202b48`, which S3 writes; the members that hold the builders and their buffers (see the user folder buffer below) |
+| S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | a later catalogue entry for their four suffix strings; the members that hold the builders and their buffers (see the user folder buffer below) |
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | the owner of that setting, which a generated dynamic initializer builds (D2); the closure of `magicitem.cpp` |
-| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings |
+| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings; 260 bytes of storage for `DAT_01202e98`, which it writes through `FUN_0086d480` (VEGAS-112, see the user folder buffer below) |
 | S8 | a processor count of 1 set to 2 | as S6 |
 
 At `891a44f50`, a link of `main` with any one of them composed, made as
@@ -243,16 +243,43 @@ refers to the pointer, addresses the buffer past its 260 bytes or no longer
 refers to it. It does not catch a smaller array under the same name; a
 `static_assert` in `FUN_004dc110` holds the definition at 260 bytes.
 
-Two other buffers of S2 to S7 have the same defect (VEGAS-112), and
-generated data defines both, so their repair goes through the audited
-composition (`native-data-ownership.md`):
+VEGAS-112 covers two other buffers of S2 to S7 with the same defect.
+Generated data defined both, so each repair goes through the audited
+composition (`native-data-ownership.md`). The first is repaired; the
+second is not:
 
-- `DAT_01202b48`, the destination of S3, is defined as one byte. S3 writes
-  up to 260 bytes there, and the recipe binds the next address 264 bytes after
-  it.
-- `DAT_01202e98`, which `FUN_0086d480` returns, is defined as a 4-byte
-  `int`. S7 writes up to 260 bytes there, and the recipe binds the next address
-  264 bytes after it.
+- `DAT_01202b48`, the destination of S3, was defined as one byte by
+  `staging/blk_00c20000_od.inc`. S3 writes up to 260 bytes there, and the
+  recipe binds the next address 264 bytes after it. In the object of
+  `blk_00c20000_od.cpp` at `c3ad69b43` the byte lay at the start of `.bss`
+  and `DAT_01202a40`, the buffer of S4, began 16 bytes after it, so a write
+  of 260 bytes would have run over the first 244 bytes of S4's buffer. This
+  is read from the object, not from a linked image. It is now one
+  array of 260 characters, declared in `include/fnv/symbols_01202000.h` and
+  defined by `blk_00c20000_od.cpp` beside `FUN_00c3bbd0`, which holds the
+  definition at 260 bytes with a `static_assert`. The composition retires
+  the generated line. The name keeps C linkage, so its recipe key
+  `_DAT_01202b48` is unchanged. S3 writes the array without a cast.
+  `FUN_00c3bbd0` returns it as `char *`, the type its caller
+  `GetSaveDirectory` declared before `3f0599801`, instead of `void *`, so
+  its recipe name is respelled, and the caller passes it to `DeleteFileA`
+  without a cast. `objects.path_buffer_extents` fails when the definition
+  reaches fewer than 260 bytes before the next symbol of its section, as the
+  byte did.
+- `DAT_01202e98`, which `FUN_0086d480` returns as `int *`, is still a
+  4-byte `int`. S7 writes up to 260 bytes there, and the recipe binds the
+  next address 264 bytes after it. In the object of `main.cpp` at `c3ad69b43` it
+  starts 80 bytes into a `.bss` of 257 bytes, so a write of 260 bytes would
+  run over the 44 symbols after it and 83 bytes past the end of that section. Its
+  generated definition, in `fallout/misc/main.inc`, which `main.cpp`
+  includes, and `FUN_0086d480` are both in the unit of `main.cpp`, so its
+  repair waits for the work that owns that file.
+
+S5's builder wrote `DAT_01202938`, an array of 260 characters, through a
+cast to an array of 256; it now passes the array.
+`FUN_00c3bb80` in `tesfile.cpp` still returns `DAT_01202c50`, the buffer
+of S2, as `int *`. That view is part of VEGAS-112 and is not repaired
+here.
 
 A scratch composition of S2 to S5 into `main`, not committed, was linked
 as `FalloutNV` links, on `11d59dc97` with and without this repair. Both
@@ -425,6 +452,6 @@ VEGAS-52.
   not known, and a later runner may report a remote session.
 - No run has found a window of the class, so the `AlreadyOpen` branch of
   `main` has run only as the decision's test, with the calls recorded.
-- The repaired users of the user folder buffer have not run: `FalloutNV`
-  does not load their members and no test calls them. Their check reads
-  the objects only.
+- The repaired users of the user folder buffer and of `DAT_01202b48` have
+  not run: `FalloutNV` does not load their members and no test calls them.
+  Their checks read the objects only.

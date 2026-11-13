@@ -132,6 +132,33 @@ def calls_to(names, targets, addrsig=None, types=None):
     return obj(sections, symbols)
 
 
+OLD, NEW = "?old@@YAXXZ", "?new@@YAXXZ"
+
+
+def merge_unit(targets, undefined, new_defined=True, addrsig=None, types=None, code=None, extra=(), new_body=b"\xc3",
+               order=None):
+    """A COMDAT ?caller@@YAXXZ whose calls, at 0x1, 0x6 and on, go to the named
+    targets; with new_defined, NEW's body in a COMDAT section of its own;
+    undefined lists the undefined symbols in table order; extra adds symbols
+    (name, value, section, type, storage) after them; order permutes the
+    caller's relocation records."""
+    sections = [[".text$mn", code or b"\xe8\0\0\0\0" * max(len(targets), 2) + b"\xc3", CODE | COMDAT, []]]
+    symbols = [[".text$mn", 0, 1, 0, 3, 2], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None]]
+    if new_defined:
+        sections.append([".text$mn", new_body, CODE | COMDAT, []])
+        symbols += [[".text$mn", 0, 2, 0, 3, 2], [NEW, 0, 2, 0x20, 2, None]]
+    symbols += [[name, 0, 0, 0x20, 2, None] for name in undefined]
+    symbols += [list(name) + [None] for name in extra]
+    positions = [symbol[0] for symbol in symbols]
+    sections[0][3] = [(1 + 5 * i, positions.index(target), (types or [4] * len(targets))[i])
+                      for i, target in enumerate(targets)]
+    if order:
+        sections[0][3] = [sections[0][3][i] for i in order]
+    if addrsig is not None:
+        with_addrsig(sections, symbols, *addrsig)
+    return obj(sections, symbols)
+
+
 FAKE_COMPILER = """import json, shutil, sys
 template, source = sys.argv[1], sys.argv[-1]
 print(json.dumps(sys.argv[1:]))
@@ -909,6 +936,114 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertEqual(out.splitlines()[0], "differs: 2 difference(s), 2 RENAME- line(s)", out)
         self.assertIn("BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % x, out.splitlines())
+
+    def test_base_holds_new(self):
+        # With --base-holds-new, a rename whose NEW the base already holds is a
+        # merge: into the base's own definition of NEW, or into its existing
+        # reference to NEW. Without the option the comparison stays refused.
+        rename, caller = "%s=%s" % (OLD, NEW), "?caller@@YAXXZ"
+        a, b = merge_unit([OLD], [OLD], addrsig=(OLD, NEW)), merge_unit([NEW], [], addrsig=(NEW,))
+        code, out, _ = self.objcmp(a, b, rename)
+        self.assertEqual((code, out.splitlines()[0].split(":")[0]), (1, "refused"), out)
+        code, out, _ = self.objcmp(a, b, rename, "--base-holds-new")
+        self.assertEqual(code, 0, out)
+        self.assertEqual(out.splitlines(), [
+            "merged: equal with the timestamp masked once the renames are applied, 1 OLD name(s) merged into the NEW "
+            "that the base holds: 1 into its own definition, 0 into its existing reference",
+            "RETARGET\t%s -> %s\t1 site(s)\tby the map\t%s" % (OLD, NEW, caller),
+            "MERGED\t%s -> %s\tinto the base's own definition\t1 relocation(s)" % (OLD, NEW)], out)
+        code, out, _ = self.objcmp(a, b, rename, "--base-holds-new", "--json")
+        report = json.loads(out)
+        self.assertEqual((code, report["result"], report["exit"], report["differences"]), (0, "merged", 0, 0), out)
+        self.assertEqual(report["merges"], [dict(old=OLD, new=NEW, into="definition", relocations=1)], out)
+        # Into an existing reference: B's one NEW may stand at OLD's place or
+        # at NEW's, nowhere else.
+        x, y = "?x@@YAXXZ", "?y@@YAXXZ"
+        a = merge_unit([OLD, NEW], [OLD, x, NEW, y], new_defined=False)
+        for undefined, status in (([NEW, x, y], 0), ([x, NEW, y], 0), ([x, y, NEW], 1)):
+            code, out, _ = self.objcmp(a, merge_unit([NEW, NEW], undefined, new_defined=False), rename,
+                                       "--base-holds-new")
+            self.assertEqual(code, status, (undefined, out))
+            if status:
+                self.assertIn("SYMBOL-ORDER\tthe same symbols in a different order", out.splitlines(), out)
+            else:
+                self.assertIn("1 into its existing reference", out.splitlines()[0], out)
+                self.assertIn("MERGED\t%s -> %s\tinto the base's existing reference\t1 relocation(s)" % (OLD, NEW),
+                              out.splitlines(), out)
+        # A merge beside an ordinary rename, which still respells the base.
+        p, q = "?p@@YAXXZ", "?q@@YAXXZ"
+        code, out, _ = self.objcmp(merge_unit([OLD, p], [OLD, p]), merge_unit([NEW, q], [q]), rename,
+                                   "%s=%s" % (p, q), "--base-holds-new")
+        self.assertEqual(code, 0, out)
+        self.assertTrue(out.startswith("merged: "), out)
+        # The address-significance entries merge: one NEW, anywhere in the
+        # table; every other entry in A's order.
+        for addrsig_b, status in (((caller, NEW), 0), ((NEW, caller), 0), ((caller,), 1), ((caller, NEW, NEW), 1),
+                                  ((NEW,), 1)):
+            code, out, _ = self.objcmp(merge_unit([OLD], [OLD], addrsig=(caller, OLD, NEW)),
+                                       merge_unit([NEW], [], addrsig=addrsig_b), rename, "--base-holds-new")
+            self.assertEqual(code, status, (addrsig_b, out))
+        # The option does not combine with --expect-kept.
+        kept = self.write("kept.txt", ("%s %s\n" % (caller, OLD)).encode())
+        code, out, err = self.objcmp(a, b, rename, "--base-holds-new", "--expect-kept", kept)
+        self.assertEqual(code, 2, out + err)
+
+    def test_merge_attacks(self):
+        # Each head differs from a legitimate merge by one thing, and differs.
+        rename, caller, x, y = "%s=%s" % (OLD, NEW), "?caller@@YAXXZ", "?x@@YAXXZ", "?y@@YAXXZ"
+
+        def check(a, b, *expected):
+            code, out, _ = self.objcmp(a, b, rename, "--base-holds-new")
+            self.assertEqual(code, 1, out)
+            self.assertTrue(out.startswith("differs: "), out)
+            for line in expected:
+                self.assertIn(line, out.splitlines(), out)
+            return out
+
+        a = merge_unit([OLD, x], [OLD, x], addrsig=(caller,))
+        # Byte-identical objects are "identical", never "merged".
+        code, out, _ = self.objcmp(a, a, rename, "--base-holds-new")
+        self.assertEqual((code, out.splitlines()[0]), (0, "identical: the bytes are equal with the timestamp masked"))
+        # No difference line: B equals A but for a byte past the string table.
+        check(a, a + b"\0", "RENAME-KEPT\tB still holds %s" % OLD)
+        # A lone address-significance entry of NEW added or removed.
+        check(a, merge_unit([NEW, x], [x], addrsig=(caller, NEW)), "\t+addrsig\t1\t%s" % NEW)
+        check(merge_unit([OLD, x], [OLD, x], addrsig=(NEW, caller)), merge_unit([NEW, x], [x], addrsig=(caller,)),
+              "\t-addrsig\t0\t%s" % NEW)
+        # The same relocations in another order: relocations N -> N, no -reloc or +reloc line.
+        out = check(a, merge_unit([NEW, x], [x], addrsig=(caller,), order=[1, 0]))
+        self.assertIn("relocations 2 -> 2", out)
+        self.assertNotIn("reloc\t", out)
+        # The head still references OLD: beside the moved call, as a symbol
+        # alone, or in an assembler label.
+        check(merge_unit([OLD, OLD], [OLD], addrsig=(caller,)), merge_unit([NEW, OLD], [OLD], addrsig=(caller,)),
+              "RENAME-KEPT\tB still holds %s" % OLD, "RENAME-MERGES\tB holds both %s and %s" % (OLD, NEW))
+        check(a, merge_unit([NEW, x], [x, OLD], addrsig=(caller,)), "RENAME-KEPT\tB still holds %s" % OLD)
+        check(a, merge_unit([NEW, x], [x], addrsig=(caller,), extra=[("lbl" + OLD, 0, 1, 0, 6)]),
+              "RENAME-KEPT\tB still holds %s" % OLD)
+        # Other symbols, or other address-significance entries, in another order.
+        check(merge_unit([OLD, x], [OLD, x, y]), merge_unit([NEW, x], [y, x]),
+              "SYMBOL-ORDER\tthe same symbols in a different order")
+        check(merge_unit([OLD, x], [OLD, x], addrsig=(caller, x)), merge_unit([NEW, x], [x], addrsig=(x, caller)))
+        # No relocation of A targets OLD; OLD defined, or embedded in another name; NEW held twice.
+        check(merge_unit([x], [x, OLD]), merge_unit([x], [x]), "MERGE-NO-CALL\tno relocation of A targets %s" % OLD)
+        check(merge_unit([OLD], [], extra=[(OLD, 0, 1, 0x20, 2)]), merge_unit([NEW], []),
+              "MERGE-OLD\tA holds %s other than as one undefined external symbol" % OLD)
+        check(merge_unit([OLD], [OLD], extra=[("$unwind$" + OLD, 0, 1, 0, 3)]),
+              merge_unit([NEW], [], extra=[("$unwind$" + OLD, 0, 1, 0, 3)]),
+              "MERGE-OLD\tA holds %s other than as one undefined external symbol" % OLD)
+        check(merge_unit([OLD], [OLD], extra=[(NEW, 0, 0, 0x20, 2)]), merge_unit([NEW], []),
+              "MERGE-NEW\tA holds %s other than as one external symbol" % NEW)
+        # OLD's call retargeted to another name the base holds, a second call
+        # retargeted, the relocation's type or the code changed, the owner's body changed.
+        check(a, merge_unit([x, x], [x], addrsig=(caller,)), "\t+reloc\t0x1\ttype 4\t%s" % x)
+        check(merge_unit([OLD, x], [OLD, x, y]), merge_unit([NEW, y], [x, y]), "\t+reloc\t0x6\ttype 4\t%s" % y)
+        check(a, merge_unit([NEW, x], [x], addrsig=(caller,), types=[5, 4]), "\t+reloc\t0x1\ttype 5\t%s" % NEW)
+        check(a, merge_unit([NEW, x], [x], addrsig=(caller,), code=b"\xe8\0\0\0\0\xe8\0\0\0\0\xcc"))
+        check(a, merge_unit([NEW, x], [x], addrsig=(caller,), new_body=b"\xcc"))
+        # A reference merge whose head's NEW is another kind of symbol.
+        check(merge_unit([OLD, NEW], [OLD, NEW], new_defined=False),
+              merge_unit([NEW, NEW], [], new_defined=False, extra=[(NEW, 0, 0, 0, 2)]))
 
     def test_unreadable(self):
         good = self.write("good.obj", coff())

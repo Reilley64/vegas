@@ -57,13 +57,13 @@ compile_commands.json at compile time).
   hold absolute paths of the machine: keep OUT outside the checkout and
   never commit them.
 - `compare` prints, per variant, `objcmp.py`'s report and the warnings
-  comparison. It passes `--map`, `--expect-kept` and renames on; for JSON,
-  run `objcmp.py --json` per variant.
+  comparison. It passes `--map`, `--expect-kept`, `--base-holds-new` and
+  renames on; for JSON, run `objcmp.py --json` per variant.
 
 ## Comparing objects
 
 ```sh
-python3 tools/object-proof/objcmp.py BASE.obj HEAD.obj [--map FILE] [--expect-kept FILE] [--json] [OLD=NEW ...]
+python3 tools/object-proof/objcmp.py BASE.obj HEAD.obj [--map FILE] [--expect-kept FILE] [--base-holds-new] [--json] [OLD=NEW ...]
 ```
 
 The first line is the verdict:
@@ -73,6 +73,7 @@ The first line is the verdict:
 | `identical: the bytes are equal ...` | 0 | equal bytes, whatever the map says |
 | `identical: ... once the renames are applied` | 0 | equal structure with a rename applied to the base |
 | `kept: ... except the N expected kept site(s)` | 0 | equal except exactly the `--expect-kept` sites |
+| `merged: ... N OLD name(s) merged into the NEW that the base holds: K into its own definition, L into its existing reference` | 0 | with `--base-holds-new`: equal once each merge is done |
 | `refused: A holds both spellings of a rename ...` | 1 | nothing compared; the RENAME- lines follow |
 | `differs: N difference(s)[, M RENAME- line(s)][, K kept-site mismatch(es)]` | 1 | N counts the difference lines below, not the RENAME- lines |
 | `differs: the bytes differ, but no section ...` | 1 | no rename applies and the structure is equal |
@@ -92,10 +93,12 @@ associative section as `parent|name`). Then the summary.
 | `SECTION-ORDER` | the shared sections are in another order; `-order`/`+order` give the moved ones |
 | `SYMBOL-ONLY-A`, `SYMBOL-ONLY-B` | name, value, section, type, storage class |
 | `SYMBOL-SHIFT` | section, count, distance, the lowest moved symbol and its value in A: symbols that differ only by value, by that distance, in that section, in place of their `SYMBOL-ONLY` lines (as when an array before them grew) |
+| `MERGE-OLD`, `MERGE-NEW`, `MERGE-NO-CALL` | with `--base-holds-new`: the base holds OLD other than as one undefined external symbol, or holds NEW other than as one external symbol; no relocation of the base targets OLD |
 | `BESIDE-KEPT` | under `--expect-kept`, when the kept sites are the listed ones: what still differs once they are undone (a difference line, `B still holds OLD`, or OLD's address-significance count) |
 | `RETARGET` | summary: A's target as A spells it `->` B's target at one offset of a section both hold, count, `by the map` or `not by the map`, the sections |
 | `KEPT-SITE` | summary: section, offset, OLD, NEW of a relocation where B still targets OLD and the respelled A targets NEW |
 | `KEPT-MISSING`, `KEPT-UNEXPECTED` | an expected kept site (section, OLD) not found; a kept site (section, offset, OLD) not expected |
+| `MERGED` | summary of a `merged` verdict: OLD `->` NEW, into the base's own definition or its existing reference, the number of the base's relocations to OLD |
 
 A refused comparison prints no summary. For the instructions of a differing
 function, disassemble it in both objects with
@@ -115,7 +118,35 @@ A base that already holds NEW as well as OLD, as when a second commit is
 compared to a first with the first's map, is refused: respelled, it would
 hold one name twice. Compare it without that rename, where the moved calls
 show as `RETARGET ... not by the map`, or compare the second commit to the
-commit before the first.
+commit before the first, or, when the change merges OLD into NEW, use
+`--base-holds-new`.
+
+### A base that holds NEW
+
+`--base-holds-new` proves a binding whose new name the base already holds:
+the owner is defined in the unit (a merge into its own definition), or the
+unit already calls it (a merge into its existing reference). Each rename
+whose NEW is a symbol of the base is a merge; the other renames respell the
+base as without the option. The verdict is `merged` and the exit 0 only
+when, for each merge:
+
+- the base holds OLD as one undefined external symbol of value 0 and in no
+  other name, at least one of its relocations targets OLD, and it holds NEW
+  as one external symbol;
+- the head holds OLD in no name (else `RENAME-KEPT`);
+- the head equals the base respelled, with OLD's symbol dropped: the head's
+  one NEW symbol equals the base's NEW symbol and stands at the place of
+  the base's OLD or NEW; every relocation to OLD is one to NEW at the same
+  offset and of the same type; the address-significance table holds NEW
+  once when the base marks OLD or NEW, and not at all otherwise, anywhere
+  in the table (it lists symbols in symbol-table order and is a set to the
+  linker), every other entry in the base's order; everything else is
+  structurally equal, as without a merge.
+
+Otherwise the verdict is `differs`, with `MERGE-` lines for the first
+condition and the difference lines of the comparison with each merge done.
+Byte-identical objects stay `identical: the bytes are equal`: the call was
+not bound. The option does not combine with `--expect-kept` (exit 2).
 
 ### Kept sites
 
@@ -181,7 +212,9 @@ printed, but with every `SYMBOL-ONLY` line in place of the `SYMBOL-SHIFT`
 lines), `retargets`
 (`old`, `new`, `count`, `by_map`, `functions`), `kept_sites` (`function`,
 `offset`, `old`, `new`), `kept_missing` (`function`, `old`) and
-`kept_unexpected` (`function`, `offset`, `old`). Usage errors and
+`kept_unexpected` (`function`, `offset`, `old`); with `--base-holds-new`
+also `merges` (`old`, `new`, `into`: `definition` or `reference`,
+`relocations`), filled when the verdict is `merged`. Usage errors and
 unreadable input print to stderr and exit 2, with no JSON.
 
 ## Comparing warnings
@@ -197,7 +230,7 @@ the classes whose counts changed and the lines only in A (`-`) or B (`+`).
 
 ## Exit status
 
-All three commands: 0 identical, kept (or compiled), 1 differs, refused (or
+All three commands: 0 identical, kept, merged (or compiled), 1 differs, refused (or
 a compile failed), 2 usage error, unreadable input, a compiler that cannot
 start or a `--source` that compile refuses.
 
@@ -205,7 +238,9 @@ start or a `--source` that compile refuses.
 
 - A rename is refused as a difference when an object holds both spellings
   (RENAME-MERGES) or the head still holds OLD (RENAME-KEPT). An unmatched
-  rename does not relax the comparison.
+  rename does not relax the comparison. Under `--base-holds-new`, a merge is
+  the one place where the base may hold both, and NEW's symbol may take
+  OLD's place and its address-significance entry any place.
 - With a rename that applies, these are not compared: the string-table
   layout and any bytes after it; where the section bytes sit in the file;
   the section headers' virtual size, virtual address and line-number

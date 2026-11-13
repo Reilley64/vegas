@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare two COFF objects with the header timestamp masked.
 
-usage: objcmp.py A.obj B.obj [--map FILE] [--expect-kept FILE] [--json] [OLD=NEW ...]
+usage: objcmp.py A.obj B.obj [--map FILE] [--expect-kept FILE] [--base-holds-new] [--json] [OLD=NEW ...]
 
 A is the base object, B the head object. Each OLD=NEW pair (from the command
 line, or one per line of FILE) is a respelling of the base: a symbol of A
@@ -21,11 +21,16 @@ line), a comparison whose only differences are exactly those kept sites
 and the undefined-symbol and address-significance entries of their OLD
 names is "kept" and exits 0; any other difference, or a kept site missing
 or not listed, exits 1, and what differs beside the listed sites prints as
-BESIDE-KEPT lines. A FILE with no site acts as no option. --json prints the
-same facts as one JSON object, with the per-symbol lines.
+BESIDE-KEPT lines. A FILE with no site acts as no option. With
+--base-holds-new, a rename whose NEW A already holds as a symbol is a
+merge: A's OLD must be one undefined external symbol that some relocation
+targets, B must hold no OLD, and B must equal A once OLD is respelled NEW
+and its symbol and address-significance entries merge into NEW's; that is
+"merged" and exits 0. --json prints the same facts as one JSON object,
+with the per-symbol lines.
 
-Exit status: 0 identical or kept, 1 differs or refused, 2 usage error or
-unreadable input.
+Exit status: 0 identical, kept or merged, 1 differs or refused, 2 usage
+error or unreadable input.
 """
 import difflib
 import json
@@ -445,6 +450,88 @@ def only_kept(a, b, kept, renames, shifts):
     return beside
 
 
+def merge_checks(raw_a, merges):
+    """The MERGE- lines of the merges (OLD: NEW, A holding NEW): A's OLD must be
+    one undefined external symbol, embedded in no other name, that at least
+    one relocation targets; A's NEW one external symbol. Returns the lines,
+    {OLD: "definition" or "reference"} by what A's NEW is, and {OLD: the
+    number of A's relocations to OLD}."""
+    lines, into, calls = [], {}, {}
+    for old, new in sorted(merges.items()):
+        olds = [s for s in raw_a.symbols if s[1] == old]
+        if spelled(old, raw_a.names) != [old] or len(olds) != 1 or olds[0][2:4] != (0, 0) \
+                or olds[0][5:] != (EXTERNAL, b""):
+            lines.append("MERGE-OLD\tA holds %s other than as one undefined external symbol" % old)
+        news = [s for s in raw_a.symbols if s[1] == new]
+        if len(news) != 1 or news[0][5] != EXTERNAL:
+            lines.append("MERGE-NEW\tA holds %s other than as one external symbol" % new)
+        else:
+            into[old] = "reference" if news[0][3] == 0 else "definition"
+        calls[old] = sum(1 for s in raw_a.sections for _, index, _ in s["relocations"]
+                         if raw_a.by_index.get(index, (None, None))[1] == old)
+        if not calls[old]:
+            lines.append("MERGE-NO-CALL\tno relocation of A targets %s" % old)
+    return lines, into, calls
+
+
+def merged_sequence(seq_a, seq_b, news, name, entry=None, anywhere=False):
+    """seq_a as B may show it once the entries of each name in NEWS merge: seq_b
+    when B keeps every other entry in A's order and, of each NEW that seq_a
+    holds, exactly one entry (equal to entry[NEW] when ENTRY is given) at the
+    place of one of seq_a's entries of it, or anywhere with ANYWHERE; else
+    seq_a with each NEW's first entry kept (with ENTRY, A's own NEW entry), so
+    that compare() shows the difference. NAME gives an entry's name."""
+    def rest(seq):
+        return [x for x in seq if name(x) not in news]
+
+    def slot(seq, at):
+        return sum(1 for x in seq[:at] if name(x) not in news)
+    ok = rest(seq_a) == rest(seq_b)
+    for new in news:
+        in_a = [i for i, x in enumerate(seq_a) if name(x) == new]
+        in_b = [i for i, x in enumerate(seq_b) if name(x) == new]
+        if len(in_b) != min(1, len(in_a)) or (in_b and entry is not None and seq_b[in_b[0]] != entry[new]):
+            ok = False
+        elif in_b and not anywhere and slot(seq_b, in_b[0]) not in {slot(seq_a, i) for i in in_a}:
+            ok = False
+    if ok:
+        return list(seq_b)
+    out, seen = [], set()
+    for x in seq_a:
+        if name(x) in news:
+            if name(x) in seen:
+                continue
+            seen.add(name(x))
+            x = entry[name(x)] if entry is not None else x
+        out.append(x)
+    return out
+
+
+def merge_view(a, b, raw_a, merges):
+    """A's comparison (the renames applied, so that each merged OLD is spelled
+    NEW) with the merges done as B shows them, when B shows them as allowed,
+    and both address-significance tables' byte sizes left out (their indices
+    differ once a symbol goes). B's one symbol of NEW stands at the place of
+    A's OLD or NEW; its one address-significance entry anywhere, as the table
+    lists symbols in symbol-table order and is a set to the linker."""
+    news = set(merges.values())
+    header, sections, order, symbols = a
+    entry = {s[1]: symbols[i] for i, s in enumerate(raw_a.symbols) if s[1] in news}
+    if set(entry) != news:
+        return a, b  # MERGE-NEW names it
+    symbols = merged_sequence(symbols, b[3], news, lambda s: s[0], entry)
+    sections, sections_b = dict(sections), dict(b[1])
+    for key, s in sections.items():
+        if s["name"] == ".llvm_addrsig":
+            body_b = sections_b[key]["body"] if sections_b.get(key, {}).get("name") == ".llvm_addrsig" else ()
+            sections[key] = dict(s, size=None, body=tuple(merged_sequence(s["body"], body_b, news, lambda n: n,
+                                                                           anywhere=True)))
+    for key, s in sections_b.items():
+        if s["name"] == ".llvm_addrsig":
+            sections_b[key] = dict(s, size=None)
+    return (header, sections, order, symbols), (b[0], sections_b, b[2], b[3])
+
+
 def read_lines(path):
     with open(path, encoding="utf-8-sig") as f:
         return [line.strip() for line in f]
@@ -484,7 +571,8 @@ def main(argv):
         sys.stdout.reconfigure(errors="backslashreplace")
     args = list(argv)
     as_json = "--json" in args
-    args = [a for a in args if a != "--json"]
+    base_holds_new = "--base-holds-new" in args
+    args = [a for a in args if a not in ("--json", "--base-holds-new")]
     paths = {}
     for option in ("--map", "--expect-kept"):
         if option in args:
@@ -495,6 +583,9 @@ def main(argv):
                 args = []
     if len(args) < 2 or any(a.startswith("-") for a in args[:2]):
         print(__doc__.strip().split("\n\n")[1], file=sys.stderr)
+        return 2
+    if base_holds_new and "--expect-kept" in paths:
+        print("objcmp.py: --expect-kept does not combine with --base-holds-new", file=sys.stderr)
         return 2
     path_a, path_b = args[:2]
     try:
@@ -511,11 +602,15 @@ def main(argv):
         return 2
     notes = ["NOTE\trename %s is not a symbol of A" % old for old in sorted(renames)
              if not spelled(old, coff_a.names)]
+    # With --base-holds-new, a rename whose NEW is a symbol of A merges OLD into it.
+    merges = {old: new for old, new in renames.items() if base_holds_new and new in coff_a.names}
     lines = []
     refused = 0
     merged = False
     for old, new in sorted(renames.items()):
         for label, coff in (("A", coff_a), ("B", coff_b)):
+            if label == "A" and old in merges:
+                continue
             if spelled(old, coff.names) and spelled(new, coff.names):
                 lines.append("RENAME-MERGES\t%s holds both %s and %s" % (label, old, new))
                 refused += 1
@@ -524,7 +619,7 @@ def main(argv):
             lines.append("RENAME-KEPT\tB still holds %s" % old)
             refused += 1
     applied = any(spelled(old, coff_a.names) for old in renames)
-    found, retargets, kept = 0, {}, []
+    found, retargets, kept, into, calls = 0, {}, [], {}, {}
     if masked(data_a) == masked(data_b):
         verdict, status = "identical: the bytes are equal with the timestamp masked", 0
         lines = []
@@ -536,6 +631,21 @@ def main(argv):
         verdict, status = ("refused: A holds both spellings of a rename; compare without that rename, or with "
                            "the commit before A as the base"), 1
         found = None
+    elif merges:
+        raw_a = Coff(data_a, {})
+        merge_problems, into, calls = merge_checks(raw_a, merges)
+        lines += merge_problems
+        view_a, view_b = merge_view(coff_a.compared(), coff_b.compared(), raw_a, merges)
+        found = compare(view_a, view_b, lines.append, shifts=not as_json) + len(merge_problems)
+        retargets, kept = sites(raw_a, coff_a, coff_b, renames)
+        if found == 0 and refused == 0:
+            own = sum(1 for old in merges if into.get(old) == "definition")
+            verdict, status = ("merged: equal with the timestamp masked once the renames are applied, %d OLD "
+                               "name(s) merged into the NEW that the base holds: %d into its own definition, %d "
+                               "into its existing reference" % (len(merges), own, len(merges) - own)), 0
+        else:
+            verdict = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else "")
+            status = 1
     else:
         found = compare(coff_a.compared(), coff_b.compared(), lines.append, shifts=not as_json)
         retargets, kept = sites(Coff(data_a, {}) if renames else coff_a, coff_a, coff_b, renames)
@@ -564,16 +674,21 @@ def main(argv):
         verdict = verdict if status else "differs: %d difference(s)" % found
         verdict, status = verdict + ", %d kept-site mismatch(es)" % (len(missing) + len(unexpected)), 1
     retargets = sorted((old, new, count, by_map, keys) for (old, new), (count, keys, by_map) in retargets.items())
+    merge_rows = [(old, merges[old], into[old], calls[old]) for old in sorted(merges)
+                  if status == 0 and verdict.startswith("merged")]
     if as_json:
-        print(json.dumps(dict(
+        report = dict(
             verdict=verdict, result=verdict.split(":")[0], exit=status, differences=found, rename_lines=refused,
             notes=notes, lines=lines,
             retargets=[dict(old=old, new=new, count=count, by_map=by_map, functions=keys)
                        for old, new, count, by_map, keys in retargets],
             kept_sites=[dict(function=key, offset=va, old=old, new=renames[old]) for key, va, _, old in kept],
             kept_missing=[dict(function=key, old=old) for key, old in missing],
-            kept_unexpected=[dict(function=key, offset=va, old=old) for key, va, _, old in unexpected]),
-            indent=1, sort_keys=True))
+            kept_unexpected=[dict(function=key, offset=va, old=old) for key, va, _, old in unexpected])
+        if base_holds_new:
+            report["merges"] = [dict(old=old, new=new, into=where, relocations=count)
+                                for old, new, where, count in merge_rows]
+        print(json.dumps(report, indent=1, sort_keys=True))
         return status
     summary = ["RETARGET\t%s -> %s\t%d site(s)\t%s\t%s"
                % (old, new, count, "by the map" if by_map else "not by the map", " ".join(keys))
@@ -581,6 +696,9 @@ def main(argv):
     summary += ["KEPT-SITE\t%s\t0x%x\t%s\t%s" % (key, va, old, renames[old]) for key, va, _, old in kept]
     summary += ["KEPT-MISSING\t%s\t%s" % site for site in missing]
     summary += ["KEPT-UNEXPECTED\t%s\t0x%x\t%s" % (key, va, old) for key, va, _, old in unexpected]
+    summary += ["MERGED\t%s -> %s\tinto the base's %s\t%d relocation(s)"
+                % (old, new, "own definition" if where == "definition" else "existing reference", count)
+                for old, new, where, count in merge_rows]
     for line in [verdict] + notes + lines + summary:
         print(line)
     return status

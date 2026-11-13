@@ -28,7 +28,18 @@
 # the unit's path or stops logging the entry and commands, or compiles with
 # a compiler other than clang, a command that names the unit otherwise than
 # the entry's file, an override that is not a file, or an overlay that its
-# #error canary does not show to take effect. The tests write small objects,
+# #error canary does not show to take effect; or when objcmp.py
+# --base-holds-new stops calling a merge into the base's own definition or
+# its existing reference "merged" (one NEW symbol at OLD's or NEW's place,
+# one address-significance entry of NEW), or calls one so where the bytes are
+# equal, other symbols or address-significance entries change order, the
+# head still holds OLD (beside the call, alone or in a label),
+# no relocation of the base targets OLD, OLD is defined or embedded in
+# another name, NEW is held twice, an address-significance entry of NEW is
+# added or removed alone, the relocations only change order, a call goes to
+# another name or with another type, a second call is retargeted, code or
+# the owner's body changes, or the head's NEW is another kind of symbol, or
+# combines it with --expect-kept. The tests write small objects,
 # logs and a fake compiler and run on every host. Blind spot: the objects
 # are hand-made, not compiler output. A test method added to the .py but not
 # to this list never runs.
@@ -36,7 +47,7 @@ set(tools_object_proof_cases identical timestamp rename refused_renames unmatche
     structural_differences difference unreadable warnings proof_compile counts section_equal
     alignment addrsig_encoding base_holds_both summary symbol_shift expect_kept kept_holes
     expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol
-    refusal_alone)
+    refusal_alone base_holds_new merge_attacks)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

@@ -3,7 +3,7 @@
 
 usage:
   proof.py compile [--target NAME] [--source FILE] BUILD_DIR SOURCE OUT_PREFIX
-  proof.py compare BASE_PREFIX HEAD_PREFIX [--map FILE] [--expect-kept FILE] [OLD=NEW ...]
+  proof.py compare BASE_PREFIX HEAD_PREFIX [--map FILE] [--expect-kept FILE] [--base-holds-new] [OLD=NEW ...]
   proof.py warnings [--strip PREFIX ...] A.log B.log
 
 compile runs the command that BUILD_DIR/compile_commands.json holds for

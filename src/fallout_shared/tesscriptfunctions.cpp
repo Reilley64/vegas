@@ -2554,7 +2554,7 @@ bool __cdecl FUN_005c05f0(const ScriptParameter* paramInfo, const char* scriptDa
         return true;
     }
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
     {
         ::FUN_0087a8b0(TaskQueueInterface::GetSingleton(), 0x1007, (::FormTaskRef *)(thisObj), axis, value);
     }
@@ -2591,7 +2591,7 @@ bool __cdecl FUN_005c1b80(const ScriptParameter* paramInfo, const char* scriptDa
     float scale = 0.0f;
     if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, locals, &scale))
         return false;
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005c1b80::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1) {
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005c1b80::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1) {
         ::FUN_0087a8b0((::TaskQueueInterface *)(::fnv_005c1b80::TaskQueueInterface *)(((::fnv_005c1b80::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))), 0x113c, (::FormTaskRef *)(thisObj), scale);
     } else {
         Script::SetReferenceScale(thisObj, scale);
@@ -6466,9 +6466,9 @@ bool FUN_005b78a0(const ScriptParameter* paramInfo, const char* scriptData, TESO
         }
         else
         {
-            for (unsigned int i = 0; i < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005b78a0::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))); i++)
+            for (unsigned int i = 0; i < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005b78a0::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))); i++)
             {
-                for (unsigned int j = 0; j < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005b78a0::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))); j++)
+                for (unsigned int j = 0; j < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005b78a0::GlobalObject_0045cfe0 *>(&::g_011c63cc)))))); j++)
                 {
                     TESObjectCELL* pGridCell = (*reinterpret_cast<::fnv_005b78a0::TES * *>(&::g_TES))->FUN_00457050(i, j)->pCell;
                     SeenData* pGridSeenData = pGridCell ? ((::fnv_005b78a0::SeenData *)(reinterpret_cast<::FUN_00555bc0_shell *>((reinterpret_cast<FUN_00555bc0_shell*>(pGridCell)))->FindSeenData())) : 0;
@@ -8032,7 +8032,7 @@ bool FUN_005ccf50(const ScriptParameter* paramInfo, const char* scriptData, TESO
         return true;
     }
     if (pTeleportMarker) {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005ccf50::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005ccf50::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
             ::FUN_0087a8b0((::TaskQueueInterface *)(::fnv_005ccf50::TaskQueue5ccf50 *)(((::fnv_005ccf50::TaskQueue5ccf50 *)(::TaskQueueInterface::GetSingleton()))), 0x109e, (::FormTaskRef *)(::fnv_005ccf50::Actor *)((Actor*)thisObj), pTeleportMarker, (double)fX, (double)fY, (double)fZ);
         else
             ::MoveReference::FUN_005ccb20((::MoveReference::Reference *)(thisObj), (::MoveReference::Reference *)(pTeleportMarker), fX, fY, fZ);
@@ -8882,7 +8882,7 @@ bool FUN_005d3b90(const ScriptParameter* parameters, const char* scriptData, TES
         return false;
     if (!thisObject)
         return false;
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005d3b90::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005d3b90::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1)
         ::FUN_0087a8b0((::TaskQueueInterface *)(::fnv_005d3b90::TaskQueueInterface *)(((::fnv_005d3b90::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))), 0x1156, (::FormTaskRef *)(::fnv_005d3b90::Actor *)((Actor*)thisObject), value);
     else
         ::FUN_005d3c20((::S_005d3c20_Foo *)(thisObject), value);
@@ -8962,7 +8962,7 @@ bool FUN_005d4b90(const ScriptParameter* parameters, const char* scriptData,
         return false;
     if (!thisObject)
         return false;
-    if (((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005d4b90::GlobalObject_0045cfe0 *>(&::g_011c3ea4))))))[0] > 1)
+    if (((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005d4b90::GlobalObject_0045cfe0 *>(&::g_011c3ea4))))))[0] > 1)
         ::FUN_0087a8b0((::TaskQueueInterface *)(::fnv_005d4b90::TaskQueueInterface *)(((::fnv_005d4b90::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))), 0x116c,
                       (::FormTaskRef *)(::fnv_005d4b90::Actor *)((Actor*)thisObject), damage);
     else
@@ -16761,8 +16761,8 @@ bool FUN_005be870(int a1, int a2, FUN_005be870_obj* obj)
         if (obj->vSlot100()) {
             FUN_005be870_obj* o = obj;
             int r = o->vSlot344((*reinterpret_cast<int *>(&::_g_thePlayer)), 0);
-            if (r < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005be870::FUN_005be870_glob *>(&::g_011d0844))))))) {
-                o->vSlot460((*reinterpret_cast<int *>(&::_g_thePlayer)), (float)(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005be870::FUN_005be870_glob *>(&::g_011d0844)))))) - r));
+            if (r < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005be870::FUN_005be870_glob *>(&::g_011d0844))))))) {
+                o->vSlot460((*reinterpret_cast<int *>(&::_g_thePlayer)), (float)(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005be870::FUN_005be870_glob *>(&::g_011d0844)))))) - r));
             }
         }
     }
@@ -25724,13 +25724,13 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
  int step=tileWidth12/patchWidth5;
  int meshWidth=17;
  int meshCount2=meshWidth*meshWidth;
- int cellCount7=*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005b7b40::GridSetting *>(&::g_011c63cc))))));
+ int cellCount7=*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005b7b40::GridSetting *>(&::g_011c63cc))))));
  int cellTotal6=cellCount7*cellCount7;
  int projectionWidth=tileWidth12*cellCount7;
  float cellScale23=::FUN_00879d90();
  for(int tile=0;tile<cellTotal6;tile++) {
-  unsigned int cellX2=tile % *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005b7b40::GridSetting *>(&::g_011c63cc))))));
-  unsigned int cellY2=tile / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005b7b40::GridSetting *>(&::g_011c63cc))))));
+  unsigned int cellX2=tile % *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005b7b40::GridSetting *>(&::g_011c63cc))))));
+  unsigned int cellY2=tile / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005b7b40::GridSetting *>(&::g_011c63cc))))));
   GridRegion region63(0);
   void* tileData13=0;
   GridProcess* process23=0;
@@ -28039,7 +28039,7 @@ bool __cdecl FUN_005bcfe0(const ScriptParameter* parameters, const char* scriptD
             ModeCell* cell = ((::ModeCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>((((CellWorld*)(*reinterpret_cast<::FNV_5b6cd0_Host * *>(&::g_TES)))))->FUN_00457070()));
             if (cell) {
                 if (!reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior()) {
-                    int radius = (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellRangeSetting *>(&::g_011c63cc)))))) - 1) / 2;
+                    int radius = (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::CellRangeSetting *>(&::g_011c63cc)))))) - 1) / 2;
                     for (int x = reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX() - radius; x <= reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridX() + radius; ++x) {
                         for (int y = reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY() - radius; y <= reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY() + radius; ++y) {
                             ModeCell* nearby = ((::ModeCell *)(reinterpret_cast<::TESWorldSpace *>((((::CellHandle *)(reinterpret_cast<::TESObjectCELL *>((cell))->GetParentWorldSpace()))))->GetCellAtGridPosition({}, {})));
@@ -28081,7 +28081,7 @@ bool FUN_005bd410(void* p1,void* p2,void* p3,void* p4,void* p5,void* p6,void* p7
         switch(form->FUN_00401170()) { case 58: case 59: case 60: case 61: case 62: case 63: case 64: case 105: {
             StrMem type;
             FUN_00406f60(&type,"\"%s\" (%08x)",reinterpret_cast<::FUN_0055d520_shell *>((form))->FUN_0055d520(),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())));
-            int height=(int)(reinterpret_cast<::FUN_005bd580_cls *>((((::FontInfo *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::FontCollection *)(::FontManager::Instance()))))->FUN_005bd5c0(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011f33c8))))))-1)))))->FUN_005bd580()+3.0);
+            int height=(int)(reinterpret_cast<::FUN_005bd580_cls *>((((::FontInfo *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::FontCollection *)(::FontManager::Instance()))))->FUN_005bd5c0(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011f33c8))))))-1)))))->FUN_005bd580()+3.0);
             int text=height-5;
             reinterpret_cast<::A0F8Self *>((((::CommandDebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0((const char*)type,640.0f,(float)text,2,-1,-1.0f,0,(::A0F8Color *)(0));
             FUN_007031e0(form);
@@ -34691,7 +34691,7 @@ bool FUN_005c9100(void* a,void* b,Actor* object,void* d,void* e,void* f,double* 
 *result=0;Actor* target=0;Idle* idleSlot10=0;int flag=0;int optionSlot33=0;bool enabledSlot10=false;
 if(!::FUN_005accb0((const ::ExtractParameter *)(a), (const char *)(b), (unsigned int *)(h), (::TESObjectREFR *)(object), (::TESObjectREFR *)(d), (::ExtractScript *)(e), (::ScriptLocals *)(f), &target, &idleSlot10, &flag, &optionSlot33))return false;
 if(flag>0)enabledSlot10=true;
-int savedSlot16=*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScriptIdle::Global *>(&::g_011cd378))))));reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptIdle::Global *>(&::g_011cd378))))->FUN_0045ce80(0x7fffffff);Actor* actor=0;if(object->IsActor())actor=object;
+int savedSlot16=*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScriptIdle::Global *>(&::g_011cd378))))));reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptIdle::Global *>(&::g_011cd378))))->FUN_0045ce80(0x7fffffff);Actor* actor=0;if(object->IsActor())actor=object;
 if(actor && target){reinterpret_cast<::FUN_00934250_shell *>((actor))->FUN_00934250();if(((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && !actor->Busy(1) && ((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))){
 ((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Reset(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Clear();
 if(!actor->FUN_00931850()){if(!optionSlot33){((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Flag(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Target(actor);reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((target))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(actor));}((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Flag(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Target(target);}
@@ -38194,7 +38194,7 @@ bool CmdCD::FUN_005cd0e0(void* p1, void* p2, RefCD* p3, RefCD* p4, RefCD* p5, vo
         return true;
     }
     if (p) {
-        if (*((int *)&(::FUN_0043d4d0((int *)(((SettingCD*)&(*reinterpret_cast<char *>(&::g_011c3ea4))))))) > 1) {
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)(((SettingCD*)&(*reinterpret_cast<char *>(&::g_011c3ea4))))))) > 1) {
             ::FUN_0087a8b0((::TaskQueueInterface *)(void *)(((void *)(::TaskQueueInterface::GetSingleton()))),0x124f,(::FormTaskRef *)(p3),p,h,a,i);
         } else {
             if (p3->v64()) {
@@ -38445,7 +38445,7 @@ bool FUN_005cdc10(const ScriptParameter* paramInfo, const char* scriptData, TESO
             else if (reinterpret_cast<struct ::FUN_0041ca90 *>((pPackage))->get() == 7 || reinterpret_cast<struct ::FUN_0041ca90 *>((pPackage))->get() == 1)
             {
                 Actor* pTarget = dynamic_cast<Actor*>(((::fnv_005cdc10::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor_2))->GetBaseTexture()))->GetTarget());
-                if (pTarget == (Actor*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_00962720_shell *>((((PlayerStub*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)))))->HasExtraFollowerForm((char *)(pActor_2)) && reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerStub*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005cdc10::GameSettingInt *>(&::g_011cdad0)))))))
+                if (pTarget == (Actor*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_00962720_shell *>((((PlayerStub*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)))))->HasExtraFollowerForm((char *)(pActor_2)) && reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerStub*)(*reinterpret_cast<::fnv_005cdc10::PC7d * *>(&::_g_thePlayer)))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005cdc10::GameSettingInt *>(&::g_011cdad0)))))))
                 {
                     ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_005cdc10::GameSettingString *>(&::g_011d3d54))))->GetMenuTitle()))), 0, (const char *)(0), (const char *)(0), 2.0f, false);
                 }
@@ -48305,7 +48305,7 @@ bool __cdecl FUN_005d9b20(
             return false;
         }
 
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005d9b20::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1) {
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005d9b20::GlobalObject_0045cfe0 *>(&::g_011c3ea4)))))) > 1) {
             ::FUN_0087a8b0(
                 (::TaskQueueInterface *)(::fnv_005d9b20::TaskQueueInterface *)(((::fnv_005d9b20::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))),
                 0x11df,
@@ -49914,7 +49914,7 @@ bool FUN_005c09c0(const ScriptParameter* p1, const char* p2, TESObjectREFR* a3, 
         return true;
     }
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005c09c0::DbgLog *>(&::g_011c3ea4)))))) > 1) {
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005c09c0::DbgLog *>(&::g_011c3ea4)))))) > 1) {
         (::FUN_0087a8b0)((::TaskQueueInterface *)(((::TaskQueueInterface::GetSingleton()))), 0x1009, (::FormTaskRef *)(a3), b, f);
     } else {
         (::FUN_005c0b10)((::C0B10Ref *)(a3), (unsigned char)b, f);

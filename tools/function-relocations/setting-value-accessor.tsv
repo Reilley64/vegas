@@ -70,3 +70,23 @@ function	package	src/fallout_shared/package.cpp	?IsWithinPackageLocation@P070Pac
 # ResolveSettingString keeps a call whose argument is not a global.
 function	interface	src/fallout/interface/interface.cpp	?FUN_00705870@@YAXH@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	interface	src/fallout/interface/interface.cpp	?FUN_0079ffb0@@YAXD@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of
+# tesscriptfunctions.cpp whose calls of the accessor moved (VEGAS-117), once
+# the unit's own Setting went with FUN_005e0190's move to the shared class.
+# They read iNumHWThreads:General, uGridsToLoad:General and four other int
+# settings. Four functions keep calls whose argument is not a global.
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005b78a0@fnv_005b78a0@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005b7b40@fnv_005b7b40@@YA_NHHHHHHHH@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005bcfe0@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005bd410@@YA_NPEAX0000000@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005be870@fnv_005be870@@YA_NHHPEAVFUN_005be870_obj@1@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005c05f0@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005c09c0@fnv_005c09c0@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005c1b80@fnv_005c1b80@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005c9100@ScriptIdle@@YA_NPEAX0PEAVActor@1@000PEAN0@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005ccf50@fnv_005ccf50@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005cd0e0@CmdCD@fnv_005cd0e0@@SA_NPEAX0PEAURefCD@2@11000@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005cdc10@fnv_005cdc10@@YA_NPEBVScriptParameter@1@PEBDPEAVTESObjectREFR@@2PEAVScript@1@PEAUScriptLocals@1@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d3b90@fnv_005d3b90@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d4b90@fnv_005d4b90@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d9b20@fnv_005d9b20@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

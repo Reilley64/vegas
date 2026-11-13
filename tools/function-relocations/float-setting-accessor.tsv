@@ -72,3 +72,9 @@ function	character	src/fallout/ai/character.cpp	?PlaySoundOnObject@Self@@QEAA?AU
 # calls the accessor (VEGAS-122), since the unit's own empty Setting went.
 # It reads fScrollKnobIncrement:Pipboy and fScrollKnobRate:Pipboy.
 function	itemmodmenu	src/fallout/interface/menus/itemmodmenu.cpp	?FUN_00783ed0@xInvMenu@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of combatcontroller.cpp
+# that calls the accessor (VEGAS-122), since the unit's own empty Setting
+# went. They read fCombatPathingLookAheadDelta and the follow and guard
+# radius settings.
+function	combatcontroller	src/fallout/ai/combatcontroller.cpp	?SetupPackageTarget@State@@QEAAXPEAUPackage@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	combatcontroller	src/fallout/ai/combatcontroller.cpp	?UpdateMoveTarget@MoveOwner@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

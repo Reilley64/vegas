@@ -4339,9 +4339,9 @@ void MoveOwner::UpdateMoveTarget()
     {
         actor2->MoveTo(points[bestIdx]);
     }
-    else if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting400)))))) > 0.0 && ((unsigned char)(reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor2))->FUN_008b3bd0())) && reinterpret_cast<::FUN_008b3960_Class *>((actor2))->FUN_008b3960())
+    else if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting400)))))) > 0.0 && ((unsigned char)(reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor2))->FUN_008b3bd0())) && reinterpret_cast<::FUN_008b3960_Class *>((actor2))->FUN_008b3960())
     {
-        Pt3 aim = actor2->GetAimPos(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting400)))))));
+        Pt3 aim = actor2->GetAimPos(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting400)))))));
         Pt3 pos4 = GetRefPos(actor2);
         aim.z += pos4.z - actor2->GetPos()->z;
         actor2->MoveTo(aim);
@@ -6316,9 +6316,6 @@ struct Target
 public:
     bool AdvanceActions(::Context *);
 };
-struct Setting
-{
-};
 struct State
 {
     int unk00;
@@ -6429,8 +6426,8 @@ void State::SetupPackageTarget(Package* package)
             float radius = reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)) ? (float)reinterpret_cast<::HighProcess *>((package))->UpdateHighProcessState((::Actor *)(actor))
                            : data                                        ? (float)((int)(((data))->iValue))
                                                                          : 30.0f;
-            float nearDistance9 = radius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting421))))));
-            nearDistance9 = FUN_00404010(nearDistance9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting422)))))));
+            float nearDistance9 = radius * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting421))))));
+            nearDistance9 = FUN_00404010(nearDistance9, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting422)))))));
             if (useRef)
                 reinterpret_cast<::TargetWork *>((target))->FUN_009a0790((::TargetRef *)(ref5), 1, radius, nearDistance9);
             else
@@ -6449,11 +6446,11 @@ void State::SetupPackageTarget(Package* package)
         case 1:
         case 7: {
             bool teammate5 = reinterpret_cast<::MiddleHighProcess *>((actor))->IsActorInCombat();
-            float mult4 = teammate5 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting418)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting415))))));
+            float mult4 = teammate5 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting418)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting415))))));
             float maxDistance =
-                teammate5 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting419)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting416))))));
+                teammate5 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting419)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting416))))));
             float offset2 =
-                teammate5 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting420)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting417))))));
+                teammate5 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting420)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting417))))));
             float radiusB4 = (float)((int)(((((::Data *)(reinterpret_cast<::Script *>((package))->GetData()))))->iValue));
             float nearB2 = radiusB4 * mult4 + offset2;
             nearB2 = FUN_00404010(nearB2, maxDistance);

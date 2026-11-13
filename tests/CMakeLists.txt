@@ -967,8 +967,8 @@ if(WIN32)
 endif()
 
 # Fails when an external name of the game archive has definitions that differ
-# between members and is not recorded in the allowlist, or when a recorded name
-# no longer differs. The set of names depends on the compiler and the standard
+# between members and is not recorded in the allowlist. A recorded name that
+# no longer differs is printed as STALE and passes. The set of names depends on the compiler and the standard
 # library. The allowlist was measured on the cross build; at 891a44f50 the
 # Windows CI job's toolchain (clang-cl 20.1.8 with the standard library of
 # Visual Studio) gave the same 519 names, so the test runs in both. The tool

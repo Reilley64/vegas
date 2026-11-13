@@ -30,8 +30,9 @@ Windows, with the Windows SDK and CRT that `xwin` downloads.
 - The Windows CI job builds with clang-cl 20.1.8 and the standard library of
   Visual Studio. At `891a44f50` its archive had the same 519 names as the
   allowlist, 0 new and 0 stale, so one list holds for both toolchains
-  (`docs/windows-ci-object-checks.md`). When a change makes them part, the
-  check fails on one of them, and the list cannot match both.
+  (`docs/windows-ci-object-checks.md`). When a change makes them part, a
+  name that differs on one toolchain only is recorded; the other toolchain
+  prints it as `STALE` and passes.
 
 ## What is compared
 

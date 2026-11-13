@@ -44,8 +44,8 @@ definition was zero-initialised before, and the row fails on that form.
 ## Where it runs
 
 CTest runs it in every windows-x64 build, the cross build and the Windows CI
-job's, like the function relocation checks: `objects.string_npos` for `string-npos.tsv`, on the object
-list of the game archive that CMake writes to `game-objects.txt` in the
+job's, like the function relocation checks: `objects.string_npos` for
+`string-npos.tsv`, on the object list of the game archive that CMake writes to `game-objects.txt` in the
 build's `tests` folder.
 
 ## Exit status

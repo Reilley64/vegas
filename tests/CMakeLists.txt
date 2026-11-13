@@ -1558,3 +1558,12 @@ if(vegas_object_checks)
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
+
+# The checks of tests/checks, one file per check or ticket, included in name
+# order (tests/checks/README.md). Each file registers its own tests, so a new
+# check adds a file there instead of a block here.
+file(GLOB vegas_check_files CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/checks/*.cmake")
+list(SORT vegas_check_files)
+foreach(vegas_check_file IN LISTS vegas_check_files)
+  include("${vegas_check_file}")
+endforeach()

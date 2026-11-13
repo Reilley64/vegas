@@ -4,6 +4,7 @@
 #include "fnv/game_timer.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/dx9_renderer_view.h"
+#include "fnv/main_window_class.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/single_instance_strings.h"
 #include <cstdint>
@@ -6788,7 +6789,9 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
             {
                 *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = 2;
             }
-            existingWindow30 = FindWindowA(_DAT_011a2fe8, 0);
+            // The class name comes from the data pack, through its native owner.
+            const fileformat::MainWindowClass& mainWindowClass = fnv::startup::PublishedMainWindowClass();
+            existingWindow30 = FindWindowA(mainWindowClass.className.data(), 0);
             if (existingWindow30 != 0)
             {
                 SetForegroundWindow(existingWindow30);
@@ -6809,7 +6812,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 Receiver86* fileAllocation4;
                 Receiver86* fileSystem2;
                 int shellExitResult20;
-                ::FUN_004b4a30(_DAT_011a2fe8);
+                ::FUN_004b4a30(mainWindowClass.className.data());
                 reinterpret_cast<::EffectSetting *>((FUN_00af2640()))->SetBoltSound((::TESSound *)(void *)(&(*reinterpret_cast<unsigned char *>(&::RunModeSwitch))));
                 reinterpret_cast<::CombatProcedure *>((FUN_00af2640()->FUN_008526c0()))->Initialize((::CombatController *)(((int (&)(...))::FUN_0086a020)));
                 ::FUN_00aa20b0((void *)(0));
@@ -6902,7 +6905,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 windowClass10.hIcon = LoadIconA(param_1, MAKEINTRESOURCEA(0x65));
                 windowClass10.hCursor = 0;
                 windowClass10.hbrBackground = (HBRUSH)GetStockObject(4);
-                windowClass10.lpszClassName = _DAT_011a2fe8;
+                windowClass10.lpszClassName = mainWindowClass.className.data();
                 windowClass10.lpszMenuName = 0;
                 RegisterClassA(&windowClass10);
                 windowRect0.left = 0;
@@ -6910,7 +6913,8 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 windowRect0.right = 0x140;
                 windowRect0.bottom = 0xf0;
                 AdjustWindowRect(&windowRect0, 0x10000000, 0);
-                window1 = CreateWindowExA(0, _DAT_011a2fe8, _DAT_011a2fe8, 0x10000000, 0, 0,
+                window1 = CreateWindowExA(0, mainWindowClass.className.data(), mainWindowClass.className.data(),
+                                          0x10000000, 0, 0,
                                           windowRect0.right - windowRect0.left, windowRect0.bottom - windowRect0.top, 0,
                                           0, param_1, 0);
                 globalsAllocation7 = (Receiver86*)::FUN_00401000(0xa4);

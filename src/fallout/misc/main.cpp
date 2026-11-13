@@ -1895,6 +1895,14 @@ float FUN_00874900(const char* pThis)
     return *(const float*)(pThis + 0x674);
 }
 
+class NiRenderTargetGroup;
+struct BSRenderedTexture
+{
+    NiRenderTargetGroup* GetGroup(void);
+public:
+    static void EndAllAndResetRendererState();
+};
+
 namespace fnv_00874ac0 {
 struct FUN_00874ac0_shell : public Main
 {
@@ -2116,14 +2124,6 @@ public:
 struct FUN_00874b50_shell : public Main
 {
     void FUN_00874b50(BSRenderedTexture*, bool, unsigned int);
-};
-
-class NiRenderTargetGroup;
-struct BSRenderedTexture
-{
-    NiRenderTargetGroup* GetGroup(void);
-public:
-    static void EndAllAndResetRendererState();
 };
 
 void* __cdecl FUN_004a0e90(void);

@@ -209,6 +209,31 @@ At `891a44f50`, a link of `main` with any one of them composed, made as
 undefined. With the second-window check alone composed, no name was left
 undefined.
 
+Since VEGAS-126 `FalloutNV` links at function level, with a check that
+every name left unresolved is referenced only from discarded sections
+(docs/function-level-link.md). A scratch composition of S2 to S8, not
+committed and never run, linked that way on `1a4404c01` leaves 1,294 names
+live: the check reports 1,290 as LIVE and four that it cannot classify, and
+a strict relink that gave each unresolved name a distinct value writes the
+values of all 1,294 into its executable. The check counts 34,719 names
+unresolved, three of them import slots that hold zero, whose four
+references are all discarded. A trace of the kept sections, a model built
+from the map and the objects, assigns 869 + 56 of the 1,294 to the startup
+initializers of `src/generated` units. The 56 are among 77 that a first
+trace left untraced: they are reached through `??_E`, a weak external that
+falls back to the deleting destructor `??_G`, which that trace did not
+follow. By the unit that reaches them, 30 come through
+`aggregate_initializers_o2.cpp`, 26 through
+`global_object_initializers.cpp`, 19 through `tesscriptrunmanager.cpp` and
+2 through `bgsentrypointfunction.cpp`. Giving the statements' data native
+owners alone removes none of the 1,294: by the member model,
+`magicitem.cpp`, `blk_00c20000_od.cpp` and `bgssaveloadmanager.cpp` each
+load 2,011 of the 2,020 members that the link loads. By the section model
+of the trace, the composed statements' own section closure is 805 sections
+in 41 objects and needs one unresolved name, `SHGetFolderPathA`. So M1
+needs either the 1,294 names, or new small owners for the functions and
+data that the statements reach plus the link libraries their imports need.
+
 When a window of the class exists, `WinMain` returns 0 at the second-window
 check after these side effects of the skipped statements, which a process
 that `main` starts does not have:

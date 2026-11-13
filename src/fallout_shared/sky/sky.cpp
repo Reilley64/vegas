@@ -996,6 +996,12 @@ void* S63cfa0::FUN_0063cfa0(int aiIndex)
     return aiIndex < 2 ? (void*)_items[aiIndex] : 0;
 }
 
+namespace fnv_0063d5e0 {
+struct FUN_0063d5e0_shell : public Sky
+{
+    void FUN_0063d5e0();
+};
+}  // namespace fnv_0063d5e0
 namespace fnv_0063ac70 {
 struct FUN_0063ac70_shell : public Sky
 {
@@ -1131,10 +1137,6 @@ struct SkySound
     int m_iSoundType;
     unsigned int auiFormId;
     unsigned int uiData;
-};
-struct FUN_0063d5e0_shell : public Sky
-{
-    void FUN_0063d5e0();
 };
 
 struct SndX

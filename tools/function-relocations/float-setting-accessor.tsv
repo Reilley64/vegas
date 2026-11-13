@@ -68,3 +68,7 @@ function	explosion	src/fallout/ai/combat/explosion.cpp	?UpdateExplosion@RefX@@QE
 function	character	src/fallout/ai/character.cpp	?FUN_008d22b0@FUN_008d22b0_shell@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	character	src/fallout/ai/character.cpp	?FUN_008d3110@Character534@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	character	src/fallout/ai/character.cpp	?PlaySoundOnObject@Self@@QEAA?AUStr@@PEAUArg@@_J_N2H2@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of itemmodmenu.cpp that
+# calls the accessor (VEGAS-122), since the unit's own empty Setting went.
+# It reads fScrollKnobIncrement:Pipboy and fScrollKnobRate:Pipboy.
+function	itemmodmenu	src/fallout/interface/menus/itemmodmenu.cpp	?FUN_00783ed0@xInvMenu@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

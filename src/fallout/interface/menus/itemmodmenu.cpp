@@ -1505,7 +1505,7 @@ void xInvMenu::FUN_00783ed0(int m_uiSoundID, int iUnused)
         if (xLastValue != qrEZrs)
         {
             ((::xPipT *)(reinterpret_cast<::Interface *>((((::xProxyT *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))->Shake(
-                0, xLastValue < qrEZrs ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011db2f0)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011db358)))))), true);
+                0, xLastValue < qrEZrs ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::g_011db2f0)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::g_011db358)))))), true);
             xLastValue = qrEZrs;
         }
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTile5c))->FUN_00a01350(0xfc4, (char *)(""), true);
@@ -1594,9 +1594,6 @@ struct Screen
     int unk5c;
     Rows rows;
     Root* GetRoot();
-};
-struct Setting
-{
 };
 
 // Adds rows for flagged entries and collected inventory items, then updates several labels when the locale comparison is nonzero.

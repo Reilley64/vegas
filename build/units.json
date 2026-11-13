@@ -95311,7 +95311,7 @@
     "?GetSelected@xListT@@QAEPAUxEntryT@@XZ": "0x007a1910",
     "?xLastValue@@3HA": "0x011d9fd0",
     "?g_011db2f0@@3VGlobalObject_0044f440@@A": "0x011db2f0",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?g_011db358@@3VGlobalObject_0044f440@@A": "0x011db358",
     "?Shake@xPipT@@QAEXHMM_N@Z": "0x007f8610",
     "$SG4513": "0x01011584",
@@ -95359,7 +95359,7 @@
     "?GetItem@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEAAPAVInventoryStackRecord@@XZ": "0x006815c0",
     "?GetNext@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEPAV1@XZ": "0x00726070",
     "?FUN_00867a20@@YAXPAX@Z": "0x00867a20",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_004be060@@YAHPAX@Z": "0x004be060",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40"

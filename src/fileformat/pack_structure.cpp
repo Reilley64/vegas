@@ -5,6 +5,7 @@
 #include "fileformat/pack_container.h"
 
 #include <algorithm>
+#include <string>
 #include <string_view>
 #include <utility>
 
@@ -20,10 +21,6 @@ using pack_container::recordBytes;
 
 constexpr std::string_view format = "data pack";
 
-// The reader accepts pack_container::revision as the catalogue version, which
-// must be the source catalogue's.
-static_assert(packCatalogueVersion == pack_container::revision);
-
 [[noreturn]] void Fail(PackStructureProblem problem, std::string_view field, std::string_view text)
 {
     throw PackStructureError(problem, std::string(format) + ": " + std::string(field) + ": " + std::string(text));
@@ -33,6 +30,15 @@ void RequireOne(std::uint32_t value, PackStructureProblem problem, std::string_v
 {
     if (value != pack_container::revision)
         Fail(problem, field, "is not 1");
+}
+
+// The catalogue version is the source catalogue's, packCatalogueVersion, and
+// the refusal names it.
+void RequireCatalogueVersion(std::uint32_t value)
+{
+    if (value != packCatalogueVersion)
+        Fail(PackStructureProblem::CatalogueVersion, "catalogue version",
+             "is not " + std::to_string(packCatalogueVersion));
 }
 
 } // namespace
@@ -48,7 +54,7 @@ PackStructure ParsePackStructure(std::vector<std::byte> file)
     if (!std::ranges::equal(fileMagic, magic, [](std::byte byte, char c) { return byte == static_cast<std::byte>(c); }))
         Fail(PackStructureProblem::Magic, "magic", "is not VEGASPK and a zero byte");
     RequireOne(header.U32("envelope version"), PackStructureProblem::EnvelopeVersion, "envelope version");
-    RequireOne(header.U32("catalogue version"), PackStructureProblem::CatalogueVersion, "catalogue version");
+    RequireCatalogueVersion(header.U32("catalogue version"));
     RequireOne(header.U32("native data contract"), PackStructureProblem::NativeDataContract, "native data contract");
     RequireOne(header.U32("build target"), PackStructureProblem::BuildTarget, "build target");
 

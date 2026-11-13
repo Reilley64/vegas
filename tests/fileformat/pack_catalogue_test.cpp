@@ -388,10 +388,15 @@ void RefusesAFieldWithNoZeroByte(Checks& check)
     }
 }
 
+// The source's catalogue version is accepted (AcceptsACompletePack); the
+// versions next to it are refused.
 void RefusesAnotherCatalogueVersion(Checks& check)
 {
-    for (const std::uint32_t version : {0u, 2u, 0xFFFFFFFFu})
+    constexpr std::uint32_t source = fileformat::packCatalogueVersion;
+    for (const std::uint32_t version : {0u, source - 1, source + 1, 0xFFFFFFFFu})
     {
+        if (version == source)
+            continue;
         std::vector<std::byte> file = CompletePack(Payload(someStrings));
         Put(file, at::catalogueVersion, version, 4);
         Reseal(file);

@@ -289,12 +289,21 @@ int main(int argc, char** argv)
 
     // A pack of another catalogue version, with another version of the entry,
     // or made for another build: each is refused by the check that names it.
-    checks.Run("catalogue version 2", [&] {
+    checks.Run("next catalogue version", [&] {
         Folder folder;
-        folder.WritePack(PackWithHeaderField(second, at::catalogueVersion, 2));
-        ExpectRefused(checks, "catalogue version 2", folder.path,
-                      "is not a valid data pack: data pack: catalogue version: is not 1");
-        ExpectPublished(checks, "catalogue version 2", firstStrings);
+        folder.WritePack(PackWithHeaderField(second, at::catalogueVersion, fileformat::packCatalogueVersion + 1));
+        ExpectRefused(checks, "next catalogue version", folder.path,
+                      std::format("is not a valid data pack: data pack: catalogue version: is not {}",
+                                  fileformat::packCatalogueVersion));
+        ExpectPublished(checks, "next catalogue version", firstStrings);
+    });
+    checks.Run("previous catalogue version", [&] {
+        Folder folder;
+        folder.WritePack(PackWithHeaderField(second, at::catalogueVersion, fileformat::packCatalogueVersion - 1));
+        ExpectRefused(checks, "previous catalogue version", folder.path,
+                      std::format("is not a valid data pack: data pack: catalogue version: is not {}",
+                                  fileformat::packCatalogueVersion));
+        ExpectPublished(checks, "previous catalogue version", firstStrings);
     });
     checks.Run("entry version 2", [&] {
         Folder folder;

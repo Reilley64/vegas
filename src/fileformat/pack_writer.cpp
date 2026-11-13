@@ -15,10 +15,6 @@ namespace
 
 constexpr std::string_view format = "data pack";
 
-// The writer writes pack_container::revision as the catalogue version, which
-// must be the source catalogue's.
-static_assert(packCatalogueVersion == pack_container::revision);
-
 [[noreturn]] void Fail(PackWriteProblem problem, std::string_view field, std::string_view text)
 {
     throw PackWriteError(problem, std::string(format) + ": " + std::string(field) + ": " + std::string(text));
@@ -64,7 +60,7 @@ std::vector<std::byte> WritePackStructure(const std::array<std::uint16_t, 4>& or
     ByteWriter pack;
     pack.Text(pack_container::magic);
     pack.U32(pack_container::revision); // envelope version
-    pack.U32(pack_container::revision); // catalogue version
+    pack.U32(packCatalogueVersion); // catalogue version, the source catalogue's
     pack.U32(pack_container::revision); // native data contract
     pack.U32(pack_container::revision); // build target
     for (std::uint16_t part : originalVersion)

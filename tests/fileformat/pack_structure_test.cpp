@@ -1,5 +1,6 @@
 #include "check.h"
 #include "fileformat/byte_writer.h"
+#include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_structure.h"
 
 #include <algorithm>
@@ -105,7 +106,7 @@ std::vector<std::byte> Pack(std::initializer_list<Entry> entries)
     fileformat::ByteWriter pack;
     pack.ZString("VEGASPK");
     pack.U32(1); // envelope version
-    pack.U32(1); // catalogue version
+    pack.U32(fileformat::packCatalogueVersion); // catalogue version, the source catalogue's
     pack.U32(1); // native data contract
     pack.U32(1); // build target
     for (std::uint16_t part : std::initializer_list<std::uint16_t>{1, 4, 0, 525})
@@ -236,7 +237,6 @@ void RejectsUnsupportedRevisions(Checks& check)
 {
     const std::pair<std::size_t, PackStructureProblem> fields[] = {
         {at::envelopeVersion, PackStructureProblem::EnvelopeVersion},
-        {at::catalogueVersion, PackStructureProblem::CatalogueVersion},
         {at::nativeDataContract, PackStructureProblem::NativeDataContract},
         {at::buildTarget, PackStructureProblem::BuildTarget},
     };
@@ -249,6 +249,23 @@ void RejectsUnsupportedRevisions(Checks& check)
             Seal(pack);
             Rejects(check, std::format("field at {} is {}", offset, value), pack, problem);
         }
+    }
+}
+
+// The catalogue version is the source catalogue's, whatever its value: the
+// versions next to it and values that differ from it in a higher byte only
+// are refused.
+void RejectsAnotherCatalogueVersion(Checks& check)
+{
+    constexpr std::uint32_t version = fileformat::packCatalogueVersion;
+    for (std::uint32_t value : {0u, version - 1, version + 1, version + 0x100u, version + 0x01000000u, 0xFFFFFFFFu})
+    {
+        if (value == version)
+            continue;
+        std::vector<std::byte> pack = TwoEntryPack();
+        Put32(pack, at::catalogueVersion, value);
+        Seal(pack);
+        Rejects(check, std::format("catalogue version {}", value), pack, PackStructureProblem::CatalogueVersion);
     }
 }
 
@@ -545,6 +562,7 @@ int main()
     check.Run("truncated header", [&] { RejectsATruncatedHeader(check); });
     check.Run("wrong magic", [&] { RejectsAWrongMagic(check); });
     check.Run("unsupported revisions", [&] { RejectsUnsupportedRevisions(check); });
+    check.Run("another catalogue version", [&] { RejectsAnotherCatalogueVersion(check); });
     check.Run("wrong file size", [&] { RejectsAWrongFileSize(check); });
     check.Run("directory that does not fit", [&] { RejectsADirectoryThatDoesNotFit(check); });
     check.Run("wrong entry count", [&] { RejectsAWrongEntryCount(check); });

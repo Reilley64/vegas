@@ -23,7 +23,7 @@ enum class PackStructureProblem
     HeaderTruncated,    // fewer bytes than the 88-byte header
     Magic,              // does not start with VEGASPK and a zero byte
     EnvelopeVersion,    // not 1
-    CatalogueVersion,   // not 1
+    CatalogueVersion,   // not packCatalogueVersion, the source catalogue's
     NativeDataContract, // not 1
     BuildTarget,        // not 1, windows-x64
     FileBytes,          // not the number of bytes given

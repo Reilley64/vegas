@@ -17,9 +17,10 @@ inline constexpr std::size_t headerBytes = 88;
 inline constexpr std::size_t checksumOffset = 84;
 inline constexpr std::size_t recordBytes = 24;
 
-// The only supported value of each of the four revision and target fields:
-// envelope version, catalogue version, native data contract and build target
-// (1 is windows-x64).
+// The only supported value of each of three revision and target fields:
+// envelope version, native data contract and build target (1 is
+// windows-x64). The catalogue version is the source catalogue's,
+// packCatalogueVersion in pack_catalogue.h, which changes on its own.
 inline constexpr std::uint32_t revision = 1;
 
 // The zlib CRC-32 of a file of at least headerBytes bytes, without the four

@@ -1,5 +1,6 @@
 #include "check.h"
 #include "fileformat/original_identity.h"
+#include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_open.h"
 #include "fileformat/pack_structure.h"
 #include "fileformat/pack_validation.h"
@@ -276,8 +277,8 @@ void RefusesACorruptContainer(Checks& check)
     refuses("magic", PackStructureProblem::Magic, [](auto& b) { b[7] = std::byte{1}; Reseal(b); });
     refuses("envelope version 2", PackStructureProblem::EnvelopeVersion,
             [](auto& b) { Put(b, at::envelopeVersion, 2, 4); Reseal(b); });
-    refuses("catalogue version 2", PackStructureProblem::CatalogueVersion,
-            [](auto& b) { Put(b, at::catalogueVersion, 2, 4); Reseal(b); });
+    refuses("next catalogue version", PackStructureProblem::CatalogueVersion,
+            [](auto& b) { Put(b, at::catalogueVersion, fileformat::packCatalogueVersion + 1, 4); Reseal(b); });
     refuses("native data contract 0", PackStructureProblem::NativeDataContract,
             [](auto& b) { Put(b, at::nativeDataContract, 0, 4); Reseal(b); });
     refuses("build target 2", PackStructureProblem::BuildTarget,
@@ -381,11 +382,11 @@ void OpensAndValidates(Checks& check)
     fs::create_directory(folder.path / "folder.pack");
     RefusesToValidate<fileformat::PackOpenError>(check, "validate: a folder", folder.path / "folder.pack",
                                                  PackOpenProblem::Unreadable);
-    std::vector<std::byte> catalogue2 = CompletePack();
-    Put(catalogue2, at::catalogueVersion, 2, 4);
-    Reseal(catalogue2);
-    RefusesToValidate<fileformat::PackStructureError>(check, "validate: catalogue version 2",
-                                                      folder.Write("catalogue2.pack", catalogue2),
+    std::vector<std::byte> nextCatalogue = CompletePack();
+    Put(nextCatalogue, at::catalogueVersion, fileformat::packCatalogueVersion + 1, 4);
+    Reseal(nextCatalogue);
+    RefusesToValidate<fileformat::PackStructureError>(check, "validate: next catalogue version",
+                                                      folder.Write("next-catalogue.pack", nextCatalogue),
                                                       PackStructureProblem::CatalogueVersion);
     RefusesToValidate<fileformat::UnsupportedOriginalError>(
         check, "validate: another digest",

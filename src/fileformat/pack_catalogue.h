@@ -11,9 +11,10 @@
 namespace fileformat
 {
 
-// The catalogue version this catalogue is. ADR 0001 sets the header field to
-// exactly 1. Any change to the required entries raises it, and the owner
-// amends that rule of ADR 0001 before the first raise.
+// The catalogue version this catalogue is. By ADR 0001 as amended on
+// 2026-11-13, a pack's header field must equal it, and any change to the
+// required entries raises it by one. It is its own constant, not the
+// container's revision.
 inline constexpr std::uint32_t packCatalogueVersion = 1;
 
 // One entry of the catalogue: a pack holds it under `key`, with exactly

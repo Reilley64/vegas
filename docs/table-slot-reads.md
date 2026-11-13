@@ -324,8 +324,7 @@ the source's classes, whose slot 2 is a member that no unit defines.
   members `Free`, `releaseItem` and `Deallocate`, which stay undefined.
 
 In each object only the arguments of these calls change, and the
-registers and stack slots that follow from them; the per-function
-comparison is kept with the review evidence. `TempArray` also moves its
+registers and stack slots that follow from them. `TempArray` also moves its
 count and capacity, as above.
 
 ### Open
@@ -336,22 +335,31 @@ class.
 - No shared declaration exists for any of the three. A shared header of a
   real polymorphic class declares every slot (the 2026-11-11 ruling), but
   slot 2 holds a function of one pointer, which a virtual member of the
-  class cannot be on windows-x64. How such a class declares its table needs
-  a ruling.
+  class cannot be on windows-x64. The coordinator ruled on 2026-11-13 that
+  slots 1 and 2 of these tables are free functions of one pointer, as the
+  recipe types them: a shared class is not polymorphic, stores the recipe's
+  table as data, has members only for the destructor rows, and calls the
+  slot by its data name with one pointer. That work is VEGAS-113.
 - A shared layout with 32-bit counts changes the code of the four
   destructors in `blk_00c60000_o2.cpp`, which store at 24. Until that is
   decided, calling `0x00c7a630` from `actor.cpp` in place of `TempArray`'s
   own destructor, which has no row, would store past the end of the 24-byte
   stack array.
 - `AppendSlot` inlines `FUN_00c76180_cls::SetValue` (`0x00c76180`), whose
-  class declares the data as a 32-bit `int` at 8.
+  class declares the data as a 32-bit `int` at 8. On the grow path it
+  stores the reallocated pointer with a 32-bit move, which truncates it,
+  and on the branch where the data's low 32 bits are zero it stores the
+  new capacity at 16, the count's offset. `AppendSlot`'s own instructions
+  are the layout evidence above; the inlined class is not. VEGAS-113.
+- `FUN_00c7bcb0` (`0x00c7bcb0`) in `actor.cpp` reads the data as a pointer
+  at 8 too. It is the same-unit body behind the layout above.
 - `CBADDynamicArray::FUN_00cbadf0` (`0x00cbadf0`) calls `CA0E60Array::Free`
   with the object and the buffer, and `FUN_00cb9d50` (`0x00cb9d50`) with the
   object as the array and the end of the buffer, converted to an integer, as
   the count; in the parent of `3f0599801` it passed the end and the number
   of new items. The second call is inlined as a fill of the object with zero
   bytes. The recipe maps no table to `CA0E60Array`, so whether its slot 2
-  holds `0x00cb9cb0` is not established.
+  holds `0x00cb9cb0` is not established. Both are VEGAS-114.
 
 ## ReleaseItems (VEGAS-106)
 

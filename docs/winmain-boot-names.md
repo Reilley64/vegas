@@ -154,13 +154,20 @@ and the call has to be proved again.
 
 ## WinMain's other undefined names
 
-WinMain's own code section refers to 54 names that a link rooted at WinMain
-leaves undefined. 13 of them are Windows imports. After these steps 50
-remain. None of the others is bound here:
+WinMain's own code section referred to 54 names that a link rooted at
+WinMain left undefined, 13 of them Windows imports, and after these steps
+50 remained. Those counts use the historical link command, which names no
+`user32.lib`. Measured again at `d5d1d60ec` with the lazy link rooted at
+WinMain, WinMain's code refers to 49 undefined names with the historical
+command, 13 of them imports. With `user32.lib` added, the method since
+`891a44f50`, it refers to 39, and the 3 imports among them are
+`GetStockObject` (gdi32), `CommandLineToArgvW` and `ShellExecuteA`
+(shell32). The call repair of `0x008774a0` (below) leaves 48 and 38. None of
+the others is bound here:
 
 - Bodies whose signature differs from the call: a discarded `bool` result
   (`0x0086ba10`), integer widths of results or arguments (`0x004da670`,
-  `0x004f15a0`, `0x008774a0`), different pointer types (`0x0086d580`,
+  `0x004f15a0`), different pointer types (`0x0086d580`,
   `0x0086bff0`, `0x004a0ea0`, `0x0049fef0`), a pointer passed where the body
   takes `int` (`0x0086bd90`), variadic declarations called with arguments
   the body types differently (`0x0086bce0`, `0x0086bde0`, `0x0086be90`), and
@@ -280,3 +287,156 @@ refused for one of these reasons:
   templates.
 - Binding would change an argument, result or receiver conversion, or the
   form of the call, as for the names listed above.
+
+## Call repairs
+
+VEGAS-90 repairs two calls on the boot path that named their bodies through
+stand-ins, under names that no object defines, and passed an argument whose
+type is not the type of the body's parameter. Each call now takes the
+parameter type of the recipe's function row, and each repair is admitted by
+its own ruling of 2026-11-13. Both bodies are defined in `main.cpp` at
+their rows, and each has one caller, also in `main.cpp`. With every recipe
+entry of every source merged, no other unit has a `symbols` key at the two
+addresses.
+
+| Address | Caller | Row | Argument before | Argument now | Authority |
+| --- | --- | --- | --- | --- | --- |
+| `0x008774a0` | WinMain | `fnv_008774a0::FUN_008774a0_shell::FUN_008774a0(bool)` | the constant `1` for an `int` | `1`, converted to `true` | constant to bool |
+| `0x008707c0` | `FUN_008706b0` | `fnv_008707c0::RenderMgr::FUN_008707c0(void*, bool)` | the texture pointer | the same pointer, converted to `void*` | R5a |
+
+The authorities:
+
+- `0x008774a0`: the named admission "constant to bool". A call whose
+  argument is the literal 0 or 1 may bind to a row whose parameter is
+  `bool` when the conversion is implicit, the value is kept, the object
+  differs only in the argument move and its unwind offsets, and the call
+  has a row in a check table. This call is its first case. The body only
+  tests the flag. The displaced jumps, the padding and the body's moved
+  sections listed below are consequences of the move and of the binding,
+  and the coordinator admitted them with it on 2026-11-13.
+- `0x008707c0`: R5a. A naming step may bind a call whose only added
+  conversion is the implicit conversion of an object pointer to `void*`,
+  with no qualifier dropped, when the object is equal after the rename
+  apart from the callee's name, the call has a row in a check table, and
+  the receiver is recorded as open.
+
+Neither repair adds a cast. The call's existing cast to the stand-in,
+`Receiver86` or `MainStub`, now names the row's class. The stand-in's
+member that the call used goes, and `main.cpp`'s `symbols` key takes the
+row's name at the same address. A first commit moves the two classes,
+verbatim, to before `FUN_008706b0` and WinMain. It leaves the object of
+`main.cpp` identical apart from the timestamp.
+
+The forced link of every archive member, with no error limit and with
+`user32.lib` (the cells of the tip baseline method since `891a44f50`),
+leaves 35,034 names undefined at `d5d1d60ec`. Each repair takes one
+name: 35,033, then 35,032. The historical command counts 35,074, 35,073
+and 35,072. No name enters, and the duplicate symbols (none), the imports,
+the archive members and their order, and the list of names with differing
+definitions (519) do not change. The projected closure from WinMain, which
+counts `user32` names as system names, goes from 20,932 to 20,930.
+
+### The object proof
+
+`main.cpp` was compiled from one export path with the build's own command
+at the unit's flags, with `/Ob0`, and with `/Od /Gy`.
+
+For `0x008774a0`, WinMain's code changes in one instruction: `movl $1, %edx`
+(5 bytes) becomes `movb $1, %dl` (2 bytes), because the second argument is
+now a `bool`, and the call's relocation names the row. The code after it
+moves 3 bytes earlier up to the next alignment padding, which grows by 3
+bytes, so the code after the padding keeps its offsets. The relative jumps
+across the moved span keep their targets and are encoded with a
+displacement 3 bytes shorter or longer: 5 at the unit's flags, 6 with
+`/Ob0`, 7 with `/Od /Gy`. The unwind data changes only in the offsets of
+the moved span:
+
+| Variant | Code | `.pdata` | `.xdata` |
+| --- | --- | --- | --- |
+| unit flags | the padding before offset `0x12a0` grows from 9 to 12 bytes; the function stays 5,178 bytes | equal | two entries of the instruction-to-state map, `0x10d4` and `0x10f5`, become `0x10d1` and `0x10f2` |
+| `/Ob0` | the padding before the second range grows by 3 bytes | the first range ends at `0x11c5` instead of `0x11c8` | one entry, `0x11ab`, becomes `0x11a8` |
+| `/Od /Gy` | the padding before the second range grows by 3 bytes | the first range ends at `0x1c91` instead of `0x1c94` | one entry, `0x1c3e`, becomes `0x1c3b` |
+
+The body's own sections also move earlier in the object, because WinMain
+now refers to the body's name before its definition. This is the function
+order tier of `docs/symbol-naming-batches.md`. `.llvm_addrsig` differs and
+names the same symbols. No other section changes.
+
+For `0x008707c0`, once the former name is mapped to the row's name, every
+section is equal apart from `.llvm_addrsig`, which names the same symbols.
+The body's sections move earlier in the object, the function order tier of
+`docs/symbol-naming-batches.md`. `FUN_008706b0` changes only its call's
+target. Warnings are unchanged.
+
+`objects.boot_call_repairs` checks the result in the cross build. Its table
+is `tools/function-relocations/boot-call-repairs.tsv`, with one row per
+repair. It fails when WinMain or `FUN_008706b0` refers to a former name, or
+no longer to the name of a body. Each repair's table fails on its parent's
+object.
+
+### Two calls that stay open
+
+`FUN_008706b0` makes two more calls of the same kind. Both pass the
+texture pointer where the row's parameter has another type, and an
+explicit cast at the call was refused on 2026-11-13, even one that keeps
+the address and leaves the object equal: the rule concerns the source. Both
+names stay undefined, and `MainStub` keeps their two members.
+
+- `0x00870bd0`: the row is
+  `fnv_00870bd0::RenderCoordinator::FUN_00870bd0(int, bool)`, which the
+  source defines with `std::intptr_t`. The body uses the value only as an
+  address. The route without a cast is a
+  repair of the definition: the parameter becomes `void*`, as `b6619dc9a`
+  did for `0x008707c0`, and so does the second parameter of `0x00876830`,
+  to which the body passes it. That repair is queued under VEGAS-97, with
+  its own object proof and reviews.
+- `0x00870a00`: the row is
+  `SceneRendererStub870::FUN_00870a00(TexStub870*, bool)`, and `TexStub870`
+  is only declared. It waits for a shared declaration of the texture type.
+
+### What the repairs do not prove
+
+A repair, like a naming step, proves only that each name has one provider,
+that the build succeeds and that the link resolves it. The compiler
+measures the receivers on windows-x64 as follows:
+
+- `FUN_008706b0` is a member of `fnv_008706b0::FUN_008706b0_shell`, which
+  derives from the unit's `Main` and is 1 byte. It passes its own `this` as
+  `RenderMgr` for `0x008707c0`: 0x98 bytes with alignment 8, its 35 `int`
+  fields at `0x0` to `0x88` and `name`, a pointer, at `0x90`. The two open
+  calls pass the same `this` as `RenderCoordinator`, 0x8c bytes with
+  `shaders` at `0x88`, and as `SceneRendererStub870`, 1 byte.
+- WinMain passes the object of `g_osGlobals` as
+  `fnv_008774a0::FUN_008774a0_shell`, 1 byte. That class is already among the
+  views of that object listed above.
+
+Which class each object is, and how large, stays open.
+
+The binding is admitted on the same condition as the steps above: no
+linking program contains `main.cpp`'s object. Measured on the windows-x64
+builds of `d5d1d60ec` and of the last repair, the build has 86
+executables, 66 of their links read `game.lib`, and only `runtime_havok_worker_pool_test` loads
+`main.cpp`'s object. That link fails with undefined names in both builds.
+Before any program loads the object, two more obligations hold, added by
+the coordinator on 2026-11-13:
+
+- `FUN_008706b0`'s receiver: a 1-byte shell passed as `RenderMgr`, 0x98
+  bytes, and as `RenderCoordinator`, 0x8c bytes.
+- No name that the program's link keeps may be in the list of names with
+  differing definitions.
+
+The second one covers a change in model links. From the first repair on,
+`main.cpp`'s object asks for archive members in another order. The lazy
+links rooted at WinMain, at WinMain with `main`, and at the main loop load
+the same 2,002 or 2,011 members, and from the `0x008707c0` repair on, 22
+type-information names that the archive defines with more than one
+content get another first-loaded copy:
+`shadowscenenode.cpp`'s for one, `tesobjectweap.cpp`'s for the others. For
+7 of them the old and the new copy
+have the same content: the base class descriptor of `Base` and the three
+type-information records of `TESFullName` and of `TESModel`. For 15 they
+differ: those of `BGSDestructibleObjectForm`, `TESAttackDamageForm`,
+`TESHealthForm`, `TESIcon` and `TESScriptableForm`. The links rooted at
+`main`, which is `FalloutNV`'s own link, and at `InitStartMenu` do not
+change. These links are models and no program uses them, so the
+coordinator ruled that they need no guard now.

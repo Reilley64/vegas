@@ -113925,7 +113925,7 @@
     "?FUN_008df040@FUN_008df040_shell@@QAEEXZ": "0x008df040",
     "?_DAT_01012060@@3NA": "0x01012060",
     "?originalRuntimeFloatSetting1142@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011d1890",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?originalRuntimeFloatSetting1144@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011d1bd4",
     "?originalRuntimeFloatSetting1143@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011d19f0",
     "?g_012024e0@@3VGlobalObjectO2_00a7b610@@A": "0x012024e0",
@@ -114041,7 +114041,7 @@
     "?FUN_00810ff0@Ths810@fnv_00810ff0@@QAEXH@Z": "0x00810ff0",
     "?GetByIndex@Owner@@QAEPAXI@Z": "0x004d7d70",
     "?IsAboveZero@MagicFogProjectile@fnv_00818ba0@@QAE_NXZ": "0x00818ba0",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_004fd3c0@fnv_004fd3c0@@YAPAUFormRecordMetadata@1@PAUTESSaveLoadGame@1@@Z": "0x004fd3c0",
     "?FUN_0043b230@fnv_0043b230@@YAPBDPBD@Z": "0x0043b230",
     "?FUN_006fa820@fnv_006fa820@@YAPBDPBD@Z": "0x006fa820",
@@ -114069,7 +114069,7 @@
    "symbols": {
     "___security_cookie": "0x011c16bc",
     "??0xSound@@QAE@XZ": "0x0041a250",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_00404010@@YAMMM@Z": "0x00404010",
     "??4SoundPlaybackHandle@@QAEAAU0@ABU0@@Z": "0x00418900",
     "?ClearData@TESForm@@UAEXXZ": "0x00483710",
@@ -114109,7 +114109,7 @@
     "?FUN_0080fae0@@YAXM@Z": "0x0080fae0",
     "?InitProjectileEffect@FogProjectileInit@@QAEXXZ": "0x00819a90",
     "?PlaySoundByFormID@xProj@@QAE?AUxSound@@PAXHIH@Z": "0x00933150",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_004fd3c0@fnv_004fd3c0@@YAPAUFormRecordMetadata@1@PAUTESSaveLoadGame@1@@Z": "0x004fd3c0",
     "?FUN_00548230@CellView_rtti@@QAEXPAVRefView@@_N@Z": "0x00548230"
    }

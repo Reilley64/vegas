@@ -44,3 +44,11 @@ function	bgsterminal	src/fallout_shared/bgsterminal.cpp	?FUN_005011a0@FUN_005012
 # fMenuBackgroundOpacity:Interface.
 function	sleepwaitmenu	src/fallout/interface/menus/sleepwaitmenu.cpp	?CreateSleepWaitMenu@@YAPEAUSwTile@@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	sleepwaitmenu	src/fallout/interface/menus/sleepwaitmenu.cpp	?FUN_007c0220@FUN_007c0220_cls@fnv_007c0220@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of
+# magicfogprojectile.cpp that calls the accessor (VEGAS-122), since the
+# unit's own empty Setting went. They read the magic cloud settings,
+# fMagicTrackingMultFog and fMagicProjectileBaseSpeed.
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	??0xProj@@QEAA@HHHHUxP3@@0PEAXPEAUxOwner@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	??1FUN_008196e0@@UEAA@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	?FUN_0081b430@FogProjectileImpl@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	?ScaleEffect@Effect@@QEAAXPEAUObject@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

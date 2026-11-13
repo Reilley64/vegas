@@ -266,9 +266,6 @@ bool FUN_0081eb50_shell::ClearIfMatches(int aiValue)
     return r;
 }
 
-struct Setting
-{
-};
 struct RTTI
 {
 };
@@ -348,9 +345,9 @@ void Effect::ScaleEffect(Object* object)
     {
         float fSpeedFactor2;
         {
-            float fSizeFactor = sizeScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1142))))));
-            fSpeedFactor = speedScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1144))))));
-            fSpeedFactor2 = speedScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1143))))));
+            float fSizeFactor = sizeScale * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1142))))));
+            fSpeedFactor = speedScale * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1144))))));
+            fSpeedFactor2 = speedScale * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1143))))));
             if (::FUN_0043b300((const ::NiRTTI *)(const ::RTTI *)(&(*reinterpret_cast<::RTTI *>(&::g_012024e0))), (::NiAVObject *)(object)))
             {
                 Particle* particle = (Particle*)object;
@@ -1238,7 +1235,7 @@ FUN_008196e0::~FUN_008196e0()
 {
     unsigned int uiValue = ((void *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((MagicFogObject8196*)((void *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)))->v11() : 0;
     if (uiValue != (*reinterpret_cast<unsigned int *>(&::_g_thePlayer)))
-        FUN_0080fc90(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d15f8)))))));
+        FUN_0080fc90(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d15f8)))))));
     reinterpret_cast<::fnv_00819830::MagicFogProjectile *>(this)->DeleteAllNodes();
     if (reinterpret_cast<::SoundPlaybackHandle *>(&(m_kSound))->IsValid())
     {
@@ -1582,7 +1579,7 @@ void FogProjectileImpl::FUN_0081b430(int a1, int a2)
     }
     TESObjectREFR* _pkCaster = ((::FogCasterSrc *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::FogCasterSrc *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->GetRef() : 0;
     if (_pkCaster != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
-        FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011d15f8)))))));
+        FUN_0080fae0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011d15f8)))))));
 }
 
 struct xP3
@@ -1681,9 +1678,9 @@ struct xProj : xBase
 // @fnv 0x00819360
 xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner) : xBase(a, b, c, d, kP1, kP2)
 {
-    m_ac = ::FUN_00404010((float)reinterpret_cast<::FUN_004044d0_shell *>((((::xItem *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_004044d0(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1147)))))));
-    m_b0 = ::FUN_00404010((float)reinterpret_cast<::FUN_00404420_shell *>((((::xItem *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011d15c8)))))));
-    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
+    m_ac = ::FUN_00404010((float)reinterpret_cast<::FUN_004044d0_shell *>((((::xItem *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_004044d0(), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1147)))))));
+    m_b0 = ::FUN_00404010((float)reinterpret_cast<::FUN_00404420_shell *>((((::xItem *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420(), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011d15c8)))))));
+    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
     m_b4 = 0;
     m_a8 = 0.0f;
     m_b8 = 1.0f;
@@ -1715,6 +1712,6 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
     void* SHOOTER = ((::xActorV *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::xActorV *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->FUN_2c() : 0;
     if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
-        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011d15f8)))))));
+        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011d15f8)))))));
 }
 #include "generated/data/fallout/magic/magicfogprojectile.inc"

@@ -120573,7 +120573,6 @@
     "?ProcessTaskQueue@TaskQueueInterface@@QAEXXZ": "0x0087a850",
     "?GetLifeStateControlFlag@ProcessLists@fnv_00871a10@@QAEPAEXZ": "0x00408d60",
     "?GetLifeStateControlFlag@ProcessLists@fnv_00871c90@@QAEPAEXZ": "0x00408d60",
-    "?EndAllAndResetRendererState@BSRenderedTexture@fnv_00874ac0@@SAXXZ": "0x00b6b790",
     "?SetDepthBufferEnabled@BSRenderStateManager@@SAX_NW4BSRENDERSTATE_LOCK@@@Z": "0x00b97fa0",
     "?FUN_00b97550@BB97550Shader@@QAEXIHHHHH@Z": "0x00b97550",
     "?GetLifeStateControlFlag@ProcessLists@fnv_00876d20@@QAEPAEXZ": "0x00408d60",

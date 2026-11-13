@@ -1920,10 +1920,6 @@ enum BSRENDERSTATE_LOCK
 struct BSRenderStateManager
 {
 };
-struct BSRenderedTexture
-{
-    static void EndAllAndResetRendererState();
-};
 struct KFModel
 {
 };
@@ -1939,7 +1935,7 @@ void FUN_00874ac0_shell::FUN_00874ac0(bool b)
     void* seq = ((void *)(reinterpret_cast<::TESRegionDataMap *>((((::fnv_00874ac0::ShadowLightData *)(::fnv_00705910::FUN_00705910()))))->GetRegionMapName()));
     if (seq)
     {
-        BSRenderedTexture::EndAllAndResetRendererState();
+        ::BSRenderedTexture::EndAllAndResetRendererState();
         ::BSRenderStateManager::SetColorWriteMask(0, (*(::BSRENDERSTATE_LOCK *)&(const ::fnv_00874ac0::BSRENDERSTATE_LOCK &)((BSRENDERSTATE_LOCK)1)));
         reinterpret_cast<::VATSRender *>((((::fnv_00874ac0::ShadowLightData *)(::fnv_00705910::FUN_00705910()))))->FUN_00800f30((::RenderTexture *)((const char*)(*reinterpret_cast<::fnv_00874ac0::StrG *>(&::g_011deb38))), 0, 0, 1, 7, 0);
         ::FUN_004eced0(1);

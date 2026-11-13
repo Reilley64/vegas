@@ -1,16 +1,25 @@
 # Data values check
 
-Checks the initial bytes of named data in the windows-x64 object of its
-unit. For every row of a table it finds the one external symbol that defines
-the name in the object compiled from the row's unit, and fails when:
+Checks the initial bytes or the extent of named data in the windows-x64
+object of its unit. For every row of a table it finds the one external symbol
+that defines the name in the object compiled from the row's unit. A `value`
+row fails when:
 
 - the symbol lies in a section without initialised contents, such as `.bss`,
   so the value is zero,
 - the bytes at the symbol differ from the row's bytes, or
 - a relocation of the section may patch one of those bytes.
 
+An `extent` row fails when the symbol reaches fewer bytes than the row gives:
+the distance from the symbol to the nearest symbol of its section that lies
+further on, or to the section's end.
+
 It reads the object only. It does not see a store to the name at run time,
 a second definition in another object, or the bytes past the row's length.
+A COFF symbol has no size, so an extent row measures the most the definition
+can occupy, padding before the next symbol included: a definition a few bytes
+short of the row that the compiler pads up to the next symbol's alignment
+passes.
 
 It needs Go 1.24.11 or newer and no other module. It reads objects with the
 standard library's `debug/pe`.
@@ -31,10 +40,11 @@ Tab-separated. Blank lines and lines that start with `#` are skipped.
 
 ```text
 value<TAB>UNIT<TAB>NAME<TAB>HEX
+extent<TAB>UNIT<TAB>NAME<TAB>BYTES
 ```
 
 `HEX` is the bytes the name starts with, in the order they lie in the
-object, two hex digits each.
+object, two hex digits each. `BYTES` is a decimal count above zero.
 
 `string-npos.tsv` holds the npos of the string library at `0x010173f0`,
 defined in `src/speedtree/frondengine.cpp` (VEGAS-100). Its users read a
@@ -54,4 +64,4 @@ build's `tests` folder.
 | --- | --- |
 | 0 | Every row passes. Each prints an `ok` line. |
 | 1 | A row fails. It prints a `FAIL` line with the reason. |
-| 2 | The check could not be completed: bad arguments or table; a unit with no object or several; an object that is not an x64 COFF object; a name that is not defined as an external symbol, or defined twice; bytes that lie outside the section; a section whose relocation count overflows. |
+| 2 | The check could not be completed: bad arguments or table; a unit with no object or several; an object that is not an x64 COFF object; a name that is not defined as an external symbol, or defined twice; bytes, or the symbol of an extent row, that lie outside the section; a section whose relocation count overflows. |

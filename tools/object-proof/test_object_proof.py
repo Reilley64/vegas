@@ -144,6 +144,26 @@ shutil.copyfile(template, [a[3:] for a in sys.argv if a.startswith("/Fo")][0])
 """
 
 
+# FAKE_COMPILER that also reads its source through a -vfsoverlay file root,
+# which names the source as it resolves from the working folder, and fails
+# on an #error line.
+FAKE_VFS_COMPILER = """import json, os, shutil, sys
+template, source = sys.argv[1], sys.argv[-1]
+print(json.dumps(sys.argv[1:]))
+if "-vfsoverlay" in sys.argv:
+    with open(sys.argv[sys.argv.index("-vfsoverlay") + 1]) as f:
+        root = json.load(f)["roots"][0]
+    if os.path.normcase(os.path.normpath(root["name"])) == os.path.normcase(os.path.abspath(source)):
+        source = root["external-contents"]
+with open(source) as f:
+    text = f.read()
+print(text)
+if "fail" in text or text.startswith("#error"):
+    sys.exit(1)
+shutil.copyfile(template, [a[3:] for a in sys.argv if a.startswith("/Fo")][0])
+"""
+
+
 class ObjectProofTest(unittest.TestCase):
     def setUp(self):
         self.root = tempfile.mkdtemp()
@@ -157,6 +177,18 @@ class ObjectProofTest(unittest.TestCase):
         path = os.path.join(self.dir, name)
         with open(path, "wb") as f:
             f.write(data)
+        return path
+
+    def clang(self, script, folder="bin"):
+        """A command named clang-cl, in its own folder, that runs the Python
+        script."""
+        os.makedirs(os.path.join(self.dir, folder), exist_ok=True)
+        if os.name == "nt":
+            return self.write(os.path.join(folder, "clang-cl.cmd"),
+                              ('@"%s" "%s" %%*\r\n' % (sys.executable, script)).encode())
+        with open(script, "rb") as f:
+            path = self.write(os.path.join(folder, "clang-cl"), ("#!%s\n" % sys.executable).encode() + f.read())
+        os.chmod(path, 0o755)
         return path
 
     def run_tool(self, tool, *args):
@@ -317,6 +349,114 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertTrue(out.startswith("differs: 1 difference(s)"), out)
         self.assertIn("SECTION-DIFFERS\t?caller@@YAXXZ\t.text$mn\tsize 6 -> 6, 1 bytes differ, first at 0x5", out)
+
+    def test_compile_source(self):
+        compiler, template = self.write("compiler.py", FAKE_VFS_COMPILER.encode()), self.write("template.obj", coff())
+        source = self.write("unit.cpp", b"unit.cpp(1,1): warning: one [-Wone]\n")
+        build = os.path.join(self.dir, "build")
+        os.mkdir(build)
+        clang = self.clang(compiler)
+        entry = dict(directory=build, file=source, output="CMakeFiles/game.dir/unit.cpp.obj",
+                     arguments=[clang, template, "/c", "--", source])
+        with open(os.path.join(build, "compile_commands.json"), "w") as f:
+            json.dump([entry], f)
+
+        def prefix(name):
+            return os.path.join(self.dir, name)
+
+        def log(name, variant):
+            with open(prefix("%s.%s.log" % (name, variant))) as f:
+                return f.readline(), f.read()
+
+        # Without --source the log names the entry and each command it ran.
+        code, out, err = self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("plain"))
+        self.assertEqual(code, 0, out + err)
+        with open(prefix("plain.commands.json")) as f:
+            commands = json.load(f)
+        self.assertEqual((commands["entry"], commands["source"], commands["overlay"]), (entry, None, None))
+        for variant in ("flags", "ob0", "od"):
+            words = json.loads(log("plain", variant)[0])
+            self.assertEqual(commands["commands"][variant], [clang] + words)
+        # --source compiles another file's content at the unit's path, and
+        # leaves the unit's file as it was, also when the compile fails.
+        other = self.write("other.cpp", b"unit.cpp(1,1): warning: two [-Wtwo]\n")
+        code, out, err = self.run_tool(PROOF, "compile", "--source", other, "--target", "game", build, "unit.cpp",
+                                       prefix("over"))
+        self.assertEqual(code, 0, out + err)
+        with open(prefix("over.commands.json")) as f:
+            commands = json.load(f)
+        self.assertEqual((commands["source"], commands["overlay"]), (other, prefix("over.vfs.json")))
+        with open(prefix("over.vfs.json")) as f:
+            root = json.load(f)["roots"][0]
+        self.assertEqual((root["name"], root["external-contents"]), (source, other))
+        for variant in ("flags", "ob0", "od"):
+            words, text = log("over", variant)
+            self.assertEqual(commands["commands"][variant], [clang] + json.loads(words))
+            self.assertIn("warning: two", text)
+            self.assertIn("-vfsoverlay", commands["commands"][variant])
+            self.assertTrue(os.path.exists(prefix("over.%s.obj" % variant)))
+        code, out, _ = self.run_tool(PROOF, "compare", prefix("plain"), prefix("over"))
+        self.assertEqual(code, 1, out)
+        self.assertIn("class\t-Wtwo\t0 -> 1", out)
+        self.write("failing.cpp", b"fail\n")
+        code, out, err = self.run_tool(PROOF, "compile", "--source", prefix("failing.cpp"), build, "unit.cpp",
+                                       prefix("bad"))
+        self.assertEqual(code, 1, out + err)
+        with open(source, "rb") as f:
+            self.assertEqual(f.read(), b"unit.cpp(1,1): warning: one [-Wone]\n")
+        code, out, err = self.run_tool(PROOF, "compile", "--source", prefix("missing.cpp"), build, "unit.cpp",
+                                       prefix("none"))
+        self.assertEqual(code, 2, out + err)
+        self.assertEqual(len(err.strip().splitlines()), 1, err)
+
+    def test_source_fails_closed(self):
+        # --source compiles nothing and exits 2 with one line unless the
+        # compiler is clang, the command names the unit as the entry's file
+        # spells it, the override is a file and the canary (the unit read as
+        # one #error line) fails with that error.
+        template, source = self.write("template.obj", coff()), self.write("unit.cpp", b"int unit;\n")
+        other = self.write("other.cpp", b"int other;\n")
+        build = os.path.join(self.dir, "build")
+        os.mkdir(build)
+        # A relative path resolves from the folder as the system names it.
+        build = os.path.realpath(build)
+        vfs = self.clang(self.write("vfs.py", FAKE_VFS_COMPILER.encode()), "vfs")
+        relative = os.path.relpath(os.path.realpath(source), build)
+        warns = self.clang(self.write("warns.py", FAKE_VFS_COMPILER.replace(' or text.startswith("#error")', "")
+                                      .encode()), "warns")
+        cases = [
+            ("compiled", source, [vfs, template, "/c", "--", source], other),
+            ("compiled", relative, [vfs, template, "/c", "--", relative], other),
+            ("needs clang", source, [sys.executable, self.write("vfs2.py", FAKE_VFS_COMPILER.encode()), template,
+                                     "/c", "--", source], other),
+            ("does not name", source, [vfs, template, "/c", "--", relative], other),
+            ("does not name", relative, [vfs, template, "/c", "--", source], other),
+            ("did not replace", source, [self.clang(self.write("plain.py", FAKE_COMPILER.encode()), "plain"),
+                                         template, "/c", "--", source], other),
+            ("did not replace", source, [self.clang(self.write("broken.py", b"import sys\nsys.exit(1)\n"), "broken"),
+                                         template, "/c", "--", source], other),
+            ("did not replace", source, [warns, template, "/c", "--", source], other),
+            ("is not a file", source, [vfs, template, "/c", "--", source], self.dir)]
+        if os.name != "nt":
+            os.symlink(source, os.path.join(self.dir, "link.cpp"))
+            cases.append(("does not name", os.path.join(self.dir, "link.cpp"), [vfs, template, "/c", "--", source],
+                          other))
+        for name, file, arguments, override in cases:
+            with open(os.path.join(build, "compile_commands.json"), "w") as f:
+                json.dump([dict(directory=build, file=file, output="CMakeFiles/game.dir/unit.cpp.obj",
+                                arguments=arguments)], f)
+            out_prefix = os.path.join(self.dir, "out")
+            for variant in ("flags", "ob0", "od"):
+                self.write("out.%s.obj" % variant, b"stale")
+            code, out, err = self.run_tool(PROOF, "compile", "--source", override, build, os.path.basename(file),
+                                           out_prefix)
+            objects = [os.path.exists("%s.%s.obj" % (out_prefix, variant)) for variant in ("flags", "ob0", "od")]
+            if name == "compiled":
+                self.assertEqual((code, objects), (0, [True] * 3), (name, out, err))
+            else:
+                self.assertEqual((code, out, objects), (2, "", [False] * 3), (name, err))
+                self.assertEqual(len(err.splitlines()), 1, (name, err))
+                self.assertIn(name, err)
 
     def test_counts(self):
         # RENAME- lines are counted apart from the differences.

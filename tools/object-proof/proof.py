@@ -2,7 +2,7 @@
 """Object proof of one unit: compile it three ways, then compare base and head.
 
 usage:
-  proof.py compile [--target NAME] BUILD_DIR SOURCE OUT_PREFIX
+  proof.py compile [--target NAME] [--source FILE] BUILD_DIR SOURCE OUT_PREFIX
   proof.py compare BASE_PREFIX HEAD_PREFIX [--map FILE] [OLD=NEW ...]
   proof.py warnings [--strip PREFIX ...] A.log B.log
 
@@ -10,7 +10,10 @@ compile runs the command that BUILD_DIR/compile_commands.json holds for
 SOURCE (its path, or its last components such as src/fallout/misc/main.cpp;
 --target picks the entry of CMakeFiles/NAME.dir when several match) three
 times: as it is, with /Ob0 and with /Od /Gy. It writes OUT_PREFIX.VARIANT.obj
-and OUT_PREFIX.VARIANT.log for the variants flags, ob0 and od.
+and OUT_PREFIX.VARIANT.log for the variants flags, ob0 and od, and logs the
+entry and the three commands in OUT_PREFIX.commands.json. --source compiles
+FILE's content at SOURCE's path, through a clang -vfsoverlay file
+(OUT_PREFIX.vfs.json), without writing the export.
 
 compare runs objcmp.py on each variant's objects, passing the renames on, and
 compares each variant's warnings.
@@ -31,6 +34,9 @@ import subprocess
 import sys
 
 VARIANTS = (("flags", []), ("ob0", ["/Ob0"]), ("od", ["/Od", "/Gy"]))
+# clang, clang-cl or clang++, with a version or a Windows extension.
+CLANG = re.compile(r"clang(-cl|\+\+)?(-[0-9.]+)?(\.exe|\.cmd|\.bat)?")
+CANARY = "proof.py canary: the source override took effect"
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -59,17 +65,21 @@ def entry_for(build_dir, source, target):
     return found[0]
 
 
+def entry_words(entry):
+    return entry["arguments"] if "arguments" in entry else shlex.split(entry["command"])
+
+
 def command_with(entry, obj, extra):
-    words = entry["arguments"] if "arguments" in entry else shlex.split(entry["command"])
-    words = [w for w in words if not w.startswith(("/Fo", "-Fo"))]
+    words = [w for w in entry_words(entry) if not w.startswith(("/Fo", "-Fo"))]
     at = words.index("--") if "--" in words else len(words) - 1
     return words[:at] + extra + ["/Fo" + obj] + words[at:]
 
 
 def compile_unit(args):
-    target = None
-    if len(args) >= 2 and args[0] == "--target":
-        target, args = args[1], args[2:]
+    options = {"--target": None, "--source": None}
+    while len(args) >= 2 and args[0] in options:
+        options[args[0]], args = args[1], args[2:]
+    target, override = options["--target"], options["--source"]
     if len(args) != 3:
         return usage()
     build_dir, source, prefix = args
@@ -85,22 +95,67 @@ def compile_unit(args):
               % source, file=sys.stderr)
         return 2
     prefix = os.path.abspath(prefix)
-    status = 0
-    for name, extra in VARIANTS:
-        obj, log = "%s.%s.obj" % (prefix, name), "%s.%s.log" % (prefix, name)
-        if os.path.exists(obj):
-            os.remove(obj)
-        try:
-            with open(log, "wb") as out:
-                code = subprocess.call(command_with(entry, obj, extra), cwd=entry["directory"],
-                                       stdout=out, stderr=subprocess.STDOUT)
-        except OSError as error:
-            print("proof.py: cannot run the compile command: %s" % error, file=sys.stderr)
+    for name, _ in VARIANTS:
+        if os.path.exists("%s.%s.obj" % (prefix, name)):
+            os.remove("%s.%s.obj" % (prefix, name))
+    overlay = canary = None
+    if override is not None:
+        # The compiler reads the unit's path through a virtual file system that
+        # maps it to the override: the export is never written.
+        override, overlay = os.path.abspath(override), prefix + ".vfs.json"
+        words = entry_words(entry)
+        if not os.path.isfile(override):
+            reason = "the source override %s is not a file" % override
+        elif not CLANG.fullmatch(os.path.basename(words[0]).lower()):
+            reason = "--source needs clang's -vfsoverlay; the compiler is %s" % words[0]
+        elif entry["file"] not in words:
+            reason = "the compile command does not name %s as the entry's file spells it" % entry["file"]
+        else:
+            reason = None
+        if reason:
+            print("proof.py: %s" % reason, file=sys.stderr)
             return 2
-        print("%s: %s" % (name, "compiled" if code == 0 else "FAILED (exit %d), see %s" % (code, log)))
-        if code != 0:
-            status = 1
+        # The overlay maps the path the compiler is given, as the entry's
+        # directory resolves it.
+        unit = os.path.join(entry["directory"], entry["file"])
+        for path, contents in ((overlay, override), (prefix + ".canary.vfs.json", prefix + ".canary.cpp")):
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({"version": 0, "use-external-names": False, "roots": [{
+                    "type": "file", "name": unit, "external-contents": contents}]}, f, indent=1)
+        with open(prefix + ".canary.cpp", "w", encoding="utf-8") as f:
+            f.write("#error %s\n" % CANARY)
+        canary = command_with(entry, prefix + ".canary.obj", ["-vfsoverlay", prefix + ".canary.vfs.json"])
+    commands = [(name, command_with(entry, "%s.%s.obj" % (prefix, name), extra + (
+        ["-vfsoverlay", overlay] if overlay else []))) for name, extra in VARIANTS]
+    with open(prefix + ".commands.json", "w", encoding="utf-8") as f:
+        json.dump(dict(entry=entry, source=override, overlay=overlay, canary=canary, commands=dict(commands)), f,
+                  indent=1)
+    status = 0
+    try:
+        if canary:
+            # The unit read as one #error line must fail with that error, or
+            # the overlay does not reach the compiler.
+            code = run(canary, prefix + ".canary.log", entry["directory"])
+            with open(prefix + ".canary.log", encoding="utf-8", errors="replace") as f:
+                if code == 0 or CANARY not in f.read():
+                    print("proof.py: the overlay did not replace the unit (canary exit %d, see %s.canary.log)"
+                          % (code, prefix), file=sys.stderr)
+                    return 2
+        for name, command in commands:
+            log = "%s.%s.log" % (prefix, name)
+            code = run(command, log, entry["directory"])
+            print("%s: %s" % (name, "compiled" if code == 0 else "FAILED (exit %d), see %s" % (code, log)))
+            if code != 0:
+                status = 1
+    except OSError as error:
+        print("proof.py: cannot run the compile command: %s" % error, file=sys.stderr)
+        return 2
     return status
+
+
+def run(command, log, directory):
+    with open(log, "wb") as out:
+        return subprocess.call(command, cwd=directory, stdout=out, stderr=subprocess.STDOUT)
 
 
 POSITION = re.compile(r"^(.*?)(?:\(\d+(?:,\d+)?\)|:\d+(?::\d+)?):\s*warning:")

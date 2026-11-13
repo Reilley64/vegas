@@ -1,0 +1,11 @@
+# Functions of actor.cpp that free an array's data through the slot after a
+# generated table, which holds 0x00cb9cb0, a function of one pointer
+# (VEGAS-103, docs/table-slot-reads.md). Format: README.md.
+# The names under which they called the slot with the object and the data,
+# which no object defines:
+forbid	?DAT_010c4dc0@@3P6AXPEAUTempArray@@I@ZEA
+# batch, unit, function, the name of the slot it calls through. The
+# constructor at 0x00c7f060 destroys its TempArray inline, on the normal
+# path and in an unwind funclet of its section:
+function	slot	src/fallout/ai/actor.cpp	??1TempArray@@QEAA@XZ	?DAT_010c4dc0@@3P6AXPEAX@ZEA
+function	slot	src/fallout/ai/actor.cpp	??0FUN_00c7f060@@QEAA@PEAUNodeArg@@TNodeOrFlag@@PEAX@Z	?DAT_010c4dc0@@3P6AXPEAX@ZEA

@@ -36,6 +36,7 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.winmain_boot_calls` for `winmain-boot-calls.tsv`,
 `objects.boot_call_repairs` for `boot-call-repairs.tsv`,
 `objects.table_slot_reads` for `table-slot-reads.tsv`,
+`objects.slot_free_calls` for `slot-free-calls.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`, and
 `objects.integer_width_calls` for `integer-width-calls.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
@@ -114,6 +115,13 @@ the name of the slot that the function now calls through. The function still
 stores the table's address, so the table's name is not forbidden. It also
 lists `FUN_00c7a690`, which never read past its table, and requires the
 one-pointer name of the slot it calls.
+
+`slot-free-calls.tsv` lists the functions of `actor.cpp` that free an
+array's data through the slot after a generated table, which holds
+`0x00cb9cb0`, a function of one pointer (VEGAS-103,
+docs/table-slot-reads.md). It forbids the names under which they called the
+slot with the object and the data, which no object defines, and requires the
+name of the slot they now call through.
 
 `mask-constants.tsv` lists the 18 functions whose numeric masks, flags,
 counts and limits were spelled as the addresses of data names (VEGAS-93,

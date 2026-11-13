@@ -1406,3 +1406,31 @@ if(vegas_object_checks)
         -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
   endforeach()
 endif()
+
+# Fails when a function of actor.cpp that frees an array's data through the
+# slot after a generated table (VEGAS-103) again calls it under a name of the
+# object and data form, which no object defines, or no longer under the name
+# of the slot's one-pointer declaration. A second check fails when
+# TempArray's destructor no longer passes the data pointer, loaded from
+# offset 8, in rcx: the old form passed the object there and the data, read
+# as 32 bits, in rdx. It reads the archive with llvm-objdump; the patterns are
+# specific to clang-cl at /O2. Blind spot: the second check covers the
+# destructor's own body; the inlined copies in the constructor at 0x00c7f060
+# are covered by the name only.
+if(vegas_object_checks)
+  add_test(NAME objects.slot_free_calls
+    COMMAND ${GO_EXECUTABLE} run . --table slot-free-calls.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+  add_test(NAME objects.slot_free_argument.TempArray
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/slot_free_argument.TempArray.disassembly.txt
+      "-DFUNCTION=??1TempArray@@QEAA@XZ"
+      "-DSITE=^callq \\*\\(%rip\\)$"
+      -DREGISTER=rcx
+      "-DORIGIN=^movq 0x8\\(%r[a-z0-9]+\\), BASE$"
+      -DCOUNT=1
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
+endif()

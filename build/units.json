@@ -37907,7 +37907,7 @@
     "?DAT_010c4db8@@3PAXA": "0x010c4db8",
     "?FUN_00c7d3b0@@YAXPAVNiNode@@PAX1PADPAI@Z": "0x00c7d3b0",
     "?FUN_00c7e9a0@SceneOwner@@QAEXPAUArgument@@PBD@Z": "0x00c7e9a0",
-    "?DAT_010c4dc0@@3P6EXPAUTempArray@@I@ZA": "0x010c4dc0",
+    "?DAT_010c4dc0@@3P6GXPAX@ZA": "0x010c4dc0",
     "?DAT_010c71e0@@3T__m128@@B": "0x010c71e0",
     "?DAT_0126835c@@3KA": "0x0126835c",
     "__imp__TlsGetValue@4": "0x00fdf044",

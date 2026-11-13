@@ -328,6 +328,10 @@
 @@ -5 +5 @@
 -extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXXZ");
 +extern "C" void fnv_fn_00cb9cb0() __asm__("?FUN_00cb9cb0@fnv_00cb9cb0@@YAXPEAX@Z");
+--- a/src/generated/data/staging/blk_00c20000_od.inc
++++ b/src/generated/data/staging/blk_00c20000_od.inc
+@@ -23 +22,0 @@
+-unsigned char DAT_01202b48;
 --- a/src/generated/data/staging/blk_00c60000_o2.inc
 +++ b/src/generated/data/staging/blk_00c60000_o2.inc
 @@ -12 +12 @@

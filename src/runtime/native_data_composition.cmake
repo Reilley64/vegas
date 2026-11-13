@@ -31,6 +31,7 @@ function(vegas_compose_native_data)
     "src/generated/data/havok/physics/constraintsolver/constraint/contact/hkpsimplecontactconstraintinfo.inc|c87111103ca96eb8ef50ef1f0d2e1c8fb0470268540e0394d8c887befe490f14"
     "src/generated/data/staging/blk_00860000_od.inc|1e69de320c7d2c8f5cbec52f130538f03143175e6b70e64977b6287c29ae7a0c"
     "src/generated/data/staging/blk_00ba0000_o2.inc|a69af5aac183a6b64057e12976392d06ed63576363d8ce052fc9436090122a23"
+    "src/generated/data/staging/blk_00c20000_od.inc|320b01dd37d1af5ae22bcd796f5dd5125623f70c512d8ac097a444f441e1559b"
     "src/generated/data/staging/blk_00c60000_o2.inc|3cbdd0e61b3d24af8e615f97b5f7670d8fe5a19b2a300f86f6e6b81f13a354a4"
     "src/generated/data/staging/blk_00c80000_o2.inc|d2bbac1ce858236bd13a771c2c03fe7cd30c7d826785cca20ae1ba6f7ceeb7c9"
     "src/generated/data/staging/blk_00ca0000_o2.inc|bb60388b9665aaf24bc3c5c25fd0a940147398f6e180afe0bab5970c9184805a"

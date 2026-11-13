@@ -51,11 +51,18 @@ defined in `src/speedtree/frondengine.cpp` (VEGAS-100). Its users read a
 32-bit unsigned int, so the row requires the four bytes `ffffffff`. The
 definition was zero-initialised before, and the row fails on that form.
 
+`path-buffer-extents.tsv` holds `DAT_01202b48`, the destination of the
+log-path builder at `0x00c3bbe0` (VEGAS-112), defined in
+`src/staging/blk_00c20000_od.cpp`. The builder writes up to 260 characters
+there, so the row requires an extent of 260 bytes. Generated data defined it
+as one byte, and the row fails on that form.
+
 ## Where it runs
 
 CTest runs it in every windows-x64 build, the cross build and the Windows CI
 job's, like the function relocation checks: `objects.string_npos` for
-`string-npos.tsv`, on the object list of the game archive that CMake writes to `game-objects.txt` in the
+`string-npos.tsv` and `objects.path_buffer_extents` for
+`path-buffer-extents.tsv`, on the object list of the game archive that CMake writes to `game-objects.txt` in the
 build's `tests` folder.
 
 ## Exit status

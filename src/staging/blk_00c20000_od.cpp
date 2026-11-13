@@ -438,8 +438,8 @@ namespace fnv_00c3bbe0 {
 // @fnv 0x00c3bbe0
 void __cdecl FUN_00c3bbe0(const char* pcSuffix)
 {
-    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, ::DAT_01202fa0);
-    fnv::crt::strcat_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, pcSuffix);
+    fnv::crt::strcpy_s(::DAT_01202b48, 260, ::DAT_01202fa0);
+    fnv::crt::strcat_s(::DAT_01202b48, 260, pcSuffix);
 }
 }  // namespace fnv_00c3bbe0
 
@@ -1486,9 +1486,13 @@ void __cdecl BuildDataPath(char* outPath, const char* srcPath, const char* suffi
 }
 
 
+char DAT_01202b48[260];
 // @fnv 0x00c3bbd0
 void* __cdecl FUN_00c3bbd0()
 {
+    // fnv_00c3bbe0::FUN_00c3bbe0 writes up to 260 characters there. The
+    // recipe binds the next address, 0x01202c50, 264 bytes after the buffer.
+    static_assert(sizeof(DAT_01202b48) == 260);
     return &DAT_01202b48;
 }
 

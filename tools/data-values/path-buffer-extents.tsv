@@ -1,0 +1,4 @@
+# The destination of WinMain's log-path builder at 0x00c3bbe0 (S3,
+# VEGAS-112), which writes up to 260 characters there. Generated data
+# defined it as one byte, the form this row fails on.
+extent	src/staging/blk_00c20000_od.cpp	DAT_01202b48	260

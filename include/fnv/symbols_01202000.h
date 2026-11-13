@@ -270,7 +270,7 @@ extern ::GlobalObject_00a7b610 g_01202828;
 // 0x01202938
 extern char DAT_01202938[260];
 // 0x01202b48
-extern "C" extern unsigned char DAT_01202b48;
+extern "C" extern char DAT_01202b48[260];
 // 0x01202c50
 extern char DAT_01202c50[260];
 // 0x01202d98

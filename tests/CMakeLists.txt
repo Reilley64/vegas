@@ -1516,3 +1516,18 @@ if(vegas_object_checks)
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
+
+# Fails when the destination of the log-path builder at 0x00c3bbe0
+# (VEGAS-112), DAT_01202b48, again reaches fewer than the 260 bytes the
+# builder writes: the distance from its symbol to the next symbol of its
+# section, or to the section's end, in the object of blk_00c20000_od.cpp.
+# Generated data defined it as one byte. Blind spot: padding before the next
+# symbol counts, so an array a few bytes short passes; the static_assert in
+# FUN_00c3bbd0 holds the exact size. It uses the object list and
+# GO_EXECUTABLE of the checks above.
+if(vegas_object_checks)
+  add_test(NAME objects.path_buffer_extents
+    COMMAND ${GO_EXECUTABLE} run . --table path-buffer-extents.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/data-values)
+endif()

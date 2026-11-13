@@ -1573,6 +1573,69 @@ void FUN_00870680(void* param_1)
     }
 }
 
+namespace fnv_008774a0 {
+struct FUN_008774a0_shell
+{
+    void FUN_004f15a0(int aiValue);
+    void FUN_008776e0();
+    void FUN_008774a0(bool abFlag);
+};
+}  // namespace fnv_008774a0
+
+namespace fnv_008707c0 {
+struct Rend;
+struct RootNode;
+struct RenderMgr
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    void* name;
+
+    void FUN_00871290();
+    int FUN_00872f50(Rend* r, void* p1, bool p2, bool b);
+    void FUN_00874c10();
+    void FUN_00875110(Rend* r, RootNode* root, int z, int res);
+    void FUN_00875bf0();
+    void FUN_00875fd0(bool b, int res, Rend* r, void* p1);
+    void FUN_008761e0(RootNode* root, Rend* r);
+
+    void FUN_008707c0(void* p1, bool p2);
+};
+}  // namespace fnv_008707c0
+
 namespace fnv_008706b0 {
 struct BSRenderedTexture;
 struct FUN_008706b0_shell : public Main
@@ -9125,8 +9188,6 @@ void MainLoop::FUN_0086e650()
 
 namespace fnv_008707c0 {
 typedef ImageSpaceManager ISMgr;
-struct Rend;
-struct RootNode;
 struct AnimData;
 struct StrObj
 {
@@ -9151,55 +9212,6 @@ struct SSN
 {
 };
 
-struct RenderMgr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    void* name;
-
-    void FUN_00871290();
-    int FUN_00872f50(Rend* r, void* p1, bool p2, bool b);
-    void FUN_00874c10();
-    void FUN_00875110(Rend* r, RootNode* root, int z, int res);
-    void FUN_00875bf0();
-    void FUN_00875fd0(bool b, int res, Rend* r, void* p1);
-    void FUN_008761e0(RootNode* root, Rend* r);
-
-    void FUN_008707c0(void* p1, bool p2);
-};
 
 // Runs the render update: resets helpers, computes a result via FUN_00872f50, sets up a node when FUN_00705a00 is true, and dispatches the remaining render steps.
 // @fnv 0x008707c0
@@ -11776,12 +11788,6 @@ struct FUN_00b631d0_obj
 };
 
 
-struct FUN_008774a0_shell
-{
-    void FUN_004f15a0(int aiValue);
-    void FUN_008776e0();
-    void FUN_008774a0(bool abFlag);
-};
 
 
 // @fnv 0x008774a0

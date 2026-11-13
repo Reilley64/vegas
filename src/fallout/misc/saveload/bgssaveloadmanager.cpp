@@ -229,7 +229,7 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
     TaskQueueInterface::CopyStringToBuffer(pcPath, 260, ::FUN_004dc110());
     fnv::crt::strcat_s(pcPath, 260, ::_DAT_011a2ff0);
     ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bb80())));
-    ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bbd0())));
+    ((int(*)(char*))DAT_00fdf0d4)(::FUN_00c3bbd0());
     ((int(*)(char*))DAT_00fdf0d4)(FUN_00c3bc20());
     if (fnv::crt::access(pcPath, 0) == -1)
     {

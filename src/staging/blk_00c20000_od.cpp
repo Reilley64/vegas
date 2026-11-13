@@ -1488,12 +1488,12 @@ void __cdecl BuildDataPath(char* outPath, const char* srcPath, const char* suffi
 
 char DAT_01202b48[260];
 // @fnv 0x00c3bbd0
-void* __cdecl FUN_00c3bbd0()
+char* __cdecl FUN_00c3bbd0()
 {
     // fnv_00c3bbe0::FUN_00c3bbe0 writes up to 260 characters there. The
     // recipe binds the next address, 0x01202c50, 264 bytes after the buffer.
     static_assert(sizeof(DAT_01202b48) == 260);
-    return &DAT_01202b48;
+    return DAT_01202b48;
 }
 
 extern char DAT_01202a40[0x104];

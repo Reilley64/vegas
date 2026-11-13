@@ -124988,7 +124988,7 @@
     "?strcat_s@@YAHPADIPBD@Z": "0x00406d50",
     "?FUN_0086d480@@YAPAHXZ": "0x0086d480",
     "?FUN_004dc110@@YAPADXZ": "0x004dc110",
-    "?FUN_00c3bbd0@@YAPAXXZ": "0x00c3bbd0",
+    "?FUN_00c3bbd0@@YAPADXZ": "0x00c3bbd0",
     "?FUN_00c3bc20@@YAPADXZ": "0x00c3bc20",
     "?FUN_00ecbf05@@YAHPBDH@Z": "0x00ecbf05",
     "?g_011d3eb0_arg1@@3QBDB": "0x0105d548",
@@ -528500,7 +528500,7 @@
     },
     {
      "address": "0x00c3bbd0",
-     "symbol": "?FUN_00c3bbd0@@YAPAXXZ",
+     "symbol": "?FUN_00c3bbd0@@YAPADXZ",
      "size": 10
     },
     {

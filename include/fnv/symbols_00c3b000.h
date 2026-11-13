@@ -6,7 +6,7 @@ int *FUN_00c3bb80();
 // 0x00c3bb90
 void FUN_00c3bb90(const char *);
 // 0x00c3bbd0
-void *FUN_00c3bbd0();
+char *FUN_00c3bbd0();
 // 0x00c3bbe0
 namespace fnv_00c3bbe0 { void FUN_00c3bbe0(const char *); }
 // 0x00c3bc30

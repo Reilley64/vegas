@@ -533,6 +533,7 @@
 #include "fnv/decl/s55d310__Owner.h"
 #include "fnv/decl/s56ae10__Owner.h"
 #include "fnv/decl/s572e10__Owner.h"
+#include "fnv/setting_class.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_00404000.h"
@@ -6337,10 +6338,6 @@ void TESChallenge::FUN_005defe0(bool b)
     !b ? nFlags &= ~8 : nFlags |= 8;
     MarkForSave();
 }
-
-struct Setting {
-    Setting& FUN_005e0190(const char* name);
-};
 
 // @fnv 0x005e0190
 Setting& Setting::FUN_005e0190(const char* name)

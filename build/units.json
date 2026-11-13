@@ -187700,7 +187700,7 @@
     "_DAT_01021184": "0x01021184",
     "?FUN_004046f0@@YAXPADPBD@Z": "0x004046f0",
     "?FUN_00ec6380@fnv_004da570@@YAPADPADPBD@Z": "0x00ec6380",
-    "?FUN_005e0190@Setting@@QAEAAU1@PBD@Z": "0x005e0190",
+    "?FUN_005e0190@Setting@@QAEAAV1@PBD@Z": "0x005e0190",
     "__real@406fe00000000000": "0x0101e568",
     "__real@40efffe000000000": "0x010217d0",
     "__real@3fe0000000000000": "0x01011588",
@@ -240170,7 +240170,7 @@
     },
     {
      "address": "0x005e0190",
-     "symbol": "?FUN_005e0190@Setting@@QAEAAU1@PBD@Z",
+     "symbol": "?FUN_005e0190@Setting@@QAEAAV1@PBD@Z",
      "size": 28
     },
     {
@@ -240725,7 +240725,7 @@
     "?_DebugLog@fnv_005bee90@@YAXPBDZZ": "0x00703c00",
     "?FUN_004ed780@S_004ed780@@QAEPAU1@M@Z": "0x004ed780",
     "??_C@_0BG@HJJDMCAD@INISetting?5?$CFs?5?$DO?$DO?5?$CF?42f?$AA@": "0x0103a428",
-    "?FUN_005e0190@Setting@@QAEAAU1@PBD@Z": "0x005e0190",
+    "?FUN_005e0190@Setting@@QAEAAV1@PBD@Z": "0x005e0190",
     "??_C@_0BG@EMGIIPNB@INISetting?5?$CFs?5?$DO?$DO?5?8?$CFs?8?$AA@": "0x0103a410",
     "??_C@_0BO@CGAKNBAE@INISetting?5?$CFs?5?$DO?$DO?5UNKNOWN?5TYPE?$AA@": "0x0103a3f0",
     "??_C@_0BL@NIGMOIOG@INISetting?5?$CFs?5?$DO?$DO?5NOT?5FOUND?$AA@": "0x0103a3d4",

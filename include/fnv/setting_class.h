@@ -19,6 +19,8 @@ class Setting
     Setting(const char* key, bool value);
     virtual ~Setting();
     virtual bool IsPrefSetting();
+    // 0x005e0190; tesscriptfunctions.cpp defines it.
+    Setting& FUN_005e0190(const char* name);
 };
 
 #endif

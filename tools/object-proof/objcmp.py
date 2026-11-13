@@ -91,6 +91,8 @@ class Coff:
             body = b"" if characteristics & UNINITIALIZED else data[rawptr:rawptr + size]
             if len(body) != (0 if characteristics & UNINITIALIZED else size):
                 raise ValueError("section %d past the end" % (index + 1))
+            if name == ".llvm_addrsig":
+                uleb128s(body)  # a padded or truncated index makes the object unreadable
             first = relptr
             if characteristics & NRELOC_OVFL and nrel == 0xFFFF:
                 nrel = struct.unpack_from("<I", data, relptr)[0] - 1
@@ -224,14 +226,26 @@ def spelled(name, names):
 
 
 def uleb128s(data):
+    """The address-significance indices, each a ULEB128 number as LLVM
+    writes it: no padding byte, none cut short."""
     out, value, shift = [], 0, 0
     for byte in data:
+        if shift and byte == 0:
+            raise ValueError("a padded address-significance index")
         value |= (byte & 0x7F) << shift
         shift += 7
         if not byte & 0x80:
             out.append(value)
             value, shift = 0, 0
+    if shift:
+        raise ValueError("a truncated address-significance index")
     return out
+
+
+def alignment(characteristics):
+    """The alignment that a section's characteristics give, in bytes."""
+    bits = (characteristics >> 20) & 0xF
+    return 1 << (bits - 1) if bits else "default"
 
 
 def describe(item):
@@ -260,20 +274,34 @@ def compare(a, b, out):
             continue
         x, y = sa[key], sb[key]
         found += 1
-        parts = []
+        parts, equal = [], []
         for field in ("name", "characteristics", "selection"):
             if x[field] != y[field]:
                 parts.append("%s %s -> %s" % (field, x[field], y[field]))
+                if field == "characteristics":
+                    parts[-1] += " (0x%08x -> 0x%08x)" % (x[field], y[field])
+                    if alignment(x[field]) != alignment(y[field]):
+                        parts.append("alignment %s -> %s" % (alignment(x[field]), alignment(y[field])))
+            elif field != "name":
+                equal.append("%s %s" % (field, x[field]))
         if x["body"] != y["body"]:
             if isinstance(x["body"], tuple):
-                parts.append("address-significance names differ")
+                parts.append("address-significance names differ, %d -> %d" % (len(x["body"]), len(y["body"])))
             else:
                 differing = [i for i in range(min(len(x["body"]), len(y["body"]))) if x["body"][i] != y["body"][i]]
                 where = (", first at 0x%x" % differing[0]) if differing else ""
                 parts.append("size %d -> %d, %d bytes differ%s" % (x["size"], y["size"], len(differing), where))
+        else:
+            equal.append("names" if isinstance(x["body"], tuple) else "bytes")
+        if x["size"] == y["size"]:
+            equal.append("size %d" % x["size"])
+        elif x["body"] == y["body"]:
+            parts.append("size %d -> %d" % (x["size"], y["size"]))
         if x["relocations"] != y["relocations"]:
             parts.append("relocations %d -> %d" % (len(x["relocations"]), len(y["relocations"])))
-        out("SECTION-DIFFERS\t%s\t%s\t%s" % (key, x["name"], "; ".join(parts)))
+        else:
+            equal.append("relocations %d" % len(x["relocations"]))
+        out("SECTION-DIFFERS\t%s\t%s\t%s\tequal: %s" % (key, x["name"], "; ".join(parts), ", ".join(equal) or "nothing"))
         if x["relocations"] != y["relocations"]:
             rx, ry = set(x["relocations"]), set(y["relocations"])
             for va, typ, target in sorted(rx - ry):
@@ -281,10 +309,13 @@ def compare(a, b, out):
             for va, typ, target in sorted(ry - rx):
                 out("\t+reloc\t0x%x\ttype %d\t%s" % (va, typ, target))
         if isinstance(x["body"], tuple) and x["body"] != y["body"]:
-            for name in sorted(set(x["body"]) - set(y["body"])):
-                out("\t-addrsig\t%s" % name)
-            for name in sorted(set(y["body"]) - set(x["body"])):
-                out("\t+addrsig\t%s" % name)
+            # Every name that is added, removed or moved, by position in the table.
+            matcher = difflib.SequenceMatcher(None, x["body"], y["body"], autojunk=False)
+            for op, a1, a2, b1, b2 in matcher.get_opcodes():
+                for at in range(a1, a2) if op != "equal" else ():
+                    out("\t-addrsig\t%d\t%s" % (at, x["body"][at]))
+                for at in range(b1, b2) if op != "equal" else ():
+                    out("\t+addrsig\t%d\t%s" % (at, y["body"][at]))
     common_a = [k for k in oa if k in sb]
     common_b = [k for k in ob if k in sa]
     if common_a != common_b:
@@ -371,13 +402,13 @@ def main(argv):
         verdict, status = "identical: the bytes are equal with the timestamp masked", 0
         lines = []
     else:
-        found = refused + compare(coff_a, coff_b, lines.append)
-        if found == 0 and applied:
+        found = compare(coff_a, coff_b, lines.append)
+        if found == 0 and refused == 0 and applied:
             verdict, status = "identical: equal with the timestamp masked once the renames are applied", 0
-        elif found == 0:
+        elif found == 0 and refused == 0:
             verdict, status = "differs: the bytes differ, but no section, relocation or symbol does", 1
         else:
-            verdict, status = "differs: %d difference(s)" % found, 1
+            verdict, status = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else ""), 1
     for line in [verdict] + notes + lines:
         print(line)
     return status

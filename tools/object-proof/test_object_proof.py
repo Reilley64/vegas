@@ -46,6 +46,9 @@ def obj(sections, symbols, bigobj=False, timestamp=0, machine=0x8664):
     heads, blobs = b"", b""
     for text, data, characteristics, relocations in sections:
         raw_at = at + len(blobs)
+        if len(text) > 8:  # a long section name is /OFFSET into the string table
+            text = "/%d" % len(strings)
+            strings.extend(sections[len(heads) // 40][0].encode() + b"\0")
         heads += text.encode().ljust(8, b"\0") + struct.pack(
             "<IIIIIIHHI", 0, 0, len(data), raw_at, raw_at + len(data) if relocations else 0, 0,
             len(relocations), 0, characteristics)
@@ -86,6 +89,19 @@ def calls():
     return sections, symbols
 
 
+ADDRSIG = 0x00100800
+
+
+def with_addrsig(sections, symbols, *names):
+    """Appends an .llvm_addrsig section that indexes the named symbols of
+    calls()'s lists (each index one byte, so below 128)."""
+    index, at = 0, {}
+    for symbol in symbols:
+        at.setdefault(symbol[0], index)
+        index += 1 if symbol[5] is None else 2
+    sections.append([".llvm_addrsig", bytes(at[name] for name in names), ADDRSIG, []])
+
+
 FAKE_COMPILER = """import json, shutil, sys
 template, source = sys.argv[1], sys.argv[-1]
 print(json.dumps(sys.argv[1:]))
@@ -116,7 +132,9 @@ class ObjectProofTest(unittest.TestCase):
     def run_tool(self, tool, *args):
         result = subprocess.run([sys.executable, "-B", tool] + list(args),
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return result.returncode, result.stdout.decode("utf-8", "replace"), result.stderr.decode("utf-8", "replace")
+        # A tool on Windows writes \r\n; the tests compare \n.
+        return (result.returncode, result.stdout.decode("utf-8", "replace").replace("\r\n", "\n"),
+                result.stderr.decode("utf-8", "replace").replace("\r\n", "\n"))
 
     def objcmp(self, a, b, *args):
         return self.run_tool(OBJCMP, self.write("a.obj", a), self.write("b.obj", b), *args)
@@ -269,6 +287,79 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertTrue(out.startswith("differs: 1 difference(s)"), out)
         self.assertIn("SECTION-DIFFERS\t?caller@@YAXXZ\t.text$mn\tsize 6 -> 6, 1 bytes differ, first at 0x5", out)
+
+    def test_counts(self):
+        # RENAME- lines are counted apart from the differences.
+        code, out, _ = self.objcmp(coff(), coff(caller="?new_caller@@YAXXZ"),
+                                   "?caller@@YAXXZ=?new_caller@@YAXXZ", "?callee@@YAXXZ=?other_callee@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.splitlines()[0], "differs: 2 difference(s), 1 RENAME- line(s)", out)
+        self.assertEqual(sum(line.startswith("RENAME-") for line in out.splitlines()), 1, out)
+        code, out, _ = self.objcmp(coff(), coff(callee="?other_callee@@YAXXZ"))
+        self.assertEqual(out.splitlines()[0], "differs: 2 difference(s)", out)
+
+    def test_section_equal(self):
+        # A changed section says what is equal as well as what differs.
+        sections, symbols = calls()
+        a = obj(sections, symbols)
+        sections[0][3] = [(1, 3, 4), (6, 3, 4)]
+        code, out, _ = self.objcmp(a, obj(sections, symbols))
+        self.assertEqual(code, 1, out)
+        self.assertIn("SECTION-DIFFERS\t?caller@@YAXXZ\t.text$mn\trelocations 2 -> 2\t"
+                      "equal: characteristics 1615859744, selection 2, bytes, size 11\n", out)
+        code, out, _ = self.objcmp(coff(), coff(code=b"\xe8\x00\x00\x00\x00\xcc"))
+        self.assertIn("\tsize 6 -> 6, 1 bytes differ, first at 0x5\t"
+                      "equal: characteristics 1615855648, selection None, size 6, relocations 1\n", out)
+        # An address-significance difference names every added, removed or
+        # moved entry, also when only the order or a count changes.
+        for names_a, names_b, lines in (
+                (("?x@@YAXXZ", "?y@@YAXXZ"), ("?y@@YAXXZ", "?x@@YAXXZ"),
+                 ["\t+addrsig\t0\t?y@@YAXXZ", "\t-addrsig\t1\t?y@@YAXXZ"]),
+                (("?x@@YAXXZ",), ("?x@@YAXXZ", "?x@@YAXXZ"), ["\t+addrsig\t1\t?x@@YAXXZ"]),
+                (("?x@@YAXXZ",), ("?y@@YAXXZ",), ["\t-addrsig\t0\t?x@@YAXXZ", "\t+addrsig\t0\t?y@@YAXXZ"])):
+            sections, symbols = calls()
+            with_addrsig(sections, symbols, *names_a)
+            a = obj(sections, symbols)
+            sections, symbols = calls()
+            with_addrsig(sections, symbols, *names_b)
+            code, out, _ = self.objcmp(a, obj(sections, symbols))
+            self.assertEqual(code, 1, out)
+            self.assertIn("SECTION-DIFFERS\t#.llvm_addrsig/1\t.llvm_addrsig\taddress-significance names differ, %d -> %d"
+                          % (len(names_a), len(names_b)), out)
+            self.assertEqual([line for line in out.splitlines() if line.startswith(("\t-addrsig", "\t+addrsig"))],
+                             lines, out)
+
+    def test_alignment(self):
+        # Changed characteristics print in hexadecimal too, and a changed
+        # alignment says so in bytes.
+        for characteristics, text in (
+                (0x40400040, "characteristics 1076887616 -> 1077936192 (0x40300040 -> 0x40400040); alignment 4 -> 8\t"),
+                (0x40000040, "characteristics 1076887616 -> 1073741888 (0x40300040 -> 0x40000040); alignment 4 -> "
+                             "default\t"),
+                (0xC0300040, "characteristics 1076887616 -> 3224371264 (0x40300040 -> 0xc0300040)\t")):
+            sections, symbols = calls()
+            a = obj(sections, symbols)
+            sections[1][2] = characteristics
+            code, out, _ = self.objcmp(a, obj(sections, symbols))
+            self.assertEqual(code, 1, out)
+            self.assertIn("SECTION-DIFFERS\t#.rdata/1\t.rdata\t" + text + "equal: selection None, bytes, size 8, "
+                          "relocations 0\n", out)
+
+    def test_addrsig_encoding(self):
+        # An address-significance index is a ULEB128 number with no padding
+        # byte and none cut short; otherwise the object is unreadable.
+        def unit(raw):
+            sections, symbols = calls()
+            sections.append([".llvm_addrsig", raw, ADDRSIG, []])
+            return obj(sections, symbols)
+
+        code, out, err = self.objcmp(unit(b"\x80\x01\x03"), unit(b"\x80\x01\x03"))
+        self.assertEqual(code, 0, out + err)
+        for raw in (b"\x83\x00", b"\x83\x80\x00", b"\x03\x83", b"\x80"):
+            for a, b in ((unit(raw), unit(b"\x03")), (unit(b"\x03"), unit(raw)), (unit(raw), unit(raw))):
+                code, out, err = self.objcmp(a, b)
+                self.assertEqual((code, out), (2, ""), (raw, out, err))
+                self.assertEqual(len(err.splitlines()), 1, err)
 
     def test_unreadable(self):
         good = self.write("good.obj", coff())

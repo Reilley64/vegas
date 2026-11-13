@@ -8,11 +8,17 @@
 # stops ignoring positions, path prefixes and line endings; or when proof.py
 # compile and compare stop passing the variant flags, removing stale objects
 # and reporting a failed compile, a compiler that cannot start or a warnings
-# difference. The tests write small objects, logs and a fake compiler and
-# run on every host. Blind spot: the objects are hand-made, not compiler
-# output. A test method added to the .py but not to this list never runs.
+# difference; when objcmp.py counts RENAME- lines as differences, stops
+# saying what a changed section keeps equal, stops naming each added,
+# removed or moved address-significance entry, stops printing changed
+# characteristics in hexadecimal with a changed alignment, or reads a padded
+# or truncated address-significance index. The tests write small objects,
+# logs and a fake compiler and run on every host. Blind spot: the objects
+# are hand-made, not compiler output. A test method added to the .py but not
+# to this list never runs.
 set(tools_object_proof_cases identical timestamp rename refused_renames unmatched_rename
-    structural_differences difference unreadable warnings proof_compile)
+    structural_differences difference unreadable warnings proof_compile counts section_equal
+    alignment addrsig_encoding)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

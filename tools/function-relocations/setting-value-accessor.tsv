@@ -52,3 +52,15 @@ function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009ad670@This@@QEAAX
 function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009ae6e0@ProjCls@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009b1810@Host810@@QEAA_NUVec810@@PEAUActor810@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	explosion	src/fallout/ai/combat/explosion.cpp	?UpdateExplosion@RefX@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of package.cpp that
+# calls the accessor (VEGAS-117), since the unit's own empty Setting went.
+# They read iAIDistanceRadiusMinLocation, iNumberActorsAllowedToFollowPlayer
+# and iNumberGuardsCrimeResponse.
+function	package	src/fallout_shared/package.cpp	?CheckPackageLocation@TESPackageX@fnv_006768d0@@QEAA_NPEAVMobileObject@@_NM1@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?FUN_006780e0@TESPackageExt@fnv_006780e0@@QEAAPEAVV@2@PEAV32@_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?FUN_00678670@FUN_00678670_shell@fnv_00678670@@QEAAMPEAVMobileObject@@_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?FUN_008bed50@A@@QEAAXPEAU1@H_N0@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?GetPackageResult@Package@fnv_006787e0@@QEAAMPEAUObj@2@_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?IsTargetInRange@FUN_00677570_shell@fnv_00677570@@QEAA_NPEAUActorStandIn@2@M@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?IsTargetWithinRadius@Package@@QEAA_NPEAVActor@@H@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?IsWithinPackageLocation@P070Package@@QEAA_NPEAUP070Ref@@0_NM1@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

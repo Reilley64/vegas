@@ -78,3 +78,8 @@ function	itemmodmenu	src/fallout/interface/menus/itemmodmenu.cpp	?FUN_00783ed0@x
 # radius settings.
 function	combatcontroller	src/fallout/ai/combatcontroller.cpp	?SetupPackageTarget@State@@QEAAXPEAUPackage@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	combatcontroller	src/fallout/ai/combatcontroller.cpp	?UpdateMoveTarget@MoveOwner@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of package.cpp that
+# calls the accessor (VEGAS-122), since the unit's own empty Setting went.
+# They read fPathPointZDistanceAllowance and fTargetSearchRadius.
+function	package	src/fallout_shared/package.cpp	?FUN_006780e0@TESPackageExt@fnv_006780e0@@QEAAPEAVV@2@PEAV32@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	package	src/fallout_shared/package.cpp	?IsActorInPackageRadius@FUN_00676e40_Package@fnv_00676e40@@QEAA_NPEAVMobileObject@FO@2@H@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

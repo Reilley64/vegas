@@ -1042,7 +1042,7 @@ float FUN_00678670_shell::FUN_00678670(MobileObject* apMobileObject, bool abSeco
         }
         if (m_iSearchRadius == 0)
         {
-            m_iSearchRadius = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00678670::GlobalObject2_0040c150 *>(&::g_011cde98))))));
+            m_iSearchRadius = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00678670::GlobalObject2_0040c150 *>(&::g_011cde98))))));
         }
     }
     return (float)m_iSearchRadius;
@@ -2283,7 +2283,7 @@ bool TESPackageX::CheckPackageLocation(MobileObject* apMobileObject, bool bignor
             frame.boverride = true;
     }
     if (frame.m_iSearchRadius == 0)
-        frame.m_iSearchRadius = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006768d0::GlobalObject2_0040c150 *>(&::g_011cde98))))));
+        frame.m_iSearchRadius = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_006768d0::GlobalObject2_0040c150 *>(&::g_011cde98))))));
     frame.bexactpos = false;
     frame.bGoodPt = false;
     if (bInfurniture && frame.pRef && reinterpret_cast<::FUN_00568680_shell *>((((RefH*)frame.pRef)))->FUN_00568680() && ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)apMobileObject)))->GetBaseTexture())) &&
@@ -3466,7 +3466,7 @@ bool FUN_00676e40_Package::IsActorInPackageRadius(FO::MobileObject* apMobileObje
     }
 
     m_iSearchRadius += aiExtraRadius;
-    if (std::abs(dist.z) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00676e40::SettingFloat *>(&::originalRuntimeFloatSetting804)))))))
+    if (std::abs(dist.z) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00676e40::SettingFloat *>(&::originalRuntimeFloatSetting804)))))))
         dist.z = 0.0f;
 
     boverride = false;
@@ -7109,9 +7109,6 @@ class Actor : public Reference
 struct Location
 {
 };
-struct Setting
-{
-};
 struct Package
 {
     TESObjectCELL* FUN_00675c20(Actor*);
@@ -7158,7 +7155,7 @@ bool Package::IsTargetWithinRadius(Actor* actor, int extra)
             radius = (int)reinterpret_cast<::TESObjectREFR *>((reference2))->GetBoundingRadius();
     }
     if (radius == 0 || radius < 0)
-        radius = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011cde98))))));
+        radius = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011cde98))))));
     radius += extra;
     bool result4 = false;
     NiPoint3 delta7 = FUN_00675de0(actor) - target2->GetPosition();
@@ -7554,7 +7551,7 @@ bool FUN_00677570_shell::IsTargetInRange(ActorStandIn* actor, float radius)
                 packRadius2 = (int)reinterpret_cast<::TESObjectREFR *>((source))->GetBoundingRadius();
         }
         if (!packRadius2 || packRadius2 < 0)
-            packRadius2 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00677570::IntSetting *>(&::g_011cde98))))));
+            packRadius2 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00677570::IntSetting *>(&::g_011cde98))))));
         radius = (float)packRadius2;
     }
     bool result4 = false;
@@ -10289,7 +10286,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
         }
     }
     if (radius2 == 0)
-        radius2 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011cde98))))));
+        radius2 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011cde98))))));
     bool result3 = false;
     if (reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get() == 5 && objectCell4)
     {
@@ -11395,7 +11392,7 @@ float Package::GetPackageResult(Obj* obj, bool flag)
         }
     }
     if (!result)
-        result = *((int *)&(::FUN_0043d4d0((int *)(((Setting*)&(*reinterpret_cast<char *>(&::g_011cde98)))))));
+        result = *((int *)&(::FUN_0043d4d0((::Setting *)(((Setting*)&(*reinterpret_cast<char *>(&::g_011cde98)))))));
     return (float)result;
 }
 }  // namespace fnv_006787e0
@@ -12316,8 +12313,8 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             else
             {
                 reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, intptr_t))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx));
+                                            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, intptr_t))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx));
                 secondary7 = DAT_011d6580;
                 DAT_011d6580 = 0;
             }
@@ -12329,8 +12326,8 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             ctx3.opt = option;
             targType2 = ((::fnv_006780e0::Data *)(reinterpret_cast<::Script *>((((Script*)this)))->GetData()))->FUN_00680080();
             reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_006780e0::Handler * *>(&::g_dataHandler))))->GetReferencesInArea((::TESObjectCELL *)(((reinterpret_cast<::LowProcess *>((((BSOcclusionPlane*)targetObj)))->GetTarget()))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
-                                        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, intptr_t))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx3));
+                                        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (*(const ::NiPoint3 *)(targetObj->f07d())),
+                                        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006780e0::Setting *>(&::originalRuntimeFloatSetting1307)))))), (bool (*)(TESObjectREFR *, intptr_t))(void (*)())(&((void (&)())::IsValidPickTarget)), (std::intptr_t)(&ctx3));
             secondary7 = DAT_011d6580;
             DAT_011d6580 = 0;
             break;
@@ -12345,7 +12342,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
             if (secondary7 == (*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
                 ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f14b() != (unsigned int)(std::uintptr_t)(*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer)) &&
                 !reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(targetObj)) &&
-                reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006780e0::NumberSingleton *>(&::g_011cdad0)))))))
+                reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_006780e0::V * *>(&::_g_thePlayer))))->FUN_00962620() > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_006780e0::NumberSingleton *>(&::g_011cdad0)))))))
             {
                 ((::fnv_006780e0::V *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((BSShaderNoLightingProperty*)targetObj)))->GetBaseTexture()))->f0a2(targetObj, -1);
                 ::DispatchMessageToSink(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_006780e0::MessageSetting *>(&::g_011d3d54))))->GetMenuTitle())), 0, 0, 0, ::DAT_010162c0, 0);
@@ -14856,7 +14853,7 @@ void A::FUN_008bed50(A* source, int value, bool react, A* target)
             ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(0);
         else
             ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->SetCount(val->GetSize());
-        if (target && ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->GetCount() >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingLocal *>(&::g_011cd808)))))))
+        if (target && ((::Proc_rtti *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->GetCount() >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingLocal *>(&::g_011cd808)))))))
         {
             return;
         }

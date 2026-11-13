@@ -171364,11 +171364,11 @@
     "?GetNext@?$BSSimpleList@PAVInventoryStackRecord@@@@QAEPAV1@XZ": "0x00726070",
     "?DispatchMessageToSink@@YA_NPBDH00ME@Z": "0x007052f0",
     "?FUN_006450c0@@YA_NPAVTESObjectWEAP@@@Z": "0x006450c0",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_00422700@FUN_00422700_shell@@QAEPAVExtraFollower@@XZ": "0x00422700",
     "?FUN_004fd3c0@fnv_004fd3c0@@YAPAUFormRecordMetadata@1@PAUTESSaveLoadGame@1@@Z": "0x004fd3c0",
     "?FUN_004c0c30@@YA_NPAD@Z": "0x004c0c30",
-    "?FUN_0043d4d0@@YAAAHPAH@Z": "0x0043d4d0",
+    "?FUN_0043d4d0@@YAAAHPAVSetting@@@Z": "0x0043d4d0",
     "?FUN_0067a560@@YA_NH@Z": "0x0067a560",
     "?FUN_0067a9d0@@YA_NPAX@Z": "0x0067a9d0",
     "?IsPackageFlag80Set@@YAEPAVTESPackage@@@Z": "0x0067abd0",
@@ -171567,7 +171567,7 @@
     "?IsSpellInList@FUN_009ec810_t@fnv_009ec810@@QAE_NPAUSpellItem@2@@Z": "0x009ec810",
     "?AddHeadAtOffset@FUN_009ec830_t@@QAEXPAH@Z": "0x009ec830",
     "??1FUN_00833c20_shell@@UAE@XZ": "0x00833c20",
-    "?FUN_0043d4d0@@YAAAHPAH@Z": "0x0043d4d0"
+    "?FUN_0043d4d0@@YAAAHPAVSetting@@@Z": "0x0043d4d0"
    }
   },
   {

@@ -11,14 +11,15 @@
 # difference; when objcmp.py counts RENAME- lines as differences, stops
 # saying what a changed section keeps equal, stops naming each added,
 # removed or moved address-significance entry, stops printing changed
-# characteristics in hexadecimal with a changed alignment, or reads a padded
-# or truncated address-significance index. The tests write small objects,
-# logs and a fake compiler and run on every host. Blind spot: the objects
-# are hand-made, not compiler output. A test method added to the .py but not
-# to this list never runs.
+# characteristics in hexadecimal with a changed alignment, reads a padded or
+# truncated address-significance index, or stops refusing, with no artefact
+# line, a base that holds both spellings of a rename. The tests write small
+# objects, logs and a fake compiler and run on every host. Blind spot: the
+# objects are hand-made, not compiler output. A test method added to the .py
+# but not to this list never runs.
 set(tools_object_proof_cases identical timestamp rename refused_renames unmatched_rename
     structural_differences difference unreadable warnings proof_compile counts section_equal
-    alignment addrsig_encoding)
+    alignment addrsig_encoding base_holds_both)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

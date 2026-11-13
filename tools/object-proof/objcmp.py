@@ -11,10 +11,12 @@ are equal with the timestamp masked, or, when a rename applies to A, when the
 header, every section (bytes, relocations by target name) and the symbol
 table are equal once respelled. A rename is refused as a difference when an
 object holds both spellings (RENAME-MERGES) or B still holds OLD
-(RENAME-KEPT). Otherwise it prints the sections, relocations and symbols that
-differ.
+(RENAME-KEPT); when A holds both, the comparison is refused and prints only
+the RENAME- lines. Otherwise it prints the sections, relocations and symbols
+that differ.
 
-Exit status: 0 identical, 1 differs, 2 usage error or unreadable input.
+Exit status: 0 identical, 1 differs or refused, 2 usage error or unreadable
+input.
 """
 import difflib
 import struct
@@ -389,11 +391,13 @@ def main(argv):
              if not spelled(old, coff_a.names)]
     lines = []
     refused = 0
+    merged = False
     for old, new in sorted(renames.items()):
         for label, coff in (("A", coff_a), ("B", coff_b)):
             if spelled(old, coff.names) and spelled(new, coff.names):
                 lines.append("RENAME-MERGES\t%s holds both %s and %s" % (label, old, new))
                 refused += 1
+                merged = merged or label == "A"
         if spelled(old, coff_b.names):
             lines.append("RENAME-KEPT\tB still holds %s" % old)
             refused += 1
@@ -401,6 +405,10 @@ def main(argv):
     if masked(data_a) == masked(data_b):
         verdict, status = "identical: the bytes are equal with the timestamp masked", 0
         lines = []
+    elif merged:
+        # Respelled, A would hold one name twice: every line after it would be an artefact.
+        verdict, status = ("refused: A holds both spellings of a rename; compare without that rename, or with "
+                           "the commit before A as the base"), 1
     else:
         found = compare(coff_a, coff_b, lines.append)
         if found == 0 and refused == 0 and applied:

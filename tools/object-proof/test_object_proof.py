@@ -361,6 +361,36 @@ class ObjectProofTest(unittest.TestCase):
                 self.assertEqual((code, out), (2, ""), (raw, out, err))
                 self.assertEqual(len(err.splitlines()), 1, err)
 
+    def test_base_holds_both(self):
+        # A second commit compared to a first: A calls ?x and ?x2, B only ?x2.
+        # Respelling A would merge its two names, so the comparison is refused
+        # with one line that names the rename, and no artefact line.
+        def pair(code=b"\xe8\0\0\0\0\xe8\0\0\0\0\xc3"):
+            sections, symbols = calls()
+            symbols.append(["?x2@@YAXXZ", 0, 0, 0x20, 2, None])
+            sections[0][3] = [(1, 3, 4), (6, 6, 4)]
+            with_addrsig(sections, symbols, "?x@@YAXXZ", "?x2@@YAXXZ")
+            a = obj(sections, symbols)
+            sections, symbols = calls()
+            symbols[3][0] = "?x2@@YAXXZ"
+            sections[0][1] = code
+            sections[0][3] = [(1, 3, 4), (6, 3, 4)]
+            with_addrsig(sections, symbols, "?x2@@YAXXZ")
+            return a, obj(sections, symbols)
+
+        refusal = ["refused: A holds both spellings of a rename; compare without that rename, or with the "
+                   "commit before A as the base", "RENAME-MERGES\tA holds both ?x@@YAXXZ and ?x2@@YAXXZ"]
+        for code in (b"\xe8\0\0\0\0\xe8\0\0\0\0\xc3", b"\xe8\0\0\0\0\xe8\0\0\0\0\xcc"):
+            a, b = pair(code)
+            code, out, _ = self.objcmp(a, b, "?x@@YAXXZ=?x2@@YAXXZ")
+            self.assertEqual(code, 1, out)
+            self.assertEqual(out.splitlines(), refusal, out)
+        # Without the rename, the moved call is an ordinary difference.
+        a, b = pair()
+        code, out, _ = self.objcmp(a, b)
+        self.assertEqual(code, 1, out)
+        self.assertIn("\t-reloc\t0x1\ttype 4\t?x@@YAXXZ\n\t+reloc\t0x1\ttype 4\t?x2@@YAXXZ\n", out)
+
     def test_unreadable(self):
         good = self.write("good.obj", coff())
         missing = os.path.join(self.dir, "missing.obj")

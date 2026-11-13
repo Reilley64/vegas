@@ -11983,7 +11983,6 @@ struct InterfaceSystem
 };
 ViewNode* FUN_00874690();
 ViewNode* FUN_008746a0();
-void* FUN_004a0e90();
 struct MainView
 {
     int unk00;

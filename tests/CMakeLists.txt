@@ -596,15 +596,17 @@ add_test(NAME runtime.data_pack_startup.refused_publishes_nothing
 # complete synthetic pack beside the copy and requires exit code 0: the
 # process image loads, its imports resolve, the C++ runtime starts, process
 # memory initialisation completes, the pack beside the executable validates,
-# C1 is published, the single-instance and remote-session checks pass and
-# main returns 0. falloutnv.process_exit.missing_pack writes the pack only in
-# the working directory and requires exit code 2 with the missing pack
-# reported on the standard error stream. Before the run with the pack the
-# fixture makes the calls of the single-instance check with the message box
-# recorded; only when it reports a remote session is the copy not run and the
-# test skipped, and a mutex that already exists fails it. Each run has 60
-# seconds, so a run that waits fails instead of holding the runner. Neither
-# shows the engine link, startup or boot.
+# C1 and the main window class are published, the single-instance,
+# remote-session and second-window checks pass and main returns 0.
+# falloutnv.process_exit.missing_pack writes the pack only in the working
+# directory and requires exit code 2 with the missing pack reported on the
+# standard error stream. Before the run with the pack the fixture makes the
+# calls of the single-instance check with the message box recorded, and the
+# second-window check with the foreground call recorded; only when it reports
+# a remote session is the copy not run and the test skipped, and a mutex or a
+# window of the class that already exists fails it. Each run has 60 seconds,
+# so a run that waits fails instead of holding the runner. Neither shows the
+# engine link, startup or boot.
 if(WIN32)
   add_executable(falloutnv_pack_fixture runtime/falloutnv_pack_fixture.cpp)
   target_include_directories(falloutnv_pack_fixture PRIVATE
@@ -1278,3 +1280,17 @@ add_test(NAME runtime.data_pack_startup.refused_publishes_no_window_class
     -DMODE=--refused-then-read-window-class
     -DMARKER=refused-then-read-window-class
     -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+
+# The decision of the second-window check (VEGAS-52) on both branches, with
+# the window search and the foreground call recorded: no real window is
+# looked for or touched.
+add_executable(runtime_second_window_check_test runtime/second_window_check_test.cpp)
+target_include_directories(runtime_second_window_check_test PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(runtime_second_window_check_test PRIVATE game)
+else()
+  target_sources(runtime_second_window_check_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/second_window_check.cpp)
+endif()
+add_test(NAME runtime.second_window_check COMMAND runtime_second_window_check_test)

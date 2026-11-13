@@ -9,14 +9,18 @@
 // falloutnv_pack_fixture --check MUTEX makes the calls of the single-instance
 // check that main makes, CreateMutexA on MUTEX and the decision with the real
 // remote-session query, but records the message box instead of showing it.
-// It writes one line that names the decision and exits with its code:
-// "single-instance check: Continue" and 0 when main would go on with no
-// message box, "single-instance check: RemoteSession" and 3, or
-// "single-instance check: AlreadyRunning" and 4. Its mutex handle closes when
-// it exits.
+// It writes one line that names the decision: "single-instance check:
+// Continue", "single-instance check: RemoteSession" and exit code 3, or
+// "single-instance check: AlreadyRunning" and exit code 4. After Continue it
+// makes the second-window check that main makes, with the real FindWindowA
+// on the class name MUTEX but the foreground call recorded, and writes
+// "second-window check: Continue" and exits 0 when main would go on, or
+// "second-window check: AlreadyOpen" and exits 5. Its mutex handle closes
+// when it exits.
 #include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_writer.h"
 #include "fileformat/supported_release.h"
+#include "fnv/second_window_check.h"
 #include "fnv/single_instance_check.h"
 
 #include <array>
@@ -47,6 +51,17 @@ int RecordBox(const char* text, const char*, unsigned int)
     return 1;
 }
 
+void* FindWindowOfClass(const char* className)
+{
+    return FindWindowA(className, nullptr);
+}
+
+int RecordForeground(void*)
+{
+    std::printf("a window would be brought to the foreground\n");
+    return 1;
+}
+
 int Check(std::string_view mutexName)
 {
     fileformat::SingleInstanceStrings strings{};
@@ -59,13 +74,24 @@ int Check(std::string_view mutexName)
     {
     case fnv::startup::SingleInstanceOutcome::Continue:
         std::printf("single-instance check: Continue\n");
-        return 0;
+        break;
     case fnv::startup::SingleInstanceOutcome::RemoteSession:
         std::printf("single-instance check: RemoteSession\n");
         return 3;
     case fnv::startup::SingleInstanceOutcome::AlreadyRunning:
         std::printf("single-instance check: AlreadyRunning\n");
         return 4;
+    }
+    fileformat::MainWindowClass windowClass{};
+    std::memcpy(windowClass.className.data(), mutexName.data(), mutexName.size());
+    switch (fnv::startup::CheckSecondWindow(windowClass, FindWindowOfClass, RecordForeground))
+    {
+    case fnv::startup::SecondWindowOutcome::Continue:
+        std::printf("second-window check: Continue\n");
+        return 0;
+    case fnv::startup::SecondWindowOutcome::AlreadyOpen:
+        std::printf("second-window check: AlreadyOpen\n");
+        return 5;
     }
     return 1;
 }

@@ -13,9 +13,14 @@
 # and names the decision on a line of its own. Only when it names a remote
 # session is the program not run and the test skipped, so no message box can
 # appear. A mutex that already exists under a name new to this run fails the
-# test, and so does any other result. Without the pack, main returns before
-# CreateMutexA and can show no message box, so no check is made. Each run also
-# has TIMEOUT seconds: a run that waits fails instead of holding the runner.
+# test. After Continue, FIXTURE --check also makes the second-window check on
+# the same name as the class name, with the real window search and the
+# foreground call recorded, and names that decision on a line of its own. A
+# window of a class whose name is new to this run fails the test, so a window
+# on the runner cannot make main return before its checks are done, and so
+# does any other result. Without the pack, main returns before CreateMutexA
+# and can show no message box, so no check is made. Each run also has TIMEOUT
+# seconds: a run that waits fails instead of holding the runner.
 if(NOT DEFINED PROGRAM OR NOT DEFINED FIXTURE OR NOT DEFINED FOLDER OR NOT DEFINED MODE OR NOT DEFINED TIMEOUT)
   message(FATAL_ERROR "PROGRAM, FIXTURE, FOLDER, MODE and TIMEOUT are required")
 endif()
@@ -44,8 +49,15 @@ if(MODE STREQUAL "with-pack")
     message(FATAL_ERROR
       "The mutex ${mutex}, new to this run, already exists: '${checked}': ${checkOutput}${checkError}")
   endif()
-  if(NOT checked EQUAL 0 OR NOT checkOutput MATCHES "(^|\n)single-instance check: Continue\r?\n")
+  if(NOT checkOutput MATCHES "(^|\n)single-instance check: Continue\r?\n")
     message(FATAL_ERROR "The single-instance check could not be made: '${checked}': ${checkOutput}${checkError}")
+  endif()
+  if(checkOutput MATCHES "(^|\n)second-window check: AlreadyOpen\r?\n")
+    message(FATAL_ERROR
+      "A window of the class ${mutex}, new to this run, already exists: '${checked}': ${checkOutput}${checkError}")
+  endif()
+  if(NOT checked EQUAL 0 OR NOT checkOutput MATCHES "(^|\n)second-window check: Continue\r?\n")
+    message(FATAL_ERROR "The second-window check could not be made: '${checked}': ${checkOutput}${checkError}")
   endif()
 endif()
 execute_process(COMMAND "${FIXTURE}" "${pack}" "${mutex}" RESULT_VARIABLE written)

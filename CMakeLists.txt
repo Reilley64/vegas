@@ -113,13 +113,16 @@ target_sources(game PRIVATE src/fallout/misc/single_instance_strings.cpp)
 target_sources(game PRIVATE src/fallout/misc/single_instance_check.cpp)
 # Then the data pack stage of main (VEGAS-52).
 target_sources(game PRIVATE src/fallout/misc/data_pack_startup.cpp)
-# Then the native owner of the main window class (VEGAS-52), now the first
-# member listed.
+# Then the native owner of the main window class (VEGAS-52).
 target_sources(game PRIVATE src/fallout/misc/main_window_class.cpp)
+# Then the decision of the second-window check (VEGAS-52), now the first
+# member listed.
+target_sources(game PRIVATE src/fallout/misc/second_window_check.cpp)
 
 add_executable(FalloutNV src/main.cpp src/runtime/new.cpp)
 target_include_directories(FalloutNV PRIVATE include)
-# user32: GetSystemMetrics and MessageBoxA of WinMain's first checks (VEGAS-52).
+# user32: GetSystemMetrics and MessageBoxA of WinMain's first checks, and
+# FindWindowA and SetForegroundWindow of its second-window check (VEGAS-52).
 target_link_libraries(FalloutNV PRIVATE game user32)
 
 # Setup (VEGAS-13; docs/setup.md). It compiles the PE reader and the data

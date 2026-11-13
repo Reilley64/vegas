@@ -3,6 +3,7 @@
 #include "fnv/data_pack_startup.h"
 #include "fnv/game_timer.h"
 #include "fnv/memory/process_startup.h"
+#include "fnv/second_window_check.h"
 #include "fnv/single_instance_check.h"
 
 #include <cstdio>
@@ -47,6 +48,17 @@ int ShowMessageBox(const char* text, const char* caption, unsigned int type)
 {
     return MessageBoxA(nullptr, text, caption, type);
 }
+
+// The two calls that the second-window check may make, as WinMain makes them.
+void* FindWindowOfClass(const char* className)
+{
+    return FindWindowA(className, nullptr);
+}
+
+int BringToForeground(void* window)
+{
+    return SetForegroundWindow(static_cast<HWND>(window));
+}
 }
 
 int main()
@@ -71,11 +83,19 @@ int main()
     // The first statements of WinMain (0x0086a850), on the strings the pack
     // stage published: the single-instance and remote-session checks. The
     // mutex handle is never closed, so the process holds it until it ends.
-    const fileformat::SingleInstanceStrings& singleInstance = std::get_if<0>(&load)->singleInstance.get();
+    const fnv::startup::PublishedPackValues& values = *std::get_if<0>(&load);
+    const fileformat::SingleInstanceStrings& singleInstance = values.singleInstance.get();
     CreateMutexA(nullptr, FALSE, singleInstance.mutexName.data());
     if (fnv::startup::CheckSingleInstance(singleInstance, GetLastError(), IsRemoteSession, ShowMessageBox) !=
         fnv::startup::SingleInstanceOutcome::Continue)
         return 0; // WinMain returns 0 after either message box.
-    // The statements of WinMain after the checks are not composed in main.
+    // WinMain's second-window check, on the class name the stage published.
+    // WinMain runs eight statements between the checks above and this one;
+    // main composes none of them (docs/data-pack-startup.md).
+    if (fnv::startup::CheckSecondWindow(values.mainWindowClass.get(), FindWindowOfClass, BringToForeground) !=
+        fnv::startup::SecondWindowOutcome::Continue)
+        return 0; // WinMain returns 0 after bringing the window to the foreground.
+    // The statements of WinMain after the second-window check are not
+    // composed in main.
     return 0;
 }

@@ -71,7 +71,7 @@ int main()
     // The first statements of WinMain (0x0086a850), on the strings the pack
     // stage published: the single-instance and remote-session checks. The
     // mutex handle is never closed, so the process holds it until it ends.
-    const fileformat::SingleInstanceStrings& singleInstance = std::get_if<0>(&load)->get();
+    const fileformat::SingleInstanceStrings& singleInstance = std::get_if<0>(&load)->singleInstance.get();
     CreateMutexA(nullptr, FALSE, singleInstance.mutexName.data());
     if (fnv::startup::CheckSingleInstance(singleInstance, GetLastError(), IsRemoteSession, ShowMessageBox) !=
         fnv::startup::SingleInstanceOutcome::Continue)

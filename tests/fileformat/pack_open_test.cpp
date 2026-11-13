@@ -348,8 +348,9 @@ void RefusesToValidate(Checks& check, std::string_view name, const fs::path& fil
     }
 }
 
-// A pack of catalogue version 1: C1 under INST, version 1, its four fields of
-// 20, 60, 8 and 52 bytes holding made-up strings and zeros.
+// A pack of catalogue version 2: C1 under INST, version 1, its four fields of
+// 20, 60, 8 and 52 bytes, and the main window class under WNDC, version 1,
+// its one field of 256 bytes, each holding a made-up string and zeros.
 std::vector<std::byte> CompletePack()
 {
     std::string payload(140, '\0');
@@ -357,8 +358,10 @@ std::vector<std::byte> CompletePack()
     payload.replace(20, 5, "first");
     payload.replace(80, 3, "cap");
     payload.replace(88, 6, "second");
-    const std::array<PackWriteEntry, 1> one{Entry("INST", 1, payload)};
-    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), one);
+    std::string windowClass(256, '\0');
+    windowClass.replace(0, 5, "class");
+    const std::array<PackWriteEntry, 2> two{Entry("INST", 1, payload), Entry("WNDC", 1, windowClass)};
+    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), two);
 }
 
 // The file of a complete pack opens and validates; each stage before the
@@ -376,6 +379,8 @@ void OpensAndValidates(Checks& check)
                 std::string_view(pack.SingleInstance().messageCaption.data()));
     check.Equal("validated: second message text", std::string_view("second"),
                 std::string_view(pack.SingleInstance().secondMessageText.data()));
+    check.Equal("validated: class name", std::string_view("class"),
+                std::string_view(pack.WindowClass().className.data()));
 
     RefusesToValidate<fileformat::PackOpenError>(check, "validate: no file", folder.path / "absent.pack",
                                                  PackOpenProblem::Missing);

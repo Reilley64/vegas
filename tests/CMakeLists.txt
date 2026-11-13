@@ -573,6 +573,7 @@ else()
   target_sources(runtime_data_pack_startup_test PRIVATE
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/data_pack_startup.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/single_instance_strings.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/main_window_class.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_open.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
@@ -1244,3 +1245,34 @@ if(GIT_FOUND)
         -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/build_commit_repository.cmake)
   endforeach()
 endif()
+
+# The native owner of the main window class (VEGAS-52), published from packs
+# the data pack writer makes while the test runs; a read before publication
+# aborts. The data pack stage, refused, publishes no main window class.
+add_executable(runtime_main_window_class_test runtime/main_window_class_test.cpp)
+target_include_directories(runtime_main_window_class_test PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+if(WIN32)
+  target_link_libraries(runtime_main_window_class_test PRIVATE game)
+else()
+  target_sources(runtime_main_window_class_test PRIVATE
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/main_window_class.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_container.cpp
+    ${PROJECT_SOURCE_DIR}/src/fileformat/pack_writer.cpp)
+  target_link_libraries(runtime_main_window_class_test PRIVATE ZLIB::ZLIBSTATIC)
+endif()
+add_test(NAME runtime.main_window_class COMMAND runtime_main_window_class_test)
+add_test(NAME runtime.main_window_class.unpublished_read
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_main_window_class_test>
+    -DMODE=--read-unpublished
+    -DMARKER=read-unpublished
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)
+add_test(NAME runtime.data_pack_startup.refused_publishes_no_window_class
+  COMMAND ${CMAKE_COMMAND}
+    -DPROGRAM=$<TARGET_FILE:runtime_data_pack_startup_test>
+    -DMODE=--refused-then-read-window-class
+    -DMARKER=refused-then-read-window-class
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/runtime/expect_abort.cmake)

@@ -1,10 +1,10 @@
 // For the tests that run FalloutNV.exe.
 //
 // falloutnv_pack_fixture PATH MUTEX writes a complete synthetic data pack of
-// catalogue version 1 to PATH whose mutex name is MUTEX. It records the
-// supported release's identity, so it claims that identity: it is compared,
-// not proved. Its other strings are made up; none is a string of the original
-// release.
+// catalogue version 2 to PATH whose mutex name and main window class name are
+// both MUTEX. It records the supported release's identity, so it claims that
+// identity: it is compared, not proved. Its other strings are made up; none
+// is a string of the original release.
 //
 // falloutnv_pack_fixture --check MUTEX makes the calls of the single-instance
 // check that main makes, CreateMutexA on MUTEX and the decision with the real
@@ -34,6 +34,7 @@
 namespace
 {
 constexpr std::array<std::size_t, 4> fieldBytes{20, 60, 8, 52};
+constexpr std::size_t classBytes = 256;
 
 bool IsRemoteSession()
 {
@@ -80,7 +81,12 @@ int Write(const char* path, std::string_view mutexName)
             payload.push_back(static_cast<std::byte>(c));
         payload.resize(payload.size() + fieldBytes[i] - texts[i].size());
     }
-    const std::array<fileformat::PackWriteEntry, 1> entries{{{{'I', 'N', 'S', 'T'}, 1, payload}}};
+    std::vector<std::byte> classPayload;
+    for (const char c : mutexName)
+        classPayload.push_back(static_cast<std::byte>(c));
+    classPayload.resize(classBytes);
+    const std::array<fileformat::PackWriteEntry, 2> entries{
+        {{{'I', 'N', 'S', 'T'}, 1, payload}, {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     const std::vector<std::byte> pack =
         fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);
     std::ofstream out(path, std::ios::binary | std::ios::trunc);

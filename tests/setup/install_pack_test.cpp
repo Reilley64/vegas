@@ -114,15 +114,19 @@ void HoldsNames(Checks& check, std::string_view name, const Folder& folder, cons
 
 // A complete pack of made-up strings that records the supported release's
 // identity: it is compared, not proved.
-std::vector<std::byte> CompletePack(std::string_view mutexName)
+std::vector<std::byte> CompletePack(std::string_view mutexName, std::string_view className = "window class")
 {
     std::string payload(140, '\0');
     payload.replace(0, mutexName.size(), mutexName);
     payload.replace(20, 5, "first");
     payload.replace(80, 5, "Error");
     payload.replace(88, 6, "second");
+    std::string windowClass(256, '\0');
+    windowClass.replace(0, className.size(), className);
     const std::vector<std::byte> bytes = Bytes(payload);
-    const std::array<fileformat::PackWriteEntry, 1> entries{{{{'I', 'N', 'S', 'T'}, 1, bytes}}};
+    const std::vector<std::byte> classBytes = Bytes(windowClass);
+    const std::array<fileformat::PackWriteEntry, 2> entries{
+        {{{'I', 'N', 'S', 'T'}, 1, bytes}, {{'W', 'N', 'D', 'C'}, 1, classBytes}}};
     return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);
 }
 
@@ -182,6 +186,11 @@ void KeepsTheExistingPack(Checks& check)
                      InstallProblem::StagedInvalid);
     HoldsNames(check, "other values: names", folder, std::set<std::string>{std::string(packName)});
     check.Equal("other values: existing pack", true, folder.Read(packName) == old);
+
+    RefusesToInstall(check, "other class name", folder.path, CompletePack("mutex", "other window class"), expected,
+                     InstallProblem::StagedInvalid);
+    HoldsNames(check, "other class name: names", folder, std::set<std::string>{std::string(packName)});
+    check.Equal("other class name: existing pack", true, folder.Read(packName) == old);
 
     RefusesToInstall(check, "truncated", folder.path, std::span(pack).first(pack.size() - 1), expected,
                      InstallProblem::StagedInvalid);

@@ -97,7 +97,7 @@ class OriginalCheckedPack
 // MissingEntry is checked first, for each catalogue entry in turn. Then
 // UnknownKey, EntryVersion and EntrySize are checked in that order for each
 // entry of the pack in turn. FieldTerminator is checked last, for each field
-// in turn.
+// in turn, the entries in catalogue order.
 enum class PackCatalogueProblem
 {
     MissingEntry,    // the pack has no entry with the key of a catalogue entry
@@ -155,16 +155,23 @@ class ValidatedPack
     const SingleInstanceStrings& SingleInstance() const& { return singleInstance; }
     const SingleInstanceStrings& SingleInstance() const&& = delete;
 
+    // The main window class's class name, a zero byte and zeros to the end
+    // of its field.
+    const MainWindowClass& WindowClass() const& { return windowClass; }
+    const MainWindowClass& WindowClass() const&& = delete;
+
   private:
     friend ValidatedPack ValidatePack(std::vector<std::byte> file);
 
-    ValidatedPack(const OriginalIdentity& original, const SingleInstanceStrings& singleInstance)
-        : original(original), singleInstance(singleInstance)
+    ValidatedPack(const OriginalIdentity& original, const SingleInstanceStrings& singleInstance,
+                  const MainWindowClass& windowClass)
+        : original(original), singleInstance(singleInstance), windowClass(windowClass)
     {
     }
 
     OriginalIdentity original;
     SingleInstanceStrings singleInstance;
+    MainWindowClass windowClass;
 };
 
 } // namespace fileformat

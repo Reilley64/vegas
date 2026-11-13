@@ -222,9 +222,11 @@ void RefusesExtraction(Checks& check, std::string_view name, const Synthetic& sy
 }
 
 // The pack written from a synthetic executable records its identity and
-// holds C1 as setup writes it. The same entry, written again with the
-// supported release's identity (compared, not proved), passes the complete
-// validator with the same strings.
+// holds C1 as setup writes it. Setup does not yet read the main window class,
+// so the same entry, written again with the supported release's identity
+// (compared, not proved), is refused by the complete validator for the
+// missing WNDC entry; with a made-up WNDC entry beside it, it passes with the
+// same strings.
 void PreparesAPack(Checks& check)
 {
     const std::vector<std::byte> file = Build(Typical());
@@ -245,8 +247,19 @@ void PreparesAPack(Checks& check)
         check, "staged: complete validator", [&] { fileformat::ValidatePack(staged); }, OriginalProblem::Digest);
 
     const std::array<fileformat::PackWriteEntry, 1> entries{{{{'I', 'N', 'S', 'T'}, 1, payload}}};
+    Refuses<fileformat::PackCatalogueError>(
+        check, "C1 alone: complete validator",
+        [&] {
+            fileformat::ValidatePack(
+                fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+        },
+        fileformat::PackCatalogueProblem::MissingEntry, "entry WNDC");
+    std::vector<std::byte> madeUpClass(256);
+    madeUpClass[0] = std::byte{'w'};
+    const std::array<fileformat::PackWriteEntry, 2> withClass{
+        {{{'I', 'N', 'S', 'T'}, 1, payload}, {{'W', 'N', 'D', 'C'}, 1, madeUpClass}}};
     const fileformat::ValidatedPack validated = fileformat::ValidatePack(
-        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), withClass));
     const fileformat::SingleInstanceStrings& strings = validated.SingleInstance();
     check.Equal("validated: mutex name", true, Holds(strings.mutexName, someTexts[0]));
     check.Equal("validated: first message text", true, Holds(strings.firstMessageText, someTexts[1]));

@@ -1,6 +1,7 @@
 # Copies PROGRAM, the built FalloutNV.exe, alone into FOLDER/executable and
 # runs it there with FOLDER/working as its working directory. FIXTURE writes a
-# complete synthetic data pack whose mutex name is new to this run.
+# complete synthetic data pack whose mutex name and main window class name are
+# one name new to this run.
 #
 # MODE with-pack: the pack is written beside the copy; the run must exit 0.
 # MODE without-pack: the pack is written only in the working directory; the

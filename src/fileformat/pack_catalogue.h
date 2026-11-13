@@ -15,7 +15,7 @@ namespace fileformat
 // 2026-11-13, a pack's header field must equal it, and any change to the
 // required entries raises it by one. It is its own constant, not the
 // container's revision.
-inline constexpr std::uint32_t packCatalogueVersion = 1;
+inline constexpr std::uint32_t packCatalogueVersion = 2;
 
 // One entry of the catalogue: a pack holds it under `key`, with exactly
 // `version` and exactly `bytes` bytes.
@@ -48,9 +48,29 @@ inline constexpr PackCatalogueEntry singleInstanceEntry{
 };
 static_assert(singleInstanceEntry.bytes == 140);
 
-// Every entry of catalogue version 1, in ascending key order. A pack holds
+// The value of the main window class: the class name that the second-window
+// check of WinMain reads, after the single-instance and remote-session
+// checks. The original reaches it through the pointer at 0x011a2fe8. Its
+// capacity is 256 bytes, the length limit Windows documents for a window
+// class name; the recipe binds no address inside the string, so it has no
+// recipe bound. The field holds the class name, then a zero byte, then zeros
+// to its end.
+struct MainWindowClass
+{
+    std::array<char, 256> className; // the class name of the main window
+};
+
+// The main window class's entry: its one field.
+inline constexpr PackCatalogueEntry mainWindowClassEntry{
+    {'W', 'N', 'D', 'C'},
+    1,
+    sizeof(MainWindowClass::className),
+};
+static_assert(mainWindowClassEntry.bytes == 256);
+
+// Every entry of catalogue version 2, in ascending key order. A pack holds
 // each of them and no other.
-inline constexpr std::array<PackCatalogueEntry, 1> packCatalogue{singleInstanceEntry};
+inline constexpr std::array<PackCatalogueEntry, 2> packCatalogue{singleInstanceEntry, mainWindowClassEntry};
 
 } // namespace fileformat
 

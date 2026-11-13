@@ -96,6 +96,16 @@ SingleInstanceStrings DecodeSingleInstance(std::span<const std::byte> payload)
     return strings;
 }
 
+// The main window class's one field. The payload is
+// mainWindowClassEntry.bytes long, and the field starts as zeros.
+MainWindowClass DecodeMainWindowClass(std::span<const std::byte> payload)
+{
+    ByteReader reader(payload, format);
+    MainWindowClass windowClass{};
+    DecodeString(reader, windowClass.className, "entry WNDC: class name");
+    return windowClass;
+}
+
 } // namespace
 
 OriginalCheckedPack CheckPackOriginal(std::vector<std::byte> file)
@@ -116,7 +126,9 @@ ValidatedPack ValidatePack(std::vector<std::byte> file)
 {
     const OriginalCheckedPack pack = CheckPackOriginal(std::move(file));
     CheckCatalogue(pack.Entries());
-    return ValidatedPack(pack.Original(), DecodeSingleInstance(Payload(pack, singleInstanceEntry)));
+    const SingleInstanceStrings singleInstance = DecodeSingleInstance(Payload(pack, singleInstanceEntry));
+    return ValidatedPack(pack.Original(), singleInstance,
+                         DecodeMainWindowClass(Payload(pack, mainWindowClassEntry)));
 }
 
 std::span<const std::byte> OriginalCheckedPack::EntryBytes(std::size_t index) const&

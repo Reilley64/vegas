@@ -23,7 +23,8 @@ bool SameValues(const fileformat::ValidatedPack& a, const fileformat::ValidatedP
     const fileformat::SingleInstanceStrings& y = b.SingleInstance();
     return a.Original().version == b.Original().version && a.Original().sha256 == b.Original().sha256 &&
            x.mutexName == y.mutexName && x.firstMessageText == y.firstMessageText &&
-           x.messageCaption == y.messageCaption && x.secondMessageText == y.secondMessageText;
+           x.messageCaption == y.messageCaption && x.secondMessageText == y.secondMessageText &&
+           a.WindowClass().className == b.WindowClass().className;
 }
 
 // Reads `file` back and fails with `problem` unless it validates and holds

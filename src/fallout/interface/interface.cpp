@@ -2565,7 +2565,7 @@ void FUN_00705870(int arg)
     if (FUN_00705100())
         FUN_00763ff0();
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) > 1 && (*reinterpret_cast<int *>(&::g_011d8950)) == 0)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) > 1 && (*reinterpret_cast<int *>(&::g_011d8950)) == 0)
     {
         (*reinterpret_cast<int *>(&::g_011d8950)) = 5;
         DAT_011d8960 = arg;
@@ -5045,11 +5045,6 @@ class TESGlobal : public TESForm
   public:
 };
 
-class Setting
-{
-  public:
-};
-
 extern Setting* DAT_0119b354[];
 extern Setting* DAT_0119b35c[];
 extern Setting* DAT_0119b364[];
@@ -6730,7 +6725,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     m10 = 0x11;
     m23 = m10 * m10;
 
-    gridSize13 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GObj *>(&::g_011c63cc))))));
+    gridSize13 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GObj *>(&::g_011c63cc))))));
     totalCells21 = gridSize13 * gridSize13;
     totalSize40 = size27 * gridSize13;
     fStep27 = ::FUN_00879d90();
@@ -6758,8 +6753,8 @@ void __cdecl FUN_0079ffb0(char param_1)
     if (cMenuOk4 == '\0')
         reinterpret_cast<::TaskQueueInterface *>((pMenu25))->QueueActorDisarm(1);
 
-    cellX17 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GObj *>(&::g_011c63cc))))));
-    cellY10 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 / *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GObj *>(&::g_011c63cc))))));
+    cellX17 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GObj *>(&::g_011c63cc))))));
+    cellY10 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 / *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GObj *>(&::g_011c63cc))))));
 
     Local12 local1415(0);
     pSub10 = 0;
@@ -8463,8 +8458,8 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             perk = 0.0f;
             ::ApplyPerkModifiers(0x37, (::Actor *)(::DisplayPlayer *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)), &perk);
 
-            if (perk > 0.0 && weight <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting31)))))))
-                weight *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting32))))));
+            if (perk > 0.0 && weight <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting31)))))))
+                weight *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting32))))));
 
             if (weight > 0.0)
                 ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));

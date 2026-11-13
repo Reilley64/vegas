@@ -89,3 +89,8 @@ function	package	src/fallout_shared/package.cpp	?IsActorInPackageRadius@FUN_0067
 # and throw settings and fMagicUnitsPerFoot.
 function	telekinesiseffect	src/fallout/magic/telekinesiseffect.cpp	?FUN_0082afa0@TelekinesisEffectT@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	telekinesiseffect	src/fallout/magic/telekinesiseffect.cpp	?UpdateGrabEffect@Effect@@QEAAXM@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of interface.cpp whose
+# calls of the accessor all moved (VEGAS-122), since the unit's own empty
+# Setting went. It reads fPackRatThreshold and fPackRatModifier.
+# ResolveSettingString keeps a call whose argument is not a global.
+function	interface	src/fallout/interface/interface.cpp	?FUN_00707e30@@YAXPEAUDisplayItem@@PEAUDisplayTile@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

@@ -64,3 +64,9 @@ function	package	src/fallout_shared/package.cpp	?GetPackageResult@Package@fnv_00
 function	package	src/fallout_shared/package.cpp	?IsTargetInRange@FUN_00677570_shell@fnv_00677570@@QEAA_NPEAUActorStandIn@2@M@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	package	src/fallout_shared/package.cpp	?IsTargetWithinRadius@Package@@QEAA_NPEAVActor@@H@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	package	src/fallout_shared/package.cpp	?IsWithinPackageLocation@P070Package@@QEAA_NPEAUP070Ref@@0_NM1@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: the functions of interface.cpp whose
+# calls of the accessor all moved (VEGAS-117), since the unit's own empty
+# Setting went. They read iNumHWThreads:General and uGridsToLoad:General.
+# ResolveSettingString keeps a call whose argument is not a global.
+function	interface	src/fallout/interface/interface.cpp	?FUN_00705870@@YAXH@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	interface	src/fallout/interface/interface.cpp	?FUN_0079ffb0@@YAXD@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

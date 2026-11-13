@@ -329,7 +329,7 @@ class Rendering(unittest.TestCase):
                 self.assertNotIn(word, text)
         self.assertIn("An edge is `measured`, with the kind of report it cites, `curated` or `modelled`.", page)
         self.assertIn("| in-progress | Its ticket is in progress in the tracker. The snapshot commit does not have "
-                      "it. |", page)
+                      "all of its work. |", page)
         tiers = [tier for tier, _ in startup_map.TIERS]
         self.assertEqual(tiers.index("forced-link"), tiers.index("source") + 1)
         self.assertLess(tiers.index("forced-link"), tiers.index("lazy-link"))

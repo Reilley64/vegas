@@ -38,9 +38,10 @@ flowchart TB
     wndproc["Window procedure 0x0086a0a0<br/>BLOCKED, lazy-link, VEGAS-30"]
   end
   subgraph contract["Contracts"]
-    c_calls_bound["Calls of 0x008774a0 and 0x008707c0 repaired and bound to their rows<br/>ACCEPTED, object-check, VEGAS-90"]
-    c_call_repair["Call repairs that change a conversion on main.cpp calls<br/>WAITING, curated, VEGAS-90 Needs triage"]
-    c_870bd0["0x00870bd0 definition repair, parameter int to void*<br/>IN-PROGRESS, curated, VEGAS-97 In progress"]
+    c_calls_bound["Calls of 0x008774a0, 0x008707c0 and 0x00870bd0 repaired and bound to their rows<br/>ACCEPTED, object-check, VEGAS-90"]
+    c_call_repair["Call repairs that change a conversion on main.cpp calls<br/>READY, curated, VEGAS-90 Needs triage"]
+    c_870bd0["0x00870bd0 definition repaired, texture parameter void*, call bound<br/>ACCEPTED, object-check, VEGAS-97"]
+    c_870a00["0x00870a00 call waits on a shared declaration of the texture type<br/>WAITING, source, VEGAS-97"]
     c_shared_classes["Shared declarations of the 12 classes the boot bodies construct<br/>WAITING, source, VEGAS-30"]
     c_niobject["Shared NiObject with its virtual slot table<br/>WAITING, source, VEGAS-30"]
     c_niobjectnet["Shared NiObjectNET with its virtual slot table<br/>WAITING, source, VEGAS-30"]
@@ -64,7 +65,8 @@ flowchart TB
   subgraph ticket["Tickets"]
     t_vegas109["DAT_01202fa0, the user folder buffer, defined as 260 bytes<br/>ACCEPTED, object-check, VEGAS-109 Done"]
     t_vegas112["DAT_01202b48 and DAT_01202e98 defined as a byte and an int, written as 260-byte buffers<br/>READY, curated, VEGAS-112 Needs triage"]
-    t_vegas111["FUN_0043d4d0 returns a setting's address plus 4; the x64 value is at plus 8<br/>IN-PROGRESS, curated, VEGAS-111 In progress"]
+    t_vegas111["FUN_0043d4d0 reads the setting value at plus 8; 286 calls stay on the old form<br/>IN-PROGRESS, object-check, VEGAS-111 In progress"]
+    t_vegas115["41 calls of FUN_0043d4d0 in main.cpp, S6 and S8 among them, on the old form<br/>READY, source, VEGAS-115 Needs triage"]
   end
   setup_prepare --> setup_install
   setup_install --> main_pack
@@ -77,8 +79,9 @@ flowchart TB
   t_vegas109 -.-> s2_s5
   t_vegas112 -. "blocks" .-> s2_s5
   t_vegas112 -. "blocks" .-> s7
-  t_vegas111 -. "blocks" .-> s6
-  t_vegas111 -. "blocks" .-> s8
+  t_vegas115 -. "blocks" .-> s6
+  t_vegas115 -. "blocks" .-> s8
+  t_vegas115 -.-> t_vegas111
   winmain -->|calls| mainloop
   winmain -->|calls| bootinit
   winmain -->|calls| render
@@ -86,6 +89,7 @@ flowchart TB
   g_main_obj --> winmain
   c_calls_bound --> g_main_obj
   c_call_repair ==>|blocks| g_main_obj
+  c_870a00 ==>|blocks| g_main_obj
   c_shared_classes ==>|blocks| g_main_obj
   c_setting_t ==>|blocks| g_main_obj
   c_receiver -. "blocks" .-> g_main_obj
@@ -107,29 +111,28 @@ flowchart TB
   winmain --> g_next
   c_dup_checks -.-> g_next
   g_next -.-> g_menu
-  c_870bd0 -. "estimate of 132 closure names" .-> winmain
   c_player -. "estimate of 40 closure names" .-> bootinit
   c_tes -. "estimate of 27 closure names" .-> winmain
   classDef accepted fill:#d8f0d8,stroke:#2e7d32,color:#000
-  class setup_prepare,setup_install,main_memory,main_timer,main_folder,main_pack,main_publish,main_single,main_second,c_calls_bound,t_vegas109 accepted
+  class setup_prepare,setup_install,main_memory,main_timer,main_folder,main_pack,main_publish,main_single,main_second,c_calls_bound,c_870bd0,t_vegas109 accepted
   classDef in_progress fill:#e6dcf5,stroke:#5e35b1,color:#000
-  class c_870bd0,c_setting_t,t_vegas111 in_progress
+  class c_setting_t,t_vegas111 in_progress
   classDef ready fill:#fff4c2,stroke:#a07800,color:#000
-  class c_differing,t_vegas112 ready
+  class c_call_repair,c_differing,t_vegas112,t_vegas115 ready
   classDef waiting fill:#ffe2c4,stroke:#c25e00,color:#000
-  class s1,s2_s5,s6,s7,s8,c_call_repair,c_shared_classes,c_niobject,c_niobjectnet,c_niproperty,c_niavobject,c_ninode,c_player,c_tes,c_hand_tables waiting
+  class s1,s2_s5,s6,s7,s8,c_870a00,c_shared_classes,c_niobject,c_niobjectnet,c_niproperty,c_niavobject,c_ninode,c_player,c_tes,c_hand_tables waiting
   classDef blocked fill:#f8d4d4,stroke:#b71c1c,color:#000
   class winmain,mainloop,bootinit,render,wndproc,g_main_obj,g_engine_link,g_next,g_menu blocked
   classDef unknown fill:#e8e8e8,stroke:#616161,color:#000
   class c_receiver,c_dup_checks unknown
   classDef curated stroke-dasharray:6 4
-  class c_call_repair,c_870bd0,c_hand_tables,c_setting_t,c_differing,g_menu,t_vegas112,t_vegas111 curated
+  class c_call_repair,c_hand_tables,c_setting_t,c_differing,g_menu,t_vegas112 curated
 ```
 
 Each box shows its state in capitals, its evidence tier and its ticket. The tiers name distinct kinds of evidence. When a tracker state follows the ticket, the box takes its state from the tracker, and every other box takes its state from the repository.
 An unlabelled arrow points from what is needed to what needs it. A `blocks` arrow starts at the blocker, a `calls` arrow at the caller and an `estimate` arrow at the work.
 A dashed box or arrow is curated, which means that a person stated it and no machine check proves it. Estimate arrows are dashed too, and they are modelled counts.
 
-The map is a snapshot of `3503a01a1` with evidence as of 2026-11-13. [docs/startup-map.md](docs/startup-map.md) lists every node, edge, source and limitation.
+The map is a snapshot of `c3ad69b43` with evidence as of 2026-11-13. [docs/startup-map.md](docs/startup-map.md) lists every node, edge, source and limitation.
 
 <!-- startup-map:end -->

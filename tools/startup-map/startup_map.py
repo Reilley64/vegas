@@ -34,7 +34,7 @@ KINDS = [
 STATES = {
     "accepted": "The snapshot commit has it, and the evidence of its tier covers it.",
     "in-review": "Its work is written and under review. The snapshot commit does not have it.",
-    "in-progress": "Its ticket is in progress in the tracker. The snapshot commit does not have it.",
+    "in-progress": "Its ticket is in progress in the tracker. The snapshot commit does not have all of its work.",
     "ready": "Work on it can start now, because no `requires` or `blocks` edge makes it need an unfinished node.",
     "waiting": "It waits on a named contract, ruling, owner or ticket.",
     "blocked": "It requires nodes that are not done, and it cannot be done before they are.",

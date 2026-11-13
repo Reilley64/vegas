@@ -135,7 +135,8 @@ target_include_directories(source_calling_convention_keywords_test PRIVATE ${CMA
 add_test(NAME source.calling_convention_keywords
   COMMAND source_calling_convention_keywords_test ${PROJECT_SOURCE_DIR})
 
-# Setup's recipe ranges of C1 match the recipe (tools/setup-recipe-ranges).
+# Setup's recipe ranges of C1 and the main window class's pointer match the
+# recipe (tools/setup-recipe-ranges).
 # Without Python 3 the configure goes on, and the test is still registered
 # and fails with that reason, so the check is never silently missing.
 find_package(Python3 COMPONENTS Interpreter)
@@ -143,7 +144,8 @@ if(Python3_Interpreter_FOUND)
   add_test(NAME setup.recipe_ranges
     COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/setup-recipe-ranges/check.py
             --recipe ${PROJECT_SOURCE_DIR}/build/units.json
-            --source ${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h)
+            --source ${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h
+            --pointer-source ${PROJECT_SOURCE_DIR}/src/setup/main_window_class_range.h)
 else()
   string(CONCAT setup_recipe_ranges_missing
     "Python 3 was not found when configuring, so setup.recipe_ranges cannot "

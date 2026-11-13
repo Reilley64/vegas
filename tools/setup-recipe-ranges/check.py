@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Check setup's recipe ranges of C1 against the recipe.
+"""Check setup's recipe ranges against the recipe.
 
 usage: check.py --recipe UNITS_JSON --source SINGLE_INSTANCE_RANGES_H
+                --pointer-source MAIN_WINDOW_CLASS_RANGE_H
 
 Reads the rows of singleInstanceRanges in src/setup/single_instance_ranges.h
+and the row of mainWindowClassRange in src/setup/main_window_class_range.h,
 and fails when any of these holds:
   a. there are not exactly four rows;
   b. a row's name is not a str_ name that spells its address, or the recipe
@@ -13,7 +15,13 @@ and fails when any of these holds:
      address any unit of the recipe binds, by a function row or a symbol;
   d. a row names a literal that no unit of the recipe binds at its address,
      whose name does not spell its whole text with a zero byte, or whose text
-     is not the row's.
+     is not the row's;
+  e. there is not exactly one mainWindowClassRange row;
+  f. its name is not a char pointer named for its address, the recipe entries
+     of src/fallout/misc/main.cpp, merged, do not bind it, or a unit of the
+     recipe binds it at another address;
+  g. the distance from its address to the next address any unit of the
+     recipe binds is less than 4, the size of a 32-bit pointer.
 README.md in this directory says what it does not check.
 """
 import argparse
@@ -28,6 +36,11 @@ ROW = re.compile(
     r'^\s*\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", 0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+), '
     r'(?:\{\}|"(?P<literal>[^"]*)"), (?:\{\}|"(?P<text>[^"]*)")\},\s*$')
 STR_NAME = re.compile(r"^\?str_([0-9a-f]{8})@@")
+POINTER_ROW = re.compile(
+    r'^inline constexpr PointerRange mainWindowClassRange\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", '
+    r'0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+)\};\s*$')
+CHAR_POINTER_NAME = re.compile(r"^\?_?DAT_([0-9a-f]{8})@@3PADA$")
+POINTER_BYTES = 4
 LITERAL = re.compile(r"^\?\?_C@_0(?:(?P<digit>[0-9])|(?P<hex>[A-P]+)@)[A-P]*@(?P<content>.*)@$")
 
 
@@ -46,6 +59,12 @@ def rows(source):
                     raise SystemExit("cannot read the row: " + line.strip())
                 found.append(match)
     return found
+
+
+def pointer_rows(source):
+    """The mainWindowClassRange rows, in order."""
+    with open(source, encoding="utf-8") as text:
+        return [match for match in map(POINTER_ROW.match, text) if match]
 
 
 def literal_text(name):
@@ -77,11 +96,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--recipe", required=True)
     parser.add_argument("--source", required=True)
+    parser.add_argument("--pointer-source", required=True)
     args = parser.parse_args()
 
     with open(args.recipe, encoding="utf-8") as text:
         units = json.load(text)["units"]
-    bound, main_names, literals = set(), {}, {}
+    bound, main_names, literals, binders = set(), {}, {}, {}
     for unit in units:
         for function in unit.get("functions", []):
             bound.add(int(function["address"], 16))
@@ -89,6 +109,7 @@ def main():
             address = int(address, 16)
             bound.add(address)
             literals.setdefault(name, set()).add(address)
+            binders.setdefault(name, set()).add(unit["source"])
             if unit["source"] == MAIN_SOURCE:
                 main_names.setdefault(name, set()).add(address)
     addresses = sorted(bound)
@@ -119,9 +140,27 @@ def main():
             if literal_text(literal) != text + "\0":
                 problems.append("d %s: %s does not spell exactly \"%s\" and a zero byte" % (field, literal, text))
 
+    pointers = pointer_rows(args.pointer_source)
+    if len(pointers) != 1:
+        problems.append("e %d mainWindowClassRange rows, expected 1" % len(pointers))
+    for row in pointers:
+        field, name, address = row["field"], row["name"], int(row["address"], 16)
+        spelled = CHAR_POINTER_NAME.match(name)
+        if not spelled or int(spelled[1], 16) != address:
+            problems.append("f %s: %s is not a char pointer named for 0x%08x" % (field, name, address))
+        if MAIN_SOURCE not in binders.get(name, ()):
+            problems.append("f %s: %s is not bound for %s" % (field, name, MAIN_SOURCE))
+        if literals.get(name, set()) - {address}:
+            problems.append("f %s: %s is also bound at %s" % (
+                field, name, sorted(hex(a) for a in literals[name] - {address})))
+        following = bisect.bisect_right(addresses, address)
+        distance = addresses[following] - address if following < len(addresses) else None
+        if distance is None or distance < POINTER_BYTES:
+            problems.append("g %s: the recipe bound is %s, less than %d" % (field, distance, POINTER_BYTES))
+
     for problem in problems:
         print(problem)
-    print("%d rows, %d problems" % (len(found), len(problems)))
+    print("%d rows, %d pointer rows, %d problems" % (len(found), len(pointers), len(problems)))
     return 1 if problems else 0
 
 

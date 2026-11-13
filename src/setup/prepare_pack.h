@@ -13,9 +13,17 @@
 namespace setup
 {
 
-// Why a field of C1 cannot be read from an identified executable as stored.
-// The problems are checked in the order listed for each field in turn, in
-// catalogue order, so a problem of an earlier field is reported first.
+// Why a field cannot be read from an identified executable as stored. The
+// fields are checked in catalogue order, C1's four and then the main window
+// class's, so a problem of an earlier field is reported first.
+//
+// For a C1 field the problems NoSection to KnownString are checked in the
+// order listed. The main window class's string is reached through a stored
+// pointer: NoSection to ZeroTail are checked for the four bytes of the
+// pointer ("class name pointer" in the message), then RelocationTable and
+// NoRelocation, then for the string it points to ("class name string")
+// NoSection to NotInitializedData, WritableSection, ZeroTail and
+// NoTerminator.
 enum class ExtractProblem
 {
     NoSection,          // no section holds the field's first byte in memory, or it is below the image base
@@ -25,9 +33,12 @@ enum class ExtractProblem
     ZeroTail,           // the field's bytes run past the section's stored bytes, into its zero tail or beyond
     NoTerminator,       // no zero byte within the field's capacity
     KnownString,        // the string is not the text of the recipe literal at its address
+    RelocationTable,    // the base relocation table is not stored in one section, or a block of it is malformed
+    NoRelocation,       // no 32-bit (HIGHLOW) base relocation covers the pointer
+    WritableSection,    // the pointer's target is in a section marked as writable, not read-only
 };
 
-// Thrown when a field of C1 cannot be read. The message names the field.
+// Thrown when a field cannot be read. The message names the field.
 class ExtractError : public std::runtime_error
 {
   public:
@@ -56,7 +67,7 @@ struct PreparedPack
     fileformat::ValidatedPack validated;
 };
 
-// Prepares the data pack of catalogue version 1 from the bytes of an
+// Prepares the data pack of catalogue version 2 from the bytes of an
 // executable. In order:
 //
 // 1. fileformat::ParsePeFile; throws fileformat::PeError. A 64-bit
@@ -65,16 +76,19 @@ struct PreparedPack
 // 3. fileformat::IdentifyOriginal against the source's supported set;
 //    throws fileformat::UnsupportedOriginalError.
 // 4. Reads C1's four fields at the recipe ranges of
-//    single_instance_ranges.h; throws ExtractError. Each string is copied
-//    through its first zero byte and its field is filled with zeros: no byte
-//    after the zero byte is copied.
+//    single_instance_ranges.h, then the main window class through the
+//    pointer of main_window_class_range.h; throws ExtractError. Each string
+//    is copied through its first zero byte and its field is filled with
+//    zeros: no byte after the zero byte is copied.
 // 5. fileformat::WritePackStructure with the identified original.
 // 6. fileformat::ValidatePack of the written bytes; throws StagedPackError.
 //
 // No set is a parameter: the supported set is the source's, and no form of
 // this function under src/ takes one. The tests run steps 1 to 5 against a
 // set of their own, through staged_pack.h, never step 6. Nothing is
-// decrypted and nothing is read outside the stored bytes of a data section.
+// decrypted. Strings and the pointer are read only from the stored bytes of
+// a data section; the base relocation table is read where the header's data
+// directory places it, in the stored bytes of one section.
 // An allocation failure throws the standard exceptions.
 PreparedPack PrepareDataPack(std::vector<std::byte> executable);
 

@@ -457,8 +457,8 @@ namespace fnv_00c3bc80 {
 // @fnv 0x00c3bc80
 void __cdecl FUN_00c3bc80(const char* pcSuffix)
 {
-    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, ::DAT_01202fa0);
-    fnv::crt::strcat_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, pcSuffix);
+    fnv::crt::strcpy_s(::DAT_01202938, 0x104, ::DAT_01202fa0);
+    fnv::crt::strcat_s(::DAT_01202938, 0x104, pcSuffix);
 }
 }  // namespace fnv_00c3bc80
 

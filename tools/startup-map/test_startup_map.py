@@ -16,9 +16,9 @@ import startup_map  # noqa: E402
 SHA = "0123456789abcdef0123456789abcdef01234567"
 
 
-def node(node_id, state="accepted", tier="source", kind="contract", **extra):
+def node(node_id, state="accepted", tier="source", kind="contract", group=None, **extra):
     item = {"id": node_id, "label": "Node " + node_id, "kind": kind, "state": state, "tier": tier,
-            "source": "docs/example.md"}
+            "source": "docs/example.md", "group": group}
     item.update(extra)
     return item
 
@@ -33,9 +33,10 @@ def edge(start, end, kind="requires", provenance="measured", basis_kind="source"
 def valid():
     return {
         "snapshot": {"source_commit": SHA, "evidence_date": "2026-11-13", "ticket_states_date": "2026-11-13"},
+        "overview": [{"id": "ga", "label": "Group a"}, {"id": "gb", "label": "Group b"}],
         "nodes": [
-            node("a"),
-            node("b", state="waiting"),
+            node("a", group="ga"),
+            node("b", state="waiting", group="gb"),
             node("c", state="ready", tier="curated", kind="ticket", vegas="VEGAS-1", tracker_state="Needs triage"),
         ],
         "edges": [
@@ -322,9 +323,10 @@ class Rendering(unittest.TestCase):
         page, block = startup_map.doc(data), startup_map.readme_block(data)
         arrows = ("An unlabelled arrow points from what is needed to what needs it. A `blocks` arrow starts at the "
                   "blocker, a `calls` arrow at the caller and an `estimate` arrow at the work.")
+        self.assertIn(arrows, page)
+        self.assertIn("distinct kinds of evidence", page)
+        self.assertIn("An arrow points from what is needed to what needs it.", block)
         for text in (page, block):
-            self.assertIn(arrows, text)
-            self.assertIn("distinct kinds of evidence", text)
             for word in ("weakest", "strongest"):
                 self.assertNotIn(word, text)
         self.assertIn("An edge is `measured`, with the kind of report it cites, `curated` or `modelled`.", page)
@@ -361,6 +363,110 @@ class Rendering(unittest.TestCase):
         self.assertRaises(ValueError, startup_map.splice, twice, block)
         spliced = startup_map.splice("# t\n" + startup_map.BEGIN + "old" + startup_map.END + "\ntail\n", block)
         self.assertEqual(spliced, "# t\n" + block + "\ntail\n")
+
+
+class Overview(unittest.TestCase):
+    def assertRefused(self, data, words):
+        found = startup_map.validate(data)
+        self.assertTrue(any(words in problem for problem in found), (words, found))
+
+    def test_every_node_names_a_group_or_none(self):
+        data = valid()
+        del data["nodes"][0]["group"]
+        self.assertRefused(data, "node a lacks group")
+
+    def test_unknown_group_is_refused(self):
+        data = valid()
+        data["nodes"][0]["group"] = "missing"
+        self.assertRefused(data, "node a names the unknown overview group missing")
+
+    def test_group_without_a_node_is_refused(self):
+        data = valid()
+        data["overview"].append({"id": "gc", "label": "Group c"})
+        self.assertRefused(data, "overview group gc has no node")
+
+    def test_group_whose_nodes_differ_in_state_is_refused(self):
+        data = valid()
+        data["nodes"][1]["group"] = "ga"
+        self.assertRefused(data, "overview group ga mixes the states accepted, waiting")
+
+    def test_group_fields_and_ids(self):
+        data = valid()
+        data["overview"][0]["colour"] = "red"
+        self.assertRefused(data, "overview group ga has the unsupported field colour")
+        data = valid()
+        del data["overview"][0]["label"]
+        self.assertRefused(data, "overview group ga lacks label")
+        data = valid()
+        data["overview"][1]["id"] = "ga"
+        self.assertRefused(data, "overview group ga is defined twice")
+        data = valid()
+        data["overview"][0]["id"] = "Group A"
+        self.assertRefused(data, "has an id that is not lower case letters")
+        data = valid()
+        del data["overview"]
+        self.assertRefused(data, "the input lacks overview")
+
+    def test_group_label_follows_the_label_rules(self):
+        data = valid()
+        data["overview"][0]["label"] = 'say "hi"'
+        self.assertRefused(data, "overview group ga label has a character the map does not allow")
+        data = valid()
+        data["overview"][0]["label"] = "1. First"
+        self.assertRefused(data, "overview group ga label starts like a Mermaid list item or heading")
+
+    def test_overview_arrows_cycle_is_refused(self):
+        data = valid()
+        data["overview"] = [{"id": "g1", "label": "One"}, {"id": "g2", "label": "Two"}]
+        data["nodes"] = [node("p", "waiting", group="g1"), node("q", "waiting", group="g1"),
+                         node("r", "waiting", group="g2"), node("s", "waiting", group="g2")]
+        data["edges"] = [edge("r", "p"), edge("q", "s")]
+        self.assertRefused(data, "the overview's arrows form a cycle")
+
+    def test_overview_boxes_and_arrows(self):
+        text = startup_map.overview_mermaid(valid())
+        lines = text.splitlines()
+        self.assertEqual(lines[:4], ["```mermaid", "flowchart TB", '  ga["Group a<br/>ACCEPTED"]',
+                                     '  gb["Group b<br/>WAITING"]'])
+        self.assertIn("  ga --> gb", lines)
+        self.assertIn("  class ga accepted", lines)
+        self.assertIn("  class gb waiting", lines)
+        # c is left out, and calls and estimates are not drawn.
+        self.assertNotIn("c[", text)
+        self.assertNotIn("calls", text)
+        self.assertNotIn("estimate", text)
+        self.assertNotIn("subgraph", text)
+
+    def test_overview_arrow_is_dashed_only_when_every_edge_behind_it_is_curated(self):
+        data = valid()
+        data["edges"][0]["provenance"] = "curated"
+        self.assertIn("  ga -.-> gb", startup_map.overview_mermaid(data).splitlines())
+        data["nodes"].append(node("d", "waiting", group="gb"))
+        data["edges"].append(edge("d", "a"))
+        lines = startup_map.overview_mermaid(data).splitlines()
+        self.assertIn("  ga --> gb", lines)
+        self.assertNotIn("  ga -.-> gb", lines)
+
+    def test_overview_box_is_dashed_when_every_node_is_curated(self):
+        data = valid()
+        data["nodes"][2]["group"] = "gc"
+        data["overview"].append({"id": "gc", "label": "Group c"})
+        # ga holds a curated node and one that is not, so only gc is dashed.
+        data["nodes"].append(node("d", tier="curated", group="ga"))
+        self.assertEqual(startup_map.validate(data), [])
+        lines = startup_map.overview_mermaid(data).splitlines()
+        self.assertEqual([line for line in lines if line.endswith(" curated") and "class " in line], ["  class gc curated"])
+        self.assertNotIn("curated", startup_map.overview_mermaid(valid()))
+
+    def test_readme_shows_the_overview_and_the_page_the_full_diagram(self):
+        data = valid()
+        block, page = startup_map.readme_block(data), startup_map.doc(data)
+        self.assertIn(startup_map.overview_mermaid(data), block)
+        self.assertNotIn(startup_map.mermaid(data), block)
+        self.assertIn(startup_map.mermaid(data), page)
+        self.assertIn("| ga | Group a | accepted | a |", page)
+        self.assertIn("| gb | Group b | waiting | b |", page)
+        self.assertIn("Left out of the overview: `c`.", page)
 
 
 class Check(unittest.TestCase):
@@ -408,6 +514,15 @@ class Check(unittest.TestCase):
         self.run_quietly(self.args)
         with open(self.doc, "a", encoding="utf-8") as handle:
             handle.write("edited\n")
+        self.assertEqual(self.run_quietly(self.args + ["--check"]), 1)
+
+    def test_check_fails_on_a_hand_edit_of_the_readme_overview(self):
+        self.run_quietly(self.args)
+        with open(self.readme, encoding="utf-8") as handle:
+            text = handle.read()
+        self.assertIn("Group a<br/>", text)
+        with open(self.readme, "w", encoding="utf-8") as handle:
+            handle.write(text.replace("Group a<br/>", "Group A<br/>"))
         self.assertEqual(self.run_quietly(self.args + ["--check"]), 1)
 
     def test_check_accepts_crlf_line_ends(self):

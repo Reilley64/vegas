@@ -1,13 +1,13 @@
 # Startup map generator
 
-`startup_map.py` reads `map.json` and writes two files: the Mermaid diagram
-between the `startup-map` markers in the repository's `README.md`, and the
-whole of `docs/startup-map.md`. The map runs from the pack that setup
-prepares, through the accepted steps of `main`, to the statements of
-`WinMain` that `main` skips, the boot bodies and the contracts and gates that
-hold them. It is a derived view. The tracker holds tickets and rulings, the
-documents under `docs/` hold code relationships, and git and CI hold
-accepted commits and checks.
+`startup_map.py` reads `map.json` and writes two files: a small Mermaid
+overview between the `startup-map` markers in the repository's `README.md`,
+and the whole of `docs/startup-map.md`, which holds the full diagram. The map
+runs from the pack that setup prepares, through the accepted steps of `main`,
+to the statements of `WinMain` that `main` skips, the boot bodies and the
+contracts and gates that hold them. It is a derived view. The tracker holds
+tickets and rulings, the documents under `docs/` hold code relationships, and
+git and CI hold accepted commits and checks.
 
 It needs Python 3 and no other package.
 
@@ -33,8 +33,11 @@ both tests, which then fail with that reason.
 
 - `snapshot`: the full id of the measured commit, the evidence date and the
   date of the tracker's ticket states;
-- `nodes`: `id`, `label`, `kind`, `state`, `tier`, `source`, and optionally
-  `vegas`, `tracker_state` and `detail`;
+- `overview`: the boxes of the README's overview, in order, each an `id` and
+  a `label`. List the start path first, because the diagram runs from the
+  top;
+- `nodes`: `id`, `label`, `kind`, `state`, `tier`, `source`, `group`, and
+  optionally `vegas`, `tracker_state` and `detail`;
 - `edges`: `from`, `to`, `kind`, `provenance`, `basis` (`kind` and `ref`),
   and `estimate` (`value`, `unit`, `basis`) on estimated-unlock edges only;
 - `measurements`, `coverage` and `limitations`, which the page lists.
@@ -65,6 +68,13 @@ documents, commits, CI run ids, test names and dated ticket comments. Never
 cite a local path, a host, an address or a tracker link, because the
 generator refuses an input that holds one.
 
+A node's `group` is the id of the overview box it belongs to, or `null` to
+leave it out of the overview. A box shows the one state of its nodes. The
+overview draws an arrow between two boxes when a `requires` or `blocks` edge
+joins their nodes, dashed when every such edge is curated, and draws no
+`calls` or estimated-unlock edge. `docs/startup-map.md` lists the boxes
+with their nodes and names the nodes left out.
+
 ## What the generator checks
 
 The generator writes nothing when the input has a problem, and prints one
@@ -88,7 +98,11 @@ line for each. It refuses:
 - a startup step of `main` that is not `accepted`, or a ticket without a
   `VEGAS-` key;
 - a label with a character that Mermaid would read as syntax, and a label
-  that starts like a Markdown list item or heading, such as `1. ` or `- `;
+  that starts like a Markdown list item or heading, such as `1. ` or `- `,
+  in a node or an overview box;
+- a node without a `group`, a `group` that names no overview box, an
+  overview box defined twice or without a node, a box whose nodes differ in
+  state, and overview arrows that form a cycle;
 - anywhere in the file, a URL, the tracker's host, a home path (`~/`
   included), a temporary path, an e-mail address, an IPv4 address or a
   uuid-like id.
@@ -96,14 +110,18 @@ line for each. It refuses:
 When the generator cannot read the input file, it prints one line and exits
 with status 2.
 
-Every edge must name its provenance. The diagram dashes curated edges and
-nodes with the `curated` tier, and it dashes estimates and labels them
-`estimate`.
+Every edge must name its provenance. The full diagram dashes curated edges
+and nodes with the `curated` tier, and it dashes estimates and labels them
+`estimate`. The overview dashes a box when every node in it has the
+`curated` tier.
 
 ## What the generator does not check
 
 - Whether a node, edge or source reference is true. A wrong reference passes.
 - Whether the snapshot is current. The input does not change when the
   tracker, CI or the code does.
-- Whether GitHub renders the diagram. The tests check the text the
-  generator writes, not a rendering.
+- Whether GitHub renders the diagrams, or whether the overview reads at the
+  README's column width. The tests check the text the generator writes, not
+  a rendering.
+- Whether an overview box's label says what its nodes say. The label is
+  text in `map.json`.

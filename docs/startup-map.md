@@ -213,6 +213,30 @@ flowchart TB
   class c_call_repair,c_hand_tables,c_setting_t,c_differing,g_menu,t_vegas112 curated
 ```
 
+## README overview
+
+README.md shows a smaller diagram with one box for each group below. A box shows the one state
+that all of its nodes have; the generator refuses a group whose nodes differ. An arrow joins two
+boxes when a `requires` or `blocks` edge joins their nodes, and it is dashed when every such edge
+is curated. A box is dashed when every node in it has the `curated` tier. The overview draws no
+`calls` or `estimated-unlock` edge.
+
+| Group | Box | State | Nodes |
+| --- | --- | --- | --- |
+| setup | Setup prepares the pack and installs it beside FalloutNV.exe | accepted | setup_prepare, setup_install |
+| main_start | main, steps 1 to 3: memory, timer, folder of the executable | accepted | main_memory, main_timer, main_folder |
+| main_pack | Step 4: load, validate and publish the pack | accepted | main_pack, main_publish |
+| main_checks | Steps 5 to 7: single-instance and second-window checks, main returns 0 | accepted | main_single, main_second |
+| skip_s1 | S1 crash-log set-up, skipped: waits on the SettingT stand-in and a MessageHandler | waiting | s1 |
+| skip_paths | S2 to S5 and S7 log and save paths, skipped: wait on catalogue strings, VEGAS-112's buffers, their members | waiting | s2_s5, s7 |
+| skip_cpu | S6 and S8 processor count, skipped: wait on main.cpp's accessor calls and the setting's owner | waiting | s6, s8 |
+| next | Next stage: window, BootInit, render set-up, main loop | blocked | winmain, mainloop, bootinit, render, wndproc, g_next |
+| gate_main_obj | Gate: a linking program contains misc/main.cpp.obj; waits on call repairs, shared classes, other contracts | blocked | g_main_obj |
+| gate_engine | Gate: runtime_havok_worker_pool_test links | blocked | g_engine_link |
+| gate_menu | Gate: boot to the main menu | blocked | g_menu |
+
+Left out of the overview: `c_calls_bound`, `c_call_repair`, `c_870bd0`, `c_870a00`, `c_shared_classes`, `c_niobject`, `c_niobjectnet`, `c_niproperty`, `c_niavobject`, `c_ninode`, `c_player`, `c_tes`, `c_hand_tables`, `c_setting_t`, `c_receiver`, `c_differing`, `c_dup_checks`, `t_vegas109`, `t_vegas112`, `t_vegas111`, `t_vegas115`.
+
 ## Nodes
 
 ### Setup

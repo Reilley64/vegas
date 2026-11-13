@@ -99,10 +99,11 @@ FORBIDDEN = [
     ("a temporary path", re.compile(r"/tmp/|/private/|/var/folders")),
     ("a uuid-like id", re.compile(r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")),
 ]
-NODE_FIELDS = {"id", "label", "kind", "state", "tier", "vegas", "tracker_state", "source", "detail"}
+NODE_FIELDS = {"id", "label", "kind", "state", "tier", "vegas", "tracker_state", "source", "detail", "group"}
+GROUP_FIELDS = {"id", "label"}
 EDGE_FIELDS = {"from", "to", "kind", "provenance", "basis", "estimate"}
 MEASUREMENT_FIELDS = {"label", "value", "command", "commit", "date", "tier"}
-TOP_FIELDS = {"snapshot", "nodes", "edges", "measurements", "coverage", "limitations"}
+TOP_FIELDS = {"snapshot", "overview", "nodes", "edges", "measurements", "coverage", "limitations"}
 SNAPSHOT_FIELDS = {"source_commit", "evidence_date", "ticket_states_date"}
 
 
@@ -128,6 +129,12 @@ def _text(where, value, problems, pattern=None):
         problems.append(where + " is empty or not text")
     elif pattern is not None and not pattern.match(value):
         problems.append(where + " has a character the map does not allow: " + value)
+
+
+def _label(where, value, problems):
+    _text(where + " label", value, problems, LABEL)
+    if isinstance(value, str) and LIST_START.match(value):
+        problems.append(where + " label starts like a Mermaid list item or heading: " + value)
 
 
 def _basis(where, basis, kinds, problems):
@@ -188,21 +195,33 @@ def validate(data):
         for key in ("evidence_date", "ticket_states_date"):
             if not DATE.match(str(snap[key])):
                 problems.append("snapshot " + key + " is not a date")
+    groups = []
+    for index, group in enumerate(data["overview"]):
+        where = "overview group " + str(group.get("id", index + 1) if isinstance(group, dict) else index + 1)
+        if not _fields(where, group, GROUP_FIELDS, sorted(GROUP_FIELDS), problems):
+            continue
+        if not isinstance(group["id"], str) or not ID.match(group["id"]):
+            problems.append(where + " has an id that is not lower case letters, digits and _")
+        elif group["id"] in groups:
+            problems.append(where + " is defined twice")
+        groups.append(group["id"])
+        _label(where, group["label"], problems)
     kinds = {kind for kind, _ in KINDS}
     tiers = {tier for tier, _ in TIERS}
     ids = []
     for index, node in enumerate(data["nodes"]):
         where = "node " + str(node.get("id", index)) if isinstance(node, dict) else "node " + str(index)
-        if not _fields(where, node, NODE_FIELDS, ("id", "label", "kind", "state", "tier", "source"), problems):
+        if not _fields(where, node, NODE_FIELDS, ("id", "label", "kind", "state", "tier", "source", "group"),
+                       problems):
             continue
+        if node["group"] is not None and node["group"] not in groups:
+            problems.append(where + " names the unknown overview group " + str(node["group"]))
         if not isinstance(node["id"], str) or not ID.match(node["id"]):
             problems.append(where + " has an id that is not lower case letters, digits and _")
         elif node["id"] in ids:
             problems.append(where + " is defined twice")
         ids.append(node["id"])
-        _text(where + " label", node["label"], problems, LABEL)
-        if isinstance(node["label"], str) and LIST_START.match(node["label"]):
-            problems.append(where + " label starts like a Mermaid list item or heading: " + node["label"])
+        _label(where, node["label"], problems)
         if node["kind"] not in kinds:
             problems.append(where + " has the unsupported kind " + str(node["kind"]))
         if node["state"] not in STATES:
@@ -298,6 +317,20 @@ def validate(data):
         if node.get("state") != wanted:
             problems.append("node " + str(node.get("id")) + " has the tracker state " + node["tracker_state"]
                             + ", which gives " + wanted + ", but is " + str(node.get("state")))
+    members = {group: [] for group in groups}
+    for node in data["nodes"]:
+        if isinstance(node, dict) and node.get("group") in members:
+            members[node["group"]].append(node.get("state"))
+    for group, group_states in members.items():
+        if not group_states:
+            problems.append("overview group " + group + " has no node")
+        elif len(set(group_states)) > 1:
+            problems.append("overview group " + group + " mixes the states " + ", ".join(sorted(set(map(str, group_states)))))
+    if not problems:
+        found = cycle(groups, [{"kind": "requires", "from": needer, "to": needed}
+                               for needed, needer, _ in overview_edges(data)])
+        if found:
+            problems.append("the overview's arrows form a cycle: " + " -> ".join(found))
     for index, item in enumerate(data["measurements"]):
         where = "measurement " + str(index + 1)
         if not _fields(where, item, MEASUREMENT_FIELDS, sorted(MEASUREMENT_FIELDS), problems):
@@ -388,23 +421,64 @@ def mermaid(data):
     return "\n".join(lines)
 
 
+def group_states(data):
+    """The one state of each overview group's nodes, by group id."""
+    return {node["group"]: node["state"] for node in data["nodes"] if node["group"] is not None}
+
+
+def overview_edges(data):
+    """(needed group, needer group, curated) for each pair of groups that a requires or blocks edge joins, in
+    edge order. The arrow is curated when every edge behind it is."""
+    group = {node["id"]: node["group"] for node in data["nodes"]}
+    curated = {}
+    for edge in data["edges"]:
+        if edge["kind"] not in ("requires", "blocks"):
+            continue
+        needer, needed = (edge["from"], edge["to"]) if edge["kind"] == "requires" else (edge["to"], edge["from"])
+        key = (group[needed], group[needer])
+        if None in key or key[0] == key[1]:
+            continue
+        curated[key] = curated.get(key, True) and edge["provenance"] == "curated"
+    return [(needed, needer, dashed) for (needed, needer), dashed in curated.items()]
+
+
+def overview_mermaid(data):
+    """The README's Mermaid flowchart: one box per overview group, in the input's order."""
+    states = group_states(data)
+    lines = ["```mermaid", "flowchart TB"]
+    for group in data["overview"]:
+        lines.append("  " + group["id"] + '["' + group["label"] + "<br/>" + states[group["id"]].upper() + '"]')
+    for needed, needer, curated in overview_edges(data):
+        lines.append("  " + needed + (" -.-> " if curated else " --> ") + needer)
+    for state in STATES:
+        ids = [group["id"] for group in data["overview"] if states[group["id"]] == state]
+        if ids:
+            lines.append("  classDef " + _class(state) + " " + COLOURS[state])
+            lines.append("  class " + ",".join(ids) + " " + _class(state))
+    curated = [group["id"] for group in data["overview"]
+               if all(node["tier"] == "curated" for node in data["nodes"] if node["group"] == group["id"])]
+    if curated:
+        lines.append("  classDef curated stroke-dasharray:6 4")
+        lines.append("  class " + ",".join(curated) + " curated")
+    lines.append("```")
+    return "\n".join(lines)
+
+
 def readme_block(data):
     """The generated part of README.md's section, markers included."""
     snap = data["snapshot"]
     return "\n".join([
         BEGIN,
         "",
-        mermaid(data),
+        overview_mermaid(data),
         "",
-        "Each box shows its state in capitals, its evidence tier and its ticket. The tiers name distinct kinds of "
-        "evidence. When a tracker state follows the ticket, the box takes its state from the tracker, and every other "
-        "box takes its state from the repository.",
-        ARROWS,
-        "A dashed box or arrow is curated, which means that a person stated it and no machine check proves it. "
-        "Estimate arrows are dashed too, and they are modelled counts.",
+        "Each box stands for one or more nodes of the full map and shows their state in capitals. An arrow points "
+        "from what is needed to what needs it. A dashed box or arrow is curated, which means that a person stated it "
+        "and no machine check proves it.",
         "",
         "The map is a snapshot of `" + _short(snap["source_commit"]) + "` with evidence as of " + snap["evidence_date"]
-        + ". [docs/startup-map.md](docs/startup-map.md) lists every node, edge, source and limitation.",
+        + ". [docs/startup-map.md](docs/startup-map.md) has the full diagram and lists every node, edge, source and "
+        "limitation.",
         "",
         END,
     ])
@@ -503,8 +577,24 @@ def doc(data):
         "",
         mermaid(data),
         "",
-        "## Nodes",
+        "## README overview",
+        "",
+        "README.md shows a smaller diagram with one box for each group below. A box shows the one state",
+        "that all of its nodes have; the generator refuses a group whose nodes differ. An arrow joins two",
+        "boxes when a `requires` or `blocks` edge joins their nodes, and it is dashed when every such edge",
+        "is curated. A box is dashed when every node in it has the `curated` tier. The overview draws no",
+        "`calls` or `estimated-unlock` edge.",
+        "",
     ]
+    states = group_states(data)
+    out.extend(_table(["Group", "Box", "State", "Nodes"], [
+        [group["id"], group["label"], states[group["id"]],
+         ", ".join(node["id"] for node in data["nodes"] if node["group"] == group["id"])]
+        for group in data["overview"]]))
+    left_out = [node["id"] for node in data["nodes"] if node["group"] is None]
+    out += ["", "Left out of the overview: " + (", ".join("`" + node_id + "`" for node_id in left_out)
+                                                if left_out else "none") + "."]
+    out += ["", "## Nodes"]
     for kind, title in KINDS:
         members = [node for node in data["nodes"] if node["kind"] == kind]
         if not members:

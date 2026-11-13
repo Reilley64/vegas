@@ -94,7 +94,7 @@ flowchart TB
   c_setting_t ==>|blocks| g_main_obj
   c_receiver -. "blocks" .-> g_main_obj
   c_differing -. "blocks" .-> g_main_obj
-  c_870bd0 -.-> c_call_repair
+  c_870bd0 -.-> c_calls_bound
   c_niobject --> c_niobjectnet
   c_niobjectnet --> c_niproperty
   c_niobjectnet -.-> c_niavobject

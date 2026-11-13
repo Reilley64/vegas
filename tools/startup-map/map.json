@@ -243,7 +243,7 @@
       "tier": "source",
       "vegas": "VEGAS-30",
       "source": "docs/shared-gamebryo-bases.md (NiObject; Integration checks; Not covered); include/fnv/ni_object.h, since 0b408d396; docs/boot-real-classes.md (What would let them move); VEGAS-30 ruling (3) of 2026-11-13: bases go base first; VEGAS-11 rulings of 2026-11-13",
-      "detail": "Since 0b408d396 include/fnv/ni_object.h declares NiObject on the shared NiRefObject, with no fields of its own, its constructor, its virtual destructor and the 33 virtual functions of slots 2 to 34. Every one of the 33 is open: no function row under the class's name fills a slot, so the names are the spelling of the two units on the header and nothing may be concluded from them. Two units use it. The other copies stay, among them the 62 units on include/NiObject.h, which declares two slots, because their slots or size differ. NiObject::NiObject, its destructor and GetType are still undefined. The first unit on the header that emits the class's table binds that table and is not a declaration move. The step changed no object and took no name from the link."
+      "detail": "Since 0b408d396 include/fnv/ni_object.h declares NiObject on the shared NiRefObject, with no fields of its own, its constructor, its virtual destructor and the 33 virtual functions of slots 2 to 34. Every one of the 33 is open: no function row under the class's name fills a slot, so the names are the spelling of the two units on the header and nothing may be concluded from them. Two units use it. The other copies stay, among them the 62 units on include/NiObject.h, which declares two slots, because their slots or size differ, or, for nicamera.cpp, its NiRefObject is not the shared one. NiObject::NiObject, its destructor and GetType are still undefined. The first unit on the header that emits the class's table binds that table and is not a declaration move. The step changed no object and took no name from the link."
     },
     {
       "id": "c_niobjectnet",
@@ -253,7 +253,7 @@
       "tier": "source",
       "vegas": "VEGAS-30",
       "source": "docs/shared-gamebryo-bases.md (NiObjectNET: decided, the header waits for its first unit); docs/boot-real-classes.md; include/NiObjectNET.h",
-      "detail": "The census counts 94 copies, 9 x64 layouts and 2 undecided offsets, and both offsets come from one copy in staging/blk_00a40000_o2.cpp. docs/shared-gamebryo-bases.md decides the declaration: five established fields, the controller being the raw NiTimeController* that the owner counts by hand. It writes no header, because no unit can move today: the only 48-byte copy whose NiObject is shared declares the controller as a NiPointer, six units have a NiObject or NiRefObject that is not the shared one, and the other copies see another table or have another size. Four rows use a stale 32-bit layout, 0x00a5c200, 0x00a5ba40, 0x00a5b990 and 0x00a5bf50, and are repaired by body under VEGAS-16 before they are respelled."
+      "detail": "The census counts 94 copies, 9 x64 layouts and 2 undecided offsets, and both offsets come from one copy in staging/blk_00a40000_o2.cpp. docs/shared-gamebryo-bases.md decides the declaration: five established fields, the controller being the raw NiTimeController* that the owner counts by hand. It writes no header, because no unit can move today: the only 48-byte copy whose NiObject is shared declares the controller as a NiPointer, six units have a NiObject or NiRefObject copy of their own, and the other copies see another table or have another size. Four rows use a stale 32-bit layout, 0x00a5c200, 0x00a5ba40, 0x00a5b990 and 0x00a5bf50, and are repaired by body under VEGAS-16 before they are respelled."
     },
     {
       "id": "c_niproperty",
@@ -346,7 +346,7 @@
       "vegas": "VEGAS-89",
       "tracker_state": "Ready for agent",
       "source": "docs/differing-definitions.md; docs/winmain-boot-names.md (What the repairs do not prove); archive.differing_definitions; VEGAS-30 ruling of 2026-11-13; VEGAS-89",
-      "detail": "Before any program loads misc/main.cpp.obj, no name its link keeps may be in the differing-definitions list. From the 0x008707c0 repair on, 22 type-information names get another first-loaded copy in the model links rooted at WinMain, at WinMain with main and at the main loop, and for 15 of them the two copies differ. The 0x00870bd0 repair changes one more, the base class descriptor of FUN_00483370, to a copy with other content. These links are models that no program uses."
+      "detail": "Before any program loads misc/main.cpp.obj, no name its link keeps may be in the differing-definitions list. From the 0x008707c0 repair on, 22 type-information names get another first-loaded copy in the model links rooted at WinMain, at WinMain with main and at the main loop, and for 15 of them the two copies differ. The 0x00870bd0 repair changes one more, a base class descriptor of FUN_00483370, to a copy with other content. These links are models that no program uses."
     },
     {
       "id": "c_dup_checks",
@@ -469,7 +469,7 @@
     {"from": "c_setting_t", "to": "g_main_obj", "kind": "blocks", "provenance": "measured", "basis": {"kind": "link", "ref": "forced link at 891a44f50: the folded accessor names misc/main.cpp.obj references; docs/winmain-boot-names.md"}},
     {"from": "c_receiver", "to": "g_main_obj", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/winmain-boot-names.md; VEGAS-30 ruling of 2026-11-13"}},
     {"from": "c_differing", "to": "g_main_obj", "kind": "blocks", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 ruling of 2026-11-13"}},
-    {"from": "c_call_repair", "to": "c_870bd0", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 ruling of 2026-11-13: the cast-free route for 0x00870bd0 is this repair"}},
+    {"from": "c_calls_bound", "to": "c_870bd0", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "VEGAS-30 ruling of 2026-11-13: the cast-free route for 0x00870bd0 is this repair; docs/winmain-boot-names.md (Call repairs): bound after the definition repair"}},
     {"from": "c_niobjectnet", "to": "c_niobject", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "include/NiObjectNET.h: NiObjectNET derives from NiObject"}},
     {"from": "c_niproperty", "to": "c_niobjectnet", "kind": "requires", "provenance": "measured", "basis": {"kind": "source", "ref": "include/NiProperty.h: NiProperty derives from NiObjectNET"}},
     {"from": "c_niavobject", "to": "c_niobjectnet", "kind": "requires", "provenance": "curated", "basis": {"kind": "source", "ref": "docs/boot-real-classes.md: bases base first; VEGAS-30 ruling (3) of 2026-11-13"}},

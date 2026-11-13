@@ -1069,6 +1069,15 @@ if(vegas_object_checks)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
 endif()
 
+# Fails when a boot-path call repaired to the body at its recipe row (VEGAS-90,
+# VEGAS-30) again uses a name that no object defines, or no longer names the body.
+if(vegas_object_checks)
+  add_test(NAME objects.boot_call_repairs
+    COMMAND ${GO_EXECUTABLE} run . --table boot-call-repairs.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()
+
 # Fails when a call whose caller and callee disagreed on an integer width
 # only (VEGAS-97) again refers to the requirer's former name, or a function no
 # longer calls the agreed name.

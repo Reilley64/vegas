@@ -6534,7 +6534,6 @@ struct Receiver86
     void FUN_008026b0();
     bool FUN_005dc960();
     unsigned char FUN_00678ce0();
-    void FUN_008774a0(int);
 
     void FUN_00b012f0(const char*, const char*);
     void FUN_004a0370();
@@ -7143,7 +7142,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                         break;
                     if (((unsigned char)(reinterpret_cast<::FUN_00678ce0_shell *>((((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))))->FUN_00678ce0())))
                     {
-                        ((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_008774a0(1);
+                        ((::fnv_008774a0::FUN_008774a0_shell*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))->FUN_008774a0(1);
                     }
                 }
                 reinterpret_cast<::FUN_004f15a0_shell *>((((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))))->FUN_004f15a0(0);

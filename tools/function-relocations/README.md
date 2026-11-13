@@ -34,6 +34,7 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.hacking_array_retirement` for `hacking-array-retirement.tsv`,
 `objects.navmesh_pointer_result` for `navmesh-pointer-result.tsv`,
 `objects.winmain_boot_calls` for `winmain-boot-calls.tsv`,
+`objects.boot_call_repairs` for `boot-call-repairs.tsv`,
 `objects.table_slot_reads` for `table-slot-reads.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`, and
 `objects.integer_width_calls` for `integer-width-calls.tsv`. CMake
@@ -96,6 +97,11 @@ to the bodies at the recipe's rows (VEGAS-30). It forbids each name a call
 used before, which no object defines, and requires the name of the body.
 Its batch `callees` lists five more functions of the same unit on the boot
 path, bound the same way (docs/winmain-boot-names.md).
+
+`boot-call-repairs.tsv` lists the functions on the boot path whose calls were
+repaired to match the body at the recipe's row and then bound to it by name
+(VEGAS-90, VEGAS-30, docs/winmain-boot-names.md). It forbids each name a call
+used before, which no object defines, and requires the name of the body.
 
 `table-slot-reads.tsv` lists the functions that read the slot after the end
 of a two-slot generated table (VEGAS-30, docs/table-slot-reads.md). Each read

@@ -1,0 +1,8 @@
+# Calls on the boot path whose argument or receiver did not match the body at
+# the recipe's row, repaired so that they name that body (VEGAS-90, VEGAS-30).
+# Format: README.md.
+# The names the calls used before, which no object defines:
+# 0x008774a0, called by WinMain with the constant 1 for its bool parameter
+forbid	?FUN_008774a0@Receiver86@@QEAAXH@Z
+# batch, unit, function and the names of the bodies:
+function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_008774a0@FUN_008774a0_shell@fnv_008774a0@@QEAAX_N@Z

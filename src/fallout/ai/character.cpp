@@ -990,9 +990,6 @@ struct Audio
 {
     Str GetHandle(const char*, int, int);
 };
-struct Setting
-{
-};
 struct BoolSetting
 {
     bool* Get();
@@ -1487,7 +1484,7 @@ Str Self::PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool abSkipSpawn, in
                     }
                     else
                     {
-                        reinterpret_cast<::FUN_00ad89b0_shell *>(&(result))->SetStaticAttenuation((int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011e060c)))))) * ::g_d100));
+                        reinterpret_cast<::FUN_00ad89b0_shell *>(&(result))->SetStaticAttenuation((int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011e060c)))))) * ::g_d100));
                     }
                     reinterpret_cast<::FUN_00ad8830_shell *>(&(result))->FUN_00ad8830(0);
                     if (abWithCallback)
@@ -3960,8 +3957,8 @@ float FUN_008d22b0_shell::FUN_008d22b0()
             }
         }
     }
-    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f > 0.0
-               ? FUN_0040ebd0(m_kEighthUnshownMember, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f)
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1016))))->f > 0.0
+               ? FUN_0040ebd0(m_kEighthUnshownMember, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1016))))->f)
                : m_kEighthUnshownMember;
 }
 
@@ -4001,10 +3998,10 @@ float Character534::FUN_008d3110()
                 clothing = dynamic_cast<TESObjectCLOT*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
                 if (armor7)
                     weight +=
-                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting999)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d1104))))));
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting999)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d1104))))));
                 else if (clothing)
                     weight +=
-                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting998)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d043c))))));
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting998)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d043c))))));
                 // GetEquippedItem returns an owned temporary inventory entry.
                 delete item9;
                 item9 = 0;

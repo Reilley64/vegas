@@ -41767,7 +41767,7 @@
     "?FUN_00ad8b60@FUN_00ad8b60_h@@QAE_NMMM@Z": "0x00ad8b60",
     "?FUN_00ad8f20@FUN_00ad8f20_shell@@QAEXPAVNiAVObject@@@Z": "0x00ad8f20",
     "?g_011e060c@@3VGlobalObject_0044f440@@A": "0x011e060c",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?g_d100@@3NA": "0x01017a40",
     "?SetStaticAttenuation@FUN_00ad89b0_shell@@QAE_NG@Z": "0x00ad89b0",
     "?FUN_00ad8830@FUN_00ad8830_shell@@QAE_N_N@Z": "0x00ad8830",
@@ -41855,7 +41855,7 @@
     "?GetExtraDataVersion@@YAEPAVTESObjectREFR@@@Z": "0x008a8170",
     "?FUN_008c1bc0@@YA_NH@Z": "0x008c1bc0",
     "?FUN_00460140@@YAHH@Z": "0x00460140",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_00524d10@@YA_NPA_N@Z": "0x00524d10"
    },
@@ -41941,7 +41941,7 @@
     "??_GFUN_004bc5f0@@QAEPAXI@Z": "0x004459e0",
     "__real@0000000000000000": "0x01012060",
     "?originalRuntimeFloatSetting1016@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011d1020",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_0040ebd0@@YAMMM@Z": "0x0040ebd0",
     "?GetEntryWeight@InventoryEntry_8d22b0@@QAEMPAVActorValueOwner@@@Z": "0x004bdf90",
     "??_GInventoryEntry_8d22b0@@QAEPAXI@Z": "0x004459e0",
@@ -41953,7 +41953,7 @@
     "?g_011d1104@@3VGlobalObject_0040e0b0@@A": "0x011d1104",
     "?originalRuntimeFloatSetting998@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011d0d14",
     "?g_011d043c@@3VGlobalObject_0040e0b0@@A": "0x011d043c",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20"
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20"
    }
   },
   {

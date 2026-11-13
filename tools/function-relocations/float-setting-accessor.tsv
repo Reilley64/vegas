@@ -61,3 +61,10 @@ function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009b1810@Host810@@QE
 function	explosion	src/fallout/ai/combat/explosion.cpp	?GetEffectiveValue@FUN_009ac550_cls@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	explosion	src/fallout/ai/combat/explosion.cpp	?GetScaledValue@BGSExplosion@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	explosion	src/fallout/ai/combat/explosion.cpp	?UpdateExplosion@RefX@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of character.cpp that
+# calls the accessor (VEGAS-122), since the unit's own empty Setting went.
+# They read fDBVoiceAttenuationIn2D:Audio, fMaxArmorRating and the clothing
+# armor settings.
+function	character	src/fallout/ai/character.cpp	?FUN_008d22b0@FUN_008d22b0_shell@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	character	src/fallout/ai/character.cpp	?FUN_008d3110@Character534@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	character	src/fallout/ai/character.cpp	?PlaySoundOnObject@Self@@QEAA?AUStr@@PEAUArg@@_J_N2H2@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

@@ -117,7 +117,9 @@ model, not a link.
   `tesscriptfunctions.cpp` define a global `struct Setting` with member
   functions only; the compiler measures it at 1 byte. The unit's
   declaration of the new form would name that class, not the shared one.
-  The units stay on their copy.
+  The units stay on their copy. VEGAS-117 removed the copies of
+  `beamprojectile.cpp`, `computersmenu.cpp` and `explosion.cpp`, which had
+  no members; see "Units with a `Setting` of their own" at the end.
 - **No object defines the name.** Each of these 11 units defines an empty
   struct of its own named `GlobalObject2_0040c150` or
   `GlobalObject2_0045cfe0` (one has only a member `int* Int()`); generated
@@ -369,13 +371,16 @@ Each part stays open under the ticket named with it. `main.cpp` is done:
 41 of its 41 calls take the shared `Setting` (VEGAS-115).
 
 - VEGAS-117, the other 245 calls and a guard:
-  - The 10 units that define a `::Setting` of their own: 109 calls.
+  - The 7 units that define a `::Setting` of their own: 88 calls, since
+    VEGAS-117 moved the 21 calls of three units (109 in 10 before; see
+    "Units with a `Setting` of their own").
   - The 11 units' own copies of generated classes: 89 calls, 63 names.
   - 16 calls on 1-byte objects, among them those on the objects at
     `0x011c3c90` and `0x011cf788`, which need an owner.
   - 31 calls whose argument is not a global.
   - A standing check that only the listed members refer to the old name
-    (30 members after VEGAS-115, `main.cpp` no longer among them).
+    (30 members after VEGAS-115, `main.cpp` no longer among them; 27 since
+    VEGAS-117's three units moved).
 - The float accessor `FUN_00403e20`: repaired by VEGAS-116; its own
   remainder is listed under "The float accessor".
 - VEGAS-118: 21 direct reads 4 bytes into a setting, in 8 members, since
@@ -500,7 +505,10 @@ name to the new body.
   `package.cpp`, `tesreputation.cpp` (5 each), `itemmodmenu.cpp` (3),
   `interface.cpp`, `sleepwaitmenu.cpp` and `bgsterminal.cpp` (2 each). The
   unit's declaration of the new form would name that class, not the shared
-  one. The units stay on their copy.
+  one. The units stay on their copy. VEGAS-122 removed the copies of
+  `blk_00940000_od.cpp`, `explosion.cpp`, `magicfogprojectile.cpp`,
+  `character.cpp`, `sleepwaitmenu.cpp` and `bgsterminal.cpp`, which had no
+  members; see "Units with a `Setting` of their own" at the end.
 - **No object defines the name.** 62 names in 16 units. The unit declares
   `GlobalObject_0044f440` (47 calls) or `GlobalObject_0040e0b0` (21) with
   the class-key `struct`, and generated data defines the class with
@@ -541,8 +549,9 @@ on the old form and nothing here decides them.
   level of these units' recipe entries, each object refers to it, and each
   is a setting that generated data defines with the shared class. No unit
   has another call on the same global, so the calls stay on the old form
-  here and their units keep the old key; `explosion.cpp`'s stays with that
-  unit's own `::Setting`.
+  here and their units keep the old key; `explosion.cpp`'s stayed with that
+  unit's own `::Setting`, and since that copy went it stays on the old form
+  as an undecided call.
 - 1 call in a header, `highprocess.h` line 488, on
   `originalRuntimeFloatSetting244`. One unit compiles the header,
   `highprocess_h_unit.cpp`; its object calls the old form there once, in
@@ -687,7 +696,9 @@ of FalloutNV.exe's inputs loads 24 members of the game archive, not it.
 `main.cpp` is done: 13 of its 13 calls take the shared `Setting`
 (VEGAS-122). Each other part stays open.
 
-- The 15 units that define a `::Setting` of their own: 345 calls.
+- The 9 units that define a `::Setting` of their own: 299 calls, since
+  VEGAS-122 moved the 46 calls of six units (345 in 15 before; see "Units
+  with a `Setting` of their own").
 - The 16 units' declarations of generated classes with the key `struct`:
   68 calls, 62 names.
 - 36 calls on 1-byte objects, six of them writes.
@@ -699,4 +710,134 @@ of FalloutNV.exe's inputs loads 24 members of the game archive, not it.
   whose recipe keys and pragmas give each the other's address.
 - A standing check that only the listed members refer to the old name (50
   members at d586c94f0 with this change; 49 since `main.cpp`'s calls
-  moved).
+  moved; 44 since VEGAS-122's units moved).
+
+## Units with a `Setting` of their own (VEGAS-117, VEGAS-122)
+
+Measured on the windows-x64 cross build of 1a4404c01 and of the eight code
+commits, built from one source path. Nothing was run.
+
+19 units defined a global `::Setting` of their own, which the compiler
+measures at 1 byte: the 10 of the int accessor's table and the 15 of the
+float accessor's, six of them in both. A unit's declaration of an
+accessor's new form named that class, so its calls stayed on the old form,
+whatever their argument. What each copy declares:
+
+| Copy | Units |
+| --- | --- |
+| An empty `struct Setting` | `beamprojectile.cpp`, `blk_00940000_od.cpp`, `computersmenu.cpp`, `bgsterminal.cpp`, `sleepwaitmenu.cpp`, `magicfogprojectile.cpp`, `explosion.cpp`, `character.cpp`, `itemmodmenu.cpp`, `combatcontroller.cpp`, `package.cpp`, `telekinesiseffect.cpp` |
+| An empty `class Setting` | `interface.cpp` |
+| `struct Setting` with a member function | `actor.cpp` (`Bool()`), `highprocess.cpp` (`Get()`), `bstempeffectsimpledecal.cpp` (`Bool()`), `tesreputation.cpp` (`FUN_00403df0()`), `tesscriptfunctions.cpp` (`FUN_005e0190(const char *)`, which the unit defines: the recipe's function row at `0x005e0190` is a member of `Setting`) |
+| `include/fnv/decl/Setting.h`, a `struct Setting` with `FUN_005e0190(const char *)` | `renderer.cpp`, the one unit that includes it |
+
+Each unit calls the members of its copy at least once. The shared
+`Setting` has none of them, so these six units stay on their copy: whether
+the shared class takes those members is a naming decision.
+
+### The change
+
+Eight units with an empty copy moved, one commit each, as VEGAS-115 removed
+`main.cpp`'s copy of a generated class. The three lines of the copy go. The
+unit then sees only the declaration `class Setting;` that
+`include/fnv/symbols_0043d000.h` and `include/fnv/symbols_00403000.h` give
+the shared class, beside the accessors' new forms. Each other use of the
+name in these units is the target of an existing `reinterpret_cast` of an
+address, and compiles against the declaration with no cast added: the class
+is incomplete there, so no layout of it is used. On windows-x64 and in the
+i686 compile, every record layout of each unit is the same as before apart
+from the removed copy.
+
+The calls were then classified by the rule above, with the unit's object
+of the base for each global's identity. A moved call's conversion of its
+argument to `int *` or `float *` becomes a conversion to `::Setting *`; the
+address is the same.
+
+| Unit | int calls moved | float calls moved | Kept on the old form |
+| --- | --- | --- | --- |
+| `beamprojectile.cpp` | 2 | | |
+| `blk_00940000_od.cpp` | | 17 | |
+| `computersmenu.cpp` | 9 | | |
+| `bgsterminal.cpp` | | 2 | 5 float |
+| `sleepwaitmenu.cpp` | | 2 | |
+| `magicfogprojectile.cpp` | | 9 | |
+| `explosion.cpp` | 10 | 9 | 1 float |
+| `character.cpp` | | 7 | |
+| Total | 21 | 46 | 6 |
+
+Each moved call passes a global that generated data defines as a setting
+of the shared class (`GlobalObject2_0040c150`, `GlobalObject_0040e0b0`,
+`GlobalObject_0044f440`, `Setting_01017720_011f96a0` or
+`SettingT<GameSettingCollection>`), each measured at 24 bytes with
+`uValue` at 8 in the unit that defines it. All read; none writes.
+
+The six kept calls:
+
+- `bgsterminal.cpp`, five calls in `0x005017a0`, on the five
+  `fHackingMinSkill...:Hacking` settings. The unit names their globals
+  through a struct of its own, `GlobalObject_0044f440`, which generated data
+  defines with the class-key `class`, so no object defines the names the
+  unit refers to: the case "No object defines the name".
+- `explosion.cpp`, one call in `0x009ae6e0` on
+  `fGunParticleCameraDistance`, for which the windows-x64 build emits no
+  code: a kind not decided (see "Not decided").
+
+Recipe: in the units whose object no longer refers to an old form, every
+key of it, `YA` and `YI`, is respelled to the new form. `bgsterminal.cpp`
+keeps its old float key and gains the new one beside it. `explosion.cpp`
+respells its six old int keys and keeps its four old float keys with the
+new key beside each, as the units of the not-decided calls do. Old int keys
+go from 63 (49 merged, 30 sources) to 53 (43 merged, 27 sources), new int
+keys from 184 (171) to 194 (177). Old float keys go from 117 (92 merged, 56
+sources) to 105 (84 merged, 52 sources), new float keys from 336 (296) to
+353 (307).
+
+### Object proof
+
+`tools/object-proof` at the unit's flags, with `/Ob0` and with `/Od /Gy`,
+base and head compiled from one export. With each old form read as the
+new one, six units are the same, at all three variants, apart from the
+moved relocations' targets: the undefined symbol of an old form leaves the
+object, and the new one is there instead. No instruction changes. The
+mixed units:
+
+- `bgsterminal.cpp`: the same except the expected kept sites, three at the
+  unit's flags (`0x005017a0` inlined into two callers) and one with
+  `/Ob0`. With `/Od /Gy` the five kept calls in `0x005017a0` come before
+  the moved ones, so the address-significance table lists the new form
+  later (at 125 instead of 68 once the kept sites are undone). Nothing else
+  differs.
+- `explosion.cpp`: the same at the unit's flags and with `/Ob0`, where the
+  kept call has no code; with `/Od /Gy` the same except that one expected
+  kept site.
+
+26 functions change, by relocation targets only: each keeps one definition
+in its unit, with the same selection, section and size.
+
+### Checks
+
+Each unit has a batch named after it in `setting-value-accessor.tsv` or
+`float-setting-accessor.tsv` (both for `explosion.cpp`): the functions in
+which a relocation moved and none stays on the old form. Each batch fails
+on the objects of the base. `bgsterminal.cpp`'s lists `0x005011a0` only:
+`ActivateTerminal` holds a kept call through inlining.
+
+### Measured
+
+The link cells with `user32.lib` and without have the same lists at
+1a4404c01 and after each commit: 35,031 undefined names in the forced
+unlimited cell with `user32.lib`, the two old forms among them, 0
+duplicates, the same imports and members. No name leaves or enters. The
+members that refer to the old int form go from 30 to 27, and those that
+refer to the old float form from 49 to 44. The names with differing
+definitions stay 519 in the archive and 521 in the link inputs, the same
+names. The boot model's figures are the same. None of the eight units is
+loaded by the lazy link of FalloutNV.exe's inputs.
+
+### Not moved
+
+- `itemmodmenu.cpp`, `combatcontroller.cpp`, `package.cpp`,
+  `telekinesiseffect.cpp` (37 float and 8 int calls): empty copies, not
+  reached in this change.
+- `interface.cpp` (4 int and 2 float calls): its empty copy has the
+  class-key `class`, so it already spells the shared class's name.
+- The six units with members (above): 76 int and 260 float calls.

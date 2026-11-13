@@ -165,7 +165,10 @@ into the setting and which no object defines, and requires the form that
 takes the shared `Setting`. The sample holds three readers of the processor
 count setting and one caller for each other form of argument. Its batch
 `main` lists the 14 functions of `src/fallout/misc/main.cpp` that call the
-accessor (VEGAS-115). Whether an argument is a setting is not a relocation;
+accessor (VEGAS-115). The batches `beamprojectile`, `computersmenu` and
+`explosion` list the functions of those units whose calls moved once the
+unit's own `Setting` went (VEGAS-117). Whether an argument is a setting is
+not a relocation;
 the document classifies every call.
 
 `float-setting-accessor.tsv` does the same for the float setting accessor
@@ -174,7 +177,9 @@ form that took a `float *`, which no object defines, and requires the form
 that takes the shared `Setting`. The sample holds three readers of the HUD
 opacity setting and one caller for each other form of argument. Its batch
 `main` lists the four functions of `src/fallout/misc/main.cpp` that call the
-accessor (VEGAS-122).
+accessor (VEGAS-122). The batches `blk_00940000_od`, `bgsterminal`,
+`sleepwaitmenu`, `magicfogprojectile`, `explosion` and `character` do the
+same for those units (VEGAS-122).
 
 ## Exit status
 

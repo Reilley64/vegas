@@ -18,3 +18,11 @@ function	callers	src/bsshader/shadowscenenode.cpp	?FUN_007c2180@Target2180@@QEAA
 function	callers	src/bgsencounterzone.cpp	?GetCalculatedLevel@BGSEncounterZone@@QEAAGXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	callers	src/fallout/ai/combat/combatprocedureattacklow.cpp	?FUN_009cbb70@FUN_009cbb70_shell@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	callers	src/fallout/ai/combat/hitdata.cpp	?ApplyCriticalHit@FUN_009b7060_shell@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of main.cpp that calls
+# the accessor (VEGAS-122). They read fHavokTauRatio, fAnimationMult:General,
+# the nine fLODFadeOut settings, fScopeScissorAmount:Display and
+# fLODLandDropAmount:LOD.
+function	main	src/fallout/misc/main.cpp	?FUN_0086f260@Mover@fnv_0086f260@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086efe0@FUN_0086efe0_t@fnv_0086efe0@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QEAAXPEAX_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	main	src/fallout/misc/main.cpp	?FUN_0086d590@RenderSystem@fnv_0086d590@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

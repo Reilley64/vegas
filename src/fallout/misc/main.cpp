@@ -1152,11 +1152,11 @@ void Mover::FUN_0086f260()
     if (!::DAT_011dea2b)
         ::FUN_00aa4e40();
     ::fnv::timer::Update();
-    ::DAT_011afe60 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::originalRuntimeFloatSetting807))))));
+    ::DAT_011afe60 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::originalRuntimeFloatSetting807))))));
     ::FUN_00c66760(::fnv::timer::Seconds(), ((bool)(::FUN_00525420())), reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode == 4);
     ::FUN_0086f330();
     ::DAT_011dea30 =
-        (float)(::DAT_011dea2b ? 0.0 : ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::g_011c5724)))))));
+        (float)(::DAT_011dea2b ? 0.0 : ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086f260::SetA *>(&::g_011c5724)))))));
 }
 }  // namespace fnv_0086f260
 
@@ -2883,21 +2883,21 @@ void FUN_0086efe0_t::FUN_0086efe0()
 {
     if (((bool)(::FUN_00525420())))
     {
-        ::FUN_0086f160(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dec24)))))));
-        ::FUN_0086f170(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011deb10)))))));
-        ::FUN_0086f180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011ded8c)))))));
+        ::FUN_0086f160(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dec24)))))));
+        ::FUN_0086f170(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011deb10)))))));
+        ::FUN_0086f180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011ded8c)))))));
     }
     else if (((::fnv_0086efe0::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_0086efe0::TES * *>(&::g_TES))))->GetHitSound())) && ((::fnv_0086efe0::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_0086efe0::TES * *>(&::g_TES))))->GetHitSound()))->GetParentWorld(TESWorldSpace::USE_LAND))
     {
-        ::FUN_0086f160(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dec7c)))))));
-        ::FUN_0086f170(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dee54)))))));
-        ::FUN_0086f180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011ded98)))))));
+        ::FUN_0086f160(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dec7c)))))));
+        ::FUN_0086f170(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dee54)))))));
+        ::FUN_0086f180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011ded98)))))));
     }
     else if ((*reinterpret_cast<::fnv_0086efe0::PC7d * *>(&::_g_thePlayer)) && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_0086efe0::PC7d * *>(&::_g_thePlayer))))->GetTarget())) && reinterpret_cast<::TESObjectCELL *>((((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_0086efe0::PC7d * *>(&::_g_thePlayer))))->GetTarget()))))->IsCellInterior())
     {
-        ::FUN_0086f160(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dea80)))))));
-        ::FUN_0086f170(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011deddc)))))));
-        ::FUN_0086f180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011decc8)))))));
+        ::FUN_0086f160(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011dea80)))))));
+        ::FUN_0086f170(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011deddc)))))));
+        ::FUN_0086f180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086efe0::SettingFloat *>(&::g_011decc8)))))));
     }
     else
     {
@@ -13374,7 +13374,7 @@ void RenderCoordinator::FUN_00870bd0(void* arg, bool skip)
     {
         unsigned j = reinterpret_cast<::GraphicsRenderer *>((l))->GetRenderTargetWidth();
         unsigned c = reinterpret_cast<::GraphicsRenderer *>((l))->GetRenderTargetHeight();
-        float l = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00870bd0::SettingView *>(&::g_011dea8c)))))) * ::Interface::GetInterfaceFloat() * 0.5;
+        float l = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00870bd0::SettingView *>(&::g_011dea8c)))))) * ::Interface::GetInterfaceFloat() * 0.5;
         float e = j * l;
         float k = j - e;
         if (eb)
@@ -14847,7 +14847,7 @@ void RenderSystem::FUN_0086d590()
     ::AssignFixedString((char *)(s), (intptr_t)&(const ::fnv_0086d590::NiFixedString &)(NiFixedString(str_01082c78)), {});
     (*reinterpret_cast<::fnv_0086d590::InputObject * *>(&::DAT_011dea14))->virtual_dc(s, 1);
 
-    const_cast<float &>(::DAT_011ad808) = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086d590::SettingView *>(&::g_011dedc8))))));
+    const_cast<float &>(::DAT_011ad808) = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0086d590::SettingView *>(&::g_011dedc8))))));
     s = (InputObject*)new FUN_00a5ecb0(0);
     reinterpret_cast<::FUN_00546780_shell *>((s))->FUN_00546780(1);
     reinterpret_cast<::TaskQueueInterface *>((s))->SetTaskFlag2000(1);

@@ -3,7 +3,7 @@
 
 usage:
   proof.py compile [--target NAME] [--source FILE] BUILD_DIR SOURCE OUT_PREFIX
-  proof.py compare BASE_PREFIX HEAD_PREFIX [--map FILE] [OLD=NEW ...]
+  proof.py compare BASE_PREFIX HEAD_PREFIX [--map FILE] [--expect-kept FILE] [OLD=NEW ...]
   proof.py warnings [--strip PREFIX ...] A.log B.log
 
 compile runs the command that BUILD_DIR/compile_commands.json holds for
@@ -13,17 +13,20 @@ times: as it is, with /Ob0 and with /Od /Gy. It writes OUT_PREFIX.VARIANT.obj
 and OUT_PREFIX.VARIANT.log for the variants flags, ob0 and od, and logs the
 entry and the three commands in OUT_PREFIX.commands.json. --source compiles
 FILE's content at SOURCE's path, through a clang -vfsoverlay file
-(OUT_PREFIX.vfs.json), without writing the export.
+(OUT_PREFIX.vfs.json), without writing the export. It needs clang and a
+command that names the unit as the entry's file spells it, and first
+checks with a canary compile, the unit read as one #error line, that the
+overlay takes effect; otherwise it exits 2.
 
-compare runs objcmp.py on each variant's objects, passing the renames on, and
-compares each variant's warnings.
+compare runs objcmp.py on each variant's objects, passing the renames and
+--expect-kept on, and compares each variant's warnings.
 
 warnings compares the warnings of two compiler logs with their line and
 column positions removed, and every PREFIX removed from the paths.
 
 Exit status: 0 compiled, or identical and equal; 1 a compile failed, or an
-object or the warnings differ; 2 usage error, unreadable input or a
-compiler that cannot start.
+object or the warnings differ; 2 usage error, unreadable input, a
+compiler that cannot start or a --source that compile refuses.
 """
 import collections
 import json

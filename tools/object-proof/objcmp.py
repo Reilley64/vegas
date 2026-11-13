@@ -13,16 +13,19 @@ table are equal once respelled. A rename is refused as a difference when an
 object holds both spellings (RENAME-MERGES) or B still holds OLD
 (RENAME-KEPT); when A holds both, the comparison is refused and prints only
 the RENAME- lines. Otherwise it prints the sections, relocations and symbols
-that differ. A summary follows: each relocation target that changed at one
-offset (RETARGET) and each site where B still targets a rename's OLD
-(KEPT-SITE). With --expect-kept FILE (one FUNCTION OLD per line), a
-comparison whose only differences are exactly those kept sites and the
-undefined-symbol and address-significance entries of their OLD names is
-"kept" and exits 0; any other difference, or a kept site missing or not
-listed, exits 1. --json prints the same facts as one JSON object.
+that differ, with one SYMBOL-SHIFT line per section and distance for the
+symbols that only moved. A summary follows: each relocation target that
+changed at one offset (RETARGET) and each site where B still targets a
+rename's OLD (KEPT-SITE). With --expect-kept FILE (one FUNCTION OLD per
+line), a comparison whose only differences are exactly those kept sites
+and the undefined-symbol and address-significance entries of their OLD
+names is "kept" and exits 0; any other difference, or a kept site missing
+or not listed, exits 1, and what differs beside the listed sites prints as
+BESIDE-KEPT lines. A FILE with no site acts as no option. --json prints the
+same facts as one JSON object, with the per-symbol lines.
 
-Exit status: 0 identical or kept, 1 differs or refused, 2 usage error or unreadable
-input.
+Exit status: 0 identical or kept, 1 differs or refused, 2 usage error or
+unreadable input.
 """
 import difflib
 import json

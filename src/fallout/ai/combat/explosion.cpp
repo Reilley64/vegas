@@ -830,7 +830,7 @@ struct BGSExplosion : Standin77900
 float BGSExplosion::GetScaledValue()
 {
     return (float)(reinterpret_cast<::FUN_00477950_shell *>(this)->HasAnyFlags(1) ? (double)m_fSphereRadius
-                                  : (double)(m_fSphereRadius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
+                                  : (double)(m_fSphereRadius * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
 }
 
 struct FUN_009ae0f0
@@ -1247,7 +1247,7 @@ struct FUN_009ac550_cls : Standin77900
 // @fnv 0x009ac550
 float FUN_009ac550_cls::GetEffectiveValue()
 {
-    return (float)((reinterpret_cast<::FUN_00477950_shell *>(this)->HasAnyFlags(1) != 0) ? (double)m_8C : (double)(m_8C * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
+    return (float)((reinterpret_cast<::FUN_00477950_shell *>(this)->HasAnyFlags(1) != 0) ? (double)m_8C : (double)(m_8C * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
 }
 
 
@@ -3249,7 +3249,7 @@ void RefX::UpdateExplosion()
         process = new HighProcess;
     float distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)(((*reinterpret_cast<::RefX * *>(&::_g_thePlayer))->GetPosition() - GetPosition())))->ComputeMagnitude();
     float scaled = ComputeSquaredRatioComplement(reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930(), distance);
-    if (scaled > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1030)))))) && !disabled)
+    if (scaled > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1030)))))) && !disabled)
         ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(void *)(((void *)(::FUN_009ad630()))), 1.0f, (::NiAVObject *)(::SceneX *)(0));
     reinterpret_cast<::fnv_009b2940::WaterActor *>(this)->FUN_009b2940();
     reinterpret_cast<::This *>(this)->FUN_009ad670();
@@ -3277,7 +3277,7 @@ void RefX::UpdateExplosion()
         }
         SceneX* sceneB = GetScene();
         if (sceneB)
-            reinterpret_cast<::TaskQueueInterface *>((sceneB))->QueueActorDisarm(scaled > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1030)))))) && !disabled);
+            reinterpret_cast<::TaskQueueInterface *>((sceneB))->QueueActorDisarm(scaled > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1030)))))) && !disabled);
         if (sceneB && ((::SceneX *)(reinterpret_cast<::TESObjectCELL *>((cell))->GetDynamicNode())))
             ((::SceneX *)(reinterpret_cast<::TESObjectCELL *>((cell))->GetDynamicNode()))->Attach(sceneB, true);
         SceneX* node7 = sceneB ? sceneB->AsNode() : 0;
@@ -3297,12 +3297,12 @@ void RefX::UpdateExplosion()
         }
         reinterpret_cast<::ActorX *>(this)->FUN_009b1090();
         if (reinterpret_cast<::SoundPlaybackHandle *>(&(soundAC))->IsValid() || reinterpret_cast<::SoundPlaybackHandle *>(&(soundB8))->IsValid())
-            ::UpdateDistanceFade(radius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1068)))))), GetPosition());
+            ::UpdateDistanceFade(radius * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting1068)))))), GetPosition());
         if (((::CellX *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && reinterpret_cast<::FUN_004fb970_class *>(this)->GetByteAtOffsetD9())
         {
             NiPoint3 position8 = GetPosition();
             position8.z = reinterpret_cast<::FUN_005471e0_shell *>((((::CellX *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_005471e0();
-            float size_2 = reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930() / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::g_011d0da4))))));
+            float size_2 = reinterpret_cast<::FUN_00644930_shell *>(this)->FUN_00644930() / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::g_011d0da4))))));
             MatrixWater rotationA;
             reinterpret_cast<::FUN_004a0c90_shell *>(&(rotationA))->FUN_004a0c90(((float)(::FUN_004a4240())));
             FUN_00689210(((::CellX *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::RefX * *>(&::_g_thePlayer))))->GetTarget())), 1.0f, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingX *>(&::g_011d0ce4))))->GetMenuTitle())), rotationA, position8, size_2,
@@ -3316,7 +3316,7 @@ void RefX::UpdateExplosion()
             }
         }
     }
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingX *>(&::g_011d0a78)))))) > 0)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingX *>(&::g_011d0a78)))))) > 0)
     {
         ImageSpaceEffectParam params(1.0f, 1.0f, 1.0f, 0.65f);
         SceneX* effect2 = ((::SceneX *)(::CreateOctahedron(2.5f, (const struct ::FUN_004a7800 *)(const ::ImageSpaceEffectParam *)(&params), 1)));
@@ -5993,7 +5993,7 @@ void This::FUN_009ad670()
             if (fade)
                 reinterpret_cast<::BSFadeNode *>((fade))->SetRange(DAT_01016970, DAT_01016970);
         }
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))) == 0)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))) == 0)
         {
             TObj* named = (TObj*)((::Obj *)(::FUN_004aae30((::NiAVObject *)(obj), (::NiFixedString *)(void *)(&DAT_0108f1a8))));
             if (named)
@@ -6020,7 +6020,7 @@ void This::FUN_009ad670()
         Local70 rotation;
         reinterpret_cast<::ThreeByThreeMatrix *>(&(rotation))->FUN_00a59780(angles.z, angles.y, angles.x);
         reinterpret_cast<::FUN_0043fa80_s *>((obj))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&rotation)));
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))) > 1)
         {
             reinterpret_cast<::PathingRequest *>((((PathReq*)((::Proj *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))))->SetCenterRadius(DAT_011a5810);
             f8c = DAT_011a580c;
@@ -6031,7 +6031,7 @@ void This::FUN_009ad670()
                 Extra* flags = (Extra*)extra;
                 reinterpret_cast<::BSXFlags_shell *>((flags))->FUN_00519230(0x10, 1);
             }
-            for (int i = 0; i < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))); ++i)
+            for (int i = 0; i < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0fe4)))))); ++i)
             {
                 FloatConfiguredObject guard(1.0f);
                 BigObj* node = new BigObj(0);
@@ -6779,7 +6779,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
         reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80((uintptr_t)(((void *)(reinterpret_cast<::S819 *>((((::Process810 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((checkActor))->FUN_009306d0()))))->FUN_00819250()))));
     else
         reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80((uintptr_t)(((void *)(::FUN_005dbe10()))));
-    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Vec810 &)(pos))->FUN_0063c8a0((void *)&(const ::Vec4810 &)(array.ApplyScaled(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1032)))))))));
+    reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Vec810 &)(pos))->FUN_0063c8a0((void *)&(const ::Vec4810 &)(array.ApplyScaled(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1032)))))))));
     query.FUN_004a3f70(filter.value);
     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(query))->FUN_004a3da0((void *)&(pos));
     reinterpret_cast<::FUN_004a3eb0_shell *>(&(query))->FUN_004a3eb0((void *)&(points[0]));
@@ -6792,17 +6792,17 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
         Hit810 hit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90()))))))))->GetEntryAt(i))));
         Vec810 dir = points[0] - pos;
         Vec810 delta = FUN_004a3760(hit.unk10, dir);
-        if (!(*reinterpret_cast<::FUN_004a51b0_shell *>(&(array))->FUN_004a51b0(2) < -0.98) || !(((double)(reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude())) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1029))))))))
+        if (!(*reinterpret_cast<::FUN_004a51b0_shell *>(&(array))->FUN_004a51b0(2) < -0.98) || !(((double)(reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude())) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1029))))))))
         {
             if (!(*reinterpret_cast<::Test810 **>(reinterpret_cast<char *>(this) + 0xc8)) || !reinterpret_cast<::FUN_00452370_shell *>(((*reinterpret_cast<::Test810 **>(reinterpret_cast<char *>(this) + 0xc8))))->FUN_00452370())
             {
-                if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting810 *>(&::g_011d0a78)))))) > 0)
+                if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting810 *>(&::g_011d0a78)))))) > 0)
                     ::FUN_005b5e40();
                 blocked = true;
             }
         }
     }
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting810 *>(&::g_011d0a78)))))) > 0)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting810 *>(&::g_011d0a78)))))) > 0)
     {
         ::ImageSpaceEffectParam color = blocked ? ::ImageSpaceEffectParam(1, 0, 0, 1) : ::ImageSpaceEffectParam(0, 1, 0, 1);
         void* line = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(pos), (const ::fnv_004b3890::FUN_004a7800 &)(color), (const class ::FUN_006815c0 &)(points[0]), (const ::fnv_004b3890::FUN_004a7800 &)(color), 1)));
@@ -6822,7 +6822,7 @@ bool Host810::FUN_009b1810(Vec810 pos, Actor810* actor)
                 Hit810 hit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray810 *)(::FUN_00460140((intptr_t)(((::HitContainer810 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(query))->FUN_008cdd90()))))))))->GetEntryAt(j))));
                 Vec810 dir = points[j] - pos;
                 Vec810 delta = FUN_004a3760(hit.unk10, dir);
-                if (!(*reinterpret_cast<::FUN_004a51b0_shell *>(&(array))->FUN_004a51b0(2) < -0.98) || !(((double)(reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude())) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1029))))))))
+                if (!(*reinterpret_cast<::FUN_004a51b0_shell *>(&(array))->FUN_004a51b0(2) < -0.98) || !(((double)(reinterpret_cast<::NiPoint3 *>(&(delta))->ComputeMagnitude())) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting810 *>(&::originalRuntimeFloatSetting1029))))))))
                     blocked = true;
             }
         }
@@ -6845,9 +6845,6 @@ struct Ptr4
     void* p;
 };
 
-struct Setting
-{
-};
 extern int g_dummy;
 
 struct FloatSetting
@@ -7785,14 +7782,14 @@ void ProjCls::FUN_009ae6e0()
     if (unkD5 && !unkD4)
     {
         unkD4 = 1;
-        ResList res(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011d10a4)))))));
-        ProjList list(((void *)(::FUN_00559450((int *)&(res)))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011d10a4)))))));
+        ResList res(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d10a4)))))));
+        ProjList list(((void *)(::FUN_00559450((int *)&(res)))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d10a4)))))));
         ::FUN_00cbd960();
         reinterpret_cast<::S_00c9f1e0_Obj *>((((::Cell *)(::FUN_00559450((int *)&(unkA0))))))->FUN_00c9f1e0((::S_00c9f1e0_Range *)(::ProjList *)(&list));
         Flag1 fl;
         if (reinterpret_cast<::FUN_005609f0_shell *>((((::Flag1Ptr *)(reinterpret_cast<::S009afc70 *>(&(list))->FUN_009afc70(&fl)))))->FUN_005609f0())
             ::FUN_009b2e00(((void *)(::FUN_00559450((int *)&(res)))), ((intptr_t)(reinterpret_cast<::FUN_009afc50_shell *>(&(list))->FUN_009afc30())));
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011d0a78)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d0a78)))))) > 1)
         {
             for (int i = 0; i < ((intptr_t)(reinterpret_cast<::FUN_009afc50_shell *>(&(list))->FUN_009afc30())); i++)
             {
@@ -7888,7 +7885,7 @@ void ProjCls::FUN_009ae6e0()
                         unkE8 = pos;
                         if (reinterpret_cast<::NiPoint3 *>((void *)&(unkF4))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO))))))
                             unkF4 = dir;
-                        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting *>(&::g_011d0a78)))))) > 1)
+                        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting *>(&::g_011d0a78)))))) > 1)
                         {
                             Color4 c;
                             new ((void *)&(c)) ::ImageSpaceEffectParam(0.0f, 1.0f, 0.0f, ::g_011d86d4_arg1);

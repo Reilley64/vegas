@@ -52,3 +52,12 @@ function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	??0xProj@@Q
 function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	??1FUN_008196e0@@UEAA@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	?FUN_0081b430@FogProjectileImpl@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
 function	magicfogprojectile	src/fallout/magic/magicfogprojectile.cpp	?ScaleEffect@Effect@@QEAAXPEAUObject@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of explosion.cpp whose
+# calls of the accessor emit code (VEGAS-122), since the unit's own empty
+# Setting went. They read fBSUnitsPerFoot, the explosion image space, camera
+# shake, splash and line-of-sight settings.
+function	explosion	src/fallout/ai/combat/explosion.cpp	??0FUN_009ac200@fnv_009ac200@@QEAA@PEAXPEAUOwnerC@1@0UVec3f@@UMatrixC@1@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009b1810@Host810@@QEAA_NUVec810@@PEAUActor810@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?GetEffectiveValue@FUN_009ac550_cls@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?GetScaledValue@BGSExplosion@@QEAAMXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?UpdateExplosion@RefX@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

@@ -45,3 +45,10 @@ function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?BuildAnima
 function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?FUN_00757f70@HostF@fnv_00757f70@@QEAAXHPEAUTileF@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?FUN_007586e0@CHMenu@@QEAAX_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	computersmenu	src/fallout/interface/menus/computersmenu.cpp	?SetTextSource@TextMenu@@QEAAXPEAUTextSource@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of explosion.cpp that
+# calls the accessor (VEGAS-117), since the unit's own empty Setting went.
+# They read iExplosionDebug, iMolotovTest and iNumExplosionDecalCDPoint.
+function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009ad670@This@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009ae6e0@ProjCls@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?FUN_009b1810@Host810@@QEAA_NUVec810@@PEAUActor810@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	explosion	src/fallout/ai/combat/explosion.cpp	?UpdateExplosion@RefX@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

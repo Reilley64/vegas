@@ -2099,13 +2099,13 @@ struct S0042fa20
 void FUN_004bc4c0()
 {
     bool flag = false;
-    if (flag && *((unsigned int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) < 3)
+    if (flag && *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) < 3)
         reinterpret_cast<S0042fa20*>(&::g_011c63cc)->FUN_0045ce80(3);
-    else if (!flag && *((unsigned int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) < 5)
+    else if (!flag && *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) < 5)
         reinterpret_cast<S0042fa20*>(&::g_011c63cc)->FUN_0045ce80(5);
-    else if ((*((unsigned int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) & 1) == 0)
+    else if ((*((unsigned int *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) & 1) == 0)
         reinterpret_cast<S0042fa20*>(&::g_011c63cc)
-            ->FUN_0045ce80(*((unsigned int *)&(::FUN_0043d4d0((int *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) + 1);
+            ->FUN_0045ce80(*((unsigned int *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<GlobalObject_0045cfe0*>(&::g_011c63cc))))) + 1);
 }
 
 struct FUN_004a46b0_class
@@ -3322,7 +3322,7 @@ struct FUN_004ba280 : Base_4ba280
 FUN_004ba280::FUN_004ba280() : m_pController(0)
 {
     FUN_004bc4c0();
-    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00(*((unsigned int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))));
+    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00(*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))));
     grid = new int[((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) * ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))];
     ::FUN_00403d30(grid, 0, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) * 4 * ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
     origin = Pt3_4ba280(0.0f, 0.0f, 0.0f);

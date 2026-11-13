@@ -922,9 +922,9 @@ bool HitRect::FUN_006fede0()
 {
     intptr_t y;
     int x;
-    x = ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::PointerSource * *>(&::g_TES))))->GetCurrentMoveModeType())) - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >> 1);
-    y = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::PointerSource * *>(&::g_TES))))->FUN_0045cd60())) - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >> 1);
-    if (x + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >= left && x <= left + extent && y + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >= top &&
+    x = ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::PointerSource * *>(&::g_TES))))->GetCurrentMoveModeType())) - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >> 1);
+    y = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::PointerSource * *>(&::g_TES))))->FUN_0045cd60())) - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >> 1);
+    if (x + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >= left && x <= left + extent && y + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScreenSize *>(&::g_011c63cc)))))) >= top &&
         y <= top + extent)
     {
         return true;

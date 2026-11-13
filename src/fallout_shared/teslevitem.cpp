@@ -27,7 +27,7 @@
 // @fnv 0x0050b8d0
 int TESLevItem::GetMaxLevelDifference()
 {
-    return ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(g_011c8f00))))->i;
+    return ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(g_011c8f00))))->i;
 }
 
 // @fnv 0x0050b560

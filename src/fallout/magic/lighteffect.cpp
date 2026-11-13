@@ -858,7 +858,7 @@ public:
 void LightEffectDerived::AttachLightEffect()
 {
     Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
-    if (!this->m_spLight && pTarget3 && !((reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
+    if (!this->m_spLight && pTarget3 && !((reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d1d18)))))
     {
         TESObjectLIGH* pLightTmp = ((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<::ActiveEffect *>((((FUN_0082ccb0_Cls*)this)))->GetEffectSetting()))->FUN_004fd380()));
         if (!pLightTmp)

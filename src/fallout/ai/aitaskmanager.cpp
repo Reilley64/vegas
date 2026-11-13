@@ -2631,7 +2631,7 @@ void TaskOwnerTarget::FUN_008c94e0()
             CountTask b;
             reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(b))->FUN_008c9a20(uiActorCount))), b)));
         }
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
         {
             {
                 CountTask c;
@@ -2663,7 +2663,7 @@ void TaskOwnerTarget::FUN_008c94e0()
                 ActorTask h;
                 reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(h))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), h)));
             }
-            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+            if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
             {
                 {
                     ActorTask j;
@@ -2688,7 +2688,7 @@ void TaskOwnerTarget::FUN_008c94e0()
         if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
             reinterpret_cast<::Owner *>(&(first))->CallMidVirtualB();
         reinterpret_cast<::Owner *>(&(third))->CallMidVirtualB();
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
         {
             reinterpret_cast<::Owner *>(&(second))->CallMidVirtualB();
             reinterpret_cast<::Owner *>(&(fourth))->CallMidVirtualB();
@@ -2698,7 +2698,7 @@ void TaskOwnerTarget::FUN_008c94e0()
             reinterpret_cast<::Owner *>(&(sixth))->CallMidVirtualB();
         if (*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb68)).Bool())
         {
-            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+            if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
                 reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&fourth));
             reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&third));
             reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&fifth));
@@ -2718,7 +2718,7 @@ void TaskOwnerTarget::FUN_008c94e0()
                 reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(first))->FUN_008c8240(0);
             reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(third))->FUN_008c8240(0);
             reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(fifth))->FUN_008c8240(0);
-            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+            if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
             {
                 reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(second))->FUN_008c8240(0);
                 reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(fourth))->FUN_008c8240(0);
@@ -2727,9 +2727,9 @@ void TaskOwnerTarget::FUN_008c94e0()
                 reinterpret_cast<::fnv_008c8240::MessageQueueHandler *>(&(sixth))->FUN_008c8240(0);
         }
     }
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
     {
-        ::TaskQueueInterface::ThreadProcessInput(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011d10d4)))))));
+        ::TaskQueueInterface::ThreadProcessInput(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingView *>(&::g_011d10d4)))))));
         ::TaskQueueInterface::ThreadProcessSecondaryInput();
     }
 }
@@ -3276,7 +3276,7 @@ struct Obj
 // @fnv 0x008ca070
 void Obj::FUN_008ca070()
 {
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008ca070::IntSetting *>(&::g_011c3ea4)))))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008ca070::IntSetting *>(&::g_011c3ea4)))))) == 1)
     {
         if (!*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60() && !*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
             return;

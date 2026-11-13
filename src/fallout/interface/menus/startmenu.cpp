@@ -569,7 +569,7 @@ void FUN_007d11d0(Arg7d* a)
 {
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet((StartMenu::Flag)0x20))
     {
-        int* p = ((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011e0940))))));
+        int* p = ((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011e0940))))));
         *p = a->f14;
         (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))->FUN_007d1240(*p);
     }
@@ -599,7 +599,7 @@ void FUN_007d1260(Arg7d* a)
 {
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet((StartMenu::Flag)0x20))
     {
-        int* p = ((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_007d1260::GlobalObject2_0040c150 *>(&::g_011e087c))))));
+        int* p = ((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_007d1260::GlobalObject2_0040c150 *>(&::g_011e087c))))));
         *p = a->f14;
         (*reinterpret_cast<::fnv_007d1260::PC7d * *>(&::_g_thePlayer))->FUN_007d1240(*p);
     }

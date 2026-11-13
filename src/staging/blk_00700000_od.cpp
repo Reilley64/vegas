@@ -1882,8 +1882,8 @@ void FUN_007031e0(DbgRef* ref)
         if (ref)
         {
             ::FUN_00406f60((::FUN_00406f90_this *)&(text), kRefFmt, reinterpret_cast<::FUN_0055d520_shell *>((ref))->FUN_0055d520(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((ref))->FUN_0084e3a0())));
-            int height = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::DbgFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::DbgFontMgr *)(::FontManager::Instance()))))->FUN_005bd5c0(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011f33c8)))))) - 1)))))->FUN_005bd580() + 3;
-            int x = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011debac))))));
+            int height = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::DbgFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::DbgFontMgr *)(::FontManager::Instance()))))->FUN_005bd5c0(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011f33c8)))))) - 1)))))->FUN_005bd580() + 3;
+            int x = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011debac))))));
             reinterpret_cast<::A0F8Self *>((((::DbgText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)&(text)))), 640.0f, (float)x, 2, -1, -1.0f, 0, (::A0F8Color *)(0));
         }
         reinterpret_cast<::FUN_00714d70 *>((((::DbgIface *)(::fnv_004b7210::FUN_004b7210()))))->SetField((int)(intptr_t)(ref));
@@ -2727,7 +2727,7 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
     reinterpret_cast<::FUN_0071dd90_shell *>(this)->WriteLine(((const char *)(::FUN_00559450((int *)&(a)))));
     int s = 1200;
     int p = 0;
-    int h = reinterpret_cast<::TextWrapper *>((((::ConsoleFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::ConsoleFontManager *)(::FontManager::Instance()))))->FUN_005bd5c0(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8d38)))))) - 1)))))->FUN_00a160c0((::BSStringT_char *)(::BSStringT<char> *)(&a), &s, &p, 0, 0);
+    int h = reinterpret_cast<::TextWrapper *>((((::ConsoleFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::ConsoleFontManager *)(::FontManager::Instance()))))->FUN_005bd5c0(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8d38)))))) - 1)))))->FUN_00a160c0((::BSStringT_char *)(::BSStringT<char> *)(&a), &s, &p, 0, 0);
     if (h == 0)
         return;
     char i[2048];
@@ -2745,7 +2745,7 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
         reinterpret_cast<::FUN_0071df60_Class *>(&(lines))->FUN_0071df60((intptr_t)&(l));
         if (j)
             currentLine = ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName()));
-        while (((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8cf0)))))))
+        while (((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())) > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8cf0)))))))
         {
             lines.PopFront();
             currentLine--;

@@ -627,7 +627,7 @@ class GlobalObject2_0040c150
 // @fnv 0x006151d0
 int FUN_006151d0()
 {
-    return *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011d5a50))))));
+    return *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011d5a50))))));
 }
 
 // Subtracts 2 from aePart and returns the result if it is in [0,3), otherwise returns -1.

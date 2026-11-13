@@ -1675,7 +1675,7 @@ bool CombatGroupS::FUN_00987220(CombatMemberS* pMember)
     }
     if (ItemUpdateArray != 0)
     {
-        if (ItemUpdateArray > pMember->w48 + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cef50)))))))
+        if (ItemUpdateArray > pMember->w48 + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cef50)))))))
             return true;
         if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)this + 0xe8))))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting410)))))) &&
             reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x60))))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting410)))))) &&

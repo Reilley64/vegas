@@ -3757,7 +3757,7 @@ bool FUN_00490e60_shell::ShouldQueueAnimations()
 {
     bool bqueueAnims = false;
     bqueueAnims = true;
-    if (!(*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer)) || !((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) || !*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00490e60::GlobalObject_0045cfe0 *>(&::g_011c5778)))))))
+    if (!(*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer)) || !((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) || !*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00490e60::GlobalObject_0045cfe0 *>(&::g_011c5778)))))))
     {
         bqueueAnims = false;
     }
@@ -5444,7 +5444,7 @@ void AnimSwap::FUN_00493bd0()
 {
     if (!m_pRootNode || !pOther)
         return;
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1 && !(*reinterpret_cast<char *>(&::DAT_011e07a8)) && !reinterpret_cast<::fnv_00493970::FUN_00493990_shell *>(this)->FUN_00493970() && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10())
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1 && !(*reinterpret_cast<char *>(&::DAT_011e07a8)) && !reinterpret_cast<::fnv_00493970::FUN_00493990_shell *>(this)->FUN_00493970() && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10())
     {
         reinterpret_cast<::fnv_004939b0::ST_00493860 *>(this)->FUN_004939b0(1);
         return;
@@ -8124,7 +8124,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
     float fTimeMultiplier = ::fnv::timer::Seconds() * m_fEquipAnimationRate;
     if (reinterpret_cast<::FUN_00493830_shell *>(this)->FUN_00493830())
     {
-        for (; (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingStub *>(&::g_011c5778)))))); (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8))++)
+        for (; (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8)) < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSettingStub *>(&::g_011c5778)))))); (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8))++)
         {
             KFModel* m_kModelObjectsItem = (kfModelList.m_item);
             reinterpret_cast<::Anim490 *>(this)->AddModel((::Model490 *)(m_kModelObjectsItem), false);

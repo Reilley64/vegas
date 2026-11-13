@@ -170,7 +170,7 @@ FUN_0057cd10::FUN_0057cd10()
 {
     if (!DAT_011ca444)
     {
-        int isizecap = (TallGrassShaderProperty::GetCacheIdentifier() << 8) / *((int *)&(::FUN_0043d4d0((int *)&(::g_011ca524))));
+        int isizecap = (TallGrassShaderProperty::GetCacheIdentifier() << 8) / *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011ca524))));
         if (!(*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c)))
             (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca43c)) = new B006815c0[isizecap * isizecap];
         if (!(*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440)))
@@ -278,8 +278,8 @@ void UpdateTerrainLODMaxRange()
     float fmaxrange = 0.0f;
     if (::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) >= ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca4ac)))) + 0.5f)
         fmaxrange = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) + ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca498))));
-    if (fmaxrange > (float)(unsigned int)(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12))
-        fmaxrange = (float)(unsigned int)(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12);
+    if (fmaxrange > (float)(unsigned int)(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12))
+        fmaxrange = (float)(unsigned int)(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12);
     DAT_011ca434 = fmaxrange;
     BaseNodeV* pbasenode = ((::fnv_0057cf00::BaseNodeV *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
     (*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438)) = new NiNode(0);
@@ -829,7 +829,7 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
 
     float fLodSize = FUN_0057ce60() << 8;
     unsigned short usSteps = (int)(fLodSize / pkSettings->m_fHorizontalSpacing);
-    unsigned short usMaxStepsNew = (FUN_0057ce60() << 8) / *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0057de00::LODIntSetting *>(&::g_011ca524))))));
+    unsigned short usMaxStepsNew = (FUN_0057ce60() << 8) / *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057de00::LODIntSetting *>(&::g_011ca524))))));
     if (usSteps > usMaxStepsNew)
         usSteps = usMaxStepsNew;
     FUN_0053a510_LandData kTheLandData;

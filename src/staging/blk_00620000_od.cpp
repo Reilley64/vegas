@@ -5148,7 +5148,7 @@ void __cdecl FUN_00624bf0()
         ::fnv_006263f0::FUN_006263f0((intptr_t)(new FUN_00624de0));
         GetCurrentDirectoryA(0x104, path);
         ((FUN_00624d70_Class*)created)->ExtractTes4Prefix(path);
-        FUN_00c661d0(*((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&(*reinterpret_cast<int *>(&::g_011cc2e8))))))));
+        FUN_00c661d0(*((int *)&(::FUN_0043d4d0((::Setting *)(((GlobalObject_0045cfe0*)&(*reinterpret_cast<int *>(&::g_011cc2e8))))))));
     }
 }
 
@@ -7440,7 +7440,7 @@ struct FUN_0062e780 : CB75D0Base, SecBase14
 // @fnv 0x0062e780
 FUN_0062e780::FUN_0062e780() : m_1c(1.0f)
 {
-    m_28 = *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))));
+    m_28 = *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))));
     int iSize = m_28 * m_28;
     m_20 = new int[iSize];
 }

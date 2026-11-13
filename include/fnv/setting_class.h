@@ -5,6 +5,8 @@
 
 // The setting. Setting.h includes this header after layout_support.h; a
 // unit that cannot include layout_support.h includes this one (VEGAS-111).
+// The offset comments are those of the 32-bit layout; on windows-x64 uValue
+// is at 8 and pKey at 16.
 class Setting
 {
   public:

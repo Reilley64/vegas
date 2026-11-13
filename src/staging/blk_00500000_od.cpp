@@ -1015,10 +1015,10 @@ bool __cdecl InitSettingsDefaults()
     if (!DAT_011c8fa0)
         DAT_011c8fa0 |= 4;
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c9054)))) != 0 && *((int *)&(::FUN_0043d4d0((int *)&(::g_011c9054)))) != 1 && *((int *)&(::FUN_0043d4d0((int *)&(::g_011c9054)))) != 2)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c9054)))) != 0 && *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c9054)))) != 1 && *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c9054)))) != 2)
         ::g_011c9054.FUN_0045ce80(1);
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c907c)))) != 0 && *((int *)&(::FUN_0043d4d0((int *)&(::g_011c907c)))) != 1 && *((int *)&(::FUN_0043d4d0((int *)&(::g_011c907c)))) != 2)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c907c)))) != 0 && *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c907c)))) != 1 && *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c907c)))) != 2)
         ::g_011c907c.FUN_0045ce80(2);
 
     if (*((float *)&(::FUN_00403e20((float *)&(::g_011c8fb0)))) == 0.0)

@@ -3092,7 +3092,7 @@ void MenuStandIn::OnButtonPressed(int aiButton, TileStandIn* tile)
             reinterpret_cast<::Tile *>((((::TileStandIn *)(this->unk04))))->Set(::DAT_011d9fd8, (&unk54)[unk28]);
             if (reinterpret_cast<::TESClass *>((((::ClassStandIn *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)(avTmp)))
             {
-                delta *= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011cd6c0))))));
+                delta *= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingStandIn *>(&::g_011cd6c0))))));
             }
             reinterpret_cast<::FUN_00a012d0_t *>((((::TileStandIn *)(reinterpret_cast<::FUN_0045cd60_shell *>((tile))->FUN_0045cd60()))))->FUN_00a012d0(::DAT_011d9ff0, reinterpret_cast<::TileListBoxCalls *>((((::TileStandIn *)(reinterpret_cast<::FUN_0045cd60_shell *>((tile))->FUN_0045cd60()))))->GetFloat(::DAT_011d9ff0) + delta, true);
             bOut = false;
@@ -3728,7 +3728,7 @@ intptr_t FUN_00784c80()
             ((DatObj*)(void*)(uintptr_t)DAT_011d9fdc)->f54 = 0;
             ((DatObj*)(void*)(uintptr_t)DAT_011d9fdc)->f5c = (int)f;
         }
-        if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((void*)(uintptr_t)(*reinterpret_cast<int *>(&::_g_thePlayer))))->FUN_0087f9f0() % ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cd074))) == 0)
+        if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((void*)(uintptr_t)(*reinterpret_cast<int *>(&::_g_thePlayer))))->FUN_0087f9f0() % ::FUN_0043d4d0(&(*reinterpret_cast<::Setting *>(&::g_011cd074))) == 0)
         {
             ContNode* node;
             for (node = (ContNode*)reinterpret_cast<::FUN_00460fb0_class *>((((FUN_00460fb0_class*)(void*)(uintptr_t)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00460fb0();

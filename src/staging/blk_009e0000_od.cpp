@@ -640,7 +640,7 @@ bool S_009eb8a0_Cls::FUN_009eb8a0()
 {
     int now4 = ((*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetCurrentMonth() << 9) | ((char)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->GetDayOfMonth())) | (((int)(reinterpret_cast<::FUN_00867c60_shell *>(&((*reinterpret_cast<::Calendar *>(&::g_011de7b8))))->FUN_00867c60())) << 13);
     bool result5 = false;
-    if (now4 - unk30 >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::S_009eb8a0_Setting *>(&::g_011cd39c)))))))
+    if (now4 - unk30 >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::S_009eb8a0_Setting *>(&::g_011cd39c)))))))
     {
         result5 = true;
     }

@@ -307,7 +307,7 @@ GlobalObject2_0040c150 g_011ca160;
 // @fnv 0x00526100
 int __cdecl FUN_00526100()
 {
-    return *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00526100::GlobalObject2_0040c150 *>(&::g_011ca160))))));
+    return *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00526100::GlobalObject2_0040c150 *>(&::g_011ca160))))));
 }
 }  // namespace fnv_00526100
 

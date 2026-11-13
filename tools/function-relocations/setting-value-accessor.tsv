@@ -1,0 +1,18 @@
+# Callers of the setting value accessor at 0x0043d4d0 in magicitem.cpp
+# (VEGAS-111), docs/setting-value-offset.md. Format: README.md.
+# The accessor's 32-bit form, which returned the address 4 bytes into the
+# setting. No object defines it; a call whose argument is a setting of the
+# shared class goes to the form that takes the shared Setting:
+forbid	?FUN_0043d4d0@@YAAEAHPEAH@Z
+# batch, unit, function, the accessor. A sample: the readers of the processor
+# count setting g_011c3ea4 in three units, and one caller for each other
+# argument form (a cast of a global, a table of globals, a choice between two
+# globals, a reinterpret_cast form, a global of the second generated family).
+function	callers	src/fallout/ai/processlists.cpp	?FUN_0096d810@FUN_0096d810_shell@fnv_0096d810@@QEAAXXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/fallout/magic/magictarget.cpp	?FUN_008251c0@FUN_008251c0_cls@@QEAAXPEAVActiveEffect@@_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/fallout_shared/tes.cpp	?FUN_00453550@Zt5TES@@QEAAXM@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/fallout_shared/bgsimpactdata.cpp	?GetGlobalValue@FUN_0058e790_S@@QEAAHXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/fallout/interface/interfacemanager.cpp	?InitInterface@FUN_0070adb0_shell@@QEAAX_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/fallout/ai/sandboxpackage.cpp	?SelectSandboxActivity@SandBoxActorPackageData_ext@fnv_009f4700@@QEAAXPEAVActor@@PEAVTESPackage@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/fallout/interface/menus/levelupmenu.cpp	?FUN_00784c80@fnv_00784c80@@YA_JXZ	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	callers	src/bgsencounterzone.cpp	?FUN_005260a0@FUN_005260a0_shell@@QEAAXI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

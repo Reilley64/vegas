@@ -8915,7 +8915,7 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     bool bSneakOn = reinterpret_cast<::TESObjectCELL *>((((::fnv_00779070::CompassProcess *)(reinterpret_cast<::LowProcess *>((((CompassRef*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->GetTarget()))))->IsCellInterior();
     float fStealthDst = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::originalRuntimeFloatSetting87))))));
     fStealthDst = fStealthDst * fStealthDst;
-    float fWalkDst = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::originalRuntimeFloatSetting101)))))) * *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::originalRuntimeFloatSetting87))))));
+    float fWalkDst = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::originalRuntimeFloatSetting101)))))) * *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::originalRuntimeFloatSetting87))))));
     fWalkDst = fWalkDst * fWalkDst;
     unsigned int uiShown = pActors->Count();
     if (pActors->Count() > (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::g_011d32d0)))))))

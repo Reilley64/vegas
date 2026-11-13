@@ -2280,7 +2280,7 @@ void Bolt::InitEffect()
     effect.FUN_0066b0d0(((::BoltFx *)(::FUN_00bc18d0((::Obj_bc18d0 *)(::BoltNode *)(((::BoltNode *)(::FUN_00559450((int *)&(emitter)))))))));
     if (((::BoltFx *)(::FUN_00559450((int *)&(effect)))))
     {
-        reinterpret_cast<::FUN_00803a70_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803a70(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d186c)))))));
+        reinterpret_cast<::FUN_00803a70_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803a70(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d186c)))))));
         reinterpret_cast<::FUN_00821620_Class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00821620(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1190)))))));
         reinterpret_cast<::FUN_00507780 *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1191)))))));
         reinterpret_cast<::FUN_005f9b10_class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1192)))))));
@@ -2290,7 +2290,7 @@ void Bolt::InitEffect()
         ((::BoltFx *)(::FUN_00559450((int *)&(effect))))->SetData(
             BoltColor(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1c4c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1194)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1cdc)))))), 1.0f));
         reinterpret_cast<::FUN_00803b30_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803b30(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1195)))))));
-        reinterpret_cast<::FUN_008126e0_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetWhich(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1800)))))));
+        reinterpret_cast<::FUN_008126e0_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetWhich(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1800)))))));
         reinterpret_cast<::FUN_005077a0_Class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_005077a0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1196)))))));
         reinterpret_cast<::FUN_00803b50_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803b50(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d17c4)))))));
         reinterpret_cast<::FUN_00803a50_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803a50(true);
@@ -3308,7 +3308,7 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
     F139Fx* h = ((::F139Fx *)(::FUN_00bc18d0((::Obj_bc18d0 *)(s))));
     if (h)
     {
-        reinterpret_cast<::FUN_00803a70_shell *>((h))->FUN_00803a70(*((int *)&(::FUN_0043d4d0((int *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1a48))))))));
+        reinterpret_cast<::FUN_00803a70_shell *>((h))->FUN_00803a70(*((int *)&(::FUN_0043d4d0((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1a48))))))));
         reinterpret_cast<::FUN_00821620_Class *>((h))->FUN_00821620(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1197))))))));
         reinterpret_cast<::FUN_00507780 *>((h))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1198))))))));
         reinterpret_cast<::FUN_005f9b10_class *>((h))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1192))))))));
@@ -3320,7 +3320,7 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
                              *((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1194))))))),
                              *((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1cdc))))))), 1.0f));
         reinterpret_cast<::FUN_00803b30_shell *>((h))->FUN_00803b30(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1199))))))));
-        reinterpret_cast<::FUN_008126e0_shell *>((h))->SetWhich(*((int *)&(::FUN_0043d4d0((int *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1b50))))))));
+        reinterpret_cast<::FUN_008126e0_shell *>((h))->SetWhich(*((int *)&(::FUN_0043d4d0((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1b50))))))));
         reinterpret_cast<::FUN_005077a0_Class *>((h))->FUN_005077a0(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1200))))))));
         reinterpret_cast<::FUN_00803b50_shell *>((h))->FUN_00803b50(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1974))))))));
         reinterpret_cast<::FUN_00803a50_shell *>((h))->FUN_00803a50(false);
@@ -3530,7 +3530,7 @@ struct xProj : xBase
 xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     : xBase((intptr_t)apA, b, c, d, kP1, kP2), m_a8(0), m_b4(0), m_b8(0), m_bc(0), m_c0(0)
 {
-    ::FUN_00811e00(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011d16ec)))))));
+    ::FUN_00811e00(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::xIntSetting *>(&::g_011d16ec)))))));
     reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
     m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
     m_b0 = 0;

@@ -2574,7 +2574,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                 ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d3d30))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else
             {
-                if ((std::intptr_t)reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->iCountDelta > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))
+                if ((std::intptr_t)reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->iCountDelta > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))
                     ::CreateQuantityMenu((reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->iCountDelta), DropInventoryItem, 0x7fffffff);
                 else
                     DropInventoryItem(1);
@@ -3060,8 +3060,8 @@ void FUN_00782a90()
         ::ApplyPerkModifiers(0x38, (::Actor *)(::_g_thePlayer), ::_g_thePlayer, ck, &bn);
         FUN_00406d00(ba, 0x40, "%1.1f", (double)(bl + bn));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(uintptr_t)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t7c))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);
-        if (reinterpret_cast<::ActorGoldQuery *>((((PlayerShell*)::_g_thePlayer)))->FUN_00891d70() > *((int *)&(::FUN_0043d4d0((int *)(((IntSettingObj*)&(*reinterpret_cast<int *>(&::g_011d3a08))))))))
-            FUN_00406d00(ba, 0x40, "%d+", *((int *)&(::FUN_0043d4d0((int *)(((IntSettingObj*)&(*reinterpret_cast<int *>(&::g_011d3a08))))))));
+        if (reinterpret_cast<::ActorGoldQuery *>((((PlayerShell*)::_g_thePlayer)))->FUN_00891d70() > *((int *)&(::FUN_0043d4d0((::Setting *)(((IntSettingObj*)&(*reinterpret_cast<int *>(&::g_011d3a08))))))))
+            FUN_00406d00(ba, 0x40, "%d+", *((int *)&(::FUN_0043d4d0((::Setting *)(((IntSettingObj*)&(*reinterpret_cast<int *>(&::g_011d3a08))))))));
         else
             FUN_00406d00(ba, 0x40, "%d", reinterpret_cast<::ActorGoldQuery *>((((PlayerShell*)::_g_thePlayer)))->FUN_00891d70());
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((InvObj*)(void*)(uintptr_t)(*reinterpret_cast<int *>(&::InventoryMenu::ms_pInventoryMenu)))->t28))->FUN_00a01350(::InventoryMenu::ms_iValueTileID, (char *)(ba), true);

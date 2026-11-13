@@ -2300,9 +2300,9 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             DecalPoint kEyeOut = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
             DecalBound kBound = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pTarget))->FUN_0043d450()));
             float fBoundDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)((void *)&(kBound)))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kEyeOut)))))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
-            if ((FUN_004a1a00() >= fBoundDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
+            if ((FUN_004a1a00() >= fBoundDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
                 FUN_004a2070(apRequest);
-            else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
+            else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
                 ::FUN_005b5e40();
         }
         else if (*(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c58bc)).FUN_00408d60() && apRequest->pHolder)
@@ -2316,9 +2316,9 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             if (pNode && !pObject->FUN_004a19d0())
             {
                 apRequest->pTarget = pNode;
-                if ((FUN_004a1a00() >= fHolderDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
+                if ((FUN_004a1a00() >= fHolderDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
                     FUN_004a2070(apRequest);
-                else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
+                else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
                     ::FUN_005b5e40();
             }
         }
@@ -2492,7 +2492,7 @@ bool XMgr::FUN_004a1a70(XRef* ref)
     XNode* hit2;
     bool foundVal;
 
-    if (DAT_011c57e4 >= *((int *)&(::FUN_0043d4d0((int *)(((XSetting*)&(*reinterpret_cast<char *>(&::g_011c5890))))))))
+    if (DAT_011c57e4 >= *((int *)&(::FUN_0043d4d0((::Setting *)(((XSetting*)&(*reinterpret_cast<char *>(&::g_011c5890))))))))
     {
         if (((XSetting*)&(*reinterpret_cast<char *>(&::g_011c5904)))->Bool()[0])
             ::FUN_005b5e40();
@@ -2958,7 +2958,7 @@ bool DWork::FUN_004a2070(DArg* arg)
 {
     if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5874)))))) <= 0.0)
         return false;
-    if (::DAT_011c57e8 >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5858)))))))
+    if (::DAT_011c57e8 >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c5858)))))))
     {
         if (*(*reinterpret_cast<::ProcessLists *>(&::g_011c5904)).GetLifeStateControlFlag())
             ::FUN_005b5e40();
@@ -3013,7 +3013,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                             selected = new DNode(array, true);
                         else
                         {
-                            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((selected))->FUN_00453470())) >= (unsigned)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c589c)))))))
+                            if (((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((selected))->FUN_00453470())) >= (unsigned)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_004a2070::DSetting *>(&::g_011c589c)))))))
                                 return true;
                         }
                         ++::DAT_011c57e8;

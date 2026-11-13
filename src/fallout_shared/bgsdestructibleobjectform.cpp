@@ -127,7 +127,7 @@ void BGSDestructibleObjectForm::UpdateDestructionMap()
         if (ref && !ref->GetDisabled() && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(ref))->FUN_00440d80())
         {
             float damage = value * fTime;
-            if (((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(((SettingT_GameSettingCollection_*)&g_011c3ea4)))))->i == 1)
+            if (((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)(((SettingT_GameSettingCollection_*)&g_011c3ea4)))))->i == 1)
             {
                 if (ref->IsActor())
                 {

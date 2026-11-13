@@ -6146,12 +6146,12 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         ((TESAngleHelper*)this)->SetReferencePosition(NiPoint3Ex(0, 0, 0));
     }
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0092f260::GlobalObject2_0040c150 *>(&::g_011e05b4)))))))
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0092f260::GlobalObject2_0040c150 *>(&::g_011e05b4)))))))
     {
         unsigned int iFrameCounter = ((unsigned int)(::FUN_009304a0()));
         if (DAT_011e054c != iFrameCounter)
         {
-            if (iFrameCounter % (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0092f260::GlobalObject2_0040c150 *>(&::g_011e05b4)))))) + 1))
+            if (iFrameCounter % (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0092f260::GlobalObject2_0040c150 *>(&::g_011e05b4)))))) + 1))
                 DAT_011e0550 = true;
             else
                 DAT_011e0550 = false;
@@ -13618,7 +13618,7 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
             float active = 0.0f;
             float timeMs;
             playFlag = child ? (unsigned char)1 : playerSound;
-            if (((double)(reinterpret_cast<::RefS *>(this)->FUN_005723b0((::RefS *)(_g_thePlayer), 0, 0))) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::g_011cd378)))))) &&
+            if (((double)(reinterpret_cast<::RefS *>(this)->FUN_005723b0((::RefS *)(_g_thePlayer), 0, 0))) < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::g_011cd378)))))) &&
                 (!child || (child && reinterpret_cast<::FUN_004eaf60_shell *>((((PlayerCharacter_ext*)_g_thePlayer)))->FUN_004eaf60())))
                 isPlayer = v110(0);
             if (!curItem)

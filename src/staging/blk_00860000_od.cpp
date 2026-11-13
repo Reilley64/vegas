@@ -4261,13 +4261,13 @@ FUN_0086c160::FUN_0086c160(void* aiArg1, void* aiArg2)
     acc98.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     flag9c = false;
     acca0.FUN_0066b0d0(new FUN_00a712f0);
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Global_p161 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Global_p161 *>(&::g_011c3ea4)))))) > 1)
     {
         ::FUN_0087b8d0((unsigned int)(std::uintptr_t)(&timer28), (unsigned int)(std::uintptr_t)(&timer60));
         reinterpret_cast<::FUN_0086c600_shell *>(&(timer28))->SignalAtOffset();
         reinterpret_cast<::FUN_0086c600_shell *>(&(timer60))->SignalAtOffset();
     }
-    ::FUN_0043d4d0((int *)&((*reinterpret_cast<::Global_p161 *>(&::g_011c3ea4))));
+    ::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Global_p161 *>(&::g_011c3ea4))));
     thread = FUN_0040fc90();
     arg1 = aiArg1;
     arg2 = aiArg2;
@@ -6182,7 +6182,7 @@ FUN_0086c880::~FUN_0086c880()
         delete (*reinterpret_cast<fnv_0086c880::Delete86 * (*)[34]>(&::DAT_011d5268))[p];
     for (unsigned int q = 0; q < 34; q++)
         delete DAT_011d56a8[q];
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0086c880::Setting86 *>(&::g_011c3ea4)))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0086c880::Setting86 *>(&::g_011c3ea4)))))) > 1)
     {
         reinterpret_cast<::fnv_0086cdd0::FUN_0086cdd0 *>(&(member28))->Wait();
         reinterpret_cast<::fnv_0086cdd0::FUN_0086cdd0 *>(&(member60))->Wait();
@@ -7154,7 +7154,7 @@ void SaveScreenshot(const char* pcPath)
     if (pcPath)
         ::TaskQueueInterface::CopyStringToBuffer(acPathCur, 0x104, pcPath);
     else
-        ::FUN_00406d00(acPathCur, 0x104, "%s%d.bmp", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SSStringSetting *>(&::g_011df0f8))))->GetMenuTitle())), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))));
+        ::FUN_00406d00(acPathCur, 0x104, "%s%d.bmp", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SSStringSetting *>(&::g_011df0f8))))->GetMenuTitle())), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))));
     SSFile kFileLast(acPathCur, 2, 2, 0);
     if (!::FUN_00559450((int *)&(kFileLast)))
     {
@@ -7202,7 +7202,7 @@ void SaveScreenshot(const char* pcPath)
             char acMessage[260];
             ::std::sprintf(acMessage, "ScreenShot: File '%s' created.", acPathCur);
             ::DispatchMessageToSink((const char *)(acMessage), 0, (const char *)(0), (const char *)(0), 2.0f, 0);
-            *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) + 1;
+            *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) + 1;
             reinterpret_cast<::FUN_008798e0_shell *>((FUN_004de490()))->OpenAtPosition();
         }
     }

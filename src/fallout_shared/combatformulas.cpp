@@ -344,7 +344,7 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                                         iClipRounds /
                                                                                         m_fNextProcedureCheckHour;
                                                                                     if ((iClipRounds <=
-                                                                                             ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf888))))))->i ||
+                                                                                             ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf888))))))->i ||
                                                                                          includeReload) &&
                                                                                         weapon->FUN_00446390() != 1 &&
                                                                                         weapon->FUN_00446390() != 2 &&
@@ -1434,11 +1434,11 @@ void __cdecl RollChanceOutcome(void* unused, ChanceModifier* modifier, int baseC
     }
     else
     {
-        int criticalBase = extraChance + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ChanceSetting *>(&::g_011ce2fc))))));
+        int criticalBase = extraChance + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ChanceSetting *>(&::g_011ce2fc))))));
         intermediateChance = (int)((double)criticalBase * ((double)baseChance * ::DAT_01016408));
     }
     int criticalChance = intermediateChance;
-    int roll = effectChance + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ChanceSetting *>(&::g_011cf2ec))))));
+    int roll = effectChance + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ChanceSetting *>(&::g_011cf2ec))))));
     if ((int)normalChance < criticalChance)
     {
         *critical = 1;

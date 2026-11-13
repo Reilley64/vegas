@@ -63,9 +63,9 @@ int ActorValueUtility::ConvertActorValue(int aiLevel)
 {
     if (aiLevel <= 1)
         return 0;
-    int iTotal = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d03e8))))))->i;
+    int iTotal = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d03e8))))))->i;
     int iBase = iTotal;
-    int iBump = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0ae4))))))->i;
+    int iBump = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0ae4))))))->i;
     for (int i = 1; i < aiLevel - 1; ++i)
     {
         iBase += iBump;

@@ -156,7 +156,7 @@ bool FalloutRadio::Update(bool force)
     if (DAT_011dd424 == 0)
         DAT_011dd424 = ::fnv::timer::Time();
 
-    if (::fnv::timer::Time() - DAT_011dd424 > ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd5cc))))))->value && !Interface::IsGamePaused())
+    if (::fnv::timer::Time() - DAT_011dd424 > ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd5cc))))))->value && !Interface::IsGamePaused())
     {
         update = true;
         DAT_011dd424 = ::fnv::timer::Time();

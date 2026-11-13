@@ -683,7 +683,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
             continue;
 
         int iTypeValue = ((FUN_0083f0d0_shell*)pTopic)->FUN_0083f0d0();
-        if (((MenuTopicPlayer*)::_g_thePlayer)->actorValues.GetActorValue(9) <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d0dc8)))))
+        if (((MenuTopicPlayer*)::_g_thePlayer)->actorValues.GetActorValue(9) <= *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d0dc8)))))
         {
             if (iTypeValue == 3)
                 continue;
@@ -1433,7 +1433,7 @@ MenuTopic::MenuTopic(TESQuest* quest, TESTopic* topic, TESTopicInfo* info, Mobil
         }
         else
             m_bIsRefusal = reinterpret_cast<::FUN_0061f260_shell *>((info))->FUN_0061f260();
-        if (((MenuTopicPlayer*)::_g_thePlayer)->actorValues.GetActorValue(9) <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d0dc8)))) &&
+        if (((MenuTopicPlayer*)::_g_thePlayer)->actorValues.GetActorValue(9) <= *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d0dc8)))) &&
             ((bool)(reinterpret_cast<::FUN_0083dea0_class *>((topic))->FUN_0083dea0())))
             m_kPrompt.FUN_00438470((*(const ::BSStringT<char> *)(::FUN_006a9540((char *)(topic)))));
         else if (reinterpret_cast<::FUN_0083de40_shell *>((info))->FUN_0083de40())

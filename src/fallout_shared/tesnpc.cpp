@@ -788,7 +788,7 @@ void TESNPC::UpdateActorBaseData(bool menu)
     if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())) == 7)
         m_bFaceGenDataValid = true;
     bool bUseDefaults = true;
-    if (m_bFaceGenDataValid && ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0e7c))))))->i == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetSceneRoot()))))->FUN_0084e3a0())))
+    if (m_bFaceGenDataValid && ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0e7c))))))->i == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetSceneRoot()))))->FUN_0084e3a0())))
         bUseDefaults = false;
     if (vfn_144())
     {
@@ -819,7 +819,7 @@ void TESNPC::UpdateActorBaseData(bool menu)
                 budget.iSkillPoints = (iLevel - 1) * budget.iSkillPoints;
                 budget.iRemainingTagSkills = (menu ? 1 : 0) + 3;
                 budget.fPointsPerSkill =
-                    ((double)(::FUN_00404040((float)budget.iSkillPoints / budget.iRemainingTagSkills))) * ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cd6c0))))))->i;
+                    ((double)(::FUN_00404040((float)budget.iSkillPoints / budget.iRemainingTagSkills))) * ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cd6c0))))))->i;
                 budget.overflow = 0.0f;
                 --budget.iRemainingTagSkills;
                 for (int iIndex = 0; iIndex < 14; ++iIndex)
@@ -6902,7 +6902,7 @@ void NPC_Helper::InitAttributesAndSkills(bool arg1)
     s = true;
     if (i)
     {
-        if (((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0e7c))))))->i == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetSceneRoot()))))->FUN_0084e3a0())))
+        if (((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0e7c))))))->i == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::TESClass *)(reinterpret_cast<::MiddleHighProcess *>(this)->GetSceneRoot()))))->FUN_0084e3a0())))
             s = false;
     }
 
@@ -6934,7 +6934,7 @@ void NPC_Helper::InitAttributesAndSkills(bool arg1)
         int kIter;
         kIter = (arg1 ? 1 : 0) + 3;
         float q;
-        q = (float)(((double)(::FUN_00404040((float)tmp / kIter))) * ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cd6c0))))))->i);
+        q = (float)(((double)(::FUN_00404040((float)tmp / kIter))) * ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cd6c0))))))->i);
         float y;
         y = 0.0f;
         --kIter;

@@ -1055,7 +1055,7 @@ struct FUN_004e7600_shell
 // @fnv 0x004e7600
 int FUN_004e7600_shell::GetIntValue()
 {
-    return ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c7b2c))))))->i;
+    return ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c7b2c))))))->i;
 }
 
 namespace fnv_004e9530 {
@@ -1337,7 +1337,7 @@ struct FUN_004e7620_shell
 // @fnv 0x004e7620
 int FUN_004e7620_shell::GetGameSettingInt()
 {
-    return ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c7bb0))))))->i;
+    return ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c7bb0))))))->i;
 }
 
 struct Setting_S
@@ -3281,7 +3281,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     int iGridDeltaX = position.x - ((iFirstValue << 12) + 2048);
     int iDeltaY = position.y - ((iSecondValue << 12) + 2048);
     float fThreshold = 4096.0f;
-    if (((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui == 3)
+    if (((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui == 3)
         fThreshold = 3072.0f;
     m_fFirstWorldspaceValue = fThreshold - ::std::abs(iGridDeltaX);
     m_fSecondWorldspaceValue = fThreshold - ::std::abs(iDeltaY);
@@ -3297,7 +3297,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
             {
                 if ((*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c3d40)).Bool()->b && reinterpret_cast<::fnv_00454d50::FUN_00454d50_shell *>(this)->FUN_00454d50(true))
                     reinterpret_cast<::fnv_00452490::FUN_00452490_shell *>(this)->FUN_00452490(false);
-                int iHalfGridCount = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui >> 1;
+                int iHalfGridCount = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui >> 1;
                 int iQueuedX = m_iGridWidth;
                 int iQueueDX;
                 if (iQueueDX = iQueueX - m_iGridWidth)
@@ -8612,8 +8612,8 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                                  (form && reinterpret_cast<::fnv_004ea8b0::BGSPlaceableWater *>((form))->FUN_004ea8b0() && !d && !((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())))))
                                 {
                                     d = true;
-                                    for (unsigned int i = 0; i < ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui; ++i)
-                                        for (unsigned int j = 0; j < ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui; ++j)
+                                    for (unsigned int i = 0; i < ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui; ++i)
+                                        for (unsigned int j = 0; j < ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui; ++j)
                                         {
                                             CellHandle* owner = ((::fnv_004e9d40::CellHandle *)(reinterpret_cast<::TES *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->FUN_00457050(i, j)));
                                             Cell* cell = owner->cell;
@@ -10052,8 +10052,8 @@ void Water197::UpdateWaterRendering()
         Param197 texture;
         reinterpret_cast<::OwnerStandIn *>(&(texture))->FUN_00ba37a0((::RefBase *)(index));
         EffectParam197 effectParam;
-        ::DAT_012003c4 = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Uint197 *>(&::g_011c7c1c)))))) + 1.0;
-        unsigned int param = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Uint197 *>(&::g_011c7c1c))))));
+        ::DAT_012003c4 = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Uint197 *>(&::g_011c7c1c)))))) + 1.0;
+        unsigned int param = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Uint197 *>(&::g_011c7c1c))))));
         unsigned int uiEffectIndex = param + 16;
         reinterpret_cast<::HolderForAccum *>((((::Effect197 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((::Effects197 *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_004ebbc0(uiEffectIndex)))))->SetAccumulatorAt(2, (::NiAccumulator *)(::Param197 *)(&texture), (const ::NiCamera *)(0));
         reinterpret_cast<::BB97550Shader *>((((::Effects197 *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b97550(uiEffectIndex, (::std::intptr_t)(((::Renderer197 *)(::FUN_004a0e90()))), (::std::intptr_t)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7ad4))))))), (::std::intptr_t)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7ad4))))))), (::std::intptr_t)(&effectParam), true);
@@ -10857,9 +10857,9 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                                 if (object && object->FUN_004e32a0() && !didActors)
                                 {
                                     didActors = true;
-                                    for (unsigned int x = 0; x < *((unsigned int *)&(::FUN_0043d4d0((int *)(((Setting074*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))); x++)
+                                    for (unsigned int x = 0; x < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(((Setting074*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))); x++)
                                     {
-                                        for (unsigned int y = 0; y < *((unsigned int *)&(::FUN_0043d4d0((int *)(((Setting074*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))); y++)
+                                        for (unsigned int y = 0; y < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(((Setting074*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))); y++)
                                         {
                                             Cell074** value = ((::fnv_004ebef0::Cell074 **)(reinterpret_cast<::TES *>((((Grid074*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->FUN_00457050(x, y)));
                                             Cell074* cell = *value;

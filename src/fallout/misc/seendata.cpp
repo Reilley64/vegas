@@ -166,7 +166,7 @@ bool SeenData_S::HasEnoughSeenPoints(const NiPoint3& aPoint, const NiPoint3& aOf
             iSeenCount++;
         }
     }
-    return iSeenCount >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011df198))))));
+    return iSeenCount >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011df198))))));
 }
 
 

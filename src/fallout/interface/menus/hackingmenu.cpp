@@ -1614,7 +1614,7 @@ FUN_007658e0::~FUN_007658e0()
         obj2 ? obj2->Call0(1) : 0;
     }
     reinterpret_cast<::NiTPointerListBaseRaw *>(&(m188))->FUN_004ed900();
-    DAT_011d95c0 = ((unsigned int)(::FUN_00457fe0())) + ((::SettingValue *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0b90))))))->v;
+    DAT_011d95c0 = ((unsigned int)(::FUN_00457fe0())) + ((::SettingValue *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingColl *>(&::g_011d0b90))))))->v;
     reinterpret_cast<::fnv_0076b2a0::FUN_0076b2a0_shell *>(&(m180))->FreeAll();
     void* ptrTmp = ptr1B0;
     ::FUN_00401030(ptrTmp);
@@ -2014,9 +2014,9 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
     if (!(*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu)))
         return;
     unsigned int counts[3];
-    counts[0] = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingRef *>(&::g_011d3dc0))))));
-    counts[1] = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingRef *>(&::g_011d4e4c))))));
-    counts[2] = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingRef *>(&::g_011d3510))))));
+    counts[0] = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingRef *>(&::g_011d3dc0))))));
+    counts[1] = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingRef *>(&::g_011d4e4c))))));
+    counts[2] = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingRef *>(&::g_011d3510))))));
     {
         unsigned int randomValue = counts[kind] > 1 ? ::InventoryStackRecord::RoundToNearestStep(1000.0 / counts[kind], 1.0f) : 1000.0f;
         reinterpret_cast<::FUN_00766a10_shell *>(this)->SetCapacity(randomValue);
@@ -3498,8 +3498,8 @@ void H769Menu::FUN_00769830()
                     for (unsigned int j6 = 0; j6 < uiEnd - uiStart4; j6++)
                     {
                         static int s_iTypeTime =
-                            (int)(*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingRef *>(&::g_011d4e4c)))))) > 1
-                                      ? ::InventoryStackRecord::RoundToNearestStep((float)(1000.0 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingRef *>(&::g_011d4e4c))))))), 1.0f)
+                            (int)(*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingRef *>(&::g_011d4e4c)))))) > 1
+                                      ? ::InventoryStackRecord::RoundToNearestStep((float)(1000.0 / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingRef *>(&::g_011d4e4c))))))), 1.0f)
                                       : 1000.0f);
                         unsigned int uiDelay = j6 * s_iTypeTime / (uiEnd - uiStart4);
                         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::H769769::H769Sound &)((*(::H769769::H769Sound *)(reinterpret_cast<::AudioClass_ae5680 *>((((::H769769::H769Audio *)(::FUN_00ad9060()))))->ResolveAudioHandle((::Handle_ae5680 *)("UIHackingCharSingle"), 0x121, uiDelay)))))->SchedulePlayback({}, {});
@@ -4165,8 +4165,8 @@ Tile84* FUN_00765b80(Ref84* reference)
     Base84* terminal14 = ((::fnv_00765b80::Base84 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
     if (((bool)(reinterpret_cast<::FUN_00757e80_shell *>((terminal14))->IsFlagBitSet())))
         reinterpret_cast<::FUN_007190e0_cls *>((((::fnv_00765b80::Palette84 *)(::FUN_00718b60()))))->ApplyToChild(3, (intptr_t)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(1.0f, 1.0f, 1.0f, 0.0f)));
-    (*reinterpret_cast<unsigned int *>(&::DAT_0119f27c)) = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d42d0))))));
-    (*reinterpret_cast<unsigned int *>(&::DAT_0119f280)) = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d2934))))));
+    (*reinterpret_cast<unsigned int *>(&::DAT_0119f27c)) = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d42d0))))));
+    (*reinterpret_cast<unsigned int *>(&::DAT_0119f280)) = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d2934))))));
     Tile84* tile4 = ((::fnv_00765b80::Tile84 *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::fnv_00765b80::Tile84 *)(reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::fnv_00765b80::Interface84 * *>(&::g_pGame))))->FUN_00586150()))))->FUN_00a01b00({})));
     Menu84* menu24 = ((::fnv_00765b80::Menu84 *)(reinterpret_cast<::FUN_00a03c90_shell *>((tile4))->FUN_00a03c90()));
     if (menu24 && menu24->Type() == FUN_00766a40())
@@ -4200,8 +4200,8 @@ Tile84* FUN_00765b80(Ref84* reference)
             (*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->key = reinterpret_cast<::TutorialMessageGate718 *>(&((*reinterpret_cast<::fnv_00765b80::Interface84 * *>(&::g_pGame))->keys))->FUN_00718630(19, FUN_00766a40(), 512);
             float skill5 = reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::fnv_00765b80::Player84 * *>(&::_g_thePlayer))->values))->GetActorValueFloatByIndex((::ActorValue::Index)(40));
             ::ApplyPerkModifiers(30, (::Actor *)((*reinterpret_cast<::fnv_00765b80::Player84 * *>(&::_g_thePlayer))), &skill5);
-            unsigned int maximum12 = ::FUN_0042f5a0(20, *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d3318)))))));
-            unsigned int minimum17 = ::FUN_0042f5a0(maximum12, *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d3c4c)))))));
+            unsigned int maximum12 = ::FUN_0042f5a0(20, *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d3318)))))));
+            unsigned int minimum17 = ::FUN_0042f5a0(maximum12, *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d3c4c)))))));
             float difficulty4 =
                 ::FUN_0040ebd0(100.0f, ::FUN_00404010(0.0f, reinterpret_cast<::TermHack *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->terminal))->FUN_005017a0((::TESObjectREFR *)(reference))));
             float delta2 = ::FUN_00404010(0.0f, skill5 - difficulty4);
@@ -4214,8 +4214,8 @@ Tile84* FUN_00765b80(Ref84* reference)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile4))->FUN_00a01350(4100, (char *)(">"), 1);
             reinterpret_cast<::FUN_006ffe80_shell *>(&((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->text))->FUN_006ffe80(((intptr_t)(reinterpret_cast<::FUN_00a00f30_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile120))->FUN_00a00f30(4036))),
                                             ((intptr_t)(reinterpret_cast<::FUN_00a00e90_shell *>(((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile120))->FindTraitValue(4003))));
-            if (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d4e4c)))))) > 0)
-                reinterpret_cast<::FUN_00766a10_shell *>(&((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->text))->SetCapacity((unsigned int)::InventoryStackRecord::RoundToNearestStep(1000.0 / *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d4e4c)))))), 1.0f));
+            if (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d4e4c)))))) > 0)
+                reinterpret_cast<::FUN_00766a10_shell *>(&((*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->text))->SetCapacity((unsigned int)::InventoryStackRecord::RoundToNearestStep(1000.0 / *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d4e4c)))))), 1.0f));
             const char* name9 = "hacking_intro_template";
             (*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->entries[0] =
                 new Entry84(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::fnv_00765b80::Setting84 *>(&::g_011d3f58))))->IsDLCAvailable())), (*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->tile10c, name9, (*reinterpret_cast<::fnv_00765b80::Menu84 * *>(&::g_pkD766AA0Menu))->unk1b4, 0);

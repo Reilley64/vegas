@@ -918,7 +918,7 @@ void FUN_008251c0_cls::FUN_008251c0(ActiveEffect* pEffect, bool b)
     }
     reinterpret_cast<::ItemChangeListNode *>((vfn_8(&pEffect)))->FUN_00905330(*(::InventoryStackRecord *const *)nullptr);
     vfn_18(pEffect);
-    if (*((int *)&(::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011c3ea4))))) > 1 && ((bool)(::FUN_00713d90())))
+    if (*((int *)&(::FUN_0043d4d0(&(*reinterpret_cast<::Setting *>(&::g_011c3ea4))))) > 1 && ((bool)(::FUN_00713d90())))
     {
         reinterpret_cast<::MyOwner *>((((void *)(::TaskQueueInterface::GetSingleton()))))->QueueTaskWithValue({});
         return;

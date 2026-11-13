@@ -1006,7 +1006,7 @@ void DistortMenuView::UpdateDistortTimer(float dt)
     if (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db520))))))->f + ::g_01012070 < m_fDistortVerticalScale)
     {
         m_bShudderActive = 0;
-        m_fDistortTimeRemaining = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingIntCollection_ *>(&::g_011db4f8))))))) + dt;
+        m_fDistortTimeRemaining = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingIntCollection_ *>(&::g_011db4f8))))))) + dt;
     }
 }
 

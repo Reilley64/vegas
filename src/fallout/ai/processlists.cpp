@@ -3256,7 +3256,7 @@ void FUN_0096b050_shell::UpdateLowProcesses(float afDelta, bool abSleeping)
     TempList = new BSSimpleList<MobileObject*>;
     iProcessIndex = 0;
     QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&imaxTime));
-    imaxTime += ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011e0e64))))))->u * DAT_011e0e20 / 1000;
+    imaxTime += ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011e0e64))))))->u * DAT_011e0e20 / 1000;
     bfirst = true;
     ihigh = reinterpret_cast<::FUN_005be5c0_shell *>((void *)&(((ProcessLists*)this)->m_kMobileObjectProcessList))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)(PROCESS_TYPE_PROCESS_TYPE_LOW)));
     if (!DAT_011e0e30 || DAT_011e0e30 >= ihigh)
@@ -9790,7 +9790,7 @@ void FUN_0096d810_shell::FUN_0096d810()
     reinterpret_cast<::fnv_00977cb0::FUN_00977cb0_shell *>(this)->StartActorDialogue(reinterpret_cast<::FUN_00964060_Class *>((((FUN_009640b0_player*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->GetActionObjectItemId(),
                        (::TESObjectREFR *)(((intptr_t)(reinterpret_cast<::FUN_009640b0_Class *>((((FUN_009640b0_player*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_009640b0()))), 0);
     ::FUN_008d1560();
-    if (::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011c3ea4))) == 1)
+    if (::FUN_0043d4d0(&(*reinterpret_cast<::Setting *>(&::g_011c3ea4))) == 1)
         ::BGSDestructibleObjectForm::UpdateDestructionMap();
 
     float fDiff = ::fnv::timer::Seconds();

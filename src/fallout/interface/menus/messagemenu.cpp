@@ -336,7 +336,7 @@ void FUN_007aa6b0(bool a)
         ::fnv_007a8df0::FUN_007a8df0();
     if (!::DAT_011da4f0 && !::DAT_011da4ec && ((int)(::GetCurrentArrayElement())))
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_007aa6b0::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_007aa6b0::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1)
             ::FUN_00709470(7, 0, 0, 0, 1);
         else
             ::fnv_007a8ba0::FUN_007a8ba0();
@@ -695,7 +695,7 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
         reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->FUN_007cb2e0((unsigned int *)&(info));
     if (!::DAT_011da4f0 && !::DAT_011da4ec && (!::fnv_007050d0::FUN_007050d0() || pause))
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::MessageCreation::Setting *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::MessageCreation::Setting *>(&::g_011c3ea4)))))) > 1)
             ::FUN_00709470(7, 0, 0, 0, 1);
         else
             ::fnv_007a8ba0::FUN_007a8ba0();
@@ -1021,7 +1021,7 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::ActionMenuQueue< ::ActionMenuInfo *> *>(&::g_011da53c))))->FUN_007cb2e0((unsigned int *)&(menu4));
     if (!DAT_011da4f0 && !DAT_011da4ec)
     {
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ActionMenuCountSetting *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ActionMenuCountSetting *>(&::g_011c3ea4)))))) > 1)
             ::FUN_00709470(7, 0, 0, 0, 1);
         else
             ::fnv_007a8ba0::FUN_007a8ba0();

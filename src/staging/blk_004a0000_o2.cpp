@@ -292,7 +292,7 @@ void ImpactTask::FUN_004a2d50()
             float drop = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting30)))))) *
                          (reinterpret_cast<::FUN_00621b00_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00621b00() / reinterpret_cast<::BSFaceGenKeyframe *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->GetTime());
             end.z += drop;
-            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c5868)))))) > 0)
+            if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c5868)))))) > 0)
             {
                 void* line = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(origin), (const ::fnv_004b3890::FUN_004a7800 &)((const ::ImageSpaceEffectParam &)(ImageSpaceEffectParam(0, 1, 0, 1))), (const class ::FUN_006815c0 &)(end),
                                           (const ::fnv_004b3890::FUN_004a7800 &)((const ::ImageSpaceEffectParam &)(ImageSpaceEffectParam(0, 1, 1, 1))), true)));

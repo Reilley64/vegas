@@ -3074,7 +3074,7 @@ bool ThreatManager::IsThreatWithinLimits(ThreatActor* actor, ThreatActor* target
         return false;
     if (second_ && !reinterpret_cast<::fnv_009928e0::CombatFlagHolder *>((state))->HasCombatFlag40())
         return false;
-    if (fourth_2 && actor->values.Value(3) >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ThreatIntSetting *>(&::g_011ce3cc)))))) && !reinterpret_cast<::fnv_00992900::CombatFlagHolder *>((state))->HasCombatFlag80())
+    if (fourth_2 && actor->values.Value(3) >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ThreatIntSetting *>(&::g_011ce3cc)))))) && !reinterpret_cast<::fnv_00992900::CombatFlagHolder *>((state))->HasCombatFlag80())
         return false;
     return true;
 }

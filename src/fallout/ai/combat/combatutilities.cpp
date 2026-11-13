@@ -3489,7 +3489,7 @@ float __cdecl FUN_009a7dd0(float fDist, float fAngleDifference, float fSpeed);
 AimPoint __cdecl FUN_009a8f00(AimPoint kTarget, AimPoint kStart, AimPoint kMotionVelocity, float fSpeed,
                               float afGravity, bool bArc)
 {
-    int iIterationsVal2 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::AimIntSetting *>(&::g_011cfc08))))));
+    int iIterationsVal2 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AimIntSetting *>(&::g_011cfc08))))));
     if (kMotionVelocity.x == 0.0 && kMotionVelocity.y == 0.0 && kMotionVelocity.z == 0.0)
         iIterationsVal2 = 1;
     float kFTime = 0.0f;
@@ -4922,7 +4922,7 @@ bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, NiPoint3 start, NiPoint3
         {
             v454 = ::GetFloatAtOffset68((const char *)(((PathingRequest*)a1)));
         }
-        cnt = (unsigned int)((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GameSettingCollection *>(&::g_011cfd7c))))))->value;
+        cnt = (unsigned int)((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GameSettingCollection *>(&::g_011cfd7c))))))->value;
         float v464 = v44c / cnt;
         float v468 = FUN_004e44b0(v450) * v464;
         float v46c = cos(v450) * v464;

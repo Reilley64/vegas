@@ -1898,7 +1898,7 @@ FUN_0044fb20::FUN_0044fb20(intptr_t option, Callback* apCallback, void* owner, O
 
     FUN_004504d0(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3e94)))));
 
-    FUN_004504e0(*((int *)&(::FUN_0043d4d0((int *)&(DAT_011c3c3c)))));
+    FUN_004504e0(*((int *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c3c3c)))));
 
     FUN_00450670(reinterpret_cast<::FUN_00450410_Class *>(&(DAT_011c3d4c))->FUN_00450410());
 
@@ -1945,7 +1945,7 @@ FUN_0044fb20::FUN_0044fb20(intptr_t option, Callback* apCallback, void* owner, O
         DAT_011c3b3c = new Alloc30;
     }
 
-    if (*((int *)&(::FUN_0043d4d0((int *)&(DAT_011c3ea4)))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c3ea4)))) > 1)
     {
 
         DAT_01202df4 = new Alloc10;
@@ -1961,19 +1961,19 @@ FUN_0044fb20::FUN_0044fb20(intptr_t option, Callback* apCallback, void* owner, O
 
     InitAcousticSpace();
 
-    if (((unsigned int)(reinterpret_cast<::TESObjectCELL *>(&(DAT_011c3c90))->GetCellStandValue())) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) +
-                                          *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) + 1 + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))))
+    if (((unsigned int)(reinterpret_cast<::TESObjectCELL *>(&(DAT_011c3c90))->GetCellStandValue())) < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) +
+                                          *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) + 1 + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))))
     {
 
-        reinterpret_cast<::S0042fa20 *>(&(DAT_011c3c90))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) +
-                                  *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) + 1 + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))));
+        reinterpret_cast<::S0042fa20 *>(&(DAT_011c3c90))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) +
+                                  *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) + 1 + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))));
     }
 
     if (((unsigned int)(reinterpret_cast<::TESObjectCELL *>(&(DAT_011c3e38))->GetCellStandValue())) < 1)
 
         reinterpret_cast<::S0042fa20 *>(&(DAT_011c3e38))->FUN_0045ce80(1);
 
-    countBuffer1 = new unsigned int[*((int *)&(::FUN_0043d4d0((int *)&(DAT_011c3e38))))];
+    countBuffer1 = new unsigned int[*((int *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c3e38))))];
 
     countBuffer2 = new unsigned int[*((int *)&(::FUN_0043d4d0((int *)&(DAT_011c3c90))))];
 
@@ -2021,10 +2021,10 @@ FUN_0044fb20::FUN_0044fb20(intptr_t option, Callback* apCallback, void* owner, O
 
     activeb4 = 1;
 
-    if (DAT_011c3c00 < (unsigned int)(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc))))))))
+    if (DAT_011c3c00 < (unsigned int)(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc))))))))
     {
 
-        DAT_011c3c00 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc))))));
+        DAT_011c3c00 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc)))))) * *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c63cc))))));
     }
 
     enabled60 = 0;
@@ -69642,9 +69642,9 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                     float fractionYScope68 = normalizedScope3.y / magnitudeScope_;
                     float powerXScope69Local22 = 1.0f;
                     float powerYScope70Local8 = 1.0f;
-                    for (int iScope71Local7 = 0; iScope71Local7 < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a90)))))); ++iScope71Local7)
+                    for (int iScope71Local7 = 0; iScope71Local7 < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a90)))))); ++iScope71Local7)
                         powerXScope69Local22 *= magnitudeScope_;
-                    for (int jScope8 = 0; jScope8 < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::AimSetting *>(&::g_011e08a0)))))); ++jScope8)
+                    for (int jScope8 = 0; jScope8 < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e08a0)))))); ++jScope8)
                         powerYScope70Local8 *= magnitudeScope_;
                     float minimumScope6 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0818))))));
                     float speedXScope74Local2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0928))))));

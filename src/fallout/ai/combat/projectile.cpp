@@ -2579,7 +2579,7 @@ bool FUN_009c3930_shell::IsFightReactionAllowed(Actor* apTarget, Actor* apShoote
 {
     bool bcrimeCaused;
     bool bresult = false;
-    bool bconsiderShooter = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_009c3930::GlobalObject2_0040c150 *>(&::g_011cee48)))))) > 0;
+    bool bconsiderShooter = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_009c3930::GlobalObject2_0040c150 *>(&::g_011cee48)))))) > 0;
     FIGHT_REACTION eFightReaction;
 
     bcrimeCaused = false;
@@ -12117,7 +12117,7 @@ void ZProjectile::UpdateDetonation(float elapsed)
         {
             ZPoint position8;
             ZMatrix rotationX;
-            if ((*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ZIntSetting *>(&::g_011d0fe4)))))) > 0 || reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x2000)) && !impacts._ref_008256d0())
+            if ((*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ZIntSetting *>(&::g_011d0fe4)))))) > 0 || reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x2000)) && !impacts._ref_008256d0())
             {
                 ZHit* impact8 = *((::ZHit **)(((::Vec3 *)(void *)&(impacts))));
                 float angle = ((float)(::FUN_004a4240()));

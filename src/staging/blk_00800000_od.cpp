@@ -2784,7 +2784,7 @@ void FUN_00800870_Class::UpdateProgress(float value)
     if (*((float *)&(::FUN_00403e20((float *)(::FloatSetting *)(&(*reinterpret_cast<::FloatSetting *>(&::g_011db6e4)))))) + ::g_01012070 < progress)
     {
         active = 0;
-        next = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((int *)(::IntegerSetting *)(&(*reinterpret_cast<::IntegerSetting *>(&::g_011db75c))))))) + value;
+        next = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)(::IntegerSetting *)(&(*reinterpret_cast<::IntegerSetting *>(&::g_011db75c))))))) + value;
     }
 }
 

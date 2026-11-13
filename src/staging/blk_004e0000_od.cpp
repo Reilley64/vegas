@@ -2890,8 +2890,8 @@ FUN_004e1650::FUN_004e1650()
     m48 = 0;
     f98 = 0.0f;
     b9c = 0;
-    DAT_011c7a44 = ::FUN_0043d4d0((int *)&((*reinterpret_cast<::Value4e1 *>(&::g_011c7bec))));
-    DAT_011c7a40 = ::FUN_0043d4d0((int *)&((*reinterpret_cast<::Value4e1 *>(&::g_011c7afc))));
+    DAT_011c7a44 = ::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Value4e1 *>(&::g_011c7bec))));
+    DAT_011c7a40 = ::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Value4e1 *>(&::g_011c7afc))));
 }
 
 namespace fnv_004e19c0 {

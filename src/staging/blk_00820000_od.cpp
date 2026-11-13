@@ -3486,7 +3486,7 @@ int __cdecl RunAudioChannel(int* param)
     fadeTimeNow = 0;
     fadeEnd2 = 0;
 
-    syncLimitTmp = ((unsigned int)(::FUN_00647b70(500, *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::AudSetting *>(&::g_011dcfd4)))))) + 500)));
+    syncLimitTmp = ((unsigned int)(::FUN_00647b70(500, *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AudSetting *>(&::g_011dcfd4)))))) + 500)));
     ::FUN_00830470();
     DAT_011dd370 = DAT_011dd370 + 1;
     if ((channel == 0 && (id2 != DAT_011dd334 || (DAT_011dd310 & 1))) ||

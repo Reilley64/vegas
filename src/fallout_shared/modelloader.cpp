@@ -18923,7 +18923,7 @@ void C43::FUN_0043d180()
                 if (radius < 0.0010000000474974513)
                     radius = FUN_0056fc30(&vec3, ((::fnv_0043d180::Model43 *)(::FUN_00559450((int *)&(ptr))))->FUN_0043b230())->z * 0.5;
                 float maximum = 3.402823466e+38f;
-                maximum = (*((unsigned int *)&(::FUN_0043d4d0((int *)(((SettingI43*)&(*reinterpret_cast<char *>(&::g_011c63cc))))))) << 12) * 0.5 - (radius + 2048.0);
+                maximum = (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)(((SettingI43*)&(*reinterpret_cast<char *>(&::g_011c63cc))))))) << 12) * 0.5 - (radius + 2048.0);
                 float scaled5 = radius * *((float *)&(::FUN_00403e20((float *)(((SettingF43*)&(*reinterpret_cast<char *>(&::g_011c3be4)))))));
                 float range = radius != 0.0 && scaled5 < maximum ? scaled5 : maximum;
                 if (reinterpret_cast<::FUN_00792760_shell *>(this)->FUN_00792760() != 0.0)

@@ -334,7 +334,7 @@ bool SandBoxActorPackageData::IsObjectWithinLocationRadius(MobileObject* object,
         }
     }
     if (state.radius == 0.0)
-        state.radius = (float)((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(((SettingT_GameSettingCollection_*)&g_011cde98)))))->i;
+        state.radius = (float)((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)(((SettingT_GameSettingCollection_*)&g_011cde98)))))->i;
     if (((SandboxMobileVirtual*)object)->IsAtLocation(state.position, state.radius, !state.special, true))
     {
         if (m_uiLastProcedureCheckDay == 0xffffffff && ((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((pLocation))->FUN_005d43c0())) &&
@@ -587,7 +587,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     }
     if (m_pCurrentTarget && m_pCurrentFurniture != m_pCurrentTarget)
     {
-        m_uiActivityStartDay = ::fnv::timer::Time() + ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdb3c))) * 1000;
+        m_uiActivityStartDay = ::fnv::timer::Time() + ::FUN_0043d4d0(&(*reinterpret_cast<::Setting *>(&::g_011cdb3c))) * 1000;
         m_pCurrentFurniture = m_pCurrentTarget;
     }
     if (m_pCurrentFurniture && ::fnv::timer::Time() > m_uiActivityStartDay)
@@ -603,7 +603,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         reinterpret_cast<::FUN_009f41c0_shell *>(this)->ResetReference();
         ScanSandboxTargets(apActor);
         m_uiProcedureIndex = ::fnv::timer::Time() +
-                             ::GetRandomNumberInRange(::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cd0a4))) * 1000, ::FUN_0043d4d0(&(*reinterpret_cast<int *>(&::g_011cdf60))) * 1000);
+                             ::GetRandomNumberInRange(::FUN_0043d4d0(&(*reinterpret_cast<::Setting *>(&::g_011cd0a4))) * 1000, ::FUN_0043d4d0(&(*reinterpret_cast<::Setting *>(&::g_011cdf60))) * 1000);
     }
     bcanPerformActivity = IsActivityTime() && IsActivityProcedure();
     if (bcanPerformActivity)

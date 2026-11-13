@@ -4149,7 +4149,7 @@ void TESGridOwner::SaveGridState(SaveBuffer* buffer)
         node6 = ((::EntryListNode *)(reinterpret_cast<::Callees *>((node6))->FUN_00726070()));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, offset);
-    unsigned int gridSizeB = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GameSettingStub *>(&::g_011c63cc))))));
+    unsigned int gridSizeB = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GameSettingStub *>(&::g_011c63cc))))));
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&gridSizeB, 4, 0);
     for (unsigned int xTmp = 0; xTmp < gridSizeB; xTmp++)
     {
@@ -4811,7 +4811,7 @@ intptr_t Obj_00458440::ApplyOrNotify(intptr_t a, bool abApply)
         Target_00458440* p = ((::Target_00458440 *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()));
         if (p == 0)
         {
-            p = this->m_08->Get((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c63cc)))))) >> 1, (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c63cc)))))) >> 1)->unk00;
+            p = this->m_08->Get((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c63cc)))))) >> 1, (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0045cfe0 *>(&::g_011c63cc)))))) >> 1)->unk00;
         }
         return p ? ((intptr_t)(reinterpret_cast<::FUN_00553ee0_shell *>((p))->FUN_00553ee0((::TESObjectREFR *)(a)))) : 0;
     }
@@ -5211,9 +5211,9 @@ void World::FUN_0045b070(View* view)
         ViewUpdater* updater = ((::SceneUpdate::AreaOwner *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())) ? ((::SceneUpdate::ViewUpdater *)(reinterpret_cast<::TESWorldSpace *>((((::SceneUpdate::AreaOwner *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound()))))->GetWorldTerrainManager())) : 0;
         if (updater)
             reinterpret_cast<::TerrainStream *>((updater))->PushRef((::TerrainRefProxy *)(view));
-        for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SceneUpdate::Setting *>(&::g_011c63cc)))))); x++)
+        for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SceneUpdate::Setting *>(&::g_011c63cc)))))); x++)
         {
-            for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SceneUpdate::Setting *>(&::g_011c63cc)))))); y++)
+            for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SceneUpdate::Setting *>(&::g_011c63cc)))))); y++)
             {
                 Cell** slot = grid->FUN_004ba490(x, y);
                 Cell* current3 = *slot;

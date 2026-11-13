@@ -167,7 +167,7 @@ void TESResponse::InitItem(TESForm* owner)
         }
     }
     if (GetEmotion())
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cbdf4))))))->i));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cbdf4))))))->i));
 }
 
 // Builds a filename from quest, topic and info when the response ID is nonzero, otherwise sets it to "New Response".

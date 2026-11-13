@@ -1485,7 +1485,7 @@ TileView* __cdecl FUN_007e6990()
         }
         if (reinterpret_cast<::TileListBoxCalls *>((manager))->GetFloat(4007) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((manager))->GetFloat(4007) == 102.0)
             reinterpret_cast<::FUN_00a012d0_t *>((manager))->FUN_00a012d0(4013, ::Tile::GetInterfaceScale(), {});
-        int count = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingView *>(&::g_011d2f94))))));
+        int count = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingView *>(&::g_011d2f94))))));
         ((TraitView*)DAT_011daf74)->selected = 0;
         ((TraitView*)DAT_011daf74)->count = count;
         char text[64];

@@ -2405,7 +2405,7 @@ void FUN_00837550(ImpactData* apImpact)
         unsigned int uiNow = ::fnv::timer::Time();
         unsigned int uiLastTime = 0;
         if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->FUN_00853130(apImpact->uiKey, (::fnv_00853130::CombatThreatRecord *&)(uiLastTime)) &&
-            uiNow - uiLastTime < (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ImpactSound::ImpactIntSetting *>(&::g_011dd968)))))))
+            uiNow - uiLastTime < (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ImpactSound::ImpactIntSetting *>(&::g_011dd968)))))))
         {
             reinterpret_cast<::ActorTaskManager *>(&(s_kTimer))->WaitForTasksDuringRendering();
             return;
@@ -2441,7 +2441,7 @@ void FUN_00837550(ImpactData* apImpact)
         }
         (*reinterpret_cast<::NiPoint3 *>(&::g_011dd958)) = apImpact->kPos;
     }
-    int iMaxAge = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ImpactSound::ImpactIntSetting *>(&::g_011dd968)))))) * 4;
+    int iMaxAge = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ImpactSound::ImpactIntSetting *>(&::g_011dd968)))))) * 4;
     void* pIter = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&((*reinterpret_cast<::ImpactSound::ImpactHistory *>(&::g_011dd948))))->GetFirstPos();
     int iNowCur = ::fnv::timer::Time();
     unsigned int uiVisited = 0;

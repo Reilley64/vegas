@@ -4358,7 +4358,7 @@ void Menu_0075be80::FUN_0075be80(int aiActionId, void* tile)
             bool take = (::FUN_00481f10((::TESObject *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->pObject)))) ||
                          ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->pObject))), ::FUN_004d1360((char *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))))))) <= 0.0) &&
                         (unk80 == 1 || unk80 == 2) && unkf8 == &unkc8;
-            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->iCountDelta)) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting75 *>(&::g_011d2418)))))) && !reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(g_011d93fc), (::ExpectedReference *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))), (::ActorView *)(unk74)) &&
+            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->iCountDelta)) > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting75 *>(&::g_011d2418)))))) && !reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(g_011d93fc), (::ExpectedReference *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))), (::ActorView *)(unk74)) &&
                 !take)
             {
                 reinterpret_cast<::FUN_007312e0_shell *>((unkf8))->FUN_007312e0();

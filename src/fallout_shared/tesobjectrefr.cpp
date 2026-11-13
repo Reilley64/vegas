@@ -13411,7 +13411,7 @@ float FUN_00568cb0_shell::FUN_00568cb0()
         {
             fVal = reinterpret_cast<::FUN_00422320_shell *>((((XActor*)this)->GetExtra()))->FUN_00422320();
             if (::FUN_0040eb10(fVal, 0.0f, 0.001f))
-                fVal = (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00568cb0::GlobalObject_0045cfe0 *>(&::g_011d0bd8))))));
+                fVal = (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00568cb0::GlobalObject_0045cfe0 *>(&::g_011d0bd8))))));
         }
         else if (((::fnv_00568cb0::FNVForm_00568cb0 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVRef_00568cb0*)this)))->FUN_007af430())) == (*reinterpret_cast<::fnv_00568cb0::FNVForm_00568cb0 * *>(&::DAT_011ca228)))
         {
@@ -39791,8 +39791,8 @@ unsigned int FUN_00567e10_shell::FUN_00567e10(bool abUseOffset)
 
     if (abUseOffset)
     {
-        if (++DAT_011ca420 > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00567e10::GlobalObject2_0040c150 *>(&::g_011ca2b0)))))))
-            DAT_011ca420 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00567e10::GlobalObject2_0040c150 *>(&::g_011ca31c)))))) * -1;
+        if (++DAT_011ca420 > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00567e10::GlobalObject2_0040c150 *>(&::g_011ca2b0)))))))
+            DAT_011ca420 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00567e10::GlobalObject2_0040c150 *>(&::g_011ca31c)))))) * -1;
         result += DAT_011ca420;
     }
     if (result < 1)
@@ -44834,7 +44834,7 @@ void FUN_00705210(const char*, S12, P12, void*, bool);
 // @fnv 0x0057b7c0
 void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
 {
-    int v6 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0057b7c0::Set57 *>(&::g_011cd378))))));
+    int v6 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057b7c0::Set57 *>(&::g_011cd378))))));
     reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::fnv_0057b7c0::Set57 *>(&::g_011cd378))))->FUN_0045ce80(0x7fffffff);
     Actor57* actor2 = 0;
     if (v100())
@@ -45631,7 +45631,7 @@ void DlgActor::FUN_00935f60()
         int iSound;
         if (this == DAT_011dea3c)
             bIsPlayerTmp = true;
-        if (reinterpret_cast<::RefS *>(this)->FUN_005723b0((::RefS *)(DAT_011dea3c), 0, 0) < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DialogueUpdate::DlgIntSetting *>(&::g_011cd378)))))) &&
+        if (reinterpret_cast<::RefS *>(this)->FUN_005723b0((::RefS *)(DAT_011dea3c), 0, 0) < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::DialogueUpdate::DlgIntSetting *>(&::g_011cd378)))))) &&
             (!bIsPlayerTmp || (bIsPlayerTmp && reinterpret_cast<::FUN_004eaf60_shell *>((DAT_011dea3c))->FUN_004eaf60())))
             pTopic = FUN_vt1b8(0);
         if (((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt30c())

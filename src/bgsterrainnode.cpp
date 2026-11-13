@@ -665,13 +665,13 @@ void FUN_006ff3f0_shell::FUN_006ff3f0()
     if (!tile || !((::NiNode *)(tile->m_pSceneNode)))
         return;
 
-    if (delta > (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011d8740)))))
+    if (delta > (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011d8740)))))
     {
         FUN_006ff380();
     }
     else
     {
-        float f = (double)delta / (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011d8740))));
+        float f = (double)delta / (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011d8740))));
         NiPoint2 pt = ((FUN_006ff210_shell*)this)->FUN_006ff210();
         reinterpret_cast<::FUN_006fb940_shell *>((((::NiNode *)(tile->m_pSceneNode))))->FUN_006fb940(pt.x, pt.y, f);
     }

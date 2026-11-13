@@ -2619,7 +2619,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         }
         else
         {
-            if (!((intptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) && ::DialogueRandom() % 100 < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting8 *>(&::g_011cf510)))))))
+            if (!((intptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) && ::DialogueRandom() % 100 < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting8 *>(&::g_011cf510)))))))
             {
                 victim->v190(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430(), 0, 1);
                 requested = true;

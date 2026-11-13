@@ -15548,7 +15548,7 @@ bool __cdecl FUN_005a58c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     iplayerLevel = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((reinterpret_cast<ActorLevelAccess*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_0087f9f0();
 
-    if (iplayerLevel >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_005a58c0::GlobalObject_0045cfe0 *>(&::g_011d0c60)))))))
+    if (iplayerLevel >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_005a58c0::GlobalObject_0045cfe0 *>(&::g_011d0c60)))))))
     {
         if (::g_tlsBlock.conditionFunctionDebug)
             _DebugLog("Player already at maximum level.");
@@ -20157,7 +20157,7 @@ bool __cdecl FUN_005a3e90(TESObjectREFR5A3E* apActor, void* paramInfo, void* scr
     {
         TESObjectREFR5A3E* actor = apActor;
         int value = actor->vfn_344(::_g_thePlayer, 0);
-        if (value >= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0844))))))->i)
+        if (value >= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d0844))))))->i)
             result = 1;
     }
     return true;

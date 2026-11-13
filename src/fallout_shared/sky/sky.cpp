@@ -2079,7 +2079,7 @@ void Sky::FUN_0063ca20()
         {
             rain = new Particle(&DAT_0104eeb0, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting61)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting62)))))),
                                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting63)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting64)))))),
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting65)))))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011ccc18)))))));
+                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting65)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011ccc18)))))));
             rain->Attach(((::SkyAssets::Object *)(::FUN_00559450((int *)&(root)))), &DAT_0104eeb0);
         }
         else if (!reinterpret_cast<::FUN_0063d000_shell *>((weather))->FUN_0063d000())
@@ -2091,7 +2091,7 @@ void Sky::FUN_0063ca20()
         {
             snow = new Particle(&DAT_0104eea8, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting66)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting67)))))),
                                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting68)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting69)))))),
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting70)))))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011cccec)))))));
+                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting70)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011cccec)))))));
             snow->Attach(((::SkyAssets::Object *)(::FUN_00559450((int *)&(root)))), &DAT_0104eea8);
         }
         else if (!reinterpret_cast<::FUN_0063d020_shell *>((weather))->FUN_0063d020())

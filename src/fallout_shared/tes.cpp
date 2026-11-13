@@ -4448,15 +4448,15 @@ void Zt5TES::FUN_00453550(float afTime)
     else
         reinterpret_cast<::FUN_004ba9a0_shell *>((m_pGridCells))->UpdateCellGrid(::fnv_00563f30::DAT_011c3c08);
     reinterpret_cast<::ActorTaskManager *>(this)->FUN_00453860(false);
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) > 1)
     {
         TaskQueueInterface* pTaskQueue = ::TaskQueueInterface::GetSingleton();
         ((FUN_0087aa90_shell*)pTaskQueue)->FUN_0087aa90();
     }
     reinterpret_cast<::Processor *>((((::Zt5Listener *)(::FUN_00453720()))))->ProcessRequests();
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) == 1)
         reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((pWeatherSky))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : afTime);
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) == 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) == 1)
         FUN_004537c0();
     FUN_00975080((char*)&(*reinterpret_cast<int *>(&::g_011e0e80)));
 }
@@ -4588,9 +4588,9 @@ struct FUN_00451cf0_shell
 // @fnv 0x00451cf0
 void FUN_00451cf0_shell::FUN_00451cf0()
 {
-    for (unsigned int x = 0; x < *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); x++)
+    for (unsigned int x = 0; x < *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); x++)
     {
-        for (unsigned int y = 0; y < *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); y++)
+        for (unsigned int y = 0; y < *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); y++)
         {
             CellExt* cell = (CellExt*)*(void**)cells->Get(x, y);
             if (cell && ::FUN_00450ff0((void *)(cell)))
@@ -4625,13 +4625,13 @@ TESObjectCELL* FUN_00451900_shell::FUN_00451900(int aiCellX, int aiCellY)
     int igridY;
 
     igridX = aiCellX - (iCenterCellX -
-                        (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1));
+                        (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) >> 1));
     igridY = aiCellY - (iCenterCellY -
-                        (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1));
+                        (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) >> 1));
     pcell = 0;
 
-    if (static_cast<unsigned int>(igridX) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) &&
-        static_cast<unsigned int>(igridY) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) && igridX >= 0 && igridY >= 0)
+    if (static_cast<unsigned int>(igridX) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) &&
+        static_cast<unsigned int>(igridY) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) && igridX >= 0 && igridY >= 0)
     {
         pcell = *reinterpret_cast<TESObjectCELL**>(
             reinterpret_cast<GridCellArray*>(pGridCellArray)
@@ -4686,13 +4686,13 @@ bool FUN_00452ed0_shell::FUN_00452ed0()
         return false;
 
     pgc = iCenterCellX -
-          (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1);
+          (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) >> 1);
     ix = iCenterCellY -
-         (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1);
+         (static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) >> 1);
 
-    for (icellY = 0; static_cast<unsigned int>(icellY) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))); ++icellY)
+    for (icellY = 0; static_cast<unsigned int>(icellY) < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))); ++icellY)
     {
-        for (iy = 0; iy < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))); ++iy)
+        for (iy = 0; iy < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))); ++iy)
         {
             pcell = static_cast<GridCell*>(reinterpret_cast<GridCellArray*>(pGridCellArray)
                                                ->Get(static_cast<unsigned int>(icellY), iy));
@@ -4739,14 +4739,14 @@ void FUN_00454e70_shell::MoveCellToFront(TESObjectCELL* apCell)
     TESObjectCELL* pmoveCell;
     reinterpret_cast<::FUN_00454fc0_shell *>((((FUN_00454fc0_cls*)this)))->CompactQueuedCells();
     bool bvisible = ::FUN_00450ff0((void *)(((FUN_004ba5a0_cell_helper*)apCell))) || ((FUN_004523c0_shell*)apCell)->FUN_004523c0();
-    if (!m_ppCellBufferB[*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) - 1])
+    if (!m_ppCellBufferB[*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) - 1])
         bvisible = true;
     pmoveCell = apCell;
     unsigned int n;
     TESObjectCELL* ptempCell;
     for (n = (!bvisible && (unsigned int)reinterpret_cast<::TESObjectCELL *>((((CellStand*)&(*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::DAT_011c3c90)))))->GetCellStandValue() >
-                               (unsigned int)(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))))
-                 ? *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))
+                               (unsigned int)(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))))
+                 ? *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))
                  : 0;
          n < (unsigned int)reinterpret_cast<::TESObjectCELL *>((((CellStand*)&(*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::DAT_011c3c90)))))->GetCellStandValue(); n++)
     {
@@ -4773,8 +4773,8 @@ void FUN_00454fc0_shell::CompactQueuedCells()
     if (iFirstValue == m_iGridWidth && m_iGridHeight == m_iGridHeight)
         return;
 
-    iattachedCount = *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))));
-    ihalfgrid = static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1;
+    iattachedCount = *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))));
+    ihalfgrid = static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) >> 1;
     ilastNonQueuedPos = 0;
 
     {
@@ -5175,7 +5175,7 @@ extern unsigned char DAT_0101784c[];
 // @fnv 0x0045c840
 void FUN_0045c840_shell::InitFromMatrix()
 {
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) == 5)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) == 5)
     {
         for (unsigned int index1 = 0; index1 < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->field_08))->FUN_0084e3a0())); ++index1)
         {
@@ -5259,10 +5259,10 @@ struct FUN_00451020_cls
 // @fnv 0x00451020
 void FUN_00451020_cls::FUN_00451020(int* out, float f)
 {
-    int iMinX = m_24 - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-    int cellY = m_28 - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-    int iMaxX = m_24 + (int)((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-    int top = m_28 + (int)((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
+    int iMinX = m_24 - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+    int cellY = m_28 - (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+    int iMaxX = m_24 + (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+    int top = m_28 + (int)((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
 
     out[0] = (int)((float)(iMinX << 12) + f);
     out[3] = (int)((float)(cellY << 12) + f);
@@ -5650,7 +5650,7 @@ struct FUN_00455330_cls
 void FUN_00455330_cls::RemoveEntry(std::uintptr_t value)
 {
     unsigned int i;
-    for (i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))); i++)
+    for (i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))); i++)
     {
         if (value == m_38[i])
         {
@@ -5659,11 +5659,11 @@ void FUN_00455330_cls::RemoveEntry(std::uintptr_t value)
             break;
         }
     }
-    for (; i < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1; i++)
+    for (; i < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1; i++)
     {
         m_38[i] = m_38[i + 1];
     }
-    m_38[*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1] = 0;
+    m_38[*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1] = 0;
     reinterpret_cast<FUN_00452e50_class*>(this)->FUN_00452e50();
 }
 
@@ -5729,9 +5729,9 @@ bool FUN_004570d0_cls::FUN_004570d0(void* a1, intptr_t aiArg2, intptr_t aiArg3, 
         }
         else
         {
-            for (unsigned int i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); i++)
+            for (unsigned int i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); i++)
             {
-                for (unsigned int j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); j++)
+                for (unsigned int j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); j++)
                 {
                     FUN_004570d0_node* n = *((::FUN_004570d0_node **)(reinterpret_cast<::TES *>((this))->FUN_00457050(i, j)));
                     if (n != 0)
@@ -5856,11 +5856,11 @@ void OwnerProxy::FUN_00457be0(int mode)
 {
     unsigned int h, p;
     int a = 0;
-    int s = x - ((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-    int i = y - ((unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-    for (h = 0; h < (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); ++h)
+    int s = x - ((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+    int i = y - ((unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+    for (h = 0; h < (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); ++h)
     {
-        for (p = 0; p < (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); ++p)
+        for (p = 0; p < (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); ++p)
         {
             switch (mode)
             {
@@ -6128,7 +6128,7 @@ struct FUN_00459750_cls
 // @fnv 0x00459750
 void FUN_00459750_cls::ProcessItems(uintptr_t unused)
 {
-    for (int i = 0; i < ((::fnv_00459750::ArrHead *)&(::FUN_0043d4d0((int *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c3e38)))))))->count; i++)
+    for (int i = 0; i < ((::fnv_00459750::ArrHead *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c3e38)))))))->count; i++)
     {
         if (m_38[i] != 0)
         {
@@ -6219,9 +6219,9 @@ void FUN_00459870_cls::ProcessItemNodes()
     }
     else
     {
-        for (unsigned int i = 0; i < ((::fnv_00459870::ArrHead *)&(::FUN_0043d4d0((int *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c63cc)))))))->count; i++)
+        for (unsigned int i = 0; i < ((::fnv_00459870::ArrHead *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c63cc)))))))->count; i++)
         {
-            for (unsigned int j = 0; j < ((::fnv_00459870::ArrHead *)&(::FUN_0043d4d0((int *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c63cc)))))))->count; j++)
+            for (unsigned int j = 0; j < ((::fnv_00459870::ArrHead *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<ArrAccessor*>(&(*reinterpret_cast<char *>(&::g_011c63cc)))))))->count; j++)
             {
                 ItemNode** tmp = m_08->FUN_004ba490(i, j);
                 ItemNode* val = *tmp;
@@ -6255,9 +6255,9 @@ void FUN_00459920_shell::FUN_00459920()
     if (((::FUN_00459920_reference *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) && ::FUN_00450ff0((void *)(((::FUN_00459920_reference *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))))
         reinterpret_cast<::TESObjectCELL *>((((::FUN_00459920_reference *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath()))))->FUN_005571a0(0);
 
-    for (unsigned int column = 0; column < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))); ++column)
+    for (unsigned int column = 0; column < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))); ++column)
     {
-        for (unsigned int row = 0; row < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))); ++row)
+        for (unsigned int row = 0; row < static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))); ++row)
         {
             FUN_00459920_reference* object;
             FUN_00459920_reference** entry = referenceGrid->FUN_004ba490(column, row);
@@ -6797,10 +6797,10 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
             if (ptr != 0)
                 reinterpret_cast<::fnv_006fd130::FUN_006fd130_shell *>((ptr))->FUN_006fd130();
             unsigned int j;
-            for (j = 0; j < (unsigned int)((::fnv_0045bc80::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0045bc80::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->i; j++)
+            for (j = 0; j < (unsigned int)((::fnv_0045bc80::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0045bc80::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->i; j++)
             {
                 unsigned int k;
-                for (k = 0; k < (unsigned int)((::fnv_0045bc80::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0045bc80::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->i; k++)
+                for (k = 0; k < (unsigned int)((::fnv_0045bc80::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0045bc80::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->i; k++)
                 {
                     Obj* e4 = m_08->FUN_004ba490(j, k);
                     Obj* discB = *(Obj**)e4;
@@ -7010,7 +7010,7 @@ struct S_0045c8d0
 // @fnv 0x0045c780
 void FUN_0045c780_shell::InitSoundGrid()
 {
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) == 5)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) == 5)
     {
         unsigned int index1;
         for (index1 = 0; index1 < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((this->sound))->FUN_0084e3a0())); ++index1)
@@ -7180,9 +7180,9 @@ void B45CDA0TES::FUN_0045cda0()
     }
     else
     {
-        for (unsigned int uiX = 0; uiX < (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); uiX++)
+        for (unsigned int uiX = 0; uiX < (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); uiX++)
         {
-            for (unsigned int uiY = 0; uiY < (unsigned int)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); uiY++)
+            for (unsigned int uiY = 0; uiY < (unsigned int)*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); uiY++)
             {
                 B45CDA0GridCell* pkGridCell = m_pkGridCells->Get(uiX, uiY);
                 B45CDA0Cell* pkCell = pkGridCell->m_pkCell;
@@ -7481,7 +7481,7 @@ struct FUN_004516d0_shell
 MobileObjectCellAccess** FUN_004516d0_shell::FUN_004516d0()
 {
     MobileObjectCellAccess** foundCell = 0;
-    unsigned int gridSize = *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))));
+    unsigned int gridSize = *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))));
     unsigned int center = gridSize >> 1;
     unsigned int centerCoordinate = center;
     for (unsigned int radius = 0; radius < center; ++radius)
@@ -8010,8 +8010,8 @@ struct Grid
 void Grid::RefreshGrid()
 {
     Profile profile3(26, 1, ::DAT_01017874, 2262);
-    int originX = centerX - (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))) >> 1);
-    int originY = centerY - (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))) >> 1);
+    int originX = centerX - (*((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))) >> 1);
+    int originY = centerY - (*((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))) >> 1);
     int count = 0;
     bool defer = false;
     if (::Interface::IsGamePaused())
@@ -8021,9 +8021,9 @@ void Grid::RefreshGrid()
     reinterpret_cast<::FUN_00453500_shell *>(((*reinterpret_cast<::GridRefresh::Loader * *>(&::g_BGSSaveLoadGame))))->FUN_00453500(true);
     if (((::GridRefresh::Queue *)(::FUN_00451010())))
         reinterpret_cast<::C00c66300 *>((((::GridRefresh::Queue *)(::FUN_00451010()))))->FUN_00c66300();
-    for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++x)
+    for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++x)
     {
-        for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++y)
+        for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++y)
         {
             reinterpret_cast<::TES_00451a50 *>(this)->FUN_00451a50(x, y, originX + x, originY + y);
             Cell* cell = (*reinterpret_cast<::GridRefresh::Cells * *>(&::g_dataHandler))->GetOrCreateCell(originX + x, originY + y, ((::GridRefresh::World *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())), 0);
@@ -8033,7 +8033,7 @@ void Grid::RefreshGrid()
             {
                 ++count;
                 float percent =
-                    (double)count / (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))) * *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc))))))) * ::g_d100;
+                    (double)count / (*((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))) * *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc))))))) * ::g_d100;
                 if (reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() && reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
                     reinterpret_cast<::LLD_TESHelper *>(((*reinterpret_cast<::GridRefresh::Game * *>(&::g_TESSaveLoadGame))))->FUN_00861ea0();
             }
@@ -8058,9 +8058,9 @@ void Grid::RefreshGrid()
         reinterpret_cast<::fnv_008492b0::FUN_008492b0_shell *>(((*reinterpret_cast<::GridRefresh::Loader * *>(&::g_BGSSaveLoadGame))))->ResetLoadBuffers(0);
     if (((::GridRefresh::Queue *)(::FUN_00451010())))
         reinterpret_cast<::C00c66300 *>((((::GridRefresh::Queue *)(::FUN_00451010()))))->FUN_00c66300();
-    for (unsigned int x2 = 0; x2 < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++x2)
+    for (unsigned int x2 = 0; x2 < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++x2)
     {
-        for (unsigned int y2 = 0; y2 < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++y2)
+        for (unsigned int y2 = 0; y2 < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting *>(&::g_011c63cc)))))); ++y2)
         {
             if (((::GridRefresh::World *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())))
             {
@@ -8224,7 +8224,7 @@ bool CellBufferManager::FUN_00453a80()
     BufferedCell* cell = 0;
     if (!((::BufferedCell *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))
     {
-        for (int i = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1; i >= 0; --i)
+        for (int i = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1; i >= 0; --i)
         {
             if (interiorBuffer[i])
             {
@@ -8265,7 +8265,7 @@ bool CellBufferManager::FUN_00453a80()
         }
         if (!cell)
         {
-            for (int i = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1; i >= 0; --i)
+            for (int i = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))) - 1; i >= 0; --i)
             {
                 if (interiorBuffer[i] && interiorBuffer[i] != ((::BufferedCell *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())))
                 {
@@ -9048,9 +9048,9 @@ void Q455490TES::FUN_00455490()
         else
         {
             bool bCellFound = false;
-            for (unsigned int uiX = 0; uiX < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00455490::Q455490Setting *>(&::g_011c63cc)))))); uiX++)
+            for (unsigned int uiX = 0; uiX < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00455490::Q455490Setting *>(&::g_011c63cc)))))); uiX++)
             {
-                for (unsigned int uiY = 0; uiY < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00455490::Q455490Setting *>(&::g_011c63cc)))))); uiY++)
+                for (unsigned int uiY = 0; uiY < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00455490::Q455490Setting *>(&::g_011c63cc)))))); uiY++)
                 {
                     Q455490Cell* pCell = *m_pGridCells->Get(uiX, uiY);
                     if (pCell && ::FUN_00450ff0(pCell) && reinterpret_cast<::fnv_0054c740::FUN_0054c740_shell *>((pCell))->FUN_0054c740(0, 0))
@@ -9194,7 +9194,7 @@ void FUN_00456d00_shell::FUN_00456d00(int aiType, bool abShow, bool abGrid)
         return;
     }
 
-    int iCount = abGrid ? 0 : *((int *)&(::FUN_0043d4d0((int *)(((FUN_00456d00_cnt*)&(*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))));
+    int iCount = abGrid ? 0 : *((int *)&(::FUN_0043d4d0((::Setting *)(((FUN_00456d00_cnt*)&(*reinterpret_cast<::FUN_0043d4d0_cls *>(&::g_011c3e38)))))));
     for (int i = -1; i < iCount; i++)
     {
         FUN_00456fc0_ref* pRef = i == -1 ? ((::FUN_00456fc0_ref *)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) : ppRefs[i];
@@ -9247,9 +9247,9 @@ void FUN_00456d00_shell::FUN_00456d00(int aiType, bool abShow, bool abGrid)
     }
     else
     {
-        for (unsigned int x = 0; x < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); x++)
+        for (unsigned int x = 0; x < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); x++)
         {
-            for (unsigned int y = 0; y < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); y++)
+            for (unsigned int y = 0; y < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); y++)
             {
                 FUN_00456fc0_ref** ppGrid = ((::FUN_00456fc0_ref **)(reinterpret_cast<::TES *>((((FUN_00456d00_tes*)(*reinterpret_cast<::FUN_004570d0_mgr * *>(&::g_TES)))))->FUN_00457050(x, y)));
                 FUN_00456fc0_ref* pGridRef = *ppGrid;
@@ -9307,9 +9307,9 @@ bool FUN_004571c0_cls::ApplyToObject(FUN_004571c0_obj* pObject, intptr_t a2, int
         }
         else
         {
-            for (unsigned int i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); i++)
+            for (unsigned int i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); i++)
             {
-                for (unsigned int j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); j++)
+                for (unsigned int j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); j++)
                 {
                     FUN_004571c0_cell* cell = (FUN_004571c0_cell*)*((::FUN_004570d0_node **)(reinterpret_cast<::TES *>(this)->FUN_00457050(i, j)));
                     if (cell)
@@ -9756,9 +9756,9 @@ void CellTest::FUN_00459ae0(unsigned int flags)
             if (!name3 || !FUN_0044a670(name3))
                 name3 = world->DebugName();
             ::FUN_0040fbe0();
-            for (int x7 = minX; x7 < maxX6; x7 += *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::TestStep *>(&::g_011c63cc)))))))
+            for (int x7 = minX; x7 < maxX6; x7 += *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::TestStep *>(&::g_011c63cc)))))))
             {
-                for (int y4 = minY5; y4 < maxY6; y4 += *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::TestStep *>(&::g_011c63cc)))))))
+                for (int y4 = minY5; y4 < maxY6; y4 += *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::TestStep *>(&::g_011c63cc)))))))
                 {
                     EmptyStructPlaceholder* cellTmp = ((::EmptyStructPlaceholder *)(reinterpret_cast<::TESWorldSpace *>((world))->GetCellAtGridPosition(x7, y4)));
                     if (!cellTmp)
@@ -10349,10 +10349,10 @@ bool n451::Grid::ContainsPoint(const Pt& aPoint)
         return true;
     int iMinY = FUN_00406d90(aPoint.iMinY) >> 12;
     int nX = FUN_00406d90(aPoint.nX) >> 12;
-    int ix = m_24 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
-    int px = m_28 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
-    if (iMinY < ix || iMinY >= ix + (int)*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) || nX < px ||
-        nX >= px + (int)*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))))
+    int ix = m_24 - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
+    int px = m_28 - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
+    if (iMinY < ix || iMinY >= ix + (int)*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) || nX < px ||
+        nX >= px + (int)*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))))
         return false;
     return true;
 }
@@ -10378,9 +10378,9 @@ void FUN_0045cac0_tes::FUN_0045cac0()
     FUN_005400e0_obj* pEntryObj;
     unsigned int i;
     unsigned int j;
-    for (i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); i++)
+    for (i = 0; i < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); i++)
     {
-        for (j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); j++)
+        for (j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))); j++)
         {
             pCell = static_cast<FUN_00546fb0_cell*>(m_pkGridCells->Get(i, j)->m_pkCell);
             pEntryObj = pCell ? ((::FUN_005400e0_obj *)(reinterpret_cast<::S00546fb0_Cell *>((pCell))->FUN_00546fb0())) : 0;
@@ -10579,9 +10579,9 @@ void World::Pause(bool bPause, int iUnused)
         else
             reinterpret_cast<::C00c66300 *>((((::s450dd0::Scheduler *)(::FUN_00451010()))))->FUN_00c66300();
     }
-    for (unsigned int uiRow = 0; uiRow < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::s450dd0::GridSettings *>(&::g_011c63cc)))))); uiRow++)
+    for (unsigned int uiRow = 0; uiRow < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::s450dd0::GridSettings *>(&::g_011c63cc)))))); uiRow++)
     {
-        for (unsigned int j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::s450dd0::GridSettings *>(&::g_011c63cc)))))); j++)
+        for (unsigned int j = 0; j < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::s450dd0::GridSettings *>(&::g_011c63cc)))))); j++)
         {
             Cell** ppCell = m_pkGrid->FUN_004ba490(uiRow, j);
             Cell* pkCell = *ppCell;
@@ -10738,7 +10738,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
         }
         if (!reinterpret_cast<::fnv_00454bd0::TES *>(this)->ContainsCell((::TESObjectCELL *)(destination)))
         {
-            ReloadScene* discard = ((::ReloadScene *)(reinterpret_cast<::FUN_00454420_Class *>(this)->GetEntry(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ReloadGridSetting *>(&::g_011c3e38)))))) - 1)));
+            ReloadScene* discard = ((::ReloadScene *)(reinterpret_cast<::FUN_00454420_Class *>(this)->GetEntry(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ReloadGridSetting *>(&::g_011c3e38)))))) - 1)));
             if (discard)
                 reinterpret_cast<::FUN_00455330_cls *>(this)->RemoveEntry((std::uintptr_t)(discard));
         }
@@ -12263,10 +12263,10 @@ void FadeAttachedTES::FUN_00459a00()
     }
 
     unsigned int x = 0;
-    for (; x < *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); ++x)
+    for (; x < *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); ++x)
     {
         unsigned int y = 0;
-        for (; y < *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))); ++y)
+        for (; y < *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))); ++y)
         {
             void* pgridcell = (m_pGridCells->Get(x, y));
             TESObjectCELL* pcell = reinterpret_cast<TESObjectCELL*>(*reinterpret_cast<void**>(pgridcell));
@@ -14579,8 +14579,8 @@ struct Grid_ob1
 void Grid_ob1::RefreshGrid()
 {
     Profile_ob1 profile3(26, 1, ::DAT_01017874, 2262);
-    int originX = centerX - (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) >> 1);
-    int originY = centerY - (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) >> 1);
+    int originX = centerX - (*((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) >> 1);
+    int originY = centerY - (*((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) >> 1);
     int count = 0;
     bool defer = false;
     if (::Interface_ob1::IsGamePaused())
@@ -14590,9 +14590,9 @@ void Grid_ob1::RefreshGrid()
     reinterpret_cast<::FUN_00453500_shell *>(((*reinterpret_cast<::GridRefresh::Loader_ob1 * *>(&::g_BGSSaveLoadGame))))->FUN_00453500(true);
     if (((::GridRefresh::Queue_ob1 *)(::FUN_00451010())))
         reinterpret_cast<::C00c66300 *>((((::GridRefresh::Queue_ob1 *)(::FUN_00451010()))))->FUN_00c66300();
-    for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++x)
+    for (unsigned int x = 0; x < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++x)
     {
-        for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++y)
+        for (unsigned int y = 0; y < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++y)
         {
             reinterpret_cast<::TES_00451a50_ob1 *>(this)->FUN_00451a50(x, y, originX + x, originY + y);
             Cell_ob1* cell = (*reinterpret_cast<::GridRefresh::Cells_ob1 * *>(&::g_dataHandler))->GetOrCreateCell(originX + x, originY + y, ((::GridRefresh::World_ob1 *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())), 0);
@@ -14602,7 +14602,7 @@ void Grid_ob1::RefreshGrid()
             {
                 ++count;
                 float percent =
-                    (double)count / (*((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) * *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc))))))) * ::g_d100;
+                    (double)count / (*((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))) * *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc))))))) * ::g_d100;
                 if (reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition() && reinterpret_cast<::FUN_0047c850 *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->EvaluateCondition())
                     reinterpret_cast<::LLD_TESHelper *>(((*reinterpret_cast<::GridRefresh::Game_ob1 * *>(&::g_TESSaveLoadGame))))->FUN_00861ea0();
             }
@@ -14627,9 +14627,9 @@ void Grid_ob1::RefreshGrid()
         reinterpret_cast<::fnv_008492b0::FUN_008492b0_shell *>(((*reinterpret_cast<::GridRefresh::Loader_ob1 * *>(&::g_BGSSaveLoadGame))))->ResetLoadBuffers(0);
     if (((::GridRefresh::Queue_ob1 *)(::FUN_00451010())))
         reinterpret_cast<::C00c66300 *>((((::GridRefresh::Queue_ob1 *)(::FUN_00451010()))))->FUN_00c66300();
-    for (unsigned int x2 = 0; x2 < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++x2)
+    for (unsigned int x2 = 0; x2 < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++x2)
     {
-        for (unsigned int y2 = 0; y2 < *((const unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++y2)
+        for (unsigned int y2 = 0; y2 < *((const unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GridRefresh::Setting_ob1 *>(&::g_011c63cc)))))); ++y2)
         {
             if (((::GridRefresh::World_ob1 *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())))
             {
@@ -14910,10 +14910,10 @@ bool n451::Grid_ob1::ContainsPoint(const Pt_ob1& pt)
         return true;
     int iMinY = FUN_00406d90(pt.iMinY) >> 12;
     int nX = FUN_00406d90(pt.nX) >> 12;
-    int ix = m_24 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
-    int px = m_28 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
-    if (iMinY < ix || iMinY >= ix + (int)*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) || nX < px ||
-        nX >= px + (int)*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))))
+    int ix = m_24 - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
+    int px = m_28 - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) >> 1);
+    if (iMinY < ix || iMinY >= ix + (int)*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))) || nX < px ||
+        nX >= px + (int)*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_004570d0_lst *>(&::g_011c63cc)))))))
         return false;
     return true;
 }

@@ -27749,7 +27749,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
     {
         NiUpdateData_rtti kData(fTimeSinceScaleStart, false, bThreaded);
         pkDynamic->UpdateDownwardPass(kData, 0);
-        if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
+        if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
         {
             reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((std::intptr_t)(pkDynamic));
             if (bThreaded && kData.m_bQueueShadow)
@@ -27797,7 +27797,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                     pkNode->UpdateDownwardPass(kNodeData, 0);
                     if (kNodeData.m_bUpdateShadow)
                         reinterpret_cast<::S00b5d9f0_Owner *>((((::CellShadowScene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(pkNode), 1);
-                    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
+                    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
                     {
                         reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((std::intptr_t)(pkNode));
                         if (bThreaded && kNodeData.m_bQueueShadow)
@@ -27824,7 +27824,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                     pkActorNode->UpdateDownwardPass(kActorData, 0);
                     if (kActorData.m_bUpdateShadow)
                         reinterpret_cast<::S00b5d9f0_Owner *>((((::CellShadowScene *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00b5d9f0((::S00b5d9f0_Obj *)(pkActorNode), 1);
-                    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
+                    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::CellIntSetting *>(&::g_011c3ea4)))))) > 1)
                     {
                         reinterpret_cast<::fnv_0087aad0::FUN_0087aad0_s *>((((ManagedTaskQueue*)((::CellTaskQueue *)(::TaskQueueInterface::GetSingleton())))))->FUN_0087aad0((std::intptr_t)(pkActorNode));
                         if (bThreaded && kActorData.m_bQueueShadow)

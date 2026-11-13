@@ -2441,7 +2441,7 @@ bool FUN_005c8a50(void* paramInfo, void* scriptData, Reference* source, void* co
     if (_usePriority > 0)
         priorityFlag = true;
     Actor* actor = FUN_00ec43fb(source, 0, &::DAT_011841cc, &::DAT_011846d4, 0);
-    int previous = *((const int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))));
+    int previous = *((const int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))));
     reinterpret_cast<::S0042fa20 *>(&((*reinterpret_cast<::ScriptAnimation::Setting *>(&::g_011cd378))))->FUN_0045ce80(0x7fffffff);
     if (idleVal)
     {

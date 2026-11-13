@@ -2767,7 +2767,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     }
                     else if (::FUN_008a6290((const ::FUN_008a6290_S *)(pPkg)))
                     {
-                        if (!reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(pActor)) && reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0092d050::IntSetting *>(&::g_011cdad0)))))))
+                        if (!reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(pActor)) && reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::fnv_0092d050::Ref * *>(&::_g_thePlayer))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0092d050::IntSetting *>(&::g_011cdad0)))))))
                         {
                             reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((pPkg))->SetFlag10000(0);
                         }

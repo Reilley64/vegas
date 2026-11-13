@@ -1371,7 +1371,7 @@ FUN_007faa20::FUN_007faa20()
     kParamA8 = WXParam(0.0f, 0.0f, 0.0f, 0.0f);
     bFlag2A = false;
     bFlag95 = false;
-    fTimeA4 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::WXIntSetting *>(&::g_011db4f8))))));
+    fTimeA4 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::WXIntSetting *>(&::g_011db4f8))))));
     fDurationA0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WXFloatSetting *>(&::g_011db4d0))))));
     bFlag94 = false;
     iValue20 = 0;
@@ -1671,7 +1671,7 @@ FUN_007ffec0::FUN_007ffec0()
     unk2ac = 0.0f;
     unk2b0 = 0.0f;
     unk2c0 = 0.0f;
-    unk294 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011db75c))))));
+    unk294 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011db75c))))));
     unk2b4 = false;
     unk2b5 = false;
     unk240 = 0;

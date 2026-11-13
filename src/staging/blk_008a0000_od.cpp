@@ -3233,7 +3233,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, intptr_t a2, int aiArg3, int aiArg4,
 
     if (this != (*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))
         return;
-    if (reinterpret_cast<::FUN_008bffa0_shell *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->GetField228() < ((::SettingValue *)&(::FUN_0043d4d0((int *)(((SettingColl*)&(*reinterpret_cast<char *>(&::g_011cd6fc)))))))->i)
+    if (reinterpret_cast<::FUN_008bffa0_shell *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->GetField228() < ((::SettingValue *)&(::FUN_0043d4d0((::Setting *)(((SettingColl*)&(*reinterpret_cast<char *>(&::g_011cd6fc)))))))->i)
     {
         if (this == (*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))
             h = true;

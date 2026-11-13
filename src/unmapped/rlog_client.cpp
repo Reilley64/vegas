@@ -69,21 +69,21 @@ intptr_t LodGrid::FUN_00458be0(LodCell* pkCell, LodPoint* pkPos)
     int iDYVal2;
     if (reinterpret_cast<::TESObjectCELL *>((pkCell))->IsCellInterior())
     {
-        iDXVal2 = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1;
-        iDYVal2 = *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1;
+        iDXVal2 = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1;
+        iDYVal2 = *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1;
     }
     else if (pkPos)
     {
-        iDXVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridX() - ((::FUN_00406d90(pkPos->x) >> 12) - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
-        iDYVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridY() - ((::FUN_00406d90(pkPos->y) >> 12) - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
+        iDXVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridX() - ((::FUN_00406d90(pkPos->x) >> 12) - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
+        iDYVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridY() - ((::FUN_00406d90(pkPos->y) >> 12) - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
     }
     else
     {
-        iDXVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridX() - (m_iCenterX - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
-        iDYVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridY() - (m_iCenterY - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
+        iDXVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridX() - (m_iCenterX - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
+        iDYVal2 = reinterpret_cast<::TESObjectCELL *>((pkCell))->GetCellGridY() - (m_iCenterY - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1));
     }
-    int iXY = iDXVal2 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1);
-    int iY8 = iDYVal2 - (*((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1);
+    int iXY = iDXVal2 - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1);
+    int iY8 = iDYVal2 - (*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::LodSetting *>(&::g_011c63cc)))))) >> 1);
     unsigned char ucDistZ;
     if (iXY > iY8)
         ucDistZ = abs(iXY) * 10 + 10;

@@ -14670,7 +14670,7 @@ public:
 // @fnv 0x00453860
 void ActorTaskManager::FUN_00453860(bool abQueryCounter)
 {
-    if (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c3ea4)))) != 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) != 1)
     {
         if (abQueryCounter)
             reinterpret_cast<::GlobalObject_0044fae0 *>(&(::g_011c3d84))->FUN_004538a0(0);

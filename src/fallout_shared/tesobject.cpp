@@ -1538,7 +1538,7 @@ Root503* Shell503::GetRootAndRemoveChildren(Ref503* ref, bool flag)
 {
     Root503* count = FUN_0050ee50(ref, flag);
     int root = ref ? reinterpret_cast<::FUN_00418770_shell *>((((::Extra503 *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_00418770() : 1;
-    if (count && root < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting503 *>(&::g_011c846c)))))))
+    if (count && root < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting503 *>(&::g_011c846c)))))))
     {
         Child503* child;
         if (root == 1)
@@ -1550,7 +1550,7 @@ Root503* Shell503::GetRootAndRemoveChildren(Ref503* ref, bool flag)
         }
         else
         {
-            for (int i = root; i < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting503 *>(&::g_011c846c)))))); i++)
+            for (int i = root; i < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting503 *>(&::g_011c846c)))))); i++)
             {
                 BSStringT<char> name;
                 ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&name), "Arrow%d", i);

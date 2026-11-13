@@ -1489,3 +1489,30 @@ else()
     set_tests_properties(${name} PROPERTIES FAIL_REGULAR_EXPRESSION "Python 3 was not found")
   endforeach()
 endif()
+
+# Fails when the setting value accessor at 0x0043d4d0 (VEGAS-111) again
+# returns the address 4 bytes into the setting, the 32-bit offset of the
+# value, instead of the value member of the shared Setting, 8 bytes in on
+# windows-x64. It reads the archive with llvm-objdump. The patterns are
+# specific to clang-cl at /O2, which adds the offset to the setting's address.
+# Blind spots: an offset reached in another way (a register, an lea with an
+# index) passes the forbidden pattern; the required pattern does not tell a
+# load from an address.
+if(vegas_object_checks)
+  add_test(NAME objects.setting_value_accessor
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/setting_value_accessor.disassembly.txt
+      "-DFUNCTION=?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z"
+      "-DFORBID=^(addq[ \t]+[$]0x4, %r|leaq[ \t]+0x4[(]%r)"
+      "-DREQUIRE=^(addq[ \t]+[$]0x8, %r|leaq[ \t]+0x8[(]%r)"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+  # Fails when a sampled caller of the accessor again calls its 32-bit form,
+  # which no object defines, or no longer calls the form that takes the shared
+  # Setting.
+  add_test(NAME objects.setting_value_accessor_callers
+    COMMAND ${GO_EXECUTABLE} run . --table setting-value-accessor.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()

@@ -873,7 +873,7 @@ void Timer::FUN_007fec30(float now)
     if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSource *>(&::g_011db520)))))) + ::g_01012070 < unk160)
     {
         unk158 = false;
-        unk168 = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSource *>(&::g_011db4f8))))))) + now;
+        unk168 = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSource *>(&::g_011db4f8))))))) + now;
     }
 }
 
@@ -1120,7 +1120,7 @@ void xRenderedMenu::Init()
 {
     float qahtre;
     m_158 = false;
-    m_168 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
+    m_168 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
     m_164 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db4d0))))));
     xColorA qHXYKT(0.0f, 0.0f, 0.0f, 0.0f);
     if (reinterpret_cast<::SystemColorManager *>((((::xColorMgr *)(::FUN_00718b60()))))->GetColor(3, (::NiColor &)(qHXYKT)))

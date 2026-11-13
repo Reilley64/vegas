@@ -1352,9 +1352,9 @@ bool FUN_0066ca50_cls::FUN_0066ca50(float dt)
     else if (m_f4 == ::_DAT_01012060)
     {
         m_f4 = (float)((double)(dt + *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301))))))) +
-                       (*((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301)))))) / *((int *)&(::FUN_0043d4d0((int *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))))) * g_counter);
+                       (*((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301)))))) / *((int *)&(::FUN_0043d4d0((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))))) * g_counter);
         g_counter++;
-        g_counter %= *((int *)&(::FUN_0043d4d0((int *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))));
+        g_counter %= *((int *)&(::FUN_0043d4d0((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))));
         return true;
     }
     else
@@ -1502,7 +1502,7 @@ bool __cdecl IsScaledValueAboveThreshold(float a, float b)
         scaled = 100;
     }
     int value = scaled;
-    return value > *((int *)&(::FUN_0043d4d0((int *)((&(*reinterpret_cast<::StatsGetterCls *>(&::g_011d6458)))))));
+    return value > *((int *)&(::FUN_0043d4d0((::Setting *)((&(*reinterpret_cast<::StatsGetterCls *>(&::g_011d6458)))))));
 }
 
 struct SpawnedFlag

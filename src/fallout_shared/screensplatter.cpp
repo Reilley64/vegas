@@ -314,7 +314,7 @@ void FUN_004e0330(unsigned int requested, float time)
 {
     if (DAT_011c7834)
     {
-        unsigned int p = FUN_0042f5a0(requested, *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011cf2b8)))))) - DAT_011c7828);
+        unsigned int p = FUN_0042f5a0(requested, *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011cf2b8)))))) - DAT_011c7828);
         if (p > 0)
         {
             ObjectProxy* a = ((::ObjectProxy *)(::CreateScatterShapes(p)));

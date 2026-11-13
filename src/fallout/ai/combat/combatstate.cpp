@@ -5296,7 +5296,7 @@ RefS* CombatNodeFinder::FindNearestCombatNode(ActorS* actor, float maxDist, bool
         NodeS& node5 = nodes.GetAt(i);
         if (!node5.ref || !node5.other)
             continue;
-        if (node5.level > *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalIntS *>(&::g_011cfc98)))))) || node5.flagA || node5.flag9)
+        if (node5.level > *((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalIntS *>(&::g_011cfc98)))))) || node5.flagA || node5.flag9)
             continue;
         CellS* cell2 = ((::CellS *)(reinterpret_cast<::TESObjectREFR *>((node5.ref))->GetExtraRadioData()));
         if (!cell2)

@@ -2033,7 +2033,7 @@ void FUN_009c86b0_shell::FUN_009c86b0()
                 }
                 else if (pCmd->m_bFirstActionFlag)
                 {
-                    if (reinterpret_cast<::HealthReferenceEntry *>((((TESObjectREFRV7*)pCmd->pTarget)))->FUN_00568ad0() > *((int *)&(::FUN_0043d4d0((int *)&(g_011ce7e4)))))
+                    if (reinterpret_cast<::HealthReferenceEntry *>((((TESObjectREFRV7*)pCmd->pTarget)))->FUN_00568ad0() > *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011ce7e4)))))
                     {
                         bRemove = true;
                     }
@@ -2138,12 +2138,12 @@ void FUN_009c95e0_VATS::HandleCommand(FUN_009c95e0_Command* command)
         else
         {
             FUN_009c95e0_Pt3 ptOffset = *command->pTarget->GetPos() - *m_pSource->GetPos();
-            if (reinterpret_cast<::NiPoint3 *>((void *)&(ptOffset))->ComputeMagnitude() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_009c95e0_Dist *>(&::g_011cf81c)))))) + command->pTarget->Unk_77().y)
+            if (reinterpret_cast<::NiPoint3 *>((void *)&(ptOffset))->ComputeMagnitude() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_009c95e0_Dist *>(&::g_011cf81c)))))) + command->pTarget->Unk_77().y)
                 DAT_011f21b8 = 2;
             else if (m_pTargetProjectile)
             {
                 ptOffset = *command->pTarget->GetPos() - *m_pTargetProjectile->GetPos();
-                if (reinterpret_cast<::NiPoint3 *>((void *)&(ptOffset))->ComputeMagnitude() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::FUN_009c95e0_Dist *>(&::g_011cf81c)))))) + command->pTarget->Unk_77().y)
+                if (reinterpret_cast<::NiPoint3 *>((void *)&(ptOffset))->ComputeMagnitude() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::FUN_009c95e0_Dist *>(&::g_011cf81c)))))) + command->pTarget->Unk_77().y)
                     DAT_011f21b8 = 2;
             }
         }

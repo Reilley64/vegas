@@ -874,7 +874,7 @@ struct DAT_011da368_tag
 // @fnv 0x007a1750
 bool FUN_007a1750()
 {
-    return (*reinterpret_cast<::DAT_011da368_tag * *>(&::DAT_011da368)) != 0 && (*reinterpret_cast<::DAT_011da368_tag * *>(&::DAT_011da368))->f < *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))));
+    return (*reinterpret_cast<::DAT_011da368_tag * *>(&::DAT_011da368)) != 0 && (*reinterpret_cast<::DAT_011da368_tag * *>(&::DAT_011da368))->f < *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) * *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))));
 }
 
 namespace fnv_007a17e0 {
@@ -3539,19 +3539,19 @@ void MapView::UpdateLocalMap()
     {
         NiPoint3 b = c;
         ((TESObjectCELL_Ext*)pAdjustNorthRotationCell)->FUN_00555b10(c, b, true);
-        int e = ((::FUN_00406d90(b.x) - 2048) >> 12) - (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-        int d = ((::FUN_00406d90(b.y) - 2048) >> 12) - (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-        NiPoint3 a((float)((e << 12) + 2048), (float)(((d + *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) - 1) << 12) + 2048), 0.0f);
-        NiPoint3 c((float)(((e + *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) - 1) << 12) + 2048), (float)((d << 12) + 2048), 0.0f);
+        int e = ((::FUN_00406d90(b.x) - 2048) >> 12) - (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+        int d = ((::FUN_00406d90(b.y) - 2048) >> 12) - (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+        NiPoint3 a((float)((e << 12) + 2048), (float)(((d + *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) - 1) << 12) + 2048), 0.0f);
+        NiPoint3 c((float)(((e + *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) - 1) << 12) + 2048), (float)((d << 12) + 2048), 0.0f);
         m_kMapMinimumPoint = (const NiPoint2&)ResultSlot(NiPoint2_helper(a.x, a.y + 4096.0));
         m_kMapMaximumPoint = (const NiPoint2&)ResultSlot(NiPoint2_helper(c.x + 4096.0, c.y));
     }
     else
     {
-        int e = ((::FUN_00406d90(c.x)) >> 12) - (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-        int d = ((::FUN_00406d90(c.y)) >> 12) - (*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) >> 1);
-        NiPoint3 a((float)(e << 12), (float)((d + *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) - 1) << 12), 0.0f);
-        NiPoint3 b((float)((e + *((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc)))) - 1) << 12), (float)(d << 12), 0.0f);
+        int e = ((::FUN_00406d90(c.x)) >> 12) - (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+        int d = ((::FUN_00406d90(c.y)) >> 12) - (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) >> 1);
+        NiPoint3 a((float)(e << 12), (float)((d + *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) - 1) << 12), 0.0f);
+        NiPoint3 b((float)((e + *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc)))) - 1) << 12), (float)(d << 12), 0.0f);
         m_kMapMinimumPoint = (const NiPoint2&)ResultSlot(NiPoint2_helper(a.x, a.y + 4096.0));
         m_kMapMaximumPoint = (const NiPoint2&)ResultSlot(NiPoint2_helper(b.x + 4096.0, b.y));
     }
@@ -4692,7 +4692,7 @@ void ZoomMenu::FUN_0079c5a0(bool inward, float factor)
     if (page == 32)
     {
         ZoomNode* nodeB = reinterpret_cast<ZoomNode*>(((::NiNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode)));
-        unsigned int gridA = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ZoomInt *>(&::g_011c63cc))))));
+        unsigned int gridA = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ZoomInt *>(&::g_011c63cc))))));
         for (unsigned int index_ = 0; nodeB && index_ < gridA * gridA; index_++)
         {
             ZoomObject* child4 = ((::ZoomObject *)(reinterpret_cast<::NiNode *>((nodeB))->GetAt(index_)));

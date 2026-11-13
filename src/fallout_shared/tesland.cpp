@@ -5707,8 +5707,8 @@ void HostMesh53_od::FUN_0053fa40(bool show) {
  else if(row3==32) index2=32+col2;
  else if(col2==32) index2=64+(32-row3);
  else if(row3==0) index2=96+(32-col2);
- if(index2%2) colors3[index2]=C53(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9f20))))))/255.0,*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9f9c))))))/255.0,*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9fc8))))))/255.0,1.0f);
- else colors3[index2]=C53(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9ff4))))))/255.0,*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011ca024))))))/255.0,*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9fac))))))/255.0,1.0f);
+ if(index2%2) colors3[index2]=C53(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9f20))))))/255.0,*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9f9c))))))/255.0,*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9fc8))))))/255.0,1.0f);
+ else colors3[index2]=C53(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9ff4))))))/255.0,*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011ca024))))))/255.0,*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0053fa40::G53 *>(&::g_011c9fac))))))/255.0,1.0f);
  flags[index2]=1;
  P53 point4=origin+P53(row3*128.0,col2*128.0,0.0f);
  float height3;
@@ -6003,8 +6003,8 @@ bool TerrainOwner::FUN_0053bc10() {
  threshold2=threshold2 < 0.0 ? 0.0 : threshold2;
  threshold2=threshold2 > 1.0 ? 0.9 : threshold2;
  GrassNode* nodeBTmp=0; Grass* _activeProcess=0; float density5=0.0f; int count1=0; int _actors=0;
- int limitVal=*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c9f74)))))); int indexValue4=0; int capacity8=16; float sumHigh_2=0.0f; Sample** samples4;
- DAT_011c9f6c=*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011c9fb8))))));
+ int limitVal=*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c9f74)))))); int indexValue4=0; int capacity8=16; float sumHigh_2=0.0f; Sample** samples4;
+ DAT_011c9f6c=*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c9fb8))))));
  if (DAT_011c9f6c!=1 && DAT_011c9f6c!=2 && DAT_011c9f6c!=4 && DAT_011c9f6c!=8) DAT_011c9f6c=2;
  for (int quad=0;quad<4;quad++) {
  count1=0;

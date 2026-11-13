@@ -304,11 +304,11 @@ struct LoadScreenArrayFields
 // @fnv 0x0078adc0
 void LoadingMenu::SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadScreens)
 {
-    unsigned int count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da138)))))->u;
+    unsigned int count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da138)))))->u;
     if (GetFloat(5))
-        count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da124)))))->u;
+        count = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da124)))))->u;
     else if (pLocation && !((bool)(::FUN_0078a930())))
-        count = FUN_0042f5a0(count, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)))))->u);
+        count = FUN_0042f5a0(count, ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)))))->u);
     unsigned int maximum = reinterpret_cast<BSSimpleList<BGSMusicType::MusicTrack*>*>(&candidates)->ItemsInList();
     while (maximum < count && ((std::uintptr_t)(reinterpret_cast<LoadScreenArrayFields*>(&aLoadScreens)->size)))
     {
@@ -336,7 +336,7 @@ void LoadingMenu::LoadGame(BGSLoadGameBuffer* buffer)
     g_011da168.objective = b ? b->GetObjective(c) : 0;
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&DAT_011da16c), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&DAT_011da170), 4);
-    if ((unsigned int)DAT_011da170 >= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d0c60)))))->u)
+    if ((unsigned int)DAT_011da170 >= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d0c60)))))->u)
         DAT_011da16c = 0.0f;
     bool a = false;  // location-specific screens only
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&a), 1);
@@ -3907,7 +3907,7 @@ void FUN_0078a5a0_cls::UpdateLoadingScreens()
         ScreenArray screenArray;
         Gather(screenArray);
         Build(screenArray);
-        if (unk1e8 && ((ScreenList*)&unk1d0)->Count() < *((unsigned int *)&(::FUN_0043d4d0((int *)(((SettingProxy*)&g_011da138))))) && !FUN_0078a930())
+        if (unk1e8 && ((ScreenList*)&unk1d0)->Count() < *((unsigned int *)&(::FUN_0043d4d0((::Setting *)(((SettingProxy*)&g_011da138))))) && !FUN_0078a930())
         {
             unk1e8 = 0;
             Gather(screenArray);

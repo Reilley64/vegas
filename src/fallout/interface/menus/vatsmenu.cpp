@@ -8842,7 +8842,7 @@ void VATSMenuX::Update()
                             if (m_bStateFlag4)
                             {
                                 int iShotsAtLimb = reinterpret_cast<::OwnQ *>(this)->GetConsecutiveMatchCount();
-                                fLimbChanceZ += (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingX *>(&::g_011d4210)))))) * iShotsAtLimb) / 100.0;
+                                fLimbChanceZ += (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingX *>(&::g_011d4210)))))) * iShotsAtLimb) / 100.0;
                             }
                             pCommandA55->bFlag4 =
                                 (*(*reinterpret_cast<::SettingX *>(&::g_011db114)).Bool() && FindEntryForRef()) ? true : ::RandomBoolean(fLimbChanceZ);
@@ -9013,7 +9013,7 @@ void VATSMenuX::UpdateHitChanceDisplay()
             {
                 ::FUN_00406d00(
                     buffer3, 8, "%i%%",
-                    ::FUN_00647b70(0, MinInt((int)(pItem->fHitChance * 100.0 + *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingX *>(&::g_011d4210)))))) * count7), 95)));
+                    ::FUN_00647b70(0, MinInt((int)(pItem->fHitChance * 100.0 + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingX *>(&::g_011d4210)))))) * count7), 95)));
             }
             else
             {

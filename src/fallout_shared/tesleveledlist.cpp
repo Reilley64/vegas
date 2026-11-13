@@ -496,7 +496,7 @@ struct GlobalObject2_0040c150
 // @fnv 0x0050ad90
 int FUN_0050ad90_shell::FUN_0050ad90()
 {
-    return *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0050ad90::GlobalObject2_0040c150 *>(&::g_011c8e1c))))));
+    return *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0050ad90::GlobalObject2_0040c150 *>(&::g_011c8e1c))))));
 }
 }  // namespace fnv_0050ad90
 
@@ -601,7 +601,7 @@ struct GlobalObject2_0040c150
 // @fnv 0x0050b370
 int FUN_0050b370_shell::FUN_0050b370()
 {
-    return *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0050b370::GlobalObject2_0040c150 *>(&::g_011c8ed4))))));
+    return *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0050b370::GlobalObject2_0040c150 *>(&::g_011c8ed4))))));
 }
 }  // namespace fnv_0050b370
 

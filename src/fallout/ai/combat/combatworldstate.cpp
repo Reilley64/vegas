@@ -627,7 +627,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
             switch (second + 17)
             {
             case 17:
-                if (reinterpret_cast<::FUN_00893590_shell *>((actor15))->GetHealthFraction() * 100.0 < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_009aa4e0::IntSetting *>(&::g_011ce0b4)))))))
+                if (reinterpret_cast<::FUN_00893590_shell *>((actor15))->GetHealthFraction() * 100.0 < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_009aa4e0::IntSetting *>(&::g_011ce0b4)))))))
                     usable = true;
                 break;
             case 18:

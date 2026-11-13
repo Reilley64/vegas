@@ -269,7 +269,7 @@ struct Player
 // @fnv 0x0078d5a0
 float GetLevelProgress()
 {
-    if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011d0c60)))))))
+    if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011d0c60)))))))
         return 0.0f;
 
     int lowXP;

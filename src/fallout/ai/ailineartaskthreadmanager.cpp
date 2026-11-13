@@ -303,7 +303,7 @@ bool __cdecl FUN_008c7aa0()
 {
     bool bretval = false;
     bool bretvalBug44071 = false;
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1 && ((bool)(::FUN_00713d90())))
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) > 1 && ((bool)(::FUN_00713d90())))
     {
         TaskQueueInterface* pqueueInterface = ::TaskQueueInterface::GetSingleton();
         if (reinterpret_cast<::FUN_0087a730_cls *>((pqueueInterface))->FUN_0087a730())

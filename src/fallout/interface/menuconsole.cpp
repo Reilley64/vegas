@@ -158,9 +158,9 @@ FUN_0071af10::FUN_0071af10()
     f24 = 0;
     f38 = 0;
     f1c = 0;
-    f2c = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::DummyFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::DummyFontManager *)(::FontManager::Instance()))))->FUN_005bd5c0(((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i - 1)))))->FUN_005bd580() + 3;
-    f30 = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d44))))))->i;
-    f34 = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d08))))))->i;
+    f2c = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::DummyFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::DummyFontManager *)(::FontManager::Instance()))))->FUN_005bd5c0(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i - 1)))))->FUN_005bd580() + 3;
+    f30 = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d44))))))->i;
+    f34 = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d08))))))->i;
     f3a = 0;
     f3c = 0;
     ::FUN_00403d30(f810, 0, 0x104);
@@ -271,7 +271,7 @@ void FUN_0071d620_shell::FUN_0071d620(char acState)
             if (reinterpret_cast<::FUN_007023a0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
             {
                 reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                                 ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
+                                                 ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
 
                 reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>(this)->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::ConsoleManager *>(this)->m_kOutputLines.m_kItemCount.m_uiCount)));
             }
@@ -354,7 +354,7 @@ void FUN_0071d770_shell::FUN_0071d770()
     if (cVisible > 0)
     {
         reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                         ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
+                                         ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
         reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((((InterfaceManager*)this)))->ClampIndexByDelta(((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
         FUN_00703310(0);
@@ -365,9 +365,9 @@ void FUN_0071d770_shell::FUN_0071d770()
 void ConsoleDisplay::DrawConsoleLines()
 {
     void* node = ((void *)(::FUN_00559450((int *)&(strings))));
-    int lineY = m_iConsoleY - ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i * iConsoleLineSpacing;
+    int lineY = m_iConsoleY - ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i * iConsoleLineSpacing;
     int lastLine = m_iOutputLineCount;
-    int lineIndex = lastLine - ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i;
+    int lineIndex = lastLine - ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i;
     while (lineIndex < 0)
     {
         reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(0, (float)m_iConsoleX, (float)lineY, 1, -1, ::DAT_01012054, 0, (::A0F8Color *)(0));
@@ -379,7 +379,7 @@ void ConsoleDisplay::DrawConsoleLines()
     while (lineIndex < lastLine)
     {
         reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)(((::ConsoleLine *)(reinterpret_cast<::FUN_006317a0_struct *>(&(strings))->AddEight((intptr_t)(node)))))))), (float)m_iConsoleX, (float)lineY, 1, -1,
-                                      ::DAT_01012054, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
+                                      ::DAT_01012054, ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
         node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
         ++lineIndex;
         lineY += iConsoleLineSpacing;
@@ -595,7 +595,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
                 m_iCommandHistoryPosition = 0;
                 ((::DebugText *)(::FUN_00a0d9e0(true)))->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                                 ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i);
+                                                 ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i);
                 if (!FUN_0071cff0(text, "dof", 3))
                 {
                     float distance = 0.0f;
@@ -961,17 +961,17 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     else if (state.key == (int)0x80000009)
                     {
-                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(-((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i + 1);
+                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(-((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i + 1);
                         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                     }
                     else if (state.key == (int)0x8000000a)
                     {
-                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i - 1);
+                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i - 1);
                         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                     }
                     else if (state.key == (int)0x8000000a)
                     {
-                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i - 1);
+                        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8cfc))))))->i - 1);
                         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
                     }
                     else if (state.key == (int)0x80000003)
@@ -1091,7 +1091,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
             }
             ((::DebugText *)(::FUN_00a0d9e0(true)))->Print(text, (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
-                                             ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i);
+                                             ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i);
         }
     }
     return true;

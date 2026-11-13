@@ -38,6 +38,7 @@
 #include "fnv/symbols_00559000.h"
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_01202000.h"
+#include "fnv/setting_class.h"
 #include "magicitem_decls.h"
 
 // Looks up the TESForm for auiID and returns it cast to MagicItemForm or MagicItemObject, otherwise null.
@@ -362,11 +363,11 @@ void FUN_0040c110(FUN_0040c110_ptr* _this)
 }
 
 
-// Returns pThis[1] when pThis is non-null, otherwise resets DAT_01202800 to 0 and returns it.
+// Returns the setting's value when pThis is non-null, otherwise resets DAT_01202800 to 0 and returns it.
 // @fnv 0x0043d4d0
-int& FUN_0043d4d0(int* pThis)
+int& FUN_0043d4d0(Setting* pThis)
 {
-    return pThis ? pThis[1] : (DAT_01202800 = 0, DAT_01202800);
+    return pThis ? pThis->uValue.i : (DAT_01202800 = 0, DAT_01202800);
 }
 
 struct FUN_004047f0_arg

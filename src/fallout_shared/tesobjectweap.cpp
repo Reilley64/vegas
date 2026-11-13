@@ -1278,9 +1278,9 @@ int FUN_00525620_shell::GetStateValue(bool abForceState2, bool abForceState1)
     if (abForceState2) s = 2;
     if (abForceState1) s = 1;
     switch (s) {
-    case 2: r7 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4)))))); break;
-    case 1: r7 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538)))))); break;
-    case 0: r7 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0)))))); break;
+    case 2: r7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4)))))); break;
+    case 1: r7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538)))))); break;
+    case 0: r7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0)))))); break;
     }
     return r7;
 }

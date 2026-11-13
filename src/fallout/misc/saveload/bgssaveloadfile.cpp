@@ -491,7 +491,7 @@ void BGSSaveLoadManager::FUN_00850100(SaveLoadHeader* header, int abRotate)
         reinterpret_cast<::FUN_0084ff90_shell *>((((MgrShell*)this)))->BuildWeaponPath(bufA3, bufB, *(unsigned char*)&abRotate);
         ::TaskQueueInterface::CopyStringToBuffer(bufC4, 260, bufB);
         bufC4[::FUN_0044a670(bufC4) - 4] = 0;
-        for (count2 = *((int *)&(::FUN_0043d4d0((int *)&(::g_011de2c8)))) - 1; count2 >= 0; count2--)
+        for (count2 = *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011de2c8)))) - 1; count2 >= 0; count2--)
         {
             ::TaskQueueInterface::CopyStringToBuffer(bufD_, 260, bufC4);
             for (inner4 = 0; inner4 < count2; inner4++)

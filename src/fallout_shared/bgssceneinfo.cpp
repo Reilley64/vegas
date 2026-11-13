@@ -438,7 +438,7 @@ extern GlobalObject2_0045cfe0 g_011c5c04;
 // @fnv 0x004a9050
 int FUN_004a9050()
 {
-    int iValue = *((int *)&(::FUN_0043d4d0((int *)&(g_011c5b20))));
+    int iValue = *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011c5b20))));
     if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)g_TES)))->GetPrevPath())))
     {
         TESWorldSpace* pworld = ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGame*)g_TES)))->GetHitSound()));
@@ -450,7 +450,7 @@ int FUN_004a9050()
         {
             int iadjust = 0;
             if (reinterpret_cast<::FUN_0084e3a0_Class *>((((_ref_0084e3a0*)pLODworld)))->FUN_0084e3a0() == 0x3c)
-                iadjust = *((int *)&(::FUN_0043d4d0((int *)&(g_011c5ae0))));
+                iadjust = *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011c5ae0))));
             else
                 iadjust = *((int *)&(::FUN_0043d4d0((int *)&(g_011c5c04))));
             iValue -= iadjust;
@@ -1161,7 +1161,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                             reinterpret_cast<::fnv_00853130::NiTMapBase *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00853130((std::uintptr_t)(texture1), (*(::fnv_00853130::CombatThreatRecord * *)(&uses)));
                             uses++;
                             reinterpret_cast<::FUN_00844700_Class *>((((StatTextureSet*)&g_011c5ad0)))->FUN_00844700((std::uintptr_t)(texture1), uses);
-                            if (uses == *((int *)&(::FUN_0043d4d0((int *)&(DAT_011c5a90)))))
+                            if (uses == *((int *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c5a90)))))
                                 counts[13]++;
                             texture1 = ((void *)(::FUN_00b70680((::NiTListItem< ::ShadowSceneLight *> *&)(shader1))));
                         }
@@ -1279,7 +1279,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
     }
     else
     {
-        unsigned int last = *(unsigned int*)((int *)&(::FUN_0043d4d0((int *)&(DAT_011c63cc)))) >> 1;
+        unsigned int last = *(unsigned int*)((int *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c63cc)))) >> 1;
         unsigned int center = last - MinInt(last, 2);
         unsigned int first = last + MinInt(last, 2);
         for (unsigned int x = center; x <= first; x++)

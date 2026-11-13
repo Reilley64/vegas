@@ -1183,7 +1183,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                     if (pkEntity && pkEntity != pkLastEntity && bSolid)
                     {
                         pkLastEntity = pkEntity;
-                        if (iHits < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc61c)))))))
+                        if (iHits < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc61c)))))))
                         {
                             iHits++;
                             RayInput631 kRay;
@@ -1209,7 +1209,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                     else
                     {
                         ::DAT_011d8a90 = 0xdb2;
-                        if (pkLast != pkRef && pkRef->Get3D() && iTargets < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc644)))))))
+                        if (pkLast != pkRef && pkRef->Get3D() && iTargets < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc644)))))))
                         {
                             iTargets++;
                             ::FUN_004b2780((::NiPick *)(::List631 *)(&kList), (intptr_t)(pkOrigin), (intptr_t)(pkDir), fImpulseRadiusSquared, (intptr_t)(pkRef->Get3D()), 0);
@@ -1255,7 +1255,7 @@ TESObjectREFR631* ViewCaster631::FUN_00631d60(const Point631* pkOrigin, const Po
                         float fProjectionAlongAim = FUN_004587d0(reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdReal631 &)(kPerp.Length()))->FUN_004586d0());
                         if (fProjectionAlongAim < fAlternateOffset)
                         {
-                            if (iRays < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc668)))))))
+                            if (iRays < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting631 *>(&::g_011cc668)))))))
                             {
                                 if (pkAlternate && pkAlternate == pkRef)
                                 {

@@ -303,15 +303,15 @@ bool LockExtraData::MeetsMinimumLockLevel()
 // @fnv 0x00430b40
 int LockExtraData::ConvertLockLevel(int aiLockLevel)
 {
-    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a4c))))))->i)
+    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a4c))))))->i)
         return 0;
-    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a30))))))->i)
+    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a30))))))->i)
         return 1;
-    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a00))))))->i)
+    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a00))))))->i)
         return 2;
-    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3ab0))))))->i)
+    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3ab0))))))->i)
         return 3;
-    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c399c))))))->i)
+    if (aiLockLevel <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c399c))))))->i)
         return 4;
     return 5;
 }
@@ -373,22 +373,22 @@ int LockExtraData::EnumToNumericValue(LOCK_LEVEL level)
     switch (level)
     {
     case LOCK_LEVEL_LL_VERYEASY:
-        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a4c))))))->i;
+        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a4c))))))->i;
         break;
     case LOCK_LEVEL_LL_EASY:
-        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a30))))))->i;
+        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a30))))))->i;
         break;
     case LOCK_LEVEL_LL_AVERAGE:
-        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a00))))))->i;
+        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a00))))))->i;
         break;
     case LOCK_LEVEL_LL_HARD:
-        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3ab0))))))->i;
+        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3ab0))))))->i;
         break;
     case LOCK_LEVEL_LL_VERYHARD:
-        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c399c))))))->i;
+        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c399c))))))->i;
         break;
     case LOCK_LEVEL_LL_IMPOSSIBLE:
-        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a24))))))->i;
+        value = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a24))))))->i;
         break;
     }
     return value;
@@ -732,22 +732,22 @@ int __cdecl GetLockLevelMax(int aiDifficulty)
     switch (aiDifficulty)
     {
     case 0:
-        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a4c))))))->i;
+        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a4c))))))->i;
         break;
     case 1:
-        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a30))))))->i;
+        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a30))))))->i;
         break;
     case 2:
-        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a00))))))->i;
+        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a00))))))->i;
         break;
     case 3:
-        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3ab0))))))->i;
+        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3ab0))))))->i;
         break;
     case 4:
-        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c399c))))))->i;
+        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c399c))))))->i;
         break;
     case 5:
-        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a24))))))->i;
+        result = ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c3a24))))))->i;
         break;
     }
     return result;

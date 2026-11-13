@@ -540,13 +540,13 @@ int FUN_0058e790_S::GetGlobalValue()
     switch (*(int*)&this->Data.m_eSoundLevel)
     {
     case 2:
-        result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
+        result = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
         break;
     case 1:
-        result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538))))));
+        result = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538))))));
         break;
     case 0:
-        result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0))))));
+        result = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0))))));
         break;
     }
     return result;

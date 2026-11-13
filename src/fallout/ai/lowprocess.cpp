@@ -564,7 +564,7 @@ void LowProcess::Update(MobileObject* mobile)
                 else if (::FUN_008a6290((const ::FUN_008a6290_S *)(package)))
                 {
                     if (!reinterpret_cast<::FUN_00962720_shell *>((::_g_thePlayer))->HasExtraFollowerForm((char *)(update.actor)) &&
-                        reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((::_g_thePlayer))->FUN_00962620() < ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdad0))))))->i)
+                        reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((::_g_thePlayer))->FUN_00962620() < ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdad0))))))->i)
                         reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((GetCurrentPackage()))->SetFlag10000(false);
                 }
                 else if (reinterpret_cast<struct ::FUN_0041ca90 *>((package))->get() != 28 && !::FUN_008a6290((const ::FUN_008a6290_S *)(package)))
@@ -1587,7 +1587,7 @@ void LowProcess::UpdateActorPackage(Actor* actor, bool flag, int value, bool oth
     {
         if (!reinterpret_cast<::FUN_00962720_shell *>((::_g_thePlayer))->HasExtraFollowerForm((char *)(actor)))
         {
-            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((::_g_thePlayer))->FUN_00962620() < ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdad0))))))->i)
+            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((::_g_thePlayer))->FUN_00962620() < ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdad0))))))->i)
                 reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((GetCurrentPackage()))->SetFlag10000(false);
             else
                 return;

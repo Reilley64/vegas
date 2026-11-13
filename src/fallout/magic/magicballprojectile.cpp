@@ -2516,7 +2516,7 @@ void Projectile::UpdateMotion(float delta)
             current3 = next;
         }
     }
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011d1afc)))))) > 0 || DAT_011dc55c)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011d1afc)))))) > 0 || DAT_011dc55c)
     {
     }
     else

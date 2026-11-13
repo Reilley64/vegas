@@ -336,7 +336,7 @@ void PaddedBooleanState::FUN_006a5ca0()
     {
         if (!reinterpret_cast<::TESObjectCELL *>((pcellVal))->IsCellInterior())
         {
-            d8 = (((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006a5ca0::GlobalObject_0045cfe0 *>(&::g_011c63cc))))))[0] - 1) / 2;
+            d8 = (((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_006a5ca0::GlobalObject_0045cfe0 *>(&::g_011c63cc))))))[0] - 1) / 2;
             x9 = reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(pcellVal)))->GetCellGridX() - d8;
             for (; x9 <= reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<CellH*>(pcellVal)))->GetCellGridX() + d8; ++x9)
             {

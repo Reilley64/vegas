@@ -19265,7 +19265,7 @@ bool FollowProcess::FUN_0091d3c0(Actor* actor, float elapsed, bool advance)
     {
         if (!reinterpret_cast<::FUN_00962720_shell *>((((PlayerPackageAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->HasExtraFollowerForm((char *)(actor)))
         {
-            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerPackageAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingIntAccess *>(&::g_011cdad0)))))))
+            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerPackageAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingIntAccess *>(&::g_011cdad0)))))))
                 reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((pPackage))->SetFlag10000(false);
             else
                 return false;
@@ -20242,8 +20242,8 @@ void CrimeProcess::FUN_0091ded0(CrimeActor* actor)
                 if (kRef && ((RefQuery*)kRef)->IsActor())
                     criminal4 = dynamic_cast<Actor*>(kRef);
                 if (!((bool)(reinterpret_cast<::FUN_00833c20_shell *>((entry5))->FUN_00833c20())))
-                    reinterpret_cast<::TESDataHandler *>((crimeHandler))->GetReferencesInArea((::TESObjectCELL *)(void *)(actor->Extra()), *(const ::NiPoint3 *)(std::intptr_t)actor->Value((float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))),
-                                          (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec)))))), *(const ::NiPoint3 *)(std::intptr_t)actor->Value((float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))), 0.0f,
+                    reinterpret_cast<::TESDataHandler *>((crimeHandler))->GetReferencesInArea((::TESObjectCELL *)(void *)(actor->Extra()), *(const ::NiPoint3 *)(std::intptr_t)actor->Value((float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))),
+                                          (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec)))))), *(const ::NiPoint3 *)(std::intptr_t)actor->Value((float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingValue *>(&::g_011cdbec))))))), 0.0f,
                                           (bool (*)(TESObjectREFR *, intptr_t))::CheckAndQueueRadioRef, (long)(std::intptr_t)entry5);
                 if (!accepted9)
                 {
@@ -23953,7 +23953,7 @@ bool FUN_00916880_shell::TryStartCombatAction(Actor* actor, Actor* target, bool 
 
         if (target == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && !stopReason)
         {
-            if (((int)(reinterpret_cast<::FUN_00953c20_shell *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00953c20())) >= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::TimingSettings *>(&::g_011ccffc)))))))
+            if (((int)(reinterpret_cast<::FUN_00953c20_shell *>((reinterpret_cast<::MobileObject*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00953c20())) >= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::TimingSettings *>(&::g_011ccffc)))))))
                 return false;
         }
 
@@ -31750,7 +31750,7 @@ bool ActProcess::FUN_00915f10(ActActor* apActor, bool abActivate)
         if (pFurniture)
         {
             ActPoint kDelta = (*(::ProcessActivate::ActPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::ProcessActivate::ActPoint *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((pTarget))->FUN_00568fa0()))))->FUN_00439ef0((::NiPoint3 *)&(*apActor->GetPos()), *(const ::NiPoint3 *)nullptr)));
-            if (reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() <= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ProcessActivate::ActIntSetting *>(&::g_011cde98)))))))
+            if (reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() <= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::ProcessActivate::ActIntSetting *>(&::g_011cde98)))))))
                 bDoneEntry = true;
         }
         else if (reinterpret_cast<::FUN_00568680_shell *>((pTarget))->FUN_00568680() && apActor->FUN_vt214())
@@ -32745,7 +32745,7 @@ void MidProc::FUN_00918ee0(Actor* apActor, bool abArg2, int aiArg3, int aiArg4)
     {
         if (!reinterpret_cast<::FUN_00962720_shell *>((((PlShell*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->HasExtraFollowerForm((char *)(apActor)))
         {
-            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlShell*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00962620() < ((::fnv_00918ee0::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00918ee0::SettingInt *>(&::g_011cdad0))))))->i)
+            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlShell*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00962620() < ((::fnv_00918ee0::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00918ee0::SettingInt *>(&::g_011cdad0))))))->i)
                 reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((pPkg))->SetFlag10000(false);
             else
                 return;
@@ -36200,7 +36200,7 @@ void ProcedureProcess::FUN_00919f60(ProcedureActor* apActor)
 
                     if (!reinterpret_cast<::FUN_00962720_shell *>((((PlayerProcedureAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->HasExtraFollowerForm((char *)(h)) &&
 
-                        reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerProcedureAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00919f60::ProcedureSetting *>(&::g_011cdad0)))))))
+                        reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((PlayerProcedureAccess*)(*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_00919f60::ProcedureSetting *>(&::g_011cdad0)))))))
 
                         reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((((PackageProcedureAccess*)p)))->SetFlag10000(0);
                 }

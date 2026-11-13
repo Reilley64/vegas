@@ -1612,7 +1612,7 @@ float __cdecl FUN_007177c0(void)
 {
     if (FUN_004de080())
         return FUN_004de0e0() * 0.4f;
-    return (float)(::Interface::IsInterfaceOpen() ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<GlobalObject2_0040c150 *>(&::g_011d8bfc)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<GlobalObject2_0040c150 *>(&::g_011d8bd8)))))));
+    return (float)(::Interface::IsInterfaceOpen() ? *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<GlobalObject2_0040c150 *>(&::g_011d8bfc)))))) : *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<GlobalObject2_0040c150 *>(&::g_011d8bd8)))))));
 }
 
 namespace fnv_00717820 {
@@ -1631,7 +1631,7 @@ struct Interface_Wrap : public Interface
 // @fnv 0x00717820
 float __cdecl FUN_00717820()
 {
-    return ((bool(__cdecl*)()) & ::Interface::IsInterfaceOpen)() ? *((int *)&(::FUN_0043d4d0((int *)&(g_011d8bc0)))) : *((int *)&(::FUN_0043d4d0((int *)&(g_011d8bf0))));
+    return ((bool(__cdecl*)()) & ::Interface::IsInterfaceOpen)() ? *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d8bc0)))) : *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d8bf0))));
 }
 }  // namespace fnv_00717820
 
@@ -3340,7 +3340,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
         }
         else if (::DAT_0119f348)
         {
-            if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0070c4a0::GInt *>(&::g_011c3ea4)))))) == 1)
+            if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0070c4a0::GInt *>(&::g_011c3ea4)))))) == 1)
             {
                 ::InitStartMenu(true, false);
             }
@@ -6122,7 +6122,7 @@ extern bool DAT_011d8908;
 void FUN_00713c70_shell::FUN_00713c70()
 {
     NiNode* pscene_graph;
-    if (*((int *)&(::FUN_0043d4d0((int *)(((IntHolder*)&(*reinterpret_cast<::fnv_00713c70::IntHolder0 *>(&::g_011c3ea4))))))) > 1)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)(((IntHolder*)&(*reinterpret_cast<::fnv_00713c70::IntHolder0 *>(&::g_011c3ea4))))))) > 1)
     {
         ::FUN_00713d80();
         if (((bool)(::FUN_00713d90())))
@@ -7431,9 +7431,9 @@ void FUN_0071d380_t::ClampIndexByDelta(int aiDelta)
     int iIndex = m_iOutputLineCount + aiDelta;
     if (iIndex > (int)m_uiOutputLineCount)
         iIndex = m_uiOutputLineCount;
-    int iTop = iIndex - *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
+    int iTop = iIndex - *((int *)&(::FUN_0043d4d0((::Setting *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
     if (iTop <= 0)
-        iIndex = *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
+        iIndex = *((int *)&(::FUN_0043d4d0((::Setting *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
     if (iIndex > (int)m_uiOutputLineCount)
         iIndex = m_uiOutputLineCount;
     m_iOutputLineCount = iIndex;
@@ -9158,7 +9158,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
     ListNode* node;
     baseY = 0;
     savedY = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::FontObj *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((FontMgr*)((void *)(::FontManager::Instance())))))->FUN_005bd5c0({})))))->FUN_005bd580() + 3;
-    found = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GObj *>(&::g_011debac))))));
+    found = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GObj *>(&::g_011debac))))));
     lineH = found + 30;
     idx3 = 0;
     for (node = &m_kNode; node != 0 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) != 0 && idx3 <= m_f78; node = ((::ListNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
@@ -9341,7 +9341,7 @@ void FUN_00710ad0_shell::DrawDebugInfo()
         m_pReference = 0;
         reinterpret_cast<::FUN_00714d70 *>(this)->SetField(0);
         elseBase = (int)reinterpret_cast<::FUN_005bd580_cls *>((((::FontObj *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((FontMgr*)((void *)(::FontManager::Instance())))))->FUN_005bd5c0({})))))->FUN_005bd580() + 3;
-        elseLineH = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GObj *>(&::g_011debac))))));
+        elseLineH = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GObj *>(&::g_011debac))))));
         reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0(kStr26, DAT_0103a1c4, (float)elseLineH, 2, -1, ::DAT_01012054, 0, (::A0F8Color *)(0));
     }
     y6 = lineH;

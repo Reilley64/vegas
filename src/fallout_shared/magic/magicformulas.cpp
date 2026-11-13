@@ -76,7 +76,7 @@ bool FUN_006494d0(int aiTargetLevel, float afMagnitude)
 {
     float fScaledMagnitude;
     fScaledMagnitude = afMagnitude * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1183))))));
-    if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011d1a14)))))) <= fScaledMagnitude)
+    if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011d1a14)))))) <= fScaledMagnitude)
         return true;
     else
         return aiTargetLevel <= fScaledMagnitude;

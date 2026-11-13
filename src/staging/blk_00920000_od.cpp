@@ -4271,8 +4271,8 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     f630 = 0;
     reinterpret_cast<::RMPlayer *>(this)->FUN_00969e90(0, 0);
     fe38 = 1;
-    f7b8 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting122 *>(&::g_011e0940))))));
-    f7c0 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting122 *>(&::g_011e087c))))));
+    f7b8 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::g_011e0940))))));
+    f7c0 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::g_011e087c))))));
     f6a4 = 0;
     f7c4 = 0;
     f7c5 = 0;
@@ -6394,7 +6394,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     if (((intptr_t)(reinterpret_cast<::FUN_00967950_class *>(this)->GetReferenceFromPhysicsController())))
         reinterpret_cast<::fnv_00963eb0::PlayerView *>(this)->SetEffectValue((void *)(7), ::DAT_010162c0, (::fnv_00963eb0::EffectSource *)(((intptr_t)(reinterpret_cast<::FUN_00967950_class *>(this)->GetReferenceFromPhysicsController()))));
     if (((intptr_t)(reinterpret_cast<::FUN_00967a00_Class *>(this)->GetActorFromPhysicsController())) && unk154 <= 0.0)
-        reinterpret_cast<::FUN_008bc240_h *>(this)->FUN_008bc240(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::MSetting *>(&::g_011cdde0)))))));
+        reinterpret_cast<::FUN_008bc240_h *>(this)->FUN_008bc240(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011cdde0)))))));
     bool weaponDrawn = reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10();
     if (weaponDrawn && unk68->vf454())
     {

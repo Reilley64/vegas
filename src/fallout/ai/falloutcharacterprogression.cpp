@@ -91,7 +91,7 @@ class PlayerCharacter : public Actor
 bool FUN_008d55e0_shell::FUN_008d55e0(int aiToLevel)
 {
     bool bresult = false;
-    if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((::_g_thePlayer))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((int *)&(g_011d0c60)))))
+    if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((::_g_thePlayer))->FUN_0087f9f0() >= *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011d0c60)))))
     {
         return false;
     }
@@ -862,7 +862,7 @@ void FUN_008d53f0(void* apTarget, int a2, int aiUnused, float afValue)
         {
             if ((int)afValue > 0)
                 ::QueueLevelUpNotification((int)afValue);
-            if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008d53f0::GlobalObject2_0040c150 *>(&::g_011d0c60)))))))
+            if (reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008d53f0::GlobalObject2_0040c150 *>(&::g_011d0c60)))))))
                 reinterpret_cast<::FUN_008d55e0_shell *>((((FUN_008d55e0_shell*)*reinterpret_cast<void **>(prog))))->FUN_008d55e0(reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::fnv_008d53f0::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_0087f9f0() + 1);
         }
     }

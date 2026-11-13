@@ -2479,7 +2479,7 @@ void BarterMenuClick::HandleTileClick(int iTileIndex, BmTile* pkTile)
                 else
                     ::FUN_00703c00(s_szOrigRefNone, {});
             }
-            else if (iCount > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::BmIntSetting *>(&::g_011d2418)))))))
+            else if (iCount > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BmIntSetting *>(&::g_011d2418)))))))
             {
                 reinterpret_cast<::FUN_007312e0_shell *>((unk108))->FUN_007312e0();
                 unk108->Destroy(false);

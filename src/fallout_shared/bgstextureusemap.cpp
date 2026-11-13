@@ -318,7 +318,7 @@ void FUN_004aabb0_shell::FUN_004aabb0(char a1)
     }
     else
     {
-        maxValue2 = static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((int *)&(::g_011c63cc))))) >> 1;
+        maxValue2 = static_cast<unsigned int>(*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c63cc))))) >> 1;
         grid = maxValue2 - 2;
         center3 = maxValue2 + 2;
 

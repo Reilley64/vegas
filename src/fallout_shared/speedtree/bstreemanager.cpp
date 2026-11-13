@@ -446,7 +446,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
         }
         ((FUN_006658b0_shell*)((unsigned char *)(::FUN_00664840(1))))->Update();
     }
-    SetGlobalFloatFromUInt(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_006652e0::GlobalObject_0045cfe0 *>(&::g_011d5d98)))))));
+    SetGlobalFloatFromUInt(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_006652e0::GlobalObject_0045cfe0 *>(&::g_011d5d98)))))));
     ClampAndStoreValue(*((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::fnv_006652e0::GlobalObject_0044f440 *>(&::g_011d5d4c))))))));
 }
 }  // namespace fnv_006652e0
@@ -1211,7 +1211,7 @@ FUN_00664440::FUN_00664440()
     ::fnv_00b07db0::FUN_00b07db0(4);
     ::FUN_00b084f0(1);
     ::FUN_00b0d7b0(1);
-    ::SetGlobalFloatFromUInt(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xGInt *>(&::g_011d5d98)))))));
+    ::SetGlobalFloatFromUInt(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::xGInt *>(&::g_011d5d98)))))));
     m_pMapObject = new xMapObj(2, 0x25, 0xc);
 }
 

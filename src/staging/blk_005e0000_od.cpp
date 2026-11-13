@@ -1632,13 +1632,13 @@ int* FUN_005fbeb0_shell::FUN_005fbeb0()
     switch (unk154)
     {
     case 2:
-        result = *((int **)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
+        result = *((int **)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));
         break;
     case 1:
-        result = *((int **)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538))))));
+        result = *((int **)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd538))))));
         break;
     case 0:
-        result = *((int **)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0))))));
+        result = *((int **)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cdde0))))));
         break;
     }
     return result;

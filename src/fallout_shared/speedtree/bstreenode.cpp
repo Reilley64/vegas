@@ -7872,7 +7872,7 @@ void xEffect::FUN_0066c160(float afTime)
     if (PTAG)
         LEVEL = PTAG[3] - '0';
     else
-        LEVEL = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5ea0))))));
+        LEVEL = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5ea0))))));
     float CHANCE = LEVEL * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0066c160::xFltSetting *>(&::originalRuntimeFloatSetting1301)))))) * 100.0;
     xList LIST;
     reinterpret_cast<::fnv_00623150::FUN_00623150_Class *>((PREF))->FUN_00623150(&LIST);
@@ -7922,7 +7922,7 @@ void xEffect::FUN_0066c160(float afTime)
                 if (reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_0066c160::xVec4 &)((*(::fnv_0066c160::xVec4 *)(reinterpret_cast<::FUN_00630100_shell *>((void *)&(V1))->FUN_00630100({})))))->FUN_004586d0() > 1.0)
                 {
                     float SPEED = reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::fnv_0066c160::xVec4 &)(V1.FUN_00630b40()))->FUN_004586d0() *
-                                  (1.0 - ((int)(::GetRandomNumberInRange(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5e58)))))), *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5e94))))))))) / 100.0);
+                                  (1.0 - ((int)(::GetRandomNumberInRange(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5e58)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5e94))))))))) / 100.0);
                     float R1 = xFUN_004dfea0();
                     float R2 = xFUN_004dfea0();
                     float R3 = xFUN_004dfea0() - 0.25;

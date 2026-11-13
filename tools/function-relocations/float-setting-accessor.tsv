@@ -38,3 +38,9 @@ function	blk_00940000_od	src/staging/blk_00940000_od.cpp	?UpdateScopeZoom@Update
 # Setting went. It reads fHackLevelMult. 0x005017a0 keeps five calls on the
 # 32-bit form, and ActivateTerminal holds one of them inlined.
 function	bgsterminal	src/fallout_shared/bgsterminal.cpp	?FUN_005011a0@FUN_00501270_shell@@QEAAHPEAVTESObjectREFR@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+# batch, unit, function, the accessor: every function of sleepwaitmenu.cpp
+# that calls the accessor (VEGAS-122), since the unit's own empty Setting
+# went. They read fFadeToBlackFadeSeconds and
+# fMenuBackgroundOpacity:Interface.
+function	sleepwaitmenu	src/fallout/interface/menus/sleepwaitmenu.cpp	?CreateSleepWaitMenu@@YAPEAUSwTile@@_N@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	sleepwaitmenu	src/fallout/interface/menus/sleepwaitmenu.cpp	?FUN_007c0220@FUN_007c0220_cls@fnv_007c0220@@QEAAXHH@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

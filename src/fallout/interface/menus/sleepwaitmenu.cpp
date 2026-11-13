@@ -117,9 +117,6 @@ struct Time
 {
     BSStringTChar FormatDate();
 };
-struct Setting
-{
-};
 class Tile
 {
 public:
@@ -307,7 +304,7 @@ void FUN_007c0220_cls::FUN_007c0220(int slot, int value)
         }
         if (m_45 != 0)
         {
-            reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_007c0220::DecSnd * *>(&::DAT_011d8804))))->AddFader((::FADER_ENUM)(0), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007c0220::DecCfg *>(&::originalRuntimeFloatSetting16)))))), {});
+            reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_007c0220::DecSnd * *>(&::DAT_011d8804))))->AddFader((::FADER_ENUM)(0), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007c0220::DecCfg *>(&::originalRuntimeFloatSetting16)))))), {});
         }
         m_44 = 1;
         reinterpret_cast<::Tile *>((reinterpret_cast<DecCtl*>(m_slot[4])))->Set(0xfaf, 0);
@@ -622,7 +619,7 @@ SwTile* __cdecl CreateSleepWaitMenu(bool bSleep)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::SwMenu * *>(&::DAT_011da920))->unk30))->FUN_00a01350(0xfc4, (char *)(acText), true);
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::SwMenu * *>(&::DAT_011da920))))->UpdateClockText();
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::SwMenu * *>(&::DAT_011da920))->unk3c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SwStrSetting *>(&::g_011d29f4))))->GetMenuTitle()))), true);
-        reinterpret_cast<::FUN_00a012d0_t *>((((::SwTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::SwTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::SwMenu * *>(&::DAT_011da920))))->FUN_00726070()))))->FUN_00a03da0((char *)(s_szBackground))))))->FUN_00a012d0(0xfa9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SwFloatSetting *>(&::g_011d3174)))))) * 255.0, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::SwTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::SwTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::SwMenu * *>(&::DAT_011da920))))->FUN_00726070()))))->FUN_00a03da0((char *)(s_szBackground))))))->FUN_00a012d0(0xfa9, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SwFloatSetting *>(&::g_011d3174)))))) * 255.0, true);
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::SwMenu * *>(&::DAT_011da920))))->SetMenuVisibility(0);
         return pkTileTmp2;
     }

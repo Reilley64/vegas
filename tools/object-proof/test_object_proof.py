@@ -391,6 +391,88 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual(code, 1, out)
         self.assertIn("\t-reloc\t0x1\ttype 4\t?x@@YAXXZ\n\t+reloc\t0x1\ttype 4\t?x2@@YAXXZ\n", out)
 
+    def test_summary(self):
+        renamed = "?callee@@YAXXZ=?other_callee@@YAXXZ"
+        code, out, _ = self.objcmp(coff(), coff(callee="?other_callee@@YAXXZ"), renamed)
+        self.assertEqual(code, 0, out)
+        self.assertEqual(out.splitlines()[1:], ["RETARGET\t?callee@@YAXXZ -> ?other_callee@@YAXXZ\t1 site(s)\t"
+                                                "by the map\t?caller@@YAXXZ"], out)
+        code, out, _ = self.objcmp(coff(), coff(callee="?other_callee@@YAXXZ"))
+        self.assertEqual(code, 1, out)
+        self.assertIn("\nRETARGET\t?callee@@YAXXZ -> ?other_callee@@YAXXZ\t1 site(s)\tnot by the map\t"
+                      "?caller@@YAXXZ\n", out)
+        kept = (coff(), coff(caller="?new_caller@@YAXXZ"), "?caller@@YAXXZ=?new_caller@@YAXXZ", renamed)
+        code, out, _ = self.objcmp(*kept)
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.splitlines()[-1], "KEPT-SITE\t?new_caller@@YAXXZ\t0x1\t?callee@@YAXXZ\t"
+                                               "?other_callee@@YAXXZ", out)
+        # --json gives the same facts under stable keys.
+        keys = {"verdict", "result", "exit", "differences", "rename_lines", "notes", "lines", "retargets",
+                "kept_sites"}
+        code, out, _ = self.objcmp(*kept + ("--json",))
+        self.assertEqual(code, 1, out)
+        report = json.loads(out)
+        self.assertEqual(set(report), keys)
+        self.assertEqual((report["result"], report["exit"], report["differences"], report["rename_lines"]),
+                         ("differs", 1, 2, 1), out)
+        self.assertEqual(report["verdict"], "differs: 2 difference(s), 1 RENAME- line(s)")
+        self.assertIn("RENAME-KEPT\tB still holds ?callee@@YAXXZ", report["lines"])
+        self.assertEqual(report["kept_sites"], [dict(function="?new_caller@@YAXXZ", offset=1, old="?callee@@YAXXZ",
+                                                      new="?other_callee@@YAXXZ")])
+        self.assertEqual(report["retargets"], [])
+        code, out, _ = self.objcmp(coff(), coff(callee="?other_callee@@YAXXZ"), "--json", renamed)
+        report = json.loads(out)
+        self.assertEqual((code, report["result"], report["exit"], report["differences"]), (0, "identical", 0, 0), out)
+        self.assertEqual(report["retargets"], [dict(old="?callee@@YAXXZ", new="?other_callee@@YAXXZ", count=1,
+                                                     by_map=True, functions=["?caller@@YAXXZ"])])
+        code, out, _ = self.objcmp(coff(), coff(callee="?other_callee@@YAXXZ"), "--json", "?nothere@@YAXXZ=?x@@YAXXZ")
+        report = json.loads(out)
+        self.assertEqual((code, report["exit"], report["notes"]), (1, 1, ["NOTE\trename ?nothere@@YAXXZ is not a "
+                                                                          "symbol of A"]), out)
+        self.assertFalse(report["retargets"][0]["by_map"], out)
+        # A refused comparison compares nothing: no difference count, no summary.
+        sections, symbols = calls()
+        a = obj(sections, symbols)
+        symbols[3][0] = "?y@@YAXXZ"
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?y@@YAXXZ", "--json")
+        report = json.loads(out)
+        self.assertEqual((code, report["result"], report["exit"], report["differences"], report["retargets"]),
+                         (1, "refused", 1, None, []), out)
+
+    def test_symbol_shift(self):
+        # A grown .bss moves the symbols after it: one SYMBOL-SHIFT line per
+        # section and distance in place of their SYMBOL-ONLY lines; --json
+        # keeps the per-symbol lines.
+        def unit(size, values):
+            sections, symbols = calls()
+            sections.append([".bss", b"\0" * size, 0xC0300080, []])
+            symbols += [[".bss", 0, 3, 0, 3, 0], ["?buf@@3PADA", 0, 3, 0, 2, None]]
+            symbols += [[name, value, 3, 0, storage, None] for name, value, storage in values]
+            return obj(sections, symbols)
+
+        a = unit(0x40, [("?a@@3HA", 0x10, 2), ("?b@@3HA", 0x14, 2), ("s", 0x18, 3), ("?c@@3HA", 0x20, 2),
+                        ("?d@@3HA", 0x24, 2)])
+        b = unit(0x140, [("?a@@3HA", 0x110, 2), ("?b@@3HA", 0x114, 2), ("s", 0x118, 3), ("?c@@3HA", 0x8, 2),
+                         ("?e@@3HA", 0x24, 2)])
+        code, out, _ = self.objcmp(a, b)
+        self.assertEqual(code, 1, out)
+        self.assertEqual([line for line in out.splitlines() if line.startswith("SYMBOL-")],
+                         ["SYMBOL-SHIFT\t?buf@@3PADA\t3 symbol(s)\tby +0x100",
+                          "SYMBOL-SHIFT\t?buf@@3PADA\t1 symbol(s)\tby -0x18",
+                          "SYMBOL-ONLY-A\t?d@@3HA\t36\t?buf@@3PADA\t0\t2",
+                          "SYMBOL-ONLY-B\t?e@@3HA\t36\t?buf@@3PADA\t0\t2"], out)
+        code, out, _ = self.objcmp(a, b, "--json")
+        report = json.loads(out)
+        self.assertEqual(code, 1, out)
+        self.assertEqual([line for line in report["lines"] if line.startswith("SYMBOL-")],
+                         ["SYMBOL-ONLY-A\t%s\t?buf@@3PADA\t0\t%s" % fields for fields in (
+                             ("?a@@3HA\t16", "2"), ("?b@@3HA\t20", "2"), ("s\t24", "3"), ("?c@@3HA\t32", "2"),
+                             ("?d@@3HA\t36", "2"))] +
+                         ["SYMBOL-ONLY-B\t%s\t?buf@@3PADA\t0\t%s" % fields for fields in (
+                             ("?a@@3HA\t272", "2"), ("?b@@3HA\t276", "2"), ("s\t280", "3"), ("?c@@3HA\t8", "2"),
+                             ("?e@@3HA\t36", "2"))], out)
+        self.assertEqual(report["differences"], 2, out)
+
     def test_unreadable(self):
         good = self.write("good.obj", coff())
         missing = os.path.join(self.dir, "missing.obj")

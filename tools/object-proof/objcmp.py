@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare two COFF objects with the header timestamp masked.
 
-usage: objcmp.py A.obj B.obj [--map FILE] [OLD=NEW ...]
+usage: objcmp.py A.obj B.obj [--map FILE] [--json] [OLD=NEW ...]
 
 A is the base object, B the head object. Each OLD=NEW pair (from the command
 line, or one per line of FILE) is a respelling of the base: a symbol of A
@@ -13,12 +13,15 @@ table are equal once respelled. A rename is refused as a difference when an
 object holds both spellings (RENAME-MERGES) or B still holds OLD
 (RENAME-KEPT); when A holds both, the comparison is refused and prints only
 the RENAME- lines. Otherwise it prints the sections, relocations and symbols
-that differ.
+that differ. A summary follows: each relocation target that changed at one
+offset (RETARGET) and each site where B still targets a rename's OLD
+(KEPT-SITE). --json prints the same facts as one JSON object.
 
 Exit status: 0 identical, 1 differs or refused, 2 usage error or unreadable
 input.
 """
 import difflib
+import json
 import struct
 import sys
 
@@ -254,8 +257,10 @@ def describe(item):
     return "\t".join(str(x) for x in item[:5])
 
 
-def compare(a, b, out):
-    """Prints the differences of two Coff objects; returns their count."""
+def compare(a, b, out, shifts=False):
+    """Prints the differences of two Coff objects; returns their count. With
+    shifts, a SYMBOL-SHIFT line per section and distance replaces the
+    SYMBOL-ONLY lines of the symbols that only moved."""
     ha, sa, oa, ya = a.compared()
     hb, sb, ob, yb = b.compared()
     found = 0
@@ -335,14 +340,53 @@ def compare(a, b, out):
             if item in only_b:
                 only_b.remove(item)
                 only_a.remove(item)
+        if not only_a and not only_b:
+            out("SYMBOL-ORDER\tthe same symbols in a different order")
+        moved = {}
+        for item in list(only_a) if shifts else ():
+            # The same symbol at another value of the same section.
+            match = [other for other in only_b if other[0] == item[0] and other[2:] == item[2:]]
+            if match:
+                moved.setdefault((item[2], match[0][1] - item[1]), []).append(item[0])
+                only_a.remove(item)
+                only_b.remove(match[0])
+        for (key, delta), names in moved.items():
+            out("SYMBOL-SHIFT\t%s\t%d symbol(s)\tby %+#x" % (key, len(names), delta))
         for item in only_a:
             out("SYMBOL-ONLY-A\t%s" % describe(item))
         for item in only_b:
             out("SYMBOL-ONLY-B\t%s" % describe(item))
-        if not only_a and not only_b:
-            out("SYMBOL-ORDER\tthe same symbols in a different order")
         found += 1
     return found
+
+
+def sites(raw_a, coff_a, coff_b, renames):
+    """Pairs the relocations of each section both objects hold by offset and
+    type. Returns the retargets, {(A's target as A spells it, B's target):
+    [count, section keys, whether the renames explain it]}, and the kept
+    sites, [(section key, offset, type, OLD)] where A's OLD is respelled NEW
+    and B still targets OLD."""
+    retargets, kept = {}, []
+    numbers_b = {key: number for number, key in enumerate(coff_b.keys, 1)}
+    for number, key in enumerate(coff_a.keys, 1):
+        if key not in numbers_b:
+            continue
+        targets = {}
+        for va, index, typ in raw_a.sections[number - 1]["relocations"]:
+            targets.setdefault((va, typ), []).append((raw_a.target(index), coff_a.target(index)))
+        for va, index, typ in coff_b.sections[numbers_b[key] - 1]["relocations"]:
+            if not targets.get((va, typ)):
+                continue
+            raw, respelled = targets[(va, typ)].pop(0)
+            target = coff_b.target(index)
+            if raw != target:
+                entry = retargets.setdefault((raw, target), [0, [], respelled == target])
+                entry[0] += 1
+                if key not in entry[1]:
+                    entry[1].append(key)
+            elif raw in renames and respelled == renames[raw]:
+                kept.append((key, va, typ, raw))
+    return retargets, kept
 
 
 def read_renames(pairs, path):
@@ -365,6 +409,8 @@ def main(argv):
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="backslashreplace")
     args = list(argv)
+    as_json = "--json" in args
+    args = [a for a in args if a != "--json"]
     map_path = None
     if "--map" in args:
         at = args.index("--map")
@@ -402,6 +448,7 @@ def main(argv):
             lines.append("RENAME-KEPT\tB still holds %s" % old)
             refused += 1
     applied = any(spelled(old, coff_a.names) for old in renames)
+    found, retargets, kept = 0, {}, []
     if masked(data_a) == masked(data_b):
         verdict, status = "identical: the bytes are equal with the timestamp masked", 0
         lines = []
@@ -409,15 +456,30 @@ def main(argv):
         # Respelled, A would hold one name twice: every line after it would be an artefact.
         verdict, status = ("refused: A holds both spellings of a rename; compare without that rename, or with "
                            "the commit before A as the base"), 1
+        found = None
     else:
-        found = compare(coff_a, coff_b, lines.append)
+        found = compare(coff_a, coff_b, lines.append, shifts=not as_json)
+        retargets, kept = sites(Coff(data_a, {}) if renames else coff_a, coff_a, coff_b, renames)
         if found == 0 and refused == 0 and applied:
             verdict, status = "identical: equal with the timestamp masked once the renames are applied", 0
         elif found == 0 and refused == 0:
             verdict, status = "differs: the bytes differ, but no section, relocation or symbol does", 1
         else:
             verdict, status = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else ""), 1
-    for line in [verdict] + notes + lines:
+    retargets = sorted((old, new, count, by_map, keys) for (old, new), (count, keys, by_map) in retargets.items())
+    if as_json:
+        print(json.dumps(dict(
+            verdict=verdict, result=verdict.split(":")[0], exit=status, differences=found, rename_lines=refused,
+            notes=notes, lines=lines,
+            retargets=[dict(old=old, new=new, count=count, by_map=by_map, functions=keys)
+                       for old, new, count, by_map, keys in retargets],
+            kept_sites=[dict(function=key, offset=va, old=old, new=renames[old]) for key, va, _, old in kept]),
+            indent=1, sort_keys=True))
+        return status
+    summary = ["RETARGET\t%s -> %s\t%d site(s)\t%s\t%s" % (old, new, count, "by the map" if by_map else "not by the map",
+                                                           " ".join(keys)) for old, new, count, by_map, keys in retargets]
+    summary += ["KEPT-SITE\t%s\t0x%x\t%s\t%s" % (key, va, old, renames[old]) for key, va, _, old in kept]
+    for line in [verdict] + notes + lines + summary:
         print(line)
     return status
 

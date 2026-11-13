@@ -1636,6 +1636,25 @@ struct RenderMgr
 };
 }  // namespace fnv_008707c0
 
+namespace fnv_00870bd0 {
+struct ShaderView
+{
+};
+struct ShaderHolder
+{
+    ShaderView* FUN_00559450();
+};
+
+struct RenderCoordinator
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
+        unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c,
+        unk80, unk84;
+    ShaderHolder shaders;
+    void FUN_00870bd0(intptr_t, bool);
+};
+}  // namespace fnv_00870bd0
+
 namespace fnv_008706b0 {
 struct BSRenderedTexture;
 struct FUN_008706b0_shell : public Main
@@ -13303,13 +13322,6 @@ struct EffectView
 struct ImageView
 {
 };
-struct ShaderView
-{
-};
-struct ShaderHolder
-{
-    ShaderView* FUN_00559450();
-};
 struct SettingView
 {
 };
@@ -13332,14 +13344,6 @@ struct FUN_00414430
 };
 bool FUN_00709cb0();
 
-struct RenderCoordinator
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
-        unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c,
-        unk80, unk84;
-    ShaderHolder shaders;
-    void FUN_00870bd0(intptr_t, bool);
-};
 // Renders the scene into a BSRenderedTexture, applying effects, post-processing, and camera projection based on the given argument and skip flag.
 // @fnv 0x00870bd0
 void RenderCoordinator::FUN_00870bd0(intptr_t arg, bool skip)

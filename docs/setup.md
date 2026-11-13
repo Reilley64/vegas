@@ -16,10 +16,14 @@ of VEGAS-52 and VEGAS-13 of 2026-11-12.
 
 VEGAS-13's first criterion asks for provenance, licence and permission,
 the reviewed tool version and the maintenance responsibility before setup
-reads a real input. The next section states them. That criterion is not met
-until this page and its review are accepted. Nobody has yet checked setup
-privately on an actual input. VEGAS-13's first, fourth, fifth and seventh
-criteria wait for that check.
+reads a real input. The next section states them. That criterion is met
+when this page passes review.
+
+The owner ran setup privately on an actual input on 2026-11-13, with the
+reviewed tool version `0ecb31723`. That run shows VEGAS-13's fourth and
+seventh criteria, the fifth for C1, and the input checks of the first.
+"Private run on an actual input" states what it showed, and "Not verified"
+states what it did not cover.
 
 ## Before setup reads a real copy
 
@@ -44,9 +48,9 @@ made it. Only a commit reachable from the reviewed integration branch is a
 reviewed version. For such a commit,
 `git merge-base --is-ancestor HEAD <remote>/<branch>` exits with status 0.
 An unmerged branch is not reviewed. `vegas-setup` does not print the commit
-you built it from, so record it yourself, privately, beside the pack. Build
-from such a checkout with no local changes (`git status --porcelain` prints
-nothing). Keep the output of `git rev-parse HEAD` in that checkout, the
+you built it from, so record it yourself, privately, beside the pack.
+Build from a checkout of a reviewed commit with no local changes
+(`git status --porcelain` prints nothing). Keep the output of `git rev-parse HEAD` in that checkout, the
 branch name and the date you made the pack.
 
 **Maintenance.** The ranges in `src/setup/single_instance_ranges.h` and the
@@ -74,9 +78,9 @@ install folder as its only argument:
 vegas-setup "<install folder>"
 ```
 
-Setup succeeded if its exit status is 0 and it printed the line below. To
-see the exit status, run `echo %ERRORLEVEL%` in Command Prompt or
-`$LASTEXITCODE` in PowerShell.
+Setup succeeded if its exit status is 0 and it printed the line below to
+the standard error stream. To see the exit status, run
+`echo %ERRORLEVEL%` in Command Prompt or `$LASTEXITCODE` in PowerShell.
 
 ```text
 vegas-setup: vegas-data.pack was written beside FalloutNV.exe
@@ -88,7 +92,8 @@ file. It never writes, renames or deletes `FalloutNV.exe`. Running it again
 replaces the pack with a newly prepared one. Setup replaces a pack only with
 one that has passed validation.
 
-Setup prints one line that says how it ended. Its exit status says the same:
+Setup prints one line to the standard error stream that says how it ended.
+Its exit status says the same:
 
 | Status | Meaning |
 | --- | --- |
@@ -101,9 +106,9 @@ Setup prints one line that says how it ended. Its exit status says the same:
 | 6 | Setup cannot read a string of C1 as it is stored (see "Checks"). |
 | 7 | The validator refuses the pack that setup wrote. This is a defect in setup. |
 | 8 | Setup cannot write the staged file. |
-| 9 | Setup reads the staged file back, and the file is refused or does not hold the prepared values. |
+| 9 | Setup reads the staged file back, and the validator refuses it, or it does not hold the prepared values. |
 | 10 | Setup cannot rename the staged file over `vegas-data.pack`. |
-| 11 | Setup reads the installed pack back, and the pack is refused or does not hold the prepared values. |
+| 11 | Setup reads the installed pack back, and the validator refuses it, or it does not hold the prepared values. |
 
 The supported original release is Fallout: New Vegas for PC, version
 1.4.0.525, as Steam installs it (`pe-file-reader.md`). Setup reads the
@@ -151,15 +156,16 @@ value on Windows is not verified.
    every start.
 
 Setup decrypts nothing. It neither decrypts nor bypasses SteamStub, and it
-refuses a string in `.bind`. It reads only the stored bytes of data
-sections.
+refuses a string in `.bind`. It reads C1's strings only from the stored
+bytes of data sections.
 
 ## Checks
 
 Setup reads each string of C1 at a range the recipe gives.
-`src/setup/single_instance_ranges.h` holds the ranges as data. For each
-`str_` name of `src/fallout/misc/main.cpp`, it holds the original address
-and the recipe bound, with the recipe entries of `main.cpp` merged. The
+`src/setup/single_instance_ranges.h` holds the ranges as data. For each of
+C1's four fields, it holds the `str_` name the recipe binds for
+`src/fallout/misc/main.cpp`, the original address and the recipe bound,
+with the recipe entries of `main.cpp` merged. The
 header holds no byte of the original release.
 
 | Field | Recipe name | Address | Capacity |
@@ -247,11 +253,44 @@ which the recipe literal fixes.
   `RunSetup`, with the folder unchanged.
 - `setup.recipe_ranges` runs the recipe check above.
 
+## Private run on an actual input
+
+On 2026-11-13 the owner ran `vegas-setup`, built from the reviewed tool
+version `0ecb31723`, on their own Steam copy of `FalloutNV.exe`. The pack,
+the original file and every value read from them stay private. This page
+records outcomes and statuses only.
+
+- The identity check accepted the copy as the supported original release.
+- Setup ran on two separate copies of the executable. Each run ended with
+  status 0, and the two packs were identical byte for byte.
+- Setup ran again on a folder that already held a pack. It replaced the
+  pack and ended with status 0. The new pack was identical to the first
+  two.
+- No run left a `vegas-data.pack.staged` file.
+- A separate PE check, independent of setup's code, found all four strings
+  of C1 in the stored bytes of one read-only initialized-data section. Each
+  string's zero byte lies within its capacity.
+- This project's `FalloutNV.exe`, built from the same commit, exited with
+  status 0 beside the pack, with no original executable present. Exit
+  status 0 alone does not tell which path `main` took
+  (`data-pack-startup.md`).
+- With no pack beside it, it exited with status 2 and reported the pack
+  missing on the standard error stream.
+- Beside a corrupted copy of the pack, it exited with status 2. On the
+  standard error stream it reported that the pack is not a valid data pack
+  because its CRC-32 is not that of the file.
+
+These runs are private actual-input checks. They are not synthetic tests
+and not full-game acceptance.
+
 ## Not verified
 
-- Nobody has read an original executable with setup. Nobody has checked
-  that the four ranges lie in the stored bytes of a data section, or that
-  each string ends within its capacity.
+- The private run ran in session 0, where no user sees a message box, and
+  showed none. Nobody has yet seen C1's strings in the message boxes of
+  `main` (`data-pack-startup.md`). This page records no run of setup or of
+  this project's `FalloutNV.exe` in a desktop session.
+- No real input has triggered the refusal statuses 6 to 11 of `RunSetup`.
+  The private run of setup ended only with status 0.
 - No test reaches statuses 0 and 6 to 11 of `RunSetup`, because they need a
   supported original release. A test of `InstallDataPack` on its own covers
   statuses 8 to 10. Status 11 needs the installed file to change between the
@@ -259,7 +298,10 @@ which the recipe literal fixes.
 - Setup does not flush the staged file to the disk before the rename. After
   a power failure the pack may be missing or refused. The engine then
   reports it, and setup can run again.
-- Nobody has run a Windows executable. The Windows build of `vegas-setup`
-  and its tests only compiles and links.
+- Apart from the private run, nobody has run a Windows executable of
+  setup. The Windows build of `vegas-setup` and its tests compiles and
+  links. Windows CI runs the test suite on every push, but at 91357ecf7,
+  d8f06e7b0 and 0ecb31723 its configure step failed before any test ran,
+  so no CI run of the setup tests is recorded here.
 - Nobody has checked the exit status of an uncaught allocation failure on
   Windows.

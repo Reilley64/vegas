@@ -240,7 +240,9 @@ VEGAS-52.
 
 - No Windows executable was run here. The two `falloutnv` tests and the
   Windows forms of the other tests run in CI only.
-- No real pack, no pack prepared by setup and no original executable was
-  used.
+- No test uses a real pack, a pack prepared by setup or an original
+  executable. The owner's private run of 2026-11-13 (`setup.md`) ran this
+  stage on a pack setup prepared: status 0 beside it, status 2 with no pack
+  and with a corrupted copy.
 - Whether a hosted Windows runner reports a remote session, and so whether
   CI runs or skips `falloutnv.process_exit`, is not known.

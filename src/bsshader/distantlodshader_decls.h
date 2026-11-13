@@ -6,27 +6,9 @@
 #include <windows.h>
 #include "fnv/symbols_011fa000.h"
 
-class NiMemObject
-{
-  public:
-};
+#include "fnv/ni_mem_object.h"
 
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    void IncRefCount()
-    {
-        InterlockedIncrement(reinterpret_cast<volatile long*>(&m_uiRefCount));
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement(reinterpret_cast<volatile long*>(&m_uiRefCount)) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_ref_object.h"
 
 class GraphicsRenderer;
 extern const float DAT_011ad860;

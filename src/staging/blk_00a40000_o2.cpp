@@ -2120,24 +2120,7 @@ void FUN_00a42310_cls::FUN_00a42310(NiRefObject* apObject)
 }  // namespace fnv_00a42310
 
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement((volatile long*)&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-public:
-    static unsigned int ms_lObjectCount;
-};
+#include "fnv/ni_ref_object.h"
 // @fnv 0x00a5d3d0
 FUN_00a5d3d0::~FUN_00a5d3d0()
 {

@@ -16239,22 +16239,7 @@ static inline AllocFree_b9960& GetAllocFree()
     return static_cast<AllocFree_b9960&>((*reinterpret_cast<::AllocSvc *>(&::g_memoryManager)));
 }
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement((volatile long*)&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_ref_object.h"
 
 struct Elem_b11320
 {

@@ -3,8 +3,6 @@
 #define FNV_NIOBJECT_UNIT_NIMEMOBJECT_H
 
 // Declaration-only dependency view of supplied include/NiMemObject.h.
-class NiMemObject
-{
-};
+#include "fnv/ni_mem_object.h"
 
 #endif

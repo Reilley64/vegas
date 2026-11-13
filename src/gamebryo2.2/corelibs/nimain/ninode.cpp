@@ -578,9 +578,7 @@ void FUN_00a5e3a0(NiAVObject* pThis, intptr_t, NiPropertyState*& pkState)
 }
 
 
-struct NiMemObject
-{
-};
+#include "fnv/ni_mem_object.h"
 
 // Calls FUN_00a5e930 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 0 set, and returns pThis.
 // @fnv 0x00a5ece0
@@ -1524,14 +1522,7 @@ uintptr_t FUN_00a5ebe0_Array::FUN_00a5ebe0(uintptr_t uiIndex, const NiPointerA5E
     return uiIndex;
 }
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void SetParent(void* owner);
-};
+#include "fnv/ni_ref_object.h"
 
 class FUN_00a5edc0_sub
 {

@@ -10,30 +10,10 @@
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_010a1000.h"
 #include "fnv/symbols_011f9000.h"
-class NiMemObject
-{
-  public:
-};
+#include "fnv/ni_mem_object.h"
 
 
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-
-    __forceinline void IncRefCount()
-    {
-        InterlockedIncrement(reinterpret_cast<volatile long*>(&m_uiRefCount));
-    }
-
-    __forceinline void DecRefCount()
-    {
-        if (InterlockedDecrement(reinterpret_cast<volatile long*>(&m_uiRefCount)) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_ref_object.h"
 
 class GraphicsRenderer;
 struct NiRenderer;

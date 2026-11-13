@@ -10131,22 +10131,7 @@ void FUN_00c759f0_Class::FUN_00c759f0()
     }
 }
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement((volatile long*)&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_ref_object.h"
 
 class FUN_00c75ce0_cls
 {

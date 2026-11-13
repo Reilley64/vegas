@@ -24,28 +24,10 @@ class ShaderPassRenderer;
 typedef unsigned int NiUInt32;
 
 // Base of the engine allocation tracking; empty in this build.
-class NiMemObject
-{
-};
+#include "fnv/ni_mem_object.h"
 
 // Reference counted engine object.
-class NiRefObject : public NiMemObject
-{
-  public:
-    NiRefObject() : m_uiRefCount(0)
-    {}
-
-    virtual ~NiRefObject()
-    {}
-
-    virtual void DeleteThis()
-    {
-        delete this;
-    }
-
-  protected:
-    NiUInt32 m_uiRefCount;
-};
+#include "fnv/ni_ref_object.h"
 
 // GPU program base of the Nivid3D shader programs.
 class NiGPUProgram : public NiRefObject

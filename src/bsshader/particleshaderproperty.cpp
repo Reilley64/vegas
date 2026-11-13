@@ -103,19 +103,7 @@ struct RgbaColor
         a = fA;
     }
 };
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount();
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((long volatile*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_ref_object.h"
 template <class T> class NiPointer
 {
   public:

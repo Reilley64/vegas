@@ -5,15 +5,8 @@
 #include <stddef.h>
 #include "niobject_nimemobject.h"
 
-// Declaration-only dependency view of supplied include/NiRefObject.h.
-// No definitions of its destructor, DeleteThis, or reference-count methods.
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-};
+// The shared declaration; this file keeps the guard its includers use.
+#include "fnv/ni_ref_object.h"
 
 
 #endif

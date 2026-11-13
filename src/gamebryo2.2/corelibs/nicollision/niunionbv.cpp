@@ -30,27 +30,9 @@
 #include <new>
 typedef unsigned int NiUInt32;
 
-class NiMemObject
-{
-};
+#include "fnv/ni_mem_object.h"
 
-class NiRefObject : public NiMemObject
-{
-  public:
-    NiRefObject() : m_uiRefCount(0)
-    {}
-
-    virtual ~NiRefObject()
-    {}
-
-    virtual void DeleteThis()
-    {
-        delete this;
-    }
-
-  protected:
-    NiUInt32 m_uiRefCount;
-};
+#include "fnv/ni_ref_object.h"
 
 class NiGPUProgram : public NiRefObject
 {

@@ -2,8 +2,5 @@
 #ifndef FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_FNV_NIMEMOBJECT_H
 #define FNV_INTERFACE_REBASE_IFNV_EARLY_FOLDED_FNV_NIMEMOBJECT_H
 #include "interface_rebase_layout_support.h"
-class NiMemObject
-{
-  public:
-};
+#include "fnv/ni_mem_object.h"
 #endif

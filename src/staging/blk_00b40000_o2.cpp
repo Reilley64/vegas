@@ -2189,24 +2189,7 @@ void __cdecl FUN_00b55ac0(void* a, void* b, void* c)
         ((nb::Rend*)::DAT_011f9508)->m_8b8->SetTarget(i, 0);
 }
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement((volatile long*)&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-public:
-    static unsigned int ms_lObjectCount;
-};
+#include "fnv/ni_ref_object.h"
 
 
 class SpawnedBase_b581c0

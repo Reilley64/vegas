@@ -12,26 +12,8 @@
 #ifndef FNV_FORCEINLINE
 #define FNV_FORCEINLINE __forceinline
 #endif
-class NiMemObject
-{
-  public:
-};
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;  // +0x4
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    FNV_FORCEINLINE void IncRefCount()
-    {
-        InterlockedIncrement(reinterpret_cast<volatile long*>(&m_uiRefCount));
-    }
-    FNV_FORCEINLINE void DecRefCount()
-    {
-        if (InterlockedDecrement(reinterpret_cast<volatile long*>(&m_uiRefCount)) == 0)
-            DeleteThis();
-    }
-};
+#include "fnv/ni_mem_object.h"
+#include "fnv/ni_ref_object.h"
 struct NiObject : public NiRefObject
 {
   public:

@@ -109,17 +109,8 @@ template <class T> class NiPointer
     T* m_pObject;
     ~NiPointer();
 };
-class NiMemObject
-{
-  public:
-};
-class NiRefObject : public NiMemObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
+#include "fnv/ni_mem_object.h"
+#include "fnv/ni_ref_object.h"
 struct NiObject : public NiRefObject
 {
   public:

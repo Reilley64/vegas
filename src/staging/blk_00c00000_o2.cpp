@@ -1731,24 +1731,7 @@ void FUN_00c036f0_cls::InitSubObjects(int aUnused)
     reinterpret_cast<::FUN_00a41520_cls *>(&m_kArray28)->FUN_00ba3aa0(3, (::KeyPair **)(::FUN_00c036f0_sub5c **)(&pSub));
 }
 
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-    void IncRefCount()
-    {
-        InterlockedIncrement((volatile long*)&m_uiRefCount);
-    }
-    void DecRefCount()
-    {
-        if (InterlockedDecrement((volatile long*)&m_uiRefCount) == 0)
-            DeleteThis();
-    }
-public:
-    static unsigned int ms_lObjectCount;
-};
+#include "fnv/ni_ref_object.h"
 
 class SpawnedPrimary_c03a20
 {

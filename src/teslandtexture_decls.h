@@ -197,13 +197,7 @@ class NiObjectGroup;
 struct NiBound;
 struct NiRTTI;
 class NiViewerStringsArray;
-class NiRefObject
-{
-  public:
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-    unsigned int m_uiRefCount;
-};
+#include "fnv/ni_ref_object.h"
 struct NiObject : public NiRefObject
 {
   public:

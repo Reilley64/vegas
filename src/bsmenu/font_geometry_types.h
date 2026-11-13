@@ -19,18 +19,9 @@ class NiTriShapeData__SharedNormalArray;
 class NiTriShapeData__SNAMemBlock;
 class NiTListItem_NiPointer_NiProperty___;
 
-class NiMemObject
-{
-  public:
-};
+#include "fnv/ni_mem_object.h"
 
-class NiRefObject : public NiMemObject
-{
-  public:
-    unsigned int m_uiRefCount;  // +0x4
-    virtual ~NiRefObject();
-    virtual void DeleteThis();
-};
+#include "fnv/ni_ref_object.h"
 
 struct NiObject : public NiRefObject
 {

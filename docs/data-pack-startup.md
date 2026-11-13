@@ -192,7 +192,7 @@ instructions.
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
 | S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | a later catalogue entry for their four suffix strings; the members that hold the builders and their buffers (see the user folder buffer below) |
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor and `Setting::IsPrefSetting`, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address, and `IsPrefSetting` has no row); a native `DAT_01202800`, which the accessor returns for a null setting and which generated data defines too; the closure of `magicitem.cpp`, which defines the accessor |
-| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings; 260 bytes of storage for `DAT_01202e98`, which it writes through `FUN_0086d480` (VEGAS-112, see the user folder buffer below) |
+| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings |
 | S8 | a processor count of 1 set to 2 | as S6 |
 
 The coordinator named four prerequisites for S6 and S8 (VEGAS-52): the
@@ -254,8 +254,7 @@ refers to it. It does not catch a smaller array under the same name; a
 
 VEGAS-112 covers two other buffers of S2 to S7 with the same defect.
 Generated data defined both, so each repair goes through the audited
-composition (`native-data-ownership.md`). The first is repaired; the
-second is not:
+composition (`native-data-ownership.md`). Both are repaired:
 
 - `DAT_01202b48`, the destination of S3, was defined as one byte by
   `staging/blk_00c20000_od.inc`. S3 writes up to 260 bytes there, and the
@@ -275,20 +274,41 @@ second is not:
   without a cast. `objects.path_buffer_extents` fails when the definition
   reaches fewer than 260 bytes before the next symbol of its section, as the
   byte did.
-- `DAT_01202e98`, which `FUN_0086d480` returns as `int *`, is still a
-  4-byte `int`. S7 writes up to 260 bytes there, and the recipe binds the
-  next address 264 bytes after it. In the object of `main.cpp` at `c3ad69b43` it
-  starts 80 bytes into a `.bss` of 257 bytes, so a write of 260 bytes would
-  run over the 44 symbols after it and 83 bytes past the end of that section. Its
-  generated definition, in `fallout/misc/main.inc`, which `main.cpp`
-  includes, and `FUN_0086d480` are both in the unit of `main.cpp`, so its
-  repair waits for the work that owns that file.
+- `DAT_01202e98`, which `FUN_0086d480` returns, was defined as a 4-byte
+  `int` by `fallout/misc/main.inc`, which `main.cpp` includes. S7 copies a
+  folder of up to 260 characters there in both of its branches,
+  `BootInit::FUN_0086cf20` passes it to the plugin list reader, which
+  copies up to 260 characters out of it, and the recipe binds the next
+  address, the user folder buffer, 264 bytes after it. In the object of
+  `main.cpp` at `4567abc37` the `int` lay 80 bytes into a `.bss` of 257
+  bytes, so a write of 260 bytes would have run over the 44 symbols after
+  it and 83 bytes past the end of that section. This is read from the
+  object, not from a linked executable. It is now one array of 260
+  characters, defined by `main.cpp` beside `FUN_0086d480`, which holds the
+  definition at 260 bytes with a `static_assert`. The composition retires
+  the generated line. The name has C++ linkage, so its recipe key is
+  respelled from `?DAT_01202e98@@3HA` to `?DAT_01202e98@@3PADA`.
+  `FUN_0086d480` returns it as `char *`, the type `GetSaveDirectory`'s
+  unit declared before `3f0599801`, instead of `int *`, so its recipe name
+  is respelled. S7's two copies and the plugin list call pass it without a
+  cast. `objects.path_buffer_extents` fails when the definition reaches
+  fewer than 260 bytes before the next symbol of its section; on the `int`
+  form the object defines no array of that name, and the check stops with
+  exit status 2. In the object of `main.cpp` the array starts at the same
+  offset, and the 44 symbols after it lie 256 bytes further on.
 
 S5's builder wrote `DAT_01202938`, an array of 260 characters, through a
 cast to an array of 256; it now passes the array.
-`FUN_00c3bb80` in `tesfile.cpp` still returns `DAT_01202c50`, the buffer
-of S2, as `int *`. That view is part of VEGAS-112 and is not repaired
-here.
+`FUN_00c3bb80` in `tesfile.cpp` returned `DAT_01202c50`, the buffer of S2,
+an array of 260 characters, through a cast to `int *`, and its two callers
+cast the result back: `GetSaveDirectory` to `char *` for `DeleteFileA`,
+and the destructor at `0x00c3bda0` in `blk_00c20000_od.cpp` to
+`const char *`. It now returns the array as `char *`, so its recipe name
+is respelled, and both callers pass it without a cast. The destructor also
+passes it to `GetFileSize`, a stand-in of that unit that no object
+defines; its first parameter became `char *` with it, and its recipe key
+is respelled. The objects of the three units are the same as before once
+the two names are respelled.
 
 A scratch composition of S2 to S5 into `main`, not committed, was linked
 as `FalloutNV` links, on `11d59dc97` with and without this repair. Both
@@ -461,6 +481,7 @@ VEGAS-52.
   not known, and a later runner may report a remote session.
 - No run has found a window of the class, so the `AlreadyOpen` branch of
   `main` has run only as the decision's test, with the calls recorded.
-- The repaired users of the user folder buffer and of `DAT_01202b48` have
-  not run: `FalloutNV` does not load their members and no test calls them.
-  Their checks read the objects only.
+- The repaired users of the user folder buffer, of `DAT_01202b48`, of
+  `DAT_01202e98` and of `DAT_01202c50` have not run: `FalloutNV` does not
+  load their members and no test calls them. Their checks read the objects
+  only.

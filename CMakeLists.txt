@@ -125,6 +125,25 @@ target_include_directories(FalloutNV PRIVATE include)
 # FindWindowA and SetForegroundWindow of its second-window check (VEGAS-52).
 target_link_libraries(FalloutNV PRIVATE game user32)
 
+# The function-level link (VEGAS-126, docs/function-level-link.md): lld-link
+# discards every COMDAT section that no kept section reaches (/OPT:REF),
+# tolerates names nothing defines (/FORCE:UNRESOLVED) and writes the map that
+# the link.function_level check reads. That check fails unless every
+# unresolved name is referenced only from discarded sections. Only
+# FalloutNV.exe uses it; every other program and the game archive keep the
+# strict link. With another linker the target keeps the strict link and the
+# check fails.
+function(vegas_function_level_link target)
+  get_filename_component(linker "${CMAKE_LINKER}" NAME_WE)
+  string(TOLOWER "${linker}" linker)
+  if(WIN32 AND linker STREQUAL "lld-link")
+    set(map "${CMAKE_CURRENT_BINARY_DIR}/${target}.map")
+    target_link_options(${target} PRIVATE /OPT:REF /FORCE:UNRESOLVED "/MAP:${map}")
+    set_target_properties(${target} PROPERTIES VEGAS_LINK_MAP "${map}")
+  endif()
+endfunction()
+vegas_function_level_link(FalloutNV)
+
 # Setup (VEGAS-13; docs/setup.md). It compiles the PE reader and the data
 # pack sources itself, so the game archive and its members are unchanged.
 # Setup and the game never link together.

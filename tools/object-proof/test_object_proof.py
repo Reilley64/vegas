@@ -387,7 +387,10 @@ class ObjectProofTest(unittest.TestCase):
             commands = json.load(f)
         self.assertEqual((commands["source"], commands["overlay"]), (other, prefix("over.vfs.json")))
         with open(prefix("over.vfs.json")) as f:
-            root = json.load(f)["roots"][0]
+            overlay = json.load(f)
+        # The compiler must see the unit's own path, not the override's.
+        self.assertIs(overlay["use-external-names"], False)
+        root = overlay["roots"][0]
         self.assertEqual((root["name"], root["external-contents"]), (source, other))
         for variant in ("flags", "ob0", "od"):
             words, text = log("over", variant)
@@ -457,6 +460,40 @@ class ObjectProofTest(unittest.TestCase):
                 self.assertEqual((code, out, objects), (2, "", [False] * 3), (name, err))
                 self.assertEqual(len(err.splitlines()), 1, (name, err))
                 self.assertIn(name, err)
+
+    def test_kept_symbol(self):
+        # --expect-kept undoes only an undefined OLD symbol and refuses a head
+        # that still holds OLD in a name the renames do not respell.
+        x, x2, y, y2 = "?x@@YAXXZ", "?x2@@YAXXZ", "?y@@YAXXZ", "?y2@@YAXXZ"
+        code = b"\xe8\0\0\0\0" * 3 + b"\xc3"
+
+        def unit(names, targets, extra=()):
+            symbols = [[".text$mn", 0, 1, 0, 3, 2], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None]]
+            symbols += [list(symbol) for symbol in names] + [list(symbol) for symbol in extra]
+            positions = [symbol[0] for symbol in symbols]
+            relocations = [(1 + 5 * i, positions.index(name), 4) for i, name in enumerate(targets)]
+            return obj([[".text$mn", code, CODE | COMDAT, relocations]], symbols)
+
+        def undefined(name):
+            return (name, 0, 0, 0x20, 2, None)
+
+        label = ("lbl" + x, 15, 1, 0, 6, None)  # a label, which no rename respells
+        expected = self.write("one.txt", ("?caller@@YAXXZ %s\n" % x).encode())
+        base = unit([undefined(x)], [x, x, x], [label])
+        for extra, status in (((), 0), ((label,), 1)):
+            head = unit([undefined(x), undefined(x2)], [x, x2, x2], extra)
+            got, out, _ = self.objcmp(base if extra else unit([undefined(x)], [x, x, x]), head,
+                                      "%s=%s" % (x, x2), "--expect-kept", expected)
+            self.assertEqual(got, status, out)
+        # The head keeps the definition of OLD (at 0xf, so it leads no
+        # section) as well as two calls of it: that is no kept call site.
+        defined = (x, 15, 1, 0x20, 2, None)
+        base = unit([defined, undefined(y)], [x, x, y])
+        head = unit([defined, undefined(y2)], [x, x, y2])
+        two = self.write("two.txt", ("?caller@@YAXXZ %s\n" % x * 2).encode())
+        got, out, _ = self.objcmp(base, head, "%s=%s" % (x, x2), "%s=%s" % (y, y2), "--expect-kept", two)
+        self.assertEqual(got, 1, out)
+        self.assertEqual(out.count("KEPT-SITE"), 2, out)
 
     def test_counts(self):
         # RENAME- lines are counted apart from the differences.

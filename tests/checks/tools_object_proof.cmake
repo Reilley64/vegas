@@ -20,21 +20,22 @@
 # beside them (an OLD symbol other than an undefined external of NEW's type
 # and value 0, another rename's OLD, OLD marked address-significant other
 # than as often as in the base, NEW at another place in the symbol table),
-# stops printing those differences, stops reading a section key that starts
-# with #, reports a listed site that byte-identical objects keep as
-# missing, or treats a list with no site other than no option; or when
-# proof.py compile --source writes the unit's file, stops compiling the
-# override's content or stops logging the entry and commands, or compiles
-# with a compiler other than clang, a command that names the unit otherwise
-# than the entry's file, an override that is not a file, or an overlay that
-# its #error canary does not show to take effect. The tests write small
-# objects, logs and a fake compiler and run on every host. Blind spot: the
-# objects are hand-made, not compiler output. A test method added to the .py
-# but not to this list never runs.
+# with OLD still defined or held in a name no rename respells, stops
+# printing those differences, stops reading a section key that starts with
+# #, reports a listed site that byte-identical objects keep as missing, or
+# treats a list with no site other than no option; or when proof.py compile
+# --source writes the unit's file, stops compiling the override's content at
+# the unit's path or stops logging the entry and commands, or compiles with
+# a compiler other than clang, a command that names the unit otherwise than
+# the entry's file, an override that is not a file, or an overlay that its
+# #error canary does not show to take effect. The tests write small objects,
+# logs and a fake compiler and run on every host. Blind spot: the objects
+# are hand-made, not compiler output. A test method added to the .py but not
+# to this list never runs.
 set(tools_object_proof_cases identical timestamp rename refused_renames unmatched_rename
     structural_differences difference unreadable warnings proof_compile counts section_equal
     alignment addrsig_encoding base_holds_both summary symbol_shift expect_kept kept_holes
-    expect_kept_file kept_identical beside_kept compile_source source_fails_closed)
+    expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

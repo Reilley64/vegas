@@ -60,6 +60,7 @@ TIERS = [
     ("source", "The source shows it, or a compiler's reading of the declarations does."),
     ("forced-link", "The forced link of every archive member shows it. That link says nothing about what a running "
                     "program reaches."),
+    ("model", "A model of the archive or of a link computed it, such as the boot closure, and no link measured it."),
     ("object", "An object-level proof shows it."),
     ("lazy-link", "The ordinary, lazy link of a real executable shows it."),
     ("object-check", "A standing `objects.*` or `archive.*` check shows it."),
@@ -341,7 +342,7 @@ def validate(data):
             problems.append(where + " commit is not a commit id")
         if not DATE.match(str(item["date"])):
             problems.append(where + " date is not a date")
-        if item["tier"] not in tiers and item["tier"] != "model":
+        if item["tier"] not in tiers:
             problems.append(where + " has the unsupported tier " + str(item["tier"]))
     for key in ("coverage", "limitations"):
         for index, line in enumerate(data[key]):
@@ -561,8 +562,6 @@ def doc(data):
     out += ["", "The evidence tiers follow. They name distinct kinds of evidence, not steps of a scale. A node's",
             "tier names the kind of evidence behind its state.", ""]
     out.extend(_table(["Tier", "Meaning"], TIERS))
-    out += ["", "A measurement may carry the tier `model` instead. A model, such as the boot closure, computed it,",
-            "and no link measured it."]
     out += ["", "An edge has one of these kinds.", ""]
     out.extend(_table(["Kind", "Meaning"], [[kind, meaning] for kind, meaning in EDGE_KINDS.items()]))
     out += [

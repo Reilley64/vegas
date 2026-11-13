@@ -88,6 +88,13 @@ class Validation(unittest.TestCase):
             data[group][index][key] = value
             self.assertRefused(data, words)
 
+    def test_model_tier_is_a_tier_of_nodes_and_measurements(self):
+        data = valid()
+        data["nodes"][1]["tier"] = "model"
+        data["measurements"][0]["tier"] = "model"
+        self.assertEqual(self.problems(data), [])
+        self.assertIn("| model | A model of the archive or of a link computed it", startup_map.doc(data))
+
     def test_unknown_field_is_refused(self):
         data = valid()
         data["nodes"][0]["colour"] = "red"

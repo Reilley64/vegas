@@ -65,15 +65,13 @@ tier names the kind of evidence behind its state.
 | curated | A person stated it, and no machine check proves it. |
 | source | The source shows it, or a compiler's reading of the declarations does. |
 | forced-link | The forced link of every archive member shows it. That link says nothing about what a running program reaches. |
+| model | A model of the archive or of a link computed it, such as the boot closure, and no link measured it. |
 | object | An object-level proof shows it. |
 | lazy-link | The ordinary, lazy link of a real executable shows it. |
 | object-check | A standing `objects.*` or `archive.*` check shows it. |
 | host-test | A host test shows it. |
 | windows-ci-test | A test in the Windows CI job shows it. |
 | windows-executed | A real run on Windows shows it. The private runs on an actual input count. |
-
-A measurement may carry the tier `model` instead. A model, such as the boot closure, computed it,
-and no link measured it.
 
 An edge has one of these kinds.
 

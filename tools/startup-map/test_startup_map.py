@@ -393,6 +393,17 @@ class Check(unittest.TestCase):
         self.assertEqual(self.run_quietly(self.args), 0)
         self.assertEqual(self.run_quietly(self.args + ["--check"]), 0)
 
+    def test_check_names_a_file_on_another_drive(self):
+        def other_drive(path, start):
+            raise ValueError("path is on mount 'C:', start on mount 'D:'")
+
+        relpath = os.path.relpath
+        os.path.relpath = other_drive
+        try:
+            self.assertEqual(self.run_quietly(self.args + ["--check"]), 1)
+        finally:
+            os.path.relpath = relpath
+
     def test_check_fails_on_a_hand_edit(self):
         self.run_quietly(self.args)
         with open(self.doc, "a", encoding="utf-8") as handle:

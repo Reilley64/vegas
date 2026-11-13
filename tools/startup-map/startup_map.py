@@ -596,7 +596,10 @@ def main(argv=None):
         if current == text:
             continue
         if args.check:
-            stale.append(os.path.relpath(path, ROOT))
+            try:
+                stale.append(os.path.relpath(path, ROOT))
+            except ValueError:  # Windows: the path is on another drive than the repository
+                stale.append(path)
         else:
             with open(path, "w", encoding="utf-8", newline="") as handle:
                 handle.write(text)

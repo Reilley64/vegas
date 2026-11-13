@@ -24,7 +24,7 @@ execute_process(COMMAND "${PYTHON}" "${CHECK}" --recipe "${WORK}/units.json"
   --source "${SOURCE}" --pointer-source "${POINTER_SOURCE}"
   RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE output)
 if(NOT status STREQUAL "1" OR NOT output MATCHES "(^|\n)g [^\n]*the recipe bound is 2, less than 4\n"
-   OR NOT output MATCHES "1 problems\n$")
+   OR NOT output MATCHES ", 1 problems\n$")
   message(FATAL_ERROR "check g did not refuse the copy alone (status '${status}'):\n${output}")
 endif()
 file(REMOVE_RECURSE "${WORK}")

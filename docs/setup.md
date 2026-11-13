@@ -250,7 +250,7 @@ refuses with the first `setup::ExtractError` below that applies:
 | --- | --- |
 | `NoSection`, `SteamStubSection`, `CodeSection`, `NotInitializedData`, `ZeroTail` | the four bytes of the pointer fail the section checks of C1's fields |
 | `RelocationTable` | the base relocation table is not in the stored bytes of one section, or a block's size is less than 8, odd or past the table's end |
-| `NoRelocation` | no 32-bit (`HIGHLOW`) base relocation is at the pointer's address, or the header has five data directories or fewer and so no table |
+| `NoRelocation` | no 32-bit (`HIGHLOW`) base relocation is at the pointer's address, or there is no table: the header has five data directories or fewer, or the table's size is 0 |
 | `NoSection`, `SteamStubSection`, `CodeSection`, `NotInitializedData` | the address the pointer holds, less the image base, fails the section checks |
 | `WritableSection` | the string's section is marked as writable, so it is not read-only data |
 | `ZeroTail` | the string reaches the end of its section's stored bytes before a zero byte |

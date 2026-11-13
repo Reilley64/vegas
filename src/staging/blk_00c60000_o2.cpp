@@ -1128,11 +1128,11 @@ FUN_00c6d9f0_s::FUN_00c6d9f0_s()
 }
 
 namespace fnv_00cb9cb0 {
-void __stdcall FUN_00cb9cb0(void *apMemory);
+void FUN_00cb9cb0(void *apMemory);
 }
 // The slot after the two-slot table DAT_010c4db8 holds 0x00cb9cb0, as the
 // slots after DAT_010c53b4, DAT_010c7310, DAT_010c8d00 and DAT_010c8d14 do.
-void (__stdcall *DAT_010c4dc0)(void *) = &fnv_00cb9cb0::FUN_00cb9cb0;
+void (*DAT_010c4dc0)(void *) = &fnv_00cb9cb0::FUN_00cb9cb0;
 
 struct FUN_00c7a690_class
 {

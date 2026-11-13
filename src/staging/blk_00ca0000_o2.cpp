@@ -5526,7 +5526,7 @@ struct S_00aa4060_Class
 
 
 // @fnv 0x00cb9cb0
-void __stdcall FUN_00cb9cb0(void *apMemory)
+void FUN_00cb9cb0(void *apMemory)
 {
     reinterpret_cast<::FNV_MemoryManager *>((((S_00aa4060_Class*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(apMemory);
 }
@@ -10530,7 +10530,7 @@ FUN_00cbaec0_Obj* FUN_00cbaec0_Obj::ReleaseAndDestroy(unsigned char flags)
         ::ReleaseItems((::FUN_00cba0d0_cls **)this, (uintptr_t)(oldData));
         // Slot 2 of the table just stored, DAT_010c8d28, holds 0x00cb9cb0,
         // which frees the one pointer it is given; it takes no object.
-        (*reinterpret_cast<void(__stdcall* const**)(void*)>(this))[2](m_pData);
+        (*reinterpret_cast<void(* const**)(void*)>(this))[2](m_pData);
         m_pData = 0;
         m_uiReservedSize = 0;
         m_uiSize = 0;

@@ -27,6 +27,6 @@ namespace fnv_00c75f80 { extern int DAT_010c4cf8; }
 // 0x010c4db8
 extern void *DAT_010c4db8;
 // 0x010c4dc0
-extern void (__stdcall *DAT_010c4dc0)(void *);
+extern void (*DAT_010c4dc0)(void *);
 // 0x010c4dec
 extern int DAT_010c4dec;

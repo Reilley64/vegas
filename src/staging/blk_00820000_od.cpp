@@ -2306,10 +2306,10 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
         {
             if (!((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((((::Cell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->GetTarget()))))->GetFakeExterior())))
             {
-                cf38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd008))))));
-                if68 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd034))))));
-                yf50 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd0ac))))));
-                cf4c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011dcff4))))));
+                cf38 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd008))))));
+                if68 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd034))))));
+                yf50 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dd0ac))))));
+                cf4c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011dcff4))))));
             }
         }
     }

@@ -1357,7 +1357,7 @@ struct FUN_004e7640_shell
 // @fnv 0x004e7640
 float FUN_004e7640_shell::FUN_004e7640()
 {
-    return *((float *)&(::FUN_00403e20((float *)&(::g_011c7bd8))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&(::g_011c7bd8))));
 }
 
 namespace fnv_004ea8b0 {
@@ -1508,7 +1508,7 @@ struct FUN_004e7660_shell
 // @fnv 0x004e7660
 float FUN_004e7660_shell::FUN_004e7660()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004e7660::GlobalObject_0044f440 *>(&::g_011c7ba4))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_004e7660::GlobalObject_0044f440 *>(&::g_011c7ba4))))));
 }
 }  // namespace fnv_004e7660
 
@@ -2906,7 +2906,7 @@ bool WaterScanner_004e83e0::IsPlayerNearWaterActor(void* collection)
                 vPlayerPos.z = 0.0f;
                 distance.z = 0.0f;
                 float playerPos = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Vec_004e83e0 &)((*(::Vec_004e83e0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(vPlayerPos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(distance)))))))->ComputeMagnitude();
-                if (playerPos <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))
+                if (playerPos <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))
                     return true;
             }
         }
@@ -5184,7 +5184,7 @@ bool Owner::FUN_004e4730(Object* object, const Vector* origin, Matrix* rotation)
         {
             Record* record = ((::PlaneRegistry::Record *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((::std::intptr_t)(pos2))));
             if (::AreVectorsEqual((const float *)&((*(const ::PlaneRegistry::Vector *)((void *)&(record->first)))), (const float *)&((*(const ::PlaneRegistry::Vector *)((void *)&(plane)))), ::DAT_01013ea4) &&
-                ::IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>(&(record->first))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>(&(plane))->GetStoredFloatValue(), ::FUN_00403e20((float *)&((*reinterpret_cast<::PlaneRegistry::FloatSetting *>(&::g_011c7a7c))))))
+                ::IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>(&(record->first))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>(&(plane))->GetStoredFloatValue(), ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PlaneRegistry::FloatSetting *>(&::g_011c7a7c))))))
             {
                 void* type = base->GetType();
                 if (type == record->type)
@@ -7073,7 +7073,7 @@ void OwnerW::SpawnGroupNodeNearPlayer(float x, float y, float z, float size)
         offset_.x = x;
         offset_.y = y;
         float distance8 = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::fnv_004e8510::Point2W &)((playerPos7 - offset_)))->FUN_00589850();
-        if (distance8 <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))
+        if (distance8 <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))
         {
             void* _pos = ((void *)(::FUN_00559450((int *)&(groups))));
             void* next4 = 0;
@@ -7083,14 +7083,14 @@ void OwnerW::SpawnGroupNodeNearPlayer(float x, float y, float z, float size)
                 if (_pos)
                 {
                     GroupW* group8 = ((::fnv_004e8510::GroupW *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(groups))->AddEight((::std::intptr_t)(_pos))));
-                    if (IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(group8->plane))->GetStoredFloatValue(), z, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004e8510::FloatSettingW *>(&::g_011c7a7c))))))) && !((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node)))))
+                    if (IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(group8->plane))->GetStoredFloatValue(), z, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_004e8510::FloatSettingW *>(&::g_011c7a7c))))))) && !((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node)))))
                     {
                         if (!((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8510::PtrW *>(&::g_011c7b64)))))))
                         {
                             (*reinterpret_cast<::fnv_004e8510::PtrW *>(&::g_011c7b64)) = ((::fnv_004e8510::NodeW *)(reinterpret_cast<::TESWaterStub *>(this)->FUN_004ed290()));
                             DAT_011fffec = true;
                         }
-                        group8->node = ((::fnv_004e8510::NodeW *)(reinterpret_cast<::FUN_004e8160_shell *>(this)->CreateWaterShaderNode((::Water4e8 *)(group8), ::FUN_004e7ff0(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))));
+                        group8->node = ((::fnv_004e8510::NodeW *)(reinterpret_cast<::FUN_004e8160_shell *>(this)->CreateWaterShaderNode((::Water4e8 *)(group8), ::FUN_004e7ff0(), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))));
                         NiPoint3 position6 = ::_g_thePlayer->GetPos();
                         position6.z = reinterpret_cast<::Twin_0084d030 *>((void *)&(group8->plane))->GetStoredFloatValue();
                         reinterpret_cast<::FUN_00440460_S *>((((::fnv_004e8510::NodeW *)(::FUN_00559450((int *)&(group8->node))))))->FUN_00440460((const ::V3 *)&(position6));
@@ -7353,10 +7353,10 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
         }
         if (movedX)
         {
-            DAT_01200024 = ::LinearInterpolate(-0.5f, 0.5f, -(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0),
-                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0, _pos.x - pos4.x);
-            DAT_01200028 = ::LinearInterpolate(0.5f, -0.5f, -(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0),
-                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0, _pos.y - pos4.y);
+            DAT_01200024 = ::LinearInterpolate(-0.5f, 0.5f, -(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0),
+                                             *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0, _pos.x - pos4.x);
+            DAT_01200028 = ::LinearInterpolate(0.5f, -0.5f, -(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0),
+                                             *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0, _pos.y - pos4.y);
         }
         else
         {
@@ -7820,10 +7820,10 @@ void WSystem::UpdateRegions()
     Frustum9550 ba(false);
     ba.ortho = true;
     ba.nearPlane = 0.1f;
-    ba.left = -(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0);
-    ba.right = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0;
-    ba.top = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0;
-    ba.bottom = -(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0);
+    ba.left = -(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0);
+    ba.right = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0;
+    ba.top = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0;
+    ba.bottom = -(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))) / 2.0);
     ba.farPlane = std::abs(j - b) + 100.0;
     reinterpret_cast<::FUN_00440460_S *>(&(c))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(NiPoint3((*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().x, (*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().y, b + 50.0)));
     reinterpret_cast<::NiCamera *>(&(c))->UpdateViewFrustum((const ::NiFrustum &)(ba));
@@ -11093,7 +11093,7 @@ void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
     reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target.object)));
     (*reinterpret_cast<::fnv_004ec800::Plane *>(&::DAT_011f9604)) = pass->reflect;
     reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).x, (*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).y, (*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).z,
-                          -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->refract))->GetStoredFloatValue() + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004ec800::Setting *>(&::g_011c7c10))))))))),
+                          -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->refract))->GetStoredFloatValue() + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_004ec800::Setting *>(&::g_011c7c10))))))))),
           0, {}, {}, {});
     ::UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::fnv_004ec800::Texture *)(pass->target), (::BSShaderAccumulator *)(::fnv_004ec800::Accum *)(pass->accumulator), 0);

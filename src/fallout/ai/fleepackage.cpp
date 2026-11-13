@@ -1529,7 +1529,7 @@ struct AvoidancePackage
 void AvoidancePackage::RemoveInvalidAvoidedReferences(AvoidanceContext* context)
 {
     AvoidedList* current = &avoided;
-    float limit2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AvoidanceSetting *>(&::originalRuntimeFloatSetting234))))));
+    float limit2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AvoidanceSetting *>(&::originalRuntimeFloatSetting234))))));
     while (current && ((::AvoidedReference *)(((::Vec3 *)(void *)(current)))))
     {
         AvoidedReference* reference6 = ((::AvoidedReference *)(((::Vec3 *)(void *)(current))));

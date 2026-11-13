@@ -138,9 +138,9 @@ void SoundPlaybackManager::ProcessPendingSounds()
             ::_g_thePlayer->ResetRegionSoundTimer();
         if (!Interface::GetSelectedTargetIndex(Interface::MenuLoading))
             reinterpret_cast<::fnv_00455690::FUN_00455690_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00455690();
-        float fade = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd044))))))->f;
+        float fade = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd044))))))->f;
         if (reinterpret_cast<::SoundPlaybackHandle *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8))))->IsPlaying())
-            fade = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd094))))))->f;
+            fade = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd094))))))->f;
         if ((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)) && ::_g_thePlayer)
         {
             if (((bool)(::GetByteAtOffset48((void *)((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)))))))
@@ -157,7 +157,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     }
                     if (reinterpret_cast<::SoundPlaybackHandle *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8))))->IsPlaying())
                     {
-                        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 500.0));
+                        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 500.0));
                         reinterpret_cast<::fnv_004188d0::FUN_004188d0_shell *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8))))->FUN_004188d0();
                     }
                     DAT_011dcfb0 = false;
@@ -178,19 +178,19 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     switch (DAT_011dcfac)
                     {
                     case 0:
-                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dcc))))))->f)
+                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dcc))))))->f)
                             changed = true;
                         break;
                     case 1:
-                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dd8))))))->f)
+                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dd8))))))->f)
                             changed = true;
                         break;
                     case 2:
-                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6de4))))))->f)
+                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6de4))))))->f)
                             changed = true;
                         break;
                     case 3:
-                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dc0))))))->f && time < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6de4))))))->f)
+                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dc0))))))->f && time < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6de4))))))->f)
                             changed = true;
                         break;
                     }
@@ -204,18 +204,18 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     }
                     else
                     {
-                        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 1000.0));
+                        (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 1000.0));
                         reinterpret_cast<::fnv_004188d0::FUN_004188d0_shell *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8))))->FUN_004188d0();
                     }
                     DAT_011dcfb0 = false;
                     TESSound* sound;
-                    if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dc0))))))->f)
+                    if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dc0))))))->f)
                     {
-                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dcc))))))->f)
+                        if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dcc))))))->f)
                         {
-                            if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dd8))))))->f)
+                            if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6dd8))))))->f)
                             {
-                                if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6de4))))))->f)
+                                if (time > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f6de4))))))->f)
                                 {
                                     sound = reinterpret_cast<LowProcess*>((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)))->GetTarget();
                                     DAT_011dcfac = 3;
@@ -307,18 +307,18 @@ void SoundPlaybackManager::ProcessPendingSounds()
                         ::FUN_00511840((char *)(pActiveSound)), 0x11011, pActiveSound);
                     reinterpret_cast<::FUN_004f15a0_shell *>((loopSoundHandle))->FUN_004f15a0(1);
                     reinterpret_cast<::FUN_00844700_Class *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_00844700(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID, reinterpret_cast<std::uintptr_t>(loopSoundHandle));
-                    reinterpret_cast<::FUN_00ad8d60_shell *>((loopSoundHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
+                    reinterpret_cast<::FUN_00ad8d60_shell *>((loopSoundHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
                 }
                 else if (looping && soundFound)
                 {
                     if (existingHandle->IsPlaying() && !isSoundAllowed)
                     {
-                        existingHandle->StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dcfe4))))))->f * 1000.0));
+                        existingHandle->StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dcfe4))))))->f * 1000.0));
                         reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->RemoveKey(reinterpret_cast<::TESForm *>(pActiveSound)->iFormID);
                         delete existingHandle;
                     }
                     else if (existingHandle->IsValid() && !existingHandle->IsPlaying() && isSoundAllowed)
-                        reinterpret_cast<::FUN_00ad8d60_shell *>((existingHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
+                        reinterpret_cast<::FUN_00ad8d60_shell *>((existingHandle))->FUN_00ad8d60((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd06c))))))->f * 1000.0));
                 }
                 else if (!looping && isSoundAllowed)
                 {
@@ -373,7 +373,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                 {
                     reinterpret_cast<::NiTMap_S *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->RemoveKey(key);
                     soundIterator = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->GetFirstPos();
-                    existingHandle->StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dcfe4))))))->f * 1000.0));
+                    existingHandle->StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dcfe4))))))->f * 1000.0));
                     delete existingHandle;
                     existingHandle = 0;
                 }
@@ -499,7 +499,7 @@ void SoundPlaybackManager::ResetAcousticSpace(BGSAcousticSpace* space)
 {
     if (DAT_011dcfa7 || (space && space != (*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4))) || !(*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)))
         return;
-    (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 1000.0));
+    (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 1000.0));
     reinterpret_cast<::fnv_004188d0::FUN_004188d0_shell *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8))))->FUN_004188d0();
     (*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)) = 0;
     DAT_011dcfb1 = true;
@@ -517,7 +517,7 @@ void SoundPlaybackManager::SetAcousticSpace(BGSAcousticSpace* space)
 {
     if ((*reinterpret_cast<::BGSAcousticSpace * *>(&::DAT_011dcfb4)) == space)
         return;
-    (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 1000.0));
+    (*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8)).StopWithFade((unsigned int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd050))))))->f * 1000.0));
     reinterpret_cast<::fnv_004188d0::FUN_004188d0_shell *>(&((*reinterpret_cast<::SoundPlaybackHandle *>(&::g_011dd0d8))))->FUN_004188d0();
     if (space)
         reinterpret_cast<::FUN_00ad79b0_shell *>((::FUN_00453a70()))->FUN_00ad79b0(reinterpret_cast<::FUN_0068a810_class *>((space))->GetField4C());

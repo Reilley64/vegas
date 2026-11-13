@@ -177,7 +177,7 @@ FUN_0057cd10::FUN_0057cd10()
             (*reinterpret_cast<void * *>(&::fnv_0057de00::DAT_011ca440)) = new int[isizecap * isizecap];
     }
     DAT_011ca444++;
-    SetWindMagnitudeRange(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011ca48c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011ca510)))))));
+    SetWindMagnitudeRange(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011ca48c)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011ca510)))))));
 }
 
 namespace fnv_0057cf00 {
@@ -276,8 +276,8 @@ void UpdateTerrainLODMaxRange()
     AutoMemHelper tempMemContext(
         0x1c, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESTerrainLODManager.cpp", 0x90);
     float fmaxrange = 0.0f;
-    if (::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) >= ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca4ac)))) + 0.5f)
-        fmaxrange = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) + ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca498))));
+    if (::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) >= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca4ac)))) + 0.5f)
+        fmaxrange = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::fnv_007d1fb0::DAT_011ca450)))) + ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::Setting_S *>(&::g_011ca498))));
     if (fmaxrange > (float)(unsigned int)(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12))
         fmaxrange = (float)(unsigned int)(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0057cf00::GlobalObject_0045cfe0 *>(&::g_011c63cc)))) << 12);
     DAT_011ca434 = fmaxrange;
@@ -458,9 +458,9 @@ void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
     if (!DAT_011ca430)
         ::fnv_0057cf00::UpdateTerrainLODMaxRange();
     ::DAT_011f9ef0 = *(*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca480)).FUN_00408d60();
-    float farDistanceSlot0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca498))))));
+    float farDistanceSlot0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca498))))));
     float nearDistanceSlot2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450))))));
-    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450)))))) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca4ac)))))) + 0.5f)
+    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::fnv_007d1fb0::DAT_011ca450)))))) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TerrainLOD::Setting *>(&::g_011ca4ac)))))) + 0.5f)
         return;
     if (!(*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438)))
     {

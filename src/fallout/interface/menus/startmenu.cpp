@@ -972,11 +972,11 @@ void SyncSliderWithSetting(intptr_t pSlider)
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float ratio = (float)*(int*)(pSlider + 0x14) / (float)(*(unsigned int*)(pSlider + 0x20) - 1);
-        ((::fnv_007d2eb0::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2eb0::SettingT< ::fnv_007d2eb0::GameSettingCollection> *>(&::g_011e0a6c))))))->f = ratio * 0.0095f + 0.0005f;
+        ((::fnv_007d2eb0::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2eb0::SettingT< ::fnv_007d2eb0::GameSettingCollection> *>(&::g_011e0a6c))))))->f = ratio * 0.0095f + 0.0005f;
     }
     else
     {
-        float ratio = (((::fnv_007d2eb0::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2eb0::SettingT< ::fnv_007d2eb0::GameSettingCollection> *>(&::g_011e0a6c))))))->f - 0.0005f) / 0.0095f;
+        float ratio = (((::fnv_007d2eb0::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2eb0::SettingT< ::fnv_007d2eb0::GameSettingCollection> *>(&::g_011e0a6c))))))->f - 0.0005f) / 0.0095f;
         *(int*)(pSlider + 0x14) =
             (int)::InventoryStackRecord::RoundToNearestStep((float)(*(unsigned int*)(pSlider + 0x20) - 1) * ratio, 1.0f);
         ratio = (0.002f - 0.0005f) / 0.0095f;
@@ -1376,7 +1376,7 @@ void FUN_007d1750(MenuCtl* pMenuCtl)
     }
     else
     {
-        pMenuCtl->a = (int)::InventoryStackRecord::RoundToNearestStep(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d1750::Setting_S *>(&::g_011d9774)))))) * (float)(pMenuCtl->count - 1), 1.0f);
+        pMenuCtl->a = (int)::InventoryStackRecord::RoundToNearestStep(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d1750::Setting_S *>(&::g_011d9774)))))) * (float)(pMenuCtl->count - 1), 1.0f);
         pMenuCtl->b = (int)::InventoryStackRecord::RoundToNearestStep(1.0f * (float)(pMenuCtl->count - 1), 1.0f);
     }
 }
@@ -2016,8 +2016,8 @@ void SyncOptionWithSettings(StartMenu::UserOption* apOption)
 {
     float fHigh;
     float fLow;
-    fLow = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dab1c)))));
-    fHigh = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011daaf4)))));
+    fLow = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dab1c)))));
+    fHigh = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011daaf4)))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fValue;
@@ -2032,7 +2032,7 @@ void SyncOptionWithSettings(StartMenu::UserOption* apOption)
         float fRatio = (::FUN_007d1d00(3) - fLow) / (fHigh - fLow);
         apOption->iVal =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
-        fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dac38))))) - fLow) / (fHigh - fLow);
+        fRatio = (*((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dac38))))) - fLow) / (fHigh - fLow);
         apOption->iDefaultValue =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
@@ -2059,8 +2059,8 @@ void FUN_007d1d10(StartMenu::UserOption* apOption)
 {
     float fHigh;
     float fLow;
-    fLow = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dabf0)))));
-    fHigh = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dac24)))));
+    fLow = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dabf0)))));
+    fHigh = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dac24)))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fValue;
@@ -2075,7 +2075,7 @@ void FUN_007d1d10(StartMenu::UserOption* apOption)
         float fRatio = (::FUN_007d1d00(2) - fLow) / (fHigh - fLow);
         apOption->iVal =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
-        fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dabc0))))) - fLow) / (fHigh - fLow);
+        fRatio = (*((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dabc0))))) - fLow) / (fHigh - fLow);
         apOption->iDefaultValue =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
@@ -2102,8 +2102,8 @@ void SyncUserOptionSetting(StartMenu::UserOption* apOption)
 {
     float fHigh;
     float fLow;
-    fLow = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dab30)))));
-    fHigh = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dab78)))));
+    fLow = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dab30)))));
+    fHigh = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dab78)))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fValue;
@@ -2118,7 +2118,7 @@ void SyncUserOptionSetting(StartMenu::UserOption* apOption)
         float fRatio = (::FUN_007d1d00(1) - fLow) / (fHigh - fLow);
         apOption->iVal =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
-        fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011dab6c))))) - fLow) / (fHigh - fLow);
+        fRatio = (*((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011dab6c))))) - fLow) / (fHigh - fLow);
         apOption->iDefaultValue =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
@@ -2141,8 +2141,8 @@ void SyncUserOptionSlider(StartMenu::UserOption* apOption)
 {
     float fHigh;
     float fLow;
-    fLow = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011ca4ac)))));
-    fHigh = *((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011ca4d8)))));
+    fLow = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011ca4ac)))));
+    fHigh = *((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011ca4d8)))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fValue;
@@ -2156,7 +2156,7 @@ void SyncUserOptionSlider(StartMenu::UserOption* apOption)
         float fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&DAT_011ca450))))) - fLow) / (fHigh - fLow);
         apOption->iVal =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
-        fRatio = (*((float *)&(::FUN_00403e20((float *)(((SettingFloat*)&::g_011ca4cc))))) - fLow) / (fHigh - fLow);
+        fRatio = (*((float *)&(::FUN_00403e20((::Setting *)(((SettingFloat*)&::g_011ca4cc))))) - fLow) / (fHigh - fLow);
         apOption->iDefaultValue =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
@@ -2176,8 +2176,8 @@ class InventoryStackRecord
 // @fnv 0x007d2510
 void FUN_007d2510(StartMenu::UserOption* pOption)
 {
-    float fLow = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d86c4))))));
-    float fHigh = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d86ec))))));
+    float fLow = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d86c4))))));
+    float fHigh = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d86ec))))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fNormalizedPosition =
@@ -2190,7 +2190,7 @@ void FUN_007d2510(StartMenu::UserOption* pOption)
         float fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::DAT_011d8724)))))) - fLow) / (fHigh - fLow);
         pOption->iVal =
             (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
-        fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d870c)))))) - fLow) / (fHigh - fLow);
+        fRatio = (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2510::Setting_S *>(&::g_011d870c)))))) - fLow) / (fHigh - fLow);
         pOption->iDefaultValue =
             (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
@@ -2210,8 +2210,8 @@ class InventoryStackRecord
 // @fnv 0x007d2650
 void SyncOptionValue(StartMenu::UserOption* pOption)
 {
-    float fLow = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8734))))));
-    float fHigh = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8718))))));
+    float fLow = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8734))))));
+    float fHigh = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8718))))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fNormalizedPosition =
@@ -2224,7 +2224,7 @@ void SyncOptionValue(StartMenu::UserOption* pOption)
         float fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::DAT_011d8788)))))) - fLow) / (fHigh - fLow);
         pOption->iVal =
             (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
-        fRatio = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8770)))))) - fLow) / (fHigh - fLow);
+        fRatio = (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d2650::Setting_S *>(&::g_011d8770)))))) - fLow) / (fHigh - fLow);
         pOption->iDefaultValue =
             (int)::InventoryStackRecord::RoundToNearestStep((pOption->m_uiValueCount - 1) * fRatio, 1.0f);
     }
@@ -3526,8 +3526,8 @@ void __cdecl FUN_007d19c0(StartMenu::UserOption* apOption)
 {
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        float fMinimum = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98))))));
-        float fScaledValue = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab60))))));
+        float fMinimum = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98))))));
+        float fScaledValue = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab60))))));
         float fRatio = ((StartMenuUserOptionFields*)apOption)->iValue /
                        (float)(((StartMenuUserOptionFields*)apOption)->ItemUpdateArray - 1);
         FUN_004dc2d0((fScaledValue - fMinimum) * fRatio + fMinimum);
@@ -3535,10 +3535,10 @@ void __cdecl FUN_007d19c0(StartMenu::UserOption* apOption)
     else
     {
         float fNormalizedPosition =
-            (StartMenuEx::FUN_007d1b30() - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98))))))) / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab60)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98)))))));
+            (StartMenuEx::FUN_007d1b30() - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98))))))) / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab60)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98)))))));
         ((StartMenuUserOptionFields*)apOption)->iValue = (int)::InventoryStackRecord::RoundToNearestStep(
             (((StartMenuUserOptionFields*)apOption)->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
-        fNormalizedPosition = (1.0f - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98))))))) / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab60)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98)))))));
+        fNormalizedPosition = (1.0f - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98))))))) / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab60)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dab98)))))));
         ((StartMenuUserOptionFields*)apOption)->iSelected = (int)::InventoryStackRecord::RoundToNearestStep(
             (((StartMenuUserOptionFields*)apOption)->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
     }
@@ -3569,8 +3569,8 @@ class ItemChangeMath_007d20f0
 // @fnv 0x007d20f0
 void __cdecl FUN_007d20f0(StartMenu::UserOption* apOption)
 {
-    float fLow = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c7294))))));
-    float fHigh = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c71b8))))));
+    float fLow = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c7294))))));
+    float fHigh = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c71b8))))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fRatio =
@@ -3578,14 +3578,14 @@ void __cdecl FUN_007d20f0(StartMenu::UserOption* apOption)
         float fGamma = (fHigh - fLow) * fRatio + fLow;
         *((float *)&(::FUN_00403e20((float *)&(DAT_011c7568)))) = fGamma;
         (*reinterpret_cast<float *>(&::sb9e::DAT_011f944c)) = fGamma;
-        (*reinterpret_cast<float *>(&::sb9e::DAT_011f9450)) = fGamma + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c7400))))));
+        (*reinterpret_cast<float *>(&::sb9e::DAT_011f9450)) = fGamma + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c7400))))));
     }
     else
     {
         float fNormalizedPosition = (*((float *)&(::FUN_00403e20((float *)&(DAT_011c7568)))) - fLow) / (fHigh - fLow);
         ((UserOptionView_007d20f0*)apOption)->iValue = (int)::InventoryStackRecord::RoundToNearestStep(
             (((UserOptionView_007d20f0*)apOption)->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
-        fNormalizedPosition = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c7278)))))) - fLow) / (fHigh - fLow);
+        fNormalizedPosition = (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007d20f0::SettingFloat *>(&::g_011c7278)))))) - fLow) / (fHigh - fLow);
         ((UserOptionView_007d20f0*)apOption)->iSelected = (int)::InventoryStackRecord::RoundToNearestStep(
             (((UserOptionView_007d20f0*)apOption)->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
     }
@@ -3616,22 +3616,22 @@ class GammaStepRound
 // @fnv 0x007d2250
 void __cdecl FUN_007d2250(StartMenu::UserOption* apOption)
 {
-    float fLow = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c72ac))))));
-    float fHigh = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c74ec))))));
+    float fLow = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c72ac))))));
+    float fHigh = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c74ec))))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fRatio = ((GammaOptionFields*)apOption)->iValue / (float)(((GammaOptionFields*)apOption)->ItemUpdateArray - 1);
         float fGamma = (fHigh - fLow) * fRatio + fLow;
         *((float *)&(::FUN_00403e20((float *)&(DAT_011c7568)))) = fGamma;
         ::sb9e::DAT_011f9444 = fGamma;
-        ::sb9e::DAT_011f9448 = fGamma + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c76b4))))));
+        ::sb9e::DAT_011f9448 = fGamma + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c76b4))))));
     }
     else
     {
         float fNormalizedPosition = (*((float *)&(::FUN_00403e20((float *)&(DAT_011c7568)))) - fLow) / (fHigh - fLow);
         ((GammaOptionFields*)apOption)->iValue = (int)::InventoryStackRecord::RoundToNearestStep(
             (((GammaOptionFields*)apOption)->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
-        fNormalizedPosition = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c744c)))))) - fLow) / (fHigh - fLow);
+        fNormalizedPosition = (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GammaSettingFloat *>(&::g_011c744c)))))) - fLow) / (fHigh - fLow);
         ((GammaOptionFields*)apOption)->iSelected = (int)::InventoryStackRecord::RoundToNearestStep(
             (((GammaOptionFields*)apOption)->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
     }
@@ -3661,22 +3661,22 @@ class ItemChange_007d23b0
 // @fnv 0x007d23b0
 void __cdecl FUN_007d23b0(UserOptionView_007d23b0* apOption)
 {
-    float fLow = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c7440))))));
-    float fHigh = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c71d0))))));
+    float fLow = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c7440))))));
+    float fHigh = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c71d0))))));
     if ((*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) && (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         float fRatio = apOption->iValue / (float)(apOption->ItemUpdateArray - 1);
         float fGamma = (fHigh - fLow) * fRatio + fLow;
         *((float *)&(::FUN_00403e20((float *)&(DAT_011c7598)))) = fGamma;
         DAT_011f9454 = fGamma;
-        DAT_011f9458 = fGamma + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c7634))))));
+        DAT_011f9458 = fGamma + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c7634))))));
     }
     else
     {
         float fNormalizedPosition = (*((float *)&(::FUN_00403e20((float *)&(DAT_011c7598)))) - fLow) / (fHigh - fLow);
         apOption->iValue =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
-        fNormalizedPosition = (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c7494)))))) - fLow) / (fHigh - fLow);
+        fNormalizedPosition = (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat_007d23b0 *>(&::g_011c7494)))))) - fLow) / (fHigh - fLow);
         apOption->iSelected =
             (int)::InventoryStackRecord::RoundToNearestStep((apOption->ItemUpdateArray - 1) * fNormalizedPosition, 1.0f);
     }

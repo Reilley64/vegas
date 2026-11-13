@@ -1298,7 +1298,7 @@ struct Host
 // @fnv 0x009897a0
 bool Host::IsElapsedTimeBelowSetting()
 {
-    return (double)reinterpret_cast<::FUN_00435e00_t *>(&(stamp))->FUN_00435e00() < *(((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::fnv_009897a0::SettingT< ::fnv_009897a0::GameSettingCollection> *>(&::originalRuntimeFloatSetting412))))))));
+    return (double)reinterpret_cast<::FUN_00435e00_t *>(&(stamp))->FUN_00435e00() < *(((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&(*reinterpret_cast<::fnv_009897a0::SettingT< ::fnv_009897a0::GameSettingCollection> *>(&::originalRuntimeFloatSetting412))))))));
 }
 }  // namespace fnv_009897a0
 
@@ -1654,22 +1654,22 @@ bool CombatGroupS::FUN_00987220(CombatMemberS* pMember)
 {
     if (((FUN_0098a2e0_shell*)this)->FUN_0098a2e0())
     {
-        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x50))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting403)))))))
+        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x50))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting403)))))))
             return true;
-        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x50))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting404)))))) &&
-            !FUN_00989880(pMember->pActor, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting405))))))))
+        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x50))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting404)))))) &&
+            !FUN_00989880(pMember->pActor, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting405))))))))
             return true;
     }
-    if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting406)))))))
+    if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting406)))))))
     {
         if (pMember->w4a == 0)
             return true;
-        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting407)))))))
+        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting407)))))))
         {
             bool bnoSphere = false;
             if (ItemUpdateArray == 1 && spSphere && reinterpret_cast<::BSMultiBoundSphere *>((void *)(((AvoidSphere*)(uintptr_t)spSphere)))->GetRadius() == 0.0)
                 bnoSphere = true;
-            if (bnoSphere || !FUN_00989880(pMember->pActor, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting408))))))))
+            if (bnoSphere || !FUN_00989880(pMember->pActor, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting408))))))))
                 return true;
         }
     }
@@ -1677,10 +1677,10 @@ bool CombatGroupS::FUN_00987220(CombatMemberS* pMember)
     {
         if (ItemUpdateArray > pMember->w48 + *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cef50)))))))
             return true;
-        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)this + 0xe8))))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting410)))))) &&
-            reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x60))))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting410)))))) &&
+        if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)this + 0xe8))))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting410)))))) &&
+            reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x60))))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting410)))))) &&
             reinterpret_cast<::CombatTargetTimestamp *>((((RegionPoint*)((char*)pMember + 0x50))))->FUN_006a7f50() == -DAT_0108d540 &&
-            reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting409)))))))
+            reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)pMember + 0x58))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting409)))))))
             return true;
     }
     if (((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((((ActorX*)pMember->pActor)))->FUN_00437bd0())) || (pMember->pActor->vfn_22c(0) && !pMember->pActor->vfn_2e8()))
@@ -3479,7 +3479,7 @@ PathingAvoidNodeArray* AvoidWork::BuildAvoidNodes(AvoidActor* actor, PathingAvoi
 {
     PathingAvoidNodeArray* h = apExistingNodes;
     unsigned p = ::FUN_005a4320((char *)this);
-    float a = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AvoidSetting *>(&::originalRuntimeFloatSetting441)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AvoidSetting *>(&::originalRuntimeFloatSetting441))))));
+    float a = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AvoidSetting *>(&::originalRuntimeFloatSetting441)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AvoidSetting *>(&::originalRuntimeFloatSetting441))))));
     AvoidPosition i = (*(::AvoidPosition *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})));
     for (unsigned uiIndex = 0; uiIndex < p; ++uiIndex)
     {
@@ -7810,7 +7810,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 reinterpret_cast<::FUN_00435de0_ctor *>(&(temp2Local6))->FUN_00435de0(::FUN_00435dd0());
                 targetLocal40->activeTime = temp2Local6;
             }
-            if (reinterpret_cast<::FUN_00435e00_t *>(&(targetLocal40->activeTime))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatAssessment::Setting *>(&::originalRuntimeFloatSetting412)))))))
+            if (reinterpret_cast<::FUN_00435e00_t *>(&(targetLocal40->activeTime))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatAssessment::Setting *>(&::originalRuntimeFloatSetting412)))))))
                 targetLocal40->search = currentLocal8;
             else if (missingLocal40)
                 targetLocal40->search = nearestLocal9;
@@ -8034,8 +8034,8 @@ PathingAvoidNodeArray* FUN_009892a0_shell::FUN_009892a0(AvoidMember9892* pActor,
     Pos9892 kCenterTmp = (*(::Pos9892 *)(reinterpret_cast<::Point3Offset *>((void *)(pActor->GetPos()))->ProjectileLaunched((::NiPoint3 *)&(*pTarget), {}))).FUN_0053d280(DAT_010162c0);
     Pos9892 kOffsetValue = (*(::Pos9892 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(pTarget))->FUN_00439ef0((::NiPoint3 *)&(kCenterTmp), *(const ::NiPoint3 *)nullptr)));
     float afValueAfterThirdFloat = reinterpret_cast<::TESCombatStyle *>((void *)&(kOffsetValue))->UpdateCombatStyle() + fRadius * fRadius;
-    afValueAfterThirdFloat = FUN_00403e20((float*)&originalRuntimeFloatSetting382) *
-                             FUN_00403e20((float*)&originalRuntimeFloatSetting382) * afValueAfterThirdFloat;
+    afValueAfterThirdFloat = FUN_00403e20((::Setting *)&originalRuntimeFloatSetting382) *
+                             FUN_00403e20((::Setting *)&originalRuntimeFloatSetting382) * afValueAfterThirdFloat;
     unsigned int uiCountTmp = ::FUN_005a4320((char *)this);
     for (unsigned int i4 = 0; i4 < uiCountTmp; i4++)
     {
@@ -8531,7 +8531,7 @@ void Group::FUN_0098a580()
                 for (unsigned int index = 0; index < total; index++)
                 {
                     Target* target = FUN_009871c0(index);
-                    if (reinterpret_cast<::FUN_00435e00_t *>(&(target->point))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting412)))))))
+                    if (reinterpret_cast<::FUN_00435e00_t *>(&(target->point))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting412)))))))
                     {
                         reinterpret_cast<::FUN_0098bae0_cls *>(this)->FUN_0098bae0();
                         break;
@@ -8546,7 +8546,7 @@ void Group::FUN_0098a580()
             for (unsigned int index = 0; index < total; index++)
             {
                 Target* target = FUN_009871c0(index);
-                if (reinterpret_cast<::FUN_00435e00_t *>(&(target->point))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting413)))))))
+                if (reinterpret_cast<::FUN_00435e00_t *>(&(target->point))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting413)))))))
                     farCountSlot0++;
                 if (target->flags)
                     flaggedSlot0++;
@@ -8571,7 +8571,7 @@ void Group::FUN_0098a580()
             if (reinterpret_cast<::TimeoutTimer *>(&(refreshTimer))->CheckTimer())
             {
                 refreshSlot1 = reinterpret_cast<::GroupReset_98afb0 *>(this)->UpdateAndCheckChanged();
-                reinterpret_cast<::FUN_008d7f40_shell *>(&(refreshTimer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting447)))))));
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(refreshTimer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting447)))))));
             }
             if (reinterpret_cast<::CoordinateTriple *>(&(location))->FUN_00527a00())
             {
@@ -8591,7 +8591,7 @@ void Group::FUN_0098a580()
                                 if (!((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape)))))
                                     shape.FUN_0066b0d0(new Shape);
                                 reinterpret_cast<::FUN_006e0320_cls *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_006e0320((uintptr_t)&(region), radius);
-                                reinterpret_cast<::FUN_0098adb0_shell *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_0098adb0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting448)))))));
+                                reinterpret_cast<::FUN_0098adb0_shell *>((((::CombatRegion::Shape *)(::FUN_00559450((int *)&(shape))))))->FUN_0098adb0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatRegion::Setting *>(&::originalRuntimeFloatSetting448)))))));
                                 changed = 1;
                             }
                         }
@@ -10323,7 +10323,7 @@ void FUN_00986150_shell::FUN_00986150()
     {
         reinterpret_cast<::TargetAssessmentGroup *>((this))->FUN_0098c870();
         reinterpret_cast<FUN_008d7f40_shell*>(reinterpret_cast<char*>(this) + 0x50)
-            ->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting493)))))));
+            ->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting493)))))));
     }
 
     if (reinterpret_cast<::FUN_00990890_shell *>((this))->FUN_00990890() > 1)
@@ -10348,7 +10348,7 @@ void FUN_00986150_shell::FUN_00986150()
                 float ratio = *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc0) /
                               *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xc8);
 
-                if (ratio > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting487)))))) && ratio < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting488)))))))
+                if (ratio > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting487)))))) && ratio < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting488)))))))
                 {
                     this->unk154 = 1;
                 }
@@ -10776,7 +10776,7 @@ PathingAvoidNodeArray* FUN_00989490_shell::FUN_00989490(int aiUnused1, int aiUnu
     if (!pArray)
         pArray = new PathingAvoidNodeArray;
     reinterpret_cast<::FUN_00905450_StandIn *>((static_cast<AvoidArray9894*>(pArray)))->AppendNode(
-        (::PathingAvoidanceNode *)&(const ::AvoidanceVectorData &)(AvoidNode9894(kTargetCenter, fR, FUN_00403e20((float*)&originalRuntimeFloatSetting384) * 4.0)));
+        (::PathingAvoidanceNode *)&(const ::AvoidanceVectorData &)(AvoidNode9894(kTargetCenter, fR, FUN_00403e20((::Setting *)&originalRuntimeFloatSetting384) * 4.0)));
     return pArray;
 }
 

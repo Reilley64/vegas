@@ -919,9 +919,9 @@ void FUN_00616c20_shell::FUN_00616c20(bool abUseFirstSetting)
 {
     float f;
     if (abUseFirstSetting)
-        f = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting51))));
+        f = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting51))));
     else
-        f = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting50))));
+        f = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting50))));
     reinterpret_cast<::Host615730 *>(this)->FUN_00615730(0, f);
 }
 

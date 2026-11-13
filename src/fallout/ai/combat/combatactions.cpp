@@ -1330,7 +1330,7 @@ void FUN_0097cdb0_shell::FUN_0097cdb0(CombatController* apCombatController, int 
 {
     reinterpret_cast<::BSFaceGenNiNode *>((((BSFaceGenNiNode*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->SetApplyRotToParent(2);
     reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)(new FUN_009d6030(reinterpret_cast<CombatStateFields*>((reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState))->pUnknownE4,
-                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0097cdb0::Setting_S *>(&::originalRuntimeFloatSetting432)))))), true, true)));
+                                             *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0097cdb0::Setting_S *>(&::originalRuntimeFloatSetting432)))))), true, true)));
 }
 }  // namespace fnv_0097cdb0
 

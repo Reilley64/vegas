@@ -1141,15 +1141,15 @@ void SearchProcedure::UpdateSearchState()
                     break;
                 }
                 this->state = 1;
-                this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting461))))->f);
+                this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting461))))->f);
                 this->location = *(Location16*)pObj28;
             }
             else
             {
                 SearchRef* pObjE0 =
                     ((::SearchRef *)(reinterpret_cast<::CombatNodeFinder *>((pContext))->FindNearestCombatNode((::ActorS *)(pActor2),
-                                                    (hasTarget_2 == 0) ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting462))))->f
-                                                                       : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting464))))->f,
+                                                    (hasTarget_2 == 0) ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting462))))->f
+                                                                       : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting464))))->f,
                                                     1)));
                 if (pObjE0)
                 {
@@ -1233,9 +1233,9 @@ void SearchProcedure::UpdateSearchState()
                             break;
                         }
                         reinterpret_cast<::FUN_009d8d00_shell *>((pContext))->SetFieldEC((intptr_t)(pActor2));
-                        this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cecc4))))))->f);
+                        this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cecc4))))))->f);
                         this->state = 3;
-                        this->timer24.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting465))))->f);
+                        this->timer24.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting465))))->f);
                     }
                 }
             }
@@ -1261,7 +1261,7 @@ void SearchProcedure::UpdateSearchState()
             {
                 Location16 loc374 = (*(::Location16 *)(reinterpret_cast<::FUN_00575650_Class *>((pActor2))->FUN_00575650({})));
                 if (loc374.FUN_00527a40(&this->location) <
-                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting460))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting460))))->f)
+                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting460))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting460))))->f)
                 {
                     PathingLocation loc39c(&this->location);
                     if (FUN_006d7490(&loc39c, ((void *)(((::Vec3 *)(void *)&(loc374)))), 0, 0))
@@ -1269,7 +1269,7 @@ void SearchProcedure::UpdateSearchState()
                         bFlag361 = true;
                     }
                 }
-                this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cfad4))))))->f);
+                this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cfad4))))))->f);
             }
             if (bFlag361 || ((bool)(reinterpret_cast<::TeleportableReference *>((pActor2))->GetTeleportDestinationForm())))
             {
@@ -1353,8 +1353,8 @@ void SearchProcedure::UpdateSearchState()
         }
         if (reinterpret_cast<::TimeoutTimer *>(&(this->timer24))->CheckTimer() && !hasTarget_2)
         {
-            this->timer24.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting465))))->f);
-            SearchRef* pObj460 = ((::SearchRef *)(reinterpret_cast<::CombatNodeFinder *>((pContext))->FindNearestCombatNode((::ActorS *)(pActor2), ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting463))))->f, 1)));
+            this->timer24.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting465))))->f);
+            SearchRef* pObj460 = ((::SearchRef *)(reinterpret_cast<::CombatNodeFinder *>((pContext))->FindNearestCombatNode((::ActorS *)(pActor2), ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting463))))->f, 1)));
             if (pObj460)
             {
                 PathingRequestHelper req;
@@ -1377,7 +1377,7 @@ void SearchProcedure::UpdateSearchState()
                 {
                     NiPoint3 vDiff = pActor2->Position() - reinterpret_cast<::TaskQueueInterface *>((void *)&(loc53c))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
                     float dist = reinterpret_cast<::TESCombatStyle *>((void *)&(vDiff))->UpdateCombatStyle();
-                    if (dist < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting457))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting457))))->f)
+                    if (dist < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting457))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting457))))->f)
                     {
                         reinterpret_cast<::PathingLocationProxy *>(&(loc53c))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0));
                         if (reinterpret_cast<::PathingLocation *>(&(loc53c))->HasValidTriangle_006dd6a0() && reinterpret_cast<::FUN_006e0b50_cls *>((m_pPortalConnectivityGraphInfo))->FUN_006e0b50(&loc53c))
@@ -1387,10 +1387,10 @@ void SearchProcedure::UpdateSearchState()
                             if (reinterpret_cast<::PathingLocation *>(&(loc53c))->ResolveNavMesh((*(::NavMeshPtr *)(&navMesh))))
                             {
                                 char cRes = navMesh->FUN_006d8910(reinterpret_cast<::FUN_006df760_shell *>(&(loc53c))->GetShortValueAtOffset24());
-                                if ((cRes == 1 && dist > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting459))))->f *
-                                                             ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting459))))->f) ||
-                                    (cRes == 2 && dist > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting458))))->f *
-                                                             ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting458))))->f))
+                                if ((cRes == 1 && dist > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting459))))->f *
+                                                             ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting459))))->f) ||
+                                    (cRes == 2 && dist > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting458))))->f *
+                                                             ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting458))))->f))
                                 {
                                     bFlag455 = false;
                                 }
@@ -1402,7 +1402,7 @@ void SearchProcedure::UpdateSearchState()
                         }
                     }
                 }
-                this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cecc4))))))->f);
+                this->timer14.FUN_008d7f40(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011cecc4))))))->f);
             }
             if (bFlag455 || ((bool)(reinterpret_cast<::TeleportableReference *>((pActor2))->GetTeleportDestinationForm())))
             {

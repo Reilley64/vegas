@@ -133,8 +133,8 @@ void NiPoint3Interpolator::CreateObject(int state, bool force)
                 ::FUN_005293f0((::ImageSpaceModifierInstance *)(state2c));
                 state2c = 0;
             }
-            state2c = ((::ImageSpaceModifierInstanceDOF *)(::fnv_0052a440::FUN_0052a440(0.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting545))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce424))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf1f8))))))->f,
-                                   ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce6d8))))))->f, NiPoint2(::fnv_00c88020::DAT_01016248, ::fnv_00c88020::DAT_01016248), 0.0f)));
+            state2c = ((::ImageSpaceModifierInstanceDOF *)(::fnv_0052a440::FUN_0052a440(0.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting545))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce424))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf1f8))))))->f,
+                                   ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce6d8))))))->f, NiPoint2(::fnv_00c88020::DAT_01016248, ::fnv_00c88020::DAT_01016248), 0.0f)));
             if (state2c)
                 state2c->FUN_005bbd60(true);
             break;

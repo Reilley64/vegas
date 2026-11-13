@@ -350,7 +350,7 @@ void DialogMenu::UpdateDialog()
         if (m_bSuppressDialogueText && m_fCameraTransitionTime == 0.0)
         {
             m_bSuppressDialogueText =
-                reinterpret_cast<::TutorialMessageGate718 *>(&(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->tutorial))->FUN_00718630(17, FUN_007620e0(), (unsigned int)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f * 1400);
+                reinterpret_cast<::TutorialMessageGate718 *>(&(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->tutorial))->FUN_00718630(17, FUN_007620e0(), (unsigned int)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f * 1400);
             if (!m_bSuppressDialogueText)
             {
                 if (m_pDialogueSpeaker)
@@ -361,7 +361,7 @@ void DialogMenu::UpdateDialog()
         else if (!m_bSuppressDialogueText && m_fCameraTransitionAlpha >= 0.1)
             reinterpret_cast<Tile*>(((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<TESTopic*>*>(this)))->FUN_00726070())))->Set(DAT_011d9508, 1);
         m_fCameraTransitionTime += ::fnv::timer::Seconds();
-        m_fCameraTransitionAlpha = FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f, 1.0f);
+        m_fCameraTransitionAlpha = FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1219))))))->f, 1.0f);
         if (m_fCameraTransitionAlpha == 1.0)
         {
             if (!m_bSuppressDialogueText)
@@ -424,7 +424,7 @@ void DialogMenu::UpdateDialog()
         break;
     case eCameraZoomOut:
         m_fCameraTransitionTime += ::fnv::timer::Seconds();
-        m_fCameraTransitionAlpha = 1.0f - FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1220))))))->f, 1.0f);
+        m_fCameraTransitionAlpha = 1.0f - FUN_0040ebd0(m_fCameraTransitionTime / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1220))))))->f, 1.0f);
         if (m_fCameraTransitionAlpha == 0.0)
         {
             DAT_011f21d0 = true;
@@ -443,7 +443,7 @@ void DialogMenu::UpdateDialog()
                               (float)(m_fCameraTransitionAlpha * (DAT_011a008c == 0.0 ? 1.0 : DAT_011a008c / 100.0)),
                               m_eDialogState == eCameraZoomOut);
     ::_g_thePlayer->UpdateCamera(false, false);
-    reinterpret_cast<::FUN_0063f790_shell *>((m_pDialogueDepthOfFieldModifier))->FUN_0063f790(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1223))))))->f * m_fCameraTransitionAlpha);
+    reinterpret_cast<::FUN_0063f790_shell *>((m_pDialogueDepthOfFieldModifier))->FUN_0063f790(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1223))))))->f * m_fCameraTransitionAlpha);
 }
 
 // @fnv 0x00762160
@@ -481,7 +481,7 @@ void DialogMenu::Close()
         if (((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())) && actor && !actor->vfn_22c(false) &&
             !actor->vfn_2e8())
             reinterpret_cast<BaseProcess*>(((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerQuestData*>(speaker)))->GetBaseTexture())))
-                ->vfn_4b4(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting183))))))->f);
+                ->vfn_4b4(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting183))))))->f);
         if (actor)
             reinterpret_cast<::FUN_008b3ab0_shell *>((actor))->FUN_008b3ab0();
         reinterpret_cast<::FUN_00953ce0_Class *>((::_g_thePlayer))->FUN_00953ce0();
@@ -682,7 +682,7 @@ Tile* DialogMenu::Create(MobileObject* speaker, TESTopic* topic, MobileObject* a
         {
             float distance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((*speaker->GetPos() - *::_g_thePlayer->GetPos())))->ComputeMagnitude();
             (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueDepthOfFieldModifier = ImageSpaceModifierInstanceDOF::CreateAndRegister(
-                distance, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1222))))))->f, ImageSpaceModifierInstanceDOF::Back, 0.0f, 0.0f, 0.0f);
+                distance, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1222))))))->f, ImageSpaceModifierInstanceDOF::Back, 0.0f, 0.0f, 0.0f);
             (*reinterpret_cast<::DialogMenu * *>(&::DAT_011d9510))->m_pDialogueDepthOfFieldModifier->FUN_005bbd60(true);
         }
         reinterpret_cast<::fnv_008bb650::PlayerView *>((::_g_thePlayer))->SetActiveState(false, false, false);
@@ -774,7 +774,7 @@ void DialogMenu::LoadTopicsList()
                     ComputeWeightedValue(
                         ::_g_thePlayer->actorValueOwner.GetActorValueFloatByIndex(ActorValue::ActorValue__Index_SPEECH),
                         m_pDialogueSpeaker->IsActor() ? (float)m_pDialogueSpeaker->CalculateDisposition(::_g_thePlayer, 0)
-                                                      : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1109))))))->f,
+                                                      : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1109))))))->f,
                         reinterpret_cast<::B61F2B0Object *>((reinterpret_cast<TESTopicInfo*>(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reinterpret_cast<NiAVObject*>(pTopic)))->m_pkParent)))))->FUN_0061f2b0()));
                 strcat_s(text, 512, "%");
             }

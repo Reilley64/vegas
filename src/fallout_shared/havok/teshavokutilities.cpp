@@ -179,29 +179,29 @@ float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
     switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(layer))->FUN_0043b4d0())
     {
     case 14:
-        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1035))))));
+        fMultiplier *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1035))))));
         break;
     case 8:
     case 29:
-        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1036))))));
+        fMultiplier *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1036))))));
         break;
     case 10:
-        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1037))))));
+        fMultiplier *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1037))))));
         break;
     case 20:
-        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d0f30))))));
+        fMultiplier *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011d0f30))))));
         break;
     default:
-        fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d0d2c))))));
+        fMultiplier *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011d0d2c))))));
         break;
     }
     if (scale)
     {
         float f = FUN_004b5400(object);
-        if (f < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1038)))))))
-            fMultiplier *= f / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1038))))));
+        if (f < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1038)))))))
+            fMultiplier *= f / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1038))))));
     }
-    fMultiplier *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1034))))));
+    fMultiplier *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1034))))));
     return fMultiplier * value;
 }
 
@@ -383,25 +383,25 @@ float __cdecl ComputeDistanceFactor(float value, float distance)
 {
     float factor = 0.0f;
     float threshold = DAT_01013974;
-    if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting721))))->f)
+    if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting721))))->f)
         factor = 0.0f;
-    else if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting722))))->f)
+    else if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting722))))->f)
     {
-        factor = *((float *)&(::FUN_00403e20((float *)&(g_011cf600))));
-        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting728))))->f;
+        factor = *((float *)&(::FUN_00403e20((::Setting *)&(g_011cf600))));
+        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting728))))->f;
     }
-    else if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting723))))->f)
+    else if (value < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting723))))->f)
     {
-        factor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting724))))->f;
-        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting729))))->f;
+        factor = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting724))))->f;
+        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting729))))->f;
     }
     else
     {
-        factor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting725))))->f;
-        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting730))))->f;
+        factor = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting725))))->f;
+        threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting730))))->f;
     }
     float scale =
-        distance > threshold ? *((float *)&(::FUN_00403e20((float *)&(g_011cf2fc)))) + distance * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting726))))->f : 0.0;
+        distance > threshold ? *((float *)&(::FUN_00403e20((::Setting *)&(g_011cf2fc)))) + distance * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting726))))->f : 0.0;
     return factor * scale;
 }
 

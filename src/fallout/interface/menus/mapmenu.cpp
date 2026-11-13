@@ -530,7 +530,7 @@ void UpdateMapMenu(MapMenu* menu)
         case 0x23:
             if (menu->m_uiMapState)
             {
-                if (::fnv::timer::Time() - menu->m_uiMapState >= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d47bc))))))->f * 1000.0)
+                if (::fnv::timer::Time() - menu->m_uiMapState >= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d47bc))))))->f * 1000.0)
                 {
                     pcurrNote = menu->m_pSelectedNote;
                     pcurrTile = 0;
@@ -4563,7 +4563,7 @@ bool Controller::HandleInputCommand(int command, int ignored)
                     if (direction)
                     {
                         if (!DAT_011da404 || (double)(unsigned)(((int)(::fnv::timer::Time())) - DAT_011da404) >
-                                                 (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Metrics *>(&::g_011d8b88)))))))
+                                                 (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Metrics *>(&::g_011d8b88)))))))
                         {
                             int before = FUN_00a01860(::str_010702d8);
                             int property = (int)((double)(reinterpret_cast<::TileListBoxCalls *>((item))->GetFloat(before)));
@@ -4643,46 +4643,46 @@ void ZoomMenu::FUN_0079c5a0(bool inward, float factor)
     if (page == 32)
     {
         float fraction7 = 0.0f;
-        scale2 = FUN_00404010(FUN_0040ebd0(scale2, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1251))))))),
-                              *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1250)))))));
-        fraction7 = (scale2 - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1250))))))) /
-                    (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1251)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1250)))))));
+        scale2 = FUN_00404010(FUN_0040ebd0(scale2, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1251))))))),
+                              *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1250)))))));
+        fraction7 = (scale2 - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1250))))))) /
+                    (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1251)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1250)))))));
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4100,
-                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1252)))))) +
-                      ((double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1253)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1252))))))) *
+                  (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1252)))))) +
+                      ((double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1253)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1252))))))) *
                           fraction7,
                   true);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4101,
-                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1254)))))) +
-                      ((double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1255)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1254))))))) *
+                  (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1254)))))) +
+                      ((double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1255)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1254))))))) *
                           fraction7,
                   true);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4102,
-                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1256)))))) +
-                      ((double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1257)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1256))))))) *
+                  (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1256)))))) +
+                      ((double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1257)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1256))))))) *
                           fraction7,
                   true);
     }
     else
     {
         float unusedDimension = 0.0f;
-        scale2 = FUN_00404010(FUN_0040ebd0(scale2, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1243))))))),
-                              *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1242)))))));
-        unusedDimension = (scale2 - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1242))))))) /
-                          (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1243)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1242)))))));
+        scale2 = FUN_00404010(FUN_0040ebd0(scale2, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1243))))))),
+                              *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1242)))))));
+        unusedDimension = (scale2 - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1242))))))) /
+                          (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1243)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1242)))))));
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4100,
-                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1244)))))) +
-                      ((double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1245)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1244))))))) *
+                  (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1244)))))) +
+                      ((double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1245)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1244))))))) *
                           unusedDimension,
                   true);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4101,
-                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1246)))))) +
-                      ((double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1247)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1246))))))) *
+                  (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1246)))))) +
+                      ((double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1247)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1246))))))) *
                           unusedDimension,
                   true);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(4102,
-                  (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1248)))))) +
-                      ((double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1249)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1248))))))) *
+                  (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1248)))))) +
+                      ((double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1249)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::originalRuntimeFloatSetting1248))))))) *
                           unusedDimension,
                   true);
     }
@@ -4714,8 +4714,8 @@ void ZoomMenu::FUN_0079c5a0(bool inward, float factor)
     if (_changed)
     {
         float amount5 = (factor - 1.0) / 0.14300000667572021;
-        ((::ZoomPip *)(reinterpret_cast<::Interface *>((((::ZoomInterface *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))->Animate(0, inward ? -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::g_011db2f0)))))) * amount5 : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::g_011db2f0)))))) * amount5,
-                                       *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZoomSetting *>(&::g_011db358)))))) * 2, true);
+        ((::ZoomPip *)(reinterpret_cast<::Interface *>((((::ZoomInterface *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))->Animate(0, inward ? -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::g_011db2f0)))))) * amount5 : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::g_011db2f0)))))) * amount5,
+                                       *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZoomSetting *>(&::g_011db358)))))) * 2, true);
     }
     reinterpret_cast<::MarkerMenu *>(this)->UpdateQuestMarkers();
 }
@@ -5722,7 +5722,7 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
         m_iMapDisplayMode = aiID;
         ((Interface*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))
             ->GetPipboyManager()
-            ->StartBurst(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db458))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db37c))))))->f, 0.5f);
+            ->StartBurst(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db458))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db37c))))))->f, 0.5f);
         if (!FUN_00709d40() && aiID != 0x20 && aiID != 0x21)
             reinterpret_cast<::FUN_00a012d0_t *>((((::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, 255.0f, true);
         m_pTiles[13]->Set(0xfa3, 0);
@@ -7691,8 +7691,8 @@ void Reconstruction798cb0::FUN_00798cb0(int aiEventCode, Tile* tile)
     if (DAT_011da400 != index && (aiEventCode == 23 || aiEventCode == 24 || aiEventCode == 25))
     {
         ((::fnv_00798cb0::Burst *)(reinterpret_cast<::Interface *>((((Proxy*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager()))
-            ->FUN_007f8610(0, DAT_011da400 < index ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2f0))))))->f : -((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2f0))))))->f,
-                           ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db358))))))->f, 1);
+            ->FUN_007f8610(0, DAT_011da400 < index ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2f0))))))->f : -((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2f0))))))->f,
+                           ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db358))))))->f, 1);
         DAT_011da400 = index;
     }
 }

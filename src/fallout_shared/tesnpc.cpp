@@ -3255,8 +3255,8 @@ int Context::ComputeAttributeValue(bool includeCount)
     int j =
         ((std::uintptr_t)(reinterpret_cast<::Callees *>(&(count))->FUN_00726070()))
             ? (int)((includeCount ? ((std::uintptr_t)(reinterpret_cast<::Callees *>(&(count))->FUN_00726070())) : 0) +
-                    (reinterpret_cast<::FUN_005f1230_shell *>(&(attributes))->GetAttributeValue7() + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting298))))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting297)))))) +
-                    (a - 1) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting299)))))))
+                    (reinterpret_cast<::FUN_005f1230_shell *>(&(attributes))->GetAttributeValue7() + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting298))))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting297)))))) +
+                    (a - 1) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingProxy *>(&::originalRuntimeFloatSetting299)))))))
             : 0;
     if (j < 0)
         j = 0;
@@ -3367,9 +3367,9 @@ int B6040D0NPC::ComputeDerivedValue(bool bUseBase)
     if (iLevel < 1)
         iLevel = 1;
     int iResult = m_kBaseData.GetBaseValue()
-                      ? (int)((bUseBase ? (float)m_kBaseData.GetBaseValue() : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::B6040D0Setting *>(&::originalRuntimeFloatSetting303))))))) +
-                              reinterpret_cast<::FUN_005f1230_shell *>(&(m_kAttributes))->GetAttributeValue7() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::B6040D0Setting *>(&::originalRuntimeFloatSetting304)))))) +
-                              iLevel * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::B6040D0Setting *>(&::originalRuntimeFloatSetting305)))))))
+                      ? (int)((bUseBase ? (float)m_kBaseData.GetBaseValue() : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::B6040D0Setting *>(&::originalRuntimeFloatSetting303))))))) +
+                              reinterpret_cast<::FUN_005f1230_shell *>(&(m_kAttributes))->GetAttributeValue7() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::B6040D0Setting *>(&::originalRuntimeFloatSetting304)))))) +
+                              iLevel * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::B6040D0Setting *>(&::originalRuntimeFloatSetting305)))))))
                       : 0;
     if (iResult < 0)
         iResult = 0;
@@ -4161,7 +4161,7 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     FaceMatrixLocal _result[2][2];
     float first2, second, value, other7;
     ::BSFaceGenManager::InitializeFaceGenCoordinates((::FaceGenCoordinates *)(_result));
-    ::FUN_00652fc0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FaceSetting *>(&::originalRuntimeFloatSetting46)))))), (std::intptr_t)(((void *)(reinterpret_cast<::S9fb0 *>((((::FaceRace *)(reinterpret_cast<::Callees *>(&(race))->FUN_00726070()))))->FUN_005d9fb0(FUN_005f0cc0())))), (std::intptr_t)(source9));
+    ::FUN_00652fc0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FaceSetting *>(&::originalRuntimeFloatSetting46)))))), (std::intptr_t)(((void *)(reinterpret_cast<::S9fb0 *>((((::FaceRace *)(reinterpret_cast<::Callees *>(&(race))->FUN_00726070()))))->FUN_005d9fb0(FUN_005f0cc0())))), (std::intptr_t)(source9));
     first2 = ::FUN_00652440((std::intptr_t)(source9), 0, 0);
     second = ::FUN_00652440((std::intptr_t)(source9), 0, 1);
     if (keepAge)

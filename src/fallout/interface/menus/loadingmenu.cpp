@@ -1292,7 +1292,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
     if (((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode)))
     {
         reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode))))->FUN_00440490(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))->FUN_00450410());
-        reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[11])))->FUN_00a012d0(0x1004, *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))))), true);
+        reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[11])))->FUN_00a012d0(0x1004, *((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))))), true);
         reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     }
     else

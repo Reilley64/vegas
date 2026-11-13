@@ -3062,10 +3062,10 @@ void Owner::UpdateProjectile(R* arg)
                             }
                             if (p)
                             {
-                                if (v3 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008c84c0::FS *>(&::originalRuntimeFloatSetting248)))))))
+                                if (v3 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008c84c0::FS *>(&::originalRuntimeFloatSetting248)))))))
                                     reinterpret_cast<::fnv_0096e3c0::FUN_0096e3c0_shell *>(&((*reinterpret_cast<::fnv_008c84c0::S4 *>(&::g_011e0e80))))->FUN_0096e3c0((::Actor *)(aQ));
                             }
-                            if ((double)aV14 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008c84c0::FS *>(&::originalRuntimeFloatSetting1073)))))))
+                            if ((double)aV14 >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008c84c0::FS *>(&::originalRuntimeFloatSetting1073)))))))
                             {
                                 reinterpret_cast<::TeammateOwner *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00966f20((::Actor *)(p), v15, 0);
                             }

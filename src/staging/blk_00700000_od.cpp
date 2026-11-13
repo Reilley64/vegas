@@ -1481,8 +1481,8 @@ void __cdecl UpdateCameraFrustum(NiCamera* pCamera, float fFOV)
         float fNear = GetGlobalArg1();
         reinterpret_cast<::FUN_00a6fb90_cls *>((pCamera))->FUN_00a6fb90(fNear, false);
         fAspect = ((double)(::FUN_004de0c0())) / ((double)(::FUN_004de0d0()));
-        float fHalfFOV = (fFOV * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_01203150)))))) * (double)0.017453292f * (double)1.1f < (double)1.5393804f)
-                             ? fFOV * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_01203150)))))) * (double)0.017453292f * (double)1.1f
+        float fHalfFOV = (fFOV * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::g_01203150)))))) * (double)0.017453292f * (double)1.1f < (double)1.5393804f)
+                             ? fFOV * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::g_01203150)))))) * (double)0.017453292f * (double)1.1f
                              : (double)1.5393804f;
         NiFrustum kFrustum(false);
         kFrustum.m_fLeftBound = -FUN_0057dd70(fHalfFOV) * fNear * fAspect;

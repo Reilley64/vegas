@@ -6144,7 +6144,7 @@ void InitRaceMenu::SetupRaceMenu(int mode)
                         if (FUN_004b7220() != 1)
                             ::FUN_004afad0((::BSStringT_layout *)&(doneLabel));
                         ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringTChar *)(&question), DAT_01074e34, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InitSetting *>(&::g_011d4108))))->GetMenuTitle())), ((const char *)(::FUN_00559450((int *)&(doneLabel)))));
-                        valued0 = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InitSetting *>(&::g_011da6cc))))))));
+                        valued0 = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InitSetting *>(&::g_011da6cc))))))));
                         valuec8 = valued0;
                         reinterpret_cast<::S_007b40d0_Owner *>((((InitOptions*)options[0])))->ApplyToAllTiles();
                         reinterpret_cast<::S_007b40d0_Owner *>((((InitOptions*)options[1])))->ApplyToAllTiles();

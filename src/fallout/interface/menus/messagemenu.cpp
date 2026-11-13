@@ -1352,7 +1352,7 @@ bool __cdecl FUN_007a8ba0()
         }
         if (flag)
         {
-            reinterpret_cast<::FUN_00a012d0_t *>((((Helper*)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((Helper*)(reinterpret_cast<::MenuFields *>((((Helper*)::DAT_011da4f0)))->tile))))->FUN_00a03da0((char *)((char*)"MM_Background"))))))->FUN_00a012d0(0xfa9, *(float*)(((void *)&(::FUN_00403e20((float *)(((Helper*)&(*reinterpret_cast<char *>(&::g_011d3bc8)))))))) * ::DAT_0101e568, 1);
+            reinterpret_cast<::FUN_00a012d0_t *>((((Helper*)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((Helper*)(reinterpret_cast<::MenuFields *>((((Helper*)::DAT_011da4f0)))->tile))))->FUN_00a03da0((char *)((char*)"MM_Background"))))))->FUN_00a012d0(0xfa9, *(float*)(((void *)&(::FUN_00403e20((::Setting *)(((Helper*)&(*reinterpret_cast<char *>(&::g_011d3bc8)))))))) * ::DAT_0101e568, 1);
         }
         if (((unsigned char)(::fnv_007050d0::FUN_007050d0())))
         {

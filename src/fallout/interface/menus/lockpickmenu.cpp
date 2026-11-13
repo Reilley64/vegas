@@ -672,11 +672,11 @@ FUN_00a712f0* FUN_0078e900_shell::FUN_0078e900()
     FUN_00a71b70 c(0);
     float e;
     c.unk14 = ((::fnv_0078e900::Renderer *)(::FUN_0045c670()))->vf64();
-    c.unk10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078e900::Setting *>(&::g_01203144))))));
+    c.unk10 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0078e900::Setting *>(&::g_01203144))))));
     reinterpret_cast<::FUN_00507700_cls *>((b))->FUN_00507700(c.unk14 / c.unk10);
     g = (double)(::DAT_011f9426 ? ::DAT_011f9434 : ::FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     d = ::DAT_01016264;
-    e = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078e900::Setting *>(&::g_01203150)))))) * ::DAT_01023128 * (*reinterpret_cast<double *>(&::DAT_01070c80));
+    e = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0078e900::Setting *>(&::g_01203150)))))) * ::DAT_01023128 * (*reinterpret_cast<double *>(&::DAT_01070c80));
     c.unk00 = -::FUN_0057dd70(e) * d;
     c.unk04 = ::FUN_0057dd70(e) * d;
     c.unk0c = -::FUN_0057dd70(e) * g * d;
@@ -1648,7 +1648,7 @@ xLevelMenu::xLevelMenu()
     m_i74 = reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::xPlayerL * *>(&::_g_thePlayer))->m_kAV))->GetActorValueAsInteger((::ActorValue::Index)(0x24));
     m_f78 = (float)m_i74;
     m_f8c = 0.0f;
-    m_f94 = 1.0f + m_f78 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting806))))));
+    m_f94 = 1.0f + m_f78 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting806))))));
     m_i28 = 0;
     m_b98 = false;
     m_i9c = 0;
@@ -2321,7 +2321,7 @@ void xLockPickMenu::FUN_0078eb50()
                                     }
                                 }
                                 if (BOUNTY)
-                                    reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::fnv_0078eb50::xPlayer * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::originalRuntimeFloatSetting282)))))));
+                                    reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::fnv_0078eb50::xPlayer * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::originalRuntimeFloatSetting282)))))));
                             }
                         }
                         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0078eb50::xSound &)(((::fnv_0078eb50::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szUnlock, 0x101)))->FUN_00ad8830(false);
@@ -2369,8 +2369,8 @@ void xLockPickMenu::FUN_0078eb50()
             xUpdateData qxWmVch(0.0f, true, false);
             float qQMZREG = qSVM / 1000.0;
             char qJDuOZ[0x20];
-            if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::g_011d41c8)))))) != 0.0)
-                m_94 -= qQMZREG / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::g_011d41c8))))));
+            if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::g_011d41c8)))))) != 0.0)
+                m_94 -= qQMZREG / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::g_011d41c8))))));
             m_94 = ::FUN_00404010(m_94, 0.0f);
             reinterpret_cast<::fnv_00790f40::FUN_00790f40_cls *>(this)->AdvanceSequence(xg_iDir_11a0394 * 0.25);
             if (::FUN_004b71d0())
@@ -2413,7 +2413,7 @@ void xLockPickMenu::FUN_0078eb50()
         {
             reinterpret_cast<::Tile *>((m_58))->Set(0xfa3, 0);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_5c))->FUN_00a01350(0xfc4, (char *)(s_szHealthFull), true);
-            m_94 = 1.0f + m_78 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::originalRuntimeFloatSetting806))))));
+            m_94 = 1.0f + m_78 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0078eb50::xFltSetting *>(&::originalRuntimeFloatSetting806))))));
             m_8c = 0.0f;
             reinterpret_cast<::fnv_00790f40::FUN_00790f40_cls *>(this)->AdvanceSequence(0.0f);
             reinterpret_cast<::FUN_00a012d0_t *>((m_68))->FUN_00a012d0(xg_iTileId2_11da1fc, reinterpret_cast<::TileListBoxCalls *>((m_64))->GetFloat(0xfb1) / 2.0, true);

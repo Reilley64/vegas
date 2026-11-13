@@ -2525,7 +2525,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
             if (((::UpdateRef *)(reinterpret_cast<::FUN_008d8b80Class *>(this)->FUN_008d8b80())))
             {
                 UpdateVec positionDelta = ((::UpdateRef *)(reinterpret_cast<::FUN_008d8b80Class *>(this)->FUN_008d8b80()))->GetTargetPosition() - *GetPosition();
-                if (reinterpret_cast<::NiPoint3 *>(&(positionDelta))->ComputeMagnitude() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::originalRuntimeFloatSetting803)))))))
+                if (reinterpret_cast<::NiPoint3 *>(&(positionDelta))->ComputeMagnitude() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::originalRuntimeFloatSetting803)))))))
                     skipPosition = true;
             }
             if (*(*reinterpret_cast<::UpdateBoolSetting *>(&::g_011f20ec)).FUN_00408d60())
@@ -2535,7 +2535,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
                 UpdateVec color = *GetPosition();
                 ::ImageSpaceEffectParam debugColor(1.0f, 1.0f, 0.0f, 1.0f);
                 void* pDebugLine = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&newPosition)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), (*(const class ::FUN_006815c0 *)(&color)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&debugColor)), 1)));
-                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::UpdateWorld * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pDebugLine), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::g_011f210c)))))));
+                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::UpdateWorld * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pDebugLine), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::g_011f210c)))))));
             }
             else
                 reinterpret_cast<::ObjB300 *>(this)->ApplyScale(afDeltaTime);
@@ -2575,7 +2575,7 @@ void UpdateProjectile::FUN_009b8030(float afDeltaTime)
         }
     }
     reinterpret_cast<::ZProjectile *>(this)->UpdateDetonation(afDeltaTime);
-    if (reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::originalRuntimeFloatSetting648)))))) && kind != 4)
+    if (reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::originalRuntimeFloatSetting648)))))) && kind != 4)
         reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
     if (reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070() > reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter() && (hits.FUN_008256d0() || pending))
     {
@@ -2890,7 +2890,7 @@ bool Impact::HandleContactResponse()
             Vector correctionTmp =
                 FUN_004a3760(::DAT_010162c0, (*(::ImpactResponse::Vector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(const ::ImpactResponse::Vector &)(FUN_004a3760(dot, contact->normal)))->FUN_00439ef0((::NiPoint3 *)&(direction3), *(const ::NiPoint3 *)nullptr))));
             linear_ = (*(::ImpactResponse::Vector *)(reinterpret_cast<::Point3Offset *>(&(direction3))->ProjectileLaunched((::NiPoint3 *)&(correctionTmp), {})));
-            reinterpret_cast<::MyPoint439180 *>(&(linear_))->FUN_00439180(*((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactResponse::Setting *>(&::originalRuntimeFloatSetting650)))))) * ::GetFloatAtOffset68((const char *)(((::ImpactResponse::Base *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))));
+            reinterpret_cast<::MyPoint439180 *>(&(linear_))->FUN_00439180(*((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactResponse::Setting *>(&::originalRuntimeFloatSetting650)))))) * ::GetFloatAtOffset68((const char *)(((::ImpactResponse::Base *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))));
             ::FUN_0062b8d0(node7, (const void *)&(linear_), 1);
             Vector kAngular = (*reinterpret_cast<::ImpactResponse::Vector *>((void *)&::NiPoint3::ZERO));
             Matrix rotation;
@@ -2903,7 +2903,7 @@ bool Impact::HandleContactResponse()
             Vector spin2;
             reinterpret_cast<::FUN_00416870_t *>(&(spin2))->FUN_00416870(-local.z, 0.0f, -local.x);
             kAngular = ((::ImpactResponse::Matrix *)(::FUN_00461130((intptr_t)(node7))))->FUN_004b4500(spin2);
-            reinterpret_cast<::MyPoint439180 *>(&(kAngular))->FUN_00439180(*((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactResponse::Setting *>(&::originalRuntimeFloatSetting650)))))));
+            reinterpret_cast<::MyPoint439180 *>(&(kAngular))->FUN_00439180(*((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactResponse::Setting *>(&::originalRuntimeFloatSetting650)))))));
             ::FUN_0062ba80(node7, (const ::NiPoint3 &)(kAngular), 1);
         }
     }
@@ -3337,7 +3337,7 @@ struct MissileActor
 // @fnv 0x009ba660
 void MissileActor::HandleMissileImpact()
 {
-    static float impactScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009ba660::MissileSetting *>(&::originalRuntimeFloatSetting398))))));
+    static float impactScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009ba660::MissileSetting *>(&::originalRuntimeFloatSetting398))))));
     bool paused = reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_009ba660::MissilePause * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10();
     if (Get3D() && !hitHandle.FUN_008256d0())
     {
@@ -3596,7 +3596,7 @@ namespace fnv_009b90b0 {
 // @fnv 0x009b90b0
 void Actor::FUN_009b90b0()
 {
-    static float s_offset = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::originalRuntimeFloatSetting399))))));
+    static float s_offset = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::originalRuntimeFloatSetting399))))));
     bool noMove = reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::fnv_009b90b0::Glob * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10();
     if (!unk88.FUN_008256d0())
     {
@@ -3795,7 +3795,7 @@ void Actor::FUN_009b90b0()
                                         new ((void *)&(c)) ::ImageSpaceEffectParam(1.0f, 0.5f, 0.5f, 1.0f);
                                         V tc20;
                                         intptr_t c24 = ((intptr_t)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&v83c)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), (*(const class ::FUN_006815c0 *)(((::fnv_009b90b0::V *)(reinterpret_cast<::Point3Offset *>(&(v83c))->ProjectileLaunched((::NiPoint3 *)(::fnv_009b90b0::V *)(&tc20), (::NiPoint3 *)(::fnv_009b90b0::V *)(&v8e0)))))), (*(const ::fnv_004b3890::FUN_004a7800 *)(&c)), 1)));
-                                        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_009b90b0::Glob * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(c24), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::g_011f210c)))))));
+                                        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::fnv_009b90b0::Glob * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(c24), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b90b0::Glob *>(&::g_011f210c)))))));
                                     }
                                     for (int k = 0; !blocked && k < HavokArraySize((((::fnv_009b90b0::List *)(::FUN_00460140((intptr_t)(((::fnv_009b90b0::ListH *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(big2))->FUN_008cdd90()))))))));
                                          k++)

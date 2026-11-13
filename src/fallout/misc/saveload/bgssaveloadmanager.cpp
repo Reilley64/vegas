@@ -259,7 +259,7 @@ void BGSSaveLoadManager::FinishLoadingGame()
         ((::BGSSaveLoadUI *)(::FUN_00a25920()))->FUN_007d0bd0(true);
         ((::BGSSaveLoadUI *)(::FUN_00a25920()))->FUN_007d0bb0();
     }
-    reinterpret_cast<FaderManager*>(DAT_011d8804)->AddFader((FADER_ENUM)1, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting16))))->f, true);
+    reinterpret_cast<FaderManager*>(DAT_011d8804)->AddFader((FADER_ENUM)1, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting16))))->f, true);
     LoadingMenu::UpdateLoadingScreenThread();
     reinterpret_cast<::S457d70 *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00457d70(0, (::Form457 *)(0), 0);
     reinterpret_cast<::FUN_00ad8740_shell *>((::FUN_00453a70()))->FUN_00ad8740();

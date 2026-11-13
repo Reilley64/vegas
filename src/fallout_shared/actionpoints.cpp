@@ -42,7 +42,7 @@ class ActionPoints
 // @fnv 0x0066dda0
 float ActionPoints::GetActionPoints()
 {
-    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d5ff4))))))->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d5ff4))))))->f;
 }
 
 // Returns true for action codes 0-8, 16, 17, 19, 20 and 21, and false for any other code.

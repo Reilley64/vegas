@@ -1296,7 +1296,7 @@ bool ProjectileEffect::FUN_009b36f0()
                                                    : ((::Color4 *)(new ((void *)&(yellowColor)) ::ImageSpaceEffectParam(1.0f, 1.0f, 0.0f, 1.0f)));
             __declspec(align(16)) Color4 color = *pColor;
             void* marker = ((void *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(&position)), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), (*(const class ::FUN_006815c0 *)(&points[i])), (*(const ::fnv_004b3890::FUN_004a7800 *)(&color)), 1)));
-            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(marker), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
+            reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::ImpactManager * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(marker), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
         }
     }
     return emitted;

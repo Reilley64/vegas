@@ -3252,7 +3252,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, intptr_t a2, int aiArg3, int aiArg4,
     a = ::TESWeightForm::GetWeightForForm((::TESForm *)(std::uintptr_t)(a2), ::FUN_004d1360((char *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer)))));
     if (a > ::_DAT_01012060)
     {
-        a = a * ((::FloatVal *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cdf84)))))))->f;
+        a = a * ((::FloatVal *)&(::FUN_00403e20((::Setting *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cdf84)))))))->f;
         ((::ProcV *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this))->GetBaseTexture()))->p297(a);
     }
     if (i && i->r134())
@@ -3276,7 +3276,7 @@ void ActorX::FUN_008bfa40(RefObj* apSource, intptr_t a2, int aiArg3, int aiArg4,
         }
     }
     if (f)
-        reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_0094fd30((int)((::FloatVal *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting282)))))))->f);
+        reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))))->FUN_0094fd30((int)((::FloatVal *)&(::FUN_00403e20((::Setting *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting282)))))))->f);
     if (p && !p->r200() && (b = p->FUN_008a0d10(0, this, &ak, 0, 0, 0, 0)) > 0)
     {
         k = 0;

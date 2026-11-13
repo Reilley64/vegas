@@ -1191,7 +1191,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
     {
         int iChance2 = ComputeWeightedValue(reinterpret_cast<::ActorValueOwner *>(&(((MenuPlayer*)::_g_thePlayer)->actorValues))->GetActorValueFloatByIndex((::ActorValue::Index)(0x2b)),
                                             m_pDialogueSpeaker->v64() ? (float)m_pDialogueSpeaker->v209(::_g_thePlayer, 0)
-                                                                      : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1109)))))),
+                                                                      : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1109)))))),
                                             reinterpret_cast<::B61F2B0Object *>((((InfoShell*)pTopic->GetTopicInfo())))->FUN_0061f2b0());
         int iRoll5 = DialogueRandom() % 100;
         if (iRoll5 >= iChance2)

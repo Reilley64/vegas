@@ -470,7 +470,7 @@ void ActiveEffect::AdvanceEffect(float elapsed, bool force)
         reinterpret_cast<ActiveEffectCasterDispatch*>(reinterpret_cast<ActorMover*>(this)->GetCurrentMoveModeType());
     if (caster && caster->GetCasterReference())
     {
-        float interval = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(g_011d17dc))))->f;
+        float interval = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(g_011d17dc))))->f;
         bool evaluate = force || floor(reinterpret_cast<::TimeoutTimer *>(this)->FUN_006b9130() / interval) != floor((reinterpret_cast<::TimeoutTimer *>(this)->FUN_006b9130() + elapsed) / interval);
         if (evaluate)
         {

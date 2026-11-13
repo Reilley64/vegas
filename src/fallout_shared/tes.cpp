@@ -4455,7 +4455,7 @@ void Zt5TES::FUN_00453550(float afTime)
     }
     reinterpret_cast<::Processor *>((((::Zt5Listener *)(::FUN_00453720()))))->ProcessRequests();
     if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) == 1)
-        reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((pWeatherSky))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : afTime);
+        reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((pWeatherSky))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : afTime);
     if (*((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c3ea4)))) == 1)
         FUN_004537c0();
     FUN_00975080((char*)&(*reinterpret_cast<int *>(&::g_011e0e80)));
@@ -7450,7 +7450,7 @@ void TES4512::FUN_004512c0(const NiPoint3* position, bool reload)
         FUN_0057d0a0(point, (*reinterpret_cast<::NiPoint3Ex *>(&::DAT_011a9478)), 1.0f);
         FUN_00451590(1);
         if (!reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(this)->FUN_00451530())
-            reinterpret_cast<::FaderManager *>((::DAT_011d8804))->AddFader((::FADER_ENUM)(1), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting4512 *>(&::originalRuntimeFloatSetting16)))))), false);
+            reinterpret_cast<::FaderManager *>((::DAT_011d8804))->AddFader((::FADER_ENUM)(1), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting4512 *>(&::originalRuntimeFloatSetting16)))))), false);
         reinterpret_cast<::fnv_00459870::FUN_00459870_cls *>(this)->ProcessItemNodes();
         reinterpret_cast<::ThisCls *>((((Process4512*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00972d30();
         reinterpret_cast<::ProcessLists *>((((Process4512*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->UpdateHighProcess();
@@ -8119,7 +8119,7 @@ struct S_004537c0_Fade
 void Zt5TES::FUN_004537c0()
 {
     S_004537c0_Fade fadeData;
-    reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((S_004537c0_Sky*)pWeatherSky)))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : FUN_00453850());
+    reinterpret_cast<::fnv_0063ac70::FUN_0063ac70_shell *>((((S_004537c0_Sky*)pWeatherSky)))->FUN_0063ac70(::fnv_007050d0::FUN_007050d0() ? ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011c5724)))))) : FUN_00453850());
     new ((void *)&(fadeData)) ::NiUpdateData(::fnv_00563f30::DAT_011c3c08, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((((::S_004537c0_Mgr *)(reinterpret_cast<::FUN_009611e0_shell *>((((S_004537c0_Tes*)this)))->FUN_009611e0()))))->FUN_00a59c60((std::intptr_t)(&fadeData));
 }
@@ -8896,7 +8896,7 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
     ReloadMovePoint(position6, (*reinterpret_cast<::fnv_00454450::ReloadPoint *>(&::DAT_011a9478)), 1.0f);
     FUN_00451590(1);
     if (!reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(this)->FUN_00451530() && !mode)
-        reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_00454450::ReloadFade * *>(&::DAT_011d8804))))->AddFader((::FADER_ENUM)(true), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00454450::ReloadSetting *>(&::originalRuntimeFloatSetting16)))))), {});
+        reinterpret_cast<::FaderManager *>(((*reinterpret_cast<::fnv_00454450::ReloadFade * *>(&::DAT_011d8804))))->AddFader((::FADER_ENUM)(true), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00454450::ReloadSetting *>(&::originalRuntimeFloatSetting16)))))), {});
     if (!mode)
     {
         reinterpret_cast<::FUN_00975f90_cls *>(&((*reinterpret_cast<::fnv_00454450::ReloadTerrain *>(&::g_011e0e80))))->ClearMobileObjectData();

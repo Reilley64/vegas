@@ -532,24 +532,24 @@ void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, fl
         switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(type))->FUN_0043b4d0())
         {
         case 14:
-            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting679))))));
+            scale *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting679))))));
             break;
         case 8:
         case 29:
-            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting678))))));
+            scale *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting678))))));
             break;
         case 2:
         case 10:
-            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::g_011cf9d4))))));
+            scale *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::g_011cf9d4))))));
             break;
         default:
-            scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting677))))));
+            scale *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting677))))));
             break;
         }
         float weight = ::FUN_004b5400((void *)(object));
-        if (weight < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))))
-            scale = weight / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))) * scale;
-        scale *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ImpactValue *>(&::g_011ce224))))));
+        if (weight < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))))
+            scale = weight / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::originalRuntimeFloatSetting680)))))) * scale;
+        scale *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ImpactValue *>(&::g_011ce224))))));
         ImpactVector direction;
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&direction)), (*(const ::fnv_004a3e00::NiPoint3 *)(&dx)));
         ImpactVector position;
@@ -654,7 +654,7 @@ struct xProj : xBase
 // @fnv 0x0080f810
 xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* apOwner) : xBase(a, b, c, d, kP1, kP2)
 {
-    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::fnv_0080f810::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
+    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::fnv_0080f810::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
     m_ac = 0;
     m_a8 = 0.0f;
     m_b0 = 1.0f;
@@ -683,7 +683,7 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
     void* SHOOTER = ((::fnv_0080f810::xActorV *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::fnv_0080f810::xActorV *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->FUN_2c() : 0;
     if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
-        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::g_011d1c28)))))));
+        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0080f810::xFltSetting *>(&::g_011d1c28)))))));
     FUN_00484b60(0x10000000);
 }
 }

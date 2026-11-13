@@ -130,7 +130,7 @@ BGSTerrainNode::BGSTerrainNode(BGSTerrainManager* pManagerArg, BGSTerrainNode* p
         pChildren[1]->m_eParentPosition = BGSTerrainNode__PARENT_POSITION_PP_LOWER_LEFT;
         pChildren[2]->m_eParentPosition = BGSTerrainNode__PARENT_POSITION_PP_UPPER_RIGHT;
         pChildren[3]->m_eParentPosition = BGSTerrainNode__PARENT_POSITION_PP_LOWER_RIGHT;
-        m_fSplitDistance = m_fNodeRadius * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d86e0))))))->f;
+        m_fSplitDistance = m_fNodeRadius * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d86e0))))))->f;
     }
     else
     {
@@ -139,8 +139,8 @@ BGSTerrainNode::BGSTerrainNode(BGSTerrainManager* pManagerArg, BGSTerrainNode* p
     }
     if (pParent)
     {
-        m_fMorphStartDistance = pParent->m_fNodeRadius * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8754))))))->f;
-        m_fMorphEndDistance = pParent->m_fNodeRadius * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d86d4))))))->f;
+        m_fMorphStartDistance = pParent->m_fNodeRadius * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8754))))))->f;
+        m_fMorphEndDistance = pParent->m_fNodeRadius * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d86d4))))))->f;
         if (m_fMorphEndDistance > m_fMorphStartDistance)
             ::FUN_005b5e40();
     }

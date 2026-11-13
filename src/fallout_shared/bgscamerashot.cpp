@@ -799,7 +799,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
     {
     case 0:
         (*reinterpret_cast<unsigned char *>(&::xbSlowMo)) = 1;
-        DAT_011ca734 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Glob79c *>(&::g_011ca79c))))));
+        DAT_011ca734 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Glob79c *>(&::g_011ca79c))))));
         break;
     case 1:
         (*reinterpret_cast<unsigned char *>(&::xbSlowMo)) = 0;
@@ -814,7 +814,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
             }
             else
             {
-                DAT_011ca734 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Glob79c *>(&::g_011ca79c))))));
+                DAT_011ca734 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Glob79c *>(&::g_011ca79c))))));
             }
         }
         break;
@@ -1148,7 +1148,7 @@ void Shot::UpdateCamera(float afTime)
             if ((*reinterpret_cast<unsigned char *>(&::xbSlowMo)))
             {
                 *(NiPoint3Ex*)&DAT_011ca7a8 = *(NiPoint3Ex*)&DAT_011e0808 - DAT_011ca75c;
-                if (reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3Ex*)&DAT_011ca7a8)))->ComputeMagnitude() <= *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting38)))))))
+                if (reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3Ex*)&DAT_011ca7a8)))->ComputeMagnitude() <= *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting38)))))))
                 {
                     (*reinterpret_cast<unsigned char *>(&::xbSlowMo)) = 0;
                     DAT_011ca72c = 0.0f;
@@ -1192,7 +1192,7 @@ void Shot::UpdateCamera(float afTime)
             }
         }
     }
-    if (reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((GetCameraPosition() - pt)))->ComputeMagnitude() <= *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting39)))))))
+    if (reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3Ex &)((GetCameraPosition() - pt)))->ComputeMagnitude() <= *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting39)))))))
         c75 = 1;
 }
 

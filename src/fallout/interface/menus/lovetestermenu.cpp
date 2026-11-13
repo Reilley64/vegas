@@ -1760,11 +1760,11 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
     reinterpret_cast<::_Cam_00712e60 *>((k))->FUN_00712e60((const ::_Rect16_00712e60 &)(ba));
     NiFrustum c(false);
     c.farPlane = ((CameraRenderer*)((::ManagerHelper *)(::FUN_0045c670())))->GetAspectRatio();
-    c.nearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007945f0::SettingFloatHelper *>(&::g_01203144))))));
+    c.nearPlane = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007945f0::SettingFloatHelper *>(&::g_01203144))))));
     reinterpret_cast<::FUN_00507700_cls *>((k))->FUN_00507700(c.farPlane / c.nearPlane);
     float l = double(::DAT_011f9426 ? ::DAT_011f9434 : ::FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float e = 0.75f;
-    float j = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007945f0::SettingFloatHelper *>(&::g_01203150)))))) * 0.01745329238474369 * 0.6499999761581421;
+    float j = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007945f0::SettingFloatHelper *>(&::g_01203150)))))) * 0.01745329238474369 * 0.6499999761581421;
     c.left = -::FUN_0057dd70(j) * e;
     c.right = ::FUN_0057dd70(j) * e;
     c.bottom = -::FUN_0057dd70(j) * l * e;

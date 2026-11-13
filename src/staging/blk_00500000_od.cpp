@@ -2853,8 +2853,8 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
                 TeleportableReference* pTeleportDataB = ((::TeleportableReference *)(reinterpret_cast<::fnv_00568e70::XActor *>((apDoorB))->FUN_00568e70()));
                 if (pTeleportDataA && pTeleportDataB)
                 {
-                    float fDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting34))))));
-                    float afValueAfterThirdFloat = FUN_00404010(fDist, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting35)))))) + 100.0);
+                    float fDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting34))))));
+                    float afValueAfterThirdFloat = FUN_00404010(fDist, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting35)))))) + 100.0);
                     float fPi = 3.1415927f;
 
                     reinterpret_cast<::FUN_00537e90 *>((pTeleportDataA))->SetQuantity((uintptr_t)(apDoorB));
@@ -3026,7 +3026,7 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
     {
         if ((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->GetBaseActorValue(skill2) < 200)
         {
-            float amount5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting552 *>(&::g_011c9284))))));
+            float amount5 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting552 *>(&::g_011c9284))))));
             StrMem message;
             ::ApplyPerkModifiers(11, (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)), &amount5);
             (*reinterpret_cast<::Actor * *>(&::_g_thePlayer))->ModActorValue(skill2, amount5, 0);

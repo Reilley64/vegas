@@ -1739,11 +1739,11 @@ void SkillMenu::BuildSkillList()
             reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(DAT_011d9210, value, true);
             if (reinterpret_cast<::TESClass *>((((SkillClass*)((::TESClass *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))))->FUN_00884350())))))->IsTagSkill(skill))
             {
-                tile->Set(DAT_011d9210, value - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00753b10::SkillSetting *>(&::originalRuntimeFloatSetting327)))))));
+                tile->Set(DAT_011d9210, value - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00753b10::SkillSetting *>(&::originalRuntimeFloatSetting327)))))));
                 if (showTagged)
                 {
                     reinterpret_cast<::Tile *>((tile))->Set(DAT_011d9220, 1);
-                    tile->Set(DAT_011d9224, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00753b10::SkillSetting *>(&::originalRuntimeFloatSetting327)))))));
+                    tile->Set(DAT_011d9224, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00753b10::SkillSetting *>(&::originalRuntimeFloatSetting327)))))));
                     if (!editing)
                         ++points;
                 }
@@ -1964,7 +1964,7 @@ void SkillMenu::HandleSkillMenuCommand(int aiID, SkTile* apTile)
             (selected && (!bLimit || !reinterpret_cast<::TESClass *>((((::SkPerkList *)(reinterpret_cast<::fnv_00884350::FUN_00884350_shell *>(((*reinterpret_cast<::SkMgr * *>(&::_g_thePlayer))))->FUN_00884350()))))->IsTagSkill((::ActorValue::Index)reinterpret_cast<std::intptr_t>(pItemData)))))
         {
             reinterpret_cast<::FUN_00754a00_cls *>(&(list))->FUN_00754930((intptr_t)(apTile));
-            reinterpret_cast<::FUN_00a012d0_t *>((apTile))->FUN_00a012d0(DAT_011d9224, reinterpret_cast<::FUN_00754950_shell *>(&(list))->FUN_00754950((::Tile *)(apTile)) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkSetting *>(&::originalRuntimeFloatSetting327)))))) : 0.0f,
+            reinterpret_cast<::FUN_00a012d0_t *>((apTile))->FUN_00a012d0(DAT_011d9224, reinterpret_cast<::FUN_00754950_shell *>(&(list))->FUN_00754950((::Tile *)(apTile)) ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkSetting *>(&::originalRuntimeFloatSetting327)))))) : 0.0f,
                                  1);
             FUN_00706f30(3);
             m_iPointsUsed += selected ? -1 : 1;

@@ -966,7 +966,7 @@ bool __cdecl FUN_007f4f30(FUN_00452370_shell* apTarget)
 
     if (((void *)(reinterpret_cast<::FUN_008a1710_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008a1710())) &&
         ::FUN_006450c0((::TESObjectWEAP *)(::A69C0Weapon *)(reinterpret_cast<A69C0Weapon*>(((void *)(reinterpret_cast<::FUN_008a1710_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_008a1710()))))) &&
-        fDistance > *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting546)))))
+        fDistance > *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting546)))))
     {
         return false;
     }
@@ -1144,8 +1144,8 @@ unsigned char __cdecl GetBurstShotCount(ActionPoints::Action aeAction, bool abAl
         return cshots;
 
     fburstTime = abAllowLongBurst && pweapon && reinterpret_cast<FUN_007f5190_shell*>(pweapon)->IsFlag800Set()
-                     ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007f5050::SettingT< ::fnv_007f5050::GameSettingCollection> *>(&::originalRuntimeFloatSetting539))))))
-                     : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007f5050::SettingT< ::fnv_007f5050::GameSettingCollection> *>(&::originalRuntimeFloatSetting538))))));
+                     ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007f5050::SettingT< ::fnv_007f5050::GameSettingCollection> *>(&::originalRuntimeFloatSetting539))))))
+                     : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007f5050::SettingT< ::fnv_007f5050::GameSettingCollection> *>(&::originalRuntimeFloatSetting538))))));
 
     cshots = static_cast<unsigned char>(
         reinterpret_cast<::FUN_00821640_shell *>((reinterpret_cast<TESCreature*>(pweapon)))->FUN_00821640() * fburstTime *
@@ -2254,7 +2254,7 @@ void Target::FUN_00800ac0(TargetActor* actor, int slot, bool state)
         flag2b5 = false;
     }
     if (enabled && !flag2b4 && actor && actor->getNode() == (void*)node)
-        reinterpret_cast<::FUN_00800650_Class *>(this)->FUN_00800650(*((float *)&(::FUN_00403e20((float *)&(g_011db6d8)))), *((float *)&(::FUN_00403e20((float *)&(g_011db750)))), true);
+        reinterpret_cast<::FUN_00800650_Class *>(this)->FUN_00800650(*((float *)&(::FUN_00403e20((::Setting *)&(g_011db6d8)))), *((float *)&(::FUN_00403e20((::Setting *)&(g_011db750)))), true);
     active = state;
     if (active)
         pending[slot] = true;
@@ -2553,7 +2553,7 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
         ::ApplyPerkModifiers(0x28, (::Actor *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), weapon ? weapon : (*reinterpret_cast<::WeaponPrompt * *>(&::DAT_011ca278)), &DAT_011db0b8);
     }
     else if ((!weapon || (weapon && ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((weapon))->GetUnk15C())) == 0x2d)) &&
-             (*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))->values.Get(0x2d) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1077)))))))
+             (*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))->values.Get(0x2d) >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1077)))))))
     {
         bool creature = false;
         if (::DAT_011f21cc &&
@@ -2571,15 +2571,15 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
         }
         DAT_011db0cf = true;
         DAT_011db0bc = 1.0f;
-        DAT_011db0b8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1078))))));
+        DAT_011db0b8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1078))))));
         ::ApplyPerkModifiers(0x28, (::Actor *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), weapon ? weapon : (*reinterpret_cast<::WeaponPrompt * *>(&::DAT_011ca278)), &DAT_011db0b8);
-        if (!creature && (*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))->values.Get(0x2d) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1081)))))))
+        if (!creature && (*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))->values.Get(0x2d) >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1081)))))))
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((PromptMenu*)DAT_011db0d4)->secondary))->FUN_00a01350(0xfc4, (char *)((*reinterpret_cast<::PromptSetting *>(&::g_011d46d8)).String()), true);
             ((PromptMenu*)DAT_011db0d4)->secondary->Set(0xfa3, 1);
             DAT_011db0d8 = true;
             DAT_011db0c4 = 1.0f;
-            DAT_011db0c0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1084))))));
+            DAT_011db0c0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PromptSetting *>(&::originalRuntimeFloatSetting1084))))));
             ::ApplyPerkModifiers(0x28, (::Actor *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), weapon ? weapon : (*reinterpret_cast<::WeaponPrompt * *>(&::DAT_011ca278)), &DAT_011db0c0);
         }
         else
@@ -5568,8 +5568,8 @@ void ShutdownVats()
         V::Sound soundSlot0;
         reinterpret_cast<::SoundPlaybackHandle *>(&(soundSlot0))->operator=((const ::SoundPlaybackHandle &)((const ::VatsShutdown::Sound &)((*(::VatsShutdown::Sound *)(reinterpret_cast<::AudioClass_ae5680 *>((audioSlot0))->ResolveAudioHandle((::Handle_ae5680 *)(V::DAT_01077d6c), 289, {}))))));
         reinterpret_cast<::FUN_00ad8830_shell *>(&(soundSlot0))->FUN_00ad8830(0);
-        float chanceASlot14 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::VatsShutdown::Setting *>(&::originalRuntimeFloatSetting550))))));
-        float chanceBSlot0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::VatsShutdown::Setting *>(&::originalRuntimeFloatSetting549))))));
+        float chanceASlot14 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::VatsShutdown::Setting *>(&::originalRuntimeFloatSetting550))))));
+        float chanceBSlot0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::VatsShutdown::Setting *>(&::originalRuntimeFloatSetting549))))));
         ::ApplyPerkModifiers(67, (::Actor *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), &chanceASlot14);
         ::ApplyPerkModifiers(67, (::Actor *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), &chanceBSlot0);
         if ((*reinterpret_cast<::VatsShutdown::Actor * *>(&::DAT_011f21e8)) && (*reinterpret_cast<::VatsShutdown::Actor * *>(&::DAT_011f21cc)) && (*reinterpret_cast<::VatsShutdown::Actor * *>(&::DAT_011f21cc))->Ready() && !reinterpret_cast<::FUN_0087f3d0_shell *>(((*reinterpret_cast<::VatsShutdown::Actor * *>(&::DAT_011f21cc))))->FUN_0087f3d0() &&
@@ -7889,7 +7889,7 @@ bool FUN_007f52c0()
             continue;
         }
         float prob = reinterpret_cast<::RefS *>((target->reference))->FUN_005723b0((::RefS *)((*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer))), 0, 0);
-        if (prob < DAT_01011590 || prob > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting1261)))))) ||
+        if (prob < DAT_01011590 || prob > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting1261)))))) ||
             !reinterpret_cast<::SightActor *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->FUN_0088b880(1, (::SightActor *)(target->reference), 1, (int *)(0), 1))
         {
             cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
@@ -7935,8 +7935,8 @@ bool FUN_007f52c0()
         {
             result = true;
         }
-        if (((flag21 && prob > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
-             (!flag21 && prob > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))))) &&
+        if (((flag21 && prob > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
+             (!flag21 && prob > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))))) &&
             !bVisible)
         {
             cur = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
@@ -8006,18 +8006,18 @@ bool FUN_007f52c0()
     if (((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->FUN_00575d70())))
     {
         reinterpret_cast<::WORLD_SHELL *>((((WS*)((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->FUN_00575d70())))))->ProcessCellsInRadius(
-                (const ::NiPoint3 *)(((Refr*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->V1f4()), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))),
+                (const ::NiPoint3 *)(((Refr*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->V1f4()), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))),
                 (const ::NiPoint3 *)(((Refr*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->V1f4()),
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) *
-                    *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))), {}, {});
+                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) *
+                    *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))), {}, {});
     }
     else
     {
         reinterpret_cast<::s54da20::Owner *>((((::GlobD *)(reinterpret_cast<::LowProcess *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->GetTarget()))))->FUN_0054da20(
-                (::s54da20::Position *)(((Refr*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->V1f4()), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))),
+                (::s54da20::Position *)(((Refr*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->V1f4()), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))),
                 (::s54da20::Position *)(((Refr*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))->V1f4()),
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) *
-                    *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))), {}, {});
+                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) *
+                    *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))), {}, {});
     }
     BSSimpleList<ItemListContainer*>* pCurNode2 = (BSSimpleList<ItemListContainer*>*)&::g_011db124;
     while (pCurNode2 && !pCurNode2->FUN_008256d0())
@@ -8031,8 +8031,8 @@ bool FUN_007f52c0()
                 reinterpret_cast<::FUN_00477ba0_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00477ba0() ||
                 reinterpret_cast<::TESForm *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->GetDisabled() ||
                 reinterpret_cast<::FUN_00440d80_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00440d80() ||
-                (flag21 && prob2 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
-                (!flag21 && prob2 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
+                (flag21 && prob2 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
+                (!flag21 && prob2 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))) ||
                 !reinterpret_cast<::FUN_00576070_shell *>((((Refr*)*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(pCurNode2)->m_item)))))->FUN_00576070())
             {
                 pCurNode2 = ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((pCurNode2))->FUN_00726070()));
@@ -8143,8 +8143,8 @@ bool FUN_007f52c0()
         reinterpret_cast<::Class_007f68a0 *>(&(oBigList2))->FUN_007f68a0(
             (const ::NiPoint3 &)((const ::Vec3 &)(((NodeB*)((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData())
                 ->FUN_0045bba0()
-                .ApplyScaled((flag21 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))
-                                      : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))))))));
+                .ApplyScaled((flag21 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87))))))
+                                      : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting101)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Mgr *>(&::originalRuntimeFloatSetting87)))))))))));
         Obj548* physics2 = ((::Obj548 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::GlobD *)(reinterpret_cast<::LowProcess *>((((GlobC*)(*reinterpret_cast<::PlayerPrompt * *>(&::_g_thePlayer)))))->GetTarget()))))->FUN_004543c0()));
         bool hit2 = physics2->V0c8(&oBigList2);
         if (hit2 && ((::CountNode *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(oBigList2))->FUN_008cdd90())))
@@ -8800,7 +8800,7 @@ void VATSMenuX::Update()
                             }
                             pCommandA55->pTarget = (*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc));
                             pCommandA55->fAPCost = fCostX;
-                            float fThresholdA52 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting551)))))) * 100.0;
+                            float fThresholdA52 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting551)))))) * 100.0;
                             float fRollQ96 = ::RandomFloat(0.0f, 100.0f);
                             if (::VATSCreateDAT_011db0b0 && iActionZ == 0 && fRollQ96 <= fThresholdA52)
                             {

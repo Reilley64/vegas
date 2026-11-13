@@ -2176,7 +2176,7 @@ void FUN_00435e40_cls::FUN_00435e40()
     {
         FUN_00435e40_key key;
         key.m_v = SimpleArrayItem<unsigned int>(&(m_0c), i);
-        if (((double)(reinterpret_cast<::FUN_00435e00_t *>(&(key))->FUN_00435e00())) > *((float *)&(::FUN_00403e20((float *)(((FUN_00435e40_flt*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting130))))))))
+        if (((double)(reinterpret_cast<::FUN_00435e00_t *>(&(key))->FUN_00435e00())) > *((float *)&(::FUN_00403e20((::Setting *)(((FUN_00435e40_flt*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting130))))))))
         {
             reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(&(m_0c))->FUN_009a4320(i, 1);
             i--;
@@ -3099,7 +3099,7 @@ void FUN_00435d40_cls::FUN_00435d40()
     {
         FloatSlot v;
         v.m_bits = SimpleArrayItem<unsigned int>(&(m_0c), n - 1);
-        if (reinterpret_cast<::FUN_00435e00_t *>(&(v))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatGlobal *>(&::originalRuntimeFloatSetting131)))))))
+        if (reinterpret_cast<::FUN_00435e00_t *>(&(v))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatGlobal *>(&::originalRuntimeFloatSetting131)))))))
             return;
     }
     FloatHolder h;

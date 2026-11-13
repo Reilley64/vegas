@@ -189,8 +189,8 @@ void FORenderedMenu::OnMenuOpen()
     if (!pTexture)
         ::FUN_005b5e40();
     SetDefaultTexture(pTexture);
-    fBlurRadius = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db44c))))))->f;
-    fBlurIntensity = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db470))))))->f;
+    fBlurRadius = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db44c))))))->f;
+    fBlurIntensity = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db470))))))->f;
     BSShaderManager::GetTexture(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3d8))))->GetMenuTitle())), true, m_pMenuLightShadowNode, false, false);
     bInitialized = true;
 }
@@ -1938,9 +1938,9 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     reinterpret_cast<::CamLook *>(((camera).operator->()))->SetLookAt((const ::CamPoint &)(rootUpdate), (const ::CamPoint &)((const ::Point3 &)(Point3(0.0f, 0.0f, 1.0f))));
     Frustum RootUpdate(false);
     RootUpdate.farPlane = ((::RendererView *)(::FUN_0045c670()))->GetScalarValue();
-    RootUpdate.nearPlane = ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingView *>(&::g_01203144))));
+    RootUpdate.nearPlane = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingView *>(&::g_01203144))));
     reinterpret_cast<::FUN_00507700_cls *>(((camera).operator->()))->FUN_00507700(RootUpdate.farPlane / RootUpdate.nearPlane);
-    float angle = (::FUN_00403e20((float *)&((*reinterpret_cast<::SettingView *>(&::g_01203150)))) * 0.01745329238474369) * ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingView *>(&::g_011db5ec))));
+    float angle = (::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingView *>(&::g_01203150)))) * 0.01745329238474369) * ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingView *>(&::g_011db5ec))));
     RootUpdate.left = -FUN_0057dd70(angle);
     RootUpdate.right = FUN_0057dd70(angle);
     RootUpdate.bottom = -FUN_0057dd70(angle);

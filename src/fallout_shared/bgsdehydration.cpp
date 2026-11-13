@@ -1529,7 +1529,7 @@ bool TESActivatableItem::FUN_005e9360(RefrAccess* apRef, TESObjectREFR* apActiva
             }
         }
         if (bStolen)
-            reinterpret_cast<::KarmaActor *>((::_g_thePlayer))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting282)))));
+            reinterpret_cast<::KarmaActor *>((::_g_thePlayer))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting282)))));
         reinterpret_cast<::PlayerNoteStub *>((::_g_thePlayer))->FUN_00966a70((::NoteStub *)(::TESForm *)(this), 1);
         reinterpret_cast<::Ref *>((apRef))->FUN_00574400();
         return true;

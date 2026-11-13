@@ -128,7 +128,7 @@ float VATS::GetModeTimeMultiplier()
         else if (pCamera && reinterpret_cast<::FUN_00639aa0_shell *>((pCamera))->FUN_00639aa0() > 0.0)
             multiplier = reinterpret_cast<::FUN_00639aa0_shell *>((pCamera))->FUN_00639aa0();
         else
-            multiplier = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting537))))))->f;
+            multiplier = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting537))))))->f;
     }
     multiplier *= FUN_009443f0() / ::FUN_00716440();
     return multiplier;
@@ -980,7 +980,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 float fDistance = 0.0f;
                 if (pAttackCmd->m_bFirstActionFlag)
                 {
-                    fDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting548))))->f;
+                    fDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting548))))->f;
                     if (reinterpret_cast<::Outer *>((DAT_011f21e8))->FUN_008c4850() != 1.0)
                     {
                         reinterpret_cast<::B8C4890Actor *>((DAT_011f21e8))->SetProcessValue(1.0f);
@@ -990,7 +990,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 }
                 else if (pAttackCmd->m_bFinalActionFlag)
                 {
-                    fDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting548))))->f;
+                    fDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting548))))->f;
                     if (reinterpret_cast<::Outer *>((DAT_011f21ec))->FUN_008c4850() != 1.0)
                     {
                         reinterpret_cast<::B8C4890Actor *>((DAT_011f21ec))->SetProcessValue(1.0f);
@@ -1004,11 +1004,11 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                         ::GetActorReach((::A69C0Actor *)(::Actor *)((Actor*)DAT_011f21f0), (::A69C0Weapon *)((intptr_t)((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710()));
                     if (!((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710())
                     {
-                        fDistance *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting554))))->f;
+                        fDistance *= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting554))))->f;
                     }
                     else if (::FUN_006450c0(((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710()))
                     {
-                        fDistance *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting555))))->f;
+                        fDistance *= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting555))))->f;
                     }
                 }
 
@@ -1277,8 +1277,8 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
                     kCenter5 = kCenter5 + aKDir;
                     kCenter5.z += reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::fnv_009c9ae0::FloatGlobal9c9 *>(&::g_011f220c))))->FUN_00450410();
 
-                    NiPoint3 kOffset5(((::fnv_009c9ae0::SettingS9c9 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009c9ae0::SettingT9c9 *>(&::g_011f21f4))))))->fValue, ((::fnv_009c9ae0::SettingS9c9 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009c9ae0::SettingT9c9 *>(&::g_011f22a8))))))->fValue,
-                                      ((::fnv_009c9ae0::SettingS9c9 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009c9ae0::SettingT9c9 *>(&::g_011f22cc))))))->fValue);
+                    NiPoint3 kOffset5(((::fnv_009c9ae0::SettingS9c9 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009c9ae0::SettingT9c9 *>(&::g_011f21f4))))))->fValue, ((::fnv_009c9ae0::SettingS9c9 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009c9ae0::SettingT9c9 *>(&::g_011f22a8))))))->fValue,
+                                      ((::fnv_009c9ae0::SettingS9c9 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009c9ae0::SettingT9c9 *>(&::g_011f22cc))))))->fValue);
 
                     int iOutVal = 0;
                     float fA9 = 0.0f;

@@ -10375,7 +10375,7 @@ bool Walker::FindPath(const Start* start, const Vec& target, Output* output)
             bool kPass4 = reinterpret_cast<::Holder670 *>((edge7.mesh))->MatchNavMesh((::In670 *)&(edge7), (::Out670 *)&(next));
             if (kPass4)
             {
-                if (::GetFloatAtOffset68((const char *)(request)) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006a0ef0::Setting *>(&::originalRuntimeFloatSetting1308)))))) &&
+                if (::GetFloatAtOffset68((const char *)(request)) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006a0ef0::Setting *>(&::originalRuntimeFloatSetting1308)))))) &&
                     reinterpret_cast<::S00693b90 *>((((::fnv_006a0ef0::Triangle *)(reinterpret_cast<::NavMesh *>((next.mesh))->GetTriangle(next.triangle)))))->FUN_00693b90())
                     kPass4 = false;
                 EdgeInfo* info = ((::fnv_006a0ef0::EdgeInfo *)(reinterpret_cast<::FUN_0068f230_shell *>((edge7.mesh))->FUN_0068f230(edge7.triangle, edge7.edge)));

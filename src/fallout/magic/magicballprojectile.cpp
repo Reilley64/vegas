@@ -1713,7 +1713,7 @@ void AreaProjectile::FUN_008106d0(float afDeltaTime)
             if (GetModelFilePath())
                 reinterpret_cast<::FUN_00440460_S *>((GetModelFilePath()))->FUN_00440460((const ::V3 *)(const ::fnv_008106d0::Vec *)(&velocity));
             distance += reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008106d0::Vec &)((velocity - oldPosition)))->ComputeMagnitude();
-            if (distance > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008106d0::Setting *>(&::originalRuntimeFloatSetting1130)))))))
+            if (distance > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008106d0::Setting *>(&::originalRuntimeFloatSetting1130)))))))
                 Kill(1);
             if (effect)
                 reinterpret_cast<::MagicEffectCollection *>((effect))->UpdateLightFade(afDeltaTime);
@@ -2086,7 +2086,7 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
     tailObjVal = ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::Refr *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->tv11() : 0;
     if (tailObjVal != (*reinterpret_cast<::Refr2 * *>(&::_g_thePlayer)))
     {
-        FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::g_011d1c28)))))));
+        FUN_0080fae0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::g_011d1c28)))))));
     }
 }
 
@@ -2482,7 +2482,7 @@ void Projectile::UpdateMotion(float delta)
         if (((::Controller *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0())))
             reinterpret_cast<::VectorSourceB00 *>((((::Controller *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00812b00((void *)&(after));
         distance += reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)((after - before)))->ComputeMagnitude();
-        if (distance > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1130)))))))
+        if (distance > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1130)))))))
             Mark(1);
         if (!Active())
             return;
@@ -3144,7 +3144,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
 
             reinterpret_cast<::FUN_00416870_t *>(&(aim))->FUN_00416870(0.0f, m_88 * afDeltaTime, 0.0f);
 
-            reinterpret_cast<::FUN_008106b0_Class *>((((::fnv_0081a320::FUN_008106b0_shell *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((FUN_009306d0_shell*)this)))->FUN_009306d0()))))->FUN_008106b0(1.0f - afDeltaTime * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1145)))))));
+            reinterpret_cast<::FUN_008106b0_Class *>((((::fnv_0081a320::FUN_008106b0_shell *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((((FUN_009306d0_shell*)this)))->FUN_009306d0()))))->FUN_008106b0(1.0f - afDeltaTime * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1145)))))));
 
             Vec3 start = *v125();
 
@@ -3163,7 +3163,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
 
                 m_8c += distanceTraveled;
 
-                if (m_8c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1130)))))))
+                if (m_8c > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1130)))))))
                     v49(1);
 
                 if ((double)(distanceTraveled / afDeltaTime) < ::DAT_01020998)
@@ -3195,8 +3195,8 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
                     reinterpret_cast<::FUN_00ad89e0_shell *>(&(m_bc))->FUN_00ad89e0(1.0f * (1.0f - ((m_a8 - fSegmentTime) / fSegmentTime)));
             }
 
-            if ((int)::std::floor(fPreviousTime / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))) !=
-                (int)::std::floor(m_a8 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))))
+            if ((int)::std::floor(fPreviousTime / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))) !=
+                (int)::std::floor(m_a8 / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0081a320::FUN_00403e20_shell *>(&::originalRuntimeFloatSetting1146))))))))
             {
 
                 float ratio = (m_ac - m_a8) / m_ac;
@@ -5483,14 +5483,14 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     if (pActor2 && reinterpret_cast<::FUN_008ace90_shell *>((pActor2))->FUN_008ace90())
         return;
 
-    this->unkb0 = (float)((double)reinterpret_cast<::FUN_00404420_shell *>((((::EffectItem *)(reinterpret_cast<::InterfaceManager *>((this))->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1137)))))));
-    if (this->unkb0 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1138)))))))
+    this->unkb0 = (float)((double)reinterpret_cast<::FUN_00404420_shell *>((((::EffectItem *)(reinterpret_cast<::InterfaceManager *>((this))->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1137)))))));
+    if (this->unkb0 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1138)))))))
     {
-        this->unkb0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1138))))));
+        this->unkb0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1138))))));
     }
-    else if (this->unkb0 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1139)))))))
+    else if (this->unkb0 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1139)))))))
     {
-        this->unkb0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1139))))));
+        this->unkb0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1139))))));
     }
 
     reinterpret_cast<::Reference *>((this))->FUN_00575830((::Position *)(&point));
@@ -7556,7 +7556,7 @@ void Controller::FUN_008cb3c0(float afDelta)
     if (afDelta >= ::_DAT_01012060)
     {
         elapsed = elapsed + afDelta;
-        if (elapsed > *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008cb3c0::Clock *>(&::originalRuntimeFloatSetting648)))))))
+        if (elapsed > *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008cb3c0::Clock *>(&::originalRuntimeFloatSetting648)))))))
         {
             phase = 3;
         }

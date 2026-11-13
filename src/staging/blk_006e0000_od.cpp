@@ -6830,7 +6830,7 @@ bool FUN_006fe620_cls::FUN_006fe620(Vec2* pPoint)
     Vec2 a(pPoint->x, pPoint->y);
     Vec2 b(m_34, m_38);
     float r2 = reinterpret_cast<::FnvOwner *>(this)->ComputeDistanceSquaredToRect((*(::FnvPt2 *)&(const ::Vec2 &)(b)), (float)((double)m_04 * DAT_01017a10), a.x, a.y);
-    if (r2 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingRef *>(&::g_011d877c)))))))
+    if (r2 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GameSettingRef *>(&::g_011d877c)))))))
     {
         return true;
     }

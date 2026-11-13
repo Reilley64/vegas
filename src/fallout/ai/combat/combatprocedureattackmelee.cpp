@@ -241,7 +241,7 @@ float FUN_00644580(Obj* p, int percent, int unused, bool abApplySetting, bool ab
     fResult = ((char)(reinterpret_cast<::FUN_00644640_shell *>((p))->FUN_00644640())) + ((double)(reinterpret_cast<::FUN_00644660_holder *>((p))->GetE0())) + reinterpret_cast<::FUN_00885d70_Class *>((p))->GetFieldDC() * fPercentScale;
     fResult = fResult * (abUseAltValue ? reinterpret_cast<::FUN_009a5480_class *>((p))->GetFieldE4Float() : reinterpret_cast<::FUN_004e45e0_shell *>((p))->GetFieldE8Float());
     return abApplySetting ? fResult
-                          : fResult * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting592)))))) * (abUseAltValue ? 1.0f : 0.25f);
+                          : fResult * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting592)))))) * (abUseAltValue ? 1.0f : 0.25f);
 }
 
 struct FUN_009cc220
@@ -563,7 +563,7 @@ void FUN_009d0610_shell::FUN_009d0610(TESAmmoInitCalls* pAmmoInitCalls)
     {
         active = false;
         elapsed = 0;
-        reinterpret_cast<::FUN_008d7f40_shell *>((((FUN_008d7f40_shell*)((char*)this + 0x1c))))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009d0610::Setting_S *>(&::g_011cee60)))))));
+        reinterpret_cast<::FUN_008d7f40_shell *>((((FUN_008d7f40_shell*)((char*)this + 0x1c))))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009d0610::Setting_S *>(&::g_011cee60)))))));
     }
 }
 }  // namespace fnv_009d0610
@@ -926,7 +926,7 @@ int CombatProcedureAttackMelee::FUN_009ccb20(bool abMidAttack, float afDistance,
                                               abTargetRecoiling, ptarget->V230(), 0);
     if ((intptr_t)((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)this)))->FUN_0044edb0())) == 4)
     {
-        afReach += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting597))))));
+        afReach += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting597))))));
         if (DialogueRandom() % 100 < 2)
             afReach += g_d100;
     }
@@ -1792,7 +1792,7 @@ void This::FUN_009cc510()
             m2 = 0.0f;
         if (!reinterpret_cast<::FUN_00494710_shell *>((s56))->FUN_00494710(0xaa))
             m2 = 0.0f;
-        n45 = FUN_00404010((float)(100.0 - (n44 + m2)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::originalRuntimeFloatSetting690)))))));
+        n45 = FUN_00404010((float)(100.0 - (n44 + m2)), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::originalRuntimeFloatSetting690)))))));
         if (t57 && !t5)
             n45 = 0.0f;
         if (m_18 == 2)
@@ -2653,7 +2653,7 @@ int S009ce870::FUN_009ce870(float afDistance, float afReach, bool, bool, int)
         if (!reinterpret_cast<::fnv_009928c0::CombatFlagHolder *>((pDataVal))->HasCombatFlag(1))
         {
             int k = 5;
-            if (abAllowedA[2] && afDistance < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting593)))))))
+            if (abAllowedA[2] && afDistance < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting593)))))))
             {
                 k = 2;
             }
@@ -3005,7 +3005,7 @@ void Procedure::EvaluateReaction()
                     float current = reinterpret_cast<::FUN_00897b50_shell *>((actor2))->FUN_00897b50((::ANIM_GROUP_ENUM)(state));
                     duration3 = ((double)(::FUN_00404010(current, duration3)));
                     float amount_2 = 0.0f;
-                    reinterpret_cast<::FUN_008b3a20_shell *>((actor2))->DispatchToTarget(targetState3 && amount_2 > *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatReaction::Setting *>(&::originalRuntimeFloatSetting345)))))) ? action | 512
+                    reinterpret_cast<::FUN_008b3a20_shell *>((actor2))->DispatchToTarget(targetState3 && amount_2 > *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatReaction::Setting *>(&::originalRuntimeFloatSetting345)))))) ? action | 512
                                                                                                      : action | 256);
                     reinterpret_cast<::FUN_008d7f40_shell *>(&(reactionTimer))->FUN_008d7f40(duration3);
                     reinterpret_cast<::FUN_008d7f40_shell *>(&(durationTimer))->FUN_008d7f40(current);
@@ -3925,7 +3925,7 @@ void Dialogue9CF::StopIfSpeakerOutOfRange()
     {
         Actor9CF* pkSpeaker = ((::Actor9CF *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
         Point9CF kDelta = m_kListener.GetPos() - pkSpeaker->GetPos();
-        if (reinterpret_cast<::TESCombatStyle *>((void *)&(kDelta))->UpdateCombatStyle() >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9CF *>(&::originalRuntimeFloatSetting713)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9CF *>(&::originalRuntimeFloatSetting713)))))))
+        if (reinterpret_cast<::TESCombatStyle *>((void *)&(kDelta))->UpdateCombatStyle() >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9CF *>(&::originalRuntimeFloatSetting713)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9CF *>(&::originalRuntimeFloatSetting713)))))))
             reinterpret_cast<::FUN_009cfc00_shell *>(this)->FUN_009cfc00();
     }
 }
@@ -4632,7 +4632,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
     else if (!active && direction == 0)
     {
         FUN_00416870 f = (*(struct ::FUN_00416870 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(position))->FUN_00439ef0((::NiPoint3 *)&(actor->Position()), *(const ::NiPoint3 *)nullptr)));
-        if (reinterpret_cast<::NiPoint3 *>((void *)&(f))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting713)))))))
+        if (reinterpret_cast<::NiPoint3 *>((void *)&(f))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting713)))))))
             return 4;
     }
     position = actor->Position();
@@ -5085,7 +5085,7 @@ void CombatProc9cd430::FUN_009cd430()
     bool bInReach = false;
     if (((bool)(reinterpret_cast<::FUN_009cde10_shell *>(this)->FUN_009cf030(distance, reachDist, 0))))
     {
-        if (distance - reachDist > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) || reinterpret_cast<::CombatProcStub *>(this)->IsTargetOutOfRange())
+        if (distance - reachDist > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) || reinterpret_cast<::CombatProcStub *>(this)->IsTargetOutOfRange())
         {
             reinterpret_cast<::FUN_009ce190_shell *>(this)->FUN_009ce190();
         }
@@ -5095,7 +5095,7 @@ void CombatProc9cd430::FUN_009cd430()
             return;
         }
     }
-    else if (bInReach && distance < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))))
+    else if (bInReach && distance < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))))
     {
         bool ok = ::TESAnimGroup::IsValidAnimationGroup(reinterpret_cast<::FUN_004301b0_shell *>((actor->GetAnimData(4)))->FUN_004301b0({}));
         if (!ok)
@@ -5213,7 +5213,7 @@ void CombatProcedure_shell::UpdateCombatMovement()
 
     FUN_009a68b0(&vec1c3, actor, (CombatAttackVT*)target8, (intptr_t)&target8->Position(), reinterpret_cast<::FUN_009ce560_shell *>((this))->FUN_009ce560());
 
-    if (f0c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) * 2)
+    if (f0c > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) * 2)
     {
         if (!((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((this))->FUN_00825c00())))
         {
@@ -5245,7 +5245,7 @@ void CombatProcedure_shell::UpdateCombatMovement()
 
     if (((unsigned char)(reinterpret_cast<::FUN_009cefd0_shell *>((this))->IsWithinThreshold(f0c, fX, 0))))
     {
-        if ((wVal & 2) && f0c < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))))
+        if ((wVal & 2) && f0c < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))))
         {
             reinterpret_cast<::Procedure98 *>((this))->UpdateState();
         }
@@ -6168,7 +6168,7 @@ void ZMelee::UpdateMeleeCombat()
         reinterpret_cast<::FUN_00894cc0_shell *>((actor2))->FUN_00894cc0(false);
     else if (((bool)(reinterpret_cast<::FUN_009cefd0_shell *>(this)->IsWithinThreshold(distance3, kReach, 0))) && ((bool)(::FUN_0097f2d0((char *)(void *)((void*)unk04)))))
     {
-        if (mid4 && distance3 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) * 2.0f)
+        if (mid4 && distance3 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) * 2.0f)
             reinterpret_cast<::CombatAttackHelper *>(this)->FUN_009cdf00();
         else
             reinterpret_cast<::FUN_009cd410_shell *>(this)->FUN_009cd410();
@@ -6179,7 +6179,7 @@ void ZMelee::UpdateMeleeCombat()
         if (IsTargetInCone(actor2, target2, 0))
         {
             int topicB = FUN_007031c0((intptr_t)unk04);
-            if (DialogueRandom() % 100 < (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::g_011cf27c)))))) * ::g_d100))
+            if (DialogueRandom() % 100 < (int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::g_011cf27c)))))) * ::g_d100))
             {
                 int attackVal = 255;
                 if (reinterpret_cast<::AnimationInterface *>((actor2->Anim(1, (*reinterpret_cast<int *>((void *)&::g_kTextKeyA)), 0)))->FUN_00495f50({}, {}, {}) == 108)
@@ -6282,7 +6282,7 @@ void FUN_009cf090_Class::TryAttackTarget(float afArg1, float afArg2)
 
                     fPercent4 = FUN_00644580((Obj*)((::Obj_9cf *)(reinterpret_cast<CombatControllerFields*>((this->m_04))->pCombatStyle)), 50, 50, false, bTargetAttacking4);
 
-                    aFMax = FUN_00404010(100.0 - (fChanceTmp + fPercent4), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::originalRuntimeFloatSetting690)))))));
+                    aFMax = FUN_00404010(100.0 - (fChanceTmp + fPercent4), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingObj *>(&::originalRuntimeFloatSetting690)))))));
 
                     if (fChanceTmp > fPercent4 && fChanceTmp > aFMax)
                     {
@@ -6428,7 +6428,7 @@ void CPAM9cc240::UpdateCombatState()
     {
         _v = reinterpret_cast<::FUN_009cfd20_shell *>(this)->GetModifierValue();
         a7 = reinterpret_cast<::FUN_009ce560_shell *>(this)->FUN_009ce560();
-        if (_v - a7 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting594)))))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((dst0))->FUN_00567400() * 2.25)
+        if (_v - a7 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting594)))))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((dst0))->FUN_00567400() * 2.25)
             bDone6 = true;
     }
     if (bDone6)
@@ -6497,12 +6497,12 @@ void xMelee::UpdateDodge()
             else
                 reinterpret_cast<::FUN_008b3a20_shell *>((qfTOqo))->DispatchToTarget(qSVM | 1);
         }
-        else if (qrEZrs < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting593)))))) && (qSVM & 1))
+        else if (qrEZrs < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting593)))))) && (qSVM & 1))
             reinterpret_cast<::FUN_008b3a20_shell *>((qfTOqo))->DispatchToTarget(qSVM & ~1);
     }
     else if (qSVM & 1)
     {
-        if (qrEZrs <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting593)))))) && reinterpret_cast<::TimeoutTimer *>(&(m_kDuration))->CheckTimer())
+        if (qrEZrs <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting593)))))) && reinterpret_cast<::TimeoutTimer *>(&(m_kDuration))->CheckTimer())
         {
             reinterpret_cast<::fnv_009cfc60::FUN_009cfc60_shell *>(this)->FUN_009cfc60();
             reinterpret_cast<::FUN_009cd410_shell *>(this)->FUN_009cd410();
@@ -6512,7 +6512,7 @@ void xMelee::UpdateDodge()
     if (qsSDDgz == 2)
     {
         float qxQHW = (float)(::DialogueRandom() % 100);
-        if ((qSVM & 0x100) && !((bool)(reinterpret_cast<::fnv_00981900::CombatController *>((m_pCtx))->GetModifierKey())) && qxQHW > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting345)))))))
+        if ((qSVM & 0x100) && !((bool)(reinterpret_cast<::fnv_00981900::CombatController *>((m_pCtx))->GetModifierKey())) && qxQHW > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting345)))))))
             reinterpret_cast<::FUN_008b3a20_shell *>((qfTOqo))->DispatchToTarget((qSVM | 0x200) & ~0x100);
     }
     else if (qSVM & 0x200)
@@ -6793,8 +6793,8 @@ void C009ce5b0::FUN_009ce5b0(Vec* apPosition)
         ((unsigned char)(::FUN_009a7940((::SightReference *)(actor2), (::SightReference *)(target), (*(const ::NiPoint3 *)(apPosition)), (*(const ::NiPoint3 *)(target->v07d())), 0, 30))))
     {
         Ptr avoidX(new Avoid);
-        reinterpret_cast<::FUN_00905450_StandIn *>((((::fnv_009ce5b0::Avoid *)(::FUN_00559450((int *)&(avoidX))))))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009ce5b0::Shape &)(Shape(target->v07d(), *((float *)&(::FUN_00403e20((float *)(((Settings*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting385))))))),
-                                                  *((float *)&(::FUN_00403e20((float *)(((Settings*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting386))))))))));
+        reinterpret_cast<::FUN_00905450_StandIn *>((((::fnv_009ce5b0::Avoid *)(::FUN_00559450((int *)&(avoidX))))))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009ce5b0::Shape &)(Shape(target->v07d(), *((float *)&(::FUN_00403e20((::Setting *)(((Settings*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting385))))))),
+                                                  *((float *)&(::FUN_00403e20((::Setting *)(((Settings*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting386))))))))));
         reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009ce5b0::Req *)(&request), (void *)(&(*(::fnv_009ce5b0::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (void *)(((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)&(location))->GetContainingCell()))), (void *)(reinterpret_cast<::BGSTerrainManager *>(&(location))->GetMinLevel()), 5.0f,
                              (::fnv_008b3880::PathingAvoidNodeArray *)(::fnv_009ce5b0::Avoid *)(((::fnv_009ce5b0::Avoid *)(::FUN_00559450((int *)&(avoidX))))));
     }

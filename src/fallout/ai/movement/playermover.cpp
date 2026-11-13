@@ -267,7 +267,7 @@ void PlayerMover::SetMoverMode(unsigned int auMode)
     bool changed = (ByteAndFlagState & 0x400) != (auMode & 0x400);
     if (auMode & 0x30)
     {
-        m_fValue = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting219))))))->f;
+        m_fValue = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting219))))))->f;
         m_uiMode = auMode & 0x30;
     }
     ByteAndFlagState = auMode;

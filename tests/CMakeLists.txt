@@ -1531,3 +1531,30 @@ if(vegas_object_checks)
             --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/data-values)
 endif()
+
+# Fails when the float setting accessor at 0x00403e20 (VEGAS-116) again
+# returns the address 4 bytes into the setting, the 32-bit offset of the
+# value, instead of the value member of the shared Setting, 8 bytes in on
+# windows-x64. It reads the archive with llvm-objdump. The patterns are
+# specific to clang-cl at /O2, which adds the offset to the setting's address.
+# Blind spots: an offset reached in another way (a register, an lea with an
+# index) passes the forbidden pattern; the required pattern does not tell a
+# load from an address.
+if(vegas_object_checks)
+  add_test(NAME objects.float_setting_accessor
+    COMMAND ${CMAKE_COMMAND}
+      -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+      -DARCHIVE=$<TARGET_FILE:game>
+      -DWORK=${CMAKE_CURRENT_BINARY_DIR}/float_setting_accessor.disassembly.txt
+      "-DFUNCTION=?FUN_00403e20@@YAAEAMPEAVSetting@@@Z"
+      "-DFORBID=^(addq[ \t]+[$]0x4, %r|leaq[ \t]+0x4[(]%r)"
+      "-DREQUIRE=^(addq[ \t]+[$]0x8, %r|leaq[ \t]+0x8[(]%r)"
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
+  # Fails when a sampled caller of the accessor again calls its 32-bit form,
+  # which no object defines, or no longer calls the form that takes the shared
+  # Setting.
+  add_test(NAME objects.float_setting_accessor_callers
+    COMMAND ${GO_EXECUTABLE} run . --table float-setting-accessor.tsv
+            --objects ${CMAKE_CURRENT_BINARY_DIR}/game-objects.txt
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools/function-relocations)
+endif()

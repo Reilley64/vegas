@@ -174,13 +174,13 @@ struct GlobalObject2_0040c150
 void FUN_0047c8e0_shell::InitActorBaseData()
 {
     *(unsigned int*)&this->actorData.m_uiActorFlags = 0;
-    this->actorData.m_usField04 = (unsigned short)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting18))))))->f;
+    this->actorData.m_usField04 = (unsigned short)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting18))))))->f;
     this->actorData.m_usField06 = 0;
     *(unsigned short*)&this->actorData.sLevel = 1;
     this->actorData.m_usField0A = 0;
     this->actorData.m_usField0C = 0;
     this->actorData.m_usField0E = 100;
-    this->actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c5074))))))->f;
+    this->actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c5074))))))->f;
     this->actorData.m_usField14 = (unsigned short)*((int *)&(::FUN_0043d4d0((int *)&(::g_011c50d8))));
     *(unsigned int*)((char*)this + 0x20) = 0;
     *(unsigned int*)((char*)this + 0x1c) = 0;
@@ -814,10 +814,10 @@ struct S47b
 void S47b::SetClampedValue(float afValue)
 {
     v = afValue;
-    if (v > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting25)))))))
-        v = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting25))))));
-    else if (v < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting24)))))))
-        v = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting24))))));
+    if (v > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting25)))))))
+        v = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting25))))));
+    else if (v < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting24)))))))
+        v = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e1c0::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting24))))));
     FUN_0047e2a0(2);
 }
 }  // namespace fnv_0047e1c0
@@ -1000,18 +1000,18 @@ struct Setting_S
 int FUN_0047e040(float afKarma)
 {
     int iLevel = 1;
-    if (afKarma <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting20)))))))
+    if (afKarma <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting20)))))))
     {
-        if (afKarma <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting22)))))))
+        if (afKarma <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting22)))))))
             iLevel = 4;
         else
             iLevel = 2;
     }
     else
     {
-        if (afKarma >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting21)))))))
+        if (afKarma >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting21)))))))
         {
-            if (afKarma >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting23)))))))
+            if (afKarma >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0047e040::Setting_S *>(&::originalRuntimeFloatSetting23)))))))
                 iLevel = 3;
             else
                 iLevel = 0;
@@ -2763,11 +2763,11 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
 
                     DAT_01186f78 = 1;
 
-                    DAT_011c52a4 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting23))))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f;
+                    DAT_011c52a4 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting23))))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f;
 
-                    DAT_011c52a0 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting20))))))->f;
+                    DAT_011c52a0 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting20))))))->f;
 
-                    DAT_011c529c = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting22))))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting20))))))->f;
+                    DAT_011c529c = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting22))))))->f - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting20))))))->f;
 
                     break;
                 }
@@ -2786,27 +2786,27 @@ void ActorBaseInitItemView::FUN_0047d8b0(TESForm* param)
             if (FUN_0040eb10(actorData.m_fField10, DAT_01186d08[1], 0.001f))
             {
 
-                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f - DAT_011c52a0 * 0.5f;
+                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f - DAT_011c52a0 * 0.5f;
             }
             else if (FUN_0040eb10(actorData.m_fField10, DAT_01186d08[0], 0.001f))
             {
 
-                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f + DAT_011c52a4 * 0.5f;
+                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting21))))))->f + DAT_011c52a4 * 0.5f;
             }
             else if (FUN_0040eb10(actorData.m_fField10, DAT_01186d08[2], 0.001f))
             {
 
-                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting20))))))->f + DAT_011c529c * 0.5f;
+                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting20))))))->f + DAT_011c529c * 0.5f;
             }
             else if (FUN_0040eb10(actorData.m_fField10, DAT_01186d08[3], 0.001f))
             {
 
-                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting23))))))->f + 100.0;
+                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting23))))))->f + 100.0;
             }
             else if (FUN_0040eb10(actorData.m_fField10, DAT_01186d08[4], 0.001f))
             {
 
-                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting22))))))->f - 100.0;
+                actorData.m_fField10 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting22))))))->f - 100.0;
             }
             else
             {

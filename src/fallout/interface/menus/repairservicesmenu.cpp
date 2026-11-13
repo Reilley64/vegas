@@ -407,7 +407,7 @@ bool __cdecl FUN_007b7b40(Holder* pHolder)
     else
     {
         result2 =
-            ((std::intptr_t)(::GetHealthForm((::TESForm *)(a7)))) == 0 || ((double)(reinterpret_cast<::FUN_004bcdb0_shell *>((pHolder))->FUN_004bcdb0(1))) >= (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))) * ::DAT_01020758 ||
+            ((std::intptr_t)(::GetHealthForm((::TESForm *)(a7)))) == 0 || ((double)(reinterpret_cast<::FUN_004bcdb0_shell *>((pHolder))->FUN_004bcdb0(1))) >= (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))) * ::DAT_01020758 ||
             (a7->FUN_00401170() == 0x18 && ((double)(::FUN_004be060((void *)(a7)))) <= ::_DAT_01012060 && ((double)(::FUN_004be180((char *)(a7)))) <= ::_DAT_01012060);
     }
     return result2;
@@ -880,8 +880,8 @@ void StatMenu::UpdateItemComparison(int event, StatTile* tile)
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((StatMenu*)(*reinterpret_cast<::DAT_holder * *>(&::fnv_007b82c0::DAT_011da7f0)))->field40))->FUN_00a01350(DAT_011da7e8, (char *)(empty0), true);
             }
         }
-        projected6 = ((::StatValue *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value +
-                     (((::StatValue *)&(::FUN_00403e20((float *)&(((StatSetting&)(*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))))->value - ((::StatValue *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value) *
+        projected6 = ((::StatValue *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value +
+                     (((::StatValue *)&(::FUN_00403e20((::Setting *)&(((StatSetting&)(*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))))->value - ((::StatValue *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value) *
                          (field9c / 100.0f);
         projected6 = FUN_0040ebd0(projected6 / 10.0, 1.0f);
         if (((double)(::InventoryStackRecord::RoundToNearestStep(projected6, 0.001f))) <= ((double)(::InventoryStackRecord::RoundToNearestStep(health2, 0.001f))))
@@ -1032,8 +1032,8 @@ void RepairMenuData::ApplyRepair(RepairEntry* apEntry)
     int iCount8;
 
     float fHealthPercent = 0.0f;
-    fHealthPercent = ((::StatValue *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value +
-              (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))) - ((::StatValue *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value) * (iRepairSkill / 100.0f);
+    fHealthPercent = ((::StatValue *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value +
+              (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Cfg *>(&::originalRuntimeFloatSetting944)))))) - ((::StatValue *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::StatSetting *>(&::originalRuntimeFloatSetting943))))))->value) * (iRepairSkill / 100.0f);
     fHealthPercent = FUN_0040ebd0(fHealthPercent / 10.0, 1.0f);
     pWeapon = dynamic_cast<TESObjectWEAP*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apEntry))->pObject)));
     if (pWeapon)

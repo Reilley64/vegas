@@ -591,12 +591,12 @@ void LowProcess::Update(MobileObject* mobile)
                         if (follow.distanceLimit == 0.0 && ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((update.actor))->GetTarget())) &&
                             ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((update.actor))->GetTarget()))->IsCellInterior())
                             follow.distanceLimit =
-                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting173)))))
+                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting173)))))
                                     ->f;
                         else if (follow.distanceLimit == 0.0)
                             follow.distanceLimit =
                                 follow.targetCount *
-                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting172)))))
+                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting172)))))
                                     ->f;
                         SetProcessTarget(update.actor, 1);
                     }
@@ -1186,7 +1186,7 @@ TESObjectREFR* LowProcess::ResolvePackageTarget(Actor* actor, TESPackage* packag
                             distance > 0 ? static_cast<float>(distance)
                             : context.cell->IsCellInterior()
                                 ? 3.402823466e38f
-                                : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting132)))))
+                                : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting132)))))
                                       ->f;
                         (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetReferencesInArea(context.cell, context.location, context.radius,
                                                            context.location, context.radius, ((bool (&)(TESObjectREFR *, intptr_t))::CheckPackageMatch),
@@ -1196,7 +1196,7 @@ TESObjectREFR* LowProcess::ResolvePackageTarget(Actor* actor, TESPackage* packag
                     {
                         if (!package || !package->GetPackageSearchRadius(actor, context.radius))
                             context.radius =
-                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting132)))))
+                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting132)))))
                                     ->f;
                         (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetReferencesInArea(context.cell, context.location, context.radius,
                                                            *actor->GetPos(), context.radius, ((bool (&)(TESObjectREFR *, intptr_t))::CheckPackageMatch),
@@ -1831,7 +1831,7 @@ TESObjectREFR* LowProcess::ResolvePackageLocation(Actor* actor, TESPackage* pack
                 search.radius = 0.0f;
                 if (!package || !package->GetPackageSearchRadius(actor, search.radius))
                     search.radius =
-                        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting132)))))->f;
+                        ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(reinterpret_cast<SettingT_GameSettingCollection_&>(originalRuntimeFloatSetting132)))))->f;
                 (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetReferencesInArea(search.cell, point, search.radius, *actor->GetPos(), search.radius,
                                                    FUN_0090e660, reinterpret_cast<intptr_t>(actor));
                 m_eReferenceTypeInfo = static_cast<PACKAGE_OBJECT_TYPE>(0);
@@ -9264,7 +9264,7 @@ void LowProcessAccess::FUN_0090d000(Actor* pActor)
     }
     else
     {
-        int iCount = (int)(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting236))))))->f * 4.0);
+        int iCount = (int)(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting236))))))->f * 4.0);
         Actor* pTargetActor = 0;
         bool bPickResultFound = false;
         while (iCount)
@@ -11050,7 +11050,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
             {
                 radius7 = range > 0 ? (float)range
                                     : (reinterpret_cast<::TESObjectCELL *>((((SearchCell*)kCell)))->IsCellInterior() ? DAT_01016970
-                                                                          : *((float *)&(::FUN_00403e20((float *)(((SearchDefault*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting132))))))));
+                                                                          : *((float *)&(::FUN_00403e20((::Setting *)(((SearchDefault*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting132))))))));
             }
             else
             {
@@ -11061,7 +11061,7 @@ void SearchProcess::CollectSearchResults(SearchReference* actor, SearchReference
         else
         {
             if (!m_kProcessData() || !reinterpret_cast<::TESPackage *>((m_kProcessData()))->GetPackageSearchRadius((::MobileObject *)(actor), radius7))
-                radius7 = *((float *)&(::FUN_00403e20((float *)(((SearchDefault*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting132)))))));
+                radius7 = *((float *)&(::FUN_00403e20((::Setting *)(((SearchDefault*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting132)))))));
             (*reinterpret_cast<::SearchWorld * *>(&::g_dataHandler))->Visit(kCell, &position, radius7, actor->Position(), radius7, ((void (&)())::CheckPackageMatch), actor);
         }
         field8c = 0;

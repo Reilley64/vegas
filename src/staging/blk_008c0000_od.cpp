@@ -5375,7 +5375,7 @@ bool MovementController::UpdateAnimation(AnimationOutput* output)
         float scale = reinterpret_cast<::FUN_004b6190_shell *>(&(state->direction))->DotProduct((void *)&(aRotation));
         NiPoint3 normal7 = FUN_004a3760(2.0f, FUN_004a3760(scale, state->direction) - aRotation);
         reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(aRotation))->FUN_0063c8a0((void *)&(normal7));
-        reinterpret_cast<::Owner5615 *>((output))->FUN_005615d0((std::intptr_t)&(const ::NiPoint3 &)(FUN_004a3760(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting650)))))) * speed, aRotation)));
+        reinterpret_cast<::Owner5615 *>((output))->FUN_005615d0((std::intptr_t)&(const ::NiPoint3 &)(FUN_004a3760(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting650)))))) * speed, aRotation)));
         RotationMatrix matrix9;
         reinterpret_cast<::ThreeByThreeMatrix *>(&(getNode()->FUN_00461130()))->Inverse((::ThreeByThreeMatrix &)(matrix9));
         NiPoint3 normal = matrix9.FUN_004b4500(state->direction);
@@ -5383,7 +5383,7 @@ bool MovementController::UpdateAnimation(AnimationOutput* output)
             normal.z = FUN_00408820(normal.y) * SignOfFloat(normal.z);
         normal.y = 0.0f;
         ::FUN_00525340((float *)&(normal));
-        NiPoint3 angle(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting649)))))) * normal.z, 0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting649)))))) * -normal.x);
+        NiPoint3 angle(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting649)))))) * normal.z, 0.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting649)))))) * -normal.x);
         reinterpret_cast<::bhkCharacterController *>((output))->FUN_00561630(getNode()->FUN_00461130().FUN_004b4500(angle));
     }
     ResourceUpdate* resource = ((::ResourceUpdate *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(::SceneNode *)(getNode()))));

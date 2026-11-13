@@ -325,7 +325,7 @@ void FUN_004e0330(unsigned int requested, float time)
             if (time > 0.0)
                 s.b = time;
             else
-                s.b = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting735))))));
+                s.b = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting735))))));
             s.d = p;
             FUN_004e04e0* h = new FUN_004e04e0(s);
             reinterpret_cast<::FUN_00a5bca0_shell *>((a))->SetExtraDataName((::NiExtraData *)(h));
@@ -401,16 +401,16 @@ void FUN_004e0110()
                 }
                 else
                 {
-                    if (data->age / data->life >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))))
-                        data->alpha = 1.0f - LinearInterpolate(0.0f, 1.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))) * data->life,
+                    if (data->age / data->life >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))))
+                        data->alpha = 1.0f - LinearInterpolate(0.0f, 1.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting736)))))) * data->life,
                                                                data->life, data->age);
                     NiUpdateData updateDataA(data->age, true, false);
                     reinterpret_cast<::FUN_00a59c60_cls *>((((ObjShell*)child4)))->FUN_00a59c60((std::intptr_t)&(updateDataA));
                 }
             }
         }
-        FUN_004de8a0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting742)))))));
-        FUN_004de8b0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011cf6a8)))))));
+        FUN_004de8a0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::originalRuntimeFloatSetting742)))))));
+        FUN_004de8b0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::g_011cf6a8)))))));
         splash5 = FUN_004de8d0();
         if (splash5 < 1.0)
         {

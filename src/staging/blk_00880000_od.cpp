@@ -1616,7 +1616,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
         NodeView* node2;
         node2 = process ? node2 = process->getNode(mode()) : 0;
         WeaponView* weapon = owner->weapon() ? ((::WeaponView *)(reinterpret_cast<::Twin_0044ddc0 *>((owner->weapon()))->GetName())) : 0;
-        if (node2 && weapon && !::FUN_004c0c30((char *)(weapon)) && distance > FUN_00404010(1.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011df748))))))))
+        if (node2 && weapon && !::FUN_004c0c30((char *)(weapon)) && distance > FUN_00404010(1.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011df748))))))))
         {
             NodeView* other_2 = 0;
             NiPoint3 point, playerNormal4, FlushUsageData;
@@ -2359,8 +2359,8 @@ void Refr::FUN_008855f0(float* pfValue, float b, float c)
         scale = (reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((obj3))->FUN_00567400() / reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400()) * scale;
         int mask9 = 0x20f;
         bool flag = (reinterpret_cast<::FUN_008846e0_shell *>(this)->GetVtbl20Result() & mask9) == mask9;
-        float out28 = *pfValue * (flag ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting285)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting283)))))));
-        float out34 = *pfValue * (flag ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting286)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting284)))))));
+        float out28 = *pfValue * (flag ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting285)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting283)))))));
+        float out34 = *pfValue * (flag ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting286)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting284)))))));
         if (c < f7)
         {
             float rA = FUN_00404010(0.0f, c - f2);
@@ -2375,7 +2375,7 @@ void Refr::FUN_008855f0(float* pfValue, float b, float c)
         {
             float d8 = c - f7;
             float d2 = fd0 - f7;
-            *pfValue = (1.0f + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting290)))))) * (d8 / d2)) * scale;
+            *pfValue = (1.0f + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting290)))))) * (d8 / d2)) * scale;
         }
         FUN_005330e0(pfValue, out34, out28);
     }

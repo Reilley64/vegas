@@ -477,7 +477,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
     fradioRadius = 0.0f;
     fstaticRatio = 0.0f;
     isignalPower = 0;
-    fstaticDistance = 1.0f - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dd580))))));
+    fstaticDistance = 1.0f - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011dd580))))));
     pactStations = &(*reinterpret_cast<::BSSimpleList< ::FalloutRadio::RadioStationState *> *>(&::g_011dd554));
     while (pactStations && !pactStations->IsEmpty())
     {
@@ -3552,7 +3552,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 if (aData && !bNpcVal)
                     aBound = reinterpret_cast<::TESSound *>((aData))->GetField45() * 110.0;
                 else if (bNpcVal)
-                    aBound = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd62c)))))) * 1.100000023841858;
+                    aBound = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd62c)))))) * 1.100000023841858;
 
                 if (aBound < reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::RadioUpdateVec3 &)((aLight - pos)))->ComputeMagnitude())
                 {
@@ -3573,7 +3573,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                     {
                         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::RadioUpdateSndHandle &)((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))->snd4))->operator=((const ::SoundPlaybackHandle &)((const ::RadioUpdateSndHandle &)(((RadioUpdateAudio*)((::AudioView *)(::FUN_00453a70())))->FUN_00ad7480(buf, flags | 0x500102, 0))));
                         reinterpret_cast<::FUN_00ad8be0_shell *>(&((*((::RadioUpdateReceiver **)(&reinterpret_cast<::SimpleListNodeView*>(aNext)->m_item)))
-                            ->snd4))->FUN_00ad8be0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd5b0)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd62c)))))));
+                            ->snd4))->FUN_00ad8be0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd5b0)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RadioUpdateFSetting *>(&::g_011dd62c)))))));
                     }
                     else
                     {

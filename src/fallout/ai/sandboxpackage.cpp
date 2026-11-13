@@ -630,7 +630,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     itotalProb = 0;
     inumTargets = SimpleArraySize((reinterpret_cast<SandBoxChoiceListItem_ext*>(&m_kProcedureList)));
     process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetBaseTexture()));
-    fsearchDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009f4700::Setting_S *>(&::originalRuntimeFloatSetting255))))));
+    fsearchDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009f4700::Setting_S *>(&::originalRuntimeFloatSetting255))))));
     packageLoc = *reinterpret_cast<NiPoint3POD*>(apActor->GetPos());
     ppackageCell = ((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->GetTarget()));
     ppack = ((::fnv_009f4700::TESPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((static_cast<Actor_ext*>(apActor)))->FUN_009344a0()));
@@ -649,7 +649,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     }
     ppackageWorldSpace = ppackageCell ? reinterpret_cast<::TESObjectCELL *>((static_cast<TESObjectCELL_Ext*>(ppackageCell)))->GetParentWorldSpace()
                                       : ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((static_cast<ActorS*>(static_cast<TESObjectREFR*>(apActor))))->FUN_00575d70()));
-    fsearchDialogueDistSqr = fsearchDist + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009f4700::Setting_S *>(&::originalRuntimeFloatSetting256))))));
+    fsearchDialogueDistSqr = fsearchDist + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009f4700::Setting_S *>(&::originalRuntimeFloatSetting256))))));
     fsearchDistSqr = fsearchDist * fsearchDist;
     fsearchDialogueDistSqr = fsearchDialogueDistSqr * fsearchDialogueDistSqr;
     for (i = 0; i < inumTargets; i++)
@@ -2103,7 +2103,7 @@ void SbActorPackageData::ScanSandboxTargets(SbActor* apActor)
     m_bHasBedMarker = false;
     m_bHasChairMarker = false;
     m_bHasFoodMarker = false;
-    float fRadius = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting255))));
+    float fRadius = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting255))));
     SbCell* pCell = ((::SbCell *)(reinterpret_cast<::LowProcess *>((apActor))->GetTarget()));
     SbPoint3 kPos7 = *apActor->GetPos();
     SbPackage* pPackage9 = ((::SbPackage *)(reinterpret_cast<::FUN_009344a0_shell *>((apActor))->FUN_009344a0()));

@@ -2495,7 +2495,7 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
                             this->m_fProcessUpdateTimer > ::_DAT_01012060)
                             bsetactor = false;
                         else
-                            this->m_fProcessUpdateTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1062))))));
+                            this->m_fProcessUpdateTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1062))))));
                     }
                     if (bsetactor)
                         pTalk = pact;
@@ -2555,7 +2555,7 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
         {
             TESTopic* pTopic = ((::TESTopic *)(::fnv_0061a2d0::GetTopicSubTypeName((*(int *)&(const ::DIALOGUE_TYPE &)(DIALOGUE_TYPE_DT_TOPIC)), iElementIndex)));
             reinterpret_cast<::Stub8bc3d0Obj *>((((FUN_008bc3d0_shell*)pTalk)))->FUN_008bc3d0((::Stub8bc3d0Arg *)(pTopic));
-            this->m_fProcessListValue2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1060))))));
+            this->m_fProcessListValue2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00977cb0::Setting_S *>(&::originalRuntimeFloatSetting1060))))));
         }
     }
 }
@@ -3030,7 +3030,7 @@ void FUN_00977660_shell::FUN_00977660()
         if (pactor)
         {
             float fdistancefromplayer = reinterpret_cast<::RefS *>((((Ref_S*)pactor)))->FUN_005723b0((::RefS *)(::_g_thePlayer), false, false);
-            if (fdistancefromplayer < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977660::Setting_S *>(&::originalRuntimeFloatSetting248)))))))
+            if (fdistancefromplayer < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00977660::Setting_S *>(&::originalRuntimeFloatSetting248)))))))
                 ((ProcessListsInsertHelper*)&(*reinterpret_cast<::ProcessLists *>(&::g_011e0e80)))->FUN_0096e3c0(pactor);
         }
     }
@@ -4538,7 +4538,7 @@ void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
         if (iactorCount < 25)
             bcomplex = false;
         this->SemaphoreTimingState =
-            bcomplex ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977130::Setting_S *>(&::originalRuntimeFloatSetting1024)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00977130::Setting_S *>(&::originalRuntimeFloatSetting1023))))));
+            bcomplex ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00977130::Setting_S *>(&::originalRuntimeFloatSetting1024)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00977130::Setting_S *>(&::originalRuntimeFloatSetting1023))))));
         iactorsDead = bcomplex ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d0964)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d0cd8))))));
         iactorsTotal = bcomplex ? *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d08f8)))))) : *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00977130::GlobalObject2_0040c150 *>(&::g_011d09a0))))));
         if (ideadCount < iactorsDead || iactorCount < iactorsTotal)
@@ -9724,9 +9724,9 @@ void DetectionLists::UpdateDetection()
                                     ba = true;
                                 else if ((l == 0 || l == 1) && reinterpret_cast<::ActiveEffect *>(&(((::DetectBase *)(reinterpret_cast<::Actor *>((h))->GetActorBase()))->misc))->IsDone() && !reinterpret_cast<::fnv_008a78f0::FUN_008a78f0_shell *>((h))->FUN_008a78f0(6))
                                     ba = true;
-                                if (h && eb < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DetectSetting *>(&::originalRuntimeFloatSetting248)))))))
+                                if (h && eb < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DetectSetting *>(&::originalRuntimeFloatSetting248)))))))
                                     reinterpret_cast<::fnv_0096e3c0::FUN_0096e3c0_shell *>(&((*reinterpret_cast<::DetectionLists *>(&::g_011e0e80))))->FUN_0096e3c0((::Actor *)(f));
-                                if (b > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DetectSetting *>(&::originalRuntimeFloatSetting1073)))))))
+                                if (b > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DetectSetting *>(&::originalRuntimeFloatSetting1073)))))))
                                     reinterpret_cast<::TeammateOwner *>((((ActorEntity*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_00966f20((::Actor *)(h), ba, 0);
                                 else if (c || k)
                                     reinterpret_cast<::TeammateOwner *>((((ActorEntity*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_00966f20((::Actor *)(h), ba, 1);
@@ -12702,11 +12702,11 @@ struct DetectionList : public ProcessLists
 // @fnv 0x009764a0
 bool DetectionList::HasNearbyDetectedActor(bool differentDistance)
 {
-    float threshold3 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DetectionSetting *>(&::originalRuntimeFloatSetting992))))))->f;
+    float threshold3 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DetectionSetting *>(&::originalRuntimeFloatSetting992))))))->f;
     bool found7 = false;
     if (differentDistance)
     {
-        threshold3 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DetectionSetting *>(&::originalRuntimeFloatSetting991))))))->f;
+        threshold3 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DetectionSetting *>(&::originalRuntimeFloatSetting991))))))->f;
     }
     float distance8 = 0.0f;
     DetectionActor* actor = 0;

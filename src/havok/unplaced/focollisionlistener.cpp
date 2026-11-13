@@ -733,7 +733,7 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
                                    HitActor* pkActorB)
 {
     float fAbs = ((float)(::FUN_00408820(fAmount)));
-    if (fAbs < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::HitSetting *>(&::originalRuntimeFloatSetting727)))))))
+    if (fAbs < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::HitSetting *>(&::originalRuntimeFloatSetting727)))))))
         return;
     if (pkActorA && reinterpret_cast<::FUN_00452370_shell *>((pkActorA))->FUN_00452370() && !reinterpret_cast<::FUN_00477ba0_shell *>((pkActorA))->FUN_00477ba0() && !pkActorA->IsDead() &&
         (!pkActorB || !pkActorB->IsDead()))

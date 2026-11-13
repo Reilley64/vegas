@@ -130,7 +130,7 @@ void FUN_009cb830_shell::FUN_009cb830(Projectile* apProjectile)
 {
     if (this->unk30)
     {
-        reinterpret_cast<::FUN_00966a00_Class *>((apProjectile))->FUN_00966a00(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))));
+        reinterpret_cast<::FUN_00966a00_Class *>((apProjectile))->FUN_00966a00(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))));
     }
     this->unk30 = 0;
     if (this->unk14)
@@ -463,7 +463,7 @@ bool B9CB380Package::FUN_009cb380(B9CB380Form* pkForm, intptr_t iArg, float fArg
     if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::B9CB380World * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(pkMobile2), (::ThreatActor *)(pkForm), (*(const ::ThreatPosition *)(iArg)), fArg))
     {
         if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(m_kTimer))->FUN_0097fa50())
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(m_kTimer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::B9CB380Setting *>(&::originalRuntimeFloatSetting358)))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(m_kTimer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::B9CB380Setting *>(&::originalRuntimeFloatSetting358)))))));
         else if (reinterpret_cast<::TimeoutTimer *>(&(m_kTimer))->CheckTimer())
             reinterpret_cast<::TESObjectACTI *>((pkProcess))->SetActivateSound((::TESSound *)(pkForm));
         if (m_bFlag14)
@@ -526,7 +526,7 @@ NiPoint3 CombatProcedureShell::GetPathingPoint()
     }
     TESObjectREFR* ref = ((::fnv_009cb6e0::TESObjectREFR *)(::FUN_007031c0((intptr_t)(unk04))));
     PathingRequest* req = ((::fnv_009cb6e0::PathingRequest *)(reinterpret_cast<::Thing *>((ref))->GetOrFallback((intptr_t)(((::fnv_009cb6e0::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))))));
-    float dist = ::GetFloatAtOffset68((const char *)(req)) * (b30 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))) : 1.0f);
+    float dist = ::GetFloatAtOffset68((const char *)(req)) * (b30 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))) : 1.0f);
     NiPoint3 point;
     if (!b14)
     {

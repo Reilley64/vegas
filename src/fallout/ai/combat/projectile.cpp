@@ -875,7 +875,7 @@ struct Setting_S
 // @fnv 0x009c3f50
 float __cdecl BlendWithSetting(float afValue, float afBlend, float afScale)
 {
-    return (afValue * afBlend + (1.0 - afBlend) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting657))))))) * afScale;
+    return (afValue * afBlend + (1.0 - afBlend) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting657))))))) * afScale;
 }
 
 struct NiPoint3Helper
@@ -4958,10 +4958,10 @@ void FUN_009a52f0_shell::UpdateExplosion(ProjectileCalls* projectile)
     {
         float length = reinterpret_cast<::Standin77900 *>((source))->FUN_00477900();
         float radius = reinterpret_cast<::PathingRequest *>((source))->GetTargetRadius();
-        if (radius >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting353)))))))
+        if (radius >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting353)))))))
         {
-            length = ComputeExplosionDamageFalloff(length, radius, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting353)))))));
-            if (length >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting354)))))))
+            length = ComputeExplosionDamageFalloff(length, radius, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting353)))))));
+            if (length >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting354)))))))
             {
                 float elapsed = 0.0f;
                 float duration = DAT_0108e2b0;
@@ -4970,11 +4970,11 @@ void FUN_009a52f0_shell::UpdateExplosion(ProjectileCalls* projectile)
                     if (reinterpret_cast<::FUN_009a5480_class *>((projectile))->GetFieldE4Float() != 3.4028234663852886e+38)
                     {
                         duration = reinterpret_cast<::FUN_009a5480_class *>((projectile))->GetFieldE4Float() + 1.0;
-                        if (duration > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting478)))))))
-                            elapsed = duration - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting478))))));
+                        if (duration > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting478)))))))
+                            elapsed = duration - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting478))))));
                     }
                     else
-                        duration = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting482))))));
+                        duration = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting482))))));
                 }
                 if (duration > 0.0)
                     reinterpret_cast<::S_9a54a0_Class *>(this)->AddOrUpdateItem((projectile), length, elapsed, duration, radius);
@@ -5842,7 +5842,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
         {
             int required = ((int)(::GetField19C((char *)(weapon))));
             int skill = (*reinterpret_cast<::P062Object * *>(&::_g_thePlayer))->values.value(5);
-            float multiplier = 1.0f + (skill - required) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::originalRuntimeFloatSetting753))))));
+            float multiplier = 1.0f + (skill - required) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P062Setting *>(&::originalRuntimeFloatSetting753))))));
             reinterpret_cast<::FUN_00966a00_Class *>((projectile))->FUN_00966a00(reinterpret_cast<::FUN_00453700_shell *>((projectile))->FUN_00453700() * multiplier);
         }
     }
@@ -5875,7 +5875,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
                 reinterpret_cast<::fnv_00567ad0::FUN_00567ad0 *>((projectile))->SetOwner(effect);
             if (::FUN_004c0bf0((::TESObjectWEAP *)(weapon)))
                 reinterpret_cast<::TESWorldSpace *>((projectile))->FUN_00586130(FUN_0040ebd0(
-                    1.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::originalRuntimeFloatSetting655)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::originalRuntimeFloatSetting656)))))) * reinterpret_cast<::FUN_009bd540_Class *>(((*reinterpret_cast<::P062Object * *>(&::_g_thePlayer))))->FUN_009bd540()));
+                    1.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P062Setting *>(&::originalRuntimeFloatSetting655)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P062Setting *>(&::originalRuntimeFloatSetting656)))))) * reinterpret_cast<::FUN_009bd540_Class *>(((*reinterpret_cast<::P062Object * *>(&::_g_thePlayer))))->FUN_009bd540()));
         }
         if (parent)
             reinterpret_cast<::FUN_0097f720_shell *>((parent))->FUN_0097f720((intptr_t)(projectile));
@@ -5913,7 +5913,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
         P062Scene* geometry = ((::P062Scene *)(::CreateOctahedron(4.0f, (const struct ::FUN_004a7800 *)&(color), true)));
         reinterpret_cast<::FUN_00a5a040_Class *>((geometry))->FUN_00a5a040();
         reinterpret_cast<::FUN_00440460_S *>((geometry))->FUN_00440460((const ::V3 *)&(projectile->scene()->FUN_0045bb80()));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::P062World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(geometry), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::g_011f210c)))))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::P062World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(geometry), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P062Setting *>(&::g_011f210c)))))));
         FUN_006815c0 rotation;
         reinterpret_cast<::FUN_004a0c90_shell *>(&(rotation))->FUN_004a0c90(projectile->scale(false));
         color = FUN_00414430(1.0f, 1.0f, 0.0f, 0.6f);
@@ -5921,7 +5921,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
             ((::P062Scene *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(projectile->scene()->FUN_0045bb80()), (const ::fnv_004b3890::FUN_004a7800 &)(color),
                          (const class ::FUN_006815c0 &)((const struct ::FUN_00416870 &)(projectile->scene()->FUN_0045bb80() + rotation.FUN_004b4500(FUN_00416870(0.0f, 1000.0f, 0.0f)))),
                          (const ::fnv_004b3890::FUN_004a7800 &)(color), true)));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::P062World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(geometry), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P062Setting *>(&::g_011f210c)))))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::P062World * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(geometry), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P062Setting *>(&::g_011f210c)))))));
     }
     if (projectile)
         reinterpret_cast<::FUN_009a52f0_shell *>((((P062Queued*)((::P062Object *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::P062Queue * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap)))))->UpdateExplosion({});
@@ -6748,7 +6748,7 @@ void ProjectileRuntime::FUN_009bda10()
         if (current->IsType() && reinterpret_cast<::FUN_008bbc10_shell *>((current))->FUN_008bbc10() && wordF8 &&
             reinterpret_cast<::FUN_004ad010_shell *>((reinterpret_cast<ModifierSource*>(wordF8)))->IsFlag4Set())
         {
-            floatD4 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009bda10::RuntimeSettings *>(&::originalRuntimeFloatSetting388))))));
+            floatD4 *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009bda10::RuntimeSettings *>(&::originalRuntimeFloatSetting388))))));
         }
     }
     bool skipUpdateB = false;
@@ -7108,7 +7108,7 @@ void GameScreen::FUN_009bf190()
     {
         if (!reinterpret_cast<::FUN_004fd420_shell *>((((::fnv_009bf190::ActionState *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_004fd420({}))
         {
-            if (((double)(reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0())) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting684)))))))
+            if (((double)(reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0())) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting684)))))))
             {
                 if (!reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x800))
                 {
@@ -7865,9 +7865,9 @@ bool ProjectileHit::ProcessHit(Obj* object, Vec const& point, Vec const& normal,
         Node* node = ((::Node *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(color), true)));
         reinterpret_cast<::FUN_00a5a040_Class *>((node))->FUN_00a5a040();
         reinterpret_cast<::FUN_00440460_S *>((node))->FUN_00440460((const ::V3 *)&(hit->point));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TESProxy * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(node), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TESProxy * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(node), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
         node = ((::Node *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(hit->point), (const ::fnv_004b3890::FUN_004a7800 &)(color), (const class ::FUN_006815c0 &)((const ::Vec &)(hit->point + hit->normal * 24.0f)), (const ::fnv_004b3890::FUN_004a7800 &)(color), true)));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TESProxy * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(node), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TESProxy * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(node), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
     }
     hits.FUN_005ae3d0(hit);
     return true;
@@ -8972,8 +8972,8 @@ FUN_009bbef0::FUN_009bbef0(void* apBaseForm, PrjRef* apSource, void* apWeaponEnt
             if (((::PrjItemForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pAmmoInfo))->GetName())))
             {
                 float fAmmoSpread =
-                    *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PrjSetting *>(&::g_011ced70)))))) *
-                    ::FUN_00404010(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PrjSetting *>(&::g_011cf6b4)))))), ::TESWeightForm::GetWeightForForm((::TESForm *)(::PrjItemForm *)(((::PrjItemForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pAmmoInfo))->GetName()))), ::FUN_004d1360((char *)((*reinterpret_cast<::PrjPlayer * *>(&::_g_thePlayer))))));
+                    *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PrjSetting *>(&::g_011ced70)))))) *
+                    ::FUN_00404010(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PrjSetting *>(&::g_011cf6b4)))))), ::TESWeightForm::GetWeightForForm((::TESForm *)(::PrjItemForm *)(((::PrjItemForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pAmmoInfo))->GetName()))), ::FUN_004d1360((char *)((*reinterpret_cast<::PrjPlayer * *>(&::_g_thePlayer))))));
                 fBodyPartChance += ::FUN_00404010(0.0f, fAmmoSpread);
             }
         }
@@ -11367,11 +11367,11 @@ void S9b41b0::Update(float afTime)
     float f;
     f = 0.0f;
     if (reinterpret_cast<::BGSProjectile *>((((::fnv_009b41b0::BGSProjectile *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetHasExplosionAltTrigger() && reinterpret_cast<::BGSProjectile *>((((::fnv_009b41b0::BGSProjectile *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetExplosionProximity() > 0.0)
-        f = *((float *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cee0c)))))));
+        f = *((float *)&(::FUN_00403e20((::Setting *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cee0c)))))));
     else if (((::fnv_009b41b0::BGSProjectile *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->FUN_005de080())
-        f = *((float *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cee0c)))))));
+        f = *((float *)&(::FUN_00403e20((::Setting *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::g_011cee0c)))))));
     else
-        f = *((float *)&(::FUN_00403e20((float *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting646)))))));
+        f = *((float *)&(::FUN_00403e20((::Setting *)(((FloatSetting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting646)))))));
     if (f != 0.0 && f < reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0() && reinterpret_cast<::BSShaderRenderUtility *>((((DataHandler*)(*reinterpret_cast<void * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))))
         reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();
     if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x400) && ((::fnv_009b41b0::S9b41b0 *)(reinterpret_cast<ProjectileFields*>(this)->pSourceRef)))
@@ -11697,7 +11697,7 @@ bool Proj::FUN_009c39e0()
 {
     float radius1 = reinterpret_cast<::BGSProjectile *>((((::fnv_009c39e0::ActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetExplosionProximity();
     if (((::fnv_009c39e0::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) && !reinterpret_cast<::TESObjectCELL *>((((::fnv_009c39e0::Cell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->IsCellInterior())
-        radius1 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009c39e0::Setting *>(&::g_011cf7e0))))));
+        radius1 *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009c39e0::Setting *>(&::g_011cf7e0))))));
     float radiusSq2 = radius1 * radius1;
     Actor* candidate1 = 0;
     bool found = false;
@@ -11751,10 +11751,10 @@ bool Proj::FUN_009c39e0()
     if (found && candidate1)
     {
         if (candidate1->IsCreature() || candidate1 == (*reinterpret_cast<::fnv_009c39e0::Actor * *>(&::_g_thePlayer)))
-            unkE4 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009c39e0::Setting *>(&::originalRuntimeFloatSetting685)))))) +
+            unkE4 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009c39e0::Setting *>(&::originalRuntimeFloatSetting685)))))) +
                     reinterpret_cast<::FUN_00644790_class *>((((::fnv_009c39e0::ActorBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_00644790() * reinterpret_cast<::ActorValueOwner *>(&(candidate1->unkA4))->GetActorValueAsInteger((::ActorValue::Index)(35)) / 100.0f;
         else
-            unkE4 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009c39e0::Setting *>(&::originalRuntimeFloatSetting685))))));
+            unkE4 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009c39e0::Setting *>(&::originalRuntimeFloatSetting685))))));
     }
     return found;
 }
@@ -12095,13 +12095,13 @@ void ZProjectile::UpdateDetonation(float elapsed)
                         ZScene* marker = ((::ZScene *)(::FUN_004aae30((::NiAVObject *)(::ZScene *)(GetScene()), (::NiFixedString *)(int *)(&(*reinterpret_cast<int *>((void *)&::fnv_005726e0::str_01030e48))))));
                         if (marker)
                             reinterpret_cast<::fnv_005726e0::FUN_005726e0_shell *>(this)->FUN_005726e0((::fnv_005726e0::NiAVObject *)(::ZScene *)(GetScene()), reinterpret_cast<::FUN_00456630_helper *>((marker))->FUN_00456610());
-                        if (timere4 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting686)))))))
-                            timere8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting687))))));
+                        if (timere4 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting686)))))))
+                            timere8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting687))))));
                         else
                             timere8 =
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting688)))))) +
-                                (timere4 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting686))))))) *
-                                    (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting687)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting688)))))));
+                                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting688)))))) +
+                                (timere4 / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting686))))))) *
+                                    (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting687)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ZSetting *>(&::originalRuntimeFloatSetting688)))))));
                         reinterpret_cast<::fnv_009c4ec0::FUN_009c4ec0_shell *>(this)->InitSoundFromArchetype();
                     }
                 }
@@ -12481,7 +12481,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, intptr_t eventOwner, 
                                 RenderElement* visual = ((::RenderElement *)(::CreateOctahedron(DAT_0101712c, (const struct ::FUN_004a7800 *)(::Color *)(&color), 1)));
                                 reinterpret_cast<::FUN_00a5a040_Class *>((visual))->FUN_00a5a040();
                                 reinterpret_cast<::FUN_00440460_S *>((visual))->FUN_00440460((const ::V3 *)(::Vec3 *)(((::Vec3 *)(::FUN_0045bb80((intptr_t)(((GetVisualFn)player->vtable[0x1d0 / 4])(player)))))));
-                                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::AudioController * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(visual), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
+                                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::AudioController * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(visual), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
                             }
                         }
                     }
@@ -12521,7 +12521,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, intptr_t eventOwner, 
                         RenderElement* visual = ((::RenderElement *)(::CreateOctahedron(DAT_0101712c, (const struct ::FUN_004a7800 *)(::Color *)(&color), 1)));
                         reinterpret_cast<::FUN_00a5a040_Class *>((visual))->FUN_00a5a040();
                         reinterpret_cast<::FUN_00440460_S *>((visual))->FUN_00440460((const ::V3 *)(::Vec3 *)(&projected));
-                        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::AudioController * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(visual), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
+                        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::AudioController * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(visual), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011f210c)))))));
                     }
                 }
             }
@@ -12977,7 +12977,7 @@ void ProjPB::FUN_009becc0(float fUnused)
                 SpherePB* pkSphere = ((::SpherePB *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(kColor), 1)));
                 reinterpret_cast<::FUN_00a5a040_Class *>((pkSphere))->FUN_00a5a040();
                 reinterpret_cast<::FUN_00440460_S *>((pkSphere))->FUN_00440460((const ::V3 *)&(Get3D()->GetWorldTranslate()));
-                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugListPB * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkSphere), ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingPB *>(&::g_011f210c)))));
+                reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugListPB * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pkSphere), ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingPB *>(&::g_011f210c)))));
             }
         }
     }
@@ -14079,7 +14079,7 @@ bool RefP9::FUN_009c03f0()
     {
         ::ImageSpaceEffectParam kColor = ((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kQuery))->FUN_00632ce0())) ? ::ImageSpaceEffectParam(1.0f, 0.0f, 0.0f, 1.0f) : ::ImageSpaceEffectParam(1.0f, 1.0f, 0.0f, 1.0f);
         void* pvLine = ((void *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(kPos), (const ::fnv_004b3890::FUN_004a7800 &)(kColor), (const class ::FUN_006815c0 &)((const ::NiPoint3P9 &)(kPos + kRay)), (const ::fnv_004b3890::FUN_004a7800 &)(kColor), 1)));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugP9 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pvLine), ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingP9 *>(&::g_011f210c)))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::DebugP9 * *>(&::g_TES))))->FUN_00458e20((::NiAVObject *)(pvLine), ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingP9 *>(&::g_011f210c)))));
     }
     if (((bool)(reinterpret_cast<::FUN_00632ce0_Class *>(&(kQuery))->FUN_00632ce0())))
         reinterpret_cast<::Projectile *>(this)->FUN_009bc8f0();

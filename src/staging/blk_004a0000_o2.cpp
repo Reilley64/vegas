@@ -284,12 +284,12 @@ void ImpactTask::FUN_004a2d50()
         if (world)
         {
             reinterpret_cast<::Owner623 *>((splatter))->FUN_006231a0((::NiNode623 *)(world));
-            float distance = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting29))))));
+            float distance = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting29))))));
             NiPoint3 end = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::NiPoint3 &)(direction.ApplyScaled(distance)))));
             end.x += ::RandomFloat(DAT_0101e578, DAT_01017868);
             end.y += ::RandomFloat(DAT_0101e578, DAT_01017868);
             end.z += ::RandomFloat(DAT_0101e578, DAT_01017868);
-            float drop = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting30)))))) *
+            float drop = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting30)))))) *
                          (reinterpret_cast<::FUN_00621b00_shell *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->FUN_00621b00() / reinterpret_cast<::BSFaceGenKeyframe *>((((::Ref *)(::FUN_00559450((int *)&(reference))))))->GetTime());
             end.z += drop;
             if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSetting *>(&::g_011c5868)))))) > 0)

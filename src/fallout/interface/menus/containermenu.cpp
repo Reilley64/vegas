@@ -2523,7 +2523,7 @@ bool FUN_0075e0b0_shell::FUN_0075e0b0(Actor_75e0b0* actor, int amount)
         unsigned int type = ((unsigned int)(::fnv_0047e040::FUN_0047e040(((::fnv_0075e0b0::Base_75e0b0 *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->av.GetFloat(23))));
         if (type != 2 && type != 4)
         {
-            reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::originalRuntimeFloatSetting282)))))));
+            reinterpret_cast<::KarmaActor *>(((*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::originalRuntimeFloatSetting282)))))));
         }
     }
     return success;
@@ -3665,7 +3665,7 @@ void MenuDeadline539::ShowMessageWithSound(StrMem strMessage, BSSoundHandleEx so
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(strMessage))))), true);
         duration3 = (float)::FUN_00ad8b30((unsigned int *)&(soundHandle));
         if (duration3 == 0.0)
-            duration3 = strlen(((const char *)(::FUN_00559450((int *)&(strMessage))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting539 *>(&::originalRuntimeFloatSetting1229)))))) * 1000.0;
+            duration3 = strlen(((const char *)(::FUN_00559450((int *)&(strMessage))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting539 *>(&::originalRuntimeFloatSetting1229)))))) * 1000.0;
         deadline = (unsigned int)(((unsigned int)(::FUN_00457fe0())) + duration3);
     }
 }

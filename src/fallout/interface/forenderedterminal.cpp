@@ -629,7 +629,7 @@ struct RenderNode
 // @fnv 0x007feeb0
 void RenderNode::SetupPowerButtonScreen()
 {
-    reinterpret_cast<::FOPipboyManager *>(this)->SetScanlines(1, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db674)))))));
+    reinterpret_cast<::FOPipboyManager *>(this)->SetScanlines(1, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db674)))))));
     bool createdCur = false;
     Resource* rootP = 0;
     if (!(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
@@ -654,10 +654,10 @@ void RenderNode::SetupPowerButtonScreen()
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotAM))->SetYRotation(DAT_010559cc);
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rotB))->FUN_004a0c90(DAT_010559cc);
     reinterpret_cast<::FUN_0043fa80_s *>((rootP))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::Matrix &)(rotB * rotAM)));
-    float rate9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db65c))))));
+    float rate9 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db65c))))));
     if (!FUN_00707b50() && !DAT_011f9426)
         rate9 = (float)(rate9 * ::DAT_0101de30);
-    reinterpret_cast<::FUN_004bc1f0_S *>((rootP))->FUN_004bc1f0(rate9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db614)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db62c)))))));
+    reinterpret_cast<::FUN_004bc1f0_S *>((rootP))->FUN_004bc1f0(rate9, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db614)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db62c)))))));
     Vector3 akStart(0.f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((rootP))->FUN_00a59c60((std::intptr_t)&(akStart));
     Camera* cameraK = new Camera;
@@ -671,11 +671,11 @@ void RenderNode::SetupPowerButtonScreen()
     reinterpret_cast<::FUN_00733fd0_shell *>((cameraK))->FUN_00733fd0(1.f);
     Frustum frustum(0);
     frustum.farPlane = ((::Interface *)(::FUN_0045c670()))->GetFar();
-    frustum.nearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_01203144))))));
+    frustum.nearPlane = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_01203144))))));
     reinterpret_cast<::FUN_00507700_cls *>((cameraK))->FUN_00507700(frustum.farPlane / frustum.nearPlane);
     float aspect6 = (double)(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float scale4 = DAT_01016264;
-    float angle7 = (float)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_01203150)))))) * ::DAT_01023128 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db5ec)))))));
+    float angle7 = (float)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_01203150)))))) * ::DAT_01023128 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011db5ec)))))));
     frustum.left = -FUN_0057dd70(angle7) * scale4;
     frustum.right = FUN_0057dd70(angle7) * scale4;
     frustum.bottom = -FUN_0057dd70(angle7) * aspect6 * scale4;

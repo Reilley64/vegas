@@ -201,7 +201,7 @@ Sky::Sky() : m_pRootNode(0), m_pSkyNode(0), m_kSunlightColor(0.0f, 0.0f, 0.0f), 
     m_pSkySounds = new BSSimpleList<SkySound*>;
     m_fWeatherFade = 0.0f;
     field108 = 0;
-    field10c = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting76))))->f;
+    field10c = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting76))))->f;
     flags = 0;
     reinterpret_cast<::FUN_0063a030_shell *>(this)->FUN_0063a030(true);
     field12c = 12.0f;
@@ -253,7 +253,7 @@ float FUN_0063b9b0_shell::FUN_0063b9b0()
 {
     if (this->flags & 0x1000)
     {
-        DAT_011cccfc = FUN_00404010(0.0f, ::FUN_00595ea0((char *)(void *)(this)) - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting78))))))->f);
+        DAT_011cccfc = FUN_00404010(0.0f, ::FUN_00595ea0((char *)(void *)(this)) - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting78))))))->f);
         this->flags &= ~0x1000u;
     }
     return DAT_011cccfc;
@@ -272,7 +272,7 @@ float FUN_0063ba30_shell::FUN_0063ba30()
 {
     if (this->flags & 0x2000)
     {
-        DAT_011ccd00 = FUN_0040ebd0(23.989999771118164f, reinterpret_cast<::FUN_00596030_cls *>((this))->FUN_00596030() + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting78))))))->f);
+        DAT_011ccd00 = FUN_0040ebd0(23.989999771118164f, reinterpret_cast<::FUN_00596030_cls *>((this))->FUN_00596030() + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting78))))))->f);
         this->flags &= ~0x2000;
     }
     return DAT_011ccd00;
@@ -861,9 +861,9 @@ void FUN_0063b120_shell::FUN_0063b120()
             if (*(void**)&this->m_pPreviousWeather == 0)
             {
                 if (i == 4)
-                    fCurrentFlash = this->m_fWeatherFade * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ccccc))))))->f;
+                    fCurrentFlash = this->m_fWeatherFade * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ccccc))))))->f;
                 else if (i == 3)
-                    fCurrentFlash = this->m_fWeatherFade * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting75))))))->f;
+                    fCurrentFlash = this->m_fWeatherFade * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting75))))))->f;
             }
             ((FUN_0063b630_shell*)this)->FUN_0063c690(&this->m_kSkyColors[0] + i, &cb, fCurrentFlash);
         }
@@ -1107,7 +1107,7 @@ void FUN_0063ac70_shell::FUN_0063ac70(float afSecondsPassed)
 
     if (m_fWeatherFade > 0.0)
         m_fWeatherFade =
-            1.0 - (((int)(::fnv::timer::Time())) - field104) / (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting74))))))->f * 1000.0);
+            1.0 - (((int)(::fnv::timer::Time())) - field104) / (((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting74))))))->f * 1000.0);
     if (m_fWeatherFade < 0.0)
         m_fWeatherFade = 0.0f;
 
@@ -2077,9 +2077,9 @@ void Sky::FUN_0063ca20()
         }
         if (reinterpret_cast<::FUN_0063d000_shell *>((weather))->FUN_0063d000() && !rain)
         {
-            rain = new Particle(&DAT_0104eeb0, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting61)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting62)))))),
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting63)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting64)))))),
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting65)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011ccc18)))))));
+            rain = new Particle(&DAT_0104eeb0, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting61)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting62)))))),
+                                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting63)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting64)))))),
+                                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting65)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011ccc18)))))));
             rain->Attach(((::SkyAssets::Object *)(::FUN_00559450((int *)&(root)))), &DAT_0104eeb0);
         }
         else if (!reinterpret_cast<::FUN_0063d000_shell *>((weather))->FUN_0063d000())
@@ -2089,9 +2089,9 @@ void Sky::FUN_0063ca20()
         }
         if (reinterpret_cast<::FUN_0063d020_shell *>((weather))->FUN_0063d020() && !snow)
         {
-            snow = new Particle(&DAT_0104eea8, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting66)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting67)))))),
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting68)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting69)))))),
-                                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting70)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011cccec)))))));
+            snow = new Particle(&DAT_0104eea8, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting66)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting67)))))),
+                                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting68)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting69)))))),
+                                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::originalRuntimeFloatSetting70)))))), *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SkyAssets::Setting *>(&::g_011cccec)))))));
             snow->Attach(((::SkyAssets::Object *)(::FUN_00559450((int *)&(root)))), &DAT_0104eea8);
         }
         else if (!reinterpret_cast<::FUN_0063d020_shell *>((weather))->FUN_0063d020())
@@ -2987,7 +2987,7 @@ void FogSky::FUN_0063bce0()
     if (!FUN_0063c460())
     {
         float farPlane20 = ((::FogCamera *)(::FUN_0045c670()))->GetFarPlane();
-        float minimum3 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FogSetting *>(&::g_01203144))))));
+        float minimum3 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FogSetting *>(&::g_01203144))))));
         float ratio2 = (farDistance - farPlane20) / (farDistance - minimum3);
         nearDistance = nearDistance - (nearDistance - minimum3) * ratio2;
         farDistance = farPlane20;
@@ -3140,10 +3140,10 @@ void SkyWeatherUpdate::FUN_0063d1d0()
         m_fWeatherBlend =
             (m_fFogFarDistance + (m_fFogFarDistance < fWeatherChance ? 24 : 0) - fWeatherChance) /
             static_cast<WeatherValues*>(m_pRegionWeather)
-                ->GetWeatherData(3, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting71))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting72))))->f);
+                ->GetWeatherData(3, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting71))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting72))))->f);
     }
     if (flags & 8)
-        m_fWeatherBlend = (m_fWeatherBlend - field110) * (1.0 + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting73))))->f) + field110;
+        m_fWeatherBlend = (m_fWeatherBlend - field110) * (1.0 + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting73))))->f) + field110;
     if (m_fWeatherBlend > 1.0)
     {
         m_pPreviousWeather = 0;

@@ -4060,7 +4060,7 @@ void FUN_0070adb0_shell::InitInterface(bool abInitialLoad)
     *(Tile**)&this->unka0 = reinterpret_cast<::fnv_00a01b00::TileLoader *>(((*(TileH**)&this->unk9c)))->FUN_00a01b00((void *)("Data\\Menus\\globals.xml"));
     ::fnv_00a1ca20::RemoveMenuEntries("Data\\Menus\\globals.xml", 0);
     reinterpret_cast<::FUN_00a087d0_shell *>(((*(TileStandIn_009ff600**)&this->unka0)))->FUN_00a087d0(0, 0);
-    reinterpret_cast<::FUN_00a012d0_t *>(((*(TileH**)&this->unka0)))->FUN_00a012d0(::FUN_00a01860("_background_fill_alpha"), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d3174)))))) * 255.0, true);
+    reinterpret_cast<::FUN_00a012d0_t *>(((*(TileH**)&this->unka0)))->FUN_00a012d0(::FUN_00a01860("_background_fill_alpha"), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011d3174)))))) * 255.0, true);
     reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unka0)))->Set(::FUN_00a01860("_Has360Controller"), FUN_004b71d0());
 
     *(NiNode**)&this->unka4 = new NiNode(0);
@@ -4631,7 +4631,7 @@ void FUN_0070bc20_shell::UpdateActivatePick()
                 {
                     CollisionFilter icolFilter = pcon->FUN_0070c440();
                     unsigned int igroup = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(icolFilter))->FUN_004a3a20();
-                    reinterpret_cast<::fnv_00631ab0::xCaster *>(((this->unk13c)))->FUN_00631ab0(*((float *)&(::FUN_00403e20((float *)&(g_011d8b78)))), igroup);
+                    reinterpret_cast<::fnv_00631ab0::xCaster *>(((this->unk13c)))->FUN_00631ab0(*((float *)&(::FUN_00403e20((::Setting *)&(g_011d8b78)))), igroup);
                 }
             }
             DAT_011d8a90 = 3;
@@ -7198,7 +7198,7 @@ int FUN_00716730_t::FUN_00716730(float afScale)
 {
     bool bReset;
     unsigned int uiSection = ((int)(::fnv::timer::Time()));
-    if (*((float *)&(::FUN_00403e20((float *)(((Setting_S*)&g_011d8b38))))) < 0.0)
+    if (*((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&g_011d8b38))))) < 0.0)
         return 0;
     bReset = false;
     if (this->unk150 == 0x80000001 &&
@@ -7220,7 +7220,7 @@ int FUN_00716730_t::FUN_00716730(float afScale)
     }
     if (this->unk158 == 0)
     {
-        if ((double)(uiSection - this->unk154) < *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&g_011d8b38))))))
+        if ((double)(uiSection - this->unk154) < *((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&g_011d8b38))))))
             return 0;
         else
         {
@@ -7230,7 +7230,7 @@ int FUN_00716730_t::FUN_00716730(float afScale)
     }
     else
     {
-        if ((double)(uiSection - this->unk158) < *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&g_011d8b88))))) / afScale)
+        if ((double)(uiSection - this->unk158) < *((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&g_011d8b88))))) / afScale)
             return 0;
         else
         {
@@ -7584,7 +7584,7 @@ struct FUN_00711dc0
 // @fnv 0x00711dc0
 float FUN_00711dc0::GetFloat()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00711dc0::Setting_S *>(&::g_011f360c))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00711dc0::Setting_S *>(&::g_011f360c))))));
 }
 }  // namespace fnv_00711dc0
 
@@ -9367,7 +9367,7 @@ struct FUN_00711d80_cls
 // @fnv 0x00711d80
 float FUN_00711d80_cls::GetGlobalFloat()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FUN_00711d80_Global *>(&::g_011f35f4))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FUN_00711d80_Global *>(&::g_011f35f4))))));
 }
 
 class SettingValue
@@ -9386,7 +9386,7 @@ class FUN_00711da0_cls
 // @fnv 0x00711da0
 float FUN_00711da0_cls::GetSettingValue()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingValue *>(&::g_011f3600))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingValue *>(&::g_011f3600))))));
 }
 
 // FUN_00711de0: member function of a global-manager object.
@@ -9407,7 +9407,7 @@ class FloatValueReader
 // @fnv 0x00711de0
 float FloatValueReader::FUN_00711de0()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatValueOwner *>(&::g_011f3618))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatValueOwner *>(&::g_011f3618))))));
 }
 
 
@@ -11069,7 +11069,7 @@ int FUN_00710060_cls::FUN_00710060(bool p1, bool p2, bool* p3)
             unk15c = result2;
             if ((p1 && a1 + aA2 + nn5 + b2) || (p2 && aA4 + uA3 + b4 + B3))
             {
-                unk160 = (unsigned int)((double)::fnv::timer::Time() + *((float *)&(::FUN_00403e20((float *)&(DAT_011d8b38)))));
+                unk160 = (unsigned int)((double)::fnv::timer::Time() + *((float *)&(::FUN_00403e20((::Setting *)&(DAT_011d8b38)))));
             }
             else
             {
@@ -11081,7 +11081,7 @@ int FUN_00710060_cls::FUN_00710060(bool p1, bool p2, bool* p3)
             result2 = unk15c;
             if ((p1 && a1 + aA2 + nn5 + b2) || (p2 && aA4 + uA3 + b4 + B3))
             {
-                unk160 = (unsigned int)((double)::fnv::timer::Time() + *((float *)&(::FUN_00403e20((float *)&(DAT_011d8aa4)))));
+                unk160 = (unsigned int)((double)::fnv::timer::Time() + *((float *)&(::FUN_00403e20((::Setting *)&(DAT_011d8aa4)))));
             }
         }
         else if (unk15c != m6)
@@ -13952,8 +13952,8 @@ void CursorX::FUN_007118d0()
         {
             iX = reinterpret_cast<::FUN_00a23390_t *>((pInput2))->GetAxisState(0, 7);
             iY = reinterpret_cast<::FUN_00a23390_t *>((pInput2))->GetAxisState(0, 8);
-            iX = (int)(iX * *((float *)&(::FUN_00403e20((float *)&(DAT_011d8c5c)))));
-            iY = (int)(-(float)iY * *((float *)&(::FUN_00403e20((float *)&(DAT_011d8c5c)))));
+            iX = (int)(iX * *((float *)&(::FUN_00403e20((::Setting *)&(DAT_011d8c5c)))));
+            iY = (int)(-(float)iY * *((float *)&(::FUN_00403e20((::Setting *)&(DAT_011d8c5c)))));
         }
         else
         {

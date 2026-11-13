@@ -357,7 +357,7 @@ int LockExtraData::GetLevel(TESObjectREFR* reference)
     if (cFlags & 4)
     {
         int actorLevel = reference ? reinterpret_cast<::fnv_00567e10::FUN_00567e10_shell *>((reference))->FUN_00567e10(false) : reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>((::_g_thePlayer))->FUN_0087f9f0();
-        level += (int)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting10))))))->f * actorLevel;
+        level += (int)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting10))))))->f * actorLevel;
         if (level > 99)
             level = 99;
     }

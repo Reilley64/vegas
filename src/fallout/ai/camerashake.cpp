@@ -109,25 +109,25 @@ void UpdateDistanceFade(float afMult, const NiPoint3& arPos)
     {
         cameraPos = reinterpret_cast<::NiAVObject *>((((::FUN_0043c490_shell *)(::FUN_00558310((::NiNode_00558310 *)(::FUN_00558310_node *)(((::FUN_00558310_node *)(::FUN_0045c670()))))))))->FUN_0043c490();
         fdelta = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((cameraPos - arPos)))->ComputeMagnitude();
-        fFadeStart = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1066)))))) * afMult;
-        fFadeDelta = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1067)))))) * afMult;
-        if (fFadeStart < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1065)))))))
-            fFadeStart = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1065))))));
+        fFadeStart = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1066)))))) * afMult;
+        fFadeDelta = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1067)))))) * afMult;
+        if (fFadeStart < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1065)))))))
+            fFadeStart = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1065))))));
         if (fFadeStart + fFadeDelta > fdelta)
         {
             if (fdelta > fFadeStart)
                 afMult = (1.0f - (fdelta - fFadeStart) / fFadeDelta) * afMult;
             if (afMult > 1.0)
                 afMult = 1.0f;
-            else if (afMult < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d09dc)))))))
-                afMult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d09dc))))));
+            else if (afMult < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d09dc)))))))
+                afMult = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d09dc))))));
             DAT_011dfed4 = afMult;
-            DAT_011dfed8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1063))))));
+            DAT_011dfed8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1063))))));
             if (!::FUN_00702360())
             {
                 Controls* pcontrols = reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720();
-                reinterpret_cast<::Controller *>((pcontrols))->FUN_00a255b0(DAT_011dfed4 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d0b3c)))))), DAT_011dfed4 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d0b3c)))))),
-                                        (int)(DAT_011dfed8 * 1000.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d064c))))))), 0, 0, 0, 0);
+                reinterpret_cast<::Controller *>((pcontrols))->FUN_00a255b0(DAT_011dfed4 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d0b3c)))))), DAT_011dfed4 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d0b3c)))))),
+                                        (int)(DAT_011dfed8 * 1000.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d064c))))))), 0, 0, 0, 0);
             }
         }
     }
@@ -175,8 +175,8 @@ float UpdateCameraShake(float time, MatrixView* output)
             DAT_011dfed8 = 0.0f;
             DAT_011dfed4 = 0.0f;
         }
-        else if (DAT_011dfed8 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1064)))))))
-            return DAT_011dfed4 * DAT_011dfed8 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1064))))));
+        else if (DAT_011dfed8 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1064)))))))
+            return DAT_011dfed4 * DAT_011dfed8 / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1064))))));
     }
     else if (DAT_011dfed8 != 0.0 || DAT_011dfed4 != 0.0)
     {

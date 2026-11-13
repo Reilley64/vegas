@@ -1946,11 +1946,11 @@ void DialogueCameraX::FUN_009c7240()
                     fShotTime = reinterpret_cast<::FUN_009d1b50_shell *>((pShot))->GetField54Float();
                     if (fShotTime <= 0.0010000000474974513)
                     {
-                        fShotTime = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting540))))));
+                        fShotTime = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting540))))));
                         ::DAT_011f21d8 = 0.0f;
                     }
-                    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::g_011ce368)))))) > fShotDelay)
-                        fShotDelay = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::g_011ce368))))));
+                    if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::g_011ce368)))))) > fShotDelay)
+                        fShotDelay = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::g_011ce368))))));
                     if (!qJDuOZ->pActor || (!((intptr_t)(reinterpret_cast<::Twin_00639b40 *>((pShot))->GetEntryPoint())) && qJDuOZ->iType != 0x12))
                     {
                         reinterpret_cast<::ShotThis *>((pShot))->SetupCamera((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0)), ::DAT_011f21c8);
@@ -2089,7 +2089,7 @@ void DialogueCameraX::FUN_009c7240()
                     qOFvKuu = ((void *)(reinterpret_cast<::FUN_009c8680_shell *>((pShot))->FUN_009c8680()));
                     if (pImod)
                     {
-                        reinterpret_cast<::fnv_00529df0::FUN_00529df0_shell *>((pImod))->FUN_00529df0((::TESImageSpaceModifier *)(void *)(reinterpret_cast<::Callees *>(&(pShot->kList))->FUN_00726070()), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting542)))))), 1.0f, (::NiAVObject *)(qOFvKuu));
+                        reinterpret_cast<::fnv_00529df0::FUN_00529df0_shell *>((pImod))->FUN_00529df0((::TESImageSpaceModifier *)(void *)(reinterpret_cast<::Callees *>(&(pShot->kList))->FUN_00726070()), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting542)))))), 1.0f, (::NiAVObject *)(qOFvKuu));
                     }
                     else
                     {
@@ -2105,7 +2105,7 @@ void DialogueCameraX::FUN_009c7240()
                 ::DAT_011ca72c = ::DAT_011f21d4;
             ::DAT_011f21d4 += ::fnv::timer::Seconds() / ::FUN_00716440();
             ::DAT_011f21d8 += ::fnv::timer::Seconds() / ::FUN_00716440();
-            if (::DAT_011f21d8 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting540)))))))
+            if (::DAT_011f21d8 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting540)))))))
                 reinterpret_cast<::VATS *>(this)->FUN_009c8950(false, false);
             if (pShot && reinterpret_cast<::FUN_0058d630_shell *>((pShot))->FUN_0058d630())
             {
@@ -2124,7 +2124,7 @@ void DialogueCameraX::FUN_009c7240()
                 qRBAdC = ::DAT_011ca730;
                 if (qRBAdC > 0.5)
                     qRBAdC = 1.0f - qRBAdC;
-                reinterpret_cast<::FUN_0063f790_shell *>((pFade))->FUN_0063f790(qRBAdC * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting544)))))));
+                reinterpret_cast<::FUN_0063f790_shell *>((pFade))->FUN_0063f790(qRBAdC * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting544)))))));
             }
             else
             {
@@ -2231,7 +2231,7 @@ void DialogueCameraX::FUN_009c7240()
     {
         if (::DAT_011f21e0 == 0.0)
         {
-            ::DAT_011f21e0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting543))))));
+            ::DAT_011f21e0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting543))))));
         }
         else
         {
@@ -3396,7 +3396,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
 {
     bool bSplatterTmp = true;
     ImpPoint kDelta = Point3Difference(*(const ::ProjectileImpact::ImpPoint *)((void *)(apPos)), (const void *)&(*((::ProjectileImpact::ImpPoint *)(::FUN_0045bb80((std::intptr_t)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))))))));
-    if (((bool)(::FUN_00525420())) || reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProjectileImpact::ImpFloatSetting *>(&::originalRuntimeFloatSetting642)))))) ||
+    if (((bool)(::FUN_00525420())) || reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->ComputeMagnitude() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ProjectileImpact::ImpFloatSetting *>(&::originalRuntimeFloatSetting642)))))) ||
         !::FUN_004b61d0((*(::NiPoint3 *)&(const ::ProjectileImpact::ImpPoint &)(*apPos)), (::NiCamera *)(::ProjectileImpact::ImpCamera *)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))), 32.0f))
         bSplatterTmp = false;
     if (!apTarget || !apTarget->IsActor())

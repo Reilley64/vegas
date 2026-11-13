@@ -84,11 +84,11 @@ void TESAIForm::InitializeComponent()
     distance = 0;
     if (!DAT_011c52c0)
     {
-        DAT_011c52a8 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting28)))))->f;
-        DAT_011c52ac = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting27)))))->f;
-        DAT_011c52b0 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52fc)))))->f;
-        DAT_011c52b4 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting26)))))->f;
-        DAT_011c52b8 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52e4)))))->f;
+        DAT_011c52a8 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting28)))))->f;
+        DAT_011c52ac = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting27)))))->f;
+        DAT_011c52b0 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52fc)))))->f;
+        DAT_011c52b4 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting26)))))->f;
+        DAT_011c52b8 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011c52e4)))))->f;
         DAT_011c52c0 = true;
     }
 }

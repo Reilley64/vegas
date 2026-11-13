@@ -239,8 +239,8 @@ EffectSetting::EffectSetting()
     data.m_pBoltSound = 0;
     data.m_pContactSound = 0;
     data.m_pAreaEffectSound = 0;
-    data.m_fEnchantmentFactor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011c36c0)))))->f;
-    data.m_fBarterFactor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011c37e8)))))->f;
+    data.m_fEnchantmentFactor = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(((SettingT_GameSettingCollection_&)g_011c36c0)))))->f;
+    data.m_fBarterFactor = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(((SettingT_GameSettingCollection_&)g_011c37e8)))))->f;
     data.m_eEffectTypeItem = 0;
     m_iActorValue = 0;
     m_iEffectID = 0;
@@ -261,9 +261,9 @@ ShadowLightData::ShadowLightData() : m_spTargetObject(0)
     state.enabled = false;
     point3 = DAT_011f4980;
     effectEnabled = false;
-    intensity = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011db25c)))))->f;
-    radius = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011db238)))))->f;
-    duration = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(((SettingT_GameSettingCollection_&)g_011db200)))))->f;
+    intensity = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(((SettingT_GameSettingCollection_&)g_011db25c)))))->f;
+    radius = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(((SettingT_GameSettingCollection_&)g_011db238)))))->f;
+    duration = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(((SettingT_GameSettingCollection_&)g_011db200)))))->f;
 }
 
 
@@ -924,8 +924,8 @@ void FOVATSEffectManager_00801a60::FUN_00801ad0(int a0, intptr_t a1, int a2, uns
     new ((void *)&(tmp)) ::ImageSpaceEffectParam(0.0f, 0.0f, 0.0f, 0.0f);
     reinterpret_cast<::SystemColorManager *>((((::Obj719_00801ad0 *)(::FUN_00718b60()))))->GetColor({}, *(::NiColor *)nullptr);
     DAT_01201f2c = this->unk2bc;
-    DAT_011ae614 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db7b4))))));
-    DAT_011ae618 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db694))))));
+    DAT_011ae614 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db7b4))))));
+    DAT_011ae618 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db694))))));
     (*reinterpret_cast<unsigned int *>(&::DAT_01201f30)) = tmp.d0;
     (*reinterpret_cast<unsigned int *>(&::DAT_01201f34)) = tmp.d1;
     (*reinterpret_cast<unsigned int *>(&::DAT_01201f38)) = tmp.d2;
@@ -1594,8 +1594,8 @@ void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused
     (*reinterpret_cast<::Obj0664_00801ad0 *>(&::recon7fbee0::DAT_01200818)).FUN_0066b0d0(((void *)(reinterpret_cast<::FUN_004bc320_shell *>((actor))->FUN_004bc320(0))));
     if (enabled)
     {
-        DAT_012007f0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db6e4))))));
-        DAT_011ae5f8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db79c))))));
+        DAT_012007f0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db6e4))))));
+        DAT_011ae5f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db79c))))));
         DAT_012007f4 = value28c;
         (*reinterpret_cast<unsigned char *>(&::recon7fbee0::DAT_012007f8)) = 0;
     }
@@ -1608,8 +1608,8 @@ void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused
     DAT_012007e8 = 0.0f;
     (*reinterpret_cast<::Obj6e5_00801ad0 *>(&::recon7fbee0::DAT_01200810)).FUN_006e5cc0(&unk2c4);
     (*reinterpret_cast<::Vec4Tmp_00801ad0 *>(&::recon7fbee0::DAT_01200800)) = vector;
-    DAT_011ae5ec = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db714))))));
-    DAT_011ae5e8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db720))))));
+    DAT_011ae5ec = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db714))))));
+    DAT_011ae5e8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db720))))));
     DAT_011ae5ec += value2ac;
     DAT_011ae5e8 += value2b0;
     if (scaled)
@@ -1618,7 +1618,7 @@ void EffectModeSetup::FUN_00801bb0(int unused, Actor_00801ad0* actor, int unused
         DAT_011ae5e8 *= 1.0f + value2a8;
     }
     DAT_011ae5fc = value2c0;
-    DAT_011ae5f0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db778))))));
+    DAT_011ae5f0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Holder_00801ad0 *>(&::g_011db778))))));
     DAT_011ae5f4 = 1.0f;
     DAT_012007ec = flag ? 1 : 0;
 }

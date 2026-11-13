@@ -11924,11 +11924,11 @@ FUN_00a712f0* Target2180::FUN_007c2180()
     reinterpret_cast<::_Cam_00712e60 *>((camera5))->FUN_00712e60((const ::_Rect16_00712e60 &)(rect));
     Frustum2180 frustum5(false);
     frustum5.farz = ((::Provider2180 *)(::FUN_0045c670()))->get();
-    frustum5.nearz = *((float *)&(::FUN_00403e20((float *)(((Setting2180*)&(*reinterpret_cast<char *>(&::g_01203144)))))));
+    frustum5.nearz = *((float *)&(::FUN_00403e20((::Setting *)(((Setting2180*)&(*reinterpret_cast<char *>(&::g_01203144)))))));
     reinterpret_cast<::FUN_00507700_cls *>((camera5))->FUN_00507700(frustum5.farz / frustum5.nearz);
     float ratio3 = (double)(*(unsigned char*)&(*reinterpret_cast<char *>(&::DAT_011f9426)) ? *(int*)&(*reinterpret_cast<char *>(&::DAT_011f9434)) : FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float nearz = *(float*)&(*reinterpret_cast<char *>(&::DAT_01016264));
-    float angle = *((float *)&(::FUN_00403e20((float *)(((Setting2180*)&(*reinterpret_cast<char *>(&::g_01203150))))))) * *(double*)&(*reinterpret_cast<char *>((void *)&::DAT_01023128)) * *(double*)&DAT_01070c80;
+    float angle = *((float *)&(::FUN_00403e20((::Setting *)(((Setting2180*)&(*reinterpret_cast<char *>(&::g_01203150))))))) * *(double*)&(*reinterpret_cast<char *>((void *)&::DAT_01023128)) * *(double*)&DAT_01070c80;
     frustum5.left = -FUN_0057dd70(angle) * nearz;
     frustum5.right = FUN_0057dd70(angle) * nearz;
     frustum5.bottom = -FUN_0057dd70(angle) * ratio3 * nearz;

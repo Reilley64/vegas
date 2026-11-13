@@ -728,7 +728,7 @@ void HideProcedure::Update()
                         WorldPos actorPosition = (*(::WorldPos *)(reinterpret_cast<::FUN_00575650_Class *>((actor2))->FUN_00575650({})));
                         WorldPos targetPosition = (*(::WorldPos *)(reinterpret_cast<::FUN_00575650_Class *>((enemy2))->FUN_00575650({})));
                         if (actorPosition.distance(targetPosition) <
-                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::originalRuntimeFloatSetting431)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::originalRuntimeFloatSetting431)))))))
+                            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::originalRuntimeFloatSetting431)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::originalRuntimeFloatSetting431)))))))
                         {
                             reinterpret_cast<::FUN_009a03d0_cls *>((((::StateStub *)(reinterpret_cast<::InterfaceManager *>((owner))->FUN_00586150()))))->FUN_009a03d0(1);
                             reinterpret_cast<::BSFaceGenNiNode *>((target7))->SetApplyRotToParent(false);

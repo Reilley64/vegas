@@ -559,7 +559,7 @@ void CreditsMenuX::FUN_0075f910()
         }
     }
     NiPoint3 kPos = reinterpret_cast<::NiAVObject *>(((m_pController).operator->()))->FUN_0043c490();
-    kPos.z += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) * ::fnv::timer::Seconds();
+    kPos.z += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) * ::fnv::timer::Seconds();
     reinterpret_cast<::FUN_00440460_S *>(((m_pController).operator->()))->FUN_00440460((const ::V3 *)&(kPos));
     NiUpdateData kData(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>(((m_pController).operator->()))->FUN_00a59c60((std::intptr_t)&(kData));
@@ -1812,7 +1812,7 @@ bool __cdecl FUN_0075f2a0()
         {
             pCreditsMenu->fLineDelay =
                 ((double)pCreditsMenu->m_uiPlaybackFlags - reinterpret_cast<::NiAVObject *>(((pCreditsMenu->m_pController).operator->()))->FUN_0043c490().z) /
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) / (double)((std::uintptr_t)((pCreditsMenu->kLines).unk08));
+                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingF *>(&::g_011d94e4)))))) / (double)((std::uintptr_t)((pCreditsMenu->kLines).unk08));
             pCreditsMenu->m_fPackageValue = pCreditsMenu->fLineDelay;
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((pCreditsMenu->m_pCurrentLineTile))->FUN_00a01350(0xfcc, (char *)(const char *)(pCreditsMenu->kLines.GetAt(pCreditsMenu->uiLineIndex++)), true);
         }

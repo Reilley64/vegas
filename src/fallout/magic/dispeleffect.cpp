@@ -162,7 +162,7 @@ void FUN_0080da00_cls::UpdateItems()
             ItemObj* u2 = ((::ItemObj *)(reinterpret_cast<::Twin_0044ddc0 *>((t5))->GetName()));
             if (u2->i6() == 0)
             {
-                if (u2->m_0c.s2(b9 ? x : 0) <= ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DatObj *>(&::originalRuntimeFloatSetting1184)))))))
+                if (u2->m_0c.s2(b9 ? x : 0) <= ::GetFloatAtOffset1C((char *)this) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DatObj *>(&::originalRuntimeFloatSetting1184)))))))
                     reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((t5))->FUN_00804210(0);
             }
         }

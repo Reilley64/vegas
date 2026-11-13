@@ -342,7 +342,7 @@ struct FUN_008bc240_h
 void FUN_008bc240_h::FUN_008bc240(uintptr_t auiValue)
 {
     f150 = auiValue;
-    f154 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting104))))));
+    f154 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting104))))));
 }
 
 struct SndX

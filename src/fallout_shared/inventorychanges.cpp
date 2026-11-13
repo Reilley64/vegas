@@ -1422,7 +1422,7 @@ void VATS::FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback)
     else
     {
         reinterpret_cast<::FUN_009ca410_shell *>(this)->ProcessVATSCommands();
-        DAT_011f21e0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting543))))));
+        DAT_011f21e0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting543))))));
         ::fnv::timer::SetMultiplier(1.0f, false);
     }
 }
@@ -8003,8 +8003,8 @@ float WeightInventory::FUN_004d0900(bool useAmmoWeight)
     bool value4 = false;
     float value3 = 0.0f;
     ::ApplyPerkModifiers(0x37, (::Actor *)(char *)((char*)actorTmp), &value3);
-    float scaleA = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting32))))->f;
-    float valueTmp = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting31))))->f;
+    float scaleA = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting32))))->f;
+    float valueTmp = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting31))))->f;
     if (value3 > 0.0)
         value4 = true;
     if (m_fTotalWeight == -1.0)
@@ -17679,7 +17679,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_
                     }
                     if (flag_11d)
                     {
-                        reinterpret_cast<::KarmaActor *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Transfer4c37Glob20 *>(&::originalRuntimeFloatSetting282)))))));
+                        reinterpret_cast<::KarmaActor *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Transfer4c37Glob20 *>(&::originalRuntimeFloatSetting282)))))));
                     }
                     std::intptr_t weapon = p1;
                     reinterpret_cast<::PlayerNoteStub *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_00966a70((::NoteStub *)(weapon), 1);

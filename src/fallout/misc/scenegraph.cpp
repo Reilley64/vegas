@@ -130,16 +130,16 @@ float FUN_008786b0_shell::FUN_008786b0()
         if ((*reinterpret_cast<::TES * *>(&::g_TES)) && ((BGSCameraPath*)(*reinterpret_cast<::TES * *>(&::g_TES)))->GetPrevPath() && ((int)(reinterpret_cast<::FUN_00476c90_Class *>((((::Sky *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetBaseTexture()))))->FUN_00476c90())) == 1)
         {
             ffarMax = ((TESObjectCELL*)((BGSCameraPath*)(*reinterpret_cast<::TES * *>(&::g_TES)))->GetPrevPath())->GetInteriorLightValue();
-            if (ffarMax <= ::_DAT_01012060 || ffarMax > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_0120312c))))))->f)
+            if (ffarMax <= ::_DAT_01012060 || ffarMax > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_0120312c))))))->f)
             {
-                ffarMax = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_0120312c))))))->f;
+                ffarMax = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_0120312c))))))->f;
             }
         }
         else
         {
-            ffarMax = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_0120312c))))))->f;
+            ffarMax = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_0120312c))))))->f;
         }
-        ffar = LinearInterpolate(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_01203120))))))->f, ffarMax, 0.0f, 1.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_01203138))))))->f);
+        ffar = LinearInterpolate(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_01203120))))))->f, ffarMax, 0.0f, 1.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_01203138))))))->f);
     }
     return ffar;
 }

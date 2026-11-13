@@ -468,7 +468,7 @@ struct SettingT_GCol
 // @fnv 0x00649f00
 void ComputeAngleRange(float* afMin, float* afMax)
 {
-    *afMax = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GCol *>(&::originalRuntimeFloatSetting1271)))))) * DAT_01023128;
+    *afMax = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GCol *>(&::originalRuntimeFloatSetting1271)))))) * DAT_01023128;
     if (*afMax < ::_DAT_01012060)
         *afMax = 0.0f;
     if (*afMax > DAT_01064f50)
@@ -483,7 +483,7 @@ struct SettingT_GCol
 // @fnv 0x00649f70
 void ClampMinMaxFromSetting(float* afMin, float* afMax)
 {
-    *afMax = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00649f70::SettingT_GCol *>(&::originalRuntimeFloatSetting1272)))))) * ::DAT_01023128;
+    *afMax = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00649f70::SettingT_GCol *>(&::originalRuntimeFloatSetting1272)))))) * ::DAT_01023128;
     if (*afMax < ::_DAT_01012060)
         *afMax = 0.0f;
     if (*afMax > DAT_01064f50)
@@ -501,7 +501,7 @@ void FUN_00649fe0(float* afMin, float* afMax)
 {
     float fMin;
     float fScaledValue;
-    *afMax = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1273)))))) * DAT_01023128;
+    *afMax = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1273)))))) * DAT_01023128;
     if (*afMax < ::_DAT_01012060)
         *afMax = 0.0f;
     if (*afMax > DAT_01064f50)
@@ -523,7 +523,7 @@ void __cdecl GetEyeAngleLimits(float* afMinOut, float* afMaxOut)
 {
     float fminEye;
     float fmaxEye;
-    *afMaxOut = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1274)))))) * DAT_01023128;
+    *afMaxOut = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1274)))))) * DAT_01023128;
     if (*afMaxOut < ::_DAT_01012060)
         *afMaxOut = 0.0f;
     if (*afMaxOut > DAT_01064f50)
@@ -695,29 +695,29 @@ bool FUN_0064b630_shell::UpdateFaceGenAnimation(float afTime)
     bool bchangedPhon;
 
     if (((bool)(::FUN_0064bcb0())) && !this->dead && reinterpret_cast<::FUN_0076b610_Class *>(&modifierKeyframes)->FUN_0076b610() &&
-        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1263)))))) > ::_DAT_01012060 &&
-        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1264)))))) > ::_DAT_01012060 &&
-        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) > ::_DAT_01012060 &&
-        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1266)))))) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) &&
-        flookdown < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1276)))))))
+        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1263)))))) > ::_DAT_01012060 &&
+        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1264)))))) > ::_DAT_01012060 &&
+        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) > ::_DAT_01012060 &&
+        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1266)))))) >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) &&
+        flookdown < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1276)))))))
     {
-        float fblinkdelay = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1266)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265))))));
+        float fblinkdelay = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1266)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265))))));
         float pmods[17];
         ::BSFaceGenManager::ApplyFaceGenValues(pmods, 17, false);
         pmods[0] = 0.0f;
         pmods[1] = 0.0f;
         reinterpret_cast<FaceGenAnimationDataCalls*>(this)->AddModifierKeyframe(
-            pmods, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) + ::RandomFloat0To1() * fblinkdelay);
+            pmods, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1265)))))) + ::RandomFloat0To1() * fblinkdelay);
         ::BSFaceGenManager::ApplyFaceGenValues(pmods, 17, false);
         pmods[0] = 1.0f;
         pmods[1] = 1.0f;
         reinterpret_cast<FaceGenAnimationDataCalls*>(this)->AddModifierKeyframe(
-            pmods, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1263)))))));
+            pmods, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1263)))))));
         ::BSFaceGenManager::ApplyFaceGenValues(pmods, 17, false);
         pmods[0] = 0.0f;
         pmods[1] = 0.0f;
         reinterpret_cast<FaceGenAnimationDataCalls*>(this)->AddModifierKeyframe(
-            pmods, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1264)))))));
+            pmods, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064b630::Setting_S *>(&::originalRuntimeFloatSetting1264)))))));
     }
 
     if (afTime > ::_DAT_01012060)

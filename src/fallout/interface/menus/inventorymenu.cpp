@@ -1281,8 +1281,8 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             if (DAT_011d9f34 != selectedSlot11)
             {
                 ((::InventorySelection::Camera *)(reinterpret_cast<::Interface *>((((::InventorySelection::Interface *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))->FUN_007f8610(
-                    0, DAT_011d9f34 < selectedSlot11 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db2f0)))))),
-                    *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db358)))))), 1);
+                    0, DAT_011d9f34 < selectedSlot11 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db2f0)))))),
+                    *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InventorySelection::Setting *>(&::g_011db358)))))), 1);
                 DAT_011d9f34 = selectedSlot11;
             }
             float threshold = DAT_0102f0f8;
@@ -2432,7 +2432,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             UpdateCurrentValue();
             m_iMode = m_uiSoundID - 0x18;
             reinterpret_cast<::Tile *>((m_apTiles[13]))->Set(::InventoryMenu::ms_iCurrentTabTileID, m_iMode);
-            reinterpret_cast<::FORenderedMenu *>((((::fnv_00780140::VTCamera *)(reinterpret_cast<::Interface *>((((VTInterface*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager()))))->StartBurst(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011db458)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011db37c)))))), 0.5f);
+            reinterpret_cast<::FORenderedMenu *>((((::fnv_00780140::VTCamera *)(reinterpret_cast<::Interface *>((((VTInterface*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager()))))->StartBurst(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011db458)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011db37c)))))), 0.5f);
             reinterpret_cast<::FUN_00780be0_shell *>((((VTInterface*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->SetByte13(m_uiSoundID);
             reinterpret_cast<::ListBoxImpl *>(&(m_kCallbackList))->ApplyFilter((bool (*)(void *))(FUN_00782620));
             reinterpret_cast<::LBList_7314c0 *>(&(m_kCallbackList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(FUN_00780c00), -1, 0x7fffffff);
@@ -3044,7 +3044,7 @@ void FUN_00782a90()
     {
         ea = (InvChangesObj*)((::Changes *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::_g_thePlayer))));
         ca = FUN_00406d90(((ActorAV*)&::_g_thePlayer->actorValueOwner)->RunFourthVirtual(0x12));
-        ak = (int)(*((float *)&(::FUN_00403e20((float *)(((FloatSettingObj*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1016))))))));
+        ak = (int)(*((float *)&(::FUN_00403e20((::Setting *)(((FloatSettingObj*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1016))))))));
         if (ca > ak)
             ca = ak;
         FUN_00406d00(ba, 0x40, "%d", ca);

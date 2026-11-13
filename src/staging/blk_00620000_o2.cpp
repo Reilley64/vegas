@@ -2811,7 +2811,7 @@ void __cdecl FUN_0062a7e0(const hkVector4V& kTarget, void* pvRef)
     reinterpret_cast<::FUN_00cb21e0_shell *>(&(kInverse))->FUN_00cb21e0((const ::Matrix44 *)&(kBodyTransform));
     kDelta.SetProduct(kInverse, kTargetTransform);
     hkVector4V kIntersectionOffset((*(const ::hkVector4V *)(reinterpret_cast<::TESTopicInfo *>((void *)&(kDelta))->GetAddTopicList())));
-    hkSimdRealV kSmooth(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676)))));
+    hkSimdRealV kSmooth(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676)))));
     reinterpret_cast<::S_00627920 *>(&(kIntersectionOffset))->FUN_00627920((::S_00561240 *)&(kSmooth));
     hkVector4V kMotionVelocity;
     pkBody->GetLinearVelocityVector(kMotionVelocity);
@@ -2819,11 +2819,11 @@ void __cdecl FUN_0062a7e0(const hkVector4V& kTarget, void* pvRef)
     reinterpret_cast<::S_00627920 *>(&(kMotionVelocity))->FUN_00627920((::S_00561240 *)&(kTime));
     hkVector4V kNewVelocity;
     kNewVelocity.setSub4(kMotionVelocity, kIntersectionOffset);
-    hkSimdRealV kInv(1.0f / (fTime + ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676))))));
+    hkSimdRealV kInv(1.0f / (fTime + ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676))))));
     reinterpret_cast<::S_00627920 *>(&(kNewVelocity))->FUN_00627920((::S_00561240 *)&(kInv));
     reinterpret_cast<::Owner *>((((::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00ca85f0((uintptr_t)&(kNewVelocity));
     reinterpret_cast<::hkpEntityC9C *>((((::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00c9c1d0();
-    pkEntry->m_fTime = fTime + ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676))));
+    pkEntry->m_fTime = fTime + ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676))));
     pkEntry->m_iArrayLength++;
 }
 
@@ -2993,7 +2993,7 @@ void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
     reinterpret_cast<::FUN_00cb21e0_shell *>(&(kInverse))->FUN_00cb21e0((const ::Matrix44 *)&(kBodyTransform));
     kDelta.SetProduct(kInverse, kTargetTransform);
     hkVector4V kIntersectionOffset((*(const ::fnv_0062ab60::hkVector4V *)(reinterpret_cast<::TESTopicInfo *>((void *)&(kDelta))->GetAddTopicList())));
-    hkSimdRealV kSmooth(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676)))));
+    hkSimdRealV kSmooth(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676)))));
     reinterpret_cast<::S_00627920 *>(&(kIntersectionOffset))->FUN_00627920((::S_00561240 *)&(kSmooth));
     hkVector4V kMotionVelocity;
     pkBody->GetLinearVelocityVector(kMotionVelocity);
@@ -3001,7 +3001,7 @@ void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
     reinterpret_cast<::S_00627920 *>(&(kMotionVelocity))->FUN_00627920((::S_00561240 *)&(kTime));
     hkVector4V kNewVelocity;
     reinterpret_cast<::S00458a10_Vector *>(&(kNewVelocity))->FUN_00458a10((const ::S00458a10_Vector *)&(kMotionVelocity), (const ::S00458a10_Vector *)&(kIntersectionOffset));
-    hkSimdRealV kInv(1.0f / (fTime - ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676))))));
+    hkSimdRealV kInv(1.0f / (fTime - ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676))))));
     reinterpret_cast<::S_00627920 *>(&(kNewVelocity))->FUN_00627920((::S_00561240 *)&(kInv));
     reinterpret_cast<::Owner *>((((::fnv_0062ab60::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00ca85f0((uintptr_t)&(kNewVelocity));
     hkVector4V kWorldPosition;
@@ -3011,7 +3011,7 @@ void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
     reinterpret_cast<::S_00627920 *>(&(kWorldPosition))->FUN_00627920((::S_00561240 *)&(kStep));
     reinterpret_cast<::V *>(&(kWorldPosition))->FUN_00553f70((const ::V &)((*(const ::fnv_0062ab60::hkVector4V *)&(::fnv_00560d80::FUN_00560d80((void *)(pkBody))))));
     reinterpret_cast<::S *>((pkBody))->FUN_00561690((std::intptr_t)&(kWorldPosition));
-    pkEntry->m_fTime = fTime - ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676))));
+    pkEntry->m_fTime = fTime - ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676))));
     pkEntry->m_iArrayLength--;
     if (pkEntry->m_iArrayLength <= 0)
     {
@@ -3227,7 +3227,7 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
         ((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4())
     {
         xP3 DIFF = akPos - *((const ::xP3 *)(uintptr_t)(::FUN_0045bb80((intptr_t)(((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4()))));
-        if (reinterpret_cast<::NiPoint3 *>((void *)&(DIFF))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011cc188)))))))
+        if (reinterpret_cast<::NiPoint3 *>((void *)&(DIFF))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011cc188)))))))
             RESULT = true;
         return RESULT;
     }

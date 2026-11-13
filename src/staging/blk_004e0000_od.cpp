@@ -4017,17 +4017,17 @@ xNode* CreateScatterShapes(unsigned int aiQuadCount)
         float qGfbX = xRand01() * ::DAT_01189550;
         float qRqUtp = xRand01() * ::DAT_01189554;
         xPt3 qsTDDg(qGfbX, qRqUtp, 0.0f);
-        float qbXcw = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting737)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting738)))))));
-        float qZAdkzg = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting739)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011cf980)))))));
-        float qyjT = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting740)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011cf920)))))));
+        float qbXcw = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting737)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting738)))))));
+        float qZAdkzg = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting739)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::g_011cf980)))))));
+        float qyjT = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting740)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::g_011cf920)))))));
         xMat3 qBCzzXA;
         reinterpret_cast<::FUN_004dfdd0_StandIn *>(&(qBCzzXA))->InitIdentity();
-        if (::RandomBoolean(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting741))))))))
+        if (::RandomBoolean(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting741))))))))
             qZAdkzg = qyjT;
         float qrzAir = xRand01() > 0.0 ? 0.0 : 0.5;
         float qAhbO = xRand01() > 0.0 ? 0.0 : 0.5;
         xPt2 qrKBG(qrzAir, qAhbO);
-        float qArxcFu = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting743))))));
+        float qArxcFu = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::originalRuntimeFloatSetting743))))));
         unsigned int qYGChgr = qrEZrs * 4;
         qdqWL[qYGChgr] = qBCzzXA * xPt3(-qbXcw, qbXcw, qZAdkzg) + qsTDDg;
         qdqWL[qYGChgr + 1] = qBCzzXA * xPt3(qbXcw, qbXcw, qZAdkzg) + qsTDDg;

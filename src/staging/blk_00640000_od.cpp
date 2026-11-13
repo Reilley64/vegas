@@ -171,7 +171,7 @@ struct Setting_S
 // @fnv 0x00643fa0
 float AddScaledSetting(float afValue)
 {
-    float result = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting289)))))) * DAT_01011588 + afValue;
+    float result = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting289)))))) * DAT_01011588 + afValue;
     return result;
 }
 
@@ -184,7 +184,7 @@ struct Setting_S
 // @fnv 0x00643fd0
 float __cdecl AddRuntimeFloatSetting(float afValue)
 {
-    return afValue + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643fd0::Setting_S *>(&::originalRuntimeFloatSetting289))))));
+    return afValue + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00643fd0::Setting_S *>(&::originalRuntimeFloatSetting289))))));
 }
 }  // namespace fnv_00643fd0
 
@@ -237,7 +237,7 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting509;
 // @fnv 0x00644520
 float FUN_00644520()
 {
-    float f = ((float *)&(::FUN_00403e20((float *)(((Setting_S*)&originalRuntimeFloatSetting509)))))[0];
+    float f = ((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&originalRuntimeFloatSetting509)))))[0];
     return f;
 }
 }  // namespace fnv_00644520
@@ -1410,8 +1410,8 @@ float FUN_00643ed0(GameSettingCollection* collection, int index)
 {
     float result = 0.0f;
     if (index == 0x38)
-        result = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting332)))))) * collection->GetFloat(0x2d) +
-                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting333))))));
+        result = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting332)))))) * collection->GetFloat(0x2d) +
+                 *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting333))))));
     return result;
 }
 
@@ -1435,8 +1435,8 @@ template <> class SettingT<GameSettingCollection> : public GameSettingCollection
 // @fnv 0x00643f20
 float FUN_00643f20(float value)
 {
-    return ::FUN_00404010(value * ((GameSettingCollection*)((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643f20::SettingT< ::fnv_00643f20::GameSettingCollection> *>(&::originalRuntimeFloatSetting288)))))))->f,
-                        value - ((GameSettingCollection*)((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00643f20::SettingT< ::fnv_00643f20::GameSettingCollection> *>(&::originalRuntimeFloatSetting287)))))))->f);
+    return ::FUN_00404010(value * ((GameSettingCollection*)((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00643f20::SettingT< ::fnv_00643f20::GameSettingCollection> *>(&::originalRuntimeFloatSetting288)))))))->f,
+                        value - ((GameSettingCollection*)((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00643f20::SettingT< ::fnv_00643f20::GameSettingCollection> *>(&::originalRuntimeFloatSetting287)))))))->f);
 }
 }  // namespace fnv_00643f20
 
@@ -1510,9 +1510,9 @@ float ScaleByGameSetting(float value, float, bool abUseSecondSetting)
     float multiplier;
     float result2;
     if (abUseSecondSetting)
-        multiplier = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting335))));
+        multiplier = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting335))));
     else
-        multiplier = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting334))));
+        multiplier = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting334))));
     result2 = value * multiplier;
     return result2;
 }
@@ -1554,7 +1554,7 @@ float __cdecl FUN_00649530(ActorValueOwner* apOwner)
     {
         float b;
         a = (float)(apOwner->GetActorValueFloatByIndex((ActorValue::Index)37) / g_d100);
-        b = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d17d0)))))) + a * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1216))))));
+        b = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d17d0)))))) + a * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1216))))));
         return b;
     }
 }
@@ -1570,7 +1570,7 @@ float __cdecl GetActorValueScaledSetting(ActorValueOwner* apActorValueOwner)
     float v;
     float r;
     v = reinterpret_cast<::ActorValueOwner *>((apActorValueOwner))->GetActorValueFloatByIndex((::ActorValue::Index)(44)) / ::g_d100;
-    r = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d1854)))))) + v * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1217))))));
+    r = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d1854)))))) + v * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1217))))));
     return r;
 }
 }  // namespace fnv_00649580
@@ -3578,19 +3578,19 @@ int FUN_00642a60(int base, int level, int a2, int a3, int a4, int a5, int a6, in
 {
     int total = 0;
     int levelPart6 = (int)(*((float *)&(::FUN_00403e20((float *)&(::g_011cddec)))) +
-                           *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting112)))))) * (level - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting117))))))));
+                           *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting112)))))) * (level - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting117))))))));
     int part2 = 0;
     if (!abSkipTerms)
     {
-        part2 = (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting113)))))) * a3 *
-                      (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting114)))))) + *((float *)&(::FUN_00403e20((float *)&(::g_011cdc28)))) * a2));
+        part2 = (int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting113)))))) * a3 *
+                      (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting114)))))) + *((float *)&(::FUN_00403e20((float *)&(::g_011cdc28)))) * a2));
     }
     int part3 = (int)*((float *)&(::FUN_00403e20((float *)&(::g_011cdfa8)))) * a4;
     int part4 = (int)(a5 * *((float *)&(::FUN_00403e20((float *)&(::g_011cddc4)))) * (*((float *)&(::FUN_00403e20((float *)&(::g_011cd890)))) + a6 * *((float *)&(::FUN_00403e20((float *)&(::g_011cddc4))))));
     int part5 = 0;
     if (!abSkipTerms)
     {
-        part5 = (int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting116)))))) * a7;
+        part5 = (int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting116)))))) * a7;
     }
     int part9 = (int)*((float *)&(::FUN_00403e20((float *)&(::g_011cd438)))) * a8;
     total = base + levelPart6 + part2 + part3 + part4 + part5 + part9 + extra;
@@ -3610,10 +3610,10 @@ float __cdecl FUN_00643e40(FUN_0066ef50_Class* actor, int action)
     switch (action)
     {
     case 0x13:
-        result = (float)((((double)(reinterpret_cast<::ActorValueOwner *>((actor))->GetActorValueFloatByIndex((::ActorValue::Index)(7)))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting329))))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting328)))))));
+        result = (float)((((double)(reinterpret_cast<::ActorValueOwner *>((actor))->GetActorValueFloatByIndex((::ActorValue::Index)(7)))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting329))))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting328)))))));
         break;
     case 0x14:
-        result = (float)((((double)(reinterpret_cast<::ActorValueOwner *>((actor))->GetActorValueFloatByIndex((::ActorValue::Index)(7)))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting331))))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting330)))))));
+        result = (float)((((double)(reinterpret_cast<::ActorValueOwner *>((actor))->GetActorValueFloatByIndex((::ActorValue::Index)(7)))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting331))))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting330)))))));
         break;
     }
     return result;
@@ -3667,7 +3667,7 @@ bool FUN_00646400(AVOwnerStub_646400* owner, int value)
         {
             float basePct3 = value / owner->GetBaseAV(16);
             basePct3 = basePct3 * 100.0;
-            if (basePct3 > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting762)))))
+            if (basePct3 > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting762)))))
             {
                 result2 = true;
             }
@@ -3675,15 +3675,15 @@ bool FUN_00646400(AVOwnerStub_646400* owner, int value)
             {
                 float curPct = value / current4;
                 curPct = curPct * 100.0;
-                if (curPct > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting763)))))
+                if (curPct > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting763)))))
                 {
                     float skill5 = reinterpret_cast<::ActorValueOwner *>((owner))->GetActorValueFloatByIndex((::ActorValue::Index)(10)) * 10.0;
-                    float denom4 = *((float *)&(::FUN_00403e20((float *)&(g_011ce78c)))) + *((float *)&(::FUN_00403e20((float *)&(g_011ce064)))) * skill5;
-                    float numer2 = *((float *)&(::FUN_00403e20((float *)&(g_011ceecc)))) + *((float *)&(::FUN_00403e20((float *)&(gs_011cecd0)))) * value;
+                    float denom4 = *((float *)&(::FUN_00403e20((::Setting *)&(g_011ce78c)))) + *((float *)&(::FUN_00403e20((::Setting *)&(g_011ce064)))) * skill5;
+                    float numer2 = *((float *)&(::FUN_00403e20((::Setting *)&(g_011ceecc)))) + *((float *)&(::FUN_00403e20((::Setting *)&(gs_011cecd0)))) * value;
                     float chance7 = numer2 / denom4;
-                    if (chance7 >= *((float *)&(::FUN_00403e20((float *)&(gs_011ce808)))))
+                    if (chance7 >= *((float *)&(::FUN_00403e20((::Setting *)&(gs_011ce808)))))
                     {
-                        chance7 = *((float *)&(::FUN_00403e20((float *)&(gs_011ce808))));
+                        chance7 = *((float *)&(::FUN_00403e20((::Setting *)&(gs_011ce808))));
                     }
                     chance7 = chance7 * 1000.0;
                     int roll = DialogueRandom() % 1000;
@@ -3744,9 +3744,9 @@ extern SettingValue g_011ceb38;
 // @fnv 0x00647ae0
 int __cdecl ComputeScaledSettingSum(float scale)
 {
-    float v5 = *((float *)&(::FUN_00403e20((float *)&(g_011cee24))));
-    float v2 = *((float *)&(::FUN_00403e20((float *)&(g_011cf314)))) + scale * *((float *)&(::FUN_00403e20((float *)&(g_011ced28))));
-    float v4 = ::RandomFloat(-(*((float *)&(::FUN_00403e20((float *)&(g_011ceb38))))), *((float *)&(::FUN_00403e20((float *)&(g_011ceb38)))));
+    float v5 = *((float *)&(::FUN_00403e20((::Setting *)&(g_011cee24))));
+    float v2 = *((float *)&(::FUN_00403e20((::Setting *)&(g_011cf314)))) + scale * *((float *)&(::FUN_00403e20((::Setting *)&(g_011ced28))));
+    float v4 = ::RandomFloat(-(*((float *)&(::FUN_00403e20((::Setting *)&(g_011ceb38))))), *((float *)&(::FUN_00403e20((::Setting *)&(g_011ceb38)))));
     int r = FUN_00647b70(0, (int)(v5 + v2 + v4));
     return r;
 }
@@ -3778,15 +3778,15 @@ int __cdecl ComputeWeightedValue(float value1, float value2, int weight)
     float product3;
     int result;
 
-    normalized9 = 1.0 + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::g_011d0c90)))))) * (value1 - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1108))))))) / ::g_d100;
-    normalized8 = 1.0 + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1107)))))) * (value2 - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1109))))))) / ::g_d100;
+    normalized9 = 1.0 + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::g_011d0c90)))))) * (value1 - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1108))))))) / ::g_d100;
+    normalized8 = 1.0 + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1107)))))) * (value2 - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1109))))))) / ::g_d100;
 
     weightInt2 = 100 - weight;
     weightFactor = weightInt2 / ::g_d100;
 
     product3 = normalized9 * normalized8 * weightFactor;
 
-    if (product3 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1106)))))))
+    if (product3 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00648ea0_Setting *>(&::originalRuntimeFloatSetting1106)))))))
     {
         result = 100;
     }
@@ -3993,7 +3993,7 @@ bool FUN_0064be40_shell::FUN_0064be40(float elapsed, int unused)
             reinterpret_cast<::CombatState *>(this)->UpdateCombatStateData(deltaY, &deltaX, &limit, elapsed);
         float desiredX = deltaX - this->unk140;
         float stage = limit - this->unk144;
-        float desiredY = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FUN_00403e20_setting *>(&::originalRuntimeFloatSetting1267)))))) * elapsed;
+        float desiredY = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FUN_00403e20_setting *>(&::originalRuntimeFloatSetting1267)))))) * elapsed;
         FUN_005330e0(&desiredX, -desiredY, desiredY);
         FUN_005330e0(&stage, -desiredY, desiredY);
         this->unk140 += desiredX;
@@ -7822,7 +7822,7 @@ float FUN_006479e0(FloatSource* src)
     else
         result = 0.0f;
     float factor = result;
-    factor = (*((float *)&(::FUN_00403e20((float *)&(DAT_011cf264)))) + (+*((float *)&(::FUN_00403e20((float *)&(DAT_011cfb5c)))))) * factor;
+    factor = (*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011cf264)))) + (+*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011cfb5c)))))) * factor;
     return factor;
 }
 
@@ -8003,7 +8003,7 @@ int __cdecl FUN_00642bc0(int skill, int count, float distance, int resistance, i
     int n;      // Whether count is positive.
     int l = 0;  // Final integer result.
     // Total contribution, starting at the base setting.
-    float c = *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting86))));
+    float c = *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting86))));
     // Second boolean modifier.
     int e = 0;
     // First boolean modifier.
@@ -8016,31 +8016,31 @@ int __cdecl FUN_00642bc0(int skill, int count, float distance, int resistance, i
     if (flagC)
         d = 1;
     // Skill contribution.
-    float m = *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting99)))) +
-              (*((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting100)))) - *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting99))))) * (skill / 10.0f);
-    m *= 1.0f + e * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting98)))) + i * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting97)))) +
-         d * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting150))));
+    float m = *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting99)))) +
+              (*((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting100)))) - *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting99))))) * (skill / 10.0f);
+    m *= 1.0f + e * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting98)))) + i * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting97)))) +
+         d * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting150))));
     // Item value.
     int k = value;
     n = 0;
     if (count > 0)
         n = 1;
     // Effective range.
-    float a = special ? *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting101)))) * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting87))))
-                      : *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting87))));
+    float a = special ? *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting101)))) * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting87))))
+                      : *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting87))));
     // Range attenuation.
     float g = FUN_00404010((a - distance) / a, 0.0f);
-    g = pow((double)g, (double)*((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting102)))));
+    g = pow((double)g, (double)*((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting102)))));
     // Attenuation adjusted for count.
     float j = g;
     if (!n)
-        j = g * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting90))));
+        j = g * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting90))));
     // Scaled quantity.
     int o = (int)*((float *)&(::FUN_00403e20((float *)&(::g_011cd080)))) * quantity;
     // Quantity contribution.
-    float q = FUN_00404010(j * *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting93)))) * o, 0.0f);
+    float q = FUN_00404010(j * *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting93)))) * o, 0.0f);
     // Level contribution multiplier.
-    float p = (*((float *)&(::FUN_00403e20((float *)&(::g_011cdb84)))) + level) * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting92))));
+    float p = (*((float *)&(::FUN_00403e20((float *)&(::g_011cdb84)))) + level) * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting92))));
     // Resistance multiplier, using integer division.
     float h = (100 - resistance) / 100;
     // Value contribution.

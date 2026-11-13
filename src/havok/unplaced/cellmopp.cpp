@@ -2322,7 +2322,7 @@ bool xMgr::FUN_00621f60(xRef** apList, unsigned int auiCount, float afVal)
             xPhantomCinfo CI;
             reinterpret_cast<::FUN_00507610_Class *>(&(CI))->FUN_00507610(0.0f);
             reinterpret_cast<::FUN_0056d360_Class *>(&(CI))->FUN_0056d360(5);
-            reinterpret_cast<::FUN_005076c0Class *>(&(CI))->FUN_005076c0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011cc1d8)))))));
+            reinterpret_cast<::FUN_005076c0Class *>(&(CI))->FUN_005076c0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011cc1d8)))))));
             xFilter FILTER(0x11, 1, 0);
             CI.FUN_0056f0f0(((unsigned int)(::FUN_00559450((int *)&(FILTER)))));
             for (unsigned int I = 0; I < auiCount; I++)

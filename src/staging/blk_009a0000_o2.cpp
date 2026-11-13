@@ -307,7 +307,7 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
             reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
             HandleB09 kHandle;
             if (reinterpret_cast<::C00624070 *>((pRef->FUN_0043b4f0(&kHandle)))->FUN_00624070())
-                *const_cast<float *>(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3B09 &)(kWorldPosition))->FUN_004a51b0(2)) += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1028))))));
+                *const_cast<float *>(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3B09 &)(kWorldPosition))->FUN_004a51b0(2)) += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1028))))));
             bool bMatched = false;
             if (((void *)(std::uintptr_t)(reinterpret_cast<::BSFadeNode *>(this)->FUN_009ad610())))
             {
@@ -319,16 +319,16 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
                     HandleB09 kHandle2;
                     if (reinterpret_cast<::FUN_0043b4d0_shell *>((pRef->FUN_0043b4f0(&kHandle2)))->FUN_0043b4d0() == 20)
                         pRef->SetFlagE4(1);
-                    fForce *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::g_011d0dbc))))));
+                    fForce *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingB09 *>(&::g_011d0dbc))))));
                     bMatched = true;
                 }
             }
             fForce = ::FUN_0062b520(fForce, (::bhkWorldObject *)(pRef), 1);
             if (!bMatched)
-                fForce = FUN_0040ebd0(fForce, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1031)))))));
-            reinterpret_cast<::S009b0bf0_Obj *>((pRef))->FUN_009b0bf0(&(const ::NiPoint3B09 &)(kWorldPosition * fForce * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::g_011cff64))))))));
+                fForce = FUN_0040ebd0(fForce, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1031)))))));
+            reinterpret_cast<::S009b0bf0_Obj *>((pRef))->FUN_009b0bf0(&(const ::NiPoint3B09 &)(kWorldPosition * fForce * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingB09 *>(&::g_011cff64))))))));
             NiPoint3B09 kRandom(::RandomFloat(-1.0f, 1.0f), ::RandomFloat(-1.0f, 1.0f), ::RandomFloat(-1.0f, 1.0f));
-            reinterpret_cast<::S_009b0c90 *>((pRef))->FUN_009b0c90((const ::NiPoint3 &)((const ::NiPoint3B09 &)(kRandom * fForce * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::g_011d02ec)))))))));
+            reinterpret_cast<::S_009b0c90 *>((pRef))->FUN_009b0c90((const ::NiPoint3 &)((const ::NiPoint3B09 &)(kRandom * fForce * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingB09 *>(&::g_011d02ec)))))))));
         }
     }
 }

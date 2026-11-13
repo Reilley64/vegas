@@ -1015,7 +1015,7 @@ void FUN_00931d90_shell::ClampLookAngle(float afAngle)
         case 3:
         case 4:
         case 5:
-            fMaxAngle = *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting231)))))) * DAT_01023128;
+            fMaxAngle = *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting231)))))) * DAT_01023128;
             break;
         }
     }
@@ -6303,7 +6303,7 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
             if (reinterpret_cast<::fnv_009305a0::FUN_009305a0_Holder *>((((bhkCharControllerVT*)pcon)))->FUN_009305a0() || reinterpret_cast<::fnv_009305d0::FUN_009305d0_shell *>((((bhkCharControllerVT*)pcon)))->FUN_009305d0())
             {
                 reinterpret_cast<::FUN_00629650_Class *>((((CharFlags*)((char*)pcon + 0x410))))->FUN_00629650(0);
-                ::SetField558((void *)(((bhkCharControllerVT*)pcon)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092f260::Setting_S *>(&::g_011e0574)))))) * ::fnv::timer::Seconds());
+                ::SetField558((void *)(((bhkCharControllerVT*)pcon)), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0092f260::Setting_S *>(&::g_011e0574)))))) * ::fnv::timer::Seconds());
             }
             if (pactor && (reinterpret_cast<::FUN_008846e0_shell *>((((FUN_008846e0_shell*)pactor)))->GetVtbl20Result() & 0x3f))
                 kMoveData.fSpeed = reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((Act_009e3520*)pactor)))->FUN_008a0b10();
@@ -6474,7 +6474,7 @@ void FUN_00935ae0_t::FUN_00935ae0()
             int iyear7;
             bool aBremove = false;
             int icurrentday5;
-            fhour2 = psayonceinfo6->fHour + ((::UTSO_SettingValue *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UTSO_SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting1061))))))->f;
+            fhour2 = psayonceinfo6->fHour + ((::UTSO_SettingValue *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UTSO_SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting1061))))))->f;
             iday_ = psayonceinfo6->iDate & 0x1ff;
             imonth2 = (psayonceinfo6->iDate & 0x1e00) >> 9;
             iyear7 = (psayonceinfo6->iDate & 0x7ffe000) >> 13;
@@ -9472,10 +9472,10 @@ intptr_t Holder_00884aa0::UpdateControllerScale()
     if (controller)
     {
         float scale =
-            FUN_00403e20((float*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting847))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((reinterpret_cast<ActorV_S*>(this)))->FUN_00567400();
+            FUN_00403e20((::Setting *)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting847))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((reinterpret_cast<ActorV_S*>(this)))->FUN_00567400();
         if (::FUN_009306b0(controller))
         {
-            scale = scale * FUN_00403e20((float*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting848)));
+            scale = scale * FUN_00403e20((::Setting *)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting848)));
         }
         reinterpret_cast<FUN_00c6d4b0_Class*>(controller)->FUN_00c6d4b0(scale);
     }
@@ -13638,7 +13638,7 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                         {
                             curItem = ((::fnv_009344d0::Item *)(::LoadBGSTerrainManager((const ::NiPointer< ::NiNode> &)(callState2))));
                             if (!curItem)
-                                ::DAT_011d951c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting1221))))));
+                                ::DAT_011d951c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting1221))))));
                             ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v220(0);
                         }
                     }
@@ -13712,7 +13712,7 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                 reinterpret_cast<::FUN_00ad8f20_shell *>((apSoundRef))->FUN_00ad8f20((::NiAVObject *)(void *)(v116()));
             }
             else
-                reinterpret_cast<::FUN_00ad89b0_shell *>((apSoundRef))->SetStaticAttenuation((int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::g_011e060c)))))) * ::g_d100));
+                reinterpret_cast<::FUN_00ad89b0_shell *>((apSoundRef))->SetStaticAttenuation((int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::g_011e060c)))))) * ::g_d100));
             if (curItem)
             {
                 timeMs = (float)((((double)(reinterpret_cast<::FUN_004d5a90_Class *>((curItem))->GetNegativeMagnitude())) + ((double)(::fnv_008a2d20::FUN_008a2d20()))) * ::DAT_01017b70);
@@ -13723,14 +13723,14 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
                 else if (::FUN_00ad8b30((unsigned int *)(apSoundRef)))
                     elapsed = (float)(::FUN_00ad8b30((unsigned int *)(apSoundRef)) / ::DAT_01017b70 + elapsed);
                 else
-                    elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))) + elapsed);
+                    elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))) + elapsed);
                 ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v467(((int)(::fnv::timer::Time())) + (int)timeMs);
                 ((::fnv_009344d0::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->v465(curItem);
             }
             else
             {
                 reinterpret_cast<::SoundPlaybackHandle *>((apSoundRef))->SchedulePlayback(1, 0);
-                elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))));
+                elapsed = (float)((double)duration * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009344d0::Setting *>(&::originalRuntimeFloatSetting184)))))));
             }
             if (flag7d)
                 flag7c = 0;
@@ -15883,15 +15883,15 @@ void Actor9BE::FUN_009be0a0()
         if (reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(4))
         {
             ::FUN_00c6a350((::NiAVObject *)(::Node9BE *)(Get3D()), 1, 1, 0, 1);
-            if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) != 0.0)
+            if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) != 0.0)
             {
                 if (reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0() > 0.0)
-                    ::SetSelectionValue((intptr_t)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) * reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0(), 1, 0);
+                    ::SetSelectionValue((intptr_t)(pkNode), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))) * reinterpret_cast<::FUN_006d2c20_Class *>((((::Base9BE *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetFloatAtOffsetB0(), 1, 0);
                 else
-                    ::SetSelectionValue((intptr_t)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))), 1, 0);
+                    ::SetSelectionValue((intptr_t)(pkNode), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce308)))))), 1, 0);
             }
-            if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))) != 0.0)
-                ::ApplyCollisionObjectCount((::NiAVObject *)(pkNode), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))), 1, 0);
+            if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))) != 0.0)
+                ::ApplyCollisionObjectCount((::NiAVObject *)(pkNode), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9BE *>(&::g_011ce5e8)))))), 1, 0);
             ::TraverseObject((::C6A2E0AVObject *)(pkNode), (void *)(6), 0, 1, 0);
             if (((::Target9BE *)(::FUN_00874480((char *)this))))
             {

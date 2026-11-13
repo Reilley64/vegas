@@ -485,10 +485,10 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     reinterpret_cast<::F940Owner *>((((_::SkyObject*)(Sun*)this)))->CreateSortAdjustNode((::F940Parent *)(apSkyRoot));
 
     psunVertices = new _::SunPoint3[4];
-    psunVertices[0] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
-    psunVertices[1] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
-    psunVertices[2] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
-    psunVertices[3] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[0] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[1] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), -1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[2] = _::SunPoint3(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
+    psunVertices[3] = _::SunPoint3(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), -1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce7c)))))), 0.0f);
 
     psunNormals = new _::SunPoint3[4];
     psunNormals[0] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
@@ -497,10 +497,10 @@ void FUN_00640810_t::FUN_00640810(NiNode* apSkyRoot)
     psunNormals[3] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
 
     pglareVertices = new _::SunPoint3[4];
-    pglareVertices[0] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
-    pglareVertices[1] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
-    pglareVertices[2] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
-    pglareVertices[3] = _::SunPoint3(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), -1.0 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[0] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[1] = _::SunPoint3(-1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), -1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[2] = _::SunPoint3(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
+    pglareVertices[3] = _::SunPoint3(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), -1.0 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640810::Setting_S *>(&::g_011cce50)))))), 0.0f);
 
     pglareNormals = new _::SunPoint3[4];
     pglareNormals[0] = (*reinterpret_cast<::fnv_00640810::NiPoint3 *>((void *)&::NiPoint3::ZERO));
@@ -962,7 +962,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pRootNode.m_pObject)))->QueueActorDisarm(!reinterpret_cast<::FUN_006366b0_shell *>(((*(NiAVObject**)&this->m_pRootNode.m_pObject)))->FUN_006366b0());
         float fSunriseBegin = (::fnv_00595f50::FUN_00595f50((::fnv_00595f50::Sky *)(char *)((char*)apSky)) + ::FUN_00595ea0((char*)apSky)) / 2.0;
         float fSunsetEnd = (reinterpret_cast<::FUN_00596030_cls *>((apSky))->FUN_00596030() + ::fnv_00595fc0::FUN_00595fc0((char*)apSky)) / 2.0;
-        float fhalftrans = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting82)))))) * ::DAT_01011588;
+        float fhalftrans = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting82)))))) * ::DAT_01011588;
         float fAlphaInBegin = fSunriseBegin - fhalftrans;
         float fAlphaInEnd = fSunriseBegin + fhalftrans;
         float fAlphaOutBegin = fSunsetEnd - fhalftrans;
@@ -1019,17 +1019,17 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             if (fAlphaInBegin < fhour && fhour < fAlphaOutEnd)
             {
                 ftemp = (fhour - fAlphaInBegin) / (fAlphaOutEnd - fAlphaInBegin);
-                fxNewAim = (1.0 - 2.0 * ftemp) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
+                fxNewAim = (1.0 - 2.0 * ftemp) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
             }
             else if (fhour >= fAlphaOutEnd)
             {
                 ftemp = (fhour - fAlphaOutEnd) / (24.0 - (fAlphaOutEnd - fAlphaInBegin));
-                fxNewAim = (2.0 * ftemp - 1.0) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
+                fxNewAim = (2.0 * ftemp - 1.0) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
             }
             else if (fhour <= fAlphaInBegin)
             {
                 ftemp = (24.0 - fAlphaOutEnd + fhour) / (24.0 - (fAlphaOutEnd - fAlphaInBegin));
-                fxNewAim = (2.0 * ftemp - 1.0) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
+                fxNewAim = (2.0 * ftemp - 1.0) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting83))))));
             }
             newLoc.x = fxNewAim;
             newLoc.y = reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting84)))))->FUN_00450410();
@@ -1051,15 +1051,15 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
         {
             NiPoint3 origin = *((::fnv_00641830::NiPoint3 *)&(reinterpret_cast<::NiAVObject *>((((TESDataHandler*)((::fnv_00641830::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_00641830::NiNode_00558310 *)(((::fnv_00641830::NiNode_00558310 *)(::FUN_0045c670())))))))))->FUN_0043c490()));
             NiPoint3 direction = newLoc;
-            float fscaleChange = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting81)))))) * afSecondsPassed;
+            float fscaleChange = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting81)))))) * afSecondsPassed;
             reinterpret_cast<::FUN_004a0c10_s *>((((H::NiPoint3*)&direction)))->FUN_004a0c10();
             bool bblocked =
                 reinterpret_cast<::FUN_006427c0_Class *>((((Sun_S*)this)))->FUN_006427c0() >= 1.0 || (((void *)(::FUN_0070ec90((char *)(((EffectSetting*)(*reinterpret_cast<::fnv_00641830::TES * *>(&::g_TES))))))), ((bool)(::FUN_004e2180())));
             float fscale = ::fnv_004dd130::FUN_004dd130(1.0f - reinterpret_cast<::FUN_006427c0_Class *>((((Sun_S*)this)))->FUN_006427c0(), ::DAT_010162c0);
             reinterpret_cast<::FUN_00642890_Class *>((((Sun_S*)this)))->FUN_00642890();
-            if (bblocked || fscale < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
+            if (bblocked || fscale < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
             {
-                if (((Sun_S*)this)->m_fSunGlareIntensity - fscaleChange < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
+                if (((Sun_S*)this)->m_fSunGlareIntensity - fscaleChange < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting80)))))))
                 {
                     reinterpret_cast<::TaskQueueInterface *>(((*(NiAVObject**)&this->m_pSecondSceneObject.m_pObject)))->QueueActorDisarm(true);
                     ((Sun_S*)this)->m_fSunGlareIntensity = 0.0f;

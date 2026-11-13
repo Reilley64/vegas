@@ -3923,8 +3923,8 @@ struct Setting_S
 void FUN_0092c120_shell::UpdateHideLimbNodes(Actor* apActor, float afDeltaTime)
 {
     HideLimbNodeList* pCurrentElementNext;
-    float fUpdatePeriod = ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting734))))))
-                                                           : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting733))))));
+    float fUpdatePeriod = ((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting734))))))
+                                                           : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0092c120::Setting_S *>(&::originalRuntimeFloatSetting733))))));
     HideLimbNodeList* plastlist;
     pCurrentElementNext = (HideLimbNodeList*)((char*)this + 0x1b0);
     plastlist = 0;
@@ -10518,7 +10518,7 @@ int FUN_00923e40_cls::RunScheduledAction(Actor* actor, RefX* ref, bool flag)
                 }
                 float f2 = 0.0f;
                 if (!ref || !reinterpret_cast<::TESPackage *>((ref))->GetPackageSearchRadius((::MobileObject *)(actor), (*(float *)(&f2))))
-                    f2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Dat011c *>(&::originalRuntimeFloatSetting132))))));
+                    f2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Dat011c *>(&::originalRuntimeFloatSetting132))))));
                 reinterpret_cast<::TESDataHandler *>((DAT_011c3f2c))->GetReferencesInArea((::TESObjectCELL *)(idB), (*(const ::NiPoint3 *)(&pos4)), f2, (*(const ::NiPoint3 *)(actor->GetPos())), f2, (bool (*)(TESObjectREFR *, intptr_t))(((void (&)())::FUN_0090e660)), (intptr_t)(actor));
                 f8c = 0;
                 f88 = 0;
@@ -16912,9 +16912,9 @@ void P114Process::FUN_00916df0(Actor* actor)
         if (pTarget == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)) && p == 0.0)
             p = (float)count;
         else if (p == 0.0 && reinterpret_cast<::TESObjectCELL *>((((P114Cell*)((P114ActorOps*)actor)->FUN_008d6f30())))->IsCellInterior())
-            p = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P114Settings *>(&::originalRuntimeFloatSetting173))))));
+            p = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P114Settings *>(&::originalRuntimeFloatSetting173))))));
         else if (p == 0.0)
-            p = count * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P114Settings *>(&::originalRuntimeFloatSetting172))))));
+            p = count * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P114Settings *>(&::originalRuntimeFloatSetting172))))));
     }
     if (((::P114RefOps *)(reinterpret_cast<::PackageFields *>((i))->pLocation)) && i->Check(actor, 0, -1.0f, 0))
     {
@@ -17963,14 +17963,14 @@ void* ThisCls::FUN_0091ae00(P0* apActor, Pkg* apPackage, P2* arg2)
                                 obj34 = (0 < val) ? (float)val
                                                   : ((tmp40 != 0 && reinterpret_cast<::TESObjectCELL *>(((TESObjectCELL*)tmp40))->IsCellInterior())
                                                          ? DAT_01016970
-                                                         : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Dat011c *>(&::originalRuntimeFloatSetting132)))))));
+                                                         : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Dat011c *>(&::originalRuntimeFloatSetting132)))))));
                                 reinterpret_cast<::TESDataHandler *>((((DH46*)g_dataHandler)))->GetReferencesInArea((::TESObjectCELL *)(tmp40), (*(const ::NiPoint3 *)(&x)), obj34, (*(const ::NiPoint3 *)(&x)), obj34, (bool (*)(TESObjectREFR *, intptr_t))(void *)((void*)&((bool (&)(TESObjectREFR *, intptr_t))::CheckPackageMatch)), (intptr_t)(apActor));
                             }
                             else
                             {
                                 if (((ProcessQuery*)this)->Query() == 0 || !reinterpret_cast<::TESPackage *>((V22c(apActor, &obj34)))->GetPackageSearchRadius({}, *(float *)nullptr))
                                 {
-                                    obj34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Dat011c *>(&::originalRuntimeFloatSetting132))))));
+                                    obj34 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Dat011c *>(&::originalRuntimeFloatSetting132))))));
                                 }
                                 reinterpret_cast<::TESDataHandler *>((((DH46*)g_dataHandler)))->GetReferencesInArea((::TESObjectCELL *)(tmp40), (*(const ::NiPoint3 *)(&x)), obj34, (*(const ::NiPoint3 *)(apActor->V1f4())), obj34, (bool (*)(TESObjectREFR *, intptr_t))(void *)((void*)&((bool (&)(TESObjectREFR *, intptr_t))::CheckPackageMatch)),
                                                    (intptr_t)(apActor));
@@ -19314,7 +19314,7 @@ bool FollowProcess::FUN_0091d3c0(Actor* actor, float elapsed, bool advance)
     else
     {
         float displacement = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((m_kPackageTargetPosition - *pTarget->GetPos())))->ComputeMagnitude();
-        if (displacement > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloatAccess *>(&::originalRuntimeFloatSetting170)))))) ||
+        if (displacement > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloatAccess *>(&::originalRuntimeFloatSetting170)))))) ||
             (distance > fRadius && ((bool)(reinterpret_cast<::TeleportableReference *>((((ReferenceAccess*)actor)))->GetTeleportDestinationForm()))))
         {
             if (!UpdateDestination(actor, *pTarget->GetPos(), pTarget->GetParentCell(),
@@ -19730,7 +19730,7 @@ struct FollowProcedure
 // @fnv 0x0091dd30
 bool FollowProcedure::FUN_0091dd30(ProcedureActor* actor, void* unused)
 {
-    int attempts3 = (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProcedureSetting *>(&::originalRuntimeFloatSetting236)))))) * 4.0);
+    int attempts3 = (int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ProcedureSetting *>(&::originalRuntimeFloatSetting236)))))) * 4.0);
     Actor* target4 = 0;
     if (!targetReference)
         AcquireTarget(actor);
@@ -27811,7 +27811,7 @@ void AimProcess::UpdateAimTurn(MobileObject* actor)
     right = 0.0f;
     up = 0.0f;
     float neutral =
-        m_fAnimationTime - m_fAnimationTime * ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&(g_011e0474)))) * *((float *)&(::FUN_00403e20((float *)&(g_011c5724))));
+        m_fAnimationTime - m_fAnimationTime * ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&(g_011e0474)))) * *((float *)&(::FUN_00403e20((::Setting *)&(g_011c5724))));
     if (m_fAnimationTime > 0.0 && neutral < 0.0)
         m_fAnimationTime = 0.0f;
     else if (m_fAnimationTime < 0.0 && neutral > 0.0)
@@ -27822,9 +27822,9 @@ void AimProcess::UpdateAimTurn(MobileObject* actor)
         m_fAnimationTime = neutral;
     left = m_fAnimationTime + actor->GetLooking();
     if (left < 0.0 && m_apAnimGroupSequences[1])
-        next = FUN_0040ebd0(1.0f, float(left / (-0.017453292f * *((float *)&(::FUN_00403e20((float *)&(g_011e048c)))))));
+        next = FUN_0040ebd0(1.0f, float(left / (-0.017453292f * *((float *)&(::FUN_00403e20((::Setting *)&(g_011e048c)))))));
     else if (left > 0.0 && m_apAnimGroupSequences[2])
-        angle = FUN_0040ebd0(1.0f, float(left / (0.017453292f * *((float *)&(::FUN_00403e20((float *)&(g_011e0498)))))));
+        angle = FUN_0040ebd0(1.0f, float(left / (0.017453292f * *((float *)&(::FUN_00403e20((::Setting *)&(g_011e0498)))))));
     down = 1.0f - FUN_00404010(next + angle, right + up);
     if (m_apAnimGroupSequences[0])
         ((FUN_00495480_shell*)m_apAnimGroupSequences[0])->FUN_00495480(down);
@@ -28415,15 +28415,15 @@ unsigned char AutoFireProcess::UpdateAutoFire(Actor* apActor)
     WeapStub* pWeap = ((::WeapStub *)(reinterpret_cast<::Twin_0044ddc0 *>((((WeapEntryStub*)pWeapon)))->GetName()));
     if (!reinterpret_cast<::FUN_00524b40_class *>((pWeap))->FUN_00524b40())
         return 0;
-    float fDelta4 = ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724))))));
+    float fDelta4 = ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724))))));
     float fAnimMult6 = GetAnimation() ? reinterpret_cast<::FUN_004e3d00_shell *>((((AnimStub*)GetAnimation())))->FUN_004e3d00() : 1.0f;
     if (apActor == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
         m_fAnimationSpeed -= reinterpret_cast<::VATS *>(&((*reinterpret_cast<::VATSStub *>(&::g_011f2250))))->GetModeTimeMultiplier() * fDelta4 * fAnimMult6;
     else if (apActor == ::DAT_011f21cc)
         m_fAnimationSpeed -=
-            ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6 * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATSStub *>(&::g_011f2250))))->FUN_009c8d60();
+            ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6 * reinterpret_cast<::FUN_009c8d60_t *>(&((*reinterpret_cast<::VATSStub *>(&::g_011f2250))))->FUN_009c8d60();
     else
-        m_fAnimationSpeed -= ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6;
+        m_fAnimationSpeed -= ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStub *>(&::g_011c5724)))))) * fAnimMult6;
     float fRate = reinterpret_cast<::FUN_00821640_shell *>((pWeap))->FUN_00821640() * reinterpret_cast<::FUN_00646020_shell *>((pWeap))->FUN_00646020(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((((WeapEntryStub*)pWeapon)))->HasEffect(8));
     unsigned char cShots2 = 0;
     float fInterval = 1.0f / fRate;
@@ -32799,7 +32799,7 @@ void MidProc::FUN_00918ee0(Actor* apActor, bool abArg2, int aiArg3, int aiArg4)
     else
     {
         float fLen = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_00918ee0::Pt &)((this->m_kPackageTargetPosition - *((V1f4*)this->pTarget)->v1f4())))->ComputeMagnitude();
-        if (fLen > ((::fnv_00918ee0::Setting_S *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00918ee0::FloatSetting *>(&::originalRuntimeFloatSetting170))))))->f || (fDist > fValue && ((bool)(reinterpret_cast<::TeleportableReference *>((((ActShell*)apActor)))->GetTeleportDestinationForm()))))
+        if (fLen > ((::fnv_00918ee0::Setting_S *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00918ee0::FloatSetting *>(&::originalRuntimeFloatSetting170))))))->f || (fDist > fValue && ((bool)(reinterpret_cast<::TeleportableReference *>((((ActShell*)apActor)))->GetTeleportDestinationForm()))))
         {
             if (0)
             {
@@ -36186,10 +36186,10 @@ void ProcedureProcess::FUN_00919f60(ProcedureActor* apActor)
                             f = 200;
 
                         if (s == 0.0 && reinterpret_cast<::TESObjectCELL *>((h->FUN_008d6f30()))->IsCellInterior())
-                            s = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00919f60::ProcedureSetting *>(&::originalRuntimeFloatSetting173))))));
+                            s = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00919f60::ProcedureSetting *>(&::originalRuntimeFloatSetting173))))));
 
                         else if (s == 0.0)
-                            s = f * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00919f60::ProcedureSetting *>(&::originalRuntimeFloatSetting172))))));
+                            s = f * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00919f60::ProcedureSetting *>(&::originalRuntimeFloatSetting172))))));
 
                         if (reinterpret_cast<::RefS *>((h))->FUN_005723b0((::RefS *)(pTarget), 0, 0) <= s / 2.0)
                             SetProcessTarget(h, 1);
@@ -36996,8 +36996,8 @@ void SelfFull91::FUN_0091fee0(Ref91* actor, Point91 point, float force)
             Point91 delta = position - point;
             delta.off08 = 0.0f;
             reinterpret_cast<::FUN_004a0c10_s *>(&(delta))->FUN_004a0c10();
-            reinterpret_cast<::MyPoint439180 *>(&(delta))->FUN_00439180(((::SettingValue91 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1134))))))->off00 * (force / ((::SettingValue91 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1131))))))->off00));
-            float power = ((::SettingValue91 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1135))))))->off00 * (force / ((::SettingValue91 *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1131))))))->off00);
+            reinterpret_cast<::MyPoint439180 *>(&(delta))->FUN_00439180(((::SettingValue91 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1134))))))->off00 * (force / ((::SettingValue91 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1131))))))->off00));
+            float power = ((::SettingValue91 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1135))))))->off00 * (force / ((::SettingValue91 *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting91 *>(&::originalRuntimeFloatSetting1131))))))->off00);
             reinterpret_cast<::Owner274 *>((body))->UpdateMaxVelocity((const float *)(::Point91 *)(&delta), power);
         }
         else
@@ -40439,7 +40439,7 @@ void Actor70::FUN_00919320(Actor70* actor, bool checkReach, bool finish, int act
 
                 separation7 = reinterpret_cast<::NiPoint3 *>((void *)&(const ::fnv_00919320::Vec70 &)((*(::fnv_00919320::Vec70 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(position))->FUN_00439ef0((::NiPoint3 *)&(reference2->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
 
-                if (separation7 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00919320::Setting70 *>(&::originalRuntimeFloatSetting170)))))) || (distance9 > radius41 && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm()))))
+                if (separation7 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00919320::Setting70 *>(&::originalRuntimeFloatSetting170)))))) || (distance9 > radius41 && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm()))))
                 {
 
                     if (!Move(actor, reference2->Position(), reference2->FUN_008d6f30(), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((reference2))->FUN_00575d70()))))
@@ -41681,9 +41681,9 @@ bool UseProcess::FUN_0091c810(UseRef* apActor)
         if (pTarget == (*reinterpret_cast<::ProcessUseItem::UseRef * *>(&::_g_thePlayer)) && fRangeEntry == 0.0)
             fRangeEntry = iDistance;
         else if (fRangeEntry == 0.0 && reinterpret_cast<::TESObjectCELL *>((apActor->FUN_008d6f30()))->IsCellInterior())
-            fRangeEntry = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProcessUseItem::UseSetting *>(&::originalRuntimeFloatSetting173))))));
+            fRangeEntry = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ProcessUseItem::UseSetting *>(&::originalRuntimeFloatSetting173))))));
         else if (fRangeEntry == 0.0)
-            fRangeEntry = iDistance * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProcessUseItem::UseSetting *>(&::originalRuntimeFloatSetting172))))));
+            fRangeEntry = iDistance * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ProcessUseItem::UseSetting *>(&::originalRuntimeFloatSetting172))))));
     }
     if (((::ProcessUseItem::UsePackageTarget *)(reinterpret_cast<::PackageFields *>((pPackage))->pLocation)) && pPackage->IsPackageRunningForActor(apActor, 0, -1.0f, false))
     {
@@ -42232,7 +42232,7 @@ struct SettingFloat
 // @fnv 0x0091db40
 void MiddleHighProcess::FUN_0091db40(Actor* actor)
 {
-    int remaining = (int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting236))))));
+    int remaining = (int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting236))))));
     Actor* found = 0;
     found = dynamic_cast<Actor*>(pTarget);
     bool worked = false;
@@ -43453,7 +43453,7 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
             return;
         }
         reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(::fnv::timer::Seconds() * -1.0));
-        if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() > *(float*)((::Setting_S *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting190)))))))
+        if (reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() > *(float*)((::Setting_S *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting190)))))))
             reinterpret_cast<::FUN_008db4c0_class *>((pPkg))->FUN_008db4c0((float)(reinterpret_cast<::FUN_00644790_class *>((pPkg))->FUN_00644790() * -1.0));
     }
 
@@ -45546,7 +45546,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
         {
             reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
             reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(::fnv::timer::Seconds());
-            if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
+            if (elapsed4 >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
                 v288(actor, 1);
             return;
         }
@@ -45563,11 +45563,11 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
             float threshold = 0;
             if (reinterpret_cast<::TESObjectCELL *>((weapon6))->IsCellInterior())
             {
-                threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting623))))));
+                threshold = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting623))))));
                 aArmed = true;
             }
             else
-                threshold = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting622))))));
+                threshold = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting622))))));
             if (distance < threshold && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm())))
             {
                 Actor* reference = ((::FleeUpdate::Actor *)(((packageTmp))->pActor));
@@ -45614,7 +45614,7 @@ void FleeUpdate::Process::FUN_00918860(Actor* actor)
             {
                 reinterpret_cast<::FUN_00810530_c *>((packageTmp))->FUN_00810530(1);
                 reinterpret_cast<::FUN_00898250_Class *>((packageTmp))->FUN_00898250(::fnv::timer::Seconds());
-                if (elapsed4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
+                if (elapsed4 >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FleeUpdate::Setting *>(&::originalRuntimeFloatSetting234)))))))
                     v288(actor, 1);
             }
         }
@@ -45770,7 +45770,7 @@ void SearchFurnitureProcess::FUN_00922670(::Actor* actor, bool flag, ::TESObject
         if (s && reinterpret_cast<::DurationData *>((s))->FUN_00678ca0() == 1 && reinterpret_cast<::TESObjectCELL *>((reinterpret_cast<FurnitureCell*>(reinterpret_cast<::LocationDescriptor *>((s))->GetLocationCellReference())))->IsCellInterior())
             i = 3.402823466e38f;
         else
-            i = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureSetting *>(&::originalRuntimeFloatSetting133))))));
+            i = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FurnitureSearchDetail::FurnitureSetting *>(&::originalRuntimeFloatSetting133))))));
     }
     if (target)
     {

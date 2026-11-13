@@ -3051,22 +3051,22 @@ C4DF040Node* __cdecl CreateDebrisNode(unsigned int uiPieceCount, float fWidthSca
         fY = C4DF040Random() * g_fDebrisRangeY;
         C4DF040Point3 kTargetCenter(fRandX, fY, 0.0f);
 
-        fHalfWidth = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting737)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting738)))))));
+        fHalfWidth = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting737)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting738)))))));
         fHalfWidth *= fWidthScale;
-        fHeightChoice = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting739)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::g_011cf980)))))));
-        fAlternate = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting740)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::g_011cf920)))))));
+        fHeightChoice = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting739)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::g_011cf980)))))));
+        fAlternate = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting740)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::g_011cf920)))))));
         fHeightChoice *= fHeightScale;
         fAlternate *= fHeightScale;
 
         C4DF040Matrix3 kRotationBasis;
         reinterpret_cast<::FUN_004dfdd0_StandIn *>(&(kRotationBasis))->InitIdentity();
-        if (::RandomBoolean(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting741))))))))
+        if (::RandomBoolean(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting741))))))))
             fHeightChoice = fAlternate;
 
         fUUOffset = C4DF040Random() > 0.0 ? 0.0 : 0.5;
         fV = C4DF040Random() > 0.0 ? 0.0 : 0.5;
         C4DF040Point2 kUVShift(fUUOffset, fV);
-        fShadowHalf = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting743))))));
+        fShadowHalf = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::C4DF040FloatSetting *>(&::originalRuntimeFloatSetting743))))));
 
         uiVertex = uiPiece * 4;
         pkPositions[uiVertex] = kRotationBasis * C4DF040Point3(-fHalfWidth, fHalfWidth, fHeightChoice) + kTargetCenter;

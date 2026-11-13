@@ -170,7 +170,7 @@ extern GlobalObject_0044f440 g_011d5db8;
 // @fnv 0x00666f40
 float FUN_00666f40()
 {
-    return *((float *)&(::FUN_00403e20((float *)&(g_011d5db8))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&(g_011d5db8))));
 }
 }  // namespace fnv_00666f40
 
@@ -190,7 +190,7 @@ extern GlobalObject_0044f440 g_011d5d24;
 // @fnv 0x00666f60
 float FUN_00666f60()
 {
-    return ((::fnv_00666f60::Setting_S *)&(::FUN_00403e20((float *)&(g_011d5d24))))->f;
+    return ((::fnv_00666f60::Setting_S *)&(::FUN_00403e20((::Setting *)&(g_011d5d24))))->f;
 }
 }  // namespace fnv_00666f60
 

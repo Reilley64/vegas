@@ -631,7 +631,7 @@ struct Standin77900
 float Standin77900::FUN_00477900()
 {
     return (float)(reinterpret_cast<::FUN_00477950_shell *>(this)->HasAnyFlags(1) ? (double)*(float*)((char*)this + 0x7c)
-                                  : (double)(*(float*)((char*)this + 0x7c) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
+                                  : (double)(*(float*)((char*)this + 0x7c) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting818))))))));
 }
 
 class NiAVObject;

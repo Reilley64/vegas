@@ -37,13 +37,13 @@ float __cdecl CalcEffectCost(float afBaseEffectCost, int aiArea, int aiDuration,
     float fmagnitudeModifier;
     float fareaModifier;
     float fbaseCost;
-    fareaModifier = FUN_00404010(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1114)))))) * (float)aiArea, 1.0f);
+    fareaModifier = FUN_00404010(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1114)))))) * (float)aiArea, 1.0f);
     fdurationModifier =
-        afBaseEffectCost * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1115)))))) * (aiDuration == 0 ? 1.0f : (float)aiDuration);
+        afBaseEffectCost * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1115)))))) * (aiDuration == 0 ? 1.0f : (float)aiDuration);
     fmagnitudeModifier =
-        aiMagnitude == 0 ? 1.0f : ::fnv_004dd130::FUN_004dd130((float)aiMagnitude, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1209)))))));
+        aiMagnitude == 0 ? 1.0f : ::fnv_004dd130::FUN_004dd130((float)aiMagnitude, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1209)))))));
     fbaseCost = fareaModifier * fdurationModifier * fmagnitudeModifier;
-    return (abIsRangeTarget ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1116)))))) : 1.0f) * fbaseCost;
+    return (abIsRangeTarget ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1116)))))) : 1.0f) * fbaseCost;
 }
 
 // @fnv 0x006494b0
@@ -75,7 +75,7 @@ struct GlobalObject_0045cfe0
 bool FUN_006494d0(int aiTargetLevel, float afMagnitude)
 {
     float fScaledMagnitude;
-    fScaledMagnitude = afMagnitude * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1183))))));
+    fScaledMagnitude = afMagnitude * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1183))))));
     if (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011d1a14)))))) <= fScaledMagnitude)
         return true;
     else
@@ -102,7 +102,7 @@ float ComputeBlastPower(int aiCost, int aiAgility, float afDistance, int aiLuck,
         fdistanceRatio = 1.0f;
     }
     fblastPower =
-        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1133)))))) * fdistanceRatio * aiCost + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1132))))));
+        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1133)))))) * fdistanceRatio * aiCost + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1132))))));
     float fLuck = (float)aiLuck;
     fblastPower = fblastPower - fLuck * *((float *)&(::FUN_00403e20((float *)&(::g_011d1cd0))));
     return fblastPower;
@@ -130,9 +130,9 @@ float __cdecl FUN_00649390(float afBase, float afTime, float afStart, float afEn
             fRatio9 = (fMid - afTime) / (fMid - afStart);
         fRatio9 = 1.0f - FUN_006494b0(fRatio9, 4.0f);
         fSkillMult = (1.0f - *((float *)&(::FUN_00403e20((float *)&(::g_011d1938))))) * afSkill + *((float *)&(::FUN_00403e20((float *)&(::g_011d1938))));
-        fFlag1Mult4 = !abFlag1 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1161)))))) : 1.0f;
-        fFlag2Mult_ = abFlag2 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1160)))))) : 1.0f;
-        fResult = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1159)))))) * afBase * fRatio9 * fSkillMult * fFlag2Mult_ * fFlag1Mult4;
+        fFlag1Mult4 = !abFlag1 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1161)))))) : 1.0f;
+        fFlag2Mult_ = abFlag2 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1160)))))) : 1.0f;
+        fResult = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1159)))))) * afBase * fRatio9 * fSkillMult * fFlag2Mult_ * fFlag1Mult4;
         return fResult;
     }
 }
@@ -156,8 +156,8 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1118;
 float __cdecl ScaleBySettingBlend(float afValue, int aiPercent)
 {
     float quotient = (float)(aiPercent / g_d100);
-    float result = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1117))))->value +
-                   (1.0f - quotient) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1118))))->value;
+    float result = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1117))))->value +
+                   (1.0f - quotient) * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1118))))->value;
     return afValue * result;
 }
 
@@ -171,28 +171,28 @@ int GetBandIndex(float afValue)
 {
     float f = *((float *)&(::FUN_00403e20((float *)&(::g_011d158c)))) + *((float *)&(::FUN_00403e20((float *)&(::g_011d1b98)))) * afValue;
     int r;
-    if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1119))))->value)
+    if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1119))))->value)
     {
         r = 0;
     }
     else
     {
         int b;
-        if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1120))))->value)
+        if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1120))))->value)
         {
             b = 1;
         }
         else
         {
             int c;
-            if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1121))))->value)
+            if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1121))))->value)
             {
                 c = 2;
             }
             else
             {
                 int d;
-                if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1122))))->value)
+                if (f < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1122))))->value)
                     d = 3;
                 else
                     d = 4;

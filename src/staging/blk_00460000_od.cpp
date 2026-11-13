@@ -4217,17 +4217,17 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
     if (newPercent)
     {
         rate =
-            reinterpret_cast<::FUN_00477a50_shell *>(this)->GetHourlyWeightedTime(b, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting356)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting355)))))), (::Standin77900 **)(void **)(&replacement));
-        if (rate > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting478)))))))
+            reinterpret_cast<::FUN_00477a50_shell *>(this)->GetHourlyWeightedTime(b, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting356)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting355)))))), (::Standin77900 **)(void **)(&replacement));
+        if (rate > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting478)))))))
             rate = DAT_01012054;
     }
     if (rate == -1.0)
     {
         float inverse;
-        inverse = reinterpret_cast<::FUN_00477970_cls *>(this)->FindShapeByThresholds(b, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting356)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting355)))))),
+        inverse = reinterpret_cast<::FUN_00477970_cls *>(this)->FindShapeByThresholds(b, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting356)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting355)))))),
                                (::FnvShapeObject **)(void **)(&replacement));
-        if (inverse != -1.0 && val - inverse < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting480)))))))
-            rate = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting479))))));
+        if (inverse != -1.0 && val - inverse < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting480)))))))
+            rate = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting479))))));
     }
     if (rate != -1.0)
         reinterpret_cast<::S_9a54a0_Class *>((((::DManager *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->FUN_009a54a0((intptr_t)(ref), (::S_9a54a0_Actor *)(replacement), rate);

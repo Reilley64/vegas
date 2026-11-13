@@ -527,7 +527,7 @@ void EvadeProcedure::UpdateFleeState()
         }
         case 10:
         case 12:
-            reinterpret_cast<::FUN_00507610_Class *>(&(fleeRequest))->FUN_00507610(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::EvadeSetting *>(&::originalRuntimeFloatSetting438)))))));
+            reinterpret_cast<::FUN_00507610_Class *>(&(fleeRequest))->FUN_00507610(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::EvadeSetting *>(&::originalRuntimeFloatSetting438)))))));
             reinterpret_cast<::FUN_008df000_shell *>(&(fleeRequest))->FUN_008df000();
             destination = ((intptr_t)(reinterpret_cast<::AvoidWork *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->BuildAvoidNodes((::AvoidActor *)(actor), (::PathingAvoidNodeArray *)(0))));
             break;

@@ -2921,11 +2921,11 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ex
     // Displacement used to calculate the distance.
     NiPoint3 p = ([&] { ::NiPoint3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((ExplosionPoint&)s)))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(origin))); return difference; }());
     h = reinterpret_cast<::NiPoint3 *>((void *)&(((ExplosionPoint&)p)))->ComputeMagnitude();
-    i = ::ComputeBlastPower((int)strength, (int)(reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1112))))))), h,
+    i = ::ComputeBlastPower((int)strength, (int)(reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1112))))))), h,
                           reinterpret_cast<::ActorValueOwner *>(&(target->values))->GetActorValueAsInteger((::ActorValue::Index)(10)), reinterpret_cast<::ActorValueOwner *>(&(target->values))->GetActorValueAsInteger((::ActorValue::Index)(11)), reinterpret_cast<::FUN_00893530_shell *>((target))->GetFatigueRatio());
-    if (i > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1131)))))))
-        i = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1131))))));
-    if (i > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011d180c)))))))
+    if (i > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1131)))))))
+        i = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1131))))));
+    if (i > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011d180c)))))))
     {
         ((::fnv_00818310::ExplosionProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Stagger(target, origin, i);
     }
@@ -3200,7 +3200,7 @@ void FUN_00818610_class::CastAimEffect()
         }
         else
         {
-            float distance = reinterpret_cast<::PathingRequest *>((void *)(((EffectDistance*)a)))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1140))))));
+            float distance = reinterpret_cast<::PathingRequest *>((void *)(((EffectDistance*)a)))->GetCenterRadius() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1140))))));
             cf = (*(const ::AimPoint *)(reinterpret_cast<::TESRecipe *>((void *)(s))->GetData())) + ComputeRelativeFiringAngle((TESObjectREFR*)s, p, distance, 0.0f, 2);
             b = *s->Position();
             b.z += (s->Upper().z - s->Lower().z) * 0.5;
@@ -3211,7 +3211,7 @@ void FUN_00818610_class::CastAimEffect()
         if (this != static_cast<MagicCaster*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))) && h && p)
         {
             AimAux* hDistance;
-            float aAux = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1140)))))) * (a ? reinterpret_cast<::PathingRequest *>((void *)(((EffectDistance*)a)))->GetCenterRadius() : 1.0f);
+            float aAux = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1140)))))) * (a ? reinterpret_cast<::PathingRequest *>((void *)(((EffectDistance*)a)))->GetCenterRadius() : 1.0f);
             float iMode = 0;
             hDistance = ((ActorAim*)h)->Aux();
             int pElevation = hDistance ? ((int)(reinterpret_cast<::FUN_00981920_Class *>((hDistance))->GetPackageRefCount())) : 1;
@@ -3426,7 +3426,7 @@ MagicTarget* FUN_00817620_shell::FindClosestMagicTarget()
 {
     Actor* pactor = GetCasterActor();
     float freach =
-        pactor ? ((ActorVT*)pactor)->V224() * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pactor)))->FUN_00567400() : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting594))))));
+        pactor ? ((ActorVT*)pactor)->V224() * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pactor)))->FUN_00567400() : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting594))))));
     TESObjectREFR* pcaster = pactor ? pactor : GetCasterReference();
     Actor* pclosestTarget = 0;
     float fclosestDelta = 3.402823466e+38f;
@@ -3490,7 +3490,7 @@ void Caster::ApplyAreaEffect(Magic* magic, Item* item, std::intptr_t enabled, Ve
     int radius5 = reinterpret_cast<::FUN_00404420_shell *>((((::Area *)(reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0()))))->FUN_00404420();
     if (radius5 > 0)
     {
-        radius5 *= (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1112)))))) * scale);
+        radius5 *= (int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1112)))))) * scale);
         ActorTarget* source7 = ((::ActorTarget *)(reinterpret_cast<::MagicCaster *>(this)->GetCasterActor()));
         bool notified5 = *done;
         Node* nodeB = list;
@@ -3902,7 +3902,7 @@ void AEGatherer::GatherTargetsInArea(MagicItem* apItem, unsigned int auiEffectCo
 
     SpellItem* pSpell5 = dynamic_cast<SpellItem*>(apItem);
     bool bNoCheck2 = pSpell5 && ((bool)(reinterpret_cast<::FlaggedData *>((static_cast<AESpellItem*>(pSpell5)))->ContainsAnyFlag(0x10)));
-    float fRadius4 = iMaxAreaA * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AEFloatSetting *>(&::originalRuntimeFloatSetting1112))))));
+    float fRadius4 = iMaxAreaA * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AEFloatSetting *>(&::originalRuntimeFloatSetting1112))))));
     Actor* m_pEffectInstance = reinterpret_cast<::MagicCaster *>(this)->GetCasterActor();
     AEActorArray* pActors3 = ((::AEActorArray *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::AEProcessLists *>(&::g_011e0e80))))->GetCurrentProcessData()));
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((pActors3))->FUN_005be5c0(0); i++)
@@ -4561,7 +4561,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
             target6 = GetCurrentMagicTarget();
             if (target6 && !source && !noTouch && target6->GetObject())
             {
-                float reach = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1126))))));
+                float reach = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1126))))));
                 if (casterObjectSlot2->IsActor() &&
                     (casterObjectSlot2 == (*reinterpret_cast<::CastTargets::Object * *>(&::_g_thePlayer)) || !target6->GetObject()->IsActor() ||
                      target6->GetObject()->GetActorType() != 9))
@@ -4731,11 +4731,11 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                 reinterpret_cast<::FUN_00689920_shell *>((instance2))->FUN_00689920(DAT_0102054c);
                 if (((::CastTargets::Node *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((instance2))->FUN_00490e40())))
                 {
-                    float areaScale = reinterpret_cast<::FUN_00404420_shell *>((areaEffect7))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1137))))));
-                    if (areaScale > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1138)))))))
-                        areaScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1138))))));
-                    else if (areaScale < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1139)))))))
-                        areaScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1139))))));
+                    float areaScale = reinterpret_cast<::FUN_00404420_shell *>((areaEffect7))->FUN_00404420() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1137))))));
+                    if (areaScale > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1138)))))))
+                        areaScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1138))))));
+                    else if (areaScale < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1139)))))))
+                        areaScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CastTargets::Setting *>(&::originalRuntimeFloatSetting1139))))));
                     reinterpret_cast<::FUN_00440490_shell *>((((::CastTargets::Node *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((instance2))->FUN_00490e40()))))->FUN_00440490(areaScale);
                 }
             }
@@ -4826,13 +4826,13 @@ void Pusher::FUN_00818150(PushRef* target, Vec3 origin, EffectStub* effect, floa
     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&pos)), (*(const ::hkVector4 *)(target->GetNode())));
     Vec3 vDirection = pos - origin;
     float dist = reinterpret_cast<::NiPoint3 *>((void *)&(vDirection))->GetLengthSquared();
-    float force = ::ComputeBlastPower((int)magnitude, (int)((double)reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1112))))))),
+    float force = ::ComputeBlastPower((int)magnitude, (int)((double)reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1112))))))),
                             dist, 0, 0, 0.0f);
     if (force > ::_DAT_01012060)
     {
-        if (force > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1131)))))))
-            force = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1131))))));
-        force = force * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1136))))));
+        if (force > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1131)))))))
+            force = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1131))))));
+        force = force * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1136))))));
         vDirection[2] += 0.5;
         Vec3 vImpulse = vDirection * force;
         hkVector4 v;

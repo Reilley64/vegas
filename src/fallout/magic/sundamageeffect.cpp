@@ -629,7 +629,7 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
         {
             reinterpret_cast<::S_00829e00_ActiveEffect *>(this)->FUN_00829e00(false);
             if (actor == (*reinterpret_cast<::S_00829bb0_Actor * *>(&::_g_thePlayer)))
-                DAT_011a14f8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1164))))));
+                DAT_011a14f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1164))))));
         }
         else
         {
@@ -644,11 +644,11 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
                     if (DAT_011a14f8 < 0.0)
                     {
                         reinterpret_cast<::fnv_008a7d50::ActorHitOwner *>(((*reinterpret_cast<::S_00829bb0_Actor * *>(&::_g_thePlayer))))->FUN_008a7d50(1, 1);
-                        DAT_011a14f8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1163))))));
+                        DAT_011a14f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1163))))));
                     }
                     else if (DAT_011a14f8 == 3.4028234663852886e+38)
                     {
-                        DAT_011a14f8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1164))))));
+                        DAT_011a14f8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00829bb0_Setting *>(&::originalRuntimeFloatSetting1164))))));
                     }
                     DAT_011a14f8 = DAT_011a14f8 - arg;
                 }

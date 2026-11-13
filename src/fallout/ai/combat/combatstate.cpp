@@ -742,7 +742,7 @@ struct UnknownClass
 // @fnv 0x0097eee0
 bool UnknownClass::IsElapsedTimeAtLeastSetting()
 {
-    return (reinterpret_cast<::FUN_00435e00_t *>(&(ts))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting413)))))) ? 1 : 0);
+    return (reinterpret_cast<::FUN_00435e00_t *>(&(ts))->FUN_00435e00() >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting413)))))) ? 1 : 0);
 }
 
 struct FUN_0097ef30_shell
@@ -919,7 +919,7 @@ struct FUN_00998980_shell
 // @fnv 0x00998980
 bool FUN_00998980_shell::FUN_00998980()
 {
-    return (double)reinterpret_cast<::FUN_00435e00_t *>(&(_ts))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00998980::Setting_S *>(&::originalRuntimeFloatSetting411))))));
+    return (double)reinterpret_cast<::FUN_00435e00_t *>(&(_ts))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00998980::Setting_S *>(&::originalRuntimeFloatSetting411))))));
 }
 }  // namespace fnv_00998980
 
@@ -1125,7 +1125,7 @@ void FUN_0099a720_cls::FUN_0099a720()
     {
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x64) =
             *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x58);
-        reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<FUN_008d7f40_cls*>(reinterpret_cast<char*>(this) + 0x1d4)))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099a720::Setting_S *>(&::g_011ce058)))))));
+        reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<FUN_008d7f40_cls*>(reinterpret_cast<char*>(this) + 0x1d4)))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099a720::Setting_S *>(&::g_011ce058)))))));
     }
     EvaluateWeaponScores();
 }
@@ -1406,7 +1406,7 @@ float FUN_009a0be0_Class::GetIdleAdjustedValue()
         if (section != 0xf && section != 6 && section != 0)
         {
             return *(float*)(this->unkc4 + 0x1c) +
-                   ((float *)&(::FUN_00403e20((float *)(reinterpret_cast<Setting_S*>(&(*reinterpret_cast<::fnv_009a0be0::SettingT< ::fnv_009a0be0::GameSettingCollection> *>(&::originalRuntimeFloatSetting424)))))))[0];
+                   ((float *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<Setting_S*>(&(*reinterpret_cast<::fnv_009a0be0::SettingT< ::fnv_009a0be0::GameSettingCollection> *>(&::originalRuntimeFloatSetting424)))))))[0];
         }
     }
     return *(float*)(this->unkc4 + 0x1c);
@@ -2168,7 +2168,7 @@ struct FUN_009a0b70_shell
 float FUN_009a0b70_shell::GetInterpolatedValue()
 {
     if (ptr->flag)
-        return ptr->val1c + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009a0b70::SettingT_GameSettingCollection *>(&::originalRuntimeFloatSetting424))))));
+        return ptr->val1c + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009a0b70::SettingT_GameSettingCollection *>(&::originalRuntimeFloatSetting424))))));
     return (ptr->val1c - ptr->val18) * ::DAT_0101de30 + ptr->val18;
 }
 }  // namespace fnv_009a0b70
@@ -2535,12 +2535,12 @@ void FUN_00999160_struct::FUN_00999160()
     if (reinterpret_cast<::TimeoutTimer *>((((TimeoutTimer*)((char*)this + 0x204))))->CheckTimer())
     {
         reinterpret_cast<::fnv_009a1010::FUN_009a1010_Class *>(this)->FUN_009a1010();
-        reinterpret_cast<::FUN_008d7f40_shell *>((((TimeoutTimer*)((char*)this + 0x204))))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00999160::Setting_S *>(&::g_011cf198)))))));
+        reinterpret_cast<::FUN_008d7f40_shell *>((((TimeoutTimer*)((char*)this + 0x204))))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00999160::Setting_S *>(&::g_011cf198)))))));
     }
     if (reinterpret_cast<::TimeoutTimer *>((((TimeoutTimer*)((char*)this + 0x20c))))->CheckTimer())
     {
         UpdateRangeValue();
-        reinterpret_cast<::FUN_008d7f40_shell *>((((TimeoutTimer*)((char*)this + 0x20c))))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00999160::Setting_S *>(&::originalRuntimeFloatSetting492)))))));
+        reinterpret_cast<::FUN_008d7f40_shell *>((((TimeoutTimer*)((char*)this + 0x20c))))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00999160::Setting_S *>(&::originalRuntimeFloatSetting492)))))));
     }
 }
 }  // namespace fnv_00999160
@@ -2606,9 +2606,9 @@ void FUN_0099a840_shell::FUN_0099a840(void* apItem)
             switch (i + 17)
             {
             case 17:
-                val = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099a840::Setting_S *>(&::originalRuntimeFloatSetting425))))));
+                val = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099a840::Setting_S *>(&::originalRuntimeFloatSetting425))))));
             case 18:
-                val = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099a840::Setting_S *>(&::originalRuntimeFloatSetting426))))));
+                val = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099a840::Setting_S *>(&::originalRuntimeFloatSetting426))))));
                 break;
             }
             reinterpret_cast<::FUN_008d7f40_shell *>((((FUN_008d7f40_shell*)((char*)this + 0x1ac + i * 8))))->FUN_008d7f40(val);
@@ -3765,8 +3765,8 @@ void FUN_009a0910_shell::FUN_009a0910(FUN_009a0910_Vector* apVector, unsigned ch
     fieldC4->field4 = 0;
     fieldC4->value = *apVector;
 
-    fieldC4->value18 = ::FUN_00404010(value10, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009a0910::SettingT< ::fnv_009a0910::GameSettingCollection> *>(&::originalRuntimeFloatSetting423)))))));
-    fieldC4->value1c = ::FUN_00404010(value14, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009a0910::SettingT< ::fnv_009a0910::GameSettingCollection> *>(&::originalRuntimeFloatSetting423)))))));
+    fieldC4->value18 = ::FUN_00404010(value10, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009a0910::SettingT< ::fnv_009a0910::GameSettingCollection> *>(&::originalRuntimeFloatSetting423)))))));
+    fieldC4->value1c = ::FUN_00404010(value14, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009a0910::SettingT< ::fnv_009a0910::GameSettingCollection> *>(&::originalRuntimeFloatSetting423)))))));
 }
 }  // namespace fnv_009a0910
 
@@ -3990,7 +3990,7 @@ void FUN_00999260_shell::UpdateCombatFlags()
     if (reinterpret_cast<::TimeoutTimer *>(&(timer1e4))->CheckTimer())
     {
         iFlags &= 0xffff00ff;
-        if (RandomBoolean(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting999260 *>(&::originalRuntimeFloatSetting357))))))))
+        if (RandomBoolean(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting999260 *>(&::originalRuntimeFloatSetting357))))))))
         {
             iFlags |= 0x100;
         }
@@ -4738,8 +4738,8 @@ void TargetWork::FUN_009a0790(TargetRef* reference, unsigned char flag, float ne
     parameters->flag = flag;
     parameters->reference = reference;
     parameters->position = (*(::TargetPosition *)(reinterpret_cast<::FUN_00575650_Class *>((reference))->FUN_00575650({})));
-    parameters->nearRange = FUN_00404010(nearRange, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TargetSetting *>(&::originalRuntimeFloatSetting423)))))));
-    parameters->farRange = FUN_00404010(farRange, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TargetSetting *>(&::originalRuntimeFloatSetting423)))))));
+    parameters->nearRange = FUN_00404010(nearRange, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TargetSetting *>(&::originalRuntimeFloatSetting423)))))));
+    parameters->farRange = FUN_00404010(farRange, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TargetSetting *>(&::originalRuntimeFloatSetting423)))))));
 }
 
 class TESForm
@@ -5854,7 +5854,7 @@ void CombatUpdate::FUN_00997cf0()
             case 1:
                 if (reinterpret_cast<::FUN_00998a30_shell *>((controller))->FUN_00998a30() && mode->actor && mode->actor->IsActor())
                 {
-                    if (distance_1 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting414)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting414)))))))
+                    if (distance_1 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting414)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting414)))))))
                     {
                         follow = mode->actor;
                         stance = ((unsigned char)(reinterpret_cast<::Actor *>((follow))->IsSneaking()));
@@ -5885,11 +5885,11 @@ void CombatUpdate::FUN_00997cf0()
         oldDangerX = danger;
         if (!reinterpret_cast<::FUN_009989d0_shell *>((((::fnv_00997cf0::CombatOptions *)(reinterpret_cast<CombatControllerFields*>((controller))->pCombatStyle))))->FUN_009989d0())
         {
-            if (danger > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) || (flags & 0x100))
+            if (danger > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) || (flags & 0x100))
             {
                 danger = ((::fnv_00997cf0::CombatHazard *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_00997cf0::CombatHazardHolder * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->EvaluateThreats(*owner_21->GetPosition(), owner_21, 0, 0,
                                                                        hazardData, 0);
-                if (danger >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) && oldDangerX < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))))
+                if (danger >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) && oldDangerX < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))))
                     reinterpret_cast<::FUN_0097f200_t *>((controller))->FUN_0097f200();
             }
             else
@@ -5910,7 +5910,7 @@ void CombatUpdate::FUN_00997cf0()
         if (updateNow || (reinterpret_cast<::FUN_0097fa50_Class *>(&(chaseTimer))->FUN_0097fa50() && reinterpret_cast<::TimeoutTimer *>(&(chaseTimer))->CheckTimer()))
             EvaluateWeaponScores();
         reinterpret_cast<::fnv_009a0c50::FUN_009a0c50_class *>(this)->UpdateModifierState(false);
-        if (temporary && ((double)(reinterpret_cast<::FUN_00435e00_t *>(&(temporaryTime))->FUN_00435e00())) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting443)))))))
+        if (temporary && ((double)(reinterpret_cast<::FUN_00435e00_t *>(&(temporaryTime))->FUN_00435e00())) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting443)))))))
             temporary = 0;
         previousTarget = target4;
     }
@@ -6858,7 +6858,7 @@ void Manager::EvaluateWeaponScores()
                 FUN_009a9180(controller, weaponSlot32Slot15, nearRange, middleRangeSlot34, farRangeSlot1);
                 scoreSlot25->range = farRangeSlot1;
                 if (((::CombatWeapons::Weapon *)(::FUN_007031c0((intptr_t)(controller)))) == weaponSlot32Slot15)
-                    farRangeSlot1 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatWeapons::Setting *>(&::originalRuntimeFloatSetting395))))));
+                    farRangeSlot1 *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatWeapons::Setting *>(&::originalRuntimeFloatSetting395))))));
                 if (distance > farRangeSlot1 * farRangeSlot1)
                 {
                     scoreSlot25->inRange = 0;
@@ -6925,7 +6925,7 @@ void Manager::EvaluateWeaponScores()
         if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::CombatWeapons::System * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(actor), (::ThreatActor *)(projectile), (const ::ThreatPosition &)(target->Position()), ::DAT_010162c0))
             reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(projectile));
     }
-    reinterpret_cast<::FUN_008d7f40_shell *>(&(timer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatWeapons::Setting *>(&::originalRuntimeFloatSetting427)))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>(&(timer))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatWeapons::Setting *>(&::originalRuntimeFloatSetting427)))))));
 }
 }
 
@@ -8495,33 +8495,33 @@ bool WeaponSearch::SelectBestWeaponTarget()
     PickWeapon* aFg = ((::PickWeapon *)(::FUN_007031c0((intptr_t)(controller))));
     bool aC2 = reinterpret_cast<::FUN_0097fd40_shell *>(this)->FUN_0097fd40();
     float aRt = aC2 ? unk05c : unk058;
-    float aKB = aRt * (1.0f + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting362)))))));
+    float aKB = aRt * (1.0f + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting362)))))));
     float aPE = 1.0f;
     if (unk064 > unk058)
     {
-        aPE = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting369))))));
+        aPE = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting369))))));
         aKB = FUN_0040ebd0(aKB, unk064);
     }
     if (aC2)
-        aPE = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting370))))));
+        aPE = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting370))))));
     float aPa = 0.0f;
     float aIt = 0.0f;
     if (aC2 || (aFg && ::FUN_004c0c30((char *)(aFg))))
     {
-        aPa = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting367))))));
-        aIt = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting368))))));
+        aPa = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting367))))));
+        aIt = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting368))))));
     }
     else
     {
         if (!aFg)
         {
-            aPa = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting363))))));
-            aIt = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting364))))));
+            aPa = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting363))))));
+            aIt = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting364))))));
         }
         else
         {
-            aPa = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting365))))));
-            aIt = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting366))))));
+            aPa = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting365))))));
+            aIt = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting366))))));
         }
         bool apX = false;
         if (aFB)
@@ -8533,8 +8533,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
         if (!apX && unk05c > 0.0 && unk058 > 0.0)
         {
             float cb2 = unk05c / unk058;
-            if (cb2 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting371)))))) && *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting368)))))) > aIt)
-                aIt = aIt + cb2 * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting368)))))) - aIt);
+            if (cb2 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting371)))))) && *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting368)))))) > aIt)
+                aIt = aIt + cb2 * (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting368)))))) - aIt);
         }
     }
     aPa *= aPE;
@@ -8555,7 +8555,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
             ap9 = cbX / ::TESHealthForm::GetBaseHealth((::TESForm *)(aRy));
         float ch3 = ::ComputeWeaponDamage((::CombatActorForm *)(aC1), (::DamageWeapon *)(aRy), ap9, (::DamageAmmo *)(reinterpret_cast<CombatControllerFields*>((controller))->pCombatStyle), (void *)(0), (void *)(0));
         if (::FUN_006450c0((::TESObjectWEAP *)(aRy)))
-            ch3 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting373))))));
+            ch3 *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting373))))));
         if (ch3 <= aKB)
             continue;
         if (aC2 && !::FUN_004c0c30((char *)(aRy)))
@@ -8568,8 +8568,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
         else
         {
             float c_2 = ch3 / aKB;
-            c_2 = FUN_0040ebd0(c_2, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting372)))))));
-            float d_2 = (c_2 - 1.0) / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting372)))))) - 1.0);
+            c_2 = FUN_0040ebd0(c_2, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting372)))))));
+            float d_2 = (c_2 - 1.0) / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting372)))))) - 1.0);
             float b10 = aPa + d_2 * (aIt - aPa);
             cbA = b10 * b10;
         }
@@ -8892,11 +8892,11 @@ void UpdateState::FUN_00998a50()
         {
             unsigned char flag = ((unsigned char)(reinterpret_cast<::FUN_00981970_shell *>((controller))->FUN_00981970()));
             if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(timer214))->FUN_0097fa50() && !flag)
-                reinterpret_cast<::FUN_008d7f40_shell *>(&(timer214))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting381)))))));
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(timer214))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting381)))))));
             if ((reinterpret_cast<::FUN_0097fa50_Class *>(&(timer214))->FUN_0097fa50() && reinterpret_cast<::TimeoutTimer *>(&(timer214))->CheckTimer()) || force)
             {
                 bool randomize = reinterpret_cast<::FUN_009990c0_s *>(&(timer214))->IsNegative();
-                if (RandomBoolean(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting380))))))) || force || randomize)
+                if (RandomBoolean(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting380))))))) || force || randomize)
                 {
                     int selected = 0;
                     if (randomize && target)
@@ -8934,13 +8934,13 @@ void UpdateState::FUN_00998a50()
     if (pending)
     {
         if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(timer1dc))->FUN_0097fa50())
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1dc))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting359)))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1dc))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting359)))))));
         if (reinterpret_cast<::TimeoutTimer *>(&(timer1dc))->CheckTimer())
         {
             if (!ref || reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::UpdateWorld * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(count), (::ThreatActor *)(pending), (*(const ::ThreatPosition *)(ref->Query(::DAT_010162c0))), {}))
                 pending = 0;
             else
-                reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1dc))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting359)))))));
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1dc))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting359)))))));
         }
     }
     else
@@ -8950,21 +8950,21 @@ void UpdateState::FUN_00998a50()
         reinterpret_cast<::WeaponSearch *>(this)->SelectBestWeaponTarget();
         if (elapsed < threshold)
         {
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1d4))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting360)))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1d4))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting360)))))));
             elapsed = 0.0f;
         }
         else
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1d4))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting361)))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(timer1d4))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting361)))))));
     }
     if (reinterpret_cast<::TimeoutTimer *>(&(timer204))->CheckTimer())
     {
         reinterpret_cast<::fnv_009a1010::FUN_009a1010_Class *>(this)->FUN_009a1010();
-        reinterpret_cast<::FUN_008d7f40_shell *>(&(timer204))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::g_011cf198)))))));
+        reinterpret_cast<::FUN_008d7f40_shell *>(&(timer204))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::g_011cf198)))))));
     }
     if (reinterpret_cast<::TimeoutTimer *>(&(timer20c))->CheckTimer())
     {
         reinterpret_cast<::CS_State *>(this)->UpdateRangeValue();
-        reinterpret_cast<::FUN_008d7f40_shell *>(&(timer20c))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting492)))))));
+        reinterpret_cast<::FUN_008d7f40_shell *>(&(timer20c))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateSetting *>(&::originalRuntimeFloatSetting492)))))));
     }
     if (((::UpdateRequest *)(::FUN_00559450((int *)&(request)))))
     {
@@ -9061,7 +9061,7 @@ void CS_State::UpdateRangeValue()
                 }
                 if (ucD8 == 2 && ucC9 < 4)
                 {
-                    if (((intptr_t)(reinterpret_cast<::B989700List *>((pItem5))->FindRefInRadius((::B9897F0Point *)&(const ::CS_Loc16 &)(pActor2->GetLocation(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CS_Setting *>(&::originalRuntimeFloatSetting439)))))))), 1, {}))))
+                    if (((intptr_t)(reinterpret_cast<::B989700List *>((pItem5))->FindRefInRadius((::B9897F0Point *)&(const ::CS_Loc16 &)(pActor2->GetLocation(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CS_Setting *>(&::originalRuntimeFloatSetting439)))))))), 1, {}))))
                     {
                         reinterpret_cast<::fnv_009a1280::CombatLogic *>(this)->FUN_009a1280(1);
                     }
@@ -9797,7 +9797,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
     float range5 = ::g_011c7b14_arg1;
     float cap3 = ::g_011c7b14_arg1;
     ::FUN_009a9180((::S_009a9180_Actor *)(ctrl), (::S_009a9180_Data *)(a1), &f, &range5, &cap3);
-    range5 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting397))))));
+    range5 *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting397))))));
     range5 = ::FUN_0040ebd0(range5, cap3);
     bool flag = false;
     bool flagB = false;
@@ -9806,8 +9806,8 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
     switch (aiSearchType)
     {
     case 12:
-        fMin3 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting436))))));
-        dist7 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting437))))));
+        fMin3 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting436))))));
+        dist7 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting437))))));
         range5 = ::DAT_01022958;
         flagB = true;
         flagC = true;
@@ -9884,7 +9884,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t
     }
     else
     {
-        out->useCover = reinterpret_cast<::FUN_00435e00_t *>(&(timer))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting376))))));
+        out->useCover = reinterpret_cast<::FUN_00435e00_t *>(&(timer))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099b8e0::QSetting *>(&::originalRuntimeFloatSetting376))))));
         if (out->useCover)
         {
             out->pos = coverPos;
@@ -10324,7 +10324,7 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
     {
         reinterpret_cast<::fnv_00997400::CombatAvoidanceSphere *>((pkRequest))->FUN_00997400((::TESObjectREFR *)(pkAlly));
         reinterpret_cast<::FUN_00819a50_shell *>((pkRequest))->FUN_00819a50(pkAlly->FUN_008be1b0() + pkOwner->FUN_008be1b0() +
-                                *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting430)))));
+                                *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting430)))));
         return true;
     }
     return false;
@@ -10718,7 +10718,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
             {
                 reinterpret_cast<::fnv_00997400::CombatAvoidanceSphere *>((pFinalSpot))->FUN_00997400((::TESObjectREFR *)(pSlot->pRef));
                 reinterpret_cast<::FUN_00819a50_shell *>((pFinalSpot))->FUN_00819a50(reinterpret_cast<::TESObjectREFR *>((pSlot->pRef))->GetBoundingRadius() + reinterpret_cast<::fnv_008be420::Dd *>((pActorOld))->FUN_008be420() +
-                                         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatFind::CombatSetting *>(&::originalRuntimeFloatSetting374)))))));
+                                         *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatFind::CombatSetting *>(&::originalRuntimeFloatSetting374)))))));
                 reinterpret_cast<::FUN_0099b540_s *>((pFinalSpot))->SetFlags(2, 1);
                 bFound = true;
             }
@@ -10783,7 +10783,7 @@ struct DummyInner
 // @fnv 0x0097ee90
 bool DummyInner::FUN_0097ee90()
 {
-    return (double)reinterpret_cast<::FUN_00435e00_t *>(&(m_kTime))->FUN_00435e00() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0097ee90::SettingT< ::fnv_0097ee90::GameSettingCollection> *>(&::originalRuntimeFloatSetting412))))));
+    return (double)reinterpret_cast<::FUN_00435e00_t *>(&(m_kTime))->FUN_00435e00() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0097ee90::SettingT< ::fnv_0097ee90::GameSettingCollection> *>(&::originalRuntimeFloatSetting412))))));
 }
 }  // namespace fnv_0097ee90
 
@@ -10955,9 +10955,9 @@ bool CombatController::FUN_0099d030(Arg0Class* a0, Arg1Class* a1, Arg2Class* a2,
     float val4 = (a5 != 0.0) ? a5 : 256.0f;
     if (a3 == 6)
     {
-        val4 = ((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting401))))))->f +
+        val4 = ((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting401))))))->f +
                ((1.0f - ::GetFloatAtOffset1C((char *)(((ActiveEffect*)reinterpret_cast<CombatControllerFields*>((this->member_1c4))->pCombatStyle))) / 100.0f) *
-                (((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting402))))))->f - ((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting401))))))->f));
+                (((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting402))))))->f - ((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting401))))))->f));
     }
     a0->unk30 = 0;
     if (a1->unk68 != 0 && a3 == a1->unk04)
@@ -11156,8 +11156,8 @@ FUN_00997600::FUN_00997600(int aiUnk, int aiUnk2)
     memset(&unk3C, 0, 0x1c);
     memset(&unk190, 0, 0x14);
     memset(&unk1A4, 0, 8);
-    reinterpret_cast<::FUN_008d7f40_shell *>(&(p20C))->FUN_008d7f40(::RandomFloat(0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997600::Setting *>(&::originalRuntimeFloatSetting492))))))));
-    fCC = ::RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997600::Setting *>(&::originalRuntimeFloatSetting494)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997600::Setting *>(&::originalRuntimeFloatSetting495)))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>(&(p20C))->FUN_008d7f40(::RandomFloat(0.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997600::Setting *>(&::originalRuntimeFloatSetting492))))))));
+    fCC = ::RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997600::Setting *>(&::originalRuntimeFloatSetting494)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00997600::Setting *>(&::originalRuntimeFloatSetting495)))))));
 }
 }  // namespace fnv_00997600
 

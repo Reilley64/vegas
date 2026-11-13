@@ -2284,11 +2284,11 @@ struct GlobalObject_0045d060
 void FUN_004506b0()
 {
     float v;
-    v = *((float *)&(::FUN_00403e20((float *)&(::g_011c3d0c))));
+    v = *((float *)&(::FUN_00403e20((::Setting *)&(::g_011c3d0c))));
     SetFloatAt(2, v);
-    v = *((float *)&(::FUN_00403e20((float *)&(::g_011c3ec0))));
+    v = *((float *)&(::FUN_00403e20((::Setting *)&(::g_011c3ec0))));
     SetFloatAt(3, v);
-    v = *((float *)&(::FUN_00403e20((float *)&(::g_011c3d78))));
+    v = *((float *)&(::FUN_00403e20((::Setting *)&(::g_011c3d78))));
     SetFloatAt(0, v);
     SetFloatAt(1, v);
     SetFloatAt(4, v);

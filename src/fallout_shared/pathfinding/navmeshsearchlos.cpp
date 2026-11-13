@@ -454,7 +454,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                                 ((double)(reinterpret_cast<::fnv_00979260::Projectile *>((query))->GetFirstLightParameter())) * ((double)(reinterpret_cast<::fnv_00979260::Projectile *>((query))->GetFirstLightParameter())))
                                                 continue;
                                         }
-                                        if (((double)(::GetFloatAtOffset68((const char *)(query)))) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ConfigValue *>(&::originalRuntimeFloatSetting1308)))))))
+                                        if (((double)(::GetFloatAtOffset68((const char *)(query)))) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ConfigValue *>(&::originalRuntimeFloatSetting1308)))))))
                                         {
                                             if (reinterpret_cast<::FUN_00691140_shell *>((((::MeshFlag *)(reinterpret_cast<::NavMesh *>((connectedMesh))->GetTriangle(connectedTri)))))->FUN_00691140({}))
                                                 continue;

@@ -597,7 +597,7 @@ bool PathSmootherPOVSearch::CalculatePathCost(PathSmootherPOVPoint* from, PathSm
             float costFraction = (pov->fRadius - fDist) / pov->fRadius;
             if (costFraction < 0.0f)
                 costFraction = 0.0f;
-            *pfCost += (1.0f + costFraction * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d7084))))))->f) * segmentLength;
+            *pfCost += (1.0f + costFraction * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d7084))))))->f) * segmentLength;
         }
     }
     return true;
@@ -6855,7 +6855,7 @@ bool PathSmootherAccess::FindPath(const NavMeshEdgePoint& start, const NiPoint3&
                 EdgeExtraInfo* info = reinterpret_cast<::FUN_0068f230_shell *>((static_cast<NavMeshAccess*>(next2.m_pLocationNavMesh)))->FUN_0068f230(next2.m_usTriangleID, next2.m_iEdgeIndex);
                 if (info && info->eType == 1)
                     result9 = false;
-                if (::GetFloatAtOffset68((const char *)(pRequest)) > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308))))))->f &&
+                if (::GetFloatAtOffset68((const char *)(pRequest)) > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308))))))->f &&
                     reinterpret_cast<::S00693b90 *>((static_cast<TriangleAccess*>(
                         reinterpret_cast<::NavMesh *>((static_cast<NavMeshAccess*>(next.m_pLocationNavMesh)))->GetTriangle(next.m_usTriangleID))))->FUN_00693b90())
                     result9 = false;

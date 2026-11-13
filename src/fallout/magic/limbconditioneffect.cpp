@@ -197,12 +197,12 @@ void LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float afModifier
 {
     if (m_4C != kActorValueNone)
     {
-        float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting1213))));
+        float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting1213))));
         reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectHelper*)this)))->ApplyActorValueModifier(apActor, afModifier, (ActorValue::Index)m_4C);
     }
     else
     {
-        float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting1214))));
+        float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting1214))));
         for (int i = kActorValuePerceptionCondition; i < 32; ++i)
             reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectHelper*)this)))->ApplyActorValueModifier(apActor, fScaledMagnitude, (ActorValue::Index)i);
     }

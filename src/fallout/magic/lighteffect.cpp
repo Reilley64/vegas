@@ -877,7 +877,7 @@ void LightEffectDerived::AttachLightEffect()
         colorPoint4.DivideByScalar(255.0f);
         reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>(((this->m_spLight).operator->()))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(colorPoint4));
 
-        float fValX = (*((float *)&(::FUN_00403e20((float *)&(g_011d1980)))) + ::GetFloatAtOffset1C((char *)(this))) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1112))))->f;
+        float fValX = (*((float *)&(::FUN_00403e20((::Setting *)&(g_011d1980)))) + ::GetFloatAtOffset1C((char *)(this))) * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1112))))->f;
         NiPoint3 offsetPoint5(fValX, 0.0f, 0.0f);
         this->m_spLight->FUN_0050dd50(offsetPoint5);
 
@@ -889,12 +889,12 @@ void LightEffectDerived::AttachLightEffect()
             reinterpret_cast<::fnv_00b5c940::SSNode *>((aPScene))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)((::NiPointLight *)(::FUN_00559450((int *)&(this->m_spLight))))), true);
         }
 
-        float fX = *((float *)&(::FUN_00403e20((float *)&(g_011d1a30)))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
+        float fX = *((float *)&(::FUN_00403e20((::Setting *)&(g_011d1a30)))) * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
 
-        float fY = (((ActorStandIn*)pTarget3)->GetPos().f1 + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1166))))->f) *
+        float fY = (((ActorStandIn*)pTarget3)->GetPos().f1 + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1166))))->f) *
                    reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
         float fZ = reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((void *)(((ActorV_S*)pTarget3)))->GetActorHeight() +
-                   ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1167))))->f * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
+                   ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1167))))->f * reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((((ActorV_S*)pTarget3)))->FUN_00567400();
 
         ((FUN_004bc1f0_S*)((::NiPointLight *)(::FUN_00559450((int *)&(this->m_spLight)))))->FUN_004bc1f0(fX, fY, fZ);
 

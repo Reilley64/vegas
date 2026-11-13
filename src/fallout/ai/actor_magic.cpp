@@ -675,7 +675,7 @@ extern GlobalObject_0040e0b0 g_011c36d8;
 // @fnv 0x0040df50
 float FUN_0040df50()
 {
-    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(g_011c36d8))))->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(g_011c36d8))))->f;
 }
 
 // Returns true when aeType is 1, 4 or 10.
@@ -695,7 +695,7 @@ struct FUN_0088b850_shell
 // @fnv 0x0088b850
 void FUN_0088b850_shell::SetRefractionProperty()
 {
-    ::FUN_006463e0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting588))))))->f);
+    ::FUN_006463e0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting588))))))->f);
 }
 
 struct FUN_008c5330_shell
@@ -7401,7 +7401,7 @@ bool SightActor::FUN_0088b880(bool force, SightActor* other, bool mode, int* res
         {
             if (skipAngle ||
                 reinterpret_cast<::FUN_0088c570_shell *>(this)->IsPointInConeFOV(((::SightVec *)(reinterpret_cast<::TESTopicInfo *>((other))->GetAddTopicList())),
-                                 (float)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SightSetting *>(&::originalRuntimeFloatSetting103)))))) * 0.01745329238474369)))
+                                 (float)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SightSetting *>(&::originalRuntimeFloatSetting103)))))) * 0.01745329238474369)))
             {
                 if (DAT_011df678)
                 {
@@ -8046,7 +8046,7 @@ int FUN_00401170(void*);
 bool WaterActor::FUN_009b2940()
 {
     bool bBelow = false;
-    float scale = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1033))))))->f;
+    float scale = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1033))))))->f;
     CellAccess* cell = ((::fnv_009b2940::CellAccess *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
     if (!((bool)(reinterpret_cast<::BSOcclusionPlane *>(this)->IsNotCulled())) && cell)
     {
@@ -8157,7 +8157,7 @@ struct ActorCreatureStandIn
             j = (float)reinterpret_cast<::FUN_005f9ad0_shell *>((p))->FUN_005f9ad0();
             if (p->GetCreatureType() == 7)
             {
-                j *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting704))))))->f;
+                j *= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting704))))))->f;
             }
         }
         return j;

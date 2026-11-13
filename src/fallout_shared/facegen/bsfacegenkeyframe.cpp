@@ -249,7 +249,7 @@ struct SettingT_GameSettingCollection_
 // @fnv 0x0064fb10
 float __cdecl FUN_0064fb10()
 {
-    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1262))))))->f > 0.0 ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1262))))))->f : 0.0f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1262))))))->f > 0.0 ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1262))))))->f : 0.0f;
 }
 
 namespace fnv_0064fb50 {
@@ -261,7 +261,7 @@ struct SettingT_GameSettingCollection_
 // @fnv 0x0064fb50
 float __cdecl FUN_0064fb50()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064fb50::SettingT_GameSettingCollection_ *>(&::g_011d577c)))))) > 0.0 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0064fb50::SettingT_GameSettingCollection_ *>(&::g_011d577c)))))) : 0.0f;
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064fb50::SettingT_GameSettingCollection_ *>(&::g_011d577c)))))) > 0.0 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0064fb50::SettingT_GameSettingCollection_ *>(&::g_011d577c)))))) : 0.0f;
 }
 }  // namespace fnv_0064fb50
 

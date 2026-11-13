@@ -1574,7 +1574,7 @@ void MagicAreaOwner::CreateMagicAreaDisplay()
     MADNode* pNode2 = pRoot->IsSceneNode();
     if (pNode2)
     {
-        float fRadius3 = reinterpret_cast<::FUN_00404420_shell *>((((::MADCount *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MADSetting *>(&::originalRuntimeFloatSetting1112)))))) / reinterpret_cast<::FUN_009cdae0_shell *>((pRoot))->GetFloatAt64();
+        float fRadius3 = reinterpret_cast<::FUN_00404420_shell *>((((::MADCount *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MADSetting *>(&::originalRuntimeFloatSetting1112)))))) / reinterpret_cast<::FUN_009cdae0_shell *>((pRoot))->GetFloatAt64();
         MADObject* pDisplaySphere = ((::MADObject *)(::FUN_00c56680(fRadius3, 10, 10, (const ::Color4 *)(0))));
         ::AssignFixedString((char *)(pDisplaySphere), (intptr_t)&(const ::NiFixedString &)(::NiFixedString("MagicAreaDisplay")), {});
         reinterpret_cast<::FUN_00440460_S *>((pDisplaySphere))->FUN_00440460((const ::V3 *)((*reinterpret_cast<const char (*)[]>((void *)&::NiPoint3::ZERO))));

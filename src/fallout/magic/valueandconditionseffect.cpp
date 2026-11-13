@@ -91,7 +91,7 @@ void FUN_0082b970_shell::ApplyValueModifier(Actor* actor, float modifier, ActorV
 {
     if (*reinterpret_cast<ActorValue::Index*>(&this->unk4c) != ActorValue::kActorValueNone)
     {
-        float fScaledMagnitude = modifier * ((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1213))))))[0];
+        float fScaledMagnitude = modifier * ((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1213))))))[0];
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(
             actor, modifier, *reinterpret_cast<ActorValue::Index*>(&this->unk4c));
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(actor, fScaledMagnitude,
@@ -101,7 +101,7 @@ void FUN_0082b970_shell::ApplyValueModifier(Actor* actor, float modifier, ActorV
     {
         reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(actor, modifier,
                                                                                     ActorValue::kActorValueNone);
-        float fScaledMagnitude = modifier * ((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1214))))))[0];
+        float fScaledMagnitude = modifier * ((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1214))))))[0];
         for (int i = 25; i < 32; ++i)
             reinterpret_cast<::ValueModifierEffect *>((reinterpret_cast<ValueModifierEffectHelper*>(this)))->ApplyActorValueModifier(actor, fScaledMagnitude,
                                                                                         (ActorValue::Index)i);

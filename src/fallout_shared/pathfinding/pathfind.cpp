@@ -445,9 +445,9 @@ extern float DAT_011a5cf8;
 // @fnv 0x006d0870
 bool FUN_006d0870()
 {
-    DAT_011a5cf4 = FUN_005b9e80(((::SV *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f2ba8))))))->f * DAT_01023128);
-    DAT_011a5cf8 = FUN_005b9e80(((::SV *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f2af8))))))->f * DAT_01023128);
-    DAT_011a5cfc = FUN_005b9e80(((::SV *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f2b04))))))->f * DAT_01023128);
+    DAT_011a5cf4 = FUN_005b9e80(((::SV *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f2ba8))))))->f * DAT_01023128);
+    DAT_011a5cf8 = FUN_005b9e80(((::SV *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f2af8))))))->f * DAT_01023128);
+    DAT_011a5cfc = FUN_005b9e80(((::SV *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011f2b04))))))->f * DAT_01023128);
     return true;
 }
 

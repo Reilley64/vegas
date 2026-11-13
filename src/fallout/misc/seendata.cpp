@@ -123,7 +123,7 @@ struct SettingT_GCol
 // @fnv 0x00879bb0
 float GetRuntimeFloatSetting37()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GCol *>(&::originalRuntimeFloatSetting37))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GCol *>(&::originalRuntimeFloatSetting37))))));
 }
 
 struct GlobalObject2_0040c150

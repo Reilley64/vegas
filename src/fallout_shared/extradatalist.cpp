@@ -335,6 +335,7 @@
 #include "fnv/symbols_0066e000.h"
 #include "fnv/symbols_00670000.h"
 #include "fnv/symbols_011e0000.h"
+#include "fnv/setting_class.h"
 #include "extradatalist_packet_rtti_extradatalist.h"
 #include "ExtraContainerChanges_rtti_extradatalist.h"
 
@@ -1379,11 +1380,11 @@ ExtraDataList::ExtraDataList()
 }
 
 
-// Returns the float at index 1 of pThis, or zero (stored in DAT_01202800) when pThis is null.
+// Returns the setting's float value, or zero (stored in DAT_01202800) when pThis is null.
 // @fnv 0x00403e20
-float& FUN_00403e20(float* pThis)
+float& FUN_00403e20(Setting* pThis)
 {
-    return pThis ? pThis[1] : ((*reinterpret_cast<float *>(&::DAT_01202800)) = 0.0f);
+    return pThis ? pThis->uValue.f : ((*reinterpret_cast<float *>(&::DAT_01202800)) = 0.0f);
 }
 
 extern int DAT_01014210;
@@ -9428,7 +9429,7 @@ struct Setting_S
 // @fnv 0x006463e0
 float FUN_006463e0(float value)
 {
-    float result = value * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting594))))));
+    float result = value * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting594))))));
     return result;
 }
 

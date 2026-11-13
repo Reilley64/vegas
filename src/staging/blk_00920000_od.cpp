@@ -2086,7 +2086,7 @@ void FUN_00935d90(unsigned int id, bool b)
         }
         if (!b)
         {
-            DAT_011d951c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingF *>(&::originalRuntimeFloatSetting1221))))));
+            DAT_011d951c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GameSettingF *>(&::originalRuntimeFloatSetting1221))))));
         }
     }
     DAT_011e0548 = 0;
@@ -2241,7 +2241,7 @@ struct FUN_00936ef0_Class
 int FUN_00936ef0_Class::FUN_00936ef0()
 {
     float currentValue = reinterpret_cast<::fnv_00572380::Fn572380 *>(this)->FUN_00572380((::fnv_00572380::NiP3Sub *)(std::uintptr_t)((*reinterpret_cast<::PlayerVirtual * *>(&::_g_thePlayer))->GetCurrentValue()));
-    int bAtOrBelow = currentValue <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GlobalScalar *>(&::originalRuntimeFloatSetting177))))));
+    int bAtOrBelow = currentValue <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GlobalScalar *>(&::originalRuntimeFloatSetting177))))));
     return bAtOrBelow;
 }
 
@@ -4140,7 +4140,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     fde0 = (*reinterpret_cast<::Vec122 *>((void *)&::NiPoint3::ZERO));
     ::fnv_008d66b0::LoadWeaponWobbleModels();
     ::InitializeCameraShake();
-    DAT_011e0b5c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::originalRuntimeFloatSetting200))))));
+    DAT_011e0b5c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::originalRuntimeFloatSetting200))))));
     f79a = 0;
     for (int i = 0; i < 77; i++)
     {
@@ -4194,7 +4194,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
         reinterpret_cast<::FUN_00c6d770_class *>((controller10))->FUN_00c6d770(mode4);
         int unknown10;
         controller10->FUN_0070c440(unknown10);
-        f21c = new Member21c(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::g_011e0934)))))), mode4);
+        f21c = new Member21c(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::g_011e0934)))))), mode4);
     }
     else
         f21c = 0;
@@ -4209,7 +4209,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     f650 = 0;
     f651 = *(*reinterpret_cast<::Setting122 *>(&::g_011e0b4c)).FUN_00408d60();
     f652 = 0;
-    reinterpret_cast<::fnv_00950610::B50610Player *>(this)->FUN_00950610(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::g_01203150)))))));
+    reinterpret_cast<::fnv_00950610::B50610Player *>(this)->FUN_00950610(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::g_01203150)))))));
     f68c = 0;
     f690 = 0;
     f694.FUN_0066b0d0(0);
@@ -4297,9 +4297,9 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     int flags24 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
     flags24 |= 0x400;
     reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(std::uintptr_t)(flags24));
-    f670 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::g_0120315c))))));
-    f678 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::originalRuntimeFloatSetting229))))));
-    f674 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::g_01203168))))));
+    f670 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::g_0120315c))))));
+    f678 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::originalRuntimeFloatSetting229))))));
+    f674 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::g_01203168))))));
     f68->v6e0(0);
     reinterpret_cast<::FUN_00964190_shell *>(this)->ResetMover();
     f730 = 0.f;
@@ -6298,9 +6298,9 @@ void TickPlayer::FUN_0093e860(float elapsed)
             reinterpret_cast<::FUN_00ad7ec0_shell2 *>((((::TickAudio *)(::FUN_00453a70()))))->FUN_00ad7ec0();
         break;
     default:
-        if (reinterpret_cast<::BSAudio *>((((::TickAudio *)(::FUN_00453a70()))))->FUN_00ad7c80() > 0.99f && *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011ca7c0)))))) < 0.99f)
+        if (reinterpret_cast<::BSAudio *>((((::TickAudio *)(::FUN_00453a70()))))->FUN_00ad7c80() > 0.99f && *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011ca7c0)))))) < 0.99f)
         {
-            reinterpret_cast<::fnv_00ad7da0::FUN_00ad7da0 *>((((::TickAudio *)(::FUN_00453a70()))))->Set(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011ca7c0)))))));
+            reinterpret_cast<::fnv_00ad7da0::FUN_00ad7da0 *>((((::TickAudio *)(::FUN_00453a70()))))->Set(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011ca7c0)))))));
             if (!reinterpret_cast<::SoundPlaybackHandle *>(&(DAT_011f6df0))->IsValid())
                 reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(DAT_011f6df0))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(((::TickAudio *)(::FUN_00453a70()))->FUN_00ad7550(DAT_0108b088, 0x31))));
             reinterpret_cast<::FUN_00ad8830_shell *>(&(DAT_011f6df0))->FUN_00ad8830(false);
@@ -6343,7 +6343,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             ::ImageSpaceModifierInstanceForm::Trigger((::TESImageSpaceModifier *)(effect), 1.0f, (::NiAVObject *)(void *)(0));
             unke21 = true;
         }
-        ::fnv::timer::SetMultiplier(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting1076)))))), false);
+        ::fnv::timer::SetMultiplier(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting1076)))))), false);
         float animSpeed = 1.0f / ::FUN_00716440();
         reinterpret_cast<::FUN_0088b030_shell *>((((::TickAnimation *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(!reinterpret_cast<::FUN_004eaf60_shell *>(this)->FUN_004eaf60())))))->FUN_0088b030(animSpeed);
         reinterpret_cast<::FUN_0088b030_shell *>((((::TickAnimation *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(reinterpret_cast<::FUN_004eaf60_shell *>(this)->FUN_004eaf60())))))->FUN_0088b030(animSpeed);
@@ -6468,7 +6468,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     unke30 -= elapsed;
     if (perk > 0.0 && unke30 <= 0.0 && weaponDrawn)
     {
-        unke30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting801))))));
+        unke30 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting801))))));
         reinterpret_cast<::fnv_0093df50::Owner *>(this)->FUN_0093df50();
     }
     reinterpret_cast<::FUN_00963bf0_cls *>(this)->RemoveExpiredItems();
@@ -6511,7 +6511,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         {
             reinterpret_cast<::fnv_00962190::FNVPlayerScanner *>(this)->FUN_00962190();
             TickProc* processC = ((::TickProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
-            processC->vf2c8(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting922)))))));
+            processC->vf2c8(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting922)))))));
         }
         else
             vf2b8();
@@ -6527,7 +6527,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     if (unk6e0 <= 0.0)
     {
         reinterpret_cast<::FUN_0096e570_shell *>((((TickLists*)&(*reinterpret_cast<::Global122 *>(&::g_011e0e80)))))->FUN_0096e570();
-        unk6e0 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting122 *>(&::originalRuntimeFloatSetting249))))));
+        unk6e0 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting122 *>(&::originalRuntimeFloatSetting249))))));
     }
     else
         unk6e0 -= elapsed;
@@ -6674,14 +6674,14 @@ void TickPlayer::FUN_0093e860(float elapsed)
         reinterpret_cast<::PlayerMover *>((unk190))->SetSideVec((const ::NiPoint3 &)(*(MPt*)&(*reinterpret_cast<::Vec122 *>((void *)&::NiPoint3::ZERO))));
         unk190->vf014(elapsed);
 
-        if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting239)))))) > 0.0)
+        if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting239)))))) > 0.0)
         {
             if (reinterpret_cast<::FUN_004f8960_shell *>(this)->FUN_004f8960() == 2 || reinterpret_cast<::FUN_004f8960_shell *>(this)->FUN_004f8960() == 1)
             {
                 if (DAT_011a3b34 < 0.0)
                 {
                     ::Interface::SetHUDVisible(0);
-                    DAT_011a3b34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting239))))));
+                    DAT_011a3b34 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting239))))));
                 }
                 DAT_011a3b34 -= elapsed;
                 if (DAT_011a3b34 < 0.0)
@@ -6724,14 +6724,14 @@ void TickPlayer::FUN_0093e860(float elapsed)
         {
             if ((*reinterpret_cast<::TickRef * *>(&::DAT_011e0788)))
             {
-                static float repeatDelay = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011cd5c8))))));
+                static float repeatDelay = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011cd5c8))))));
                 if ((reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(5, 1) || reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(5, 0)) && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(1))
                 {
                     reinterpret_cast<::FUN_00922650_cls *>((vf1e4()))->FUN_00922650(7, 1);
                     repeatDelay -= elapsed;
                     while (repeatDelay < 0.0)
                     {
-                        repeatDelay += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011cd5c8))))));
+                        repeatDelay += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011cd5c8))))));
                         if ((*reinterpret_cast<::TickRef * *>(&::DAT_011e0788)))
                             (*reinterpret_cast<::TickRef * *>(&::DAT_011e0788))->vf124(0, this, 0, 0, 0);
                     }
@@ -6742,7 +6742,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
                     reinterpret_cast<::B18A40ExtraList *>((((::TickContext *)(reinterpret_cast<::FUN_005d43c0_ *>(((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer))))->FUN_005d43c0()))))->SetValueFromExtraData((::B18A40Value *)(::BSSoundHandleEx *)(&repeatSound));
                     reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(repeatSound))->FUN_00ad88f0();
                     reinterpret_cast<::FUN_00922650_cls *>((vf1e4()))->FUN_00922650(7, 0);
-                    repeatDelay = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011cd5c8))))));
+                    repeatDelay = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011cd5c8))))));
                     (*reinterpret_cast<::TickRef * *>(&::DAT_011e0788)) = 0;
                 }
             }
@@ -6876,7 +6876,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         bool available3 = key3 == 2 || key3 == 0;
         if (!available1 || available1 && !available4 && !available3)
         {
-            bool toggle = unkd50 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011cd158)))))) ? true : false;
+            bool toggle = unkd50 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011cd158)))))) ? true : false;
             reinterpret_cast<::fnv_009462c0::ActorAnimation *>(this)->FUN_009462c0(toggle, false);
             if (toggle)
                 unkd50 = 0.0f;
@@ -6890,7 +6890,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             if (reinterpret_cast<::FUN_008843a0_shell *>(this)->FUN_008843a0() && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() == -1)
             {
                 if (!DAT_011e0bc1 &&
-                    (DAT_011e07e0 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting240)))))) || !weapon ||
+                    (DAT_011e07e0 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting240)))))) || !weapon ||
                      !((void *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::TickPlayer * *>(&::_g_thePlayer)))))) && !reinterpret_cast<::FUN_00474a80_Class *>(&(weapon->unka4))->FUN_00474a80()) &&
                     reinterpret_cast<::fnv_008a6970::FUN_008a6970_shell *>(this)->FUN_008a6970())
                 {
@@ -7014,7 +7014,7 @@ axesDone:
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(3);
             else if (axisX < 0)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(2);
-            DAT_011a3b40 = (float)(std::abs(axisX) * (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011e0964)))))));
+            DAT_011a3b40 = (float)(std::abs(axisX) * (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011e0964)))))));
             if (DAT_011a3b40 > ::DAT_01016ff0)
                 DAT_011a3b40 = DAT_01016088;
         }
@@ -7057,7 +7057,7 @@ axesDone:
             analogZ = 0.0f;
         }
         MPt move;
-        bool yDominant = FUN_00408840(analogX) < FUN_00408840(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011e0b94)))))) * analogY);
+        bool yDominant = FUN_00408840(analogX) < FUN_00408840(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011e0b94)))))) * analogY);
         if (!yDominant)
         {
             if (analogX < 0.0)
@@ -7101,11 +7101,11 @@ axesDone:
         {
             if (reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(9, 1) || reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(9, 0) || running)
             {
-                if (unk68->vf3e4() != 7 && !vf358() && !reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10() && unk640 <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting990)))))))
+                if (unk68->vf3e4() != 7 && !vf358() && !reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10() && unk640 <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting990)))))))
                     animGroup |= 0x200;
                 else
                 {
-                    DAT_011a3b3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011e0b78))))));
+                    DAT_011a3b3c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::g_011e0b78))))));
                     animGroup |= 0x100;
                 }
             }
@@ -7156,7 +7156,7 @@ axesDone:
         else if ((reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(9, 1) || reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(9, 0)) && unk68->vf3e4() != 7 && !vf358() &&
                  !reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10())
             animGroup |= 0x200;
-        if (unk640 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting990)))))))
+        if (unk640 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting990)))))))
             animGroup &= ~0x200;
         float speed = reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>(this)->FUN_008a0b10();
         reinterpret_cast<::MyPoint439180 *>((void *)&(const ::MPt &)(side))->FUN_00439180(speed * DAT_011a3b3c);
@@ -7433,7 +7433,7 @@ axesDone:
             DAT_011e07b9 = false;
             DAT_011e07b8 = false;
             ::fnv_00771700::FUN_00771700(1);
-            if (DAT_011e07c8 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting194)))))) && (::FUN_004b71d0() || DAT_011e0bbc == DAT_011e0b5c) &&
+            if (DAT_011e07c8 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting194)))))) && (::FUN_004b71d0() || DAT_011e0bbc == DAT_011e0b5c) &&
                 !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(0x10))
             {
                 if (DAT_011e0bc0)
@@ -7561,9 +7561,9 @@ axesDone:
             reinterpret_cast<::VanityModePlayer *>(this)->FUN_009500a0();
         else
         {
-            DAT_011e08fc -= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting207)))))) * DAT_01023128 * elapsed;
-            DAT_011e0bb8 += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting208)))))) * DAT_01023128 * elapsed;
-            DAT_011e08f4 = (float)(::FUN_004e44b0(DAT_011e0bb8) * (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting209)))))) * DAT_01023128);
+            DAT_011e08fc -= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting207)))))) * DAT_01023128 * elapsed;
+            DAT_011e0bb8 += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting208)))))) * DAT_01023128 * elapsed;
+            DAT_011e08f4 = (float)(::FUN_004e44b0(DAT_011e0bb8) * (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting209)))))) * DAT_01023128);
             if (DAT_011e0bb8 > ::DAT_0101ff48)
                 DAT_011e0bb8 = (float)(DAT_011e0bb8 - ::DAT_0101ff48);
         }
@@ -7574,7 +7574,7 @@ axesDone:
             DAT_011e07c4 = 0.0f;
         else
             DAT_011e07c4 += elapsed;
-        if (reinterpret_cast<::MobileObject *>(&((*reinterpret_cast<::TickFlagSetting *>(&::g_011e09e0))))->GetCharControllerFlag() && DAT_011e07c4 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting206)))))) && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(0x10))
+        if (reinterpret_cast<::MobileObject *>(&((*reinterpret_cast<::TickFlagSetting *>(&::g_011e09e0))))->GetCharControllerFlag() && DAT_011e07c4 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting206)))))) && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(0x10))
         {
             DAT_011e07bc = DAT_011e0b5c;
             DAT_011e08fc = 0.0f;
@@ -7662,8 +7662,8 @@ axesDone:
         if (face)
             face->vfb4(::fnv_00c88020::DAT_01016248, 1, 0, 0, 0, 0);
     }
-    if (weaponToggled && unkd6c < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting490)))))) && unkd70 <= 0.0 && reinterpret_cast<::fnv_00967da0::CombatController *>(this)->FUN_00967da0())
-        unkd70 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting491))))));
+    if (weaponToggled && unkd6c < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting490)))))) && unkd70 <= 0.0 && reinterpret_cast<::fnv_00967da0::CombatController *>(this)->FUN_00967da0())
+        unkd70 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting491))))));
     if (unkd70 > 0.0)
     {
         unkd70 -= elapsed;
@@ -7748,7 +7748,7 @@ axesDone:
             reinterpret_cast<::FUN_009ab9a0_shell *>((unk1a0))->FUN_009ab9a0((int)(std::uintptr_t)(this));
         unk1a0->vf310(0.0f);
     }
-    if (unke24 > 0.0 && (double)((unsigned int)(::FUN_00457fe0())) - unke24 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting816)))))) * 1000.0)
+    if (unke24 > 0.0 && (double)((unsigned int)(::FUN_00457fe0())) - unke24 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MSetting *>(&::originalRuntimeFloatSetting816)))))) * 1000.0)
         unke24 = DAT_01012054;
 }
 

@@ -147,8 +147,8 @@ void FOPipboyManager::UpdateScrollKnob()
     m_pGaugeObjects[2] = ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((::_g_thePlayer))->FUN_00950bb0(true)))->GetObjectByName(NiFixedString("TabKnob"));
     if (!m_pGaugeObjects[2])
         m_pGaugeObjects[2] = ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((::_g_thePlayer))->FUN_00950bb0(true)))->GetObjectByName(NiFixedString("TabKnob:0"));
-    m_fTabKnobPositions[0] = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db33c))))))->f;
-    m_fTabKnobPositions[4] = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db34c))))))->f;
+    m_fTabKnobPositions[0] = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db33c))))))->f;
+    m_fTabKnobPositions[4] = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db34c))))))->f;
     float fStep = (m_fTabKnobPositions[4] - m_fTabKnobPositions[0]) / 4.0;
     for (unsigned int i = 1; i < 4; ++i)
         m_fTabKnobPositions[i] = m_fTabKnobPositions[i - 1] + fStep;
@@ -372,9 +372,9 @@ void FOPipboyManager::OnMenuOpen()
             reinterpret_cast<::FUN_007f7fe0_cls *>(this)->SetQuad((const ::Quad4 *)&(kColor));
             reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)&(kColor));
         }
-        SetBlurIntensity(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2dc))))))->f);
-        reinterpret_cast<::FUN_00444020_Class *>(this)->FUN_00444020(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db328))))))->f);
-        SetScanlines(true, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db274))))))->f);
+        SetBlurIntensity(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2dc))))))->f);
+        reinterpret_cast<::FUN_00444020_Class *>(this)->FUN_00444020(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db328))))))->f);
+        SetScanlines(true, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db274))))))->f);
         reinterpret_cast<::FUN_00810530_c *>(this)->FUN_00810530(true);
         SetPipBoyObjectVisibility(false, false, true);
         SetPipBoyObjectVisibility(true, false, true);
@@ -450,7 +450,7 @@ void FOPipboyManager::InitializeMenuLight()
         reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(0.0f);
         ::FUN_0050c690((::NiDynamicEffect *)(light), 0.0f);
         light->FUN_0050dd20(1.0f);
-        light->FUN_0050dd50(NiPoint3(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db514))))))->f, 0.0f, 0.0f));
+        light->FUN_0050dd50(NiPoint3(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db514))))))->f, 0.0f, 0.0f));
         RgbaColor color(0.0f, 0.0f, 0.0f, 0.0f);
         ((::SystemColorManager *)(::FUN_00718b60()))->GetColor(4, (::NiColor &)(color));
         reinterpret_cast<::FUN_00416870_t *>((((NiPoint3*)&rgb)))->FUN_00416870(color.r, color.g, color.b);
@@ -635,11 +635,11 @@ void FOPipboyManagerPC::FUN_007f8a80()
     float fchance;
 
     fchance = ::RandomFloat0To1();
-    if (fchance < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4b4))))))->f)
-        reinterpret_cast<::FUN_007fb250_owner *>((((FORenderedMenuPC*)((::Interface *)(::fnv_004b7210::FUN_004b7210()))->GetPipboyManager())))->FUN_007fb250(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4ec))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3fc))))))->f);
-    if (fchance >= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4b4))))))->f && fchance < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4b4))))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4e0))))))->f)
-        reinterpret_cast<::S_007fb2b0 *>((((FORenderedMenuPC*)((::Interface *)(::fnv_004b7210::FUN_004b7210()))->GetPipboyManager())))->FUN_007fb2b0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db414))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3bc))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3b0))))))->f);
-    reinterpret_cast<::FORenderedMenu *>((((FORenderedMenuPC*)((::Interface *)(::fnv_004b7210::FUN_004b7210()))->GetPipboyManager())))->StartBurst(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db480))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db43c))))))->f, 0.5f);
+    if (fchance < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4b4))))))->f)
+        reinterpret_cast<::FUN_007fb250_owner *>((((FORenderedMenuPC*)((::Interface *)(::fnv_004b7210::FUN_004b7210()))->GetPipboyManager())))->FUN_007fb250(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4ec))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3fc))))))->f);
+    if (fchance >= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4b4))))))->f && fchance < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4b4))))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db4e0))))))->f)
+        reinterpret_cast<::S_007fb2b0 *>((((FORenderedMenuPC*)((::Interface *)(::fnv_004b7210::FUN_004b7210()))->GetPipboyManager())))->FUN_007fb2b0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db414))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3bc))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db3b0))))))->f);
+    reinterpret_cast<::FORenderedMenu *>((((FORenderedMenuPC*)((::Interface *)(::fnv_004b7210::FUN_004b7210()))->GetPipboyManager())))->StartBurst(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db480))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db43c))))))->f, 0.5f);
 }
 }  // namespace fnv_007f8a80
 
@@ -761,7 +761,7 @@ void FOPipboyManagerPC::UpdatePipboyLightFade(float afTime)
     float fdelta;
 
     fdelta = afTime - m_fFirstPersonLightIntensity;
-    ffade = ::FUN_0040ebd0(fdelta / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db308))))))->f, 1.0f);
+    ffade = ::FUN_0040ebd0(fdelta / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db308))))))->f, 1.0f);
     ffade = ::FUN_00404010(0.0f, ffade);
     if (m_fThirdPersonLightIntensity == 0.0)
         ffade = 1.0f - ffade;
@@ -809,12 +809,12 @@ void FOPipboyManagerPC::CreateTerminalLight()
         reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((plight))->FUN_0050c660(0);
         ::FUN_0050c690((::NiDynamicEffect *)(plight), 0);
         plight->FUN_0050dd20(1.0f);
-        plight->FUN_0050dd50(NiPoint3(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db644))))))->f, 0, 0));
+        plight->FUN_0050dd50(NiPoint3(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db644))))))->f, 0, 0));
         {
-            NiColor screenLightColor(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db608))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db668))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db5f8))))))->f);
+            NiColor screenLightColor(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db608))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db668))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db5f8))))))->f);
             reinterpret_cast<::FUN_006b0570_shell *>(this)->FUN_006b0570((::NiColor *)&(screenLightColor));
         }
-        reinterpret_cast<::FUN_00965580_shell *>(this)->SetIntensity(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db650))))))->f);
+        reinterpret_cast<::FUN_00965580_shell *>(this)->SetIntensity(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db650))))))->f);
         SetScreenLightFlickerIntensity(1.0f);
         NiUpdateData updateData(0, false, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObjectPC*)plight)))->FUN_00a59c60((std::intptr_t)&(updateData));
@@ -1529,7 +1529,7 @@ void PipboyFadeManager::UpdateFade(float now)
         reinterpret_cast<::FOPipboyManager *>(this)->SetPipBoyObjectVisibility(false, true, false);
         NiNode* aTarget = m_pPipBoyObject0;  // Root containing the light effect.
         float time = now - m_fFirstPersonLightIntensity;
-        float result = FUN_0040ebd0(time / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2bc))))))->f, 1.0f);
+        float result = FUN_0040ebd0(time / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db2bc))))))->f, 1.0f);
         result = FUN_00404010(0.0f, result);
         if (m_fThirdPersonLightIntensity == 0.0)
             result = 1.0f - result;

@@ -4049,29 +4049,29 @@ float FUN_0062b1e0(unsigned int uiIndex)
     switch (uiIndex)
     {
     case 0:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting964))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting964))));
     case 1:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting967))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting967))));
     case 2:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting968))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting968))));
     case 3:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting969))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting969))));
     case 4:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting970))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting970))));
     case 5:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting971))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting971))));
     case 6:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting972))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting972))));
     case 7:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting973))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting973))));
     case 8:
-        return *((float *)&(::FUN_00403e20((float *)&(g_011d141c))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(g_011d141c))));
     case 9:
-        return *((float *)&(::FUN_00403e20((float *)&(g_011d1224))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(g_011d1224))));
     case 24:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting966))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting966))));
     case 25:
-        return *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting965))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting965))));
     default:
         return 0.0f;
     }
@@ -5450,13 +5450,13 @@ Obj6268b0* FUN_00626dd0(int iIndex, bool bCreate)
     if (iIndex == 0)
     {
         if (!(*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10Second)) && bCreate)
-            (*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10Second)) = new Obj6268b0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingStub *>(&::originalRuntimeFloatSetting58)))))), FUN_005dbe10());
+            (*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10Second)) = new Obj6268b0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GameSettingStub *>(&::originalRuntimeFloatSetting58)))))), FUN_005dbe10());
         pObject = (*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10Second));
     }
     else if (iIndex == 1)
     {
         if (!(*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10First)) && bCreate)
-            (*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10First)) = new Obj6268b0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingStub *>(&::originalRuntimeFloatSetting59)))))), FUN_005dbe10());
+            (*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10First)) = new Obj6268b0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GameSettingStub *>(&::originalRuntimeFloatSetting59)))))), FUN_005dbe10());
         pObject = (*reinterpret_cast<::Obj6268b0 * *>(&::g_pD626F10First));
     }
     return pObject;
@@ -6396,7 +6396,7 @@ float GetObjectMass(WorldObject62b3* pkObject)
             case 8:
             case 11:
             case 14:
-                fMult = *((float *)&(::FUN_00403e20((float *)&(g_011d0e64))));
+                fMult = *((float *)&(::FUN_00403e20((::Setting *)&(g_011d0e64))));
                 break;
             case 6:
             case 7:
@@ -6407,7 +6407,7 @@ float GetObjectMass(WorldObject62b3* pkObject)
             case 15:
             case 16:
             case 22:
-                fMult = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting974))));
+                fMult = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting974))));
                 break;
             case 17:
             case 18:
@@ -6420,7 +6420,7 @@ float GetObjectMass(WorldObject62b3* pkObject)
         }
         else
         {
-            fMult = *((float *)&(::FUN_00403e20((float *)&(g_011d0e64))));
+            fMult = *((float *)&(::FUN_00403e20((::Setting *)&(g_011d0e64))));
         }
     }
     fMass *= fMult;

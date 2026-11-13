@@ -1973,7 +1973,7 @@ struct SettingFloat
 // @fnv 0x00648f60
 float FUN_00648f60(int iValue)
 {
-    return -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1110)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1111)))))) * (1.0f - iValue / 100.0f);
+    return -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1110)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::originalRuntimeFloatSetting1111)))))) * (1.0f - iValue / 100.0f);
 }
 
 #include <stdlib.h>

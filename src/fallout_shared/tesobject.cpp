@@ -1106,7 +1106,7 @@ NiNode* TESObjectDOOR::Create3DModel(TESObjectREFR* reference)
             {
                 TESObjectDoorController* doorController = new TESObjectDoorController;
                 reinterpret_cast<::FUN_00929240_Class *>((doorController))->FUN_00929240(
-                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(((SettingT_GameSettingCollection_*)&originalRuntimeFloatSetting35)))))->f);
+                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(((SettingT_GameSettingCollection_*)&originalRuntimeFloatSetting35)))))->f);
                 reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)doorController)))->SetValue((::std::intptr_t)((TESSound*)&((void (&)(NiAVObject *))::FUN_00518f80)));
                 doorController->SetTarget(node);
             }

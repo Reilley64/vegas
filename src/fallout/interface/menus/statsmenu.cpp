@@ -1359,7 +1359,7 @@ void StatsMenuImpl::UpdateStatEntry(int aeWhich)
         reinterpret_cast<::StatsMenuActiveEffects *>((((StatsMenuHelper*)this)))->FUN_007ddf00();
         break;
     case 20: {
-        int iresist = ::MinInt((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::originalRuntimeFloatSetting1017)))))),
+        int iresist = ::MinInt((int)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007dd090::Setting_S *>(&::originalRuntimeFloatSetting1017)))))),
                              ::_g_thePlayer->GetActorValueAsInteger((ActorValue::Index)20));
         ::FUN_00406f60((::FUN_00406f90_this *)&(strtmp), "%d%%", iresist);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[38]))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(strtmp))))), true);
@@ -1664,7 +1664,7 @@ void FUN_007dff40_shell::SetPage(int aePage)
 {
     if (aePage < 0 || aePage > 4)
         return;
-    ((Interface*)((void *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager()->StartBurst(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007dff40::Setting_S *>(&::g_011db458)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007dff40::Setting_S *>(&::g_011db37c)))))), 0.5f);
+    ((Interface*)((void *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager()->StartBurst(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007dff40::Setting_S *>(&::g_011db458)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007dff40::Setting_S *>(&::g_011db37c)))))), 0.5f);
     pMenu->Set(0x1004, aePage);
     if (reinterpret_cast<::FOPipboyManager *>((((Interface*)((void *)(::fnv_004b7210::FUN_004b7210())))->GetPipboyManager()))->IsUnk28Set())
         ::PlayPipboyPageSound(1);
@@ -5351,8 +5351,8 @@ bool InputStats::FUN_007db680(int code, float amount)
                         reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[55])))->FUN_00a0b110(0xfcb);
                     else if (reinterpret_cast<::FUN_007e0160_t *>(this)->GetTileIndex(0x39, &limbVal) && limbVal == newStatusVal)
                         reinterpret_cast<::FUN_00a0b110_shell *>((((InputTile*)m_pTiles[57])))->FUN_00a0b110(0xfcb);
-                    ((::fnv_007db680::InputInterface *)(::fnv_004b7210::FUN_004b7210()))->FUN_00704370()->FUN_007f8610(0, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007db680::InputSetting *>(&::g_011db2f0)))))) * statusStep6,
-                                                                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_007db680::InputSetting *>(&::g_011db358)))))), true);
+                    ((::fnv_007db680::InputInterface *)(::fnv_004b7210::FUN_004b7210()))->FUN_00704370()->FUN_007f8610(0, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007db680::InputSetting *>(&::g_011db2f0)))))) * statusStep6,
+                                                                 *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_007db680::InputSetting *>(&::g_011db358)))))), true);
                     return true;
                 }
             }

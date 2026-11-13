@@ -2980,10 +2980,10 @@ struct S_9a54a0_Class
 void S_9a54a0_Class::FUN_009a54a0(std::intptr_t a1, S_9a54a0_Actor* pActor, float a3)
 {
     float cur = reinterpret_cast<::PathingRequest *>((pActor))->GetTargetRadius();
-    if (cur >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting353)))))))
+    if (cur >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting353)))))))
     {
         float f = reinterpret_cast<::Standin77900 *>((pActor))->FUN_00477900();
-        f = ComputeExplosionDamageFalloff(f, cur, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting353)))))));
+        f = ComputeExplosionDamageFalloff(f, cur, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting353)))))));
         AddOrUpdateItem((void*)a1, f, 0.0f, a3, cur);
     }
 }
@@ -3588,7 +3588,7 @@ float FUN_009b0f80_Actor::GetCachedValue()
     {
         FUN_009b0f80_Item* item = ((::FUN_009b0f80_Item *)(std::uintptr_t)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
         float skill = item->owner.GetValue(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((::FUN_009b0f80_Skill *)(std::uintptr_t)(reinterpret_cast<::FUN_009b0900_shell *>(this)->GetFieldE0()))))->GetUnk15C())));
-        float mult9 = ::FUN_00403e20((float *)&(originalRuntimeFloatSetting505)) + ::FUN_00403e20((float *)&(originalRuntimeFloatSetting506)) * (skill * 0.01f);
+        float mult9 = ::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting505)) + ::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting506)) * (skill * 0.01f);
         value100 = value100 * mult9;
     }
     return value100;
@@ -5132,13 +5132,13 @@ Result9a Target9a::FUN_009a4c70(Context9a* context)
 {
     Point9a h;
     reinterpret_cast<::FUN_009a4a10_shell *>(this)->FUN_009a4a10();
-    float s = radius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting475))))));
+    float s = radius * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting475))))));
     float i = reinterpret_cast<::S_009a49b0_Class *>(this)->ComputeScaledRatio((::S_009a49b0_Arg *)(context), 0.0f);
     float p = reinterpret_cast<::NiPoint3 *>(&(h))->GetLengthSquared();
     Point9a a = source->Position() + h * p * 0.5f;
     if (p < s)
     {
-        return Result9a(a, radius, i * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9a *>(&::g_011cef98)))))));
+        return Result9a(a, radius, i * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9a *>(&::g_011cef98)))))));
     }
     else
     {
@@ -5146,8 +5146,8 @@ Result9a Target9a::FUN_009a4c70(Context9a* context)
         float eb = 0.0f;
         eb = FUN_00404010(eb, 0.0f);
         reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Point9a &)(a))->FUN_0063c8a0((void *)&(const ::Point9a &)(h * (f * eb - radius)));
-        Point9a cf = a + h * (2.0 * radius + (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting476)))))) - eb) * f);
-        return Result9a(a, cf, radius, i * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9a *>(&::g_011cef98)))))));
+        Point9a cf = a + h * (2.0 * radius + (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting476)))))) - eb) * f);
+        return Result9a(a, cf, radius, i * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9a *>(&::g_011cef98)))))));
     }
 }
 
@@ -5382,7 +5382,7 @@ PathingAvoidNodeArray* AvoidanceMap::BuildAvoidanceNodes(void* argument, Avoidan
             result = score;
             pBestEntry = entry;
         }
-        if (score > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting481)))))))
+        if (score > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting481)))))))
         {
             if (!nodes)
                 nodes = new PathingAvoidNodeArray;
@@ -6796,11 +6796,11 @@ void Obj082::ProcessHits()
                         ::InitCombatThing((::CombatThing *)(::fnv_009b00a0::Hit082 *)(&hit), (impactSource && impactSource->IsActor() ? impactSource : nullptr), (amount), (::ActorStub *)(::fnv_009b00a0::Obj082 *)(this),
                                         actor);
                         reinterpret_cast<::fnv_0089a760::HActor *>((amount))->FUN_0089a760((::fnv_0089a760::HHit *)(::fnv_009b00a0::Hit082 *)(&hit), 0);
-                        if (amount == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)) && distance > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1039)))))))
+                        if (amount == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)) && distance > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1039)))))))
                         {
-                            Pair082 c(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1040)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1041)))))));
-                            Pair082 b(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1042)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1043)))))));
-                            Pair082 a(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1044)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::g_011d00d8)))))));
+                            Pair082 c(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1040)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1041)))))));
+                            Pair082 b(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1042)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1043)))))));
+                            Pair082 a(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::originalRuntimeFloatSetting1044)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b00a0::Setting082 *>(&::g_011d00d8)))))));
                             reinterpret_cast<::FUN_007f78f0_Class *>((((::fnv_009b00a0::Obj082 *)(::FUN_00705950()))))->InitFromPoints((const ::NiPoint2 *)&(const ::fnv_009b00a0::Pair082 &)(FUN_00532fd0(distance, &c)), (const ::NiPoint2 *)&(const ::fnv_009b00a0::Pair082 &)(FUN_00532fd0(distance, &b)), (const ::NiPoint2 *)&(a));
                         }
                         List082* data = ((::fnv_009b00a0::List082 *)(reinterpret_cast<::Callees *>((((List082*)&((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->unk54)))->FUN_00726070()));
@@ -7358,17 +7358,17 @@ void __cdecl InitHitData(BooleanFloatQuery* data, ActorHit* actor, ActorHit* tar
             if (data->extra && data->extra->count > 1 && data->Flag(4096))
                 data->damage *= data->extra->count / reinterpret_cast<::FUN_00524b60_shell *>((data->weapon))->GetByteAt102();
             if (data->extra && ::FUN_006450c0((::TESObjectWEAP *)(data->weapon)) && reinterpret_cast<::FUN_00524b40_class *>((data->weapon))->FUN_00524b40())
-                data->damage *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting557))))));
+                data->damage *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting557))))));
             if (data->extra)
             {
                 if (data->extra->type == 16)
                     data->damage *= reinterpret_cast<::FUN_008d9140_Class *>((data->weapon))->GetField378();
                 else if (data->extra->type == 17)
-                    data->damage *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting1080))))));
+                    data->damage *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting1080))))));
                 else if (data->extra->type == 20)
-                    data->damage *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting1085))))));
+                    data->damage *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting1085))))));
                 else if (data->extra->type == 21)
-                    data->damage *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting1086))))));
+                    data->damage *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingHit *>(&::originalRuntimeFloatSetting1086))))));
             }
         }
         else if (actor->Creature())
@@ -7619,7 +7619,7 @@ float Target_009a4710::ComputeFalloff(const Pt_009a4710& point, Ctx_009a4710* ct
     {
         float range5 = radius + extra;
         float distSq_2 = 0.0f;
-        float limit6 = range5 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting475))))));
+        float limit6 = range5 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting475))))));
         Pt_009a4710 dir2;
         reinterpret_cast<::FUN_009a4a10_shell *>(this)->FUN_009a4a10();
         float len = reinterpret_cast<::NiPoint3 *>(&(dir2))->GetLengthSquared();
@@ -7634,7 +7634,7 @@ float Target_009a4710::ComputeFalloff(const Pt_009a4710& point, Ctx_009a4710* ct
             float t = 0.0f;
             t = FUN_00404010(t, 0.0f);
             Pt_009a4710 start7 = center8 + dir2 * (len * t - range5);
-            float span = range5 * DAT_01011590 + (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting476)))))) - t) * len;
+            float span = range5 * DAT_01011590 + (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9a *>(&::originalRuntimeFloatSetting476)))))) - t) * len;
             float spanSq6 = span * span;
             Pt_009a4710 axis_2;
             ::NiPosData::ComputePositionAtTime((::NiPoint3 *)(::Pt_009a4710 *)(&axis_2), span, (const ::NiPoint3 *)&(dir2));
@@ -7781,7 +7781,7 @@ struct SceneObject : MatchContext
 // @fnv 0x009b0d70
 void SceneObject::FUN_009b0d70(TargetRef* object, float timestamp)
 {
-    if (object && ((::TargetRef *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())) && timestamp > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting1027)))))))
+    if (object && ((::TargetRef *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())) && timestamp > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting1027)))))))
     {
         static_cast<ExtendedTargetRef*>(((::TargetRef *)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())))->ApplyPosition(object, Position(), 0.0f);
     }
@@ -8164,7 +8164,7 @@ Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, intptr_t a3, i
         reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>((obj))->FUN_005de0a0(0x400, 1);
         reinterpret_cast<::FUN_00420ba0_Class *>((obj))->FUN_00420ba0(a3);
         obj->Refresh();
-        reinterpret_cast<::FUN_009bd760_Class *>((obj))->FUN_009bd760(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting683)))))));
+        reinterpret_cast<::FUN_009bd760_Class *>((obj))->FUN_009bd760(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_9a54a0_Setting *>(&::originalRuntimeFloatSetting683)))))));
     }
     return obj;
 }
@@ -8691,7 +8691,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
         return;
     }
     original = damage;
-    float minimumDamage8 = damage * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting556))))));
+    float minimumDamage8 = damage * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting556))))));
     if (weapon)
         critical = ::ComputeAmmoEffectValue(5, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((intptr_t)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0),
                                 critical);
@@ -8705,7 +8705,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     if (weapon)
         resistanceVal = ::ComputeAmmoEffectValue(
             1, (::AmmoEffectList *)(((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker)))) ? ((intptr_t)(reinterpret_cast<::TESAmmoInitCalls *>((((::fnv_009b5a30::HitAmmo *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(attacker))))))->FUN_00923000())) : 0), resistanceVal);
-    float maxResistance8 = *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting1016)))))) / ::g_d100;
+    float maxResistance8 = *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting1016)))))) / ::g_d100;
     if (resistanceVal > maxResistance8)
         resistanceVal = maxResistance8;
     resisted = critical > ::_DAT_01012060 ? 0.0f : ::FUN_006462e0(damage, resistanceVal);
@@ -8731,7 +8731,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
                 ((::fnv_009b5a30::HitProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Weapon() ? ((::fnv_009b5a30::HitWeapon *)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_009b5a30::HitProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Weapon()))->GetName())) : 0;
             FUN_00407e00(1, true);
             if ((*reinterpret_cast<::fnv_009b5a30::HitActor * *>(&::_g_thePlayer)) == target)
-                reinterpret_cast<::FUN_00944380_class *>(((*reinterpret_cast<::fnv_009b5a30::HitActor * *>(&::_g_thePlayer))))->SetFieldE28(*((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011d0be4)))))));
+                reinterpret_cast<::FUN_00944380_class *>(((*reinterpret_cast<::fnv_009b5a30::HitActor * *>(&::_g_thePlayer))))->SetFieldE28(*((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011d0be4)))))));
             bool power = false;
             if (blockWeapon2 && reinterpret_cast<::FUN_008a16d0_shell *>((target))->FUN_008a16d0())
                 power = true;
@@ -8783,7 +8783,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
         ::ApplyPerkModifiers(0, (::Actor *)(attacker), weapon, target, &damage);
     if (critical <= ::_DAT_01012060)
     {
-        float absorbed = ((double)(::FUN_0040ebd0(threshold, damage - minimumDamage8))) * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting508))))));
+        float absorbed = ((double)(::FUN_0040ebd0(threshold, damage - minimumDamage8))) * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::originalRuntimeFloatSetting508))))));
         resisted = resisted + absorbed;
     }
     if (damage < minimumDamage8)
@@ -8816,12 +8816,12 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
     }
     if (target == (*reinterpret_cast<::fnv_009b5a30::HitActor * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::fnv_009b5a30::HitMode *>(&::g_011f2250))))->FUN_00525430())
     {
-        damage = damage * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
-        original = original * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
-        critical = critical * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
-        unk20 = unk20 * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
-        resisted = resisted * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
-        unk2c = unk2c * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
+        damage = damage * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
+        original = original * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
+        critical = critical * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
+        unk20 = unk20 * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
+        resisted = resisted * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
+        unk2c = unk2c * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b5a30::HitSetting *>(&::g_011ce9f0))))));
     }
 }
 }  // namespace fnv_009b5a30

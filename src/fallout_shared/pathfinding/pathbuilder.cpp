@@ -1625,7 +1625,7 @@ int __cdecl CollectNearbyEdges(PathActor* apActor, unsigned int auiMax, EdgeHand
     {
         return 1;
     }
-    float fRadius = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::g_011d74dc))))));
+    float fRadius = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::g_011d74dc))))));
     float fRadiusSq2 = fRadius * fRadius;
     MeshList kMeshes5;
     ::fnv_006d8a00::FUN_006d8a00((::SearchObject *)(apActor), fRadius, (::SearchOutput *)(&kMeshes5));
@@ -2082,7 +2082,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
     switch (arrA)
     {
     case 2: {
-        if (r2 < 512.0 && (double)::GetFloatAtOffset68((const char *)(((ReqX*)pRequest))) < (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingCollX *>(&::originalRuntimeFloatSetting1308)))))))
+        if (r2 < 512.0 && (double)::GetFloatAtOffset68((const char *)(((ReqX*)pRequest))) < (double)*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingCollX *>(&::originalRuntimeFloatSetting1308)))))))
         {
             if (FUN_006d7350(*(PathingLocation*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(a))))->GetCurrentProcessData())),
                              *(PathingLocation*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b))))->GetCurrentProcessData())),
@@ -4697,7 +4697,7 @@ class PathBuilderMethods : public PathBuilder
 bool PathBuilderMethods::FUN_006cd1f0(PathingLocation* pStart, PathingLocation* pEndLocation)
 {
     FUN_006cd5a0 filter;
-    filter.m_bCheckWater = ::GetFloatAtOffset68((const char *)(((PathingRequestMethods*)pRequest))) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006cd1f0::GameSettings *>(&::originalRuntimeFloatSetting1308))))));
+    filter.m_bCheckWater = ::GetFloatAtOffset68((const char *)(((PathingRequestMethods*)pRequest))) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006cd1f0::GameSettings *>(&::originalRuntimeFloatSetting1308))))));
     if (!FUN_006d7350(pStart, pEndLocation, 0, &filter))
         return false;
 
@@ -7875,7 +7875,7 @@ HighProcessPart6e6::HighProcessPart6e6()
     unk84 = 0;
     unk80 = 0;
     unk88 = 0;
-    unk8c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GlobalFloatSetting *>(&::originalRuntimeFloatSetting841))))));
+    unk8c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GlobalFloatSetting *>(&::originalRuntimeFloatSetting841))))));
     unk90 = ::g_011db514_arg1;
 }
 

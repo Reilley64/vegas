@@ -860,7 +860,7 @@ void FUN_00541b80()
     *(int*)&center.z = ::_DAT_011f4274;
     DAT_011ca08c = 0;
     (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011ca0d8)) = ((::NiNode *)(::FUN_00554010((const class ::FUN_006815c0 *)(::NiPoint3 *)(&center))));
-    if (*((float *)&(::FUN_00403e20((float *)(((SettingFloatHelper*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting37))))))) > DAT_01016968)
+    if (*((float *)&(::FUN_00403e20((::Setting *)(((SettingFloatHelper*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting37))))))) > DAT_01016968)
     {
         reinterpret_cast<::S_004ed780 *>((((SettingFloatHelper*)&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting37)))))->FUN_004ed780(g_011c7b14_arg1);
     }
@@ -19558,19 +19558,19 @@ void FUN_00555c20()
                         NiPoint2 highPt5((float)((cellX << 12) + 4096.0), (float)((cellY3 << 12) + 4096.0));
                         int dxTmp = 0;
                         int dy4 = 0;
-                        if (lowPt2.x >= pos2.x - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))))
+                        if (lowPt2.x >= pos2.x - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))))
                         {
                             dxTmp = -1;
                         }
-                        else if (pos2.x + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))) >= highPt5.x)
+                        else if (pos2.x + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))) >= highPt5.x)
                         {
                             dxTmp = 1;
                         }
-                        if (lowPt2.y >= pos2.y - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))))
+                        if (lowPt2.y >= pos2.y - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))))
                         {
                             dy4 = -1;
                         }
-                        else if (pos2.y + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))) >= highPt5.y)
+                        else if (pos2.y + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00555c20::SettingS *>(&::originalRuntimeFloatSetting37)))))) >= highPt5.y)
                         {
                             dy4 = 1;
                         }
@@ -27867,7 +27867,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                             int iIndexNew;
                             reinterpret_cast<::fnv_0063b630::SkyHelper *>((pkSky))->FUN_0063b630((::fnv_0063b630::SkyInterpolationData *)(::SkyColorData *)(&kSkyDataOut), pkWeather, 1.0f, (int *)(float *)(&fBlendRes), &iIndexNew);
                             reinterpret_cast<::fnv_0063bab0::FUN_0063bab0_shell *>((pkSky))->FUN_0063bab0(&kSkyDataOut, pkWeather, (::TESWeather *)(0), 4, (int *)(float *)(&fBlendRes), &iIndexNew);
-                            float fValue = reinterpret_cast<::FUN_00644950_shell *>((pkSky))->FUN_00644950() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CellFloatSetting *>(&::g_011ccccc))))));
+                            float fValue = reinterpret_cast<::FUN_00644950_shell *>((pkSky))->FUN_00644950() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CellFloatSetting *>(&::g_011ccccc))))));
                             reinterpret_cast<::FUN_0063c690_shell *>((pkSky))->FUN_0063c690((float *)(pkColorPos), (::SkyColors *)(::SkyColorData *)(&kSkyDataOut), fValue);
                         }
                         break;
@@ -27913,7 +27913,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
                                 int iIndexNew;
                                 reinterpret_cast<::fnv_0063b630::SkyHelper *>((pkSky))->FUN_0063b630((::fnv_0063b630::SkyInterpolationData *)(::SkyColorData *)(&kSkyDataOut), pkWeather, 1.0f, (int *)(float *)(&fBlendRes), &iIndexNew);
                                 reinterpret_cast<::fnv_0063bab0::FUN_0063bab0_shell *>((pkSky))->FUN_0063bab0(&kSkyDataOut, pkWeather, (::TESWeather *)(0), 4, (int *)(float *)(&fBlendRes), &iIndexNew);
-                                float fValue = reinterpret_cast<::FUN_00644950_shell *>((pkSky))->FUN_00644950() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CellFloatSetting *>(&::g_011ccccc))))));
+                                float fValue = reinterpret_cast<::FUN_00644950_shell *>((pkSky))->FUN_00644950() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CellFloatSetting *>(&::g_011ccccc))))));
                                 reinterpret_cast<::FUN_0063c690_shell *>((pkSky))->FUN_0063c690((float *)(::NiColor_rtti *)(&kColor), (::SkyColors *)(::SkyColorData *)(&kSkyDataOut), fValue);
                             }
                             break;

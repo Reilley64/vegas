@@ -678,7 +678,7 @@ struct FUN_0092cc90_shell
 // @fnv 0x0092cc90
 bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
 {
-    int iCount = (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting236)))))) * 4.0);
+    int iCount = (int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting236)))))) * 4.0);
     Actor* ptarget = 0;
 
     while (iCount)
@@ -2792,11 +2792,11 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                             }
                             if (fDist == ::_DAT_01012060 && pActor->GetOwner() != 0 && reinterpret_cast<::TESObjectCELL *>((pActor->GetOwner()))->IsCellInterior())
                             {
-                                fDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092d050::FloatSetting *>(&::originalRuntimeFloatSetting173))))));
+                                fDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0092d050::FloatSetting *>(&::originalRuntimeFloatSetting173))))));
                             }
                             else if (fDist == ::_DAT_01012060)
                             {
-                                fDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0092d050::FloatSetting *>(&::originalRuntimeFloatSetting172))))));
+                                fDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0092d050::FloatSetting *>(&::originalRuntimeFloatSetting172))))));
                             }
                             if (reinterpret_cast<::RefS *>((pActor))->FUN_005723b0((::RefS *)(m_pFlagTarget), 0, 0) <= fDist / ::DAT_01011590)
                             {
@@ -2891,7 +2891,7 @@ template <class Collection> class SettingT
 // @fnv 0x0092cab0
 void LowProcess::FUN_0092cab0(Actor* source)
 {
-    int iterations = (int)(*((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting236)))) * 2);
+    int iterations = (int)(*((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting236)))) * 2);
     Actor* actor = 0;
     actor = dynamic_cast<Actor*>(pTarget);
     bool bUpdated = false;

@@ -1666,13 +1666,13 @@ bool FUN_00824e70_shell::ApplyAddiction(StandinAlchemyItem* apItem)
     if (pEffectItem)
     {
         float fResistance = reinterpret_cast<::FUN_00822eb0_shell *>(this)->FUN_00822eb0(apItem);
-        if (fResistance <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_Float *>(&::originalRuntimeFloatSetting1215)))))))
+        if (fResistance <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_Float *>(&::originalRuntimeFloatSetting1215)))))))
         {
             return false;
         }
         else
         {
-            fAddictionChance2 = (fResistance - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_Float *>(&::originalRuntimeFloatSetting1215))))))) / 100.0;
+            fAddictionChance2 = (fResistance - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_Float *>(&::originalRuntimeFloatSetting1215))))))) / 100.0;
         }
     }
     ApplyPerkModifiers(0x17, pActor2, &fAddictionChance2);

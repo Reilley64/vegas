@@ -1139,7 +1139,7 @@ void PreviewMenu::UpdatePreviewComparison(int event, PreviewTile* target)
         if (DAT_011da7d8 != selection7)
         {
             ((::PreviewPipboy *)(reinterpret_cast<::Interface *>((((::PreviewInterface *)(::fnv_004b7210::FUN_004b7210()))))->GetPipboyManager()))->Rotate(
-                0, DAT_011da7d8 < selection7 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PreviewSetting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PreviewSetting *>(&::g_011db2f0)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PreviewSetting *>(&::g_011db358)))))), true);
+                0, DAT_011da7d8 < selection7 ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PreviewSetting *>(&::g_011db2f0)))))) : -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PreviewSetting *>(&::g_011db2f0)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PreviewSetting *>(&::g_011db358)))))), true);
             DAT_011da7d8 = selection7;
         }
         if (item7 && (*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)))
@@ -1163,7 +1163,7 @@ void PreviewMenu::UpdatePreviewComparison(int event, PreviewTile* target)
                 int cost4 = (int)reinterpret_cast<::TileListBoxCalls *>((target))->GetFloat(0x1005);
                 if (cost4 > 100)
                 {
-                    ::FUN_00406d00(text, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::PreviewSetting *>(&::g_011d4ee8))))->GetMenuTitle())), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PreviewSetting *>(&::originalRuntimeFloatSetting944)))))) * 10.0, "%");
+                    ::FUN_00406d00(text, 64, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::PreviewSetting *>(&::g_011d4ee8))))->GetMenuTitle())), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PreviewSetting *>(&::originalRuntimeFloatSetting944)))))) * 10.0, "%");
                     reinterpret_cast<::FUN_007b6970_shell *>(this)->SetRepairMenuText(text);
                     reinterpret_cast<::FUN_00a012d0_t *>((tile54))->FUN_00a012d0(::FUN_00a01860("_line_alpha"), 128.0f, true);
                 }

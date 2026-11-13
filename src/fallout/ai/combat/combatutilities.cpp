@@ -408,11 +408,11 @@ bool __cdecl IsExplosionRadiusValid(PathingRequest* apExplosion)
     if (!apExplosion)
         return false;
     float fdamage = apExplosion->GetTargetRadius();
-    if (fdamage < *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting353)))))
+    if (fdamage < *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting353)))))
         return false;
     float fradius = ((Standin77900*)apExplosion)->FUN_00477900();
-    fradius = ComputeExplosionDamageFalloff(fradius, fdamage, *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting353)))));
-    if (fradius < *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting354)))))
+    fradius = ComputeExplosionDamageFalloff(fradius, fdamage, *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting353)))));
+    if (fradius < *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting354)))))
         return false;
     return true;
 }
@@ -1345,7 +1345,7 @@ float FUN_009a64d0(S_9a64d0_Ref* a, S_9a64d0_Ref* b, bool checkHeight)
             S_9a64d0_Pt posB_2 = *pB6->GetPos();
             S_9a64d0_Pt ptA = posA9;
             S_9a64d0_Pt aPtB = posB_2;
-            if (kBoth || (checkHeight && FUN_00408860(ptA.z - aPtB.z) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_9a64d0_Setting *>(&::originalRuntimeFloatSetting720))))))))
+            if (kBoth || (checkHeight && FUN_00408860(ptA.z - aPtB.z) >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_9a64d0_Setting *>(&::originalRuntimeFloatSetting720))))))))
             {
                 ptA.z = 0.0f;
                 aPtB.z = 0.0f;
@@ -2281,7 +2281,7 @@ bool __cdecl IsTargetInCone(ConeRef* pkShooter, ConeRef* pkTarget, float* pfAngl
     if (pkShooter == (*reinterpret_cast<::ConePlayer * *>(&::_g_thePlayer)))
         fConeTmp = FUN_009a6a40(iSkillOut);
     else
-        fConeTmp = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ConeSetting *>(&::originalRuntimeFloatSetting595))))));
+        fConeTmp = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ConeSetting *>(&::originalRuntimeFloatSetting595))))));
     if (reinterpret_cast<::NiPoint3 *>((void *)&(kDeltaA))->ComputeMagnitude() < 128.0)
         fConeTmp = fConeTmp * 3.0;
     if (fAngleA <= fConeTmp)
@@ -2293,7 +2293,7 @@ bool __cdecl IsTargetInCone(ConeRef* pkShooter, ConeRef* pkTarget, float* pfAngl
         ConeRef* pkActor = pkTarget;
         if (pkActor->IsDead(0))
         {
-            fConeTmp = fConeTmp * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ConeSetting *>(&::originalRuntimeFloatSetting596))))));
+            fConeTmp = fConeTmp * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ConeSetting *>(&::originalRuntimeFloatSetting596))))));
             if (fAngleA <= fConeTmp)
                 bInConeX = true;
         }
@@ -2354,7 +2354,7 @@ bool FUN_009a7670(void* a, void* b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_0
     if (!a || !b)
         return false;
     if (maxDist == ::DAT_0101a6b0)
-        maxDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a7670_Setting *>(&::originalRuntimeFloatSetting392))))));
+        maxDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_009a7670_Setting *>(&::originalRuntimeFloatSetting392))))));
     float dist8 = 0.0f;
     void* found = 0;
     float v = reinterpret_cast<::FUN_00966980_shell *>((obj))->FUN_00966980() * DAT_011f1c00;
@@ -2374,7 +2374,7 @@ bool FUN_009a7670(void* a, void* b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_0
             *flag = *flag ? 0 : 1;
         float k;
         if (*flag)
-            k = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a7670_Setting *>(&::originalRuntimeFloatSetting375))))));
+            k = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_009a7670_Setting *>(&::originalRuntimeFloatSetting375))))));
         else
             k = 1.0f;
         float r2 = ::GetFloatAtOffset68((const char *)(obj)) * k;
@@ -2421,7 +2421,7 @@ float __cdecl ComputeProjectileFlightTime(ShotActor* actor, Vec3 from, Vec3 to, 
     {
         if (flag && speed == ::_DAT_01012060)
         {
-            speed = speed * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GlobalSetting *>(&::originalRuntimeFloatSetting375))))));
+            speed = speed * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GlobalSetting *>(&::originalRuntimeFloatSetting375))))));
         }
         float fAngleDifference = vDelta.z;
         float afGravity = reinterpret_cast<::FUN_00589850_Class *>((void *)&(vDelta))->FUN_00589850();
@@ -3375,19 +3375,19 @@ TrajOut* __cdecl ComputeTrajectory(TrajOut* out, TrajRef* target, void* a3, void
         TrajWeapon* w2 = ((::TrajWeapon *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(actor))));
         f5 = false;
         if (reinterpret_cast<::FUN_009a7f80_shell *>((void *)(actor))->FUN_009a7f80() || (double)::GetFloatAtOffset68((const char *)(actor)) >
-                                         *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT<GameSettingCollection>*>(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting352))))))))
+                                         *((float *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT<GameSettingCollection>*>(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting352))))))))
         {
             f5 = true;
         }
         if (w2 != 0)
         {
             if ((double)reinterpret_cast<::Standin77900 *>((w2))->FUN_00477900() >=
-                *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT<GameSettingCollection>*>(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting350))))))))
+                *((float *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT<GameSettingCollection>*>(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting350))))))))
             {
                 if (!f5)
                 {
                     if ((double)reinterpret_cast<::PathingRequest *>((w2))->GetTargetRadius() >
-                        *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT<GameSettingCollection>*>(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting351))))))))
+                        *((float *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT<GameSettingCollection>*>(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting351))))))))
                     {
                         mode = 4;
                     }
@@ -3568,12 +3568,12 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
             *pfMin = reinterpret_cast<::BGSImpactData *>((pWeapon))->FUN_009a9350() * *pfMin;
             *pfMax = reinterpret_cast<::FUN_00508050_Class *>((pWeapon))->FUN_00508050() * *pfMax;
         }
-        *pfDerived = *pfMax * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting394))))));
+        *pfDerived = *pfMax * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting394))))));
         S_009a9180_Projectile* pObj = ((::S_009a9180_Projectile *)(reinterpret_cast<::Thing *>((pData))->GetOrFallback(reinterpret_cast<std::intptr_t>(reinterpret_cast<CombatControllerFields*>(pActor)->pActor))));
         if (pObj)
         {
             float fValue = FUN_009a7f00(pObj, 0.0f);
-            *pfMax = FUN_0040ebd0(*pfMax, fValue * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting396)))))));
+            *pfMax = FUN_0040ebd0(*pfMax, fValue * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting396)))))));
             *pfDerived = FUN_0040ebd0(*pfDerived, fValue);
             Standin77900* pProjectile = ((::Standin77900 *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pObj))));
             if (pProjectile)
@@ -3586,7 +3586,7 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
     {
         *pfMin = reinterpret_cast<::BGSImpactData *>((pWeapon))->FUN_009a9350() * *pfMin;
         *pfMax = reinterpret_cast<::FUN_00508050_Class *>((pWeapon))->FUN_00508050() * *pfMax;
-        *pfDerived = *pfMax * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting394))))));
+        *pfDerived = *pfMax * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting394))))));
     }
 }
 
@@ -3634,15 +3634,15 @@ void __cdecl DrawDebugLine(const DebugPoint& kStart, const DebugPoint& kEnd, int
     RgbaColor kLineColor6 = pkLineColor ? *pkLineColor : RgbaColor(1.0f, 1.0f, 0.0f, 1.0f);
     DebugPoint kMid = bScaled ? (*(::DebugPoint *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::DebugPoint &)(((*(::DebugPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kEnd))->FUN_00439ef0((::NiPoint3 *)&(kStart), *(const ::NiPoint3 *)nullptr)))).ApplyScaled(fScale)))->ProjectileLaunched((::NiPoint3 *)&(kStart), {}))) : kEnd;
     NiAVObject* pkLine_ = ((::NiAVObject *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(kStart), (const ::fnv_004b3890::FUN_004a7800 &)(kLineColor6), (const class ::FUN_006815c0 &)(kMid), (const ::fnv_004b3890::FUN_004a7800 &)(kLineColor6), true)));
-    reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458e20(pkLine_, *((float *)&(::FUN_00403e20((float *)&(g_011f1c24)))));
+    reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458e20(pkLine_, *((float *)&(::FUN_00403e20((::Setting *)&(g_011f1c24)))));
     if (bScaled)
     {
         NiAVObject* pkSphere4 = ((::NiAVObject *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(aKTipColor), true)));
         reinterpret_cast<::FUN_00a5a040_Class *>((pkSphere4))->FUN_00a5a040();
         reinterpret_cast<::FUN_00440460_S *>((pkSphere4))->FUN_00440460((const ::V3 *)&(kMid));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458e20(pkSphere4, *((float *)&(::FUN_00403e20((float *)&(g_011f1c24)))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458e20(pkSphere4, *((float *)&(::FUN_00403e20((::Setting *)&(g_011f1c24)))));
         NiAVObject* pkTipLine = ((::NiAVObject *)(::fnv_004b3890::FUN_004b3890((const class ::FUN_006815c0 &)(kMid), (const ::fnv_004b3890::FUN_004a7800 &)(aKTipColor), (const class ::FUN_006815c0 &)(kEnd), (const ::fnv_004b3890::FUN_004a7800 &)(aKTipColor), true)));
-        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458e20(pkTipLine, *((float *)&(::FUN_00403e20((float *)&(g_011f1c24)))));
+        reinterpret_cast<::FUN_00458e20_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458e20(pkTipLine, *((float *)&(::FUN_00403e20((::Setting *)&(g_011f1c24)))));
     }
 }
 
@@ -3657,23 +3657,23 @@ float __cdecl FUN_009a6a40(int aiSettingId)
         {
         case 0x5c:
         case 0x5d:
-            return *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting605))));
+            return *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting605))));
             break;
         case 0x5e:
         case 0x5f:
         case 0x60:
-            return *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting604))));
+            return *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting604))));
             break;
         case 0x61:
-            return *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting606))));
+            return *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting606))));
             break;
         default:
-            return *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting595))));
+            return *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting595))));
         }
     }
     else
     {
-        return *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting595))));
+        return *((float *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting595))));
     }
 }
 

@@ -649,7 +649,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                             }
                         }
                     }
-                    if (::GetFloatAtOffset68((const char *)(m_pPathingRequest)) > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308))))))->f &&
+                    if (::GetFloatAtOffset68((const char *)(m_pPathingRequest)) > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308))))))->f &&
                         reinterpret_cast<::FUN_00691140_shell *>((neighborMesh->GetTriangle(neighborTriangle)))->FUN_00691140(0x10))
                         continue;
                     stancePenalty4 = 1.0f;

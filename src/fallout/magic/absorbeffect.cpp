@@ -1725,18 +1725,18 @@ void BoltEffectImpl::InitBoltEffect()
 
         if (((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt)))))
         {
-            reinterpret_cast<::FUN_00821620_Class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00821620(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1201)))))));
-            reinterpret_cast<::FUN_00507780 *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1202)))))));
-            reinterpret_cast<::FUN_00803b30_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803b30(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1208)))))));
-            reinterpret_cast<::FUN_005077a0_Class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_005077a0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1203)))))));
-            reinterpret_cast<::FUN_00803b50_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803b50(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1204)))))));
-            reinterpret_cast<::FUN_005f9b10_class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1205)))))));
-            reinterpret_cast<::FUN_00803a90_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1680)))))));
+            reinterpret_cast<::FUN_00821620_Class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00821620(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1201)))))));
+            reinterpret_cast<::FUN_00507780 *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1202)))))));
+            reinterpret_cast<::FUN_00803b30_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803b30(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1208)))))));
+            reinterpret_cast<::FUN_005077a0_Class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_005077a0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1203)))))));
+            reinterpret_cast<::FUN_00803b50_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803b50(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1204)))))));
+            reinterpret_cast<::FUN_005f9b10_class *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1205)))))));
+            reinterpret_cast<::FUN_00803a90_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1680)))))));
             reinterpret_cast<::FUN_00803a70_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803a70(*((unsigned int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c64)))))));
-            reinterpret_cast<::FUN_00803ab0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetArg((*(::FUN_00803ab0_arg *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c94)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1570)))))),
-                                                            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d18b4)))))), 1.0f))));
-            reinterpret_cast<::FUN_00803ae0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetData((*(::FUN_00803ae0_Data *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d16a4)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1206)))))),
-                                                             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1818)))))), 1.0f))));
+            reinterpret_cast<::FUN_00803ab0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetArg((*(::FUN_00803ab0_arg *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1c94)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1570)))))),
+                                                            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d18b4)))))), 1.0f))));
+            reinterpret_cast<::FUN_00803ae0_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetData((*(::FUN_00803ae0_Data *)&(const ::ImageSpaceEffectParam &)(::ImageSpaceEffectParam(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d16a4)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::originalRuntimeFloatSetting1206)))))),
+                                                             *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008034c0::SettingStandIn *>(&::g_011d1818)))))), 1.0f))));
             reinterpret_cast<::FUN_00803b10_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->SetByteAtOffset175(0);
             reinterpret_cast<::FUN_00803a50_shell *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00803a50(1);
             reinterpret_cast<::Emitter *>((((::fnv_008034c0::BoltGeometry *)(::FUN_00559450((int *)&(m_spBolt))))))->FUN_00bc2360();
@@ -1846,7 +1846,7 @@ void BoltEffectUpd::UpdateEffect(float fTimeOffset)
         !pkCaster->IsDead(false))
     {
         float fDist = reinterpret_cast<::RefS *>((pkCaster))->FUN_005723b0((::RefS *)(pkTarget), false, false);
-        if (fDist > FUN_006463e0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingStandIn *>(&::originalRuntimeFloatSetting1127))))))))
+        if (fDist > FUN_006463e0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingStandIn *>(&::originalRuntimeFloatSetting1127))))))))
             reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
         else if (((::BoltProcessStandIn *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkCaster))->GetBaseTexture())))
         {
@@ -1878,7 +1878,7 @@ void S_00803b70_Main::FUN_00803b70(float value)
         float fPlanarLen = reinterpret_cast<::NiPoint3 *>(&(r))->ComputeMagnitude();
         reinterpret_cast<::ThreeByThreeMatrix *>(&(mat))->FUN_00a59780(FUN_004b5550(r.x, r.y), 0.0f, -FUN_004b5550(t, fPlanarLen));
         reinterpret_cast<::FUN_0043fa80_s *>((((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&mat)));
-        reinterpret_cast<::Ring216 *>((((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58))))))->AddValue(value, reinterpret_cast<::NiPoint3 *>(&(r))->ComputeMagnitude(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_00803b70_Setting *>(&::originalRuntimeFloatSetting1207)))))), {});
+        reinterpret_cast<::Ring216 *>((((::S_00803b70_O58 *)(::FUN_00559450((int *)&(m_58))))))->AddValue(value, reinterpret_cast<::NiPoint3 *>(&(r))->ComputeMagnitude(), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_00803b70_Setting *>(&::originalRuntimeFloatSetting1207)))))), {});
     }
 }
 

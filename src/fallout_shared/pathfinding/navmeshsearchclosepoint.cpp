@@ -2391,7 +2391,7 @@ bool FUN_006a8dc0_shell::AddAdjacentNodes(NMNode* apNode, NMNodeArray* apNodes)
                     }
                 }
             }
-            if (::GetFloatAtOffset68((const char *)((*(NMRequest**)((char*)this + 0x2058)))) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308)))))) &&
+            if (::GetFloatAtOffset68((const char *)((*(NMRequest**)((char*)this + 0x2058)))) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1308)))))) &&
                 reinterpret_cast<::FUN_00691140_shell *>((((::NMTriangle *)(reinterpret_cast<::NavMesh *>((pMesh))->GetTriangle(m_usTriangleIdentifier)))))->FUN_00691140(0x10))
             {
                 continue;

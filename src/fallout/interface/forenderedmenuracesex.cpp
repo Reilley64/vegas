@@ -393,7 +393,7 @@ void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
     if (active)
     {
         ::DAT_011ae600 = reinterpret_cast<::FUN_00507e10_shell *>(this)->FUN_00507e10();
-        ::DAT_0120081c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db520))))));
+        ::DAT_0120081c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db520))))));
         ::DAT_011ae604 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db464))))));
         ::DAT_01200820 = primary;
         (*reinterpret_cast<::RgbaColor *>(&::DAT_0120082c)) = (*(::RgbaColor *)(reinterpret_cast<::FUN_007feb40_This *>(this)->GetValueAtC0({})));
@@ -408,7 +408,7 @@ void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
     }
     if (enabled && active)
     {
-        ::DAT_01200824 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db520))))));
+        ::DAT_01200824 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db520))))));
         ::DAT_011ae608 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011db464))))));
         ::DAT_01200828 = secondary;
     }
@@ -487,9 +487,9 @@ void S_007fb5a0::UpdateNodePosition(float fTime)
         S_007fb5a0_Point3 kIntersectionOffset = (*reinterpret_cast<::S_007fb5a0_Point3 *>(&::DAT_011f4998));
         if (bApplyOffset)
         {
-            float fA = bUseFirst ? fFirst * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db430)))))) : 0.0;
-            float fB = fSecond * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db4a4))))));
-            float fScaleA = bUseSin ? FUN_004e44d0(fTime * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db3e8))))))) + 0.5 : 1.0;
+            float fA = bUseFirst ? fFirst * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db430)))))) : 0.0;
+            float fB = fSecond * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db4a4))))));
+            float fScaleA = bUseSin ? FUN_004e44d0(fTime * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::S_007fb5a0_Setting *>(&::g_011db3e8))))))) + 0.5 : 1.0;
             float fD = (fA + fB) * fScaleA;
             kIntersectionOffset = kBase * fD * fOffsetScale;
         }
@@ -830,7 +830,7 @@ struct FUN_007feb80_cls
 // @fnv 0x007feb80
 void FUN_007feb80_cls::Update(float afValue)
 {
-    if ((double)(afValue - m_f150) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TimerSource *>(&::g_011db5b4)))))))
+    if ((double)(afValue - m_f150) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::TimerSource *>(&::g_011db5b4)))))))
     {
         m_f150 = afValue;
         m_f154 = (float)((std::rand() % 1000) * ::DAT_01016978);
@@ -870,7 +870,7 @@ void Timer::FUN_007fec30(float now)
 {
     float delta = now - unk15c;
     unk160 = delta / unk164;
-    if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSource *>(&::g_011db520)))))) + ::g_01012070 < unk160)
+    if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSource *>(&::g_011db520)))))) + ::g_01012070 < unk160)
     {
         unk158 = false;
         unk168 = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntSource *>(&::g_011db4f8))))))) + now;
@@ -1121,7 +1121,7 @@ void xRenderedMenu::Init()
     float qahtre;
     m_158 = false;
     m_168 = (double)::fnv::timer::Time() + std::rand() % *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
-    m_164 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db4d0))))));
+    m_164 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db4d0))))));
     xColorA qHXYKT(0.0f, 0.0f, 0.0f, 0.0f);
     if (reinterpret_cast<::SystemColorManager *>((((::xColorMgr *)(::FUN_00718b60()))))->GetColor(3, (::NiColor &)(qHXYKT)))
         reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)&(qHXYKT));
@@ -1137,7 +1137,7 @@ void xRenderedMenu::Init()
     {
         qdqWL = ((::xAV *)(::FUN_00559450((int *)&(m_f8))));
     }
-    reinterpret_cast<::FUN_00440490_shell *>((qdqWL))->FUN_00440490(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db544)))))));
+    reinterpret_cast<::FUN_00440490_shell *>((qdqWL))->FUN_00440490(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db544)))))));
     reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(qdqWL));
     xAV* qSuoDt = qdqWL->GetObjectByName(::NiFixedString(s_szScreen));
     reinterpret_cast<::MenuStub *>(this)->FUN_007fae70(0);
@@ -1164,13 +1164,13 @@ void xRenderedMenu::Init()
     if (FUN_009b6600() == 1 || FUN_009b6600() == 0)
         qhxpxJd = 80.0f;
     else
-        qhxpxJd = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db570))))));
+        qhxpxJd = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db570))))));
     if (!::FUN_00707b50() && !::DAT_011f9426)
         qhxpxJd *= 0.75;
     if (FUN_009b6600() == 1 || FUN_009b6600() == 0)
-        reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, 0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
+        reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, 0.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
     else
-        reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db594)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
+        reinterpret_cast<::FUN_004bc1f0_S *>((qdqWL))->FUN_004bc1f0(qhxpxJd, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db594)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5cc)))))));
     xUpdateData qsSDDgz(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((qdqWL))->FUN_00a59c60((std::intptr_t)&(qsSDDgz));
     xCam* qSVM = new xCam();
@@ -1184,18 +1184,18 @@ void xRenderedMenu::Init()
     reinterpret_cast<::FUN_00733fd0_shell *>((qSVM))->FUN_00733fd0(1.0f);
     xFrustum qnuVZg(false);
     qnuVZg.m_fFarPlane = ((::xFarObj *)(::FUN_0045c670()))->GetFar();
-    qnuVZg.m_fNearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_01203144))))));
+    qnuVZg.m_fNearPlane = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_01203144))))));
     reinterpret_cast<::FUN_00507700_cls *>((qSVM))->FUN_00507700(qnuVZg.m_fFarPlane / qnuVZg.m_fNearPlane);
     float qvyWyw = (float)(::DAT_011f9426 ? ::DAT_011f9434 : ::FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float qkbsJ = 0.75f;
-    qahtre = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_01203150)))))) * 0.01745329238474369 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec))))));
+    qahtre = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_01203150)))))) * 0.01745329238474369 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec))))));
     qnuVZg.m_fLeftBound = -::FUN_0057dd70(qahtre) * qkbsJ;
     qnuVZg.m_fRightBound = ::FUN_0057dd70(qahtre) * qkbsJ;
     qnuVZg.m_fBottomBound = -::FUN_0057dd70(qahtre) * qvyWyw * qkbsJ;
     qnuVZg.m_fTopBound = ::FUN_0057dd70(qahtre) * qvyWyw * qkbsJ;
     qnuVZg.m_bOrthographic = false;
     reinterpret_cast<::NiCamera *>((qSVM))->UpdateViewFrustum((const ::NiFrustum &)(qnuVZg));
-    ::UpdateCameraFrustum((::NiCamera *)(qSVM), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec)))))));
+    ::UpdateCameraFrustum((::NiCamera *)(qSVM), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db5ec)))))));
     xUpdateData qfTOqo(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((qSVM))->FUN_00a59c60((std::intptr_t)&(qfTOqo));
     reinterpret_cast<::FUN_007fd620_Class *>(this)->SetGo(qSVM);

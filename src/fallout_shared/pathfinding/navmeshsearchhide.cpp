@@ -395,7 +395,7 @@ bool HideSearch::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* p
                     }
                 }
             }
-            if (::GetFloatAtOffset68((const char *)(m_pActor)) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1308)))))) &&
+            if (::GetFloatAtOffset68((const char *)(m_pActor)) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting1308)))))) &&
                 reinterpret_cast<::FUN_00691140_shell *>((reinterpret_cast<::NavMesh *>((pMesh5))->GetTriangle(usTriZ)))->FUN_00691140(0x10))
                 continue;
             NiPoint3 kCenterTmp = reinterpret_cast<::NavMesh *>((pMesh5))->GetNavMeshData(usTriZ);

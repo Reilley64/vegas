@@ -1405,34 +1405,34 @@ void ConfigurePointLight(NiAVObject* object, unsigned int count)
     NiPointLight* light = (NiPointLight*)((::NiAVObject *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4a98)), (::NiObject *)(object))));
     if (light)
     {
-        reinterpret_cast<::FUN_0050c630_helper *>((light))->FUN_0050c630((DAT_011c8fa0 & 1) ? *((float *)&(::FUN_00403e20((float *)&(g_011c9000)))) : 0.0f);
+        reinterpret_cast<::FUN_0050c630_helper *>((light))->FUN_0050c630((DAT_011c8fa0 & 1) ? *((float *)&(::FUN_00403e20((::Setting *)&(g_011c9000)))) : 0.0f);
         reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(0.0f);
         ::FUN_0050c690((::NiDynamicEffect *)(light), 0.0f);
 
         if ((DAT_011c8fa0 & 2) || (((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())) != 0 && g_011c8fc0.FUN_0050e620(true)))
         {
-            float a = (double)count * *((float *)&(::FUN_00403e20((float *)&(g_011c8fb0))));
+            float a = (double)count * *((float *)&(::FUN_00403e20((::Setting *)&(g_011c8fb0))));
             switch (*((int *)&(::FUN_0043d4d0((::Setting *)&(g_011c9054)))))
             {
             case 0:
-                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(*((float *)&(::FUN_00403e20((float *)&(g_011c908c)))));
+                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660(*((float *)&(::FUN_00403e20((::Setting *)&(g_011c908c)))));
                 break;
             default:
-                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660((a != 0.0) ? ((1.0 / a) * *((float *)&(::FUN_00403e20((float *)&(g_011c908c))))) : 0.01f);
+                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660((a != 0.0) ? ((1.0 / a) * *((float *)&(::FUN_00403e20((::Setting *)&(g_011c908c))))) : 0.01f);
                 break;
             case 2:
-                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660((a != 0.0) ? (*((float *)&(::FUN_00403e20((float *)&(g_011c908c)))) / (a * a)) : 0.01f);
+                reinterpret_cast<::fnv_0050c660::FUN_0050c660_shell *>((light))->FUN_0050c660((a != 0.0) ? (*((float *)&(::FUN_00403e20((::Setting *)&(g_011c908c)))) / (a * a)) : 0.01f);
                 break;
             }
         }
 
         if ((DAT_011c8fa0 & 4) || (((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())) == 0 && g_011c8fc0.FUN_0050e620(true)))
         {
-            float b = (double)count * *((float *)&(::FUN_00403e20((float *)&(g_011c906c))));
+            float b = (double)count * *((float *)&(::FUN_00403e20((::Setting *)&(g_011c906c))));
             switch (*((int *)&(::FUN_0043d4d0((::Setting *)&(g_011c907c)))))
             {
             case 0:
-                ::FUN_0050c690((::NiDynamicEffect *)(light), *((float *)&(::FUN_00403e20((float *)&(g_011c9040)))));
+                ::FUN_0050c690((::NiDynamicEffect *)(light), *((float *)&(::FUN_00403e20((::Setting *)&(g_011c9040)))));
                 break;
             case 1:
                 ::FUN_0050c690((::NiDynamicEffect *)(light), (b != 0.0) ? ((1.0 / (double)count) * reinterpret_cast<::FUN_00450410_Class *>(&(g_011c9040))->FUN_00450410()) : 0.01f);

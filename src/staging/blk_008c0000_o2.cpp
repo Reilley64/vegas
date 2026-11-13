@@ -2193,22 +2193,22 @@ void TargetD0020::FUN_008d0020(Vec3D0020 position, Vec3D0020 direction, ObjectD0
         switch (reinterpret_cast<::FUN_0043b4d0_shell *>(&(type))->FUN_0043b4d0())
         {
         case 14:
-            strength *= ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting679))));
+            strength *= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting679))));
             break;
         case 8:
-            strength *= ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting678))));
+            strength *= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting678))));
             break;
         case 10:
-            strength *= ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::g_011cf9d4))));
+            strength *= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::g_011cf9d4))));
             break;
         default:
-            strength *= ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting677))));
+            strength *= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting677))));
             break;
         }
         float weight = ::FUN_004b5400((void *)(object));
-        if (weight < ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting680)))))
-            strength *= weight / ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting680))));
-        strength *= ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingD0020 *>(&::g_011ce224))));
+        if (weight < ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting680)))))
+            strength *= weight / ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::originalRuntimeFloatSetting680))));
+        strength *= ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingD0020 *>(&::g_011ce224))));
         VecD0020 dir;
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&dir)), (*(const ::fnv_004a3e00::NiPoint3 *)(&direction)));
         VecD0020 pos;
@@ -2495,7 +2495,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                 Node8* scene = ((::Node8 *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((victim))->FUN_0043fcd0()));
                 if (scene)
                 {
-                    float setting = ::RemapValueBySettings(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting8 *>(&::originalRuntimeFloatSetting701)))))), 1);
+                    float setting = ::RemapValueBySettings(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting8 *>(&::originalRuntimeFloatSetting701)))))), 1);
                     ::FUN_00cb9650((::FUN_00cb9650_Object *)(scene));
                     ::FUN_00c6a350((::NiAVObject *)(scene), 1, 1, 0, 1);
                     NiUpdateData zero(0.0f, false, false);

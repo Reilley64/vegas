@@ -2274,7 +2274,7 @@ unsigned short FUN_005f8d70_shell::FUN_005f8d70()
         if (level < 1)
             level = 1;
         result = reinterpret_cast<::TESAttackDamageForm *>(this)->GetAttackDamage();
-        result += static_cast<int>(static_cast<double>(level) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FUN_005f8d70_settings *>(&::g_011cb58c)))))));
+        result += static_cast<int>(static_cast<double>(level) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FUN_005f8d70_settings *>(&::g_011cb58c)))))));
     }
     else
     {

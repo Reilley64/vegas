@@ -3420,20 +3420,20 @@ void PlayerDOFOwner::UpdateDepthOfField()
 {
     if (dof == 0)
     {
-        dof = ImageSpaceModifierInstanceDOF::CreateAndRegister(*((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting527)))),
-                                                               *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting528)))),
+        dof = ImageSpaceModifierInstanceDOF::CreateAndRegister(*((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting527)))),
+                                                               *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting528)))),
                                                                ImageSpaceModifierInstanceDOF::kMode4, 0.0f, 0.0f, 0.0f);
         if (dof != 0)
             dof->FUN_005bbd60(true);
     }
-    float fCap = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting526))));
+    float fCap = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting526))));
     float fTarget = 0.0f;
     float fCurTmp = reinterpret_cast<::Twin_0084d030 *>((dof))->GetStoredFloatValue();
     float fFar = 0.0f;
     if (reinterpret_cast<::FUN_008bbc10_shell *>(this)->FUN_008bbc10() && !unk64a)
     {
-        fFar = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting535))));
-        fTarget = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting526))));
+        fFar = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting535))));
+        fTarget = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting526))));
         FUN_00965240(1);
     }
     else
@@ -3442,7 +3442,7 @@ void PlayerDOFOwner::UpdateDepthOfField()
     }
     if (fTarget != fCurTmp)
     {
-        float fStep = 1.0f / *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting525)))) * ::fnv::timer::Seconds();
+        float fStep = 1.0f / *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting525)))) * ::fnv::timer::Seconds();
         if (fTarget > fCurTmp)
             fCurTmp += fStep;
         else
@@ -4021,21 +4021,21 @@ void EffectOwner::UpdateImageSpaceEffects()
     if (!depthOfField)
     {
         depthOfField = ImageSpaceModifierInstanceDOF::CreateAndRegister(
-            i, ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting530))))))->f, ImageSpaceModifierInstanceDOF::Mode0, 0.0f, 0.0f, 0.0f);
+            i, ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting530))))))->f, ImageSpaceModifierInstanceDOF::Mode0, 0.0f, 0.0f, 0.0f);
         if (depthOfField)
             reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((depthOfField))->FUN_005bbd60(true);
     }
     if (!radialBlur)
     {
         radialBlur = ImageSpaceModifierInstanceDRB::Trigger(
-            i, ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting530))))))->f, ImageSpaceModifierInstanceDOF::Mode0, 0.0f,
-            ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting532))))))->f, ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting533))))))->f, 0.0f, 0.0f,
+            i, ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting530))))))->f, ImageSpaceModifierInstanceDOF::Mode0, 0.0f,
+            ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting532))))))->f, ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting533))))))->f, 0.0f, 0.0f,
             NiPoint2(0.5f, 0.5f), 0.0f);
         if (radialBlur)
             reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((radialBlur))->FUN_005bbd60(true);
     }
-    float a = ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting531))))))->f;  // Maximum radial blur.
-    float f = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::GlobalObject_0040e0b0 *>(&::g_011ce924))))));                        // Maximum depth-of-field strength.
+    float a = ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting531))))))->f;  // Maximum radial blur.
+    float f = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::GlobalObject_0040e0b0 *>(&::g_011ce924))))));                        // Maximum depth-of-field strength.
     float p = 0.0f;                                       // Desired depth-of-field strength.
     float s = 0.0f;                                       // Desired radial-blur strength.
     float h = reinterpret_cast<::Twin_0084d030 *>((depthOfField))->GetStoredFloatValue();               // Current depth-of-field strength.
@@ -4048,7 +4048,7 @@ void EffectOwner::UpdateImageSpaceEffects()
     }
     if (p != h)
     {
-        float depthStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * ::fnv::timer::Seconds();
+        float depthStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * ::fnv::timer::Seconds();
         if (p > h)
             h += depthStep;
         else
@@ -4057,7 +4057,7 @@ void EffectOwner::UpdateImageSpaceEffects()
     }
     if (s != eb)
     {
-        float blurStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * ::fnv::timer::Seconds();
+        float blurStep = (1.0f / ((::fnv_00965270::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965270::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting529))))))->f) * ::fnv::timer::Seconds();
         if (s > eb)
             eb += blurStep;
         else
@@ -7816,7 +7816,7 @@ int CombatController::FUN_00967da0()
     CombatActionNode* b;
     CombatActionNode* f;
     unsigned int q = 0;
-    CombatActionNode* s = ((::fnv_00967da0::CombatActionNode *)(reinterpret_cast<::fnv_00971fd0::FUN_00971fd0_shell *>(&((*reinterpret_cast<::fnv_00967da0::ActionEntryList *>(&::g_011e0e80))))->FUN_00971fd0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00967da0::FloatSetting *>(&::originalRuntimeFloatSetting490)))))))));
+    CombatActionNode* s = ((::fnv_00967da0::CombatActionNode *)(reinterpret_cast<::fnv_00971fd0::FUN_00971fd0_shell *>(&((*reinterpret_cast<::fnv_00967da0::ActionEntryList *>(&::g_011e0e80))))->FUN_00971fd0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00967da0::FloatSetting *>(&::originalRuntimeFloatSetting490)))))))));
     if (!s)
         return 0;
 
@@ -9296,7 +9296,7 @@ void CombatMove::FUN_0097e4b0()
         else if (reinterpret_cast<::fnv_0097ee90::DummyInner *>((brain))->FUN_0097ee90())
         {
             if (origin_.FUN_00527a40(&destination2) <
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))))
+                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))))
                 next = 1;
             else
                 next = 2;
@@ -9316,7 +9316,7 @@ void CombatMove::FUN_0097e4b0()
                 if (changed && prior)
                     reinterpret_cast<::BSFaceGenNiNode *>((brain))->SetApplyRotToParent(2);
                 else if (origin_.FUN_00527a40(&destination2) <
-                         *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))))
+                         *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting498)))))))
                 {
                     reinterpret_cast<::BSFaceGenNiNode *>((brain))->SetApplyRotToParent(1);
                     MoveTarget goal;
@@ -9515,7 +9515,7 @@ FUN_0096d020::FUN_0096d020() : semaphore(0, 40)
     ::FUN_00403d30(lists, 0, 4);
     unk103ad = false;
     unk103ae = false;
-    unk103bc = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloatHelper *>(&::originalRuntimeFloatSetting1024))))));
+    unk103bc = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloatHelper *>(&::originalRuntimeFloatSetting1024))))));
     unk103b0 = 0;
     unk00154 = 0.0f;
     unk00158 = 0.0f;

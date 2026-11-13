@@ -1473,11 +1473,11 @@ FUN_00a712f0* CameraContext::CreateSurgery3DCamera()
     reinterpret_cast<::_Cam_00712e60 *>((distance))->FUN_00712e60((const ::_Rect16_00712e60 &)(viewport));
     NiFrustum angle(false);  // Perspective frustum.
     angle.farPlane = ((::Renderer *)(::FUN_0045c670()))->GetScale();
-    angle.nearPlane = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_01203144))))));
+    angle.nearPlane = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_01203144))))));
     reinterpret_cast<::FUN_00507700_cls *>((distance))->FUN_00507700(angle.farPlane / angle.nearPlane);
     frustum = float(DAT_011f9426 ? DAT_011f9434 : FUN_004dc200()) / ((int)(::FUN_004dc1f0()));
     float camera = 0.75f;  // Frustum scale.
-    float update = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_01203150)))))) * 0.01745329238474369 * 0.15000000596046448;
+    float update = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat *>(&::g_01203150)))))) * 0.01745329238474369 * 0.15000000596046448;
     angle.left = -FUN_0057dd70(update) * camera;
     angle.right = FUN_0057dd70(update) * camera;
     angle.bottom = -FUN_0057dd70(update) * frustum * camera;

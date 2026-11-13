@@ -1,0 +1,20 @@
+# Callers of the float setting accessor at 0x00403e20 in extradatalist.cpp
+# (VEGAS-116), docs/setting-value-offset.md. Format: README.md.
+# The accessor's 32-bit form, which returned the address 4 bytes into the
+# setting. No object defines it; a call whose argument is a setting of the
+# shared class goes to the form that takes the shared Setting:
+forbid	?FUN_00403e20@@YAAEAMPEAM@Z
+# batch, unit, function, the accessor. A sample: three readers of the HUD
+# opacity setting g_011d9774, in two units, and one caller for each other
+# argument form (a global under a unit name that a pragma maps to the
+# setting, a setting of the 0x01017720 family, a generated float setting, a
+# choice between two reinterpret_cast forms, a (float*) cast of a
+# reinterpret_cast<int *> form).
+function	callers	src/fallout/interface/menus/hudmainmenu.cpp	?FUN_0076bfe0@@YAPEAVTile@@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/interface/menus/hudmainmenu.cpp	?UpdateMapMarkerHUD@@YAXPEAUMarkerEvent772@@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/interface/menus/startmenu.cpp	?FUN_007d1750@fnv_007d1750@@YAXPEAUMenuCtl@1@@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/ai/playercharacter.cpp	??0FUN_0044fb20@@QEAA@_JPEAUCallback@@PEAXPEAUOptional@@2@Z	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/bsshader/shadowscenenode.cpp	?FUN_007c2180@Target2180@@QEAAPEAUFUN_00a712f0@@XZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/bgsencounterzone.cpp	?GetCalculatedLevel@BGSEncounterZone@@QEAAGXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/ai/combat/combatprocedureattacklow.cpp	?FUN_009cbb70@FUN_009cbb70_shell@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z
+function	callers	src/fallout/ai/combat/hitdata.cpp	?ApplyCriticalHit@FUN_009b7060_shell@@QEAAXXZ	?FUN_00403e20@@YAAEAMPEAVSetting@@@Z

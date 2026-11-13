@@ -204,7 +204,7 @@ unsigned short BGSEncounterZone::GetCalculatedLevel()
     }
     else
     {
-        level = (unsigned short)(((unsigned char)(::GetByteAt1D((char *)this))) + (level - ((unsigned char)(::GetByteAt1D((char *)this)))) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting36))))->f);
+        level = (unsigned short)(((unsigned char)(::GetByteAt1D((char *)this))) + (level - ((unsigned char)(::GetByteAt1D((char *)this)))) * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting36))))->f);
     }
     return level;
 }

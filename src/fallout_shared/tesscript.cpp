@@ -866,7 +866,7 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
     bool bretVal = ScriptExecutor::Instance()->Run(this, ownerObject, ownerVars, ownerContainer, abIsPartialScript,
                                                    false, false, 0.0f);
 
-    if (((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->m_bQuest && ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f > 0.0)
+    if (((::ScriptHeaderData *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->m_bQuest && ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f > 0.0)
     {
         if (m_pOwnerQuest && reinterpret_cast<::FUN_00792760_shell *>((m_pOwnerQuest))->FUN_00792760() > 0.0)
         {
@@ -874,7 +874,7 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
         }
         else
         {
-            fValueAtOffset38 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
+            fValueAtOffset38 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
         }
         m_fValueAtOffset3C = 0.0f;
     }
@@ -3603,9 +3603,9 @@ void Scr::FUN_005ab400(TESForm* form)
         reinterpret_cast<::TESForm *>(this)->ClearData();
     if (((::S4eb0_flag *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()))->b10)
     {
-        if (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f > 0.0)
+        if (((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f > 0.0)
         {
-            float t = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
+            float t = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
             if (DAT_011cad40 == 0)
             {
                 for (int j = 0; j < 8; j++)
@@ -3622,7 +3622,7 @@ void Scr::FUN_005ab400(TESForm* form)
             }
             else if (mask3 == 0)
             {
-                fValueAtOffset38 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
+                fValueAtOffset38 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cac68))))))->f;
             }
             else
             {

@@ -589,7 +589,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
         q |= 1024;
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(1, q);
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(2, ~q);
-    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(14, reinterpret_cast<::FUN_00644790_class *>((stateB))->FUN_00644790() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009aa4e0::FloatSetting *>(&::originalRuntimeFloatSetting481)))))) ? 1 : 0);
+    reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(14, reinterpret_cast<::FUN_00644790_class *>((stateB))->FUN_00644790() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009aa4e0::FloatSetting *>(&::originalRuntimeFloatSetting481)))))) ? 1 : 0);
     reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(8, (bool)(((void *)(reinterpret_cast<::FUN_00407820_shell *>((stateB))->FUN_00407820())) != 0));
     if (target9)
     {
@@ -597,7 +597,7 @@ void WorldStateManager::UpdateWorldState(Context* context)
         reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(5, reinterpret_cast<::fnv_00998980::FUN_00998980_shell *>((stateB))->FUN_00998980() && !::fnv_008b3c10::FUN_008b3c10((::fnv_008b3c10::CombatState *)(stateB)) ? 1 : 0);
         reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(6, ((unsigned char)(reinterpret_cast<::FUN_008b3c90_class *>((stateB))->GetByteAtOffset114())));
         reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(7, ::fnv_008b3c10::FUN_008b3c10((::fnv_008b3c10::CombatState *)(stateB)));
-        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(3, reinterpret_cast<::FUN_00435e00_t *>((void *)&(const ::fnv_009aa4e0::Stamp &)((*(::fnv_009aa4e0::Stamp *)(reinterpret_cast<::FUN_0097fae0_cls *>((stateB))->GetValue94({})))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009aa4e0::FloatSetting *>(&::originalRuntimeFloatSetting413)))))) ? 1 : 0);
+        reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(3, reinterpret_cast<::FUN_00435e00_t *>((void *)&(const ::fnv_009aa4e0::Stamp &)((*(::fnv_009aa4e0::Stamp *)(reinterpret_cast<::FUN_0097fae0_cls *>((stateB))->GetValue94({})))))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009aa4e0::FloatSetting *>(&::originalRuntimeFloatSetting413)))))) ? 1 : 0);
         reinterpret_cast<::FUN_009aad00Class *>(this)->FUN_009aad00(9, reinterpret_cast<::FUN_009aad40_shell *>((stateB))->IsFlagSet());
     }
     else

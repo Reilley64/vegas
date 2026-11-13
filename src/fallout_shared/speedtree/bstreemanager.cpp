@@ -219,7 +219,7 @@ struct originalRuntimeFloatSetting1295_t
 // @fnv 0x006655a0
 float FUN_006655a0()
 {
-    return ((::Setting_S *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting1295))))))->f;
+    return ((::Setting_S *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::originalRuntimeFloatSetting1295_t *>(&::originalRuntimeFloatSetting1295))))))->f;
 }
 
 namespace fnv_006655f0 {
@@ -232,7 +232,7 @@ Setting_S originalRuntimeFloatSetting1296;
 // @fnv 0x006655f0
 float GetOriginalRuntimeFloatSetting1296()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006655f0::Setting_S *>(&::originalRuntimeFloatSetting1296))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006655f0::Setting_S *>(&::originalRuntimeFloatSetting1296))))));
 }
 }  // namespace fnv_006655f0
 
@@ -447,7 +447,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
         ((FUN_006658b0_shell*)((unsigned char *)(::FUN_00664840(1))))->Update();
     }
     SetGlobalFloatFromUInt(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_006652e0::GlobalObject_0045cfe0 *>(&::g_011d5d98)))))));
-    ClampAndStoreValue(*((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::fnv_006652e0::GlobalObject_0044f440 *>(&::g_011d5d4c))))))));
+    ClampAndStoreValue(*((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&(*reinterpret_cast<::fnv_006652e0::GlobalObject_0044f440 *>(&::g_011d5d4c))))))));
 }
 }  // namespace fnv_006652e0
 
@@ -1099,17 +1099,17 @@ void C6658::Update()
         }
         ::FUN_00bb2fc0(i, amplitudeB * s7, amplitudeB * c);
     }
-    float a7 = (1.0 - *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5dc4)))))))) +
-               *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5dc4))))))) * sum / 2.0;
-    float b = (1.0 - *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5d3c)))))))) +
-              *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5d3c))))))) * sum / 2.0;
-    float outerc4 = (1.0 - *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c68)))))))) +
-                    *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c68))))))) * sum / 2.0;
-    float d9 = (1.0 - *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c74)))))))) +
-               *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c74))))))) * sum / 2.0;
+    float a7 = (1.0 - *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5dc4)))))))) +
+               *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5dc4))))))) * sum / 2.0;
+    float b = (1.0 - *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5d3c)))))))) +
+              *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5d3c))))))) * sum / 2.0;
+    float outerc4 = (1.0 - *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c68)))))))) +
+                    *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c68))))))) * sum / 2.0;
+    float d9 = (1.0 - *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c74)))))))) +
+               *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::g_011d5c74))))))) * sum / 2.0;
     FUN_00bb1390(value * a7, value * b,
-                 ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1299))))))) * outerc4,
-                 ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((float *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1300))))))) * d9);
+                 ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1299))))))) * outerc4,
+                 ::fnv::timer::Seconds() * *((float *)&(::FUN_00403e20((::Setting *)(((Setting6658*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1300))))))) * d9);
     (*(float*)&DAT_011d5de8) = value;
 }
 

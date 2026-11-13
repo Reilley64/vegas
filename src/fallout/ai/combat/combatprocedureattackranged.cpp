@@ -1940,7 +1940,7 @@ void RangedDebug::PrintDebugInfo(RangedDisplay* display, int iX, int iY)
         float direction = reinterpret_cast<::FUN_009d1b10_shell *>((target))->GetTarget();
         if (!((unsigned char)(reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor))->FUN_008b3bd0())))
         {
-            direction *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangedSetting *>(&::originalRuntimeFloatSetting428))))));
+            direction *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RangedSetting *>(&::originalRuntimeFloatSetting428))))));
             display->Print(iX, iY, "Weapon firing arc: ( %.2f/%.2f ) degrees (Stationary)",
                            heading * 2.0 * 57.2957763671875, direction);
         }
@@ -2030,7 +2030,7 @@ void RAttack::UpdateAttack()
             {
                 if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(burst))->FUN_0097fa50() && reinterpret_cast<::CombatTargetTimestamp *>((void *)&(const ::RAngle &)(combat2->AimDirection()))->FUN_006a7f50() != -::DAT_01090e90)
                 {
-                    float duration1 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::g_011ceef0))))));
+                    float duration1 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RSetting *>(&::g_011ceef0))))));
                     unsigned short group = reinterpret_cast<::FUN_004301b0_shell *>((animation0))->FUN_004301b0(4);
                     if (GetType(group) == 80 || GetType(group) == 86)
                     {
@@ -2048,7 +2048,7 @@ void RAttack::UpdateAttack()
                 if (reinterpret_cast<::FUN_0097fa50_Class *>(&(burst))->FUN_0097fa50() && reinterpret_cast<::TimeoutTimer *>(&(burst))->CheckTimer())
                 {
                     reinterpret_cast<::D1C30Task *>(this)->ResetTask();
-                    reinterpret_cast<::FUN_008d7f40_shell *>(&(pause))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::g_011cf21c)))))));
+                    reinterpret_cast<::FUN_008d7f40_shell *>(&(pause))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RSetting *>(&::g_011cf21c)))))));
                     state = 2;
                 }
             }
@@ -2106,7 +2106,7 @@ void RAttack::UpdateAttack()
     bool close2 = false;
     if (target)
     {
-        float nearRange = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting387)))))) * reinterpret_cast<::MiddleHighProcess *>((weapon0))->GetLightIntensity();
+        float nearRange = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting387)))))) * reinterpret_cast<::MiddleHighProcess *>((weapon0))->GetLightIntensity();
         RPoint nearDelta20 = *actor->GetPosition() - *target->GetPosition();
         if (reinterpret_cast<::TESCombatStyle *>((void *)&(nearDelta20))->UpdateCombatStyle() > nearRange * nearRange)
             close2 = true;
@@ -2116,7 +2116,7 @@ void RAttack::UpdateAttack()
     {
         float angle = float(reinterpret_cast<::FUN_009d1b10_shell *>((weapon0))->GetTarget() * 0.01745329238474369);
         if (!((unsigned char)(reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor))->FUN_008b3bd0())))
-            angle *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting428))))));
+            angle *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting428))))));
         if (reinterpret_cast<::NiPlane *>(&(aim))->operator==((const ::NiPlane &)((*reinterpret_cast<::RPoint *>((void *)&::NiPoint3::ZERO)))) && ::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(::RPoint *)(&aim), angle, ::DAT_01090e90))
             reinterpret_cast<::FUN_009d0a10_shell *>((context))->SetByteAt142(4);
         else
@@ -2244,7 +2244,7 @@ void RAttack::UpdateAttack()
         {
             fire24 = false;
             if (!reinterpret_cast<::FUN_0097fa50_Class *>(&(blocked))->FUN_0097fa50())
-                reinterpret_cast<::FUN_008d7f40_shell *>(&(blocked))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting358)))))));
+                reinterpret_cast<::FUN_008d7f40_shell *>(&(blocked))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RSetting *>(&::originalRuntimeFloatSetting358)))))));
             else if (reinterpret_cast<::TimeoutTimer *>(&(blocked))->CheckTimer())
                 reinterpret_cast<::TESObjectACTI *>((((::RState *)(reinterpret_cast<::InterfaceManager *>((context))->FUN_00586150()))))->SetActivateSound((::TESSound *)(projectile));
         }

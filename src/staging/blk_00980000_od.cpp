@@ -4053,7 +4053,7 @@ struct FUN_0098c060_cls
 void FUN_0098c060_cls::FUN_0098c060(char* pObject, float* pfOutA, float* pfOutB, float* pfOutC)
 {
     *pfOutA =
-        (float)((DAT_01073568 - reinterpret_cast<::FUN_00435e00_t *>((((FnvStubSub*)(pObject + 0x50))))->FUN_00435e00()) + *((float *)&(::FUN_00403e20((float *)(((FnvStubPtr*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting413))))))));
+        (float)((DAT_01073568 - reinterpret_cast<::FUN_00435e00_t *>((((FnvStubSub*)(pObject + 0x50))))->FUN_00435e00()) + *((float *)&(::FUN_00403e20((::Setting *)(((FnvStubPtr*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting413))))))));
     *pfOutB = (float)(DAT_0101db88 - reinterpret_cast<::FUN_00435e00_t *>((((FnvStubSub*)(pObject + 0x58))))->FUN_00435e00());
     *pfOutC = (float)(DAT_01073568 - reinterpret_cast<::FUN_00435e00_t *>((((FnvStubSub*)(pObject + 0x60))))->FUN_00435e00());
 }
@@ -6087,16 +6087,16 @@ bool P029Manager::TryStartDialogue(P029Actor* apSpeaker, void* other, int type, 
             {
             case 0:
             case 1:
-                delay = RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::g_011cfb20)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting466)))))));
+                delay = RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::g_011cfb20)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting466)))))));
                 break;
             case 4:
-                delay = RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::g_011ced40)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting467)))))));
+                delay = RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::g_011ced40)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting467)))))));
                 break;
             case 5:
-                delay = RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting468)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting469)))))));
+                delay = RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting468)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting469)))))));
                 break;
             case 3:
-                delay = RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting470)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting471)))))));
+                delay = RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting470)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting471)))))));
                 break;
             }
         }
@@ -6106,10 +6106,10 @@ bool P029Manager::TryStartDialogue(P029Actor* apSpeaker, void* other, int type, 
             {
             case 0:
             case 1:
-                delay = RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting473)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting474)))))));
+                delay = RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting473)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting474)))))));
                 break;
             default:
-                delay = RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::g_011cf0b0)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting472)))))));
+                delay = RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::g_011cf0b0)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P029FloatSetting *>(&::originalRuntimeFloatSetting472)))))));
                 break;
             }
         }
@@ -6386,7 +6386,7 @@ void Center::UpdateCenter()
                 radius = maximumSlot1;
             else
             {
-                radius = ((double)(::FUN_004579e0(farthestSlot1))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatCenter::Setting *>(&::originalRuntimeFloatSetting455))))));
+                radius = ((double)(::FUN_004579e0(farthestSlot1))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatCenter::Setting *>(&::originalRuntimeFloatSetting455))))));
                 radius = ::FUN_0040ebd0(radius, maximumSlot1);
                 radius = ::FUN_00404010(radius, minimum);
             }
@@ -6455,7 +6455,7 @@ void Center::UpdateCenter()
                 radius = maximumSlot1;
             else
             {
-                radius = ((double)(::FUN_004579e0(extentSlot1))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatCenter::Setting *>(&::originalRuntimeFloatSetting455))))));
+                radius = ((double)(::FUN_004579e0(extentSlot1))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatCenter::Setting *>(&::originalRuntimeFloatSetting455))))));
                 radius = ::FUN_0040ebd0(radius, maximumSlot1);
                 radius = ::FUN_00404010(radius, minimum);
             }
@@ -6592,7 +6592,7 @@ struct ProximityGroup
 // @fnv 0x0098bd70
 void ProximityGroup::UpdateProximityTimers(void* position)
 {
-    float radius5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProximitySetting *>(&::originalRuntimeFloatSetting456)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ProximitySetting *>(&::originalRuntimeFloatSetting456))))));
+    float radius5 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ProximitySetting *>(&::originalRuntimeFloatSetting456)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ProximitySetting *>(&::originalRuntimeFloatSetting456))))));
     ProximityPoint scale2(1.0f, 1.0f, 0.25f);
     unsigned count2 = reinterpret_cast<::fnv_00988750::FUN_00988750_shell *>(this)->GetFlags();
     for (unsigned index3 = 0; index3 < count2; ++index3)
@@ -6675,7 +6675,7 @@ void GroupReset::FUN_0098add0()
     reinterpret_cast<::NearbyGroup *>(this)->CollectNearbyRefs();
     state = 1;
     reinterpret_cast<::FUN_008d7f40_shell *>(&(timerd8))->FUN_008d7f40(::fnv_00c88020::DAT_01016248);
-    reinterpret_cast<::FUN_008d7f40_shell *>(&(timere0))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting447)))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>(&(timere0))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting447)))))));
     stamp = FUN_00435dd0();
     GroupStamp primaryScoreT = -DAT_0108d540;
     GroupStamp fallback = -DAT_0108d540;
@@ -6696,8 +6696,8 @@ void GroupReset::FUN_0098add0()
             secondaryActorU = member->actor;
         }
     }
-    reinterpret_cast<::FUN_008d7f40_shell *>(&(timer58))->FUN_008d7f40(RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting473)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting474))))))));
-    reinterpret_cast<::FUN_008d7f40_shell *>(&(timer60))->FUN_008d7f40(RandomFloat(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting473)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting474))))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>(&(timer58))->FUN_008d7f40(RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting473)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting474))))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>(&(timer60))->FUN_008d7f40(RandomFloat(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting473)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GroupSetting *>(&::originalRuntimeFloatSetting474))))))));
 }
 // @fnv 0x0098afb0
 bool GroupReset_98afb0::UpdateAndCheckChanged()
@@ -9240,7 +9240,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
         Loc99 targetPos51 = (*(::Loc99 *)(reinterpret_cast<::FUN_00575650_Class *>((target0))->FUN_00575650({})));
         Ref99* best20 = 0;
         float bestDist18 =
-            *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting434)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting434))))));
+            *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting434)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting434))))));
         Map99* map30 = ((::Map99 *)(::FUN_00461110((std::intptr_t)((*reinterpret_cast<::Collection99 * *>(&::DAT_011c95c8))))));
         void* iter11 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((map30))->GetFirstPos();
         while (iter11)
@@ -9255,7 +9255,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
             Loc99 pos1 = (*(::Loc99 *)(reinterpret_cast<::FUN_00575650_Class *>((candidate2))->FUN_00575650({})));
             float distance11 = origin13.FUN_00527a40(pos1);
             if (distance11 <
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting433)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting433)))))))
+                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting433)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting433)))))))
                 continue;
             if (distance11 > bestDist18)
                 continue;
@@ -9280,22 +9280,22 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
         {
             reinterpret_cast<::fnv_00997400::CombatAvoidanceSphere *>((output))->FUN_00997400((::TESObjectREFR *)(best20));
             reinterpret_cast<::FUN_00819a50_shell *>((output))->FUN_00819a50(best20->FUN_008be1b0() + actor15->FUN_008be1b0() +
-                                 *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting430)))))));
+                                 *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting430)))))));
             return true;
         }
     }
     Base99* base5 = ((::Base99 *)(reinterpret_cast<::Actor *>((actor15))->GetActorBase()));
     if (::FUN_0055e200((::TESActorBaseData *)&(base5->data)) && (!actor15->Special() || !base5->data.v10()) && mode != 10)
     {
-        if (!active && ::RandomBoolean(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting445))))))))
+        if (!active && ::RandomBoolean(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting445))))))))
         {
             stamp = FUN_00435dd0();
         }
-        if (reinterpret_cast<::FUN_00435e00_t *>(&(stamp))->FUN_00435e00() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting444)))))))
+        if (reinterpret_cast<::FUN_00435e00_t *>(&(stamp))->FUN_00435e00() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting444)))))))
         {
             Ref99* bestObject22 = 0;
             Pos99 actorPos3 = *actor15->Position();
-            float range1 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting435))))));
+            float range1 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting435))))));
             float bestDistance3 = range1 * range1;
             Array99 objects0;
             if (::FUN_006d9350(((void *)(reinterpret_cast<::s575ca0::Owner *>((((Actor99*)actor15)))->FUN_00575ca0())), (int)(std::uintptr_t)(&actorPos3), range1, (::TESSound *)(::Array99 *)(&objects0)))
@@ -9327,7 +9327,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
                         continue;
                     if (!reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>(this)->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&(*(::Loc99 *)(reinterpret_cast<::UnkThis *>((link36))->FUN_0043a390({}))))), 1, 1))
                         continue;
-                    if (((intptr_t)(reinterpret_cast<::B989700List *>((((Cast99*)((void *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound())))))->FindRefInRadius((::B9897F0Point *)(::Loc99 *)(&objectLocation6), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting446)))))), 0))))
+                    if (((intptr_t)(reinterpret_cast<::B989700List *>((((Cast99*)((void *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound())))))->FindRefInRadius((::B9897F0Point *)(::Loc99 *)(&objectLocation6), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting446)))))), 0))))
                         continue;
                     Pos99 objectPos45 = *object21->Position();
                     Pos99 delta1 = objectPos45 - actorPos3;
@@ -9361,7 +9361,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
             {
                 Ref99* other = fallback->ref;
                 reinterpret_cast<::FUN_00819a50_shell *>((output))->FUN_00819a50(other->FUN_008be1b0() + actor15->FUN_008be1b0() +
-                                     *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting430)))))));
+                                     *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting430)))))));
             }
         }
         else

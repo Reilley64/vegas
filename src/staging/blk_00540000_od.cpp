@@ -2108,13 +2108,13 @@ void Cell::UpdateLightingAtPoint(const Vec3* apPoint)
             Vec2 upper2(((x2 + 4096) << 12) + 2048, ((y2 + 4096) << 12) + 2048);
             int dx2 = 0;
             int dy2 = 0;
-            if (lowerA.x >= point.x - *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
+            if (lowerA.x >= point.x - *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
                 dx2 = -1;
-            else if (upper2.x <= point.x + *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
+            else if (upper2.x <= point.x + *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
                 dx2 = 1;
-            if (lowerA.y >= point.y - *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
+            if (lowerA.y >= point.y - *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
                 dy2 = -1;
-            else if (upper2.y <= point.y + *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
+            else if (upper2.y <= point.y + *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CellLighting::Setting *>(&::originalRuntimeFloatSetting37)))))))
                 dy2 = 1;
             int count9 = 1;
             if (dx2)

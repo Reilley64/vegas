@@ -1125,7 +1125,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
     {
         return bplayingMusic;
     }
-    reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kSecondEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceec0))))))));
+    reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kSecondEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceec0))))))));
     bool bplayCombatMusic = false;
     float fnearbyGroupCombatStrength = 0.0f;
     bool bnearbyGroupDetected = false;
@@ -1147,7 +1147,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
                 reinterpret_cast<CombatGroupStandIn*>(pgroup)->GetCombatTargetTimestamp(
                     &flastDetectedTimeSTamp, reinterpret_cast<Actor*>(::_g_thePlayer));
                 if (reinterpret_cast<::FUN_00435e00_t *>(&(flastDetectedTimeSTamp))->FUN_00435e00() <
-                    *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting413))))))))
+                    *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting413))))))))
                 {
                     if (bplayingMusic)
                     {
@@ -1174,7 +1174,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
                         if (fgroupCombatStrength > ::_DAT_01012060)
                         {
                             float fthreatRatio = fplayerCombatStrength / fgroupCombatStrength;
-                            if (fthreatRatio < *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting486))))))))
+                            if (fthreatRatio < *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting486))))))))
                             {
                                 bplayCombatMusic = true;
                             }
@@ -1188,7 +1188,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
                 {
                     if (((intptr_t)(reinterpret_cast<::CombatGroupS *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->FUN_00989880(
                             (::ActorS *)(::Actor *)(reinterpret_cast<Actor*>(::_g_thePlayer)),
-                            *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting485)))))))))))
+                            *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting485)))))))))))
                     {
                         bplayCombatMusic = true;
                     }
@@ -1197,7 +1197,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
                 {
                     if (((intptr_t)(reinterpret_cast<::CombatGroupS *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->FUN_00989880(
                             (::ActorS *)(::Actor *)(reinterpret_cast<Actor*>(::_g_thePlayer)),
-                            *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting484)))))))))))
+                            *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting484)))))))))))
                     {
                         if (!bnearbyGroupDetected)
                         {
@@ -1214,7 +1214,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
                         }
                         fnearbyGroupCombatStrength += reinterpret_cast<::FUN_0098cb30_cls *>((reinterpret_cast<CombatGroupStandIn*>(pgroup)))->GetModifierSum((::FUN_0098cb30_inner *)(0));
                         if (bnearbyGroupDetected &&
-                            fplayerCombatStrength * *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce72c))))))) <
+                            fplayerCombatStrength * *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce72c))))))) <
                                 fnearbyGroupCombatStrength)
                         {
                             bplayCombatMusic = true;
@@ -1239,7 +1239,7 @@ bool FUN_00992d90_shell::UpdateCombatMusic()
         }
         else if (!reinterpret_cast<::FUN_0097fa50_Class *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_0097fa50())
         {
-            reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting483))))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->FUN_008d7f40(*reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting483))))))));
         }
         else if (reinterpret_cast<::TimeoutTimer *>((reinterpret_cast<CombatTimerStandIn*>(&this->m_kFirstEightByteManagerData.m_fStartTime)))->CheckTimer())
         {
@@ -2281,7 +2281,7 @@ unsigned int FUN_009931c0_shell::CountCombatGroupMembers(Actor* apActor, unsigne
             if (apActor && apNumLost)
             {
                 CombatTargetTimestamp flastDetectedTimeStamp = pgroup->GetLastDetectedTimestamp(apActor);
-                if (reinterpret_cast<::FUN_00435e00_t *>(&(flastDetectedTimeStamp))->FUN_00435e00() > *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting413)))))))
+                if (reinterpret_cast<::FUN_00435e00_t *>(&(flastDetectedTimeStamp))->FUN_00435e00() > *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting413)))))))
                     *apNumLost += igroupCount;
             }
         }
@@ -3059,10 +3059,10 @@ bool ThreatManager::IsThreatWithinLimits(ThreatActor* actor, ThreatActor* target
         return true;
     float strength = reinterpret_cast<::Standin77900 *>((target))->FUN_00477900();
     float distance = reinterpret_cast<::PathingRequest *>((target))->GetTargetRadius();
-    if (distance < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting353)))))))
+    if (distance < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting353)))))))
         return true;
-    strength = ComputeExplosionDamageFalloff(strength, distance, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting353)))))));
-    if (strength < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting354)))))))
+    strength = ComputeExplosionDamageFalloff(strength, distance, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting353)))))));
+    if (strength < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::ThreatFloatSetting *>(&::originalRuntimeFloatSetting354)))))))
         return true;
     int firstB = 0;
     int second_ = 0;

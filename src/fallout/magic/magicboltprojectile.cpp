@@ -752,7 +752,7 @@ void* FUN_00811950_shell::DestroyIfFlagged(unsigned int flags)
 FUN_00811e10::~FUN_00811e10()
 {
     if (((::HUDMagicTarget *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) != (*reinterpret_cast<::HUDPlayer * *>(&::_g_thePlayer)))
-        FUN_0080fc90(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::HUDSetting *>(&::originalRuntimeFloatSetting1188)))))));
+        FUN_0080fc90(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::HUDSetting *>(&::originalRuntimeFloatSetting1188)))))));
 
     HUDList* pList = ((::HUDList *)(reinterpret_cast<::FUN_004610f0_Class *>(&((*reinterpret_cast<::HUDProcessLists *>(&::g_011e0e80))))->GetOffset70Ptr()));
     if (pList)
@@ -2281,18 +2281,18 @@ void Bolt::InitEffect()
     if (((::BoltFx *)(::FUN_00559450((int *)&(effect)))))
     {
         reinterpret_cast<::FUN_00803a70_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803a70(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d186c)))))));
-        reinterpret_cast<::FUN_00821620_Class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00821620(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1190)))))));
-        reinterpret_cast<::FUN_00507780 *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1191)))))));
-        reinterpret_cast<::FUN_005f9b10_class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1192)))))));
-        reinterpret_cast<::FUN_00803a90_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1b2c)))))));
+        reinterpret_cast<::FUN_00821620_Class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00821620(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1190)))))));
+        reinterpret_cast<::FUN_00507780 *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1191)))))));
+        reinterpret_cast<::FUN_005f9b10_class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1192)))))));
+        reinterpret_cast<::FUN_00803a90_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1b2c)))))));
         ((::BoltFx *)(::FUN_00559450((int *)&(effect))))->SetArg(
-            BoltColor(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1be0)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1908)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d18f0)))))), 1.0f));
+            BoltColor(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1be0)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1908)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d18f0)))))), 1.0f));
         ((::BoltFx *)(::FUN_00559450((int *)&(effect))))->SetData(
-            BoltColor(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1c4c)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1194)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1cdc)))))), 1.0f));
-        reinterpret_cast<::FUN_00803b30_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803b30(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1195)))))));
+            BoltColor(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1c4c)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1194)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1cdc)))))), 1.0f));
+        reinterpret_cast<::FUN_00803b30_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803b30(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1195)))))));
         reinterpret_cast<::FUN_008126e0_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->SetWhich(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d1800)))))));
-        reinterpret_cast<::FUN_005077a0_Class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_005077a0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1196)))))));
-        reinterpret_cast<::FUN_00803b50_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803b50(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d17c4)))))));
+        reinterpret_cast<::FUN_005077a0_Class *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_005077a0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1196)))))));
+        reinterpret_cast<::FUN_00803b50_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803b50(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BoltSetting *>(&::g_011d17c4)))))));
         reinterpret_cast<::FUN_00803a50_shell *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00803a50(true);
         reinterpret_cast<::Emitter *>((((::BoltFx *)(::FUN_00559450((int *)&(effect))))))->FUN_00bc2360();
     }
@@ -2518,7 +2518,7 @@ void Root::UpdatePending(int arg1, int arg2)
     if (candidate != (*reinterpret_cast<::GameObject * *>(&::_g_thePlayer)))
     {
 
-        FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Clock *>(&::originalRuntimeFloatSetting1188)))))));
+        FUN_0080fae0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Clock *>(&::originalRuntimeFloatSetting1188)))))));
     }
 
     Pending* pending = active0b0;
@@ -3038,11 +3038,11 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
     m_pkSource = 0;
     if (FUN_004fd400()->m_kArea.GetValue())
     {
-        float fScale = reinterpret_cast<::FUN_00404420_shell *>((((::AEEffectItem *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1137))))));
-        if (fScale > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1138)))))))
-            fScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1138))))));
-        else if (fScale < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1139)))))))
-            fScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1139))))));
+        float fScale = reinterpret_cast<::FUN_00404420_shell *>((((::AEEffectItem *)(reinterpret_cast<::InterfaceManager *>(this)->FUN_00586150()))))->FUN_00404420() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1137))))));
+        if (fScale > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1138)))))))
+            fScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1138))))));
+        else if (fScale < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1139)))))))
+            fScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AESetting *>(&::originalRuntimeFloatSetting1139))))));
         int iAreaType = FUN_004fd400()->m_kArea.GetValue();
         AEPoint3 akStart = GetNode3D() ? (*(::AEPointResult *)(::FUN_006a9540((char *)(GetNode3D())))).FUN_004b4500() : DAT_011a9478;
         AEIdle* pkAreaIdle = ((::AEIdle *)(::FUN_006890b0((::World *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), 5.0f, iAreaType, (*(::Vec3 *)&(const ::AEPoint3 &)(akStart)), (*(::Vec3 *)&(const ::AEPoint3 &)(kPos)), 1.0f, 7, 0)));
@@ -3309,20 +3309,20 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
     if (h)
     {
         reinterpret_cast<::FUN_00803a70_shell *>((h))->FUN_00803a70(*((int *)&(::FUN_0043d4d0((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1a48))))))));
-        reinterpret_cast<::FUN_00821620_Class *>((h))->FUN_00821620(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1197))))))));
-        reinterpret_cast<::FUN_00507780 *>((h))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1198))))))));
-        reinterpret_cast<::FUN_005f9b10_class *>((h))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1192))))))));
-        reinterpret_cast<::FUN_00803a90_shell *>((h))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1b2c))))))));
-        h->SetArg(F139Color(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1be0))))))),
-                            *((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1908))))))),
-                            *((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d18f0))))))), 1.0f));
-        h->SetData(F139Color(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1c4c))))))),
-                             *((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1194))))))),
-                             *((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1cdc))))))), 1.0f));
-        reinterpret_cast<::FUN_00803b30_shell *>((h))->FUN_00803b30(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1199))))))));
+        reinterpret_cast<::FUN_00821620_Class *>((h))->FUN_00821620(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1197))))))));
+        reinterpret_cast<::FUN_00507780 *>((h))->SetBoltsRadiusStrength(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1198))))))));
+        reinterpret_cast<::FUN_005f9b10_class *>((h))->SetBoltSmallWidth(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1192))))))));
+        reinterpret_cast<::FUN_00803a90_shell *>((h))->SetBoltGrowWidth(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1b2c))))))));
+        h->SetArg(F139Color(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1be0))))))),
+                            *((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1908))))))),
+                            *((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d18f0))))))), 1.0f));
+        h->SetData(F139Color(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1c4c))))))),
+                             *((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::originalRuntimeFloatSetting1194))))))),
+                             *((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<::BoltSetting *>(&::g_011d1cdc))))))), 1.0f));
+        reinterpret_cast<::FUN_00803b30_shell *>((h))->FUN_00803b30(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1199))))))));
         reinterpret_cast<::FUN_008126e0_shell *>((h))->SetWhich(*((int *)&(::FUN_0043d4d0((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1b50))))))));
-        reinterpret_cast<::FUN_005077a0_Class *>((h))->FUN_005077a0(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1200))))))));
-        reinterpret_cast<::FUN_00803b50_shell *>((h))->FUN_00803b50(*((float *)&(::FUN_00403e20((float *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1974))))))));
+        reinterpret_cast<::FUN_005077a0_Class *>((h))->FUN_005077a0(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting1200))))))));
+        reinterpret_cast<::FUN_00803b50_shell *>((h))->FUN_00803b50(*((float *)&(::FUN_00403e20((::Setting *)(((F139Setting*)&(*reinterpret_cast<char *>(&::g_011d1974))))))));
         reinterpret_cast<::FUN_00803a50_shell *>((h))->FUN_00803a50(false);
         reinterpret_cast<::Emitter *>((h))->FUN_00bc2360();
     }
@@ -3532,7 +3532,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
 {
     ::FUN_00811e00(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::xIntSetting *>(&::g_011d16ec)))))));
     reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(0);
-    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
+    m_88 = reinterpret_cast<::PathingRequest *>((((xRadius*)((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400())))))->GetCenterRadius() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1140))))));
     m_b0 = 0;
     m_c4 = 0;
     m_d4 = 0.0f;
@@ -3540,7 +3540,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
         !reinterpret_cast<::FUN_00456630_helper *>((((::xNodeA *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::xPC * *>(&::_g_thePlayer))))->FUN_00950bb0(true)))))->FUN_00456610())
     {
         xP3 POS = *((::xP3 *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
-        POS.z = POS.z + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1193))))));
+        POS.z = POS.z + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1193))))));
         reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(POS));
     }
     xPtr OLD(xFUN_0081e440(((::xEffect *)(reinterpret_cast<::MagicProjectile *>(this)->FUN_004fd400()))));
@@ -3569,7 +3569,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
     reinterpret_cast<::xActor *>(this)->FUN_0081eba0();
     void* SHOOTER = ((::xActorV *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster)) ? ((::xActorV *)(reinterpret_cast<::MagicProjectileFields *>(this)->caster))->FUN_2c() : 0;
     if (SHOOTER != (*reinterpret_cast<void * *>(&::_g_thePlayer)))
-        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1188)))))));
+        ::FUN_0080fae0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xFltSetting *>(&::originalRuntimeFloatSetting1188)))))));
     else
     {
         xRefList* LIST = ((::xRefList *)(reinterpret_cast<::FUN_004610f0_Class *>(&((*reinterpret_cast<::xDH *>(&::g_011e0e80))))->GetOffset70Ptr()));

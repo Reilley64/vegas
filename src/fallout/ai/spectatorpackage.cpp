@@ -2768,7 +2768,7 @@ void FUN_009f7d70_cls::FUN_009f7d70(Actor9f7d* pkActor, bool bActive)
         Target9f7d* pkTarget = (pkCandidate && pkCandidate->IsValidTarget()) ? pkCandidate : 0;
         if (pkTarget)
         {
-            if (((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->IsBusy() && iRoll < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting136)))))) &&
+            if (((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture())) && !((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->IsBusy() && iRoll < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting136)))))) &&
                 m_fTimer <= ::_DAT_01012060)
             {
                 void* pkPackage = ((void *)(::fnv_0061a2d0::GetTopicSubTypeName(6, 0)));
@@ -2776,7 +2776,7 @@ void FUN_009f7d70_cls::FUN_009f7d70(Actor9f7d* pkActor, bool bActive)
                 {
                     reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((pkActor))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(pkTarget));
                     ((::Process9f7d *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetPackage(pkActor, pkPackage, 0, 0, 1, 0);
-                    m_fTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting143))))));
+                    m_fTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting9f7d *>(&::originalRuntimeFloatSetting143))))));
                 }
             }
             m_fTimer -= ::fnv::timer::Seconds();
@@ -3197,7 +3197,7 @@ void Package8020::FUN_009f8020(Actor8020* owner)
         Actor8020* target = ((::Actor8020 *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
         if (((unsigned int)(::FUN_00457fe0())) <= ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry))->FUN_0084e3a0())) + 2000)
             continue;
-        if (((unsigned int)(::FUN_00457fe0())) > ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry))->FUN_0084e3a0())) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat8020 *>(&::originalRuntimeFloatSetting144)))))) * 1000.0)
+        if (((unsigned int)(::FUN_00457fe0())) > ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((entry))->FUN_0084e3a0())) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingFloat8020 *>(&::originalRuntimeFloatSetting144)))))) * 1000.0)
         {
             reinterpret_cast<::FUN_009f8c70_cls *>(&(threats))->FUN_009f8c70(j, 1);
             --count;

@@ -2883,8 +2883,8 @@ void PickMenu::UpdateLockpick(bool abForcing)
         {
             int iStickX = reinterpret_cast<::FUN_00a23390_t *>((pInputIn))->GetAxisState(0, 7);
             int iStickYTmp = reinterpret_cast<::FUN_00a23390_t *>((pInputIn))->GetAxisState(0, 8);
-            kInput.x = (int)(iStickX * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
-            kInput.y = (int)(-iStickYTmp * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
+            kInput.x = (int)(iStickX * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
+            kInput.y = (int)(-iStickYTmp * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
             reinterpret_cast<::S004e88d0 *>(&(kCursorPos))->Add((::S004e88d0 *)(&ResultSlot(kInput.FUN_004a4f40(::LinearInterpolate(0.25f, 0.5f, 0.0f, 1.0f, fMouseNew)))));
         }
         else
@@ -2913,8 +2913,8 @@ void PickMenu::UpdateLockpick(bool abForcing)
             PickInput* pPadIn = ((::LockpickResistance::PickInput *)(reinterpret_cast<::FUN_00877720_shell *>((DAT_011dea0c))->FUN_00877720()));
             int iPadX = reinterpret_cast<::FUN_00a23390_t *>((pPadIn))->GetAxisState(0, 7);
             int iPadY = reinterpret_cast<::FUN_00a23390_t *>((pPadIn))->GetAxisState(0, 8);
-            iPadX = (int)(iPadX * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
-            iPadY = (int)(-iPadY * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
+            iPadX = (int)(iPadX * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
+            iPadY = (int)(-iPadY * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::LockpickResistance::PickSetting *>(&::g_011d8c5c)))))));
             reinterpret_cast<::CursorMenu *>(this)->UpdateTilePositions((int)reinterpret_cast<::TileListBoxCalls *>((pDial))->GetFloat(0xfa1) + iPadX, (int)reinterpret_cast<::TileListBoxCalls *>((pDial))->GetFloat(0xfa2) + iPadY);
         }
         else
@@ -3644,8 +3644,8 @@ void __cdecl FUN_007e4fe0(float a, float b, float c)
     if (((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c)))))
     {
         reinterpret_cast<::FUN_004bc1f0_S *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))
-            ->v039(NiFixedString("Bip01"))))->FUN_004bc1f0(-*((float *)&(::FUN_00403e20((float *)&(g_011dae6c)))), *((float *)&(::FUN_00403e20((float *)&(g_011dadf0)))) - b, *((float *)&(::FUN_00403e20((float *)&(g_011dae28)))) - a);
-        reinterpret_cast<::FUN_00440490_shell *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))->v039(NiFixedString("Bip01"))))->FUN_00440490(*((float *)&(::FUN_00403e20((float *)&(g_011dadfc)))) * (double)c);
+            ->v039(NiFixedString("Bip01"))))->FUN_004bc1f0(-*((float *)&(::FUN_00403e20((::Setting *)&(g_011dae6c)))), *((float *)&(::FUN_00403e20((::Setting *)&(g_011dadf0)))) - b, *((float *)&(::FUN_00403e20((::Setting *)&(g_011dae28)))) - a);
+        reinterpret_cast<::FUN_00440490_shell *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))->v039(NiFixedString("Bip01"))))->FUN_00440490(*((float *)&(::FUN_00403e20((::Setting *)&(g_011dadfc)))) * (double)c);
         NiUpdateDataS kData(0.0f, false, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((((::BipRoot *)(::FUN_00559450((int *)&(DAT_011dae5c))))))->FUN_00a59c60((std::intptr_t)&(kData));
     }

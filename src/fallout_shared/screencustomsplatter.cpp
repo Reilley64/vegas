@@ -93,7 +93,7 @@ void ScreenCustomSplatter::Init()
         reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c781c))).operator->()))->FUN_00a59c60((std::intptr_t)&(update2));
         ::g_fDebrisRangeX = frustum.right;
         ::g_fDebrisRangeY = frustum.top;
-        DAT_011c77ec = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f;
+        DAT_011c77ec = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f;
         DAT_011c77e9 = 0;
         reinterpret_cast<NiPointer<NiAVObject>&>((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011c7810))) = new NiNode(0);
         DAT_011c77dc = 0;
@@ -325,7 +325,7 @@ void FUN_004de600()
                 {
                     if (!DAT_011c77e9 && data->elapsed / data->duration >= DAT_011c77ec)
                     {
-                        data->opacity = 1.0f - LinearInterpolate(0.0f, 1.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f * data->duration,
+                        data->opacity = 1.0f - LinearInterpolate(0.0f, 1.0f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting736))))))->f * data->duration,
                                                                  data->duration, data->elapsed);
                     }
                     else if (DAT_011c77e9 && data->elapsed >= data->duration - DAT_011c77ec)
@@ -339,8 +339,8 @@ void FUN_004de600()
                 }
             }
         }
-        FUN_004de8a0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting742))))))->f);
-        FUN_004de8b0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf6a8))))))->f);
+        FUN_004de8a0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting742))))))->f);
+        FUN_004de8b0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf6a8))))))->f);
         float fade = FUN_004de8d0();
         if (fade < 1.0)
         {
@@ -452,7 +452,7 @@ void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float
             }
             else
             {
-                kParams2.fAlpha = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting735))))))->f;
+                kParams2.fAlpha = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting735))))))->f;
             }
             kParams2.ItemUpdateArray = uiNum_2;
             SplatterExtraData* pExtraData = new SplatterExtraData(&kParams2);

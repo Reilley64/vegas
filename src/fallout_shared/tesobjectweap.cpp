@@ -2924,8 +2924,8 @@ int CombatWeapon::FUN_00522c80()
 		{
 			CombatProjectile* pkProjectile = ((::CombatProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
 			if (pkProjectile && ((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))
-				&& reinterpret_cast<::PathingRequest *>((((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))))->GetTargetRadius() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatSettingF *>(&::originalRuntimeFloatSetting353))))))
-				&& reinterpret_cast<::Standin77900 *>((((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))))->FUN_00477900() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatSettingF *>(&::originalRuntimeFloatSetting354)))))))
+				&& reinterpret_cast<::PathingRequest *>((((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))))->GetTargetRadius() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatSettingF *>(&::originalRuntimeFloatSetting353))))))
+				&& reinterpret_cast<::Standin77900 *>((((::CombatExplosion *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(pkProjectile))))))->FUN_00477900() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CombatSettingF *>(&::originalRuntimeFloatSetting354)))))))
 			{
 				return 0;
 			}
@@ -3882,7 +3882,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
    }
   }
 
-  float accuracy5 = actor19 ? reinterpret_cast<::CalcActor *>((actor19))->GetCachedSpeed(1) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FireSetting *>(&::g_011ce23c))))));
+  float accuracy5 = actor19 ? reinterpret_cast<::CalcActor *>((actor19))->GetCachedSpeed(1) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::g_011ce23c))))));
   bool modSpread31 = false;
   if (actor19 && ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture())) && extra13 && reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((extra13))->HasEffect(3)) modSpread31 = true;
   float spread50 = (reinterpret_cast<::FUN_00524b80_This *>(this)->FUN_00524b80(modSpread31) + reinterpret_cast<::FUN_00524be0_shell *>(this)->FUN_00524be0(modSpread31)*accuracy5) * 0.01745329238474369;
@@ -3940,7 +3940,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
     }
    }
    float aim = reinterpret_cast<::CalcActor *>((actor19))->GetCachedSpeed(2);
-   spread50 += aim * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting393)))))) * 0.01745329238474369;
+   spread50 += aim * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting393)))))) * 0.01745329238474369;
    processSpread1 = ((::FireProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor19))->GetBaseTexture()))->spread();
    spread50 += processSpread1;
   }
@@ -4019,7 +4019,7 @@ void FireWeapon::FUN_00523150(FireRef* reference) {
      if (ammoPerShot<1) ammoPerShot=1;
      shot16->ammo-=ammoPerShot;
     }
-    float ratio=*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting538))))))/FUN_00404010(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting538)))))),*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting539)))))));
+    float ratio=*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting538))))))/FUN_00404010(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting538)))))),*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FireSetting *>(&::originalRuntimeFloatSetting539)))))));
     DAT_011c9508+=ratio;
     if (DAT_011c9508>=ratio) DAT_011c9508-=1.0;
     if (!useSpecial62 && !shot16->ammo) reinterpret_cast<::S_009c8c40 *>(&((*reinterpret_cast<::FireVats *>(&::g_011f2250))))->SetValue((std::intptr_t)(spawned19));
@@ -4261,33 +4261,33 @@ void ThisObj::FUN_00524db0(Param* param)
     if (!::FUN_004b61d0((*(::NiPoint3 *)&(const ::fnv_00524db0::P12 &)(*((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3)))))), (::NiCamera *)(::fnv_00524db0::BSFaceGenAnimationData *)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90()))), ::DAT_0101e704))
         flag7 = false;
     reinterpret_cast<::FUN_00439ef0_class *>((((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))))))->FUN_00439ef0((::NiPoint3 *)(::fnv_00524db0::P12 *)(&aVec24), (*(const ::NiPoint3 *)(((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(((::fnv_00524db0::BSFaceGenAnimationData *)(::FUN_00524c90())))))))));
-    if (((double)(reinterpret_cast<::NiPoint3 *>(&(aVec24))->ComputeMagnitude())) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting640)))))))
+    if (((double)(reinterpret_cast<::NiPoint3 *>(&(aVec24))->ComputeMagnitude())) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting640)))))))
         flag7 = false;
     if (flag7) {
     dword4 = ((::fnv_00524db0::SubA *)(reinterpret_cast<::FUN_004600d0_shell *>((this))->FUN_004600d0()))->vfn_14();
     point1 = *((::fnv_00524db0::P12 *)(::FUN_0045bb80((std::intptr_t)(node3))));
     matTmp = *(Mat36*)((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))));
     reinterpret_cast<::FUN_00439f50_class *>((((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))))->FUN_00439f50(2, (::NiPoint3 *)(::fnv_00524db0::P12 *)(&obj34));
-    f7c5 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
-    f9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
+    f7c5 = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
+    f9 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting638))))));
     reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(((::fnv_00524db0::P12 *)(reinterpret_cast<::FUN_00416870_t *>(&(tempBCz))->FUN_00416870(::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9), ::RandomFloat(f7c5, f9)))));
-    reinterpret_cast<::MyPoint439180 *>(&(obj34))->FUN_00439180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting636)))))));
+    reinterpret_cast<::MyPoint439180 *>(&(obj34))->FUN_00439180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting636)))))));
     if (((std::intptr_t)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0()))) {
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&ob88)), (*(const ::hkVector4 *)(std::uintptr_t)(((std::intptr_t)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((paramHome8))->FUN_009306d0())) + 0x4f0)));
         reinterpret_cast<::FUN_0063c8a0_shell *>(&(obj34))->FUN_0063c8a0(&ob88);
     }
     vecA0 = (*reinterpret_cast<::fnv_00524db0::P12 *>(&::DAT_011a946c));
-    _fa8 = -*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
-    f8c2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
+    _fa8 = -*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
+    f8c2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting639))))));
     reinterpret_cast<::MyPoint439180 *>(&(vecA0))->FUN_00439180(1.0f + ::RandomFloat(_fa8, f8c2));
     ::FUN_00525340((float *)(::fnv_00524db0::P12 *)(&vecA0));
-    reinterpret_cast<::FUN_00416870_t *>(&(temp6))->FUN_00416870(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.x, 0.0f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.z);
+    reinterpret_cast<::FUN_00416870_t *>(&(temp6))->FUN_00416870(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.x, 0.0f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting635)))))) * vecA0.z);
     obj14 = *((::fnv_00524db0::Sub461130 *)(::FUN_00461130((std::intptr_t)(node3))))->FUN_004b4500(&bufC3, &temp6);
     if (paramHome8 == (*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer)) && !reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::fnv_00524db0::Param * *>(&::_g_thePlayer))))->FUN_004eaf60() && !reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::fnv_00524db0::Obj2250 *>(&::g_011f2250))))->FUN_00525430()) {
-        qA7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), ::DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
+        qA7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), ::DAT_010162c0), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
         reinterpret_cast<::Twin_007e6580 *>((qA7))->SetIsForegroundEffect(1);
     } else {
-        qB7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
+        qB7 = new XObj(((void *)(reinterpret_cast<::LowProcess *>((param))->GetTarget())), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00524db0::SettingObj *>(&::originalRuntimeFloatSetting637)))))), dword4, param, &point1, &matTmp, &obj34, &obj14, 1.0f, 0, 1);
     }
     }
     }

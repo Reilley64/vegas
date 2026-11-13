@@ -52,7 +52,7 @@ ActiveEffect* ConcussionEffect::Copy()
 // @fnv 0x0080be40
 void ConcussionEffect::ApplyConcussion(Actor* actor)
 {
-    if (m_fPackageValue > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1212))))))->value)
+    if (m_fPackageValue > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting1212))))))->value)
     {
         m_fPackageValue = 0.0f;
         if (actor->FUN_008be870() == 0.0)
@@ -63,7 +63,7 @@ void ConcussionEffect::ApplyConcussion(Actor* actor)
                 if (actor->IsPlayerRef() && !::_g_thePlayer->IsSleepingOrResting())
                 {
                     ImageSpaceModifierInstanceForm::Trigger(::FUN_0080bfa0(),
-                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting731))))))->value, 0);
+                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting731))))))->value, 0);
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(((BSAudio*)::FUN_00453a70())->GetSoundHandleByEditorID(kConcussionFXCrippleHead, 0x101)))->FUN_00ad8830(false);
                 }
                 ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_44(actor, 0, 2, 1, 0, 1);

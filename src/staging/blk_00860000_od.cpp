@@ -3070,7 +3070,7 @@ void FUN_0086c010()
         ::DAT_011adbcc = Sample_0086c0e0();
         g_011adbd0 = Sample_0086c0f0();
     }
-    value = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingsRef_011cf8a4 *>(&::g_011cf8a4))))));
+    value = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingsRef_011cf8a4 *>(&::g_011cf8a4))))));
     reinterpret_cast<::FUN_005b9f80 *>((((::ChainLeaf_005b9f80 *)(reinterpret_cast<::FUN_004ebbc0_shell *>((((::ChainNode_004ebbc0 *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_004ebbc0({})))))->SetScanlines({});
 }
 

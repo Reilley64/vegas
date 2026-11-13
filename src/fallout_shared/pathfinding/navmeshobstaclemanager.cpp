@@ -6955,7 +6955,7 @@ struct ObsMgr
 // @fnv 0x006c4d30
 void ObsMgr::FUN_006c4d30()
 {
-    unsigned int uiTimeLimitMs = (unsigned int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_006c4d30::GlobalObject_0044f440 *>(&::g_011d71b0)))))) * 1000.0);
+    unsigned int uiTimeLimitMs = (unsigned int)(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_006c4d30::GlobalObject_0044f440 *>(&::g_011d71b0)))))) * 1000.0);
     for (ObstList* node = &list3C; node && !reinterpret_cast<::ObsList *>((node))->FUN_004a4460();)
     {
         ObstPtr1920 item((*(::fnv_006c4d30::ObstPtr1920 *)((void *)(node))));

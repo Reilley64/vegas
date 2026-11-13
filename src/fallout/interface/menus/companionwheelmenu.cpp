@@ -1674,7 +1674,7 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
             if (shift == ::_DAT_01012060)
             {
                 shift =
-                    (float)((double)std::strlen((const char *)(::FUN_00559450((int *)&(text)))) * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CRandom_757690 *>(&::originalRuntimeFloatSetting1229))))))) * DAT_01017b70);
+                    (float)((double)std::strlen((const char *)(::FUN_00559450((int *)&(text)))) * (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CRandom_757690 *>(&::originalRuntimeFloatSetting1229))))))) * DAT_01017b70);
             }
             this->unk78 = (unsigned)((double)((unsigned int)(::FUN_00457fe0())) + shift);
         }

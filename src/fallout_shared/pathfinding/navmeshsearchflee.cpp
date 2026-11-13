@@ -446,7 +446,7 @@ bool Search::ExpandNode(Node* node, NodeArray* output)
                     }
                 }
             }
-            if (::GetFloatAtOffset68((const char *)(((Request*)pRequest))) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Threshold *>(&::originalRuntimeFloatSetting1308)))))) &&
+            if (::GetFloatAtOffset68((const char *)(((Request*)pRequest))) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Threshold *>(&::originalRuntimeFloatSetting1308)))))) &&
                 reinterpret_cast<::FUN_00691140_shell *>((((::MeshTriangle *)(reinterpret_cast<::NavMesh *>((edgeData))->GetTriangle(triangle)))))->FUN_00691140(0x10))
                 continue;
             Node* neighbour;

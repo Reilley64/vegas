@@ -7873,7 +7873,7 @@ void xEffect::FUN_0066c160(float afTime)
         LEVEL = PTAG[3] - '0';
     else
         LEVEL = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_0066c160::xIntSetting *>(&::g_011d5ea0))))));
-    float CHANCE = LEVEL * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0066c160::xFltSetting *>(&::originalRuntimeFloatSetting1301)))))) * 100.0;
+    float CHANCE = LEVEL * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0066c160::xFltSetting *>(&::originalRuntimeFloatSetting1301)))))) * 100.0;
     xList LIST;
     reinterpret_cast<::fnv_00623150::FUN_00623150_Class *>((PREF))->FUN_00623150(&LIST);
     xArr* ARR = ((::fnv_0066c160::xArr *)(reinterpret_cast<::TESTopicInfoData *>(&(LIST))->GetLinkToList()));

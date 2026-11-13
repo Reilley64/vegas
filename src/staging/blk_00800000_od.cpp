@@ -1687,7 +1687,7 @@ FUN_0080fb30::~FUN_0080fb30()
 {
     Actor* actor = ((::EffectActor *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::EffectActor *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->f11() : 0;
     if (actor != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
-        FUN_0080fc90(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011d1c28)))))));
+        FUN_0080fc90(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011d1c28)))))));
     if (reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->IsValid())
     {
         reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(sound))->FUN_00ad88f0();
@@ -1765,7 +1765,7 @@ void EffectBase::FUN_00812700(float a, EffectParams* pParams)
     }
     reinterpret_cast<::FUN_00440460_S *>((node5))->FUN_00440460((const ::V3 *)&(pParams->pos));
     Pt3 dir = *((::Pt3 *)(::FUN_0045bb80((std::intptr_t)((pParams->m_spTargetObject).operator->())))) - pParams->pos;
-    bool bFar = reinterpret_cast<::FUN_00812870_t *>(this)->GetUnka4() - fD4 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_811d1b14 *>(&::g_011d1b14))))));
+    bool bFar = reinterpret_cast<::FUN_00812870_t *>(this)->GetUnka4() - fD4 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_811d1b14 *>(&::g_011d1b14))))));
     reinterpret_cast<::Ring216 *>(((pParams->spEmitter).operator->()))->AddValue(a, reinterpret_cast<::NiPoint3 *>(&(dir))->ComputeMagnitude(), f88, bFar);
     Mat3 rot2;
     float z4 = dir.z;

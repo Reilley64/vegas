@@ -1519,7 +1519,7 @@ bool Procedure052::UpdateMovementRequest(Output052* output)
             if (!((::Avoid052 *)(::FUN_00559450((int *)(output)))))
                 reinterpret_cast<::NiPtr *>((output))->Assign((char *)(::Avoid052 *)(new Avoid052));
             reinterpret_cast<::FUN_00905450_StandIn *>((((::Avoid052 *)(::FUN_00559450((int *)(output))))))->AppendNode(
-                (::PathingAvoidanceNode *)&(const ::Bound052 &)(Bound052(target->position(), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting052 *>(&::originalRuntimeFloatSetting385)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting052 *>(&::originalRuntimeFloatSetting386)))))))));
+                (::PathingAvoidanceNode *)&(const ::Bound052 &)(Bound052(target->position(), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting052 *>(&::originalRuntimeFloatSetting385)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting052 *>(&::originalRuntimeFloatSetting386)))))))));
         }
     }
     void* e = 0;
@@ -1789,7 +1789,7 @@ void MoveProcedure::FUN_009d6ca0()
         if (!reinterpret_cast<::FUN_009d7c80_Class *>(this)->FUN_009d7c80())
             return;
         if (mode == 15)
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(probe))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting461)))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(probe))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting461)))))));
         break;
     case 1:
     case 2:
@@ -1899,10 +1899,10 @@ void MoveProcedure::FUN_009d6ca0()
             float distance8 = 0.0f;
             if (!actorStatus5 && !targetStatus8)
                 distance8 = state == 2
-                                ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting390)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting390))))))
-                                : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting389)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting389))))));
+                                ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting390)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting390))))))
+                                : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting389)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting389))))));
             else
-                distance8 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting391)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting391))))));
+                distance8 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting391)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting391))))));
             if (distance8 < locationB.Distance(destination))
             {
                 destination = locationB;
@@ -2001,13 +2001,13 @@ void MoveProcedure::FUN_009d6ca0()
         {
             MoveLoc loc = (*(::MoveLoc *)(reinterpret_cast<::FUN_00575650_Class *>((actorsB))->FUN_00575650({})));
             if (loc.Distance(destination) <
-                *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting460)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting460)))))))
+                *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting460)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::originalRuntimeFloatSetting460)))))))
             {
                 MoveProbe request(destination);
                 if (Probe(&request, ((::MoveVec *)(((::Vec3 *)(void *)&(loc)))), 0, 0))
                     stop5 = true;
             }
-            reinterpret_cast<::FUN_008d7f40_shell *>(&(probe))->FUN_008d7f40(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MoveSetting *>(&::g_011cfad4)))))));
+            reinterpret_cast<::FUN_008d7f40_shell *>(&(probe))->FUN_008d7f40(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::MoveSetting *>(&::g_011cfad4)))))));
         }
         if (stop5)
             reinterpret_cast<::FUN_008b3ab0_shell *>((actorsB))->FUN_008b3ab0();

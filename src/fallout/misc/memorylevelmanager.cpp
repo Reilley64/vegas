@@ -112,7 +112,7 @@ void ActorReferenceArray::ResetActorReferences()
                     {
                         local.process = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((local.actor))->GetBaseTexture()));
                         if (((double)(reinterpret_cast<::FUN_00977c70_class *>((local.process))->GetField43C())) >
-                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting1045)))))
+                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting1045)))))
                                 ->f)
                         {
                             local.distance = reinterpret_cast<::RefS *>((local.actor))->FUN_005723b0((::RefS *)(local.source), false, true);
@@ -121,7 +121,7 @@ void ActorReferenceArray::ResetActorReferences()
                             local.value *= local.scale;
                             if (local.actor &&
                                 local.value >
-                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting292)))))
+                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&originalRuntimeFloatSetting292)))))
                                         ->f &&
                                 local.value > reinterpret_cast<::FUN_00904430_Class *>((local.process))->GetField440())
                             {

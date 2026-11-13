@@ -1030,13 +1030,13 @@ void FUN_00575c90(unsigned char value)
 // @fnv 0x005790b0
 float FUN_005790b0()
 {
-    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011f6da8))))))->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011f6da8))))))->f;
 }
 
 // @fnv 0x005790d0
 float FUN_005790d0()
 {
-    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011f6db4))))))->f;
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT< ::GameSettingCollection> *>(&::g_011f6db4))))))->f;
 }
 
 // @fnv 0x00598040

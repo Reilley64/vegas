@@ -3032,7 +3032,7 @@ float FUN_009c8d60_t::FUN_009c8d60()
                  reinterpret_cast<::FUN_00507b00Class *>(((*(CameraShotHelper**)((char*)this + 0x10))))->GetField4C() > 0.0)
             fMultiplier = reinterpret_cast<::FUN_00507b00Class *>(((*(CameraShotHelper**)((char*)this + 0x10))))->GetField4C();
         else
-            fMultiplier = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::g_011cfcec))))));
+            fMultiplier = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::g_011cfcec))))));
     }
     fMultiplier = FUN_009443f0() / ::FUN_00716440() * fMultiplier;
     return fMultiplier;
@@ -5854,7 +5854,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                 synchronize = false;
             }
         }
-        float duration = *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c56fc))))));
+        float duration = *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c56fc))))));
         unsigned char priority = 0;
         if (previous2)
             priority = ::GetMaxByte((unsigned char *)(((::AnimationBlend::BlendGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((previous2))->GetAnimGroup()))));
@@ -5863,7 +5863,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
         if (priority)
             duration = priority / ::DAT_0101db88;
         if ((::FUN_00702360() && reinterpret_cast<::_FUN_00822510_Class *>(&(node))->operator==((std::intptr_t)(((::AnimationBlend::BlendObject *)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer))))))))) || FUN_00702680(1036, 0))
-            duration = *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c5740))))));
+            duration = *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c5740))))));
         if (type4 >= 177 && type4 <= 199 && previous2 && owner2 != (*reinterpret_cast<::AnimationBlend::BlendActor * *>(&::_g_thePlayer)) && duration < ::DAT_01011588)
         {
             switch (((::AnimationBlend::BlendGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((apSequence))->GetAnimGroup()))->GetMoveAnimGroup())
@@ -5882,7 +5882,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
             duration = 0.0f;
         if (force)
             duration = 0.0f;
-        duration /= *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c5724))))));
+        duration /= *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AnimationBlend::BlendSettings *>(&::g_011c5724))))));
         reinterpret_cast<::fnv_00a328b0::SeqExt *>((apSequence))->FUN_00a328b0(0.0f, 0);
         if (!previous2 && (section3 == 5 || section3 == 6))
             reinterpret_cast<::NiControllerManager *>((((::AnimationBlend::BlendManager *)(::FUN_00559450((int *)&(manager))))))->ActivateControllerSequence((::NiControllerSequence *)(apSequence), 0, 1, ::GetFloatAtOffset1C((char *)(apSequence)), duration, (::NiControllerSequence *)(0));
@@ -6611,11 +6611,11 @@ void FUN_004994f0_shell::FUN_004994f0(int section, bool restoreAction)
     float timeTmp = 0.0f;
     if (sequence_ && !m_cSkipNextBlend)
     {
-        timeTmp = *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::g_011c56fc))))));
+        timeTmp = *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011c56fc))))));
         char frames = GetMaxByte(reinterpret_cast<unsigned char*>(reinterpret_cast<::BSAnimGroupSequence *>((void *)(sequence_))->GetAnimGroup()));
         if (frames)
             timeTmp = frames / 30.0;
-        timeTmp /= *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::g_011c5724))))));
+        timeTmp /= *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011c5724))))));
     }
     bool allowed = true;
     bool _overrideFlag = false;
@@ -8654,7 +8654,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                     if (iType == ((::AnimGroupInfoStub *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(((SeqStub*)m_pChildTile[1])))->GetAnimGroup()))->GetGroupType())
                     {
                         kMoveDelta = (*(::FNV_NiPoint3_Canonical *)(reinterpret_cast<::Holder *>((((::AnimGroupInfoStub *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(((SeqStub*)m_pChildTile[1])))->GetAnimGroup()))))->GetVec({}))) *
-                                     fTimeMultiplier * *((float *)&(::FUN_00403e20((float *)&(g_011c5724)))) * m_fMovementRate;
+                                     fTimeMultiplier * *((float *)&(::FUN_00403e20((::Setting *)&(g_011c5724)))) * m_fMovementRate;
                     }
                     else
                     {
@@ -8668,7 +8668,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
                                 SeqStub* pMoveSeq = (SeqStub*)pSeqBase->GetSequenceAtIndex(-1);
                                 if (pMoveSeq)
                                     kMoveDelta = (*(::FNV_NiPoint3_Canonical *)(reinterpret_cast<::Holder *>((((::AnimGroupInfoStub *)(reinterpret_cast<::BSAnimGroupSequence *>((void *)(pMoveSeq))->GetAnimGroup()))))->GetVec({}))) * fTimeMultiplier *
-                                                 *((float *)&(::FUN_00403e20((float *)&(g_011c5724)))) * m_fMovementRate;
+                                                 *((float *)&(::FUN_00403e20((::Setting *)&(g_011c5724)))) * m_fMovementRate;
                             }
                         }
                     }

@@ -215,7 +215,7 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                         }
                                                                         if (weapon)
                                                                         {
-                                                                            afDamageAmount = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce2c0))))))->f *
+                                                                            afDamageAmount = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce2c0))))))->f *
                                                                                              weapon->GetAttackDamage();
                                                                             afDamageAmount += fModBonusDamage;
                                                                             if (bHasSplitBeam)
@@ -272,7 +272,7 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                                                 ((::BGSProjectile *)(reinterpret_cast<::Thing *>((weapon))->GetOrFallback(
                                                                                                         (int)(0))))))))))
                                                                                             afDamageAmount =
-                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce2c0))))))
+                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce2c0))))))
                                                                                                     ->f *
                                                                                                 reinterpret_cast<
                                                                                                     PathingRequest*>(
@@ -295,8 +295,8 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                                     }
                                                                                     if (skill == -1)
                                                                                         afDamageAmount *=
-                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting505))))))->f +
-                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting506))))))->f *
+                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting505))))))->f +
+                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting506))))))->f *
                                                                                                 (owner
                                                                                                      ? owner->GetActorValueFloatByIndex(
                                                                                                            reinterpret_cast<
@@ -309,8 +309,8 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                                     {
                                                                                         float fSkill = skill / 100.0;
                                                                                         afDamageAmount *=
-                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting505))))))->f +
-                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting506))))))->f *
+                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting505))))))->f +
+                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting506))))))->f *
                                                                                                 fSkill;
                                                                                     }
                                                                                     if (abApplyPerks)
@@ -389,11 +389,11 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                                             reinterpret_cast<::FUN_00645c80_Class *>((weapon))->IsFlagSet();
                                                                                         if (bIsBurst)
                                                                                             m_fNextProcedureCheckHour *=
-                                                                                                (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceef0))))))
+                                                                                                (((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ceef0))))))
                                                                                                      ->f +
-                                                                                                 ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf21c))))))
+                                                                                                 ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf21c))))))
                                                                                                      ->f) /
-                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf21c))))))->f;
+                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf21c))))))->f;
                                                                                     }
                                                                                     fCritChanceOverride = 0.0f;
                                                                                     if (critChance != 0.0)
@@ -426,7 +426,7 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                             else
                                                                             {
                                                                                 afDamageAmount =
-                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting758))))))->f *
+                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting758))))))->f *
                                                                                     (owner
                                                                                          ? owner->GetCurrentActorValue(
                                                                                                (ActorValue::Index)56)
@@ -437,11 +437,11 @@ float CombatDamageCalculator::CalculateWeaponDamage(ActorValueOwner* owner, TESO
                                                                                                (ActorValue::Index)45) /
                                                                                                100.0
                                                                                          : 0.0) *
-                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting506))))))->f;
+                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting506))))))->f;
                                                                             }
                                                                             m_fNextProcedureCheckHour =
-                                                                                bIsCreature ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf6c0))))))->f
-                                                                                            : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting757))))))->f;
+                                                                                bIsCreature ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf6c0))))))->f
+                                                                                            : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting757))))))->f;
                                                                         }
                                                                         fConditionDamageMult =
                                                                             GetWeaponHealthConditionMultiplier(health);
@@ -789,7 +789,7 @@ float FUN_00646020_shell::FUN_00646020(bool bModValue)
 // @fnv 0x006462e0
 float FUN_006462e0(float afValueA, float afValueB)
 {
-    return (double)(afValueA * afValueB) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting508))))))->f;
+    return (double)(afValueA * afValueB) * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting508))))))->f;
 }
 
 // Stores the result of FUN_00644ce0 into *c and, when b is false, sets *d to *c multiplied by DAT_01011588.
@@ -821,7 +821,7 @@ float __cdecl FUN_00647810(unsigned int uiMinuend, unsigned int uiSubtrahend, un
         v = 0;
     }
     ClampInt(&v, 0, 10);
-    return (double)v * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting583))))->f;
+    return (double)v * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting583))))->f;
 }
 
 struct FUN_00647730_shell : public TESObjectWEAP
@@ -994,10 +994,10 @@ float FUN_00646580(ActorValueOwner* owner, int damage)
     float fDamageFactor;
     {
         float fagility = owner->GetActorValueFloatByIndex((ActorValue::Index)10) * 10.0;
-        fDamageFactor = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce660))))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting611))))))->f * fagility;
+        fDamageFactor = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce660))))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting611))))))->f * fagility;
     }
     {
-        fmodAgility = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting612))))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting613))))))->f * damage;
+        fmodAgility = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting612))))))->f + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting613))))))->f * damage;
     }
     return fDamageFactor * fmodAgility;
 }
@@ -1100,7 +1100,7 @@ float FUN_00646260(Actor* apActor)
     TESObjectWEAP* pWeap;
     float m_fCriticalHitMultiplier;
 
-    m_fCriticalHitMultiplier = *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting760)))))));
+    m_fCriticalHitMultiplier = *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting760)))))));
     pWeap = ((::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<FUN_00646260Process*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(apActor))->GetBaseTexture())))->GetTarget()))->GetName()));
 
     if (pWeap && ((::TESAmmo *)(reinterpret_cast<::AmmoOwner *>((pWeap))->FUN_00525980((::AmmoActor *)(apActor)))))
@@ -1403,10 +1403,10 @@ float __cdecl FUN_00408840(float);
 // @fnv 0x006466e0
 float __cdecl RemapValueBySettings(float aValue, bool bAlternative)
 {
-    float fMinimumInputValue = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting700))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf618))))))->f;
-    float lowOutput = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting701))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting697))))))->f;
-    float value = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting698))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting695))))))->f;
-    float fTargetUpperBound = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting699))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting696))))))->f;
+    float fMinimumInputValue = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting700))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf618))))))->f;
+    float lowOutput = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting701))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting697))))))->f;
+    float value = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting698))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting695))))))->f;
+    float fTargetUpperBound = bAlternative ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting699))))))->f : ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting696))))))->f;
     float highOutput = FUN_00408840(aValue);
     highOutput = (highOutput - fMinimumInputValue) / (lowOutput - fMinimumInputValue);
     highOutput = FUN_0040ebd0(1.0f, FUN_00404010(highOutput, 0.0f));
@@ -1514,9 +1514,9 @@ unsigned short __cdecl FUN_00644a70(OCActor* apActor, bool abUseSkillB, bool abU
     unsigned short usResult6 = 0;
     usResult6 = 0;
 
-    float fFirst = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting344)))))) * (abUseSkillA ? reinterpret_cast<::FUN_004536e0_Class *>((apActor))->GetFieldCC() : reinterpret_cast<::FUN_00453700_shell *>((apActor))->FUN_00453700()) *
+    float fFirst = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting344)))))) * (abUseSkillA ? reinterpret_cast<::FUN_004536e0_Class *>((apActor))->GetFieldCC() : reinterpret_cast<::FUN_00453700_shell *>((apActor))->FUN_00453700()) *
                    (::DialogueRandom() % 5 + 1);
-    float fSecond = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting344)))))) *
+    float fSecond = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting344)))))) *
                     (abUseSkillB ? reinterpret_cast<::fnv_00979260::Projectile *>((apActor))->GetFirstLightParameter() : reinterpret_cast<::FUN_00885bd0_St *>((apActor))->FUN_00885bd0()) *
                     (::DialogueRandom() % 5 + 1);
     if ((ausFlags & 2) || abNoFirst)
@@ -1524,7 +1524,7 @@ unsigned short __cdecl FUN_00644a70(OCActor* apActor, bool abUseSkillB, bool abU
     if (ausFlags & 1)
         fSecond = 0.0f;
     float fThird2 =
-        *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting344)))))) * (abBonus ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting343)))))) : 1.0f) * (::DialogueRandom() % 5 + 1);
+        *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting344)))))) * (abBonus ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::OCSetting *>(&::originalRuntimeFloatSetting343)))))) : 1.0f) * (::DialogueRandom() % 5 + 1);
 
     if ((fFirst >= fSecond && fFirst > fThird2) || afValueA < afValueB * 0.5)
     {
@@ -1657,13 +1657,13 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
         }
     }
     if (!bypassCritical)
-        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting774))))))->f;
+        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting774))))))->f;
     if (useEnergy)
-        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting775))))))->f / damageFactor_2;
+        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting775))))))->f / damageFactor_2;
     else if (useUnarmed)
-        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting776))))))->f / damageFactor_2;
+        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting776))))))->f / damageFactor_2;
     if (!bypassDamage)
-        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting777))))))->f;
+        modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting777))))))->f;
 
     float firstB = ::CombatDamageCalculator::GetActorValueMultiplier(static_cast<ActorValueOwner*>(actor), (::ActorValue::Index)(0x1b), 0);
     float second7 = ::CombatDamageCalculator::GetActorValueMultiplier(static_cast<ActorValueOwner*>(actor), (::ActorValue::Index)(0x1c), 0);
@@ -1673,16 +1673,16 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
         if (firstB == 0.0 && second7 == 0.0)
         {
             if (reinterpret_cast<CombatWeapon*>(weapon)->FUN_00646cb0())
-                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting781))))))->f;
+                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting781))))))->f;
             else
-                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting780))))))->f;
+                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting780))))))->f;
         }
         else if (firstB == 0.0 || second7 == 0.0)
         {
             if (reinterpret_cast<CombatWeapon*>(weapon)->FUN_00646cb0())
-                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting779))))))->f;
+                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting779))))))->f;
             else if (second7 == 0.0)
-                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting778))))))->f;
+                modifier4 += ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting778))))))->f;
         }
     }
 
@@ -1702,10 +1702,10 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
     float categoryModifier4 = ::fnv_00647870::ComputeScaledCount(weaponClass2, categoryLevel, 0);
     modifier4 += categoryModifier4;
 
-    float multiplier7 = static_cast<float>(1.0 - categoryValueB * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting783))))))->f * (double)0.01f);
+    float multiplier7 = static_cast<float>(1.0 - categoryValueB * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting783))))))->f * (double)0.01f);
     modifier4 *= multiplier7;
-    if (modifier4 < ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting782))))))->f)
-        modifier4 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting782))))))->f;
+    if (modifier4 < ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting782))))))->f)
+        modifier4 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting782))))))->f;
     return modifier4;
 }
 
@@ -1725,7 +1725,7 @@ float ComputeScaledCount(unsigned first, unsigned second, unsigned third)
         count = static_cast<unsigned>(amount_2);
         ::ClampUInt(&count, 0, 10);
     }
-    return static_cast<float>(static_cast<double>(count) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00647870::Setting444 *>(&::originalRuntimeFloatSetting583)))))));
+    return static_cast<float>(static_cast<double>(count) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00647870::Setting444 *>(&::originalRuntimeFloatSetting583)))))));
 }
 }  // namespace fnv_00647870
 
@@ -1777,8 +1777,8 @@ float FUN_00646660(float afLerp, float afScale)
     float fAdjusted;
     float fResult;
 
-    fAdjusted = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting652))))))->f - fScale * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting653))))))->f;
-    fResult = afLerp * fAdjusted + (1.0f - afLerp) * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting658))))))->f;
+    fAdjusted = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting652))))))->f - fScale * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting653))))))->f;
+    fResult = afLerp * fAdjusted + (1.0f - afLerp) * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting658))))))->f;
     if (fResult < ::_DAT_01012060)
     {
         fResult = 0.0f;
@@ -1937,7 +1937,7 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
     {
         pLog->Log(1, 3, "%s%s", bDestTarget ? "Destructible Target " : "", bThrown ? "Grenade Target" : "");
     }
-    float fCurWeight = FUN_0040ebd0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cfab0))))))->f, 1.0f);
+    float fCurWeight = FUN_0040ebd0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cfab0))))))->f, 1.0f);
     float fConditionMultVal = fCurWeight * fWeaponDamage + (1.0f - fCurWeight);
     if (pWeapon && !FUN_006450c0(pWeapon))
     {
@@ -1951,19 +1951,19 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
         if (FUN_004c0bf0(pWeapon))
         {
             float fCurMaxRange = ((FUN_00646f50_shell*)pWeapon)->GetField124Float();
-            if (fCurMaxRange * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting784))))))->f < afDistance)
+            if (fCurMaxRange * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting784))))))->f < afDistance)
             {
                 if (pLog)
                     pLog->Log(1, 3, "Target out of thrown weapon range");
                 return 0.0f;
             }
-            float fModRangeVal = fCurMaxRange * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting793))))))->f;
-            float fGap = fModRangeVal - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting794))))))->f;
-            float fFalloff = 1.0f - FUN_00404010(afDistance - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting794))))))->f, 0.0f) / fGap;
+            float fModRangeVal = fCurMaxRange * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting793))))))->f;
+            float fGap = fModRangeVal - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting794))))))->f;
+            float fFalloff = 1.0f - FUN_00404010(afDistance - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting794))))))->f, 0.0f) / fGap;
             float fOutArmMult = FUN_00646880(m_pkAttacker, pWeapon ? pWeapon->FUN_00446390() : 0);
             if (fOutArmMult <= ::_DAT_01012060)
             {
-                fOutArmMult = 1.0f - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting778))))))->f;
+                fOutArmMult = 1.0f - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting778))))))->f;
             }
             else
             {
@@ -1971,10 +1971,10 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
             }
             float fOutSkill =
                 (reinterpret_cast<::ActorValueOwner *>((((FUN_0066ef50_Owner*)m_pkAttacker)))->GetActorValueFloatByIndex((::ActorValue::Index)(((int)(reinterpret_cast<::FUN_008d85e0_Class *>((((FUN_008d85e0_Weap*)pWeapon)))->GetUnk15C())))) *
-                     ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting795))))))->f / ::g_d100 +
-                 (1.0f - ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce99c))))))->f)) *
+                     ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting795))))))->f / ::g_d100 +
+                 (1.0f - ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011ce99c))))))->f)) *
                 fOutArmMult;
-            fOutOdds = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf8bc))))))->f * (fFalloff + fOutSkill) * ::g_d100;
+            fOutOdds = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf8bc))))))->f * (fFalloff + fOutSkill) * ::g_d100;
             if (pLog)
             {
                 pLog->Log(1, 3, "mod max range: %.2f, range gap: %.2f, range odds: %.2f", (double)fModRangeVal,
@@ -1995,12 +1995,12 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
             {
                 fOutSpreadMult = ((FUN_00524b80_This*)pWeapon)->FUN_00524b80(false) + fSpreadBonus;
             }
-            float fOutConeRadius = FUN_0057dd70(fOutSpreadMult * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cfe08))))))->f * DAT_01023128) * afDistance;
+            float fOutConeRadius = FUN_0057dd70(fOutSpreadMult * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cfe08))))))->f * DAT_01023128) * afDistance;
             float fAreaVal = fOutConeRadius * fOutConeRadius * 3.1415927410125732;
             float fCurTargetArea = fWeaponSpread / 3.0 * fWeaponSpread;
             if (bThrown)
             {
-                fCurTargetArea = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting791))))))->f;
+                fCurTargetArea = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting791))))))->f;
             }
             else
             {
@@ -2010,15 +2010,15 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
                 }
                 if (bDestTarget)
                 {
-                    fCurTargetArea = fCurTargetArea * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting792))))))->f;
+                    fCurTargetArea = fCurTargetArea * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting792))))))->f;
                 }
             }
             float fAreaRatio = 0.0f;
             if (fAreaVal > ::_DAT_01012060)
             {
-                fAreaRatio = FUN_0040ebd0(fCurTargetArea / fAreaVal, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting786))))))->f);
+                fAreaRatio = FUN_0040ebd0(fCurTargetArea / fAreaVal, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting786))))))->f);
             }
-            fOutOdds = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf504))))))->f * fConditionMultVal * fAreaRatio * fOutAmmoChance;
+            fOutOdds = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf504))))))->f * fConditionMultVal * fAreaRatio * fOutAmmoChance;
             if (pLog)
             {
                 pLog->Log(1, 3, "bound size: %.2f, base chance: %.2f", (double)fWeaponSpread, (double)fOutAmmoChance);
@@ -2041,7 +2041,7 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
     }
     else
     {
-        if (afDistance <= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting546))))))->f)
+        if (afDistance <= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting546))))))->f)
         {
             if (pLog)
                 pLog->Log(1, 3, "Melee weapon or unarmed assume 100%");
@@ -2058,15 +2058,15 @@ float __cdecl GetHitChance(ActorValueOwner* m_pkAttacker, TESObjectREFR* pTarget
     {
         if (pLog)
             pLog->Log(1, 3, "Stealth bonus: %f becomes %f", (double)fOutOdds,
-                      (double)(fOutOdds * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting790))))))->f));
+                      (double)(fOutOdds * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting790))))))->f));
         float fStealthBonus = 0.0f;
         ApplyPerkModifiers(0x45, (Actor*)::_g_thePlayer, &fStealthBonus);
         if (fStealthBonus <= ::_DAT_01012060)
         {
-            fOutOdds = fOutOdds * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting790))))))->f;
+            fOutOdds = fOutOdds * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting790))))))->f;
         }
     }
-    fFinalVal = FUN_0040ebd0(fOutOdds, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting785))))))->f);
+    fFinalVal = FUN_0040ebd0(fOutOdds, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting785))))))->f);
     return fFinalVal / ::g_d100;
 }
 
@@ -2154,7 +2154,7 @@ float __cdecl FUN_00644ce0(ActorValueOwner* apOwner, DmgWeapon* apWeapon, float 
                            bool abNoAmmo, InventoryStackRecord* apItem, bool abUseActor)
 {
     int iSkillB = apWeapon ? ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((apWeapon))->GetUnk15C())) : 0x2d;
-    float fBaseDamage4 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DmgSetting *>(&::g_011ce2c0)))))) * (apWeapon ? (float)apWeapon->GetAttackDamage() : 1.0f);
+    float fBaseDamage4 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DmgSetting *>(&::g_011ce2c0)))))) * (apWeapon ? (float)apWeapon->GetAttackDamage() : 1.0f);
     float fBonus6 = 0.0f;
     if (apItem)
         apItem->SetEquipmentState(1, fBonus6);
@@ -2183,13 +2183,13 @@ float __cdecl FUN_00644ce0(ActorValueOwner* apOwner, DmgWeapon* apWeapon, float 
 
     float fSkillMultA = 1.0f;
     if (apOwner && (!apWeapon || ::FUN_006450c0((::TESObjectWEAP *)(apWeapon))))
-        fSkillMultA = FUN_00646880(apOwner, apWeapon ? apWeapon->GetWeaponType() : 0) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting755)))))) +
-                      *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting756))))));
+        fSkillMultA = FUN_00646880(apOwner, apWeapon ? apWeapon->GetWeaponType() : 0) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting755)))))) +
+                      *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting756))))));
 
     float _fSkill = apOwner ? apOwner->GetActorValueFloatByIndex((ActorValue::Index)iSkillB) : ::DAT_01016410;
     float fSkillDamage5 = fSkillMultA;
     if (apWeapon && apWeapon->GetWeaponType())
-        fSkillDamage5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting505)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting506)))))) * (0.01f * _fSkill) * fSkillMultA;
+        fSkillDamage5 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting505)))))) + *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::DmgSetting *>(&::originalRuntimeFloatSetting506)))))) * (0.01f * _fSkill) * fSkillMultA;
     float kFDamage = fSkillDamage5 * afMult;
 
     float fAmmoBonus6 = 0.0f;

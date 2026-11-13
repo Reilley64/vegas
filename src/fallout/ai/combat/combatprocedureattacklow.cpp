@@ -411,7 +411,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
         return;
     }
 
-    float fChance3 = reinterpret_cast<::FleeActorEntry *>((pTarget))->FUN_008a6650(0) ? FUN_00403e20(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting497))) : FUN_00403e20(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting496)));
+    float fChance3 = reinterpret_cast<::FleeActorEntry *>((pTarget))->FUN_008a6650(0) ? FUN_00403e20(&(*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting497))) : FUN_00403e20(&(*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting496)));
     if (RandomFloat(0.0f, 1.0f) < fChance3)
     {
         FUN_008c1c30 spPackage(new FUN_009b4d90);

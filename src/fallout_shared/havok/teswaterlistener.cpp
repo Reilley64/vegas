@@ -1066,9 +1066,9 @@ void WaterSplash_62e970::SpawnWaterSplash(Body_62e970* apBody, float afWaterZ)
     fSpeed = ((float)(::FUN_00408820(vel.z)));
     if (fSpeed < 0.001)
         return;
-    fScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting985)))))) * fSpeed + fMass;
+    fScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting985)))))) * fSpeed + fMass;
     if (vel.z > 0.0)
-        fScale = fScale * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting986))))));
+        fScale = fScale * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting986))))));
     Vec3_62e970 _pos;
     reinterpret_cast<::QueryOwner *>((apBody))->FUN_00560bc0((std::intptr_t)&(_pos));
     fHeight4 = afWaterZ;
@@ -1084,7 +1084,7 @@ void WaterSplash_62e970::SpawnWaterSplash(Body_62e970* apBody, float afWaterZ)
         reinterpret_cast<::fnv_004e8510::OwnerW *>((((::Splash_62e970 *)(std::uintptr_t)(::FUN_0070ec90((char *)(((TES_62e970*)g_TES)))))))->SpawnGroupNodeNearPlayer((*(float *)&(const ::Vec3_62e970 &)(_pos)), ::DAT_01013ea4, {}, {});
     else
         reinterpret_cast<::Holder *>((((::TaskQueue_62e970 *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b760(::DAT_01013ea4, (::NiPoint3 *)(::Vec3_62e970 *)(&_pos));
-    fCooldown = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting984))))));
+    fCooldown = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting_62e970 *>(&::originalRuntimeFloatSetting984))))));
 }
 
 // @fnv 0x0062eb50
@@ -1093,20 +1093,20 @@ void __cdecl FUN_0062eb50(float a1, NiPoint3 aPosition)
     float fMult = 1.0f;
     BSSoundHandleEx kSound;
 
-    if (a1 > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting981))))->f)
+    if (a1 > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting981))))->f)
     {
         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(kSound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("CWaterLarge", 0x102))));
-        fMult = *((float *)&(::FUN_00403e20((float *)&(g_011d1458))));
+        fMult = *((float *)&(::FUN_00403e20((::Setting *)&(g_011d1458))));
     }
-    if (!reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->IsValid() && a1 > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting982))))->f)
+    if (!reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->IsValid() && a1 > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting982))))->f)
     {
         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(kSound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("CWaterMedium", 0x102))));
-        fMult = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting987))))->f;
+        fMult = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting987))))->f;
     }
-    if (!reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->IsValid() && a1 > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting983))))->f)
+    if (!reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->IsValid() && a1 > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting983))))->f)
     {
         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::BSSoundHandleEx &)(kSound))->operator=((const ::SoundPlaybackHandle &)((const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("CWaterSmall", 0x102))));
-        fMult = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting988))))->f;
+        fMult = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting988))))->f;
     }
     if (reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->IsValid())
     {
@@ -2416,19 +2416,19 @@ int PhysicsController_o2_od_noo2::FUN_00630170(PhysicsReference* reference, floa
                 reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = 0;
                 if (dampVertical)
                 {
-                    vertical *= FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting979)))))) * -1.0 * deltaTime);
+                    vertical *= FUN_00630aa0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting979)))))) * -1.0 * deltaTime);
                 }
                 PhysicsVector magnitude;
-                if (reinterpret_cast<::S004586d0_Obj *>((linear.FUN_00630b40(&magnitude)))->FUN_004586d0() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting975)))))))
+                if (reinterpret_cast<::S004586d0_Obj *>((linear.FUN_00630b40(&magnitude)))->FUN_004586d0() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting975)))))))
                 {
-                    FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting978)))))) * -1.0 * deltaTime));
+                    FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting978)))))) * -1.0 * deltaTime));
                     reinterpret_cast<::S_00627920 *>(&(linear))->FUN_00627920((::S_00561240 *)(&factor));
                 }
                 reinterpret_cast<::bhkCharacterController *>(&(linear))->GetVectorElement(2) = vertical;
                 reinterpret_cast<::FUN_005616d0_Owner *>((reference))->OnTrigger((::TriggerContext *)(&linear));
                 PhysicsVector angular;
                 new ((void *)&(angular)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(reference->FUN_00560e50())));
-                FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting980)))))) * -1.0 * deltaTime));
+                FUN_005dbf20 factor(FUN_00630aa0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::RuntimeFloatSetting *>(&::originalRuntimeFloatSetting980)))))) * -1.0 * deltaTime));
                 reinterpret_cast<::S_00627920 *>(&(angular))->FUN_00627920((::S_00561240 *)(&factor));
                 reinterpret_cast<::FUN_00561800_Class *>((reference))->FUN_00561800((::FUN_00561730_Obj *)(&angular));
                 reinterpret_cast<::TESForm *>((state))->ClearData();
@@ -2845,10 +2845,10 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
     if (((bool)(reinterpret_cast<::FUN_0062f2f0_shell *>(this)->FUN_0062f2f0())))
     {
         m_fTimer -= fTimeDelta;
-        float fRadius = ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting976))));
+        float fRadius = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting976))));
         fRadius = fRadius * fRadius;
         fRadius = FUN_004a3e90(fRadius);
-        float m_fGlyphExtent = FUN_004a3e90(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting977)))));
+        float m_fGlyphExtent = FUN_004a3e90(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingE *>(&::originalRuntimeFloatSetting977)))));
         hkVector4E kPlayerPos;
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kPlayerPos)), (*(const ::fnv_004a3e00::NiPoint3 *)((*reinterpret_cast<::PlayerE * *>(&::_g_thePlayer))->GetPosition())));
         hkVector4E kUnused;
@@ -2974,7 +2974,7 @@ bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4W& kTarget,
             *pfHeight = reinterpret_cast<::B630120Grid *>(this)->GetValue(0, 0);
         }
 
-        float fProjectionAlongAim = FUN_004a3e90(::FUN_00403e20((float *)&((*reinterpret_cast<::GameSettingW *>(&::originalRuntimeFloatSetting977)))));
+        float fProjectionAlongAim = FUN_004a3e90(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GameSettingW *>(&::originalRuntimeFloatSetting977)))));
         if (*pfHeight + fProjectionAlongAim < reinterpret_cast<::S004586d0_Obj *>((void *)(void *)&(const ::hkSimdRealW &)((*(::hkSimdRealW *)(reinterpret_cast<::Holder *>((void *)&(kPos))->FUN_00458700((::Holder *)(2), {})))))->FUN_004586d0())
             return pkCharacter->IsNonZero(0x88);
         return true;

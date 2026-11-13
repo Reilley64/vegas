@@ -182,7 +182,7 @@ float __cdecl ComputeAttenuatedVolume(int aeMediaType, float attenuation)
 
     if (aeMediaType == 8)
     {
-        vol = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd084))))))->f;
+        vol = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011dd084))))))->f;
     }
     else if (aeMediaType == 7)
     {

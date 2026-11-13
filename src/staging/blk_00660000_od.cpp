@@ -188,7 +188,7 @@ struct Setting_S
 // @fnv 0x0066b0b0
 float FUN_0066b0b0()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1297))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1297))))));
 }
 
 struct Flt
@@ -1351,8 +1351,8 @@ bool FUN_0066ca50_cls::FUN_0066ca50(float dt)
     }
     else if (m_f4 == ::_DAT_01012060)
     {
-        m_f4 = (float)((double)(dt + *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301))))))) +
-                       (*((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301)))))) / *((int *)&(::FUN_0043d4d0((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))))) * g_counter);
+        m_f4 = (float)((double)(dt + *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301))))))) +
+                       (*((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301)))))) / *((int *)&(::FUN_0043d4d0((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))))) * g_counter);
         g_counter++;
         g_counter %= *((int *)&(::FUN_0043d4d0((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::g_011d5e44))))));
         return true;
@@ -1362,7 +1362,7 @@ bool FUN_0066ca50_cls::FUN_0066ca50(float dt)
         bool result = false;
         if (dt > m_f4)
         {
-            m_f4 = dt + *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301))))));
+            m_f4 = dt + *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1301))))));
             result = true;
         }
         return result;
@@ -1816,7 +1816,7 @@ float __cdecl FUN_0066dca0(int value, bool unscaled)
     float baseValue = FUN_0066dc70(value);
     if (!unscaled)
     {
-        return baseValue * *((float *)&(::FUN_00403e20((float *)(void *)(&(*reinterpret_cast<unsigned char *>(&::originalRuntimeFloatSetting1304))))));
+        return baseValue * *((float *)&(::FUN_00403e20((::Setting *)(void *)(&(*reinterpret_cast<unsigned char *>(&::originalRuntimeFloatSetting1304))))));
     }
     else
     {

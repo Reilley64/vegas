@@ -351,9 +351,9 @@ void FUN_00640020_shell::UpdateStars(Sky* apSky, float afSecondsPassed)
             }
             lastColor = colorThisFrame;
             float felapsed = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00640020::Calendar *>(&::g_011de7b8))))->GetGameDaysPassed() + ::GetFieldEC((const char *)(apSky)) / 24.0;
-            float fangle = ::FUN_004b1520(felapsed, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::SettingT< ::fnv_00640020::GameSettingCollection> *>(&::originalRuntimeFloatSetting79))))))->f) * 6.2831854820251465 /
-                           ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::SettingT< ::fnv_00640020::GameSettingCollection> *>(&::originalRuntimeFloatSetting79))))))->f;
-            NiPoint3Ex axis(((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccdc4))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011cce30))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccddc))))))->f);
+            float fangle = ::FUN_004b1520(felapsed, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640020::SettingT< ::fnv_00640020::GameSettingCollection> *>(&::originalRuntimeFloatSetting79))))))->f) * 6.2831854820251465 /
+                           ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640020::SettingT< ::fnv_00640020::GameSettingCollection> *>(&::originalRuntimeFloatSetting79))))))->f;
+            NiPoint3Ex axis(((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccdc4))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011cce30))))))->f, ((::fnv_00640020::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00640020::GlobalObject_0040e0b0 *>(&::g_011ccddc))))))->f);
             reinterpret_cast<::FUN_004a0c10_s *>(&(axis))->FUN_004a0c10();
             if ((unsigned int)*(const Flt*)((char*)this + 8))
                 reinterpret_cast<::NiAVObject *>(((*(NiNode**)&this->m_pStarsNode)))->SetLocalRotation(fangle, axis.x, axis.y, axis.z);

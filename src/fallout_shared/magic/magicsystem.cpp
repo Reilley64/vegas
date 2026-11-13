@@ -275,7 +275,7 @@ struct Setting_Value
 // @fnv 0x0040df70
 float GetOriginalRuntimeFloatSetting9()
 {
-    return ((::Setting_Value *)&(::FUN_00403e20((float *)(void *)&(originalRuntimeFloatSetting9))))->f;
+    return ((::Setting_Value *)&(::FUN_00403e20((::Setting *)(void *)&(originalRuntimeFloatSetting9))))->f;
 }
 
 #include "generated/data/fallout_shared/magic/magicsystem.inc"

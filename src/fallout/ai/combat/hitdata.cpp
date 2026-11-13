@@ -668,7 +668,7 @@ void FUN_009b7060_shell::ApplyCriticalHit()
     ApplyPerkModifiers(1, pSource, pWeapon ? pWeapon : (FUN_009b7060_weapon*)DAT_011ca278, pTarget, &fCritChance);
     ApplyPerkModifiers(0x24, pTarget, pWeapon ? pWeapon : (FUN_009b7060_weapon*)DAT_011ca278, pSource, &fCritChance);
     if (iValue)
-        fCritChance += FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting553)));
+        fCritChance += FUN_00403e20((::Setting *)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting553)));
     fCritChance *= 10.0;
 
     if (pSource && ((FUN_009b7060_actor*)pSource)->v216() && pTarget && ((FUN_009b7060_actor*)pTarget)->v064() &&
@@ -679,7 +679,7 @@ void FUN_009b7060_shell::ApplyCriticalHit()
         int iDetection = ((FUN_009b7060_actor*)pTarget)->FUN_008a0d10(0, pSource, &cDetected, 0, 0, 0, 0);
         if (iDetection <= 0)
         {
-            fCritChance *= FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting747)));
+            fCritChance *= FUN_00403e20((::Setting *)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting747)));
             FUN_00407e00(0x400, true);
         }
     }
@@ -692,7 +692,7 @@ void FUN_009b7060_shell::ApplyCriticalHit()
         if (pCritWeapon)
         {
             fLimbDamage4 =
-                pWeapon ? (double)reinterpret_cast<::FUN_00645c20_Class *>((pWeapon))->GetShortAtOffset1C0() : afDamageAmount * FUN_00403e20((float*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting752)));
+                pWeapon ? (double)reinterpret_cast<::FUN_00645c20_Class *>((pWeapon))->GetShortAtOffset1C0() : afDamageAmount * FUN_00403e20((::Setting *)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting752)));
             ApplyPerkModifiers(2, pSource, pCritWeapon, pTarget, &fLimbDamage4);
             if (fLimbDamage4 > ::_DAT_01012060)
                 afDamageAmount += fLimbDamage4;
@@ -1151,9 +1151,9 @@ void Hit::ApplyDamageEffects()
         if (bonus >= 1.0 && GetFlag(0x400))
         {
             if (!weapon || ::FUN_006450c0((::TESObjectWEAP *)(weapon)))
-                bonus *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b73d0::Setting *>(&::originalRuntimeFloatSetting748))))));
+                bonus *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b73d0::Setting *>(&::originalRuntimeFloatSetting748))))));
             else
-                bonus *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009b73d0::Setting *>(&::g_011cf794))))));
+                bonus *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009b73d0::Setting *>(&::g_011cf794))))));
         }
         health *= bonus;
         if (source && !source->IsPlayer() && skill == 45)
@@ -2205,7 +2205,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
     {
         m_fChance = m_fBaseChance;
         if (m_pkLink)
-            m_fChance *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9B6 *>(&::originalRuntimeFloatSetting759))))));
+            m_fChance *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9B6 *>(&::originalRuntimeFloatSetting759))))));
         m_fBaseChance = 0.0f;
         return;
     }
@@ -2214,7 +2214,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
         m_iPart = pkPart ? ((int)(reinterpret_cast<::Obj5e5300 *>((pkPart))->GetByte61())) : -1;
         m_fChance = ::FUN_00647a30((::FUN_00647a30_Obj *)(::ActorValueOwner9B6 *)((Actor9B6*)m_pkTarget), (::FUN_00647a30_Flag *)(pkPart), m_fBaseChance);
         if (m_pkTarget->IsCrippled())
-            m_fChance *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9B6 *>(&::originalRuntimeFloatSetting750))))));
+            m_fChance *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting9B6 *>(&::originalRuntimeFloatSetting750))))));
         float fBodyPartChance = reinterpret_cast<::TESGrass *>((pkPart))->GetLowestAllowedSlope();
         if (!m_pkWeapon || ::FUN_006450c0((::TESObjectWEAP *)(m_pkWeapon)))
             fBodyPartChance = 1.0f;

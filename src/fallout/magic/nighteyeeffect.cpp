@@ -319,7 +319,7 @@ void UpdateImageSpaceEffectFromPlayerState()
 
     if ((*reinterpret_cast<::FUN_00825990_PlayerData * *>(&::_g_thePlayer))->unkA4.vf08(0x32) > 0)
     {
-        DAT_011f947c = *((float *)&(::FUN_00403e20(&(*reinterpret_cast<float *>(&::originalRuntimeFloatSetting1182)))));
+        DAT_011f947c = *((float *)&(::FUN_00403e20(&(*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting1182)))));
         effect->vf2C(1);
     }
     else

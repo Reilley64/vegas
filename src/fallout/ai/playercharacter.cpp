@@ -1888,23 +1888,23 @@ FUN_0044fb20::FUN_0044fb20(intptr_t option, Callback* apCallback, void* owner, O
 
     ::FUN_00450490(*DAT_011c3da0.FUN_00408d60());
 
-    FUN_004504a0(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3c74)))));
+    FUN_004504a0(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3c74)))));
 
-    FUN_004504b0(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3db0)))));
+    FUN_004504b0(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3db0)))));
 
-    FUN_00450460(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3d28)))));
+    FUN_00450460(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3d28)))));
 
-    FUN_004504c0(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3e54)))));
+    FUN_004504c0(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3e54)))));
 
-    FUN_004504d0(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3e94)))));
+    FUN_004504d0(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3e94)))));
 
     FUN_004504e0(*((int *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c3c3c)))));
 
     FUN_00450670(reinterpret_cast<::FUN_00450410_Class *>(&(DAT_011c3d4c))->FUN_00450410());
 
-    FUN_00450680(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3ce8)))) * *((float *)&(::FUN_00403e20((float *)&(DAT_011c3ce8)))));
+    FUN_00450680(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3ce8)))) * *((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3ce8)))));
 
-    FUN_00450690(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting721)))))));
+    FUN_00450690(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting721)))))));
 
     FUN_004506b0();
 
@@ -1912,15 +1912,15 @@ FUN_0044fb20::FUN_0044fb20(intptr_t option, Callback* apCallback, void* owner, O
 
     ::SetFloatAt(7, ::DAT_01012054);
 
-    FUN_00450540(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3e18)))));
+    FUN_00450540(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3e18)))));
 
-    FUN_00450530(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3d00)))));
+    FUN_00450530(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3d00)))));
 
-    FUN_00450510(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3df4)))));
+    FUN_00450510(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3df4)))));
 
-    FUN_00450520(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3c5c)))));
+    FUN_00450520(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3c5c)))));
 
-    FUN_00450550(*((float *)&(::FUN_00403e20((float *)&(DAT_011c3d60)))));
+    FUN_00450550(*((float *)&(::FUN_00403e20((::Setting *)&(DAT_011c3d60)))));
 
     ::FUN_00450440(*DAT_011c3e64.FUN_00408d60());
 
@@ -2856,7 +2856,7 @@ struct FUN_008d3290_Class
 // @fnv 0x008d3290
 float FUN_008d3290_Class::FUN_008d3290()
 {
-    return *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting217))))));
+    return *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting217))))));
 }
 
 struct FUN_009396c0_Class
@@ -12307,7 +12307,7 @@ void Owner::FUN_0093df50()
     ReferenceFilter j(41, this);
     ReferenceFilter q(47, this);
     ReferenceFilter c(46, this);
-    float l = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0093df50::RuntimeSetting *>(&::originalRuntimeFloatSetting801))))));
+    float l = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0093df50::RuntimeSetting *>(&::originalRuntimeFloatSetting801))))));
     void* k = 0;
     int e = 0;
     void* ba = DAT_011c3f2c->FUN_0093e4f0();
@@ -13350,7 +13350,7 @@ void PlayerCharacterEx::FUN_0093e530(intptr_t a1, float afValue, bool a3, unsign
 
     if (a3 && reinterpret_cast<PlayerCharacterStandin*>(this)->unk0E1C <= 0.0)
     {
-        reinterpret_cast<PlayerCharacterStandin*>(this)->unk0E1C = ((::fnv_0093e530::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0093e530::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting1075))))))->f;
+        reinterpret_cast<PlayerCharacterStandin*>(this)->unk0E1C = ((::fnv_0093e530::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0093e530::SettingT< ::GameSettingCollection> *>(&::originalRuntimeFloatSetting1075))))))->f;
     }
     else if (a3)
     {
@@ -17444,7 +17444,7 @@ bool PlayerX::FUN_00948310()
         }
         if (!IsKnockedDown())
         {
-            if (::DAT_011e07b0 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00948310::SettingX *>(&::originalRuntimeFloatSetting193)))))))
+            if (::DAT_011e07b0 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00948310::SettingX *>(&::originalRuntimeFloatSetting193)))))))
             {
                 if (reinterpret_cast<::FUN_005a2030_shell *>((void *)this)->FUN_005a2030())
                     ::DAT_011e07ac = 1;
@@ -17457,7 +17457,7 @@ bool PlayerX::FUN_00948310()
         }
         qJDuOZ = true;
     }
-    else if (reinterpret_cast<::HotkeyWheelDisplay *>((qpia))->SetHotkeyItem(7, 2) && pProcess->IsInIdleState() && ::DAT_011e07e0 != 0.0 && ::DAT_011e07e0 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00948310::SettingX *>(&::originalRuntimeFloatSetting240)))))) &&
+    else if (reinterpret_cast<::HotkeyWheelDisplay *>((qpia))->SetHotkeyItem(7, 2) && pProcess->IsInIdleState() && ::DAT_011e07e0 != 0.0 && ::DAT_011e07e0 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00948310::SettingX *>(&::originalRuntimeFloatSetting240)))))) &&
              pProcess->GetEquipped())
     {
         if (reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() == -1 || reinterpret_cast<::FUN_0070f490_Class *>((qXMUYT))->GetSlotValue(4) == 3)
@@ -17553,7 +17553,7 @@ bool PlayerX::FUN_00948310()
                 if (qmAYoor > 0.0)
                     qbfQdhM = 0x63;
             }
-            if (::RandomBoolean(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00948310::SettingX *>(&::originalRuntimeFloatSetting599))))))))
+            if (::RandomBoolean(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00948310::SettingX *>(&::originalRuntimeFloatSetting599))))))))
                 qDTszof = true;
         }
         if (qhQRuW && qfTOqo)
@@ -18247,13 +18247,13 @@ void CameraPlayer::FUN_0094a8c0()
     ::fnv_004b7210::FUN_004b7210();
     if (::FUN_004b71d0())
     {
-        cameraYaw += (double)h * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c)))))) / 1500.0;
-        cameraPitch += (double)q * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c)))))) / -1500.0;
+        cameraYaw += (double)h * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c)))))) / 1500.0;
+        cameraPitch += (double)q * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c)))))) / -1500.0;
     }
     else
     {
-        cameraYaw += (double)h * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c))))));
-        cameraPitch += (double)q * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c))))));
+        cameraYaw += (double)h * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c))))));
+        cameraPitch += (double)q * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e0a6c))))));
     }
     CameraMatrix cf;
     cf.FUN_006815c0();
@@ -18302,7 +18302,7 @@ void CameraPlayer::FUN_0094a8c0()
     DAT_011e0bf8 = p;
     reinterpret_cast<::MyPoint439180 *>(&(l))->FUN_00439180(b * 10.0);
     l = ba.FUN_004b4500(&l);
-    reinterpret_cast<::MyPoint439180 *>(&(l))->FUN_00439180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e090c)))))));
+    reinterpret_cast<::MyPoint439180 *>(&(l))->FUN_00439180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094a8c0::CameraFloatSetting *>(&::g_011e090c)))))));
     reinterpret_cast<::FUN_0063c8a0_shell *>(&(cameraPosition))->FUN_0063c8a0((void *)&(l));
     CameraNode* f = ((::fnv_0094a8c0::CameraNode *)(::FUN_0045c670()));
     reinterpret_cast<::FUN_00440460_S *>((((::fnv_0094a8c0::CameraObject *)(::FUN_00558310((::NiNode_00558310 *)(f))))))->FUN_00440460((const ::V3 *)&(cameraPosition));
@@ -19993,7 +19993,7 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
         if (blend7 < 1.0)
         {
             V117 delta = (*reinterpret_cast<::fnv_0094ae40::Obj117 * *>(&::DAT_011e07d4))->FUN_0045bb80() - position17;
-            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::fnv_0094ae40::V117 &)(delta))->FUN_00439180(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cda28)))))) * blend7);
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::fnv_0094ae40::V117 &)(delta))->FUN_00439180(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cda28)))))) * blend7);
             reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0094ae40::V117 &)(position17))->FUN_0063c8a0((void *)&(delta));
             if (DAT_011e07d8)
             {
@@ -20032,14 +20032,14 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
             base6.z += height;
         }
         float weight9 = 1.f;
-        if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd844)))))) > 0.0)
+        if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd844)))))) > 0.0)
         {
-            weight9 = 1.0f - ::DAT_011e0b5c / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd844))))));
+            weight9 = 1.0f - ::DAT_011e0b5c / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd844))))));
             if (weight9 < 0.0)
                 weight9 = 0;
         }
-        V117 offset1 = V117(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting221)))))), 0.f, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting222))))))) * weight9;
-        V117 desired14(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting221)))))), -::DAT_011e0b5c + farDistance11, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting222)))))));
+        V117 offset1 = V117(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting221)))))), 0.f, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting222))))))) * weight9;
+        V117 desired14(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting221)))))), -::DAT_011e0b5c + farDistance11, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting222)))))));
         signed char transition10 = flag64c - flag64a;
         rotation52 = rotation52 * temp29;
         target22 = base6 + rotation52 * (V117(0, -::DAT_011e0b5c, 0) + offset1);
@@ -20058,27 +20058,27 @@ void Obj117::FUN_0094ae40(bool force, bool skip)
             reinterpret_cast<::FUN_004a0c90_shell *>(&(heading))->FUN_004a0c90(::DAT_011e076c);
             if (::DAT_011e07c8 > 0.0)
             {
-                float fraction = ::DAT_011e07c8 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting194))))));
+                float fraction = ::DAT_011e07c8 / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting194))))));
                 if (fraction > 1.0)
                     fraction = 1.f;
                 offset1 =
-                    V117(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting226)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting227)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting228))))))) *
+                    V117(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting226)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting227)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting228))))))) *
                     fraction;
-                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0094ae40::V117 &)(offset1))->FUN_0063c8a0((void *)&(const ::fnv_0094ae40::V117 &)(V117(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd780)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting224)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting225))))))) *
+                reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0094ae40::V117 &)(offset1))->FUN_0063c8a0((void *)&(const ::fnv_0094ae40::V117 &)(V117(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd780)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting224)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting225))))))) *
                     (1.0f - fraction)));
             }
             else if (transition10 || (DAT_011e07c2 && !::DAT_011e07b8))
             {
                 offset1 =
-                    V117(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd780)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting224)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting225)))))));
+                    V117(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::g_011cd780)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting224)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting225)))))));
             }
             else
                 offset1 =
-                    V117(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting226)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting227)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting228)))))));
+                    V117(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting226)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting227)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting228)))))));
             reinterpret_cast<::FUN_00524ac0_shell *>(&(temp29))->FUN_00524ac0(::DAT_011e0764);
             offset1 = temp29 * offset1;
             offset1 = heading * offset1;
-            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0094ae40::V117 &)(base6))->FUN_0063c8a0((void *)&(const ::fnv_0094ae40::V117 &)(offset1 * (1.f - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting223)))))))));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::fnv_0094ae40::V117 &)(base6))->FUN_0063c8a0((void *)&(const ::fnv_0094ae40::V117 &)(offset1 * (1.f - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094ae40::Setting117 *>(&::originalRuntimeFloatSetting223)))))))));
         }
         reinterpret_cast<::FUN_00440460_S *>(&(cameraNode))->FUN_00440460((const ::V3 *)&(position17));
         U117 update211(0, 0, 0);
@@ -20652,7 +20652,7 @@ void PlayerCharacter_Cand::FUN_0094df80()
         {
             float curHealth2 =
                 static_cast<ActorValueOwner *>(this)->GetCurrentActorValue(static_cast<ActorValue::Index>(0x4B));
-            float damage = ((::fnv_0094df80::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0094df80::SettingT< ::fnv_0094df80::GameSettingCollection> *>(&::originalRuntimeFloatSetting815))))))->f;
+            float damage = ((::fnv_0094df80::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0094df80::SettingT< ::fnv_0094df80::GameSettingCollection> *>(&::originalRuntimeFloatSetting815))))))->f;
             damage = (damage > curHealth2) ? curHealth2 : damage;
             ((Actor_DamageHelper*)this)->DamageActorValue(0x4B, -damage, 0);
         }
@@ -24833,7 +24833,7 @@ bool FUN_00950110_pc::FUN_00950110(bool bFirstPerson)
     {
         if (Unk_8B(false))
         {
-            ::DAT_011e0b5c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00950110::FUN_00950110_setting *>(&::originalRuntimeFloatSetting202))))));
+            ::DAT_011e0b5c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00950110::FUN_00950110_setting *>(&::originalRuntimeFloatSetting202))))));
         }
     }
     if (!::DAT_011e07b8 && ((void *)(::FUN_00559450((int *)(void *)((char*)this + 0x694)))) && bThirdPerson && bChanged)
@@ -24875,8 +24875,8 @@ bool FUN_00950340_Class::FUN_00950340(bool abForceCameraDistance)
     if (::FUN_005721e0((const bool *)this))
         return false;
     this->unk64d = 1;
-    if (abForceCameraDistance && DAT_011e0b5c < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection *>(&::originalRuntimeFloatSetting201)))))))
-        DAT_011e0b5c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection *>(&::originalRuntimeFloatSetting201))))));
+    if (abForceCameraDistance && DAT_011e0b5c < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection *>(&::originalRuntimeFloatSetting201)))))))
+        DAT_011e0b5c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection *>(&::originalRuntimeFloatSetting201))))));
     if (this->unk64a)
         return false;
     this->unk64e = 1;
@@ -26309,7 +26309,7 @@ void FUN_00950660_shell::FUN_00950660(int a, int b, int c)
     {
         Value950 kValue = pkOwner->FUN_0070c440();
         int iIndex = ((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(&(kValue))->FUN_004a3a20()));
-        pkObj21c = new FUN_00620850(::FUN_00403e20((float *)&((*reinterpret_cast<::Settings950 *>(&::g_011e0934)))));
+        pkObj21c = new FUN_00620850(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Settings950 *>(&::g_011e0934)))));
     }
     else
     {
@@ -30834,7 +30834,7 @@ struct PlayerView
 // @fnv 0x00952290
 void PlayerView::FUN_00952290()
 {
-    float blend5 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting212))))));
+    float blend5 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting212))))));
     Anim* anim7 = ((::fnv_00952290::Anim *)(reinterpret_cast<::PlayerCharacter *>(this)->GetAnimation(false)));
     if (!anim7)
         return;
@@ -30849,9 +30849,9 @@ void PlayerView::FUN_00952290()
         blend5 = 1.0f;
     if (DAT_011A3B68 != blend5)
     {
-        float duration9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting213))))));
+        float duration9 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting213))))));
         if (blend5 == 1.0)
-            duration9 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting214))))));
+            duration9 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00952290::BlendSetting *>(&::originalRuntimeFloatSetting214))))));
         float step9 = (blend5 - DAT_011A3B68) * (::fnv::timer::Seconds() / duration9);
         DAT_011A3B68 += step9;
         if (step9 < 0.0 && DAT_011A3B68 < blend5)
@@ -32148,7 +32148,7 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                 reinterpret_cast<::FUN_0063f790_shell *>(&(boundHead))->FUN_0063f790(32.0f);
             }
             qpqRa = boundHead.GetNavMeshData();
-            qpqRa.z += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e08d0))))));
+            qpqRa.z += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e08d0))))));
             reinterpret_cast<::NiPoint3 *>(&(qSVM))->Subtract((const ::NiPoint3 &)(qpqRa));
             void* qpia = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((((::fnv_00953060::xFaceGen *)(::FUN_0045c670()))))->GetAnimationData()));
             if (qpia)
@@ -32158,15 +32158,15 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                 float qidnYUK = 0.0f;
                 if (xFocus == 0.0)
                 {
-                    xDist = boundHead.GetRadius() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0b84)))))) / reinterpret_cast<::NiPoint3 *>((void *)&(qSVM))->ComputeMagnitude();
+                    xDist = boundHead.GetRadius() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0b84)))))) / reinterpret_cast<::NiPoint3 *>((void *)&(qSVM))->ComputeMagnitude();
                     xAngle = ::LogFloat(xDist) * 100.0;
-                    if (xAngle > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_01203150)))))))
-                        xAngle = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_01203150))))));
+                    if (xAngle > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_01203150)))))))
+                        xAngle = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_01203150))))));
                 }
                 qbfQdhM = xAngle - m_f670;
                 qidnYUK = xAngle - m_f674;
-                m_f670 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qbfQdhM;
-                m_f674 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qidnYUK;
+                m_f670 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qbfQdhM;
+                m_f674 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qidnYUK;
             }
         }
         else
@@ -32178,20 +32178,20 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
         }
         if (!bSkip && qfTOqo)
         {
-            float qYePyBl = m_f674 / *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_01203150))))));
+            float qYePyBl = m_f674 / *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_01203150))))));
             float qxDeKK = ::FUN_004b5510(qSVM.z / reinterpret_cast<::NiPoint3 *>((void *)&(qSVM))->ComputeMagnitude());
             float qAXSCg = qxDeKK - reinterpret_cast<::MobileObject *>(this)->GetLooking();
-            if (xAbs(qAXSCg) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e094c)))))) * 0.01745329238474369 * qYePyBl)
+            if (xAbs(qAXSCg) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e094c)))))) * 0.01745329238474369 * qYePyBl)
                 xPitchOn = true;
             if (xFocus < 1.0)
                 xPitchOn = true;
             if (xPitchOn)
             {
                 if (xFocus < 1.0)
-                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
+                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
                 else
-                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds());
-                if (xAbs(qAXSCg) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0900)))))) * 0.01745329238474369 * qYePyBl)
+                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(qAXSCg * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds());
+                if (xAbs(qAXSCg) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0900)))))) * 0.01745329238474369 * qYePyBl)
                     xPitchOn = false;
             }
             qAXSCg = ::GetDirectionAngle((const ::NiPoint3 *)&(const ::fnv_00953060::xPt3 &)((*(::fnv_00953060::xPt3 *)(reinterpret_cast<::P3 *>((void *)&(qSVM))->FUN_004a0bd0({}))))) - GetCurrentTargetDistance(0);
@@ -32199,7 +32199,7 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                 qAXSCg -= 6.2831854820251465;
             while (qAXSCg < -3.1415927410125732)
                 qAXSCg += 6.2831854820251465;
-            if (xAbs(qAXSCg) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0b28)))))) * 0.01745329238474369 * qYePyBl)
+            if (xAbs(qAXSCg) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0b28)))))) * 0.01745329238474369 * qYePyBl)
                 xYawOn = true;
             if (xFocus < 1.0)
                 xYawOn = true;
@@ -32208,9 +32208,9 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                 if (!IsInFurniture())
                 {
                     if (xFocus < 1.0)
-                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
+                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg);
                     else
-                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds());
+                        reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(qAXSCg * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds());
                 }
                 else
                 {
@@ -32220,11 +32220,11 @@ void xActor::FUN_00953060(xActor* pActor, float fRate, bool bSkip)
                     while (qAXSCg < -3.1415927410125732)
                         qAXSCg += 6.2831854820251465;
                     if (xFocus < 1.0)
-                        m_f6e4 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg;
+                        m_f6e4 += ::FUN_0040ebd0(::fnv::timer::Seconds() / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::originalRuntimeFloatSetting1219)))))) * (1.0f - xFocus)), 1.0f) * qAXSCg;
                     else
-                        m_f6e4 += qAXSCg * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds();
+                        m_f6e4 += qAXSCg * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e0958)))))) * ::fnv::timer::Seconds();
                 }
-                if (xAbs(qAXSCg) < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e08c4)))))) * 0.01745329238474369 * qYePyBl)
+                if (xAbs(qAXSCg) < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00953060::xSetting *>(&::g_011e08c4)))))) * 0.01745329238474369 * qYePyBl)
                     xYawOn = false;
             }
             ::DAT_011e076c = GetCurrentTargetDistance(0);
@@ -39450,8 +39450,8 @@ void ResetPlayer::FUN_0095c9c0(ResetFlagState* buffer)
     unk650 = false;
     ::DAT_011f21d0 = false;
     unk7c7 = false;
-    unk670 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0095c9c0::ResetSetting *>(&::g_0120315c))))));
-    unk674 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0095c9c0::ResetSetting *>(&::g_01203168))))));
+    unk670 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0095c9c0::ResetSetting *>(&::g_0120315c))))));
+    unk674 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_0095c9c0::ResetSetting *>(&::g_01203168))))));
     unk228 = 0;
     unk22c = 0.0f;
     unk230 = 0;
@@ -42383,7 +42383,7 @@ bool SpellProc::FUN_009613c0(float afValue)
         VirtualInterface* p = (VirtualInterface*)((intptr_t)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<intptr_t *>(&::g_osGlobals))))->FUN_00877720()));
         if (::FUN_00559450((int *)&(sub634)) == 0)
         {
-            reinterpret_cast<::GrabHost *>(this)->FUN_0095f930((::GrabRef *)(m638), 2, (float)(((double)(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400())) * *((float *)&(::FUN_00403e20((float *)(void *)((void*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1018))))))));
+            reinterpret_cast<::GrabHost *>(this)->FUN_0095f930((::GrabRef *)(m638), 2, (float)(((double)(reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400())) * *((float *)&(::FUN_00403e20((::Setting *)(void *)((void*)&(*reinterpret_cast<int *>(&::originalRuntimeFloatSetting1018))))))));
         }
         if (::FUN_00559450((int *)&(sub634)) != 0)
         {
@@ -42457,22 +42457,22 @@ void PlayerCharacterStandin::FUN_0093b3a0(ActorValue::Index av, int delta, Actor
             ((void(*)(Actor*, Actor*, float))(*(void***)this)[0x12E])(this, attacker, (float)delta);
         }
 
-        if (fNewRatio <= 0.0 || fNewRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))))
+        if (fNewRatio <= 0.0 || fNewRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002)))))
         {
             reinterpret_cast<::SoundPlaybackHandle *>(&(heartbeatSound))->StopWithFade(1000);
         }
-        else if (fNewRatio <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))) &&
-                 fNewRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))) &&
-                 (fOldRatio <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))) ||
-                  fOldRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002))))))
+        else if (fNewRatio <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002)))) &&
+                 fNewRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))) &&
+                 (fOldRatio <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))) ||
+                  fOldRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002))))))
         {
             reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(heartbeatSound))->FUN_00ad88f0();
             reinterpret_cast<::SoundPlaybackHandle *>(&(heartbeatSound))->Release();
             heartbeatSound = ::FUN_00453a70()->GetSoundHandleByEditorID("UIHealthHeartbeatALP", 0x31);
             reinterpret_cast<::FUN_00ad8830_shell *>(&(heartbeatSound))->FUN_00ad8830(true);
         }
-        else if (fOldRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))) &&
-                 fNewRatio <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))))
+        else if (fOldRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))) &&
+                 fNewRatio <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))))
         {
             reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(heartbeatSound))->FUN_00ad88f0();
             reinterpret_cast<::SoundPlaybackHandle *>(&(heartbeatSound))->Release();
@@ -42504,20 +42504,20 @@ void PlayerLike::FUN_0093b7a0(int av, float delta, PlayerLike* source)
         float fNewRatio = values.current(16) / values.maximum(16);
         if (delta < 0.0)
             DamageEffect(source, delta);
-        if (fNewRatio <= 0.0 || fNewRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))))
+        if (fNewRatio <= 0.0 || fNewRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002)))))
             reinterpret_cast<::SoundPlaybackHandle *>(&(heartbeat))->StopWithFade(1000);
-        else if (fNewRatio <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))) &&
-                 fNewRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))) &&
-                 (oldRatio <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))) ||
-                  oldRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002))))))
+        else if (fNewRatio <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002)))) &&
+                 fNewRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))) &&
+                 (oldRatio <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))) ||
+                  oldRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002))))))
         {
             reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(heartbeat))->FUN_00ad88f0();
             reinterpret_cast<::SoundPlaybackHandle *>(&(heartbeat))->Release();
             heartbeat = ((::Audio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIHealthHeartbeatALP", 0x31);
             reinterpret_cast<::FUN_00ad8830_shell *>(&(heartbeat))->FUN_00ad8830(true);
         }
-        else if (oldRatio > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))) &&
-                 fNewRatio <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))))
+        else if (oldRatio > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))) &&
+                 fNewRatio <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))))
         {
             reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(&(heartbeat))->FUN_00ad88f0();
             reinterpret_cast<::SoundPlaybackHandle *>(&(heartbeat))->Release();
@@ -48271,7 +48271,7 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
             float radius = reinterpret_cast<::Twin_0084d030 *>((void *)(((::fnv_00965620::AimPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((target4))->FUN_0043d450()))))->GetStoredFloatValue();
             if (radius == 0.0)
                 radius = 16.0f;
-            radius *= ::RandomFloat(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting522)))), ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting523)))));
+            radius *= ::RandomFloat(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting522)))), ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting523)))));
             float distance4 = reinterpret_cast<::NiPoint3 *>((void *)&(delta3))->ComputeMagnitude();
             float range24 = ::FUN_004579e0(radius * radius + distance4 * distance4);
             float angle = ::RandomFloat(0.0f, 6.2831854820251465f);
@@ -48397,13 +48397,13 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
         }
         float limit2;
         if (!((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710())) || ::FUN_006450c0((::TESObjectWEAP *)(((::fnv_00965620::AimWeapon *)(reinterpret_cast<::FUN_008a1710_shell *>(this)->FUN_008a1710())))))
-            limit2 = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting520))));
+            limit2 = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting520))));
         else if (cameraAim)
-            limit2 = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting519))));
+            limit2 = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting519))));
         else if (::FUN_00524d10((bool *)this))
-            limit2 = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting518))));
+            limit2 = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting518))));
         else
-            limit2 = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting517))));
+            limit2 = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting517))));
         limit2 *= 0.01745329238474369;
         if (deltaYaw4 > limit2)
             deltaYaw4 = limit2;
@@ -48430,13 +48430,13 @@ void AimPlayer::UpdateAim(AimObject* actor, AimObject* source, float* yawOut, fl
             }
             else if (weapon3 && reinterpret_cast<::TESObjectWEAP *>((weapon3))->GetDamageForActor(aiming, 0, (::Actor *)((*reinterpret_cast<void * *>(&::_g_thePlayer)))) > 1)
             {
-                deltaYaw4 += ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::g_011cf9b0)))) * (actor ? ::GetFieldEC((const char *)(actor)) : 0.0f);
-                deltaPitch += ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::g_011cf9b0)))) * (actor ? reinterpret_cast<::FUN_004e4600_shell *>((actor))->FUN_004e4600() : 0.0f);
+                deltaYaw4 += ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::g_011cf9b0)))) * (actor ? ::GetFieldEC((const char *)(actor)) : 0.0f);
+                deltaPitch += ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::g_011cf9b0)))) * (actor ? reinterpret_cast<::FUN_004e4600_shell *>((actor))->FUN_004e4600() : 0.0f);
             }
         }
         if (cameraAim && !camera3->useNodeOffset)
         {
-            float spreadLimit = ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting521)))) * 0.01745329238474369;
+            float spreadLimit = ::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00965620::AimSetting *>(&::originalRuntimeFloatSetting521)))) * 0.01745329238474369;
             if (noiseYaw > spreadLimit)
                 noiseYaw = spreadLimit;
             else if (noiseYaw < -spreadLimit)
@@ -51851,14 +51851,14 @@ struct LightPlayer
 void LightPlayer::FUN_009673d0(float delta)
 {
     LightInput* input = ((::fnv_009673d0::LightInput *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_009673d0::LightOS * *>(&::g_osGlobals))))->FUN_00877720()));
-    if (!DAT_011e0d70 && reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(14, 2) && elapsed < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009673d0::LightSetting *>(&::originalRuntimeFloatSetting241)))))))
+    if (!DAT_011e0d70 && reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(14, 2) && elapsed < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009673d0::LightSetting *>(&::originalRuntimeFloatSetting241)))))))
     {
         pressed = true;
     }
     else if (reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(14, 1) || reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(14, 0))
     {
         elapsed += delta;
-        if (!DAT_011e0d70 && reinterpret_cast<::FUN_00507d80_Class *>((((::fnv_009673d0::LightMenu *)(::fnv_00705990::FUN_00705990()))))->FUN_00507d80() && elapsed > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009673d0::LightSetting *>(&::originalRuntimeFloatSetting241)))))))
+        if (!DAT_011e0d70 && reinterpret_cast<::FUN_00507d80_Class *>((((::fnv_009673d0::LightMenu *)(::fnv_00705990::FUN_00705990()))))->FUN_00507d80() && elapsed > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009673d0::LightSetting *>(&::originalRuntimeFloatSetting241)))))))
         {
             if (reinterpret_cast<::MagicTarget *>(&(target))->HasSpell((::MagicItem *)(::fnv_009673d0::LightMagic *)(((::fnv_009673d0::LightSpell *)(::MagicSystem::GetPipBoyLightSpell()))), true))
             {
@@ -57050,9 +57050,9 @@ void HardcorePlayer::FUN_00969c30()
     float timescale = 0.0f;
     float waterInterval = 0.0f;
     float elapsedSleep = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_00969c30::CalendarState *>(&::g_011de7b8))))->GetGameTimeScale();
-    float foodInterval = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00969c30::HardcoreSetting *>(&::originalRuntimeFloatSetting812)))))) * elapsedSleep / 60.0;
-    float elapsedWater = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00969c30::HardcoreSetting *>(&::originalRuntimeFloatSetting813)))))) * elapsedSleep / 60.0;
-    float elapsedFood = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00969c30::HardcoreSetting *>(&::originalRuntimeFloatSetting814)))))) * elapsedSleep / 60.0;
+    float foodInterval = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00969c30::HardcoreSetting *>(&::originalRuntimeFloatSetting812)))))) * elapsedSleep / 60.0;
+    float elapsedWater = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00969c30::HardcoreSetting *>(&::originalRuntimeFloatSetting813)))))) * elapsedSleep / 60.0;
+    float elapsedFood = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00969c30::HardcoreSetting *>(&::originalRuntimeFloatSetting814)))))) * elapsedSleep / 60.0;
     DAT_011e0d88 = reinterpret_cast<::FUN_00867ea0_shell *>(&((*reinterpret_cast<::fnv_00969c30::CalendarState *>(&::g_011de7b8))))->FUN_00867ea0();
     DAT_011e0d84 = DAT_011e0d88;
     DAT_011e0d80 = DAT_011e0d84;
@@ -58986,7 +58986,7 @@ bool Player::FUN_009614b0(Bound* object, V3* output, bool search, bool rotate)
 {
     float size = reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((object))->FUN_0050ebf0() * ::DAT_01011590;
     float height = ::FUN_004587d0(reinterpret_cast<::FUN_00c6e280_cls *>((((::fnv_009614b0::Controller *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(((*reinterpret_cast<::fnv_009614b0::Player * *>(&::_g_thePlayer))))->FUN_009306d0()))))->GetSettingFloat());
-    float distance = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009614b0::FloatSetting *>(&::originalRuntimeFloatSetting1018))))));
+    float distance = reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>(this)->FUN_00567400() * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009614b0::FloatSetting *>(&::originalRuntimeFloatSetting1018))))));
     V3 origin, direction;
     reinterpret_cast<::fnv_008aff80::ActorStub *>(this)->GetCameraPosAndDir((::fnv_008aff80::Vec3 *)(::fnv_009614b0::V3 *)(&origin), (::fnv_008aff80::Vec3 *)(::fnv_009614b0::V3 *)(&direction), true);
     Mat rotation;
@@ -60473,7 +60473,7 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
                 if (reinterpret_cast<::FUN_008843a0_shell *>(this)->FUN_008843a0() && reinterpret_cast<::FUN_008a7570_shell *>(this)->FUN_008a7570() == -1)
                 {
                     if (!DAT_011e0bec &&
-                        (DAT_011e07e0 > *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InputSetting *>(&::originalRuntimeFloatSetting240)))))) || !weapon ||
+                        (DAT_011e07e0 > *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InputSetting *>(&::originalRuntimeFloatSetting240)))))) || !weapon ||
                          !((void *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(::InputPlayer *)(reinterpret_cast<InputPlayer*>((*reinterpret_cast<void * *>(&::_g_thePlayer)))))))) &&
                         reinterpret_cast<::fnv_008a6970::FUN_008a6970_shell *>(this)->FUN_008a6970())
                     {
@@ -60548,7 +60548,7 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(3);
             else if (axisX < 0)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(2);
-            DAT_011a3b40 = ::std::abs(axisX) * *((const float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::InputSetting *>(&::g_011e0964))))));
+            DAT_011a3b40 = ::std::abs(axisX) * *((const float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::InputSetting *>(&::g_011e0964))))));
             if (DAT_011a3b40 > ::DAT_01016ff0)
                 DAT_011a3b40 = ::DAT_01016088;
         }
@@ -64260,9 +64260,9 @@ void PlayerAudio::FUN_00962de0()
                         reinterpret_cast<::fnv_00965620::AimPlayer *>((reinterpret_cast<SoundEngine*>((*reinterpret_cast<void * *>(&::_g_thePlayer)))))->UpdateAim((::fnv_00965620::AimObject *)(0), (::fnv_00965620::AimObject *)(handle), &x3, &z6, (const ::fnv_00965620::NiPoint3_ext *)(0), DAT_0102efc4, DAT_0102efc4);
                     }
                     DAT_011e0d6c -=
-                        ((double)(DAT_011e0d6c - x3) * ::fnv::timer::Seconds()) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
+                        ((double)(DAT_011e0d6c - x3) * ::fnv::timer::Seconds()) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
                     DAT_011e0d68 -=
-                        ((double)(DAT_011e0d68 - z6) * ::fnv::timer::Seconds()) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
+                        ((double)(DAT_011e0d68 - z6) * ::fnv::timer::Seconds()) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SoundSetting *>(&::g_011ce960))))));
                     reinterpret_cast<::Matrix161 *>(&(rotation))->FUN_00a59540(DAT_011e0d6c, 0.0f, DAT_011e0d68);
                 }
                 if (selection)
@@ -64281,9 +64281,9 @@ void PlayerAudio::FUN_00962de0()
                             volume = 1.0f;
                         bool active8 = reinterpret_cast<::FUN_00894900_shell *>(this)->FUN_00894900();
                         if (!active8)
-                            volume *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::originalRuntimeFloatSetting643))))));
+                            volume *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SoundSetting *>(&::originalRuntimeFloatSetting643))))));
                         float delta = volume - DAT_011a3b2c;
-                        float scale = (float)(::FUN_00403e20((float *)&((*reinterpret_cast<::SmoothingSetting *>(&::originalRuntimeFloatSetting645)))) * ::fnv::timer::Seconds());
+                        float scale = (float)(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SmoothingSetting *>(&::originalRuntimeFloatSetting645)))) * ::fnv::timer::Seconds());
                         if (delta != ::_DAT_01012060)
                         {
                             if (FUN_00408840(delta) > scale)
@@ -64356,7 +64356,7 @@ void PlayerAudio::FUN_00962de0()
                     if (!secondSelection)
                     {
                         volume = reinterpret_cast<::CalcActor *>(this)->GetCachedSpeed(0);
-                        volume *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SoundSetting *>(&::originalRuntimeFloatSetting644))))));
+                        volume *= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SoundSetting *>(&::originalRuntimeFloatSetting644))))));
                         float zTmp, x, y_;
                         reinterpret_cast<::S_00a592c0_Matrix3 *>(&(rotation))->DecomposeToEulerAngles((*(float *)(&x)), (*(float *)(&y_)), (*(float *)(&zTmp)));
                         reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(x * volume);
@@ -67710,13 +67710,13 @@ void PlayerCharacterEx::FUN_0095c0a0(BGSLoadFormBuffer* buffer)
     }
     health4 = GetCurrentActorValue(static_cast<ActorValue::Index>(0x10)) /
               GetPermanentActorValueAdjustment(static_cast<ActorValue::Index>(0x10));
-    if (health4 <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))) && health4 > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))))
+    if (health4 <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1002)))) && health4 > *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))))
     {
         reinterpret_cast<PCStandin*>(this)->soundHandle77C.FUN_copy(
             &ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID(s_UIHealthHeartbeatALP, 0x31)));
         reinterpret_cast<::FUN_00ad8830_shell *>((reinterpret_cast<BSSoundHandleEx*>(&reinterpret_cast<PCStandin*>(this)->soundHandle77C)))->FUN_00ad8830(true);
     }
-    else if (health4 <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))))
+    else if (health4 <= *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1003)))))
     {
         reinterpret_cast<PCStandin*>(this)->soundHandle77C.FUN_copy(
             &ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID(s_UIHealthHeartbeatBLP, 0x31)));
@@ -69360,7 +69360,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                     positionScope4 = targetScope2->GetPosition();
             }
             if (process->HasAimOffset())
-                positionScope4.z += ((double)(reinterpret_cast<::fnv_00572380::Fn572380 *>(this)->FUN_00572380((::fnv_00572380::NiP3Sub *)(&positionScope4)))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting541))))));
+                positionScope4.z += ((double)(reinterpret_cast<::fnv_00572380::Fn572380 *>(this)->FUN_00572380((::fnv_00572380::NiP3Sub *)(&positionScope4)))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting541))))));
             AimVector anglesScope2 = FUN_009a88e0(this, positionScope4);
             SetYaw(anglesScope2.z);
             reinterpret_cast<::FUN_00931d90_shell *>(this)->ClampLookAngle(anglesScope2.x);
@@ -69448,7 +69448,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                         int timeScope30 = reinterpret_cast<::FUN_0073b020_shell *>((combatScope28))->FUN_0073b020();
                         if (timeScope30 >= 0 && timeScope30 <= ((double)(::FUN_00715da0())))
                         {
-                            float thresholdScope4 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting671))))));
+                            float thresholdScope4 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting671))))));
                             float fractionScope32 = timeScope30 / ((double)(::FUN_00715da0()));
                             adjustedScope27 = true;
                             float lowScope4 = 0.0f;
@@ -69511,7 +69511,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                                 AimScreen screenScope2;
                                 reinterpret_cast<::ScreenCamera *>((((::AimCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::AimWorld *)(::FUN_0045c670()))))->GetAnimationData()))))->ProjectToScreen((*(const ::NiPoint3 *)(&pointScope46)), (*(float *)(&screenScope2.x)),
                                                                                 (*(float *)(&screenScope2.y)), ::DAT_010718c0);
-                                float marginScope48 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting673))))));
+                                float marginScope48 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting673))))));
                                 if (screenScope2.y < marginScope48 * 2 || screenScope2.y > 1.0f - marginScope48 * 2)
                                     DAT_011e075c = pointScope46.z - positionScope12Local0.z;
                             }
@@ -69548,13 +69548,13 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
             {
                 float durationScope53 = 0.0f;
                 if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 1)
-                    durationScope53 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1258))))));
+                    durationScope53 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1258))))));
                 else if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 2)
                 {
                     if (sameTargetScope5)
-                        durationScope53 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1260))))));
+                        durationScope53 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1260))))));
                     else
-                        durationScope53 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1259))))));
+                        durationScope53 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting1259))))));
                 }
                 else
                     durationScope53 = DAT_01016264;
@@ -69646,9 +69646,9 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                         powerXScope69Local22 *= magnitudeScope_;
                     for (int jScope8 = 0; jScope8 < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e08a0)))))); ++jScope8)
                         powerYScope70Local8 *= magnitudeScope_;
-                    float minimumScope6 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0818))))));
-                    float speedXScope74Local2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0928))))));
-                    float speedYScope75 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e08b8))))));
+                    float minimumScope6 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0818))))));
+                    float speedXScope74Local2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0928))))));
+                    float speedYScope75 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e08b8))))));
                     if (powerXScope69Local22 < minimumScope6)
                         powerXScope69Local22 = minimumScope6;
                     if (powerYScope70Local8 < minimumScope6)
@@ -69683,31 +69683,31 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                 {
                     if (wheelScope61Local16 > 0)
                         DAT_011e0b5c -=
-                            wheelScope61Local16 / ::DAT_010718b8 * DAT_011e0b5c * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting195))))));
+                            wheelScope61Local16 / ::DAT_010718b8 * DAT_011e0b5c * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting195))))));
                     else
                         DAT_011e0b5c -=
-                            wheelScope61Local16 / ::DAT_010718b8 * DAT_011e0b5c * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting196))))));
+                            wheelScope61Local16 / ::DAT_010718b8 * DAT_011e0b5c * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting196))))));
                     if (IsFirstPerson(false))
                     {
-                        if (DAT_011e0b5c < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting202)))))))
-                            DAT_011e0b5c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting202))))));
+                        if (DAT_011e0b5c < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting202)))))))
+                            DAT_011e0b5c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting202))))));
                     }
-                    else if (DAT_011e0b5c < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting197)))))))
+                    else if (DAT_011e0b5c < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting197)))))))
                     {
                         if (!::FUN_0093a740((::FUN_0093a740_s *)this) && !DAT_011e07b8 && !bMode64d && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(16))
                             FUN_00950110(true);
-                        DAT_011e0b5c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting197))))));
+                        DAT_011e0b5c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting197))))));
                     }
-                    float maximumScope76 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting199))))));
+                    float maximumScope76 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting199))))));
                     if (DAT_011e07b8)
-                        maximumScope76 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting198))))));
+                        maximumScope76 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting198))))));
                     if (DAT_011e0b5c > maximumScope76)
                         DAT_011e0b5c = maximumScope76;
                 }
                 if (!::FUN_0093a740((::FUN_0093a740_s *)this) && !bMode64f && !bZoomMode && wheelScope61Local16 < 0 && !reinterpret_cast<::FUN_005a03f0_obj *>(this)->FUN_005a03f0(16))
                     FUN_00950110(false);
             }
-            float baseSpeedScope77Local2 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_0120315c))))));
+            float baseSpeedScope77Local2 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_0120315c))))));
             float zoomScope78 = ((double)(reinterpret_cast<::FUN_0099e040_shell *>((((::AimWorld *)(::FUN_0045c670()))))->FUN_0099e040()));
             float scaleScope2 = 1.0f;
             if (zoomScope78 < baseSpeedScope77Local2)
@@ -69716,15 +69716,15 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
             DAT_011e0764 = reinterpret_cast<::MobileObject *>(this)->GetLooking();
             if ((DAT_011e07b8 || DAT_011e07c1) && !process->GetAimConstraint())
             {
-                DAT_011e0b60 += horizontalScope59 * ::DAT_01023128 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting203)))))) * delta;
+                DAT_011e0b60 += horizontalScope59 * ::DAT_01023128 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting203)))))) * delta;
                 if (!FUN_004b71d0())
-                    DAT_011e0b58 += verticalScope9 * ::DAT_01023128 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting204)))))) * delta;
+                    DAT_011e0b58 += verticalScope9 * ::DAT_01023128 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::originalRuntimeFloatSetting204)))))) * delta;
             }
             else
             {
                 if (horizontalScope59 || force)
                 {
-                    float rotationScope80 = horizontalScope59 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a6c))))));
+                    float rotationScope80 = horizontalScope59 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a6c))))));
                     if (flags)
                     {
                         if (horizontalScope59 && rotationScope80 < 0.0)
@@ -69748,7 +69748,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                         else if (modeScope81 == 0)
                         {
                             DAT_011a3b40 =
-                                ((double)(::FUN_00408860(rotationScope80))) / (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a6c)))))) * DAT_010356d8);
+                                ((double)(::FUN_00408860(rotationScope80))) / (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a6c)))))) * DAT_010356d8);
                             if (DAT_011a3b40 > 1.5)
                                 DAT_011a3b40 = ::DAT_01016088;
                             reinterpret_cast<::MobileObject *>(this)->AdvanceMovement(rotationScope80 * scaleScope2);
@@ -69756,7 +69756,7 @@ bool AimPlayer::FUN_009445b0(float delta, bool force, unsigned short* flags, int
                     }
                 }
                 if (verticalScope9)
-                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(verticalScope9 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a6c)))))) * scaleScope2);
+                    reinterpret_cast<::FUN_00931e50_shell *>(this)->AddModAngle(verticalScope9 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::AimSetting *>(&::g_011e0a6c)))))) * scaleScope2);
             }
             if (horizontalScope59 || verticalScope9 || wheelScope61Local16)
                 handledScope4 = true;
@@ -69920,7 +69920,7 @@ void PickPocketWarningState::FUN_00966e50()
 {
     ++warningCount;
     if (warningDelay == -1.0)
-        warningDelay = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting250))));
+        warningDelay = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting250))));
 }
 
 namespace RockItAmmoCountDetail {
@@ -70144,7 +70144,7 @@ void StealWarningState::FUN_00966e00()
 {
     ++warningCount;
     if (warningDelay == -1.0)
-        warningDelay = *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting250))));
+        warningDelay = *((float *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting250))));
 }
 
 struct PlayerListCleanup : ::FUN_0093bea0_cls
@@ -70264,9 +70264,9 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
         if (flag || (*reinterpret_cast<unsigned char *>(&::DAT_011e07c3)))
             state = 0;
         else
-            f = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting210)))))) + ((DAT_011e0b5c - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197))))))) /
-                                                (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198)))))) - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197)))))))) *
-                                                   *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting211))))));
+            f = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting210)))))) + ((DAT_011e0b5c - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197))))))) /
+                                                (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198)))))) - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197)))))))) *
+                                                   *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting211))))));
     }
     if (flag || (*reinterpret_cast<unsigned char *>(&::DAT_011e07c3)))
     {
@@ -70278,7 +70278,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
         vec = *p1;
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b9)))
         {
-            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&ResultSlot(((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * ::fnv::timer::Seconds())));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&ResultSlot(((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * ::fnv::timer::Seconds())));
             vec = DAT_011e0808;
         }
         else
@@ -70303,13 +70303,13 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
             reinterpret_cast<::NiPoint3 *>((((PointSubtract*)&a7c)))->Subtract(a70);
             if (len - reinterpret_cast<::NiPoint3 *>((void *)&(a7c))->ComputeMagnitude() > 2.0)
                 (*reinterpret_cast<unsigned char *>(&::fnv_0094ae40::DAT_011e07c2)) = 1;
-            len = reinterpret_cast<::NiPoint3 *>((void *)&(a7c))->ComputeMagnitude() - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0934)))))) * 0.5;
+            len = reinterpret_cast<::NiPoint3 *>((void *)&(a7c))->ComputeMagnitude() - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0934)))))) * 0.5;
         }
     }
-    float scaled = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting216)))))) * ::fnv::timer::Seconds() * f;
-    float lim = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting199))))));
+    float scaled = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting216)))))) * ::fnv::timer::Seconds() * f;
+    float lim = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting199))))));
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b8)))
-        lim = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198))))));
+        lim = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting198))))));
     if (state != 0)
     {
         if (state == 1 && len < DAT_011e0768 + state * scaled)
@@ -70346,8 +70346,8 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
             DAT_011e0768 = len;
         else
             DAT_011e0768 += scaled;
-        if (!(*reinterpret_cast<unsigned char *>(&::fnv_0094ae40::DAT_011e07c2)) && DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197)))))))
-            DAT_011e0768 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197))))));
+        if (!(*reinterpret_cast<unsigned char *>(&::fnv_0094ae40::DAT_011e07c2)) && DAT_011e0768 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197)))))))
+            DAT_011e0768 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting197))))));
         if (DAT_011e0768 > lim)
             DAT_011e0768 = lim;
     }
@@ -70357,21 +70357,21 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
     {
         if (state < 0)
         {
-            if (DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
+            if (DAT_011e0768 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
             {
                 DAT_011e0768 = 0.0f;
                 DAT_011e07dc = 0.0f;
                 state = 0;
             }
         }
-        else if (DAT_011e0768 < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
-            DAT_011e0768 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84))))));
+        else if (DAT_011e0768 < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84)))))))
+            DAT_011e0768 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::g_011e0a84))))));
     }
     else if (!FUN_00702680(0x40c, 0) && ((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) != 4)
     {
         void* o = ((void *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()));
         float ft = reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((((TObjShell*)this)))->GetActorHeight() - 124.0;
-        if (((unsigned char)(reinterpret_cast<::xCaster *>((field21c))->FUN_006214d0((::xRef *)(o), (*(const ::xP3 *)(&v128)), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::g_011e09c8)))))), ft))))
+        if (((unsigned char)(reinterpret_cast<::xCaster *>((field21c))->FUN_006214d0((::xRef *)(o), (*(const ::xP3 *)(&v128)), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingShell *>(&::g_011e09c8)))))), ft))))
             ok = true;
     }
     if (ok && !byte64d)
@@ -72075,17 +72075,17 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             {
                 if (character)
                 {
-                    data.f30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1177))))));
-                    data.f34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1178))))));
-                    data.f3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1179))))));
-                    data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1180))))));
+                    data.f30 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1177))))));
+                    data.f34 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1178))))));
+                    data.f3c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1179))))));
+                    data.f38 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1180))))));
                 }
                 else
                 {
-                    data.f30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1173))))));
-                    data.f34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1174))))));
-                    data.f3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1175))))));
-                    data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1176))))));
+                    data.f30 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1173))))));
+                    data.f34 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1174))))));
+                    data.f3c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1175))))));
+                    data.f38 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1176))))));
                 }
             }
             else
@@ -72094,10 +72094,10 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                 float linearScale = 1.0f;
                 if (target->IsDead())
                 {
-                    float upper = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::g_011d1260))))));
-                    float lower = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1054))))));
-                    float minScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::g_011d0220))))));
-                    float maxScale = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1053))))));
+                    float upper = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::g_011d1260))))));
+                    float lower = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1054))))));
+                    float minScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::g_011d0220))))));
+                    float maxScale = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1053))))));
                     float clamped = FUN_0040ebd0(lower, FUN_00404010(upper, ::FUN_0062c300((::NiAVObject *)(root))));
                     angularScale *= LinearInterpolate(maxScale, minScale, lower, upper, clamped);
                     bool allCharacter = true;
@@ -72117,10 +72117,10 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                     linearScale *= DAT_0101ffa0;
                     angularScale *= ::DAT_01011588;
                 }
-                data.f30 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1049))))));
-                data.f34 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1050)))))) * linearScale;
-                data.f3c = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1051))))));
-                data.f38 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1052)))))) * angularScale;
+                data.f30 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1049))))));
+                data.f34 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1050)))))) * linearScale;
+                data.f3c = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1051))))));
+                data.f38 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::GrabSetting *>(&::originalRuntimeFloatSetting1052)))))) * angularScale;
             }
             GrabVector localPosition;
             GrabVector localRotation;
@@ -72486,7 +72486,7 @@ void Projectile::FUN_00960520(int a)
         }
     }
     float ratio = best / reinterpret_cast<::fnv_004b4ea0::TESDataHandler *>((weapon))->FUN_004b4ea0();
-    if (len > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1056)))))) && ratio > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1055)))))))
+    if (len > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1056)))))) && ratio > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1055)))))))
     {
         reinterpret_cast<::fnv_00961280::FUN_00961280_shell *>(this)->FUN_00961280();
         return;
@@ -72513,11 +72513,11 @@ void Projectile::FUN_00960520(int a)
             node = ((::fnv_00960520::VObj *)(reinterpret_cast<::FUN_009611e0_shell *>((node))->FUN_009611e0()));
         }
     }
-    if (target != 0 && flagA && len > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1057)))))))
+    if (target != 0 && flagA && len > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1057)))))))
     {
-        float force = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1058)))))) * (len - *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1057))))))) / len;
-        float fScaledValue = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::g_011d04d8))))));
-        float fMin = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1059))))));
+        float force = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1058)))))) * (len - *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1057))))))) / len;
+        float fScaledValue = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::g_011d04d8))))));
+        float fMin = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_00960520::Setting *>(&::originalRuntimeFloatSetting1059))))));
         float scale = ::FUN_0040ebd0(fMin, ::FUN_00404010(fScaledValue, ::FUN_0062c300((::NiAVObject *)(target))));
         float t = ::LinearInterpolate(0.0f, 1.0f, fMin, fScaledValue, scale);
         HkVec mul(force * ::DAT_0101a6b0 * t);

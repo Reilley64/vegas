@@ -1094,7 +1094,7 @@ bool FUN_009e7610_shell::TurnTowardGoalAngle(float afGoalAngle, bool abForceTurn
 
         if (!reinterpret_cast<::FUN_0087eeb0_shell *>((*reinterpret_cast<void**>(&this->pActor)))->FUN_0087eeb0())
             this->m_fPathValue11 =
-                *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting220)))));
+                *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting220)))));
 
         reinterpret_cast<::TESForm *>(((*reinterpret_cast<Date**>(&this->m_pActorMover))))->ClearData();
         return true;
@@ -2077,11 +2077,11 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
                     }
                     float frotateMax = (*(ActorStub**)&this->pActor)->GetTurnSpeed() * ::DAT_01023128 * afDeltaT;
                     if (!(*(ActorStub**)&this->pActor)->IsPlayerRef())
-                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)&this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ac4))))))
-                                                                                                : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ad8))))));
+                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)&this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ac4))))))
+                                                                                                : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2ad8))))));
                     else
-                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)&this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2b10))))))
-                                                                                                : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2c10))))));
+                        frotateMax *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)*(ActorStub**)&this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2b10))))))
+                                                                                                : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::g_011f2c10))))));
                     float fclampedAngleDelta = fangleDelta;
                     if (fclampedAngleDelta > frotateMax)
                         fclampedAngleDelta = frotateMax;
@@ -2094,7 +2094,7 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
                     else if (fangleDelta > ::DAT_010923dc)
                     {
                         if (!bimmobile)
-                            this->m_fPathValue11 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::originalRuntimeFloatSetting220)))))) - afDeltaT;
+                            this->m_fPathValue11 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e16e0::Setting_S *>(&::originalRuntimeFloatSetting220)))))) - afDeltaT;
                         if (fdir == 1.0)
                         {
                             inewMoveMode = reinterpret_cast<::FUN_009dd130_shell *>(((this->m_pActorMover)))->FUN_009dd130() | 0x20;
@@ -3890,7 +3890,7 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
     float fAheadDist;
 
     fTime = ::fnv::timer::Seconds();
-    fSpeed = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b98))))));
+    fSpeed = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b98))))));
     fScaleMultiplier = reinterpret_cast<::NiPoint3 *>(&(kNormDir))->GetLengthSquared();
     fTravelTime = fScaleMultiplier / fTime;
     fAheadDist = fSpeed * fTravelTime;
@@ -3935,7 +3935,7 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
                     reinterpret_cast<::NiPoint3 *>(&(kRelOffset))->Subtract((const ::NiPoint3 &)(kOtherOffset));
                 }
                 fOffsetLength = reinterpret_cast<::NiPoint3 *>(&(kRelOffset))->GetLengthSquared();
-                if (fDistSq > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c)))))))
+                if (fDistSq > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c)))))) * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c)))))))
                 {
                     NiPoint3_ext kToOther = *pAvoidActor->GetPos();
                     reinterpret_cast<::NiPoint3 *>(&(kToOther))->Subtract((const ::NiPoint3 &)(akStart));
@@ -3947,8 +3947,8 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
                 fTimeToTarget = fOffsetLength / fTime;
                 fOtherDist = fSpeed * fTimeToTarget;
                 fAvoidDist = fRadius + fOtherDist;
-                if (fAvoidDist < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c)))))))
-                    fAvoidDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c))))));
+                if (fAvoidDist < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c)))))))
+                    fAvoidDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5690::GlobalObject_0044f440 *>(&::g_011f2b8c))))));
                 if (::fnv_009e6900::FUN_009e6900((::fnv_009e6900::Ref *)(apActor), (::fnv_009e6900::Group *)(apData), (::fnv_009e6900::Ref *)(pAvoidActor), (*(const ::fnv_009e6900::Pt3 *)(&akStart)), (*(const ::fnv_009e6900::Pt3 *)(&kRelOffset)), fAvoidDist, fCosThreshold,
                                  &fDistance, false))
                     reinterpret_cast<::FUN_009e99a0_cls *>((apList))->FUN_009e99a0((uintptr_t)&(const ::fnv_009e5690::ActorAvoidEntry &)(ActorAvoidEntry(pAvoidActor, fDistance)));
@@ -5566,7 +5566,7 @@ bool UpdateAliveActorList()
                 continue;
             if (((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((actor))->FUN_009306d0())) && ((BSFadeNode*)node)->FUN_00552470() &&
                 reinterpret_cast<::bhkCharacterController_shell *>((void *)(((bhkCharacterController_shell*)((::bhkCharacterController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((actor))->FUN_009306d0())))))->FUN_008a3b50() >
-                    *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::fnv_009e54a0::GlobalObject_0044f440 *>(&::g_011f2bd0))))))))
+                    *((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&(*reinterpret_cast<::fnv_009e54a0::GlobalObject_0044f440 *>(&::g_011f2bd0))))))))
                 continue;
             ::DAT_011f2aa0++;
             reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)&(*reinterpret_cast<::fnv_009e54a0::GlobalObject_009e9bb0 *>(&::g_011f2bf8)))))->FUN_0096a610((intptr_t)&(*(unsigned int*)&actor));
@@ -6022,9 +6022,9 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
     {
         float fnewLen = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::fnv_009e6ba0::NiPoint3Ops &)(((*(::fnv_009e6ba0::NiPoint3Ops *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_009e6ba0::PathingLocation *)(::GetOffsetC((intptr_t)(((PathingRequestOps*)apRequest)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))) -
                          (*(::fnv_009e6ba0::NiPoint3Ops *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(((::fnv_009e6ba0::PathingLocation *)(::FUN_006a9540((char *)(((PathingRequestOps*)apRequest)))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))))->FUN_00589850();
-        float fwaitDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e6ba0::Setting_S *>(&::g_011f2b68))))));
+        float fwaitDist = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e6ba0::Setting_S *>(&::g_011f2b68))))));
         if (((DetailedActorPathHandler*)this)->ByteAndFlagState & 0x200)
-            fwaitDist += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e6ba0::Setting_S *>(&::g_011f2b68))))));
+            fwaitDist += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e6ba0::Setting_S *>(&::g_011f2b68))))));
         fwaitDist *= 2.0f;
         if (fnewLen < fwaitDist)
             fwaitDist = fnewLen * ::DAT_01011588;
@@ -8402,7 +8402,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
 {
     AvoidActor* target = actor->v116();
     if (!target || !reinterpret_cast<::FUN_007ff8e0_shell *>((target))->FUN_007ff8e0() ||
-        (target->FUN_00552470() && reinterpret_cast<::bhkCharacterController_shell *>((void *)(((::fnv_009e5ae0::AvoidController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((actor))->FUN_009306d0()))))->FUN_008a3b50() > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2bd0))))))))
+        (target->FUN_00552470() && reinterpret_cast<::bhkCharacterController_shell *>((void *)(((::fnv_009e5ae0::AvoidController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((actor))->FUN_009306d0()))))->FUN_008a3b50() > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2bd0))))))))
         return 0;
     if (avoidState != 2 && reinterpret_cast<::FUN_00595c80_shell *>((void *)&(moveDelta))->GetSquaredXYLength() < 0.25)
         return 0;
@@ -8468,7 +8468,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 else if (!actor->FUN_008bc7d0(obstacle))
                 {
                     blocked = true;
-                    if (detectionValue >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b1c)))))))
+                    if (detectionValue >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b1c)))))))
                         break;
                 }
             }
@@ -8498,21 +8498,21 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
         return 0;
     if (detectionValue == 0.0)
         return 0;
-    if (detectionValue >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b1c)))))))
+    if (detectionValue >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b1c)))))))
     {
         if (blocked)
         {
-            waitTime = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b74))))));
-            avoidTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b2c))))));
+            waitTime = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b74))))));
+            avoidTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b2c))))));
             reinterpret_cast<::TESForm *>((mover))->ClearData();
             return 1;
         }
         if (!reinterpret_cast<::FUN_0076b610_Class *>(&(nearbyActors))->FUN_0076b610())
         {
             if (avoidState != 4 && !includesPlayer && !(moveMode & 0x200))
-                avoidTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b3c))))));
+                avoidTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b3c))))));
             else
-                avoidTimer = FUN_00404010(avoidTimer, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2bc4)))))));
+                avoidTimer = FUN_00404010(avoidTimer, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2bc4)))))));
             AvoidArray* avoidNodes = new AvoidArray;
             unsigned int count = SimpleArraySize(&(nearbyActors));
             for (unsigned int j = 0; j < count; ++j)
@@ -8558,7 +8558,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                     position.x = offset.x;
                     position.y = offset.y;
                 }
-                reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(position, avoidRadius, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b5c)))))), mode))));
+                reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(position, avoidRadius, *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b5c)))))), mode))));
             }
             reinterpret_cast<::FUN_006d3ac0_Class *>((((AvoidRequest*)request)))->AssignPathingLocation((*(const ::PathingLocation *)(&ResultSlot(AvoidLocation(actor)))));
             reinterpret_cast<::PathingRequest *>((((AvoidRequest*)request)))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(avoidNodes));
@@ -8655,11 +8655,11 @@ float FUN_009e7d70_shell::FUN_009e7d70(float afDeltaTime)
         float var_10 = ((VCallHelper_354*)this->pActor)->v213() * DAT_01023128 * afDeltaTime;
         if (!this->pActor->Unk_87())
         {
-            var_10 *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((FUN_00493bb0_shell*)this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&(g_011f2ac4)))) : *((float *)&(::FUN_00403e20((float *)&(g_011f2ad8))));
+            var_10 *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((FUN_00493bb0_shell*)this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((::Setting *)&(g_011f2ac4)))) : *((float *)&(::FUN_00403e20((::Setting *)&(g_011f2ad8))));
         }
         else
         {
-            var_10 *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((FUN_00493bb0_shell*)this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((float *)&(g_011f2b10)))) : *((float *)&(::FUN_00403e20((float *)&(g_011f2c10))));
+            var_10 *= ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((FUN_00493bb0_shell*)this->pActor)))->FUN_00493bb0())) ? *((float *)&(::FUN_00403e20((::Setting *)&(g_011f2b10)))) : *((float *)&(::FUN_00403e20((::Setting *)&(g_011f2c10))));
         }
         if (var_10 > std::abs(var4))
         {
@@ -9788,7 +9788,7 @@ bool __cdecl FUN_009e6900(Ref* apActor, Group* apGroup, Ref* apTarget, const Pt3
                 kDelta.z = 0.0f;
                 float fDist = reinterpret_cast<::NiPoint3 *>((void *)&(kDelta))->GetLengthSquared();
                 bool bClose4 = false;
-                if (fDist < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e6900::SettingVal *>(&::g_011f2b8c)))))))
+                if (fDist < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_009e6900::SettingVal *>(&::g_011f2b8c)))))))
                     bClose4 = true;
                 fDist = fDist - fRadius3;
                 fDist = ::FUN_00404010(fDist, 0.0f);
@@ -10345,7 +10345,7 @@ int UpdateHandler::UpdateMovementState(float afDeltaTime)
                 return 1;
             }
             else
-                avoidanceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::g_011f2b2c))))));
+                avoidanceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UpdateFloatSetting *>(&::g_011f2b2c))))));
         }
         else
         {

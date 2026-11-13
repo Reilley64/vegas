@@ -901,7 +901,7 @@ void CoverProcedure::UpdateCoverState()
         if (!reinterpret_cast<::fnv_008a8870::HA *>((actor_))->FUN_008a8870())
         {
             if (reinterpret_cast<::FUN_00435e00_t *>((void *)&(const ::CoverStamp &)(combat7->GetStamp()))->FUN_00435e00() > 0.5 &&
-                reinterpret_cast<::FUN_008a88f0_cls *>((actor_))->FUN_008a88f0() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CoverSetting *>(&::originalRuntimeFloatSetting378)))))))
+                reinterpret_cast<::FUN_008a88f0_cls *>((actor_))->FUN_008a88f0() < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CoverSetting *>(&::originalRuntimeFloatSetting378)))))))
             {
                 reinterpret_cast<::S_008a8840 *>((actor_))->FUN_008a8840();
             }
@@ -972,7 +972,7 @@ void CoverProcedure::UpdateCoverState()
     }
     case 4: {
         float attackTime_ = reinterpret_cast<::FUN_008a88f0_cls *>((actor_))->FUN_008a88f0();
-        if (attackTime_ < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CoverSetting *>(&::originalRuntimeFloatSetting379)))))) || reinterpret_cast<::fnv_008a8870::HA *>((actor_))->FUN_008a8870() || reinterpret_cast<::TimeoutTimer *>(&(firing))->CheckTimer())
+        if (attackTime_ < *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CoverSetting *>(&::originalRuntimeFloatSetting379)))))) || reinterpret_cast<::fnv_008a8870::HA *>((actor_))->FUN_008a8870() || reinterpret_cast<::TimeoutTimer *>(&(firing))->CheckTimer())
         {
             CoverRequest request;
             reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor_))->PathToLocation((::fnv_008b3880::PathingRequest *)&(request), (void *)&(coverPosition), ((void *)(reinterpret_cast<::LowProcess *>((actor_))->GetTarget())), ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((actor_))->FUN_00575d70())), 0.0f, (::fnv_008b3880::PathingAvoidNodeArray *)(0));

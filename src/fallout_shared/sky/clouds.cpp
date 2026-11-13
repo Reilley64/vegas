@@ -143,12 +143,12 @@ void Clouds::Update(Sky* sky, float time)
                 NiColor color = (*(::NiColor *)(reinterpret_cast<::FUN_00634850_Class *>(this)->GetPointAt(i)));
                 controller->color = RgbaColor(color.r, color.g, color.b, 1.0f);
             }
-            speed = reinterpret_cast<::FUN_006347c0_Class *>((m_pWeatherObject))->InterpolateByIndex(i, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting60))))))->f, 0.0f);
+            speed = reinterpret_cast<::FUN_006347c0_Class *>((m_pWeatherObject))->InterpolateByIndex(i, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting60))))))->f, 0.0f);
             if (m_pPreviousWeather)
             {
                 speed *= ::FUN_006447d0((const char *)(sky));
                 speed += (1.0f - ::FUN_006447d0((const char *)(sky))) *
-                         reinterpret_cast<::FUN_006347c0_Class *>((m_pPreviousWeather))->InterpolateByIndex(i, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting60))))))->f, 0.0f);
+                         reinterpret_cast<::FUN_006347c0_Class *>((m_pPreviousWeather))->InterpolateByIndex(i, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting60))))))->f, 0.0f);
             }
             delta = reinterpret_cast<::FUN_004536e0_Class *>((sky))->GetFieldCC() * time * speed;
             AddToFloatArray((unsigned short)i, delta);

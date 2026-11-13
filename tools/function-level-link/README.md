@@ -14,8 +14,8 @@ python3 check.py --exe FalloutNV.exe --map FalloutNV.map --inputs INPUTS
 
 `INPUTS` lists one path per line. CTest writes it for each checked target and
 runs the check as `link.function_level`; `tests/checks/link_function_level.cmake`
-registers it. The rule, what the check proves and how to read a failure are
-in `docs/function-level-link.md`.
+registers it with the negative tests. The rule, what the check proves and
+how to read a failure are in `docs/function-level-link.md`.
 
 Output:
 

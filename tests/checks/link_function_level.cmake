@@ -61,4 +61,44 @@ if(vegas_object_checks)
   endfunction()
 
   link_function_level_test(link.function_level FalloutNV)
+
+  # The negative tests: small programs linked with the same rule, each with
+  # one live reference to a name that nothing defines, from code, from
+  # initialized data, from a virtual table slot of a class that main
+  # constructs, and from a call through an import slot (live_import, whose
+  # second unit refers to the name plainly from dead code, so lld-link may
+  # make the slot one of its own that holds zero, depending on the order of
+  # its symbol table). Each test passes only when the check refuses its
+  # program with that reference as LIVE and prints no UNCLASSIFIED or REFUSED
+  # line. The positive control refers to a name that nothing defines only
+  # from a function nothing calls, in a member of a static library that the
+  # link loads; it passes only when the check accepts it with that one name.
+  # The programs are linked, never run.
+  add_library(link_function_level_parts STATIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/link/function_level/parts.cpp)
+  set(link_function_level_cases live_code live_data live_vtable live_import dead_function)
+  foreach(link_function_level_case IN LISTS link_function_level_cases)
+    add_executable(link_function_level_${link_function_level_case}
+      ${CMAKE_CURRENT_SOURCE_DIR}/link/function_level/${link_function_level_case}.cpp)
+    vegas_function_level_link(link_function_level_${link_function_level_case})
+  endforeach()
+  target_sources(link_function_level_live_import PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/link/function_level/unused_import.cpp)
+  target_link_libraries(link_function_level_dead_function PRIVATE link_function_level_parts)
+  set(link_function_level_live_code "\\?link_function_level_missing_function@@YAXXZ")
+  set(link_function_level_live_data "\\?link_function_level_missing_object@@3HA")
+  set(link_function_level_live_vtable "\\?MissingCorners@LinkFunctionLevelShape@@UEAAHXZ")
+  set(link_function_level_live_import "__imp_link_function_level_missing_import")
+  foreach(link_function_level_case IN LISTS link_function_level_cases)
+    link_function_level_test(link.function_level.${link_function_level_case}
+      link_function_level_${link_function_level_case})
+    if(link_function_level_case STREQUAL "dead_function")
+      set_tests_properties(link.function_level.dead_function PROPERTIES PASS_REGULAR_EXPRESSION
+        "accepted: 1 unresolved names, 1 references, all from discarded sections")
+    else()
+      set_tests_properties(link.function_level.${link_function_level_case} PROPERTIES
+        PASS_REGULAR_EXPRESSION "LIVE ${link_function_level_${link_function_level_case}} from kept "
+        FAIL_REGULAR_EXPRESSION "UNCLASSIFIED|REFUSED|unreadable|accepted|is not linked by lld-link")
+    endif()
+  endforeach()
 endif()

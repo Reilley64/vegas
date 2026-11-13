@@ -129,10 +129,10 @@ target_link_libraries(FalloutNV PRIVATE game user32)
 # discards every COMDAT section that no kept section reaches (/OPT:REF),
 # tolerates names nothing defines (/FORCE:UNRESOLVED) and writes the map that
 # the link.function_level check reads. That check fails unless every
-# unresolved name is referenced only from discarded sections. Only
-# FalloutNV.exe uses it; every other program and the game archive keep the
-# strict link. With another linker the target keeps the strict link and the
-# check fails.
+# unresolved name is referenced only from discarded sections. FalloutNV.exe
+# and the check's own test programs use it; every other program and the game
+# archive keep the strict link. With another linker the target keeps the
+# strict link and the check fails.
 function(vegas_function_level_link target)
   get_filename_component(linker "${CMAKE_LINKER}" NAME_WE)
   string(TOLOWER "${linker}" linker)

@@ -292,17 +292,19 @@ refused for one of these reasons:
 
 VEGAS-90 repairs two calls on the boot path that named their bodies through
 stand-ins, under names that no object defines, and passed an argument whose
-type is not the type of the body's parameter. Each call now takes the
+type is not the type of the body's parameter. VEGAS-97 repairs a third,
+after a repair of its body's definition (below). Each call now takes the
 parameter type of the recipe's function row, and each repair is admitted by
-its own ruling of 2026-11-13. Both bodies are defined in `main.cpp` at
+a ruling of 2026-11-13. The three bodies are defined in `main.cpp` at
 their rows, and each has one caller, also in `main.cpp`. With every recipe
-entry of every source merged, no other unit has a `symbols` key at the two
+entry of every source merged, no other unit has a `symbols` key at the three
 addresses.
 
 | Address | Caller | Row | Argument before | Argument now | Authority |
 | --- | --- | --- | --- | --- | --- |
 | `0x008774a0` | WinMain | `fnv_008774a0::FUN_008774a0_shell::FUN_008774a0(bool)` | the constant `1` for an `int` | `1`, converted to `true` | constant to bool |
 | `0x008707c0` | `FUN_008706b0` | `fnv_008707c0::RenderMgr::FUN_008707c0(void*, bool)` | the texture pointer | the same pointer, converted to `void*` | R5a |
+| `0x00870bd0` | `FUN_008706b0` | `fnv_00870bd0::RenderCoordinator::FUN_00870bd0(void*, bool)` | the texture pointer | the same pointer, converted to `void*` | R5a, after the definition repair |
 
 The authorities:
 
@@ -314,18 +316,20 @@ The authorities:
   tests the flag. The displaced jumps, the padding and the body's moved
   sections listed below are consequences of the move and of the binding,
   and the coordinator admitted them with it on 2026-11-13.
-- `0x008707c0`: R5a. A naming step may bind a call whose only added
-  conversion is the implicit conversion of an object pointer to `void*`,
-  with no qualifier dropped, when the object is equal after the rename
-  apart from the callee's name, the call has a row in a check table, and
-  the receiver is recorded as open.
+- `0x008707c0` and `0x00870bd0`: R5a. A naming step may bind a call whose
+  only added conversion is the implicit conversion of an object pointer to
+  `void*`, with no qualifier dropped, when the object is equal after the
+  rename apart from the callee's name, the call has a row in a check table,
+  and the receiver is recorded as open.
 
-Neither repair adds a cast. The call's existing cast to the stand-in,
+No repair adds a cast. The call's existing cast to the stand-in,
 `Receiver86` or `MainStub`, now names the row's class. The stand-in's
 member that the call used goes, and `main.cpp`'s `symbols` key takes the
 row's name at the same address. A first commit moves the two classes,
-verbatim, to before `FUN_008706b0` and WinMain. It leaves the object of
-`main.cpp` identical apart from the timestamp.
+verbatim, to before `FUN_008706b0` and WinMain. A later commit moves
+`RenderCoordinator` the same way, with `ShaderHolder`, which it holds,
+and `ShaderView`, which `ShaderHolder`'s member returns. Each move leaves
+the object of `main.cpp` identical apart from the timestamp.
 
 The forced link of every archive member, with no error limit and with
 `user32.lib` (the cells of the tip baseline method since `891a44f50`),
@@ -335,6 +339,56 @@ and 35,072. No name enters, and the duplicate symbols (none), the imports,
 the archive members and their order, and the list of names with differing
 definitions (519) do not change. The projected closure from WinMain, which
 counts `user32` names as system names, goes from 20,932 to 20,930.
+
+The `0x00870bd0` repair was measured the same way on `3503a01a1`, where the
+forced link leaves 35,030 names undefined (35,070 historical). The
+definition repair changes no count. The call takes one name: 35,029
+(35,069 historical). The projected closure goes from 20,928 to 20,927.
+In the section-level reachability model rooted at WinMain, without
+projection, the body of `0x00870bd0` becomes reachable. Through it the
+model reaches 122 more names that no archive member defines, and one
+leaves: 10,753 to 10,874. This is a count of what the model can reach,
+not a link result and not a run. All 122 were already undefined in the
+forced link, whose count falls by one. The duplicate symbols, the
+imports, the archive members and their order, and the list of names with
+differing definitions (519) do not change.
+
+### The definition repair of `0x00870bd0`
+
+`RenderCoordinator::FUN_00870bd0` took its texture as an integer,
+`std::intptr_t`, which the recipe's row spelled `int` (`H`). Its body uses
+the value only as an address: it converts it to `BSRenderedTexture*` for
+`0x00872f50`, passes it as `void*` to `0x00875fd0`, tests it for null and
+passes it on to `0x00876830`. Its one caller passes a texture pointer. The
+parameter is now `void*`, as `b6619dc9a` made it for `0x008707c0`, and the
+row is spelled `PAX`. The cast to `void*` goes. The cast to
+`BSRenderedTexture*` stays, because C++ converts `void*` to an object
+pointer only explicitly; it converted an integer before. The repair
+changes a type, not a width: on x64 the parameter was already 8 bytes.
+
+`0x00876830` ignores both of its parameters, and each of its five calls,
+in four functions of `main.cpp`, passes a pointer at the second: a texture
+pointer, a `void*`, or a pointer to the declared-only `TexStub870`. That
+parameter is now `void*` as well, its row and `symbols` key are spelled
+`HPAX`, and the four `(std::intptr_t)` casts at the calls outside
+`0x00870bd0` go. The two parameters change in one commit: changing either
+alone would need a new cast at the call from `0x00870bd0` to `0x00876830`.
+
+| Parameter | Use in the body | Callers and what each passes |
+| --- | --- | --- |
+| `0x00870bd0`, first | cast to `BSRenderedTexture*` for `0x00872f50`; passed as `void*` to `0x00875fd0`; tested for null; passed on to `0x00876830` | `FUN_008706b0`: its `BSRenderedTexture*` parameter |
+| `0x00876830`, second | not used (the body ignores both parameters) | `MainTarget::FUN_00872940`: `BSRenderedTexture*`; `RenderMgr::FUN_008707c0`: `void*`; `SceneRendererStub870::FUN_00870a00`, twice: `TexStub870*`; `0x00870bd0`: its `void*` parameter |
+
+The body of `0x00876830` neither establishes nor refutes the type; its
+five callers do. Both types are inferred from this source, not from the
+original's code.
+
+Once the two former names are mapped to the new ones, every section of
+`main.cpp`'s object is equal at the unit's flags, with `/Ob0` and with
+`/Od /Gy`, and no instruction changes. With the unit's flags the callers
+inline `0x00876830`, so its calls are not relocations there. The two
+per-address declaration headers in `include/fnv/decl/`, which no file
+includes, follow their definitions.
 
 ### The object proof
 
@@ -368,31 +422,30 @@ The body's sections move earlier in the object, the function order tier of
 `docs/symbol-naming-batches.md`. `FUN_008706b0` changes only its call's
 target. Warnings are unchanged.
 
+The same holds for `0x00870bd0`. With the unit's flags, `FUN_0086ff70` and
+`FUN_00871dc0` inline `FUN_008706b0`, and their copies of the call change
+their target in the same way.
+
 `objects.boot_call_repairs` checks the result in the cross build. Its table
 is `tools/function-relocations/boot-call-repairs.tsv`, with one row per
-repair. It fails when WinMain or `FUN_008706b0` refers to a former name, or
-no longer to the name of a body. Each repair's table fails on its parent's
-object.
+repaired caller. It fails when WinMain, `FUN_008706b0` or one of its two
+inlining callers refers to a former name, when `FUN_008706b0` no longer
+refers to the name of a body, or when one of the two repaired definitions
+is not defined under its row's name. Each repair's table fails on its
+parent's object. The definition rows fail with status 2: the name is not
+defined there.
 
-### Two calls that stay open
+### The call that stays open
 
-`FUN_008706b0` makes two more calls of the same kind. Both pass the
+`FUN_008706b0` makes one more call of the same kind. It passes the
 texture pointer where the row's parameter has another type, and an
 explicit cast at the call was refused on 2026-11-13, even one that keeps
-the address and leaves the object equal: the rule concerns the source. Both
-names stay undefined, and `MainStub` keeps their two members.
+the address and leaves the object equal: the rule concerns the source. The
+name stays undefined, and `MainStub` keeps its member.
 
-- `0x00870bd0`: the row is
-  `fnv_00870bd0::RenderCoordinator::FUN_00870bd0(int, bool)`, which the
-  source defines with `std::intptr_t`. The body uses the value only as an
-  address. The route without a cast is a
-  repair of the definition: the parameter becomes `void*`, as `b6619dc9a`
-  did for `0x008707c0`, and so does the second parameter of `0x00876830`,
-  to which the body passes it. That repair is queued under VEGAS-97, with
-  its own object proof and reviews.
-- `0x00870a00`: the row is
-  `SceneRendererStub870::FUN_00870a00(TexStub870*, bool)`, and `TexStub870`
-  is only declared. It waits for a shared declaration of the texture type.
+The row is `SceneRendererStub870::FUN_00870a00(TexStub870*, bool)`, and
+`TexStub870` is only declared. It waits for a shared declaration of the
+texture type.
 
 ### What the repairs do not prove
 
@@ -403,9 +456,10 @@ measures the receivers on windows-x64 as follows:
 - `FUN_008706b0` is a member of `fnv_008706b0::FUN_008706b0_shell`, which
   derives from the unit's `Main` and is 1 byte. It passes its own `this` as
   `RenderMgr` for `0x008707c0`: 0x98 bytes with alignment 8, its 35 `int`
-  fields at `0x0` to `0x88` and `name`, a pointer, at `0x90`. The two open
-  calls pass the same `this` as `RenderCoordinator`, 0x8c bytes with
-  `shaders` at `0x88`, and as `SceneRendererStub870`, 1 byte.
+  fields at `0x0` to `0x88` and `name`, a pointer, at `0x90`. It passes the
+  same `this` as `RenderCoordinator` for `0x00870bd0`, 0x8c bytes with
+  `shaders` at `0x88`, and for the open call as `SceneRendererStub870`,
+  1 byte.
 - WinMain passes the object of `g_osGlobals` as
   `fnv_008774a0::FUN_008774a0_shell`, 1 byte. That class is already among the
   views of that object listed above.
@@ -414,9 +468,11 @@ Which class each object is, and how large, stays open.
 
 The binding is admitted on the same condition as the steps above: no
 linking program contains `main.cpp`'s object. Measured on the windows-x64
-builds of `d5d1d60ec` and of the last repair, the build has 86
+builds of `d5d1d60ec` and of the `0x008707c0` repair, and again on those
+of `3503a01a1` and of the `0x00870bd0` repair, the build has 86
 executables, 66 of their links read `game.lib`, and only `runtime_havok_worker_pool_test` loads
-`main.cpp`'s object. That link fails with undefined names in both builds.
+`main.cpp`'s object. That link fails with undefined names in each of
+these builds.
 Before any program loads the object, two more obligations hold, added by
 the coordinator on 2026-11-13:
 
@@ -440,3 +496,10 @@ differ: those of `BGSDestructibleObjectForm`, `TESAttackDamageForm`,
 `main`, which is `FalloutNV`'s own link, and at `InitStartMenu` do not
 change. These links are models and no program uses them, so the
 coordinator ruled that they need no guard now.
+
+The `0x00870bd0` repair changes the load order of the same three links
+again, with the same members. One more name changes its first-loaded
+copy, with different content: the base class descriptor of
+`FUN_00483370`, from `blk_00400000_od.cpp`'s copy to
+`blk_005a0000_od.cpp`'s. It is in the list of names with differing
+definitions.

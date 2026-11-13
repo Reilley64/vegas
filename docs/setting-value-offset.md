@@ -206,8 +206,9 @@ own, not through this accessor:
 The float accessor `FUN_00403e20` (`0x00403e20`, `extradatalist.cpp`) has
 the same body on floats, `pThis[1]`. The archive holds 2,315 calls of it in
 201 members; 2,128 pass a global that the archive defines under the name
-of a setting class. These calls are not classified further here. It is the
-same repair at another address.
+of a setting class. VEGAS-116 repairs it the same way; see "The float
+accessor" below. That change also repairs the `extradatalist.cpp` row of
+the table: 21 of these relocations remain, in 8 members.
 
 ## Checks
 
@@ -254,8 +255,259 @@ Each part stays open; tickets follow.
 - 16 calls on 1-byte objects, among them those on the objects at
   `0x011c3c90` and `0x011cf788`, which need an owner.
 - 31 calls whose argument is not a global.
-- The float accessor `FUN_00403e20`: 2,315 calls in 201 members, the same
-  body on floats.
-- 22 direct reads 4 bytes into a setting, in 9 members.
+- The float accessor `FUN_00403e20`: repaired by VEGAS-116; its own
+  remainder is listed under "The float accessor".
+- 21 direct reads 4 bytes into a setting, in 8 members, since VEGAS-116
+  (22 in 9 before it).
 - A standing check that only the listed members refer to the old name (31
   members at 64f08c9d9 with this change).
+
+## The float accessor (VEGAS-116)
+
+The recipe has one function row at `0x00403e20`, 54 bytes, in
+`src/fallout_shared/extradatalist.cpp`: `FUN_00403e20`. It returns a
+reference to a setting's float value, or to `DAT_01202800`, set to zero,
+when it is given null. The archive holds 2,315 calls of it in 201 members;
+the tree has 2,359 free calls of it in 202 files.
+
+Everything in this section was measured on the windows-x64 cross build of
+d586c94f0 and of the code commit, built from one source path. Nothing was
+run on Windows.
+
+### The defect
+
+The body was `return pThis ? pThis[1] : ...` with `float* pThis`, the int
+accessor's body on floats. In the object of `extradatalist.cpp` it adds 4 to
+the setting's address (`addq $0x4, %rax`). The settings that the moved
+calls pass are objects of the shared `Setting`, 24 bytes with `uValue` at
+8, measured in the unit that defines each of their classes. As built for
+windows-x64, a read through the accessor of such a setting would return
+bytes 4 to 7 of the setting, the upper half of its table pointer, as a
+float, and a write would overwrite them. No program that links today
+contains the accessor or a caller: the lazy link of FalloutNV.exe's inputs
+with `user32.lib` at d586c94f0 loads 24 members of the game archive, none
+of them one of the 202 members that define or call the accessor. Nothing
+was run.
+
+### The change
+
+The accessor takes the shared `Setting`, from `include/fnv/setting_class.h`,
+which `extradatalist.cpp` now includes, and returns `pThis->uValue.f`. In
+its object one instruction changes, `addq $0x4, %rax` to
+`addq $0x8, %rax`. Its windows-x64 name becomes
+`?FUN_00403e20@@YAAEAMPEAVSetting@@@Z`, with one definition, in
+`extradatalist.cpp.obj`, as the old name had. The recipe row becomes
+`?FUN_00403e20@@YAAAMPAVSetting@@@Z`, at the same address, size and unit.
+
+`include/fnv/symbols_00403000.h` declares both forms. The `float *` form has
+no definition; the calls that this change does not move stay on it, so
+none of them reaches the repaired body.
+
+In the same unit `FUN_006463e0` multiplies its argument by
+`originalRuntimeFloatSetting594`, a generated
+`SettingT<GameSettingCollection>`, through the accessor, which the compiler
+inlines there as one load. The load now reads the setting 8 bytes in
+instead of 4: `mulss 0x4(%rip)` becomes `mulss 0x8(%rip)` against the same
+relocation. It is the `extradatalist.cpp` row of the table under "Not
+changed".
+
+### The calls
+
+Every free call of the accessor in the tree, classified by its argument
+with the int accessor's rules. A global's identity is the name the unit's
+object refers to, followed through the `/alternatename` pragmas to the
+archive's definition, and the class of that definition is measured in the
+unit that defines it.
+
+| Class | Calls | Files |
+| --- | --- | --- |
+| Moved: a global that generated data defines as a setting of the shared class, in a unit that can name the shared `Setting` | 1,845 | 173 |
+| Tabled: the unit defines a `::Setting` of its own | 345 | 15 |
+| Tabled: no object defines the name | 68 | 16 |
+| Tabled: the global is a 1-byte object of a class of the unit's own | 36 | 10 |
+| Tabled: the argument is not a global | 32 | 12 |
+| Tabled: `src/fallout/misc/main.cpp` | 13 | 1 |
+| Not decided: kinds the int accessor's calls did not have | 20 | 9 |
+
+A moved call's conversion of its argument to `float *` becomes a
+conversion to `::Setting *`. The address is the same. Every moved unit's
+object is the same as before once the accessor's name is respelled, apart
+from `extradatalist.cpp`, whose two changed functions are described above.
+21 units call both forms; their objects gain that one undefined symbol.
+
+The recipe entries of the 173 units respell each key of the old name, in
+its two spellings, or add the new key beside it in the 25 units that keep
+a call on the old form: 334 keys, 294 once the entries of a source are
+merged.
+
+57 sources keep a key of the old name (119 keys, 94 merged) at
+`0x00403e20`. 50 of them are the units whose objects call the old form.
+Four, `actor_magic.cpp`, `projectile.cpp`, `forenderedmenuracesex.cpp` and
+`tesobjectweap.cpp`, keep calls on the old form that the windows-x64 build
+emits no code for. The other three, `actor_h_unit.cpp`,
+`water_record_converters.cpp` and `clamped_acos.cpp`, had the key before
+this change and their objects refer to neither form. As for the int accessor, a key records where the call
+went in the original; it is not a definition, and nothing may bind the old
+name to the new body.
+
+### Moved calls to note
+
+- 76 moved calls, in 7 files, are established only through `/alternatename`
+  pragmas in `src/generated/data`. 34 pass the global under another name:
+  12 in `playercharacter.cpp` (lines 1891 to 1923), 11 in
+  `hudmainmenu.cpp`, all on `g_011d9774` (`fHudOpacity:Interface`) through
+  `DAT_011d9774`, `xsLockAlpha` and `ammoSetting`, 4 in
+  `interfacemanager.cpp` and 7 in `blk_00640000_od.cpp`. 42 pass it under
+  its own name with another class-key or inside a namespace: 16 in
+  `teswater.cpp`, 11 in `blk_00640000_od.cpp`, 7 in `hudmainmenu.cpp`, 4 in
+  `interfacemanager.cpp`, 2 in `bstreemodel.cpp` and 2 in
+  `blk_00600000_od.cpp`.
+- `blk_00640000_od.cpp` line 7825 adds two settings through `DAT_011cf264`
+  and `DAT_011cfb5c`. The unit's recipe keys give each name the other's
+  address, and the pragmas at lines 5 and 6 of
+  `src/generated/data/staging/blk_00640000_od.inc` follow the keys: the
+  names reach `g_011cfb5c` (`fDamageGunWeapCondBase`) and `g_011cf264`
+  (`fDamageGunWeapCondMult`). Both are `GlobalObject_0040e0b0`, so the
+  offset is right for both, the sum is the same either way, and the moved
+  call passes the addresses it passed before. Whether the source's names or
+  the keys are wrong is not decided here.
+
+### Tabled calls
+
+- **A `::Setting` of the unit's own.** `actor.cpp` (132 calls),
+  `highprocess.cpp` (101), `renderer.cpp` (22), `telekinesiseffect.cpp`
+  (19), `blk_00940000_od.cpp` (17), `combatcontroller.cpp` (10),
+  `explosion.cpp`, `magicfogprojectile.cpp` (9 each), `character.cpp` (7),
+  `package.cpp`, `tesreputation.cpp` (5 each), `itemmodmenu.cpp` (3),
+  `interface.cpp`, `sleepwaitmenu.cpp` and `bgsterminal.cpp` (2 each). The
+  unit's declaration of the new form would name that class, not the shared
+  one. The units stay on their copy.
+- **No object defines the name.** 62 names in 16 units. The unit declares
+  `GlobalObject_0044f440` (47 calls) or `GlobalObject_0040e0b0` (21) with
+  the class-key `struct`, and generated data defines the class with
+  `class`, so the unit's name for the global differs from the defined one.
+- **A 1-byte object.** The global the unit refers to is defined, in the
+  calling unit or another, as a 1-byte object of a class of the defining
+  unit's own. The calls are in
+  `actor.cpp`, `mobileobject.cpp`, `startmenu.cpp`, `renderer.cpp`,
+  `bstreemodel.cpp`, `testerrainlodmanager.cpp`, `blk_00640000_od.cpp`,
+  `blk_006e0000_od.cpp`, `blk_00c60000_o2.cpp` and `blk_00c60000_od.cpp`.
+  Neither the old offset nor the new one is inside these objects. Six of
+  the calls write, in `startmenu.cpp` (lines 2152, 2186, 2220, 3579, 3625
+  and 3670); each would write 4 bytes outside its object.
+- **Not a global.** The evidence that the pointer is a setting is missing:
+  21 elements of tables of setting pointers (`aiformulas.cpp`,
+  `combatformulas.cpp`, `bgsentrypointfunction.cpp`, `bgssceneinfo.cpp`,
+  `tesfurniture.cpp`, `extradataobjects.cpp`, `taskqueueinterface.cpp`,
+  `tesreputation.cpp`, `blk_00980000_od.cpp`), 4 fields of a slot in
+  `aiformulas.cpp`, 6 parameters or locals (`tesscriptfunctions.cpp` 5,
+  `interface.cpp` 1) and `this` in `blk_00440000_od.cpp`.
+- **`main.cpp`.** Its 13 calls stay for the owner of that unit. All read:
+  `fHavokTauRatio`, `fAnimationMult:General`, nine `fLODFadeOut...:LOD`
+  settings, `fScopeScissorAmount:Display` and `fLODLandDropAmount:LOD`.
+  Each argument is a global that generated data defines as a setting of
+  the shared class; they would move the same way.
+
+### Not decided
+
+These kinds did not occur among the int accessor's calls. Their calls stay
+on the old form and nothing here decides them.
+
+- 15 calls for which the compiler emits no code, in `combatgroup.cpp` (8,
+  on `originalRuntimeFloatSetting106`), `actor_magic.cpp` (2),
+  `forenderedmenuracesex.cpp` (2), `explosion.cpp`, `projectile.cpp` and
+  `tesobjectweap.cpp` (1 each). The windows-x64 object, built at `/O2`,
+  does not refer to the global. Compiled at `/Od /Gy`, the optimisation
+  level of these units' recipe entries, each object refers to it, and each
+  is a setting that generated data defines with the shared class. No unit
+  has another call on the same global, so the calls stay on the old form
+  here and their units keep the old key; `explosion.cpp`'s stays with that
+  unit's own `::Setting`.
+- 1 call in a header, `highprocess.h` line 488, on
+  `originalRuntimeFloatSetting244`. One unit compiles the header,
+  `highprocess_h_unit.cpp`; its object calls the old form there once, in
+  `HighProcess::StopAllActorSounds`, with the address of the generated
+  `SettingT<GameSettingCollection>`. The call meets the rule for a moved
+  call and stays on the old form in this change.
+- 2 calls on a 4-byte object of a class of the unit's own:
+  `bstreemanager.cpp` lines 285 and 293, `DAT_011f9158`.
+- 2 calls on a function-local static of a class of the unit's own:
+  `teswater.cpp` lines 12823 and 12825, `s_kAlpha` in `FUN_004e7770`.
+- Outside the free calls: two member functions of classes of a unit's own
+  carry recipe keys at `0x00403e20`,
+  `SettingT<GameSettingCollection>::FUN_00403e20()` in the entry of
+  `magiccaster.cpp` and `SettingT_GameSettingCollection_::Float()` in the
+  entry of `actor.cpp`. They are called at `magiccaster.cpp` line 4908 and
+  at `actor.h` lines 399 to 404; the objects of `magiccaster.cpp` and
+  `actor_h_unit.cpp` refer to them once each, and no object defines them.
+
+### What the settings were
+
+From the source and the objects; nothing was run.
+
+- 1,844 of the moved calls read and one writes: `0x007d2eb0`
+  (`startmenu.cpp` line 975) stores `fMouseSensitivity:Controls`
+  (`g_011e0a6c`), which eight moved calls read. Before this change it
+  would have written into the upper half of that setting's table pointer.
+- The most read settings among the moved calls are
+  `fHudOpacity:Interface` (19 calls), `fSneakMaxDistance` (15),
+  `g_01203150` (14; generated data gives it 75.0 and the key string
+  `s_010c289c`), `fCollisionSoundHeavyThreshold:Audio` (13),
+  `fWadingWaterQuadSize:Water` and `fProjectileDebugDuration:Combat` (11
+  each). On windows-x64 each read would return half of a table pointer as a
+  float, a value that depends on where the executable is loaded and that
+  no constructor, INI file or game setting sets.
+
+### Checks
+
+- `objects.float_setting_accessor` disassembles the accessor from the
+  archive. It fails when it adds 4 to the setting's address, or adds no 8,
+  and when no member or more than one defines the new name. A build of
+  `extradatalist.cpp` with the old body under the new name fails it, and so
+  does the archive of d586c94f0.
+- `objects.float_setting_accessor_callers` (`tools/function-relocations`,
+  `float-setting-accessor.tsv`) forbids the old form in eight callers and
+  requires the new one: three readers of `g_011d9774` and one caller for
+  each other argument form. It fails on the objects of d586c94f0.
+- No host test compiles `extradatalist.cpp` or a caller, so no test runs
+  the accessor.
+
+### Measured
+
+Link cells with `user32.lib` and without, ordinary and unlimited, lazy and
+forced: the same lists as at d586c94f0 but one name. The forced unlimited
+cells gain `float & __cdecl FUN_00403e20(float *)` as undefined: 35,030 to
+35,031 with `user32.lib`, 35,070 to 35,071 without. The forced ordinary
+cells, which stop at 20 names, list it among their 20. The rise is
+deliberate: the old name is what the tabled calls refer to, and no object
+defines it. The entry link rooted at WinMain gains the same name (34,755
+to 34,756 undefined), and so does its member model (34,764 to 34,765
+unresolved). The projected model's unresolved names are unchanged (7,540);
+its aliased names go from 13,430 to 13,431. Duplicates 0, imports, the
+archive's members and their order are unchanged.
+
+Per name, over every definition in the archive and in FalloutNV's link
+inputs: the old name leaves, the new one enters with one definition in the
+same member, and 600 definitions change their content hash, each still one
+variant in the same member with the same selection. With the new name
+read as the old one, two definitions change: the accessor and
+`FUN_006463e0`. The names with differing definitions stay 519 in the
+archive and 521 in the link inputs, the same names.
+
+### Remainder
+
+Each part stays open.
+
+- `main.cpp`: 13 calls.
+- The 15 units that define a `::Setting` of their own: 345 calls.
+- The 16 units' declarations of generated classes with the key `struct`:
+  68 calls, 62 names.
+- 36 calls on 1-byte objects, six of them writes.
+- 32 calls whose argument is not a global.
+- The kinds not decided: 15 calls without code, 1 in a header, 2 on a
+  4-byte object, 2 on a function-local static, and the two member
+  functions with keys at `0x00403e20`.
+- The names `DAT_011cf264` and `DAT_011cfb5c` in `blk_00640000_od.cpp`,
+  whose recipe keys and pragmas give each the other's address.
+- A standing check that only the listed members refer to the old name (50
+  members at d586c94f0 with this change).

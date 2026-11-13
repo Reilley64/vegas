@@ -39,8 +39,9 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.slot_free_calls` for `slot-free-calls.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`,
 `objects.integer_width_calls` for `integer-width-calls.tsv`,
-`objects.log_path_buffer` for `log-path-buffer.tsv`, and
-`objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`. CMake
+`objects.log_path_buffer` for `log-path-buffer.tsv`,
+`objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`, and
+`objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -165,6 +166,12 @@ takes the shared `Setting`. The sample holds three readers of the processor
 count setting and one caller for each other form of argument. Whether an
 argument is a setting is not a relocation; the document classifies every
 call.
+
+`float-setting-accessor.tsv` does the same for the float setting accessor
+at `0x00403e20` (VEGAS-116, docs/setting-value-offset.md). It forbids the
+form that took a `float *`, which no object defines, and requires the form
+that takes the shared `Setting`. The sample holds three readers of the HUD
+opacity setting and one caller for each other form of argument.
 
 ## Exit status
 

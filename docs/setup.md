@@ -49,13 +49,17 @@ copy for their own use. This page is not legal clearance.
 **Reviewed tool version.** A pack is only as trustworthy as the setup that
 made it. Only a commit reachable from the reviewed integration branch is a
 reviewed version. For such a commit,
-`git merge-base --is-ancestor HEAD <remote>/<branch>` exits with status 0.
-An unmerged branch is not reviewed. `vegas-setup` does not print the commit
-you built it from, so record it yourself, privately, beside the pack. Build
-from a checkout of a reviewed commit with no local changes
-(`git status --porcelain` prints nothing). Keep the output of
-`git rev-parse HEAD` in that checkout, the branch name and the date you made
-the pack.
+`git merge-base --is-ancestor <commit> <remote>/<branch>` exits with status
+0. An unmerged branch is not reviewed. On every run, `vegas-setup` first
+prints the commit it was built from and whether that checkout had local
+changes (see "Using setup"). Check that the printed commit is reachable from
+the integration branch and that the line ends with `no local changes`. Any
+other ending, or the commit `unknown`, does not name a reviewed version.
+Build again from a checkout of a reviewed commit with no local changes, not
+from an export without `.git`. Keep the printed line, the branch name and
+the date you made the pack, privately, beside the pack. The line is the
+builder's own statement about a binary they built, and it does not count
+ignored files. A downloaded binary's line is only as good as its source.
 
 **Maintenance.** The ranges in `src/setup/single_instance_ranges.h` and the
 recipe check, `tools/setup-recipe-ranges`, belong to setup and change with
@@ -82,11 +86,13 @@ install folder as its only argument:
 vegas-setup "<install folder>"
 ```
 
-Setup succeeded if its exit status is 0 and it printed the line below to
-the standard error stream. To see the exit status, run
+Setup succeeded if its exit status is 0 and the second line it printed to
+the standard error stream is the second line below. The first line names
+the commit it was built from, here `<commit>`. To see the exit status, run
 `echo %ERRORLEVEL%` in Command Prompt or `$LASTEXITCODE` in PowerShell.
 
 ```text
+vegas-setup: built from commit <commit>, no local changes
 vegas-setup: vegas-data.pack was written beside FalloutNV.exe
 ```
 
@@ -96,8 +102,18 @@ file. It never writes, renames or deletes `FalloutNV.exe`. Running it again
 replaces the pack with a newly prepared one. Setup replaces a pack only with
 one that has passed validation.
 
-Setup prints one line to the standard error stream that says how it ended.
-Its exit status says the same:
+Setup prints two lines to the standard error stream. The first names the
+commit it was built from and ends with `no local changes`,
+`with local changes` or `local changes unknown`. A local change is anything
+that `git status --porcelain` lists, including an untracked file that git
+does not ignore, such as a build folder inside the checkout that `.gitignore` does not cover.
+The last ending means that `git status` failed during the build. A build
+without git, or from a folder that is not the top of its own checkout, such
+as an export made with `git archive`, prints
+`vegas-setup: built from commit unknown`. So does a build from a checkout
+that git refuses, for example because another user owns it and
+`safe.directory` does not allow it, or from a repository with no commit. The
+second line says how setup ended. Its exit status says the same:
 
 | Status | Meaning |
 | --- | --- |
@@ -125,14 +141,15 @@ letter case, even a file added with `git add -f`. It also refuses a commit
 that replaces such a file with a symbolic link.
 
 Setup does not catch an allocation failure. When memory runs out, the
-program stops through `std::terminate` without printing a line. Its exit
-status is then abnormal and is not one of the statuses above. The exact
+program stops through `std::terminate` without printing the second line. Its
+exit status is then abnormal and is not one of the statuses above. The exact
 value on Windows is not verified.
 
 ## What setup does
 
 `setup::RunSetup` (`src/setup/run_setup.h`) is the command. The `main` of
-`vegas-setup` only passes it the arguments. `RunSetup` takes these steps:
+`vegas-setup` prints the commit line and passes `RunSetup` the arguments.
+`RunSetup` takes these steps:
 
 1. It reads the whole of `FalloutNV.exe` in the install folder.
 2. It calls `setup::PrepareDataPack` (`src/setup/prepare_pack.h`), which
@@ -220,6 +237,17 @@ game never link together. `vegas-setup` is `src/setup/setup_main.cpp`
 linked with the library. On Windows it takes the folder as a wide string, so
 a path outside the ANSI code page works.
 
+Every build of `vegas-setup` runs `src/setup/build_commit.cmake`. It runs
+`git rev-parse` and `git status --porcelain --untracked-files=normal` in the
+source folder, so a `status.showUntrackedFiles` setting of `no` does not
+hide an untracked file. It first removes `GIT_DIR`, `GIT_WORK_TREE` and
+`GIT_INDEX_FILE` from its environment, so git reads the source folder's own
+repository and index. It writes the commit line's text to
+`vegas_setup_build_commit.h` in the build folder, never into the source. It
+rewrites the header only when the text changes. Only `setup_main.cpp`
+includes it, so the game archive and `FalloutNV` do not change with the
+commit.
+
 On a Windows host, building setup does not need Python. Only tests need it:
 `setup.recipe_ranges` and the archive checks. A configure without Python 3
 warns, and `setup.recipe_ranges` and `objects.tools` then fail and say why. A
@@ -256,6 +284,22 @@ which the recipe literal fixes.
   or pack name that a folder already uses, and statuses 1 to 5 of
   `RunSetup`, with the folder unchanged.
 - `setup.recipe_ranges` runs the recipe check above.
+- `setup.build_commit_line` runs `vegas-setup` with no argument. It requires
+  status 1, the commit line and then the usage line, and shows the commit
+  line. It checks the line's format, not a particular commit. A cross build
+  cannot run `vegas-setup`, so it does not register this test.
+- `setup.build_commit_export` runs `src/setup/build_commit.cmake` on an
+  empty folder, as an export without `.git` is, and requires the commit
+  `unknown`.
+- `setup.build_commit_no_changes`, `setup.build_commit_with_changes`,
+  `setup.build_commit_hidden_untracked` and `setup.build_commit_git_dir` run
+  the generator on a repository with one commit that each test creates.
+  They require `no local changes` for the clean checkout, also with
+  `GIT_INDEX_FILE` or `GIT_WORK_TREE` naming another index or folder, and
+  `with local changes` for a changed tracked file and for an untracked file
+  under `status.showUntrackedFiles=no`. The last test requires `unknown` for
+  an empty folder while `GIT_DIR`, or `GIT_DIR` and `GIT_WORK_TREE`, name
+  that repository. A configure that finds no git does not register them.
 
 ## Private run on an actual input
 
@@ -309,3 +353,15 @@ and not full-game acceptance.
   so no CI run of the setup tests is recorded here.
 - Nobody has checked the exit status of an uncaught allocation failure on
   Windows.
+- Nobody has run a Windows executable of `vegas-setup` that prints the
+  commit line. The line on Windows, the `setup.build_commit_*` tests on
+  Windows and `build_commit.cmake` under a Windows git are not verified.
+- `build_commit.cmake` removes only `GIT_DIR`, `GIT_WORK_TREE` and
+  `GIT_INDEX_FILE` from its environment. Other git environment variables,
+  such as `GIT_CEILING_DIRECTORIES`, `GIT_OBJECT_DIRECTORY`, `GIT_COMMON_DIR`
+  and `GIT_CONFIG_*`, can still change what git reports, and no test covers
+  them. The line also ends with `no local changes` when the only untracked
+  files are ones that the builder's `core.excludesFile` or the checkout's
+  `.git/info/exclude` ignores. It does too when a changed tracked file is
+  marked with `git update-index --assume-unchanged` or `--skip-worktree`,
+  or when the only change is a file mode and `core.fileMode` is false.

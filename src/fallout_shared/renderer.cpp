@@ -1574,7 +1574,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     {
         std::fclose((std::FILE *)(file32));
     }
-    ::DAT_011c6fb0 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7628))))->i;
+    ::DAT_011c6fb0 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c7628))))->i;
     (*reinterpret_cast<int *>(&::DAT_0118947c)) = reinterpret_cast<::TESObjectCELL *>(&(DAT_011c73dc))->GetCellStandValue();
     ::DAT_01189480 = reinterpret_cast<::TESObjectCELL *>(&(DAT_011c718c))->GetCellStandValue();
     if (((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&(DAT_011c771c))->GetBoolValue())))
@@ -1585,7 +1585,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     {
         (*reinterpret_cast<int *>(&::DAT_0118947c)) = (unsigned int)::FUN_004de0c0();
         ::DAT_01189480 = (unsigned int)::FUN_004de0d0();
-        reinterpret_cast<::S0042fa20 *>(&(DAT_011c73f4))->FUN_0045ce80((((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i < 2) ? ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i : 2);
+        reinterpret_cast<::S0042fa20 *>(&(DAT_011c73f4))->FUN_0045ce80((((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73f4))))->i < 2) ? ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73f4))))->i : 2);
     }
     if (((bool)(::fnv_004dc710::FUN_004dc710())))
     {
@@ -1642,9 +1642,9 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     {
         return 0;
     }
-    if (((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i > 0)
+    if (((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73f4))))->i > 0)
     {
-        if (::fnv_004dd180::DispatchFormValue(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i, 0x71) || !DAT_011c76c0.Bool()->b)
+        if (::fnv_004dd180::DispatchFormValue(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73f4))))->i, 0x71) || !DAT_011c76c0.Bool()->b)
         {
             switch (reinterpret_cast<::TESObjectCELL *>(&(DAT_011c73f4))->GetCellStandValue())
             {
@@ -1671,7 +1671,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
             file32 = std::fopen(buf21, (const char*)&DAT_01021568);
             if (file32 != 0)
             {
-                std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021518, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i);
+                std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021518, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73f4))))->i);
             }
             reinterpret_cast<::FUN_004de2d0_StandIn *>(&(DAT_011c7790))->FUN_004de2d0(0);
             (*reinterpret_cast<unsigned char *>(&::DAT_011f9421)) = 0;
@@ -1734,23 +1734,23 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     DAT_011c70ea = (int)(hr62 >= 0);
     hr62 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0x20000, 3, 0x71);
     (*reinterpret_cast<unsigned char *>(&::DAT_011f941f)) = (int)(hr62 >= 0);
-    DAT_011ad810 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7284))))->i;
-    DAT_011ad814 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7784))))->i;
-    DAT_011ad818 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7680))))->i;
+    DAT_011ad810 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c7284))))->i;
+    DAT_011ad814 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c7784))))->i;
+    DAT_011ad818 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c7680))))->i;
     ::DAT_011f9420 = ((sub13013->f40 & 0x400) != 0);
     bool b12;
     b12 = ((sub13013->f3c & 2) != 0 && (sub13013->f3c & 0x100) == 0) ? 0 : 1;
     (*reinterpret_cast<unsigned char *>(&::DAT_011f9183)) = (b12 && !DAT_011c7538.Bool()->b) ? 1 : 0;
-    (*reinterpret_cast<int *>(&::DAT_0126efc4)) = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c779c))))->i;
-    (*reinterpret_cast<int *>(&::DAT_0126efc8)) = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7254))))->i;
+    (*reinterpret_cast<int *>(&::DAT_0126efc4)) = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c779c))))->i;
+    (*reinterpret_cast<int *>(&::DAT_0126efc8)) = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c7254))))->i;
     (*reinterpret_cast<unsigned char *>(&::DAT_011f9426)) = DAT_011c70ec;
     if (DAT_011c70ec != 0)
     {
-        float rf = (float)(((double)(unsigned int)::DAT_01189480 - ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c718c))))->i) /
+        float rf = (float)(((double)(unsigned int)::DAT_01189480 - ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c718c))))->i) /
                            (double)(unsigned int)::DAT_01189480 / 2.0);
         (*reinterpret_cast<::fnv_004da670::ImageSpaceEffectParam *>(&::DAT_011ad840)) = ImageSpaceEffectParam(0.0f, 1.0f, 1.0f - rf, rf);
-        ::DAT_011f9430 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73dc))))->i;
-        ::DAT_011f9434 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c718c))))->i;
+        ::DAT_011f9430 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73dc))))->i;
+        ::DAT_011f9434 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c718c))))->i;
     }
     (*reinterpret_cast<unsigned char *>(&::DAT_011f941e)) = (DAT_011c76c0.Bool()->b && DAT_011c70ea != 0) ? 1 : 0;
     DAT_011f94a8 = DAT_011c747c.Bool()->b;
@@ -1762,7 +1762,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     {
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&(DAT_011c71dc))->FUN_004de2d0(0);
     }
-    *(short*)&DAT_011ad830 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7520))))->sh;
+    *(short*)&DAT_011ad830 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c7520))))->sh;
     if (::FUN_004dc0b0() == 1)
     {
         hr62 = ((::fnv_004da670::DevObj *)(::FUN_004dc040()))->vfn_28(0, 1, 0x16, 0, 1, 0x434f5441);
@@ -1779,8 +1779,8 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     {
         hr62 = (int)0x88760866;
     }
-    (*reinterpret_cast<unsigned char *>(&::DAT_011f9421)) = (hr62 >= 0 && DAT_011c7790.Bool()->b && ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i > 1) ? 1 : 0;
-    ::FUN_004dc100(::FUN_00647b70(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c72e4))))->i, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c72d8))))->i));
+    (*reinterpret_cast<unsigned char *>(&::DAT_011f9421)) = (hr62 >= 0 && DAT_011c7790.Bool()->b && ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c73f4))))->i > 1) ? 1 : 0;
+    ::FUN_004dc100(::FUN_00647b70(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c72e4))))->i, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c72d8))))->i));
     bool flag27 = true;
     if (::FUN_004dc0b0() == 2)
     {
@@ -1958,7 +1958,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         r510 = dev53->vfn_28(0, 1, 0x16, 0x80000, 3, 0x24);
         (*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011ad832)) = (int)(r510 >= 0);
     }
-    ::FUN_004dc2d0(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c71ac))))->f);
+    ::FUN_004dc2d0(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c71ac))))->f);
     std::intptr_t t1404 = ((std::intptr_t)(::BSShaderManager::GetRenderModeName()));
     ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ::FUN_004dc110());
     file32 = std::fopen(buf21, (const char*)&DAT_01021568);
@@ -2003,38 +2003,38 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_010211c0,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f9421)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
         std::fprintf((std::FILE *)(file32), (const char*)&DAT_010211a4, ::FUN_00b7faf0());
-        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021188, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004da670::SettingT_GameSettingCollection_ *>(&::g_011c3ea4))))))->i);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021188, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_004da670::SettingT_GameSettingCollection_ *>(&::g_011c3ea4))))))->i);
         std::fclose((std::FILE *)(file32));
     }
-    ::DAT_011f9190 = DAT_011c76c0.Bool()->b ? ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7488))))->f : ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7170))))->f;
-    ::DAT_011f918c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7574))))->f;
-    ::DAT_011f9188 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7510))))->f;
+    ::DAT_011f9190 = DAT_011c76c0.Bool()->b ? ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7488))))->f : ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7170))))->f;
+    ::DAT_011f918c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7574))))->f;
+    ::DAT_011f9188 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7510))))->f;
     ::sb9e::DAT_011f9444 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7740))))->f;
-    ::sb9e::DAT_011f9448 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7740))))->f + ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c76b4))))->f;
+    ::sb9e::DAT_011f9448 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7740))))->f + ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c76b4))))->f;
     (*reinterpret_cast<float *>(&::sb9e::DAT_011f944c)) = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7568))))->f;
-    (*reinterpret_cast<float *>(&::sb9e::DAT_011f9450)) = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7568))))->f + ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7400))))->f;
+    (*reinterpret_cast<float *>(&::sb9e::DAT_011f9450)) = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7568))))->f + ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7400))))->f;
     ::DAT_011f9454 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7598))))->f;
-    ::DAT_011f9458 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7598))))->f + ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7634))))->f;
-    ::DAT_011f945c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7374))))->f;
-    ::DAT_011f9460 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c73e8))))->f;
-    ::DAT_011f9464 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7160))))->f;
-    ::DAT_011f9468 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c72f0))))->f;
-    ::DAT_011f946c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c72cc))))->f;
-    ::DAT_011f9470 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7428))))->f;
-    ::DAT_011f9474 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c72fc))))->f;
-    ::DAT_011f9478 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7344))))->f;
+    ::DAT_011f9458 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7598))))->f + ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7634))))->f;
+    ::DAT_011f945c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7374))))->f;
+    ::DAT_011f9460 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c73e8))))->f;
+    ::DAT_011f9464 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7160))))->f;
+    ::DAT_011f9468 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c72f0))))->f;
+    ::DAT_011f946c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c72cc))))->f;
+    ::DAT_011f9470 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7428))))->f;
+    ::DAT_011f9474 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c72fc))))->f;
+    ::DAT_011f9478 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7344))))->f;
     DAT_011f9488 = DAT_011c7610.Bool()->b;
-    ::DAT_011ad834 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c735c))))->f;
+    ::DAT_011ad834 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c735c))))->f;
     DAT_011f9489 = 0;
     (*reinterpret_cast<unsigned char *>(&::DAT_011f94b4)) = DAT_011c710c.Bool()->b;
     ::DAT_011f9425 = DAT_011c7774.Bool()->b;
-    DAT_011f9428 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7464))))->f;
-    ::DAT_011ad838 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c75e0))))->f;
-    (*reinterpret_cast<int *>(&::DAT_011f91b0)) = (((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c752c))))->i >= 0 && ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c752c))))->i <= 3) ? ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c752c))))->i : 3;
+    DAT_011f9428 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c7464))))->f;
+    ::DAT_011ad838 = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c75e0))))->f;
+    (*reinterpret_cast<int *>(&::DAT_011f91b0)) = (((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c752c))))->i >= 0 && ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c752c))))->i <= 3) ? ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c752c))))->i : 3;
     ::DAT_011f9490 = DAT_011c70cc;
     DAT_011f961c =
-        ImageSpaceEffectParam(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c75f8))))->f, ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c77cc))))->f, ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c73d0))))->f, 1.0f);
-    ::SetBSStringCapacity(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c76cc))))->i);
+        ImageSpaceEffectParam(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c75f8))))->f, ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c77cc))))->f, ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((::Setting *)&(DAT_011c73d0))))->f, 1.0f);
+    ::SetBSStringCapacity(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&(DAT_011c76cc))))->i);
     (*reinterpret_cast<unsigned char *>(&::DAT_011f948a)) = DAT_011c7308.Bool()->b;
     return (std::intptr_t)((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))));
 }

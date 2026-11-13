@@ -90,3 +90,8 @@ function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005cd
 function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d3b90@fnv_005d3b90@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d4b90@fnv_005d4b90@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
 function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d9b20@fnv_005d9b20@@YA_NPEBVScriptParameter@@PEBDPEAVTESObjectREFR@@2PEAVScript@@PEAUScriptLocals@@AEANAEAI@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of renderer.cpp whose
+# calls of the accessor all moved (VEGAS-117), once the unit's own Setting
+# went with FUN_005e0190's move to the shared class. It reads the display,
+# shadow and water int settings.
+function	renderer	src/fallout_shared/renderer.cpp	?FUN_004da670@fnv_004da670@@YA_JPEAX0@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

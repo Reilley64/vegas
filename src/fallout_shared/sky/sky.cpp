@@ -1044,10 +1044,6 @@ struct FUN_0063d1d0_t
 struct FUN_0063c490_shell
 {
 };
-struct FUN_0063d5e0_t
-{
-    void FUN_0063d5e0();
-};
 
 // @fnv 0x0063ac70
 void FUN_0063ac70_shell::FUN_0063ac70(float afSecondsPassed)
@@ -1080,7 +1076,7 @@ void FUN_0063ac70_shell::FUN_0063ac70(float afSecondsPassed)
     reinterpret_cast<::fnv_0063b120::FUN_0063b120_shell *>(this)->FUN_0063b120();
     FUN_0063bce0();
     reinterpret_cast<::FUN_0063c490_shell *>((((FUN_0063c490_shell*)this)))->FUN_0063c490();
-    ((FUN_0063d5e0_t*)this)->FUN_0063d5e0();
+    ((::fnv_0063d5e0::FUN_0063d5e0_shell*)this)->FUN_0063d5e0();
 
     if (m_pAtmosphere)
         m_pAtmosphere->Update(this, afSecondsPassed);

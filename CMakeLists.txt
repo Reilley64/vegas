@@ -139,5 +139,20 @@ target_include_directories(vegas_setup PUBLIC src PRIVATE include)
 target_link_libraries(vegas_setup PRIVATE ZLIB::ZLIBSTATIC mbedtls_sha256)
 add_executable(vegas-setup src/setup/setup_main.cpp)
 target_link_libraries(vegas-setup PRIVATE vegas_setup)
+# The commit vegas-setup is built from (VEGAS-107). Every build runs git and
+# writes vegas_setup_build_commit.h into the build folder, never into the
+# source. Without git, or without the checkout's own .git as in a git archive
+# export, the commit is "unknown". The game archive does not use it.
+find_package(Git QUIET)
+set(vegas_setup_commit_dir ${CMAKE_CURRENT_BINARY_DIR}/vegas-setup-commit)
+add_custom_target(vegas_setup_build_commit
+  COMMAND ${CMAKE_COMMAND} -DSOURCE_DIR=${PROJECT_SOURCE_DIR}
+    -DOUTPUT=${vegas_setup_commit_dir}/vegas_setup_build_commit.h
+    -DGIT_EXECUTABLE=${GIT_EXECUTABLE}
+    -P ${PROJECT_SOURCE_DIR}/src/setup/build_commit.cmake
+  BYPRODUCTS ${vegas_setup_commit_dir}/vegas_setup_build_commit.h
+  VERBATIM)
+add_dependencies(vegas-setup vegas_setup_build_commit)
+target_include_directories(vegas-setup PRIVATE ${vegas_setup_commit_dir})
 
 add_subdirectory(tests)

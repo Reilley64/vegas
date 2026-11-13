@@ -1217,3 +1217,30 @@ if(vegas_object_checks)
       -DLOADS=0:xmm1,8:xmm2
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_call_result_loads.cmake)
 endif()
+
+# The line in which vegas-setup names the commit it was built from
+# (VEGAS-107). The test runs vegas-setup, so a cross build does not register
+# it. The second test runs the header's generator on a folder without .git,
+# as in a git archive export, on every host.
+if(NOT CMAKE_CROSSCOMPILING)
+  add_test(NAME setup.build_commit_line
+    COMMAND ${CMAKE_COMMAND} -DPROGRAM=$<TARGET_FILE:vegas-setup>
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/build_commit_line.cmake)
+endif()
+add_test(NAME setup.build_commit_export
+  COMMAND ${CMAKE_COMMAND} -DGENERATOR=${PROJECT_SOURCE_DIR}/src/setup/build_commit.cmake
+    -DWORK=${CMAKE_CURRENT_BINARY_DIR}/build_commit_export
+    -DGIT_EXECUTABLE=${GIT_EXECUTABLE}
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/build_commit_export.cmake)
+# The generator on a repository each test creates: a clean checkout, a
+# changed file, an untracked file under status.showUntrackedFiles=no, and an
+# export under an exported GIT_DIR. They need git.
+if(GIT_FOUND)
+  foreach(case no_changes with_changes hidden_untracked git_dir)
+    add_test(NAME setup.build_commit_${case}
+      COMMAND ${CMAKE_COMMAND} -DGENERATOR=${PROJECT_SOURCE_DIR}/src/setup/build_commit.cmake
+        -DWORK=${CMAKE_CURRENT_BINARY_DIR}/build_commit_${case}
+        -DGIT_EXECUTABLE=${GIT_EXECUTABLE} -DCASE=${case}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/build_commit_repository.cmake)
+  endforeach()
+endif()

@@ -213,3 +213,19 @@ func TestObjectForNeedsExactlyOne(t *testing.T) {
 		t.Errorf("got %q, %v", got, err)
 	}
 }
+
+// A Windows checkout writes the tables with CRLF line ends. Each line of such a
+// table must read as it does with LF: a forbidden name still fails, and a
+// REQUIRED field of "-" still requires no name.
+func TestCRLFTable(t *testing.T) {
+	crlf := strings.ReplaceAll(testTable, "\n", "\r\n")
+	pass := setupTable(t, crlf, testObject("?f@@YAXXZ", true, "?new@@YAXXZ"), testObject("?g@@YAXXZ", true, "?new@@YAXXZ"))
+	check(t, pass, 0, "ok\ttwo\t?g@@YAXXZ")
+	fail := setupTable(t, crlf, testObject("?f@@YAXXZ", true, "?new@@YAXXZ", "?old@@YAXXZ"),
+		testObject("?g@@YAXXZ", true, "?new@@YAXXZ"))
+	check(t, fail, 1, "FAIL\tone\t?f@@YAXXZ\t1 relocations to ?old@@YAXXZ")
+	end := setupTable(t, strings.ReplaceAll(pastTable, "\n", "\r\n"),
+		withAddends(testObject("?f@@YAXXZ", true, "?table@@3HA"), 16), testObject("?g@@YAXXZ", true))
+	check(t, end, 1, "FAIL\tone\t?f@@YAXXZ\ta relocation to ?table@@3HA with addend 16 reaches past its 16 bytes")
+	check(t, end, 1, "ok\ttwo\t?g@@YAXXZ")
+}

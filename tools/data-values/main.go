@@ -33,10 +33,12 @@ type value struct {
 //
 //	value<TAB>UNIT<TAB>NAME<TAB>HEX
 //
-// where HEX is the expected bytes in file order, two hex digits each.
+// where HEX is the expected bytes in file order, two hex digits each. A line
+// may end in CRLF, as a Windows checkout writes it.
 func readTable(text string) ([]value, error) {
 	var values []value
 	for i, line := range strings.Split(text, "\n") {
+		line = strings.TrimSuffix(line, "\r")
 		if line == "" || strings.HasPrefix(line, "#") {
 			continue
 		}

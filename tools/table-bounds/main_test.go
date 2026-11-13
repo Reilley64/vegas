@@ -230,3 +230,21 @@ func TestReadTables(t *testing.T) {
 		t.Errorf("lengths %v, error %v", lengths, err)
 	}
 }
+
+// A Windows checkout writes the generated units with CRLF line ends; they must
+// give the same tables and lengths as with LF.
+func TestReadTablesCRLF(t *testing.T) {
+	dir := t.TempDir()
+	crlf := func(s string) []byte { return []byte(strings.ReplaceAll(s, "\n", "\r\n")) }
+	if err := os.WriteFile(filepath.Join(dir, "vtables.h"), crlf(header), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	path := filepath.Join(dir, "u.cpp")
+	if err := os.WriteFile(path, crlf(source), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	lengths, err := readTables([]string{path})
+	if err != nil || len(lengths) != 2 || lengths["?T@@3HA"] != 16 || lengths["fnv_vftable_C"] != 24 {
+		t.Errorf("lengths %v, error %v", lengths, err)
+	}
+}

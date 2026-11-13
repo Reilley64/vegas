@@ -34,6 +34,7 @@ var (
 // are the generated vtable units the build compiles. Each unit's symbol names
 // come from the vtables.h beside it, which it includes: a C name declared
 // with an asm label is defined under the label, one without under its C name.
+// A line may end in CRLF, as a Windows checkout writes it.
 func readTables(sources []string) (map[string]int64, error) {
 	lengths := map[string]int64{}
 	headers := map[string]map[string]string{}
@@ -47,6 +48,7 @@ func readTables(sources []string) (map[string]int64, error) {
 			}
 			labels = map[string]string{}
 			for _, line := range strings.Split(string(text), "\n") {
+				line = strings.TrimSuffix(line, "\r")
 				if m := labelLine.FindStringSubmatch(line); m != nil {
 					labels[m[1]] = m[2]
 					if m[2] == "" {
@@ -62,6 +64,7 @@ func readTables(sources []string) (map[string]int64, error) {
 		}
 		name, slots := "", int64(0)
 		for i, line := range strings.Split(string(text), "\n") {
+			line = strings.TrimSuffix(line, "\r")
 			switch {
 			case name == "":
 				m := tableLine.FindStringSubmatch(line)

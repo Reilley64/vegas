@@ -49,10 +49,12 @@ type table struct {
 //	past<TAB>NAME<TAB>LENGTH
 //	function<TAB>BATCH<TAB>UNIT<TAB>NAME<TAB>REQUIRED NAME[ REQUIRED NAME...]
 //
-// A REQUIRED field of "-" requires no name.
+// A REQUIRED field of "-" requires no name. A line may end in CRLF, as a
+// Windows checkout writes it.
 func readTable(text string) (table, error) {
 	var t table
 	for i, line := range strings.Split(text, "\n") {
+		line = strings.TrimSuffix(line, "\r")
 		if line == "" || strings.HasPrefix(line, "#") {
 			continue
 		}

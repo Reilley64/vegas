@@ -158,3 +158,13 @@ func TestTableErrors(t *testing.T) {
 		check(t, setup(t, text, object), 2, "incomplete")
 	}
 }
+
+// A Windows checkout writes the table with CRLF line ends; it must read as it
+// does with LF.
+func TestCRLFTable(t *testing.T) {
+	crlf := strings.ReplaceAll(testTable, "\n", "\r\n")
+	object := testObject(dataFlags, contentsWith(8, 0xff, 0xff, 0xff, 0xff), "?g_010173f0@@3IA", 8, 2)
+	check(t, setup(t, crlf, object), 0, "ok\tsrc/a.cpp\t?g_010173f0@@3IA")
+	zero := testObject(dataFlags, make([]byte, 16), "?g_010173f0@@3IA", 0, 2)
+	check(t, setup(t, crlf, zero), 1, "bytes 00000000, not ffffffff")
+}

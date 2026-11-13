@@ -102,6 +102,36 @@ def with_addrsig(sections, symbols, *names):
     sections.append([".llvm_addrsig", bytes(at[name] for name in names), ADDRSIG, []])
 
 
+def three_calls(names, targets, addrsig=(), code=b"\xe8\0\0\0\0" * 3 + b"\xc3"):
+    """A COMDAT ?caller@@YAXXZ whose three calls, at 0x1, 0x6 and 0xb, go to
+    the named targets; names lists the undefined symbols in table order."""
+    sections = [[".text$mn", code, CODE | COMDAT,
+                 [(1 + 5 * i, 2 + names.index(name), 4) for i, name in enumerate(targets)]]]
+    symbols = [[".text$mn", 0, 1, 0, 3, 2], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None]]
+    symbols += [[name, 0, 0, 0x20, 2, None] for name in names]
+    if addrsig:
+        with_addrsig(sections, symbols, *addrsig)
+    return obj(sections, symbols)
+
+
+def calls_to(names, targets, addrsig=None, types=None):
+    """Like three_calls(), one call per target at 0x1, 0x6, 0xb and on. A
+    name may be a whole symbol (name, value, section, type, storage); types
+    gives each call's relocation type; addrsig, when not None, adds the
+    address-significance table even when it is empty."""
+    names = [[name, 0, 0, 0x20, 2] if isinstance(name, str) else list(name) for name in names]
+    positions = [name[0] for name in names]
+    code = b"\xe8\0\0\0\0" * max(len(targets), 3) + b"\xc3"
+    sections = [[".text$mn", code, CODE | COMDAT,
+                 [(1 + 5 * i, 2 + positions.index(name), (types or [4] * len(targets))[i])
+                  for i, name in enumerate(targets)]]]
+    symbols = [[".text$mn", 0, 1, 0, 3, 2], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None]]
+    symbols += [name + [None] for name in names]
+    if addrsig is not None:
+        with_addrsig(sections, symbols, *addrsig)
+    return obj(sections, symbols)
+
+
 FAKE_COMPILER = """import json, shutil, sys
 template, source = sys.argv[1], sys.argv[-1]
 print(json.dumps(sys.argv[1:]))
@@ -324,8 +354,8 @@ class ObjectProofTest(unittest.TestCase):
             with_addrsig(sections, symbols, *names_b)
             code, out, _ = self.objcmp(a, obj(sections, symbols))
             self.assertEqual(code, 1, out)
-            self.assertIn("SECTION-DIFFERS\t#.llvm_addrsig/1\t.llvm_addrsig\taddress-significance names differ, %d -> %d"
-                          % (len(names_a), len(names_b)), out)
+            self.assertIn("SECTION-DIFFERS\t#.llvm_addrsig/1\t.llvm_addrsig\t"
+                          "address-significance names differ, %d -> %d" % (len(names_a), len(names_b)), out)
             self.assertEqual([line for line in out.splitlines() if line.startswith(("\t-addrsig", "\t+addrsig"))],
                              lines, out)
 
@@ -408,7 +438,7 @@ class ObjectProofTest(unittest.TestCase):
                                                "?other_callee@@YAXXZ", out)
         # --json gives the same facts under stable keys.
         keys = {"verdict", "result", "exit", "differences", "rename_lines", "notes", "lines", "retargets",
-                "kept_sites"}
+                "kept_sites", "kept_missing", "kept_unexpected"}
         code, out, _ = self.objcmp(*kept + ("--json",))
         self.assertEqual(code, 1, out)
         report = json.loads(out)
@@ -472,6 +502,188 @@ class ObjectProofTest(unittest.TestCase):
                              ("?a@@3HA\t272", "2"), ("?b@@3HA\t276", "2"), ("s\t280", "3"), ("?c@@3HA\t8", "2"),
                              ("?e@@3HA\t36", "2"))], out)
         self.assertEqual(report["differences"], 2, out)
+
+    def test_expect_kept(self):
+        x, x2, y, y2 = "?x@@YAXXZ", "?x2@@YAXXZ", "?y@@YAXXZ", "?y2@@YAXXZ"
+        rename = "%s=%s" % (x, x2)
+        base = three_calls([x, y], [x, x, x], addrsig=(x,))
+        # The head keeps the call at 0x1: B holds both spellings, and OLD is
+        # address-significant there too.
+        mixed = three_calls([x, x2, y], [x, x2, x2], addrsig=(x, x2))
+        one = self.write("one kept.txt", ("\ufeff# kept\r\n?caller@@YAXXZ \t%s\r\n" % x).encode("utf-8"))
+
+        def check(head, expected, code, verdict, *lines, renames=(rename,)):
+            args = list(renames) + (["--expect-kept", expected] if expected else [])
+            status, out, err = self.objcmp(base, head, *args)
+            self.assertEqual(status, code, out + err)
+            self.assertTrue(out.startswith(verdict), out)
+            for line in lines:
+                self.assertIn(line, out.splitlines())
+            return out
+
+        check(mixed, one, 0, "kept: equal with the timestamp masked once the renames are applied, except the 1 "
+              "expected kept site(s)\n", "KEPT-SITE\t?caller@@YAXXZ\t0x1\t%s\t%s" % (x, x2))
+        check(mixed, None, 1, "differs: 3 difference(s), 2 RENAME- line(s)\n")
+        # An extra kept site.
+        check(three_calls([x, x2, y], [x, x, x2], addrsig=(x, x2)), one, 1,
+              "differs: 3 difference(s), 2 RENAME- line(s), 1 kept-site mismatch(es)\n",
+              "KEPT-UNEXPECTED\t?caller@@YAXXZ\t0x6\t%s" % x)
+        # A missing one: the head moved every call.
+        moved = three_calls([x2, y], [x2, x2, x2], addrsig=(x2,))
+        check(moved, None, 0, "identical: equal with the timestamp masked once the renames are applied\n")
+        check(moved, one, 1, "differs: 0 difference(s), 1 kept-site mismatch(es)\n",
+              "KEPT-MISSING\t?caller@@YAXXZ\t%s" % x)
+        # The base itself keeps all three calls: the listed one is no mismatch.
+        check(base, one, 1, "differs: 0 difference(s), 2 kept-site mismatch(es)\n",
+              "KEPT-UNEXPECTED\t?caller@@YAXXZ\t0x6\t%s" % x, "KEPT-UNEXPECTED\t?caller@@YAXXZ\t0xb\t%s" % x)
+        # A kept site in another function than the one expected.
+        other = self.write("other.txt", ("?other@@YAXXZ %s\n" % x).encode())
+        check(mixed, other, 1, "differs: 3 difference(s), 2 RENAME- line(s), 2 kept-site mismatch(es)\n",
+              "KEPT-MISSING\t?other@@YAXXZ\t%s" % x, "KEPT-UNEXPECTED\t?caller@@YAXXZ\t0x1\t%s" % x)
+        # A real change beside the kept site: a byte, a call target, an
+        # address-significance entry, a symbol.
+        for head in (three_calls([x, x2, y], [x, x2, x2], addrsig=(x, x2), code=b"\xe8\0\0\0\0" * 3 + b"\xcc"),
+                     three_calls([x, x2, y], [x, x2, y], addrsig=(x, x2)),
+                     three_calls([x, x2, y], [x, x2, x2], addrsig=(x, x2, y)),
+                     three_calls([x, x2, y, y2], [x, x2, x2], addrsig=(x, x2))):
+            out = check(head, one, 1, "differs: ")
+            self.assertNotIn("kept-site mismatch", out)
+        # The head keeps every call of OLD: B holds only OLD, which the kept
+        # sites respell in place.
+        both = self.write("both.txt", ("?caller@@YAXXZ %s\n" % x * 3).encode())
+        check(three_calls([x, y2], [x, x, x], addrsig=(x,)), both, 0, "kept: ", renames=(rename, "%s=%s" % (y, y2)))
+        check(three_calls([x, y2], [x, x, x], addrsig=(y2,)), both, 1, "differs: ", renames=(rename, "%s=%s" % (y, y2)))
+        # --json carries the result and the mismatches.
+        code, out, _ = self.objcmp(base, mixed, rename, "--expect-kept", other, "--json")
+        report = json.loads(out)
+        self.assertEqual((code, report["result"], report["exit"]), (1, "differs", 1), out)
+        self.assertEqual(report["kept_missing"], [dict(function="?other@@YAXXZ", old=x)])
+        self.assertEqual(report["kept_unexpected"], [dict(function="?caller@@YAXXZ", offset=1, old=x)])
+        code, out, _ = self.objcmp(base, mixed, rename, "--expect-kept", one, "--json")
+        self.assertEqual((code, json.loads(out)["result"]), (0, "kept"), out)
+        # An expected site whose OLD is not a rename, or a malformed line, is a usage error.
+        for text in ("?caller@@YAXXZ %s\n" % y, "?caller@@YAXXZ\n"):
+            code, out, err = self.objcmp(base, mixed, rename, "--expect-kept", self.write("bad.txt", text.encode()))
+            self.assertEqual(code, 2, out + err)
+
+    def test_kept_holes(self):
+        # Beside the kept sites, --expect-kept undoes only an undefined
+        # external OLD with value 0 and NEW's symbol type, only for a rename
+        # with a kept site, and only when B marks OLD address-significant as
+        # often as A does.
+        x, x2, y, y2 = "?x@@YAXXZ", "?x2@@YAXXZ", "?y@@YAXXZ", "?y2@@YAXXZ"
+        one = self.write("one.txt", ("?caller@@YAXXZ %s\n" % x).encode())
+        renames = ("%s=%s" % (x, x2), "%s=%s" % (y, y2))
+        base = calls_to([x, y], [x, x, y], addrsig=(x,))
+        cases = (
+            ("control", base, calls_to([x, x2, y2], [x, x2, y2], addrsig=(x, x2)), 0, ()),
+            ("OLD's type is not NEW's", base, calls_to([(x, 0, 0, 0, 2), x2, y2], [x, x2, y2], addrsig=(x, x2)), 1,
+             ("BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % x,)),
+            ("OLD's value is 4", base, calls_to([(x, 4, 0, 0x20, 2), x2, y2], [x, x2, y2], addrsig=(x, x2)), 1,
+             ("BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % x,)),
+            ("OLD is weak", base, calls_to([(x, 0, 0, 0x20, 105), x2, y2], [x, x2, y2], addrsig=(x, x2)), 1,
+             ("BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % x,)),
+            ("another rename's OLD, with no kept site", base,
+             calls_to([x, x2, y, y2], [x, x2, y2], addrsig=(x, x2)), 1,
+             ("BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % y,)),
+            ("A does not mark OLD, B does", calls_to([x, y], [x, x, y], addrsig=()),
+             calls_to([x, x2, y2], [x, x2, y2], addrsig=(x,)), 1,
+             ("BESIDE-KEPT\tB marks %s address-significant 1 time(s), A 0" % x,)),
+            ("A marks OLD, B marks only NEW", base, calls_to([x, x2, y2], [x, x2, y2], addrsig=(x2,)), 1,
+             ("BESIDE-KEPT\tB marks %s address-significant 0 time(s), A 1" % x,)),
+            ("B marks OLD twice", base, calls_to([x, x2, y2], [x, x2, y2], addrsig=(x, x, x2)), 1,
+             ("BESIDE-KEPT\tB marks %s address-significant 2 time(s), A 1" % x,)),
+            ("another relocation type at the kept site", base,
+             calls_to([x, x2, y2], [x, x2, y2], addrsig=(x, x2), types=[3, 4, 4]), 1,
+             ("KEPT-MISSING\t?caller@@YAXXZ\t%s" % x,)))
+        for name, a, b, status, lines in cases:
+            code, out, err = self.objcmp(a, b, *renames + ("--expect-kept", one))
+            self.assertEqual(code, status, (name, out, err))
+            for line in lines:
+                self.assertIn(line, out.splitlines(), name)
+            self.assertEqual(out.startswith("kept: "), status == 0, (name, out))
+        # Two OLD symbols are not undone as one, and a call of OLD that is no
+        # kept site stays a call of OLD in the BESIDE-KEPT lines.
+        code, out, _ = self.objcmp(base, calls_to([x, x2, y2, x], [x, x2, y2, x], addrsig=(x, x2)),
+                                   *renames + ("--expect-kept", one))
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.count("BESIDE-KEPT\tSYMBOL-ONLY-B\t%s\t" % x), 2, out)
+        self.assertIn("BESIDE-KEPT\t\t+reloc\t0x10\ttype 4\t%s" % x, out.splitlines())
+
+    def test_expect_kept_file(self):
+        # A section key that starts with # can be listed; other lines that
+        # start with # are comments, and a list with no site is no option.
+        x, x2 = "?x@@YAXXZ", "?x2@@YAXXZ"
+
+        def table(names, targets):
+            symbols = [[".rdata", 0, 1, 0, 3, 0]] + [[name, 0, 0, 0x20, 2, None] for name in names]
+            return obj([[".rdata", b"\0" * 16, RDATA, [(8 * i, 1 + names.index(name), 1)
+                                                       for i, name in enumerate(targets)]]], symbols)
+
+        listed = self.write("listed.txt", ("# kept %s\n#.rdata/1 %s\n# a comment\n" % (x, x)).encode())
+        code, out, err = self.objcmp(table([x], [x, x]), table([x, x2], [x, x2]), "%s=%s" % (x, x2),
+                                     "--expect-kept", listed)
+        self.assertEqual(code, 0, out + err)
+        self.assertIn("KEPT-SITE\t#.rdata/1\t0x0\t%s\t%s" % (x, x2), out.splitlines())
+        base = three_calls([x], [x, x, x], addrsig=(x,))
+        for head in (three_calls([x, x2], [x, x2, x2], addrsig=(x, x2)), three_calls([x2], [x2, x2, x2], addrsig=(x2,)),
+                     base, three_calls([x], [x, x, x], addrsig=(x,), code=b"\xe8\0\0\0\0" * 3 + b"\xcc")):
+            plain = self.objcmp(base, head, "%s=%s" % (x, x2))
+            for text in (b"", b"# nothing\r\n\r\n"):
+                self.assertEqual(self.objcmp(base, head, "%s=%s" % (x, x2), "--expect-kept",
+                                             self.write("none.txt", text)), plain)
+        # An option without its file is a usage error.
+        for option in ("--expect-kept", "--map"):
+            code, out, err = self.objcmp(base, base, "%s=%s" % (x, x2), option)
+            self.assertEqual((code, out), (2, ""), err)
+            self.assertTrue(err.startswith("usage: objcmp.py"), err)
+
+    def test_kept_identical(self):
+        # Byte-identical objects still say which listed sites the head keeps.
+        x, x2 = "?x@@YAXXZ", "?x2@@YAXXZ"
+        base = three_calls([x], [x, x, x], addrsig=(x,))
+        three = self.write("three.txt", ("?caller@@YAXXZ %s\n" % x * 3).encode())
+        code, out, _ = self.objcmp(base, base, "%s=%s" % (x, x2), "--expect-kept", three)
+        self.assertEqual(code, 0, out)
+        self.assertEqual(out.splitlines(), ["identical: the bytes are equal with the timestamp masked"] +
+                         ["KEPT-SITE\t?caller@@YAXXZ\t%s\t%s\t%s" % (at, x, x2) for at in ("0x1", "0x6", "0xb")], out)
+        other = self.write("other.txt", ("?other@@YAXXZ %s\n" % x).encode())
+        code, out, _ = self.objcmp(base, base, "%s=%s" % (x, x2), "--expect-kept", other)
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.splitlines()[0], "differs: 0 difference(s), 4 kept-site mismatch(es)", out)
+        self.assertIn("KEPT-MISSING\t?other@@YAXXZ\t%s" % x, out.splitlines())
+        # A refused comparison lists no kept-site mismatch.
+        both = three_calls([x, x2], [x, x2, x2], addrsig=(x, x2))
+        code, out, _ = self.objcmp(both, three_calls([x2], [x2, x2, x2], addrsig=(x2,)), "%s=%s" % (x, x2),
+                                   "--expect-kept", other)
+        self.assertEqual(code, 1, out)
+        self.assertNotIn("KEPT-", out)
+
+    def test_beside_kept(self):
+        # When the listed sites are the kept ones, what else differs prints as
+        # BESIDE-KEPT lines. As clang-cl orders undefined symbols by first
+        # use, a kept call before the first moved call puts NEW after OLD's
+        # place: a symbol order that --expect-kept does not accept.
+        old, new = "?old_fn@@YAHPEAH@Z", "?new_fn@@YAHPEAH@Z"
+        g1, g2, other = "?g1@@3HA", "?g2@@3HA", "?other@@YAHH@Z"
+        expected = self.write("f.txt", ("?caller@@YAXXZ %s\n" % old).encode())
+        base = calls_to([g1, old, g2, other], [g1, old, g2, old, other])
+        for names, targets, status in (([g1, old, g2, new, other], [g1, old, g2, new, other], 1),
+                                       ([g1, new, g2, old, other], [g1, new, g2, old, other], 0)):
+            code, out, _ = self.objcmp(base, calls_to(names, targets), "%s=%s" % (old, new), "--expect-kept", expected)
+            self.assertEqual(code, status, out)
+            beside = [line for line in out.splitlines() if line.startswith("BESIDE-KEPT")]
+            self.assertEqual(beside, ["BESIDE-KEPT\tSYMBOL-ORDER\tthe same symbols in a different order"] if status
+                             else [], out)
+        # B still holds OLD in a label beside the kept site.
+        x, x2 = "?x@@YAXXZ", "?x2@@YAXXZ"
+        label = ("lbl" + x, 15, 1, 0, 6)
+        one = self.write("one.txt", ("?caller@@YAXXZ %s\n" % x).encode())
+        code, out, _ = self.objcmp(calls_to([x, label], [x, x, x]), calls_to([x, x2, label], [x, x2, x2]),
+                                   "%s=%s" % (x, x2), "--expect-kept", one)
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.splitlines()[0], "differs: 2 difference(s), 2 RENAME- line(s)", out)
+        self.assertIn("BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % x, out.splitlines())
 
     def test_unreadable(self):
         good = self.write("good.obj", coff())

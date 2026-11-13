@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Compare two COFF objects with the header timestamp masked.
 
-usage: objcmp.py A.obj B.obj [--map FILE] [--json] [OLD=NEW ...]
+usage: objcmp.py A.obj B.obj [--map FILE] [--expect-kept FILE] [--json] [OLD=NEW ...]
 
 A is the base object, B the head object. Each OLD=NEW pair (from the command
 line, or one per line of FILE) is a respelling of the base: a symbol of A
@@ -15,9 +15,13 @@ object holds both spellings (RENAME-MERGES) or B still holds OLD
 the RENAME- lines. Otherwise it prints the sections, relocations and symbols
 that differ. A summary follows: each relocation target that changed at one
 offset (RETARGET) and each site where B still targets a rename's OLD
-(KEPT-SITE). --json prints the same facts as one JSON object.
+(KEPT-SITE). With --expect-kept FILE (one FUNCTION OLD per line), a
+comparison whose only differences are exactly those kept sites and the
+undefined-symbol and address-significance entries of their OLD names is
+"kept" and exits 0; any other difference, or a kept site missing or not
+listed, exits 1. --json prints the same facts as one JSON object.
 
-Exit status: 0 identical, 1 differs or refused, 2 usage error or unreadable
+Exit status: 0 identical or kept, 1 differs or refused, 2 usage error or unreadable
 input.
 """
 import difflib
@@ -258,11 +262,11 @@ def describe(item):
 
 
 def compare(a, b, out, shifts=False):
-    """Prints the differences of two Coff objects; returns their count. With
-    shifts, a SYMBOL-SHIFT line per section and distance replaces the
-    SYMBOL-ONLY lines of the symbols that only moved."""
-    ha, sa, oa, ya = a.compared()
-    hb, sb, ob, yb = b.compared()
+    """Prints the differences of two objects as Coff.compared() gives them;
+    returns their count. With shifts, a SYMBOL-SHIFT line per section and
+    distance replaces the SYMBOL-ONLY lines of the symbols that only moved."""
+    ha, sa, oa, ya = a
+    hb, sb, ob, yb = b
     found = 0
     for field in ("machine", "flags", "bigobj"):
         if ha[field] != hb[field]:
@@ -301,14 +305,15 @@ def compare(a, b, out, shifts=False):
         else:
             equal.append("names" if isinstance(x["body"], tuple) else "bytes")
         if x["size"] == y["size"]:
-            equal.append("size %d" % x["size"])
+            equal.append("size %s" % x["size"])
         elif x["body"] == y["body"]:
             parts.append("size %d -> %d" % (x["size"], y["size"]))
         if x["relocations"] != y["relocations"]:
             parts.append("relocations %d -> %d" % (len(x["relocations"]), len(y["relocations"])))
         else:
             equal.append("relocations %d" % len(x["relocations"]))
-        out("SECTION-DIFFERS\t%s\t%s\t%s\tequal: %s" % (key, x["name"], "; ".join(parts), ", ".join(equal) or "nothing"))
+        out("SECTION-DIFFERS\t%s\t%s\t%s\tequal: %s"
+            % (key, x["name"], "; ".join(parts), ", ".join(equal) or "nothing"))
         if x["relocations"] != y["relocations"]:
             rx, ry = set(x["relocations"]), set(y["relocations"])
             for va, typ, target in sorted(rx - ry):
@@ -389,11 +394,76 @@ def sites(raw_a, coff_a, coff_b, renames):
     return retargets, kept
 
 
+def only_kept(a, b, kept, renames, shifts):
+    """The BESIDE-KEPT lines of what still differs once B's kept sites are
+    respelled as the renames say: each kept relocation targets NEW again,
+    and OLD's undefined symbol and address-significance entries are dropped
+    (when B also holds NEW, with OLD's symbol type and as many entries as A
+    marks) or respelled NEW. No line means B equals A but for the kept sites.
+    The address-significance table's byte size is not compared: B's holds
+    other indices."""
+    header, sections, order, symbols = b
+    sections = {key: dict(s) for key, s in sections.items()}
+    beside = []
+    for key, va, typ, old in kept:
+        relocations = list(sections[key]["relocations"])
+        relocations[relocations.index((va, typ, old))] = (va, typ, renames[old])
+        sections[key]["relocations"] = tuple(relocations)
+    symbols = list(symbols)
+    for old in sorted({site[3] for site in kept}):
+        new = renames[old]
+        at = [i for i, symbol in enumerate(symbols) if symbol[0] == old]
+        if len(at) != 1 or symbols[at[0]][1:3] != (0, "(undefined)") or symbols[at[0]][4:] != (EXTERNAL, b""):
+            continue
+        holds_new = any(symbol[0] == new for symbol in symbols)
+        if holds_new and symbols[at[0]][3] not in {symbol[3] for symbol in symbols if symbol[0] == new}:
+            continue
+        if holds_new:
+            del symbols[at[0]]
+        else:
+            symbols[at[0]] = (new,) + symbols[at[0]][1:]
+        marked = sum(s["body"].count(new) for s in a[1].values() if s["name"] == ".llvm_addrsig")
+        for s in sections.values():
+            if s["name"] == ".llvm_addrsig":
+                if holds_new and s["body"].count(old) != marked:
+                    beside.append("BESIDE-KEPT\tB marks %s address-significant %d time(s), A %d"
+                                  % (old, s["body"].count(old), marked))
+                s["body"] = tuple(n for n in s["body"] if n != old) if holds_new else \
+                    tuple(new if n == old else n for n in s["body"])
+    names = {symbol[0] for symbol in symbols}
+    beside += ["BESIDE-KEPT\tB still holds %s in a name that is not a kept site's" % old
+               for old in sorted(renames) if spelled(old, names)]
+
+    def sized(c):
+        return c[0], {k: dict(s, size=None) if s["name"] == ".llvm_addrsig" else s for k, s in c[1].items()}, c[2], c[3]
+    compare(sized(a), sized((header, sections, order, symbols)), lambda line: beside.append("BESIDE-KEPT\t" + line),
+            shifts)
+    return beside
+
+
+def read_lines(path):
+    with open(path, encoding="utf-8-sig") as f:
+        return [line.strip() for line in f]
+
+
+def read_kept(path, renames):
+    """The expected kept sites: one FUNCTION OLD per line, # comments. A
+    line of two fields whose second is a rename's OLD is a site even when it
+    starts with #, as a section key such as #.rdata/1 does."""
+    kept = []
+    for line in read_lines(path):
+        fields = line.split()
+        if len(fields) == 2 and fields[1] in renames:
+            kept.append(tuple(fields))
+        elif line and not line.startswith("#"):
+            raise ValueError("an expected kept site is FUNCTION OLD, OLD a rename's, not %r" % line)
+    return kept
+
+
 def read_renames(pairs, path):
     lines = list(pairs)
     if path is not None:
-        with open(path, encoding="utf-8-sig") as f:
-            lines += [line.strip() for line in f]
+        lines += read_lines(path)
     renames = {}
     for line in lines:
         if not line or line.startswith("#"):
@@ -411,19 +481,21 @@ def main(argv):
     args = list(argv)
     as_json = "--json" in args
     args = [a for a in args if a != "--json"]
-    map_path = None
-    if "--map" in args:
-        at = args.index("--map")
-        map_path = args[at + 1] if at + 1 < len(args) else None
-        args = args[:at] + args[at + 2:]
-        if map_path is None:
-            args = []
+    paths = {}
+    for option in ("--map", "--expect-kept"):
+        if option in args:
+            at = args.index(option)
+            paths[option] = args[at + 1] if at + 1 < len(args) else None
+            args = args[:at] + args[at + 2:]
+            if paths[option] is None:
+                args = []
     if len(args) < 2 or any(a.startswith("-") for a in args[:2]):
         print(__doc__.strip().split("\n\n")[1], file=sys.stderr)
         return 2
     path_a, path_b = args[:2]
     try:
-        renames = read_renames(args[2:], map_path)
+        renames = read_renames(args[2:], paths.get("--map"))
+        expected = read_kept(paths["--expect-kept"], renames) if "--expect-kept" in paths else None
         with open(path_a, "rb") as f:
             data_a = f.read()
         with open(path_b, "rb") as f:
@@ -452,20 +524,41 @@ def main(argv):
     if masked(data_a) == masked(data_b):
         verdict, status = "identical: the bytes are equal with the timestamp masked", 0
         lines = []
+        if expected:
+            # A listed site that the head keeps is not missing.
+            kept = sites(Coff(data_a, {}), coff_a, coff_b, renames)[1]
     elif merged:
         # Respelled, A would hold one name twice: every line after it would be an artefact.
         verdict, status = ("refused: A holds both spellings of a rename; compare without that rename, or with "
                            "the commit before A as the base"), 1
         found = None
     else:
-        found = compare(coff_a, coff_b, lines.append, shifts=not as_json)
+        found = compare(coff_a.compared(), coff_b.compared(), lines.append, shifts=not as_json)
         retargets, kept = sites(Coff(data_a, {}) if renames else coff_a, coff_a, coff_b, renames)
+        beside = None
+        if expected and sorted((key, old) for key, _, _, old in kept) == sorted(expected):
+            beside = only_kept(coff_a.compared(), coff_b.compared(), kept, renames, not as_json)
+            lines += beside
         if found == 0 and refused == 0 and applied:
             verdict, status = "identical: equal with the timestamp masked once the renames are applied", 0
+        elif beside == []:
+            verdict, status = ("kept: equal with the timestamp masked once the renames are applied, except the %d "
+                               "expected kept site(s)" % len(kept)), 0
         elif found == 0 and refused == 0:
             verdict, status = "differs: the bytes differ, but no section, relocation or symbol does", 1
         else:
-            verdict, status = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else ""), 1
+            verdict = "differs: %d difference(s)%s" % (found, ", %d RENAME- line(s)" % refused if refused else "")
+            status = 1
+    missing, unexpected = [] if merged else list(expected or ()), []
+    for site in kept if expected else ():  # a list with no site acts as no option
+        # Each expected (FUNCTION, OLD) takes one kept site; the rest are mismatches.
+        if (site[0], site[3]) in missing:
+            missing.remove((site[0], site[3]))
+        else:
+            unexpected.append(site)
+    if missing or unexpected:
+        verdict = verdict if status else "differs: %d difference(s)" % found
+        verdict, status = verdict + ", %d kept-site mismatch(es)" % (len(missing) + len(unexpected)), 1
     retargets = sorted((old, new, count, by_map, keys) for (old, new), (count, keys, by_map) in retargets.items())
     if as_json:
         print(json.dumps(dict(
@@ -473,12 +566,17 @@ def main(argv):
             notes=notes, lines=lines,
             retargets=[dict(old=old, new=new, count=count, by_map=by_map, functions=keys)
                        for old, new, count, by_map, keys in retargets],
-            kept_sites=[dict(function=key, offset=va, old=old, new=renames[old]) for key, va, _, old in kept]),
+            kept_sites=[dict(function=key, offset=va, old=old, new=renames[old]) for key, va, _, old in kept],
+            kept_missing=[dict(function=key, old=old) for key, old in missing],
+            kept_unexpected=[dict(function=key, offset=va, old=old) for key, va, _, old in unexpected]),
             indent=1, sort_keys=True))
         return status
-    summary = ["RETARGET\t%s -> %s\t%d site(s)\t%s\t%s" % (old, new, count, "by the map" if by_map else "not by the map",
-                                                           " ".join(keys)) for old, new, count, by_map, keys in retargets]
+    summary = ["RETARGET\t%s -> %s\t%d site(s)\t%s\t%s"
+               % (old, new, count, "by the map" if by_map else "not by the map", " ".join(keys))
+               for old, new, count, by_map, keys in retargets]
     summary += ["KEPT-SITE\t%s\t0x%x\t%s\t%s" % (key, va, old, renames[old]) for key, va, _, old in kept]
+    summary += ["KEPT-MISSING\t%s\t%s" % site for site in missing]
+    summary += ["KEPT-UNEXPECTED\t%s\t0x%x\t%s" % (key, va, old) for key, va, _, old in unexpected]
     for line in [verdict] + notes + lines + summary:
         print(line)
     return status

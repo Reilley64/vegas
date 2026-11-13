@@ -190,7 +190,7 @@ instructions.
 | | Statement | Prerequisite |
 | --- | --- | --- |
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
-| S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | VEGAS-109, the defect of the `DAT_01202fa0` buffer; a later catalogue entry for their four suffix strings; the closure of `blk_00c20000_od.cpp` |
+| S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | a later catalogue entry for their four suffix strings; 260 bytes of storage for `DAT_01202b48`, which S3 writes; the members that hold the builders and their buffers (see the user folder buffer below) |
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | the owner of that setting, which a generated dynamic initializer builds (D2); the closure of `magicitem.cpp` |
 | S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings |
 | S8 | a processor count of 1 set to 2 | as S6 |
@@ -218,6 +218,52 @@ that `main` starts does not have:
 
 When no window of the class exists, the original also has those effects
 before the statements after the check, and `main` returns there.
+
+## The user folder buffer
+
+`DAT_01202fa0` is the user folder buffer (VEGAS-109's log-path buffer).
+S7 writes it through `FUN_004dc110`, which returns it, and S2 to S5 and the
+two functions that build the Controls INI path,
+`ControlsIniLoader::LoadControlsFromIni` and `FUN_00a22e10`, copy it. The
+recipe binds the next address 260 bytes after it, and its users copy at
+most 260 bytes into or out of it. It was defined as an 8-byte pointer:
+`FUN_00c3bb90`, `FUN_00c3bc30` and `LoadControlsFromIni` passed the
+pointer's value, null, to `strcpy_s` as the source, and the others read or
+wrote up to 260 bytes at the 8-byte object.
+
+Since VEGAS-109 it is one array of 260 characters, declared in
+`include/fnv/symbols_01202000.h` and defined in `blk_004c0000_od.cpp`, and
+every user reads it as that array without a cast, as each reader's
+declaration gave it before `3f0599801` (the definer excepted). `FUN_004dc110`
+returns it as `char *`, the type its callers declared then, so its recipe
+name is respelled. The buffer's recipe name is unchanged: the 32-bit
+spelling of a character pointer and of a character array is the same.
+`objects.log_path_buffer` fails when one of the seven functions again
+refers to the pointer, addresses the buffer past its 260 bytes or no longer
+refers to it. It does not catch a smaller array under the same name; a
+`static_assert` in `FUN_004dc110` holds the definition at 260 bytes.
+
+Two other buffers of S2 to S7 have the same defect (VEGAS-112), and
+generated data defines both, so their repair goes through the audited
+composition (`native-data-ownership.md`):
+
+- `DAT_01202b48`, the destination of S3, is defined as one byte. S3 writes
+  up to 260 bytes there, and the recipe binds the next address 264 bytes after
+  it.
+- `DAT_01202e98`, which `FUN_0086d480` returns, is defined as a 4-byte
+  `int`. S7 writes up to 260 bytes there, and the recipe binds the next address
+  264 bytes after it.
+
+A scratch composition of S2 to S5 into `main`, not committed, was linked
+as `FalloutNV` links, on `11d59dc97` with and without this repair. Both
+links loaded 2,011 members of the game archive and left the same 34,719
+names undefined, because a lazy link loads whole members: the builders are
+in `blk_00c20000_od.cpp`, the user folder in `blk_004c0000_od.cpp` and
+`DAT_01202c50` in `tesfile.cpp`. At function granularity the composition
+needs those three members and `crt.cpp`, and three names of the common
+controls library that the `.data` section of `blk_004c0000_od.cpp` refers
+to: `ImageList_Destroy`, `ImageList_LoadImageA` and
+`InitCommonControlsEx`.
 
 ## Unattended runs and message boxes
 
@@ -379,3 +425,6 @@ VEGAS-52.
   not known, and a later runner may report a remote session.
 - No run has found a window of the class, so the `AlreadyOpen` branch of
   `main` has run only as the decision's test, with the calls recorded.
+- The repaired users of the user folder buffer have not run: `FalloutNV`
+  does not load their members and no test calls them. Their check reads
+  the objects only.

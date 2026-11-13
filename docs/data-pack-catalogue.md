@@ -274,9 +274,9 @@ Rulings of the coordinator on catalogue version 2, recorded on VEGAS-52 on
 - **C, capacity.** 256 bytes, the length limit Windows documents for a
   window class name. The entry has exactly that size (D6), and the zero
   byte must lie inside it.
-- **D.** The defect of the `DAT_01202fa0` buffer is VEGAS-109. It gates
-  the four log-path statements and a later entry for their suffix strings,
-  not version 2.
+- **D.** The defect of the `DAT_01202fa0` buffer was VEGAS-109, which
+  is repaired. It gated the four log-path statements and a later
+  entry for their suffix strings, not version 2.
 - **E.** `FUN_0086a850` in `src/fallout/misc/main.cpp` reads the class name
   from the owner, as it reads C1's strings. The two other units that read
   the pointer, `filefinder.cpp` and `renderer.cpp`, keep the legacy data

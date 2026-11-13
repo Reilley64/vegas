@@ -1651,7 +1651,7 @@ struct RenderCoordinator
         unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c,
         unk80, unk84;
     ShaderHolder shaders;
-    void FUN_00870bd0(intptr_t, bool);
+    void FUN_00870bd0(void*, bool);
 };
 }  // namespace fnv_00870bd0
 
@@ -3567,11 +3567,11 @@ void FUN_00456630_helper::FUN_00876810()
 namespace fnv_00876830 {
 struct BSRenderedTexture
 {
-    void FUN_00876830(int, std::intptr_t);
+    void FUN_00876830(int, void*);
 };
 
 // @fnv 0x00876830
-void BSRenderedTexture::FUN_00876830(int, std::intptr_t)
+void BSRenderedTexture::FUN_00876830(int, void*)
 {
     ::BSRenderedTexture::EndAllAndResetRendererState();
 }
@@ -5196,7 +5196,7 @@ void MainTarget::FUN_00872940(BSRenderedTexture* apDestination)
     }
     else if (apDestination)
     {
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(bmultiSampleEnabled, (std::intptr_t)(apDestination));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(bmultiSampleEnabled, apDestination);
     }
 
     reinterpret_cast<::fnv_00876850::FUN_00876850_shell *>(this)->FUN_00876850((::fnv_00876850::BSRenderedTexture *)(result), (::fnv_00876850::ImageSpaceManager *)(pimagespacemanager), (::fnv_00876850::GraphicsRenderer *)(prenderer), (::fnv_00876850::Sun *)(0));
@@ -9276,7 +9276,7 @@ void RenderMgr::FUN_008707c0(void* p1, bool p2)
     }
     else if (p1)
     {
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flag_, (std::intptr_t)(p1));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flag_, p1);
     }
     reinterpret_cast<::fnv_00876850::FUN_00876850_shell *>(this)->FUN_00876850((::fnv_00876850::BSRenderedTexture *)(res4), (::fnv_00876850::ImageSpaceManager *)(ism2), (::fnv_00876850::GraphicsRenderer *)(renderer), (::fnv_00876850::Sun *)(0));
 }
@@ -10178,7 +10178,7 @@ void SceneRendererStub870::FUN_00870a00(TexStub870* target, bool skip)
         ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::RenderSysStub870 *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 0x16, {});
     }
     if (target)
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, (std::intptr_t)(target));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, target);
     ::FUN_00714c20(1);
     if (FUN_008709f0())
     {
@@ -10186,7 +10186,7 @@ void SceneRendererStub870::FUN_00870a00(TexStub870* target, bool skip)
     }
     else if (target)
     {
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, (std::intptr_t)(target));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, target);
     }
     reinterpret_cast<::fnv_00876850::FUN_00876850_shell *>(this)->FUN_00876850((::fnv_00876850::BSRenderedTexture *)(rt4), (::fnv_00876850::ImageSpaceManager *)(ism), (::fnv_00876850::GraphicsRenderer *)(renderer2), (::fnv_00876850::Sun *)(0));
 }
@@ -13346,7 +13346,7 @@ bool FUN_00709cb0();
 
 // Renders the scene into a BSRenderedTexture, applying effects, post-processing, and camera projection based on the given argument and skip flag.
 // @fnv 0x00870bd0
-void RenderCoordinator::FUN_00870bd0(intptr_t arg, bool skip)
+void RenderCoordinator::FUN_00870bd0(void* arg, bool skip)
 {
     RenderView* l = ((::fnv_00870bd0::RenderView *)(::FUN_0043c4b0()));
     ImageView* h = (ImageView*)((::fnv_00870bd0::ImageView *)(::ImageSpaceManager::FUN_004e3270()));
@@ -13427,7 +13427,7 @@ void RenderCoordinator::FUN_00870bd0(intptr_t arg, bool skip)
     }
     if (::FUN_008709f0())
     {
-        reinterpret_cast<::fnv_00875fd0::FrameRenderer *>(this)->FUN_00875fd0((void *)(q), j, l, (void *)(arg));
+        reinterpret_cast<::fnv_00875fd0::FrameRenderer *>(this)->FUN_00875fd0((void *)(q), j, l, arg);
         if ((::FUN_00871260() || ::fnv_005bac20::FUN_005bac20()) && !::fnv_00705a00::FUN_00705a00())
             reinterpret_cast<::FUN_00876a20_shell *>(this)->FUN_00876a20((::FUN_00876a20_arg *)(l));
     }

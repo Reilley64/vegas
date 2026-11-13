@@ -118753,7 +118753,7 @@
     },
     {
      "address": "0x00870bd0",
-     "symbol": "?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QAEXH_N@Z",
+     "symbol": "?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QAEXPAX_N@Z",
      "size": 1604
     },
     {
@@ -119033,7 +119033,7 @@
     },
     {
      "address": "0x00876830",
-     "symbol": "?FUN_00876830@BSRenderedTexture@fnv_00876830@@QAEXHH@Z",
+     "symbol": "?FUN_00876830@BSRenderedTexture@fnv_00876830@@QAEXHPAX@Z",
      "size": 18
     },
     {
@@ -119581,7 +119581,7 @@
     "?FUN_007948d0@@YAXXZ": "0x007948d0",
     "?FUN_008709f0@@YAEXZ": "0x008709f0",
     "?FUN_00875fd0@MainTarget@fnv_00872940@@QAEX_NHPAUS148c0@2@PAUBSRenderedTexture@2@@Z": "0x00875fd0",
-    "?FUN_00876830@BSRenderedTexture@fnv_00876830@@QAEXHH@Z": "0x00876830",
+    "?FUN_00876830@BSRenderedTexture@fnv_00876830@@QAEXHPAX@Z": "0x00876830",
     "?FUN_00876850@FUN_00876850_shell@fnv_00876850@@QAEXPAUBSRenderedTexture@2@PAUImageSpaceManager@2@PAUGraphicsRenderer@2@PAUSun@2@@Z": "0x00876850",
     "?FUN_007c9ca0@@YAXXZ": "0x007c9ca0",
     "?FUN_006838b0@FUN_006838b0_shell@fnv_006838b0@@QAEPAUNiCollisionObject@2@XZ": "0x006838b0",

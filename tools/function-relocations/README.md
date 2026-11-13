@@ -104,6 +104,10 @@ path, bound the same way (docs/winmain-boot-names.md).
 repaired to match the body at the recipe's row and then bound to it by name
 (VEGAS-90, VEGAS-30, docs/winmain-boot-names.md). It forbids each name a call
 used before, which no object defines, and requires the name of the body.
+Batch `definition` holds the two definitions whose texture parameter was an
+integer (VEGAS-97), which must be defined under their recipe rows' names; it
+forbids their former names. With the unit's flags the callers inline
+`0x00876830`, so no call of it is a relocation there.
 
 `table-slot-reads.tsv` lists the functions that read the slot after the end
 of a two-slot generated table (VEGAS-30, docs/table-slot-reads.md). Each read

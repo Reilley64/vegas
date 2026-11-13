@@ -1070,7 +1070,9 @@ if(vegas_object_checks)
 endif()
 
 # Fails when a boot-path call repaired to the body at its recipe row (VEGAS-90,
-# VEGAS-30) again uses a name that no object defines, or no longer names the body.
+# VEGAS-30) again uses a name that no object defines, or no longer names the
+# body, or a definition repaired for such a call (VEGAS-97) is no longer
+# defined under its row's name.
 if(vegas_object_checks)
   add_test(NAME objects.boot_call_repairs
     COMMAND ${GO_EXECUTABLE} run . --table boot-call-repairs.tsv

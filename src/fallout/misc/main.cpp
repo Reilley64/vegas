@@ -1695,7 +1695,6 @@ struct Interface
 struct MainStub
 {
     void FUN_00870a00(BSRenderedTexture*, bool);
-    void FUN_00870bd0(BSRenderedTexture*, bool);
 };
 // @fnv 0x008706b0
 void FUN_008706b0_shell::FUN_008706b0(BSRenderedTexture* pTexture, bool bCheckMenu, bool bFlag)
@@ -1708,7 +1707,7 @@ void FUN_008706b0_shell::FUN_008706b0(BSRenderedTexture* pTexture, bool bCheckMe
     else if (f)
         ((MainStub*)this)->FUN_00870a00(pTexture, bFlag);
     else
-        ((MainStub*)this)->FUN_00870bd0(pTexture, bFlag);
+        ((::fnv_00870bd0::RenderCoordinator*)this)->FUN_00870bd0(pTexture, bFlag);
 }
 }  // namespace fnv_008706b0
 

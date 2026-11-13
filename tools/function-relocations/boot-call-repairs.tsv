@@ -1,18 +1,23 @@
 # Calls on the boot path whose argument or receiver did not match the body at
-# the recipe's row, repaired so that they name that body (VEGAS-90, VEGAS-30),
-# and the definitions repaired so that such a call can name them (VEGAS-97).
+# the recipe's row, repaired so that they name that body (VEGAS-90, VEGAS-30;
+# the call of 0x00870bd0, VEGAS-97), and the definitions repaired so that such
+# a call can name them (VEGAS-97).
 # Format: README.md.
 # The names the calls used before, which no object defines:
 # 0x008774a0, called by WinMain with the constant 1 for its bool parameter
 forbid	?FUN_008774a0@Receiver86@@QEAAXH@Z
 # 0x008707c0, whose texture parameter is void*
 forbid	?FUN_008707c0@MainStub@fnv_008706b0@@QEAAXPEAUBSRenderedTexture@2@_N@Z
+# 0x00870bd0, whose texture parameter is void*
+forbid	?FUN_00870bd0@MainStub@fnv_008706b0@@QEAAXPEAUBSRenderedTexture@2@_N@Z
 # The former names of 0x00870bd0 and 0x00876830, whose texture parameters
 # were integers:
 forbid	?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QEAAX_J_N@Z
 forbid	?FUN_00876830@BSRenderedTexture@fnv_00876830@@QEAAXH_J@Z
 # batch, unit, function and the names of the bodies:
 function	winmain	src/fallout/misc/main.cpp	?FUN_0086a850@@YAHPEAUHINSTANCE__@@0PEADH@Z	?FUN_008774a0@FUN_008774a0_shell@fnv_008774a0@@QEAAX_N@Z
-function	render	src/fallout/misc/main.cpp	?FUN_008706b0@FUN_008706b0_shell@fnv_008706b0@@QEAAXPEAUBSRenderedTexture@2@_N1@Z	?FUN_008707c0@RenderMgr@fnv_008707c0@@QEAAXPEAX_N@Z
+function	render	src/fallout/misc/main.cpp	?FUN_008706b0@FUN_008706b0_shell@fnv_008706b0@@QEAAXPEAUBSRenderedTexture@2@_N1@Z	?FUN_008707c0@RenderMgr@fnv_008707c0@@QEAAXPEAX_N@Z ?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QEAAXPEAX_N@Z
+function	render	src/fallout/misc/main.cpp	?FUN_0086ff70@Main86@fnv_0086ff70@@QEAAXXZ	-
+function	render	src/fallout/misc/main.cpp	?FUN_00871dc0@FUN_00871dc0_class@fnv_00871dc0@@QEAAXXZ	-
 function	definition	src/fallout/misc/main.cpp	?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QEAAXPEAX_N@Z	-
 function	definition	src/fallout/misc/main.cpp	?FUN_00876830@BSRenderedTexture@fnv_00876830@@QEAAXHPEAX@Z	-

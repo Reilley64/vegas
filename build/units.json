@@ -119317,7 +119317,7 @@
     "?FUN_0045bb80@NiNode@fnv_008706b0@@QBEABUP3@2@XZ": "0x0045bb80",
     "?FUN_008707c0@RenderMgr@fnv_008707c0@@QAEXPAX_N@Z": "0x008707c0",
     "?FUN_00870a00@MainStub@fnv_008706b0@@QAEXPAUBSRenderedTexture@2@_N@Z": "0x00870a00",
-    "?FUN_00870bd0@MainStub@fnv_008706b0@@QAEXPAUBSRenderedTexture@2@_N@Z": "0x00870bd0",
+    "?FUN_00870bd0@RenderCoordinator@fnv_00870bd0@@QAEXPAX_N@Z": "0x00870bd0",
     "__real@0000000000000000": "0x01012060",
     "?g_011c7810@@3UGlobalObject_00633c90@@A": "0x011c7810",
     "??BGO871@@QBEPAUNiNode871@@XZ": "0x00559450",

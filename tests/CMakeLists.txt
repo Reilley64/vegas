@@ -1369,3 +1369,40 @@ if(vegas_object_checks)
       "-DREQUIRE=^testl[ \t]+%edx, %edx$"
       -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_function_instructions.cmake)
 endif()
+
+# Fails when a function that frees the data of an array whose table the
+# recipe maps to DAT_010c8d28 (VEGAS-103) again calls slot 2 of the object's
+# table as a member function, with the object in rcx and the data in rdx,
+# instead of with the data alone. That slot holds 0x00cb9cb0, which frees its
+# one argument. The check traces rcx at the call through offset 16 of the
+# table back to the load of the data field, at the offset given, and fails
+# when it reaches the object itself or the address of a member. It reads the
+# archive with llvm-objdump. The patterns are specific to clang-cl at /O2.
+# Blind spots: registers, not values, are matched; the trace follows address
+# order, not control flow; a call that also passes something in rdx passes.
+if(vegas_object_checks)
+  set(vegas_slot_frees
+    "FUN_00cbadb0|??1FUN_00cbadb0_Obj@@UEAA@XZ|0x8"
+    "FUN_00cbadb0_deleting|??_GFUN_00cbadb0_Obj@@UEAAPEAXI@Z|0x8"
+    "ArrayCBAF90_deleting|??_GArrayCBAF90@@UEAAPEAXI@Z|0x8"
+    "FUN_00cbaf90|??1FUN_00cbaf90@@UEAA@XZ|0x18"
+    "FUN_00cbaf90_deleting|??_GFUN_00cbaf90@@UEAAPEAXI@Z|0x18"
+    "FUN_00cbb130|?FUN_00cbb130@FUN_00cbb130_Class@@QEAAPEAXE@Z|0x18")
+  foreach(vegas_entry IN LISTS vegas_slot_frees)
+    string(REPLACE "|" ";" vegas_entry "${vegas_entry}")
+    list(GET vegas_entry 0 vegas_label)
+    list(GET vegas_entry 1 vegas_function)
+    list(GET vegas_entry 2 vegas_offset)
+    add_test(NAME objects.slot_free_argument.${vegas_label}
+      COMMAND ${CMAKE_COMMAND}
+        -DOBJDUMP=${LLVM_OBJDUMP_EXECUTABLE}
+        -DARCHIVE=$<TARGET_FILE:game>
+        -DWORK=${CMAKE_CURRENT_BINARY_DIR}/slot_free_argument.${vegas_label}.disassembly.txt
+        "-DFUNCTION=${vegas_function}"
+        "-DSITE=^callq \\*0x10\\(%rax\\)$"
+        -DREGISTER=rcx
+        "-DORIGIN=^movq ${vegas_offset}\\(%r[a-z0-9]+\\), BASE$"
+        -DCOUNT=1
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/archive/expect_register_origin.cmake)
+  endforeach()
+endif()

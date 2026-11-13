@@ -10477,12 +10477,6 @@ void __cdecl FUN_00cb9910()
     static_cast<::FUN_00a7b330_shell *>(nullptr)->FUN_00a7b330({}, {});
 }
 
-struct FUN_00cbadb0_Dispatch
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void releaseItem(void* item);
-};
 struct FUN_00cbadb0_Obj
 {
     virtual void v0();
@@ -10502,7 +10496,10 @@ FUN_00cbadb0_Obj::~FUN_00cbadb0_Obj()
     if (m_items)
     {
         ::ReleaseItems((::FUN_00cba0d0_cls **)(m_items), m_uiItemCount);
-        reinterpret_cast<FUN_00cbadb0_Dispatch*>(this)->releaseItem(m_items);
+        // Slot 2 of the object's table: the recipe maps this class's table to
+        // DAT_010c8d28, whose slot 2 holds 0x00cb9cb0, which frees the one
+        // pointer it is given; it takes no object.
+        (*reinterpret_cast<void(* const**)(void*)>(this))[2](m_items);
         m_items = 0;
         m_pRayCursor = 0;
         m_uiItemCount = 0;
@@ -10553,7 +10550,10 @@ struct ArrayCBAF90
         if (m_pBase)
         {
             ::ReleaseItems((::FUN_00cba0d0_cls **)(m_pBase), m_uiSize);
-            Deallocate(m_pBase);
+            // Slot 2 of the object's table: the recipe maps this class's
+            // table to DAT_010c8d28, whose slot 2 holds 0x00cb9cb0, which
+            // frees the one pointer it is given; it takes no object.
+            (*reinterpret_cast<void(* const**)(void*)>(this))[2](m_pBase);
             m_pBase = 0;
             m_uiAllocated = 0;
             m_uiSize = 0;

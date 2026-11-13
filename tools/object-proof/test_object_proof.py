@@ -1,0 +1,354 @@
+#!/usr/bin/env python3
+"""Tests of objcmp.py and proof.py, on small COFF objects, compiler logs and
+a fake compiler that the tests write into a temporary folder whose name
+holds a space."""
+import json
+import os
+import shutil
+import struct
+import subprocess
+import sys
+import tempfile
+import unittest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+OBJCMP = os.path.join(HERE, "objcmp.py")
+PROOF = os.path.join(HERE, "proof.py")
+BIGOBJ_CLASSID = bytes.fromhex("c7a1bad1eebaa94baf20faf66aa4dcb8")
+CODE = 0x60500020
+RDATA = 0x40300040
+COMDAT = 0x1000
+
+
+def obj(sections, symbols, bigobj=False, timestamp=0, machine=0x8664):
+    """A COFF object. sections: (name, data, characteristics, relocations),
+    each relocation (offset, symbol, type) with the symbol's position in
+    symbols. symbols: (name, value, section, type, storage, selection); a
+    selection other than None gives the symbol the aux record of its section
+    with that COMDAT selection."""
+    symsize = 20 if bigobj else 18
+    strings = bytearray(b"\0\0\0\0")
+
+    def name(text):
+        raw = text.encode("latin1")
+        if len(raw) <= 8:
+            return raw.ljust(8, b"\0")
+        offset = len(strings)
+        strings.extend(raw + b"\0")
+        return b"\0\0\0\0" + struct.pack("<I", offset)
+
+    indices, index = [], 0
+    for symbol in symbols:
+        indices.append(index)
+        index += 1 if symbol[5] is None else 2
+    header = 56 if bigobj else 20
+    at = header + 40 * len(sections)
+    heads, blobs = b"", b""
+    for text, data, characteristics, relocations in sections:
+        raw_at = at + len(blobs)
+        heads += text.encode().ljust(8, b"\0") + struct.pack(
+            "<IIIIIIHHI", 0, 0, len(data), raw_at, raw_at + len(data) if relocations else 0, 0,
+            len(relocations), 0, characteristics)
+        blobs += data + b"".join(struct.pack("<IIH", va, indices[s], typ) for va, s, typ in relocations)
+    table = b""
+    for text, value, section, typ, storage, selection in symbols:
+        aux = b""
+        if selection is not None:
+            data, relocations = sections[section - 1][1], sections[section - 1][3]
+            aux = struct.pack("<IHHIHB", len(data), len(relocations), 0, 0, 0, selection).ljust(symsize, b"\0")
+        fmt = "<IiHBB" if bigobj else "<IhHBB"
+        table += name(text) + struct.pack(fmt, value, section, typ, storage, 1 if aux else 0) + aux
+    symbols_at = at + len(blobs)
+    if bigobj:
+        head = struct.pack("<HHHHI", 0, 0xFFFF, 2, machine, timestamp) + BIGOBJ_CLASSID
+        head += struct.pack("<IIIIIII", 0, 0, 0, 0, len(sections), symbols_at, index)
+    else:
+        head = struct.pack("<HHIIIHH", machine, len(sections), timestamp, symbols_at, index, 0, 0)
+    strings[0:4] = struct.pack("<I", len(strings))
+    return head + heads + blobs + table + bytes(strings)
+
+
+def coff(caller="?caller@@YAXXZ", callee="?callee@@YAXXZ", code=b"\xe8\x00\x00\x00\x00\xc3", timestamp=0, bigobj=False):
+    """One .text$mn section, defining the caller, whose call is relocated to
+    the undefined callee."""
+    return obj([(".text$mn", code, CODE, [(1, 2, 4)])],
+               [(".text$mn", 0, 1, 0, 3, 0), (caller, 0, 1, 0x20, 2, None), (callee, 0, 0, 0x20, 2, None)],
+               bigobj, timestamp)
+
+
+def calls():
+    """A COMDAT .text$mn whose caller calls ?x then ?y, and an .rdata
+    section with a static symbol, as lists to change before obj()."""
+    sections = [[".text$mn", b"\xe8\0\0\0\0\xe8\0\0\0\0\xc3", CODE | COMDAT, [(1, 3, 4), (6, 4, 4)]],
+                [".rdata", b"\1\2\3\4\5\6\7\x08", RDATA, []]]
+    symbols = [[".text$mn", 0, 1, 0, 3, 2], [".rdata", 0, 2, 0, 3, 0], ["?caller@@YAXXZ", 0, 1, 0x20, 2, None],
+               ["?x@@YAXXZ", 0, 0, 0x20, 2, None], ["?y@@YAXXZ", 0, 0, 0x20, 2, None], ["local", 4, 2, 0, 3, None]]
+    return sections, symbols
+
+
+FAKE_COMPILER = """import json, shutil, sys
+template, source = sys.argv[1], sys.argv[-1]
+print(json.dumps(sys.argv[1:]))
+with open(source) as f:
+    text = f.read()
+print(text)
+if "fail" in text:
+    sys.exit(1)
+shutil.copyfile(template, [a[3:] for a in sys.argv if a.startswith("/Fo")][0])
+"""
+
+
+class ObjectProofTest(unittest.TestCase):
+    def setUp(self):
+        self.root = tempfile.mkdtemp()
+        self.dir = os.path.join(self.root, "with space")
+        os.mkdir(self.dir)
+
+    def tearDown(self):
+        shutil.rmtree(self.root)
+
+    def write(self, name, data):
+        path = os.path.join(self.dir, name)
+        with open(path, "wb") as f:
+            f.write(data)
+        return path
+
+    def run_tool(self, tool, *args):
+        result = subprocess.run([sys.executable, "-B", tool] + list(args),
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return result.returncode, result.stdout.decode("utf-8", "replace"), result.stderr.decode("utf-8", "replace")
+
+    def objcmp(self, a, b, *args):
+        return self.run_tool(OBJCMP, self.write("a.obj", a), self.write("b.obj", b), *args)
+
+    def test_identical(self):
+        code, out, _ = self.objcmp(coff(), coff())
+        self.assertEqual(code, 0, out)
+        self.assertTrue(out.startswith("identical"), out)
+
+    def test_timestamp(self):
+        for bigobj in (False, True):
+            code, out, _ = self.objcmp(coff(timestamp=1, bigobj=bigobj), coff(timestamp=0x5F5E100, bigobj=bigobj))
+            self.assertEqual(code, 0, out)
+            self.assertTrue(out.startswith("identical: the bytes are equal"), out)
+
+    def test_rename(self):
+        a, b = coff(), coff(callee="?other_callee@@YAXXZ")
+        code, out, _ = self.objcmp(a, b)
+        self.assertEqual(code, 1, out)
+        self.assertIn("SYMBOL-ONLY-A\t?callee@@YAXXZ", out)
+        self.assertIn("-reloc\t0x1\ttype 4\t?callee@@YAXXZ", out)
+        code, out, _ = self.objcmp(a, b, "?callee@@YAXXZ=?other_callee@@YAXXZ")
+        self.assertEqual(code, 0, out)
+        self.assertTrue(out.startswith("identical: equal with the timestamp masked once"), out)
+        renames = self.write("renames file.txt",
+                             b"\xef\xbb\xbf# respelled\r\n?callee@@YAXXZ=?other_callee@@YAXXZ\r\n\r\n")
+        code, out, _ = self.objcmp(a, b, "--map", renames)
+        self.assertEqual(code, 0, out)
+        code, out, _ = self.objcmp(coff(bigobj=True), coff(callee="?other_callee@@YAXXZ", bigobj=True),
+                                   "?callee@@YAXXZ=?other_callee@@YAXXZ")
+        self.assertEqual(code, 0, out)
+        code, out, _ = self.objcmp(a, b, "?callee@@YAXXZ=?third@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        # The renames respell the base only: a head that still calls the old
+        # spelling differs there.
+        kept = coff(caller="?new_caller@@YAXXZ")
+        code, out, _ = self.objcmp(a, kept, "?caller@@YAXXZ=?new_caller@@YAXXZ", "?callee@@YAXXZ=?other_callee@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertIn("RENAME-KEPT\tB still holds ?callee@@YAXXZ", out)
+        self.assertIn("+reloc\t0x1\ttype 4\t?callee@@YAXXZ", out)
+
+    def test_refused_renames(self):
+        # The call sites of ?x and ?y swap places: respelling ?x as ?y would
+        # make both objects call ?y twice.
+        sections, symbols = calls()
+        a = obj(sections, symbols)
+        sections[0][3] = [(1, 4, 4), (6, 3, 4)]
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?y@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertIn("RENAME-MERGES\tA holds both ?x@@YAXXZ and ?y@@YAXXZ", out)
+        self.assertIn("RENAME-KEPT\tB still holds ?x@@YAXXZ", out)
+        self.assertIn("RENAME-MERGES\tB holds both ?x@@YAXXZ and ?y@@YAXXZ", out)
+        # Equal bytes stay identical whatever the map, with no RENAME- line.
+        code, out, _ = self.objcmp(a, a, "?x@@YAXXZ=?y@@YAXXZ")
+        self.assertEqual(code, 0, out)
+        self.assertNotIn("RENAME-", out)
+        # A rename that only an embedded name of A matches applies, without a NOTE.
+        sections, symbols = calls()
+        symbols[3][0] = "?l@?1??x@@YAXXZ@4HA"
+        embedded = obj(sections, symbols)
+        symbols[3][0] = "?l@?1??x2@@YAXXZ@4HA"
+        code, out, _ = self.objcmp(embedded, obj(sections, symbols), "?x@@YAXXZ=?x2@@YAXXZ")
+        self.assertEqual(code, 0, out)
+        self.assertNotIn("NOTE", out)
+        sections, symbols = calls()
+        # The call of ?y moves to ?x.
+        sections[0][3] = [(1, 3, 4), (6, 3, 4)]
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?y@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertIn("RENAME-MERGES\tA holds both ?x@@YAXXZ and ?y@@YAXXZ", out)
+        # A already holds ?y: respelled, its two callees become one.
+        sections, symbols = calls()
+        a = obj(sections, symbols)
+        symbols[3][0] = "?y@@YAXXZ"
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?y@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.splitlines()[1:], ["RENAME-MERGES\tA holds both ?x@@YAXXZ and ?y@@YAXXZ"], out)
+        # A name that embeds ?x is respelled in A, and kept in B.
+        sections, symbols = calls()
+        symbols.append(["$unwind$?x@@YAXXZ", 0, 2, 0, 3, None])
+        a = obj(sections, symbols)
+        symbols[3][0] = "?x2@@YAXXZ"
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?x2@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertIn("RENAME-KEPT\tB still holds ?x@@YAXXZ", out)
+        symbols[6][0] = "$unwind$?x2@@YAXXZ"
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?x2@@YAXXZ")
+        self.assertEqual(code, 0, out)
+        # A relocation moves between two statics of one name.
+        sections, symbols = calls()
+        symbols += [["dup", 0, 2, 0, 3, None], ["dup", 4, 2, 0, 3, None]]
+        sections[0][3] = [(1, 6, 4), (6, 4, 4)]
+        a = obj(sections, symbols)
+        sections[0][3] = [(1, 7, 4), (6, 4, 4)]
+        symbols[3][0] = "?x2@@YAXXZ"
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?x2@@YAXXZ")
+        self.assertEqual(code, 1, out)
+        self.assertIn("-reloc\t0x1\ttype 4\tdup@dup+0x0", out)
+        self.assertIn("+reloc\t0x1\ttype 4\tdup@dup+0x4", out)
+
+    def test_unmatched_rename(self):
+        # A rename that does not apply to A leaves the bytes to decide.
+        for args in ((), ("?nothere@@YAXXZ=?callee@@YAXXZ",)):
+            code, out, _ = self.objcmp(coff(), coff() + b"\0", *args)
+            self.assertEqual(code, 1, (args, out))
+            self.assertTrue(out.startswith("differs: the bytes differ, but no section"), out)
+        code, out, _ = self.objcmp(coff(), coff(callee="?other_callee@@YAXXZ"), "?other_callee@@YAXXZ=?callee@@YAXXZ")
+        self.assertEqual(code, 1, out)
+
+    def test_structural_differences(self):
+        def selection(sections, symbols):
+            symbols[0][5] = 4
+
+        def characteristics(sections, symbols):
+            sections[1][2] |= 0x80000000
+
+        def order(sections, symbols):
+            sections.reverse()
+            for symbol in symbols:
+                symbol[2] = {1: 2, 2: 1}.get(symbol[2], symbol[2])
+
+        def storage(sections, symbols):
+            symbols[5][4] = 2
+
+        cases = (
+            (selection, {}, {}, "SECTION-DIFFERS\t?caller@@YAXXZ\t.text$mn\tselection 2 -> 4", 2),
+            (characteristics, {}, {}, "SECTION-DIFFERS\t#.rdata/1\t.rdata\tcharacteristics 1076887616 -> 3224371264", 1),
+            (order, {}, {}, "SECTION-ORDER", 1),
+            (storage, {}, {}, "SYMBOL-ONLY-A\tlocal\t4\t#.rdata/1\t0\t3", 1),
+            (None, {}, dict(machine=0x14C), "HEADER\tmachine\t34404 -> 332", 1),
+            (None, {}, dict(bigobj=True), "HEADER\tbigobj\tFalse -> True", 1),
+            (selection, dict(bigobj=True), dict(bigobj=True), "SECTION-DIFFERS\t?caller@@YAXXZ\t.text$mn\tselection 2 -> 4", 2),
+        )
+        for change, options_a, options_b, line, count in cases:
+            sections, symbols = calls()
+            a = obj(sections, symbols, **options_a)
+            if change:
+                change(sections, symbols)
+            b = obj(sections, symbols, **options_b)
+            symbols[4][0] = "?y2@@YAXXZ"
+            renamed = obj(sections, symbols, **options_b)
+            for head, args in ((b, ()), (renamed, ("?y@@YAXXZ=?y2@@YAXXZ",))):
+                code, out, _ = self.objcmp(a, head, *args)
+                self.assertEqual(code, 1, (line, args, out))
+                self.assertTrue(out.startswith("differs: %d difference(s)" % count), (line, args, out))
+                self.assertIn(line, out, args)
+
+    def test_difference(self):
+        code, out, _ = self.objcmp(coff(), coff(code=b"\xe8\x00\x00\x00\x00\xcc"))
+        self.assertEqual(code, 1, out)
+        self.assertTrue(out.startswith("differs: 1 difference(s)"), out)
+        self.assertIn("SECTION-DIFFERS\t?caller@@YAXXZ\t.text$mn\tsize 6 -> 6, 1 bytes differ, first at 0x5", out)
+
+    def test_unreadable(self):
+        good = self.write("good.obj", coff())
+        missing = os.path.join(self.dir, "missing.obj")
+        garbage = self.write("garbage.obj", b"not an object\r\n" * 4)
+        truncated = self.write("truncated.obj", coff()[:70])
+        machine = self.write("machine.obj", b"\x34\x12" + coff()[2:])
+        for args in ([good, missing], [garbage, good], [good, truncated], [good], [good, good, "no-equals-sign"],
+                     [good, machine]):
+            code, out, err = self.run_tool(OBJCMP, *args)
+            self.assertEqual(code, 2, (args, out, err))
+
+    def test_warnings(self):
+        base = self.write("base.log", (
+            "C:\\work\\src\\a.cpp(10,5): warning: unused variable 'x' [-Wunused-variable]\r\n"
+            "[2/9] Building CXX object a.cpp.obj\r\n"
+            "C:\\work\\src\\b.h:3:1: warning: no newline [-Wnewline-eof]\r\n").encode())
+        head = self.write("head.log", (
+            "D:/other/src/a.cpp(12,7): warning: unused variable 'x' [-Wunused-variable]\n"
+            "D:/other/src/b.h:4:1: warning: no newline [-Wnewline-eof]\n").encode())
+        code, out, _ = self.run_tool(PROOF, "warnings", "--strip", "C:\\work\\", "--strip", "D:/other/", base, head)
+        self.assertEqual(code, 0, out)
+        self.assertTrue(out.startswith("warnings equal: 2 lines, 2 classes"), out)
+        with open(head, "rb") as f:
+            more = self.write("more.log", f.read() + b"D:/other/src/c.cpp(1,1): warning: shadow [-Wshadow]\n")
+        code, out, _ = self.run_tool(PROOF, "warnings", "--strip", "C:\\work\\", "--strip", "D:/other/", base, more)
+        self.assertEqual(code, 1, out)
+        self.assertIn("class\t-Wshadow\t0 -> 1", out)
+        code, out, _ = self.run_tool(PROOF, "warnings", base, os.path.join(self.dir, "missing.log"))
+        self.assertEqual(code, 2, out)
+
+    def test_proof_compile(self):
+        compiler, template = self.write("compiler.py", FAKE_COMPILER.encode()), self.write("template.obj", coff())
+        source = self.write("unit.cpp", b"unit.cpp(1,1): warning: one [-Wone]\n")
+        build = os.path.join(self.dir, "build")
+        os.mkdir(build)
+
+        def commands(entry):
+            entry = dict(dict(directory=build, file=source, output="CMakeFiles/game.dir/unit.cpp.obj"), **entry)
+            with open(os.path.join(build, "compile_commands.json"), "w") as f:
+                json.dump([entry], f)
+
+        def prefix(name):
+            return os.path.join(self.dir, name)
+
+        commands(dict(arguments=[sys.executable, compiler, template, "/c", "/Foold.obj", "--", source]))
+        code, out, err = self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("base"))
+        self.assertEqual(code, 0, out + err)
+        for name, extra in (("flags", []), ("ob0", ["/Ob0"]), ("od", ["/Od", "/Gy"])):
+            self.assertTrue(os.path.exists(prefix("base.%s.obj" % name)), name)
+            with open(prefix("base.%s.log" % name)) as f:
+                words = json.loads(f.readline())
+            at = words.index("--")
+            self.assertEqual(words[at - len(extra) - 1:at], extra + ["/Fo" + prefix("base.%s.obj" % name)], words)
+            self.assertNotIn("/Foold.obj", words)
+        self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("same"))
+        code, out, _ = self.run_tool(PROOF, "compare", prefix("base"), prefix("same"))
+        self.assertEqual(code, 0, out)
+        self.write("unit.cpp", b"unit.cpp(1,1): warning: two [-Wtwo]\n")
+        self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("other"))
+        code, out, _ = self.run_tool(PROOF, "compare", prefix("base"), prefix("other"))
+        self.assertEqual(code, 1, out)
+        self.assertIn("warnings differ", out)
+        # A failing compile exits 1 and leaves no object of an earlier run.
+        for name in ("flags", "ob0", "od"):
+            self.write("bad.%s.obj" % name, b"stale")
+        self.write("unit.cpp", b"fail\n")
+        code, out, err = self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("bad"))
+        self.assertEqual(code, 1, out + err)
+        for name in ("flags", "ob0", "od"):
+            self.assertFalse(os.path.exists(prefix("bad.%s.obj" % name)), name)
+        commands(dict(arguments=[os.path.join(self.dir, "no compiler"), "--", source]))
+        code, out, err = self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("none"))
+        self.assertEqual(code, 2, out + err)
+        self.assertEqual(len(err.strip().splitlines()), 1, err)
+        if os.name == "nt":
+            commands(dict(command="cl.exe /c -- unit.cpp"))
+            code, out, err = self.run_tool(PROOF, "compile", build, "unit.cpp", prefix("string"))
+            self.assertEqual(code, 2, out + err)
+
+
+if __name__ == "__main__":
+    unittest.main()

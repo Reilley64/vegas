@@ -1903,6 +1903,12 @@ struct Fake00788ab0
     int f1e8;
     void FUN_00788ab0(int);
 };
+namespace fnv_00788ab0 {
+struct S00788ab0_LoadingSetup : LoadingMenu
+{
+    void FUN_00788ab0(int);
+};
+}  // namespace fnv_00788ab0
 // If updates are enabled, param_1 is nonzero and the update object's f1e8 is zero, calls FUN_004581c0(true) and then FUN_00788ab0(param_1) on it.
 // @fnv 0x00458180
 void UpdateIfEnabled(int aiValue)
@@ -4032,10 +4038,6 @@ struct S00788ab0_InterfaceQuery
 };
 struct S00788ab0_VisibleTile
 {
-};
-struct S00788ab0_LoadingSetup : LoadingMenu
-{
-    void FUN_00788ab0(int);
 };
 // When GetFloat(3) is nonzero, updates timers and menu state, configures tiles, and assigns the value to pLocation.
 // @fnv 0x00788ab0

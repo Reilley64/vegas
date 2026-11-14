@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2785,
+  "units": 2786,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -163494,11 +163494,6 @@
      "size": 31
     },
     {
-     "address": "0x00406d00",
-     "symbol": "?FUN_00406d00@@YAHPADHPBDZZ",
-     "size": 38
-    },
-    {
      "address": "0x00406d70",
      "symbol": "?FUN_00406d70@@YA_NHH@Z",
      "size": 27
@@ -163547,7 +163542,6 @@
    "symbols": {
     "?GetArchetype@EffectSetting@@QAEHXZ": "0x00810fd0",
     "?FUN_00ec6940@@YANN@Z": "0x00ec6940",
-    "?_vsprintf_s@@YAHPADHPBD0@Z": "0x00ec6bb5",
     "?g_011d61c8@@3VGlobalObject_0066ef90@@A": "0x011d61c8",
     "??0Vec3@@QAE@XZ": "0x006815c0",
     "?FUN_00726070@Callees@@QAEPAXXZ": "0x00726070",
@@ -163733,6 +163727,28 @@
      "parent": "0x00405760"
     }
    ]
+  },
+  {
+   "source": "src/fallout_shared/format_into_buffer.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x00406d00",
+     "symbol": "?FUN_00406d00@@YAHPADHPBDZZ",
+     "size": 38
+    }
+   ],
+   "symbols": {
+    "?_vsprintf_s@@YAHPADHPBD0@Z": "0x00ec6bb5"
+   }
   },
   {
    "source": "src/fallout_shared/magic/effectsettingcollection.cpp",

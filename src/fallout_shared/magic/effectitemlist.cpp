@@ -168,15 +168,6 @@ float __cdecl FUN_00406ce0(float afValue)
 }
 
 
-// Calls _vsprintf_s to format the variadic arguments following apFormat into apString1 using aiSize as the buffer size.
-// @fnv 0x00406d00
-int __cdecl FUN_00406d00(char* apString1, int aiSize, const char* apFormat, ...)
-{
-    char* vList = (char*)(&apFormat + 1);
-    return std::vsnprintf(apString1, aiSize, apFormat, vList);
-}
-
-
 // @fnv 0x00406d70
 bool __cdecl FUN_00406d70(int aiIndex, int aiFlag)
 {

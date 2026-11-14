@@ -473,9 +473,9 @@ void FUN_004dfe80_Class::SetSlotValue(int index, void* value)
 
 
 // @fnv 0x004dfea0
-void FUN_004dfea0()
+float FUN_004dfea0()
 {
-    MersenneTwister::GetRandomGenerator()->FUN_004dfec0();
+    return MersenneTwister::GetRandomGenerator()->FUN_004dfec0();
 }
 
 struct FUN_004d4f10_StandIn : public NiTPointerMap<int, int>

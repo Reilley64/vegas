@@ -324,7 +324,7 @@ struct FUN_0044a2c0_class
 {
     char pad[0x8];
     FUN_0044abf0 unk08;
-    void FUN_0044a2c0();
+    unsigned int FUN_0044a2c0();
 };
 
 extern int DAT_010173dc;
@@ -1852,9 +1852,9 @@ struct Alloc44abf0
     unsigned int FUN_0044abf0() const;
 };
 // @fnv 0x0044a2c0
-void FUN_0044a2c0_class::FUN_0044a2c0()
+unsigned int FUN_0044a2c0_class::FUN_0044a2c0()
 {
-    reinterpret_cast<::Alloc44abf0 *>((&unk08))->FUN_0044abf0();
+    return reinterpret_cast<::Alloc44abf0 *>((&unk08))->FUN_0044abf0();
 }
 // Computes (unsigned)-1 / 4 and returns it, or 1 if that result is zero.
 // @fnv 0x0044abf0

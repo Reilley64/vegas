@@ -2089,6 +2089,33 @@ struct FUN_006c45e0_shell : public NavMeshObstacleManager
     void ProcessAddedRefs();
 };
 }  // namespace fnv_006c45e0
+namespace fnv_006c4d30 {
+struct ObstList
+{
+};
+}  // namespace fnv_006c4d30
+namespace fnv_006c4d30 {
+struct ObsMgr
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    ObstList list3C;
+    void FUN_006c4d30();
+};
+}  // namespace fnv_006c4d30
 namespace fnv_006c39c0 {
 struct FUN_006c39c0_shell : public NavMeshObstacleManager
 {
@@ -6918,9 +6945,6 @@ struct ObstPtr1920
     ObstPtr1920(const ObstPtr1920& other);
     ~ObstPtr1920();
 };
-struct ObstList
-{
-};
 __declspec(align(16)) struct Holder3
 {
     __m128 q;
@@ -6930,26 +6954,6 @@ struct GlobalObject_0044f440
 };
 struct TimeGlobal
 {
-};
-struct ObsMgr
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    ObstList list3C;
-    void FUN_006c4d30();
 };
 
 // For each obstacle, compares a converted vector with its position and calls a method when distance and elapsed-time thresholds are met.

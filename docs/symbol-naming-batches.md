@@ -510,8 +510,11 @@ member is the row's placeholder on both sides. Each moves commit is
 byte-identical, the timestamp aside, at the three variants; each bind
 commit's record layouts are equal on windows-x64 and i686 but for removed
 empty stand-ins. Of the 17 calls, 15 retarget an existing cast and 2 are
-static calls. `objects.batch_bindings` checks the 19 functions that hold the
-calls at the unit's flags.
+static calls. `objects.batch_bindings` checked the 19 functions that hold the
+calls at the unit's flags. Before batch 4 the rows of three of them were
+dropped: `LoadRef::FUN_004267d0`, `Obj43c::ClearInterpolatorRefs` and
+`S00a32fa0_Seq::FUN_00a32fa0` hold the call only through a function inlined
+into them, not at `/Od /Gy`; each owner keeps rows that hold it at both.
 
 Batch 3 ran the tool after its repairs of 2026-11-14: a proof bound to the
 unit texts the gate read, an owner the tip lists as undefined refused, a
@@ -567,6 +570,15 @@ member name on both sides (`UpdateFocusTarget`, `UpdatePickObjects`,
 aside, at the three variants; `loadingmenu.cpp`'s moves carry the unit's own
 `Tile` and `TileMenu` with the owner. Each call retargets an existing cast;
 `objects.batch_bindings` checks the 9 functions that hold the calls.
+
+Before batch 4 the gate also refuses a member call whose receiver cast
+converts a class value through a user-defined conversion
+(`receiver:user-conversion`). Batch 3 admitted the call of `0x0065c490` in
+`bsfacegenmanager.cpp`, whose retargeted cast did not compile, so the proof
+dropped it. On batch 3's candidates at ea1964476 the rule refuses that site
+and no other: 55 names have every site admitted instead of 56, and the 13
+bound names are among them. An explicit call of a conversion function under
+the cast stays admitted, since the cast still converts the value it returns.
 
 ## The object check and its named exceptions
 

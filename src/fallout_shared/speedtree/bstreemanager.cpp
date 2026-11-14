@@ -325,6 +325,12 @@ void C665b80::FUN_00665b80(int aiValue, I2_665b80* pObject)
     }
 }
 
+struct C6658
+{
+    char pad[20];
+    float value;
+    void Update();
+};
 namespace fnv_006652e0 {
 struct NiStream;
 struct NiMemObject
@@ -1067,12 +1073,6 @@ struct Pair6658
 };
 float FUN_0063c600(float);
 void FUN_00bb1390(float, float, float, float);
-struct C6658
-{
-    char pad[20];
-    float value;
-    void Update();
-};
 // @fnv 0x006658b0
 void C6658::Update()
 {

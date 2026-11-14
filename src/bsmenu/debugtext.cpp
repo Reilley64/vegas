@@ -127,10 +127,11 @@ struct FUN_00a0e580_VTab {
 // @fnv 0x00a0e580
 int __cdecl FUN_00a0e580(FUN_00a0e580_VTab* pThis, int aeLocation, int aeJustify, const char* apFormatString, ...)
 {
-    char* args;
+    va_list args;
     int iret;
-    args = (char*)(&apFormatString + 1);
+    va_start(args, apFormatString);
     iret = pThis->m6(aeLocation, aeJustify, apFormatString, args, 0);
+    va_end(args);
     return iret;
 }
 

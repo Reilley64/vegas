@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2781,
+  "units": 2782,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -466987,11 +466987,6 @@
      "size": 13
     },
     {
-     "address": "0x004dc110",
-     "symbol": "?FUN_004dc110@@YAPADXZ",
-     "size": 10
-    },
-    {
      "address": "0x004dc120",
      "symbol": "?FUN_004dc120@FUN_004dc120_StandIn@@QAEPAXH@Z",
      "size": 50
@@ -467472,7 +467467,6 @@
     "??_7FUN_004d9210@@6B@": "0x0102102c",
     "?DAT_0126f0d8@@3PAUDepthDevice@@A": "0x0126f0d8",
     "?DAT_011f94b8@@3HA": "0x011f94b8",
-    "?DAT_01202fa0@@3PADA": "0x01202fa0",
     "?DAT_011c6fbc@@3HA": "0x011c6fbc",
     "?DAT_0118947c@@3IA": "0x0118947c",
     "?DAT_01189480@@3HA": "0x01189480",
@@ -467900,6 +467894,28 @@
     "__real@4014000000000000": "0x01020998",
     "__real@4000000000000000": "0x01011590",
     "?DAT_01189230@@3PAMA": "0x01189230"
+   }
+  },
+  {
+   "source": "src/fallout/misc/user_folder.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x004dc110",
+     "symbol": "?FUN_004dc110@@YAPADXZ",
+     "size": 10
+    }
+   ],
+   "symbols": {
+    "?DAT_01202fa0@@3PADA": "0x01202fa0"
    }
   },
   {

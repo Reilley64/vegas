@@ -250,6 +250,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/misc/screenshot.cpp
   src/fallout/misc/seendata.cpp
   src/fallout/misc/taskqueueinterface.cpp
+  src/fallout/misc/user_folder.cpp
 )
 target_sources(game PRIVATE ${VEGAS19_FALLOUT_SOURCES})
 set_source_files_properties(${VEGAS19_FALLOUT_SOURCES} PROPERTIES

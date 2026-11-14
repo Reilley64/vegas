@@ -12,12 +12,11 @@ The diagram shows how `FalloutNV` starts at the snapshot commit, from the pack t
 flowchart TB
   setup["Setup prepares the pack and installs it beside FalloutNV.exe<br/>ACCEPTED"]
   main_start["main, steps 1 to 3: memory, timer, folder of the executable<br/>ACCEPTED"]
-  main_pack["Step 4: load, validate and publish the pack<br/>ACCEPTED"]
-  main_checks["Steps 5 to 7: single-instance and second-window checks, main returns 0<br/>ACCEPTED"]
-  gate_whole["Gate: FalloutNV links by whole members; in a model at c3ad69b43 one composed statement leaves 34,718 names undefined<br/>WAITING"]
+  main_pack["Step 4: load, validate and publish the pack, catalogue version 3<br/>ACCEPTED"]
+  main_checks["Steps 5 to 8: single-instance checks, S2 to S5 log paths, second-window check, main returns 0<br/>ACCEPTED"]
   skip_s1["S1 crash-log set-up, skipped: waits on the SettingT stand-in and a MessageHandler<br/>WAITING"]
-  skip_paths["S2 to S5 and S7 log and save paths, skipped: wait on catalogue strings and the members that hold their code<br/>WAITING"]
-  skip_cpu["S6 and S8 processor count, skipped: wait on native setting owners and the closure of magicitem.cpp<br/>WAITING"]
+  skip_s7["S7 save folder, skipped: waits on its closure, _DAT_011a2ff0, catalogue strings and VEGAS-130<br/>WAITING"]
+  skip_cpu["S6 and S8 processor count, skipped: wait on a native owner of the setting and INISettingCollection's constructor<br/>WAITING"]
   next["Next stage: window, BootInit, render set-up, main loop<br/>BLOCKED"]
   gate_main_obj["Gate: a linking program contains misc/main.cpp.obj; waits on call repairs, shared classes, other contracts<br/>BLOCKED"]
   gate_engine["Gate: runtime_havok_worker_pool_test links<br/>BLOCKED"]
@@ -25,9 +24,6 @@ flowchart TB
   setup --> main_pack
   main_start --> main_pack
   main_pack --> main_checks
-  gate_whole -.-> skip_s1
-  gate_whole -.-> skip_paths
-  gate_whole -.-> skip_cpu
   gate_main_obj --> next
   gate_main_obj --> gate_engine
   main_checks --> next
@@ -35,7 +31,7 @@ flowchart TB
   classDef accepted fill:#d8f0d8,stroke:#2e7d32,color:#000
   class setup,main_start,main_pack,main_checks accepted
   classDef waiting fill:#ffe2c4,stroke:#c25e00,color:#000
-  class gate_whole,skip_s1,skip_paths,skip_cpu waiting
+  class skip_s1,skip_s7,skip_cpu waiting
   classDef blocked fill:#f8d4d4,stroke:#b71c1c,color:#000
   class next,gate_main_obj,gate_engine,gate_menu blocked
   classDef curated stroke-dasharray:6 4
@@ -44,6 +40,6 @@ flowchart TB
 
 Each box stands for one or more nodes of the full map and shows their state in capitals. An arrow points from what is needed, or from a gate that holds a statement, to what waits on it. A dashed box or arrow is curated, which means that a person stated it and no machine check proves it.
 
-The map is a snapshot of `1e23468c4` with evidence as of 2026-11-13. [docs/startup-map.md](docs/startup-map.md) has the full diagram and lists every node, edge, source and limitation.
+The map is a snapshot of `60edb2e9a` with evidence as of 2026-11-14. [docs/startup-map.md](docs/startup-map.md) has the full diagram and lists every node, edge, source and limitation.
 
 <!-- startup-map:end -->

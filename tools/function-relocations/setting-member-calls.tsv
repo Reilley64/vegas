@@ -2,8 +2,12 @@
 # SettingT<INISettingCollection>::Bool, the recipe's row at 0x00408d60 in
 # processlists.cpp (VEGAS-117), docs/setting-value-offset.md. Format:
 # README.md.
-# The member of the unit's own copy, which no object defines:
+# The members of the units' own copies, which no object defines:
 forbid	?Bool@Setting@@QEAAPEAEXZ
+forbid	?Get@Setting@@QEAAPEBEXZ
 # batch, unit, function, the row's member: the function of
 # bstempeffectsimpledecal.cpp that reads bDebugDecals:Decals.
 function	bstempeffectsimpledecal	src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp	?Initialize@DecalSetup@@QEAA_NXZ	?Bool@?$SettingT@VINISettingCollection@@@@QEAAPEATSETTING_VALUE@@XZ
+# batch, unit, function, the row's member: the function of highprocess.cpp
+# that reads bDebugSaveBuffer:Debug.
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008fa630@HighProcessX@@QEAAGI_K@Z	?Bool@?$SettingT@VINISettingCollection@@@@QEAAPEATSETTING_VALUE@@XZ

@@ -101,3 +101,25 @@ function	renderer	src/fallout_shared/renderer.cpp	?FUN_004da670@fnv_004da670@@YA
 # once the unit's own Setting went with its Bool() call. It reads
 # uMaxDecals:Decals.
 function	bstempeffectsimpledecal	src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp	??0FUN_0068ad20@@QEAA@HMPEAUDecalData@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: the functions of highprocess.cpp
+# whose calls of the accessor moved (VEGAS-117), once the unit's own
+# Setting went with its Get() call. They read eight int settings of
+# GlobalObject2_0040c150. RunDetection keeps two calls on DAT_011cf788,
+# which the unit's generated data defines as an empty class.
+function	highprocess	src/fallout/ai/highprocess.cpp	?ActorEntity@HighProcess@@QEAAXPEAVTESObjectREFR@@PEAVActor@@AEA_NPEAVDetectionParameters@@W4ACTOR_AGGRESSION@@MM@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?CheckTargetAndCombat@AIActor@@QEAA_NPEAU1@H_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e0f80@FollowProcess@fnv_008e0f80@@QEAAXPEAUFollowRef@2@_NH1@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e5730@HighProcess@@QEAAXPEAVActor@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e59c0@HighProcessEx@fnv_008e59c0@@QEAAXPEAVActor@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008e9640@This8e9@fnv_008e9640@@QEAA_NPEAUArg8ee@2@_N@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008eeec0@This8ee@fnv_008eeec0@@QEAAXPEAUArg8ee@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f3940@Proc104@@QEAA_NPEAUActor104@@H@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f4020@Obj124@fnv_008f4020@@QEAAXPEAU12@M@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f7730@UWProcess@@QEAA_NPEAVUWActor@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?FUN_008f9320@Process@BehaviorUpdate@@QEAA_NPEAVActor@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?HandleActorInteraction@ActorProxyFnv@@QEAAXPEAU1@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ProcessActorsForReference@Host@fnv_008ecbb0@@QEAAXPEAURefrEx@2@PEAXPEAUParam3Helper@2@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ProcessPackageMovement@WalkProcess@@QEAAXPEAUWalkActor@@_N1H1@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?ShouldProcessActor@HighProcess@@QEAA_NPEAVActor@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdateActorsInRadius@FUN_008e3f00_shell@@QEAAXPEAVTESObjectREFR@@_J@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+function	highprocess	src/fallout/ai/highprocess.cpp	?UpdatePackageExecution@Obj120@fnv_008dddf0@@QEAAXPEAU12@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

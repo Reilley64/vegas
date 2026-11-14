@@ -169,8 +169,8 @@ takes the shared `Setting`. The sample holds three readers of the processor
 count setting and one caller for each other form of argument. Its batch
 `main` lists the 14 functions of `src/fallout/misc/main.cpp` that call the
 accessor (VEGAS-115). The batches `beamprojectile`, `computersmenu`,
-`explosion`, `package`, `interface`, `tesscriptfunctions`, `renderer` and
-`bstempeffectsimpledecal`
+`explosion`, `package`, `interface`, `tesscriptfunctions`, `renderer`,
+`bstempeffectsimpledecal` and `highprocess`
 list the functions of those units whose calls moved once the unit's own
 `Setting` went (VEGAS-117). Whether an argument is a setting is
 not a relocation;
@@ -184,8 +184,8 @@ opacity setting and one caller for each other form of argument. Its batch
 `main` lists the four functions of `src/fallout/misc/main.cpp` that call the
 accessor (VEGAS-122). The batches `blk_00940000_od`, `bgsterminal`,
 `sleepwaitmenu`, `magicfogprojectile`, `explosion`, `character`,
-`itemmodmenu`, `combatcontroller`, `package`, `telekinesiseffect` and
-`interface` do the same for those units (VEGAS-122).
+`itemmodmenu`, `combatcontroller`, `package`, `telekinesiseffect`,
+`interface` and `highprocess` do the same for those units (VEGAS-122).
 
 `setting-member-calls.tsv` lists the functions whose call of a member of
 the unit's own `Setting` now calls `SettingT<INISettingCollection>::Bool`,

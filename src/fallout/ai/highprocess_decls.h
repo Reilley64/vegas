@@ -718,15 +718,6 @@ public:
 class GlobalObject_0040e0b0
 {
 };
-union SETTING_VALUE
-{
-    float f;
-    int i;
-};
-template <> class SettingT<GameSettingCollection>
-{
-  public:
-};
 class SettingT_GameSettingCollection_
 {
   public:

@@ -674,6 +674,8 @@
 #include "fnv/decl/fnv_00567400__FUN_00567400_shell.h"
 #include "fnv/symbols_004a3000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/setting_t.h"
+class INISettingCollection;
 
 // Calls MiddleHighProcess::Revert, resets all HighProcess fields to defaults, deletes owned objects, clears lists and muzzle flash, and frees detection states.
 // @fnv 0x008fe420
@@ -746,7 +748,7 @@ void HighProcess::Revert(BGSLoadFormBuffer* buffer)
     m_iDialogueState = 2;
     m_bTrackedReferenceFlag = false;
     m_kSecondAdditionalHighProcessField = 0.0f;
-    m_fSavedTargetDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting175))))->f;
+    m_fSavedTargetDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting175))))->f;
     m_pTrackedReference = 0;
     delete pOwnedObject;
     pOwnedObject = 0;
@@ -812,7 +814,7 @@ void HighProcess::PlayRandomIdle(Actor* actor)
     context.radius = reinterpret_cast<::Twin_0084d030 *>((void *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(actor->Get3D()))->FUN_0043d450()))))->GetStoredFloatValue();
     context.scale = context.radius / DAT_010240c0;
     if (iAnimationStateCode || ((double)(reinterpret_cast<::RefS *>((((AIFormulas*)actor)))->FUN_005723b0((::RefS *)(::_g_thePlayer), false, true))) >
-                                   ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting246))))->f * context.scale)
+                                   ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting246))))->f * context.scale)
         return;
     if (context.package && (((BGSCameraPath*)context.package)->GetPrevPath() || context.package->GetPackType() == 26))
         return;
@@ -821,10 +823,10 @@ void HighProcess::PlayRandomIdle(Actor* actor)
         !actor->vfn_234())
     {
         context.timer = vfn_334();
-        if (context.timer < 0.0 && ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))->f != 0.0)
+        if (context.timer < 0.0 && ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))->f != 0.0)
         {
             vfn_44(actor, 0, AnimIdle::PlayDefault, true, false, true);
-            vfn_338(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))->f);
+            vfn_338(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))->f);
         }
         else
             vfn_338(context.timer - ::fnv::timer::Seconds());
@@ -890,14 +892,14 @@ void HighProcess::UpdateReferenceTime(Actor* actor, float elapsed)
     m_fFirstReferenceValue += elapsed;
     if (actor == (Actor*)::_g_thePlayer)
         reinterpret_cast<::B968730Actor *>((::_g_thePlayer))->FUN_00968730();
-    m_fFirstReferenceValue = FUN_0040ebd0(m_fFirstReferenceValue, 1.0f + ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1045))))->f);
+    m_fFirstReferenceValue = FUN_0040ebd0(m_fFirstReferenceValue, 1.0f + ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1045))))->f);
     if (m_fSecondReferenceValue == 0.0)
         return;
     float radiation =
-        m_fFirstReferenceValue * -1.0 * FUN_00408820(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<GameSettingCollection>*)&g_011d1314)))))->f);
+        m_fFirstReferenceValue * -1.0 * FUN_00408820(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<GameSettingCollection>*)&g_011d1314)))))->f);
     if (m_fSecondReferenceValue != 0.0)
         radiation =
-            m_fSecondReferenceValue * m_fFirstReferenceValue * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1046))))->f + radiation;
+            m_fSecondReferenceValue * m_fFirstReferenceValue * ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting1046))))->f + radiation;
     float current = actor->actorValueOwner.GetActorValueFloat((ActorValue::Index)54);
     if (current + radiation < 0.0)
         radiation = -current;
@@ -1321,7 +1323,7 @@ void HighProcess::RestorePreviousReference(bool restore)
     if (restore)
     {
         m_pRecentReferences[0] = previous;
-        vfn_268(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting185))))->f);
+        vfn_268(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting185))))->f);
     }
     else
         RefreshTargetState();
@@ -1336,7 +1338,7 @@ void HighProcess::ClearCachedTargetReferences(bool restore)
     if (restore)
     {
         m_pRecentReferences[0] = previous;
-        vfn_268(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting185))))->f);
+        vfn_268(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting185))))->f);
     }
     else
         RefreshTargetState();
@@ -1351,7 +1353,7 @@ void HighProcess::SetCombatActive(bool restore)
     if (restore)
     {
         m_pRecentReferences[0] = previous;
-        vfn_268(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting185))))->f);
+        vfn_268(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting185))))->f);
     }
     else
         RefreshTargetState();
@@ -1362,7 +1364,7 @@ void HighProcess::ClearDetectionEvents()
 {
     if (m_pDetectionEvent)
     {
-        if (reinterpret_cast<::FUN_00435e00_t *>(&(m_pDetectionEvent->time))->FUN_00435e00() > ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting347))))->f)
+        if (reinterpret_cast<::FUN_00435e00_t *>(&(m_pDetectionEvent->time))->FUN_00435e00() > ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting347))))->f)
         {
             delete m_pDetectionEvent;
             m_pDetectionEvent = 0;
@@ -1645,10 +1647,10 @@ HighProcess::HighProcess()
     pDetectionEventData = 0;
     m_bDialogueFlag = false;
     m_fDialogueDelay = 0.0f;
-    m_fSecondDialogueValue = CombatDamageCalculator::GetDamageMultiplier(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting147))))->f,
-                                                                         ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting148))))->f);
-    m_fImpactValue = CombatDamageCalculator::GetDamageMultiplier(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting139))))->f,
-                                                                 ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting138))))->f);
+    m_fSecondDialogueValue = CombatDamageCalculator::GetDamageMultiplier(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting147))))->f,
+                                                                         ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting148))))->f);
+    m_fImpactValue = CombatDamageCalculator::GetDamageMultiplier(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting139))))->f,
+                                                                 ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting138))))->f);
     m_fFirstDialogueParameter = 0.0f;
     fCurrentValue = 1.0f;
     m_fSecondDialogueParameter = 0.0f;
@@ -1711,7 +1713,7 @@ HighProcess::HighProcess()
     m_pCurrentDialogueItem = 0;
     m_pTrackedReference = 0;
     m_kNinthAdditionalHighProcessField = 0;
-    m_fSavedTargetDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting175))))->f;
+    m_fSavedTargetDistance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting175))))->f;
     m_pQueuedDialogueItem = 0;
 }
 
@@ -5039,7 +5041,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                         ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PlayerCharacter*)
                                                                                                                                              actor)))->FUN_00493bb0()));
                                                                                                                                     main.maxDistance =
-                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))
+                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting87))))
                                                                                                                                             ->f;
                                                                                                                                     main.target =
                                                                                                                                         ::_g_thePlayer;
@@ -5133,7 +5135,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                 .eventLevel =
                                                                                                                                                 -100;
                                                                                                                                             if (main.level <=
-                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<
+                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<
                                                                                                                                                          GameSettingCollection>*)&g_011cdf10)))))
                                                                                                                                                         ->f &&
                                                                                                                                                 ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((main.target))->GetBaseTexture()))
@@ -5175,7 +5177,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                     reinterpret_cast<::FUN_0088c570_shell *>((actor))->IsPointInConeFOV(
                                                                                                                                                             (void *)&(playerEvent
                                                                                                                                                                 ->position),
-                                                                                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting103))))
+                                                                                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting103))))
                                                                                                                                                                 ->f))
                                                                                                                                                     playerInView =
                                                                                                                                                         true;
@@ -5203,10 +5205,10 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                 if (player.eventLevel >
                                                                                                                                                         main.level &&
                                                                                                                                                     player.eventLevel >
-                                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting106))))
+                                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting106))))
                                                                                                                                                             ->f)
                                                                                                                                                     main.level =
-                                                                                                                                                        (int)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting106))))
+                                                                                                                                                        (int)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting106))))
                                                                                                                                                             ->f +
                                                                                                                                                         1;
                                                                                                                                             }
@@ -5298,7 +5300,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                     m_pSavedTargetReference =
                                                                                                                                         0;
                                                                                                                                     main.maxDistance =
-                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))
+                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting87))))
                                                                                                                                             ->f;
                                                                                                                                     if (!((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())) ||
                                                                                                                                         !((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))
@@ -5394,7 +5396,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                     .reaction =
                                                                                                                                                     0;
                                                                                                                                                 if (main.level <=
-                                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<
+                                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<
                                                                                                                                                              GameSettingCollection>*)&g_011cdf10)))))
                                                                                                                                                             ->f &&
                                                                                                                                                     ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((main.target))->GetBaseTexture()))
@@ -5453,7 +5455,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                             reinterpret_cast<::FUN_0088c570_shell *>((actor))->IsPointInConeFOV(
                                                                                                                                                                     (void *)&(loopEvent
                                                                                                                                                                         ->position),
-                                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting103))))
+                                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting103))))
                                                                                                                                                                         ->f))
                                                                                                                                                             loopInView =
                                                                                                                                                                 true;
@@ -5483,10 +5485,10 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                                 main.level &&
                                                                                                                                                             loopScores
                                                                                                                                                                     .eventLevel >
-                                                                                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting106))))
+                                                                                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting106))))
                                                                                                                                                                     ->f)
                                                                                                                                                             main.level =
-                                                                                                                                                                (int)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting106))))
+                                                                                                                                                                (int)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting106))))
                                                                                                                                                                     ->f +
                                                                                                                                                                 1;
                                                                                                                                                     }
@@ -5494,7 +5496,7 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                                 loop.type =
                                                                                                                                                     0;
                                                                                                                                                 if (main.level >
-                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<
+                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<
                                                                                                                                                          GameSettingCollection>*)&g_011cdf10)))))
                                                                                                                                                         ->f)
                                                                                                                                                     loop.type =
@@ -5572,12 +5574,12 @@ void HighProcess::RunDetection(Actor* actor, float elapsed)
                                                                                                                                     reinterpret_cast<::FileMatchList *>(&((*reinterpret_cast<::BSSimpleList< ::TESTopicInfo *> *>(&::g_011e0280))))->RemoveAll();
                                                                                                                                     if (!inCombat)
                                                                                                                                         m_fSocialTalkDelay =
-                                                                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting922))))
+                                                                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting922))))
                                                                                                                                                 ->f +
                                                                                                                                             elapsed;
                                                                                                                                     else
                                                                                                                                         m_fSocialTalkDelay =
-                                                                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting922))))
+                                                                                                                                            ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting922))))
                                                                                                                                                 ->f;
                                                                                                                                     m_bHasActorGroupState =
                                                                                                                                         true;
@@ -9380,7 +9382,7 @@ void HighProcessS::FUN_008f21f0(Actor* apActor)
     if (!*(int*)((char*)this + 0x40))
         ((HPV*)this)->f12c(::_g_thePlayer);
     if (*(float*)((char*)this + 0x448) == -1.0)
-        *(float*)((char*)this + 0x448) = *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting251))));
+        *(float*)((char*)this + 0x448) = *(float*)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(::originalRuntimeFloatSetting251))));
     else
         *(float*)((char*)this + 0x448) = *(float*)((char*)this + 0x448) - ::fnv::timer::Seconds();
     if (*(float*)((char*)this + 0x448) <= 0.0)
@@ -10117,7 +10119,7 @@ void HeadTrackStandIn::FUN_009012a0(bool abHoldDefault)
     if (abHoldDefault)
     {
         *(Animation**)((char*)this + 0x3f8) = pAnim;
-        ((MiddleHighProcess*)this)->vfn_268(*(float*)((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting185)))));
+        ((MiddleHighProcess*)this)->vfn_268(*(float*)((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting185)))));
     }
     else
     {
@@ -15926,7 +15928,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                 }
                 if (pTargetB0)
                 {
-                    m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
+                    m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
                 }
                 FUN_v628(pTargetB0);
                 if (!apActor->IsInCombat() && pTargetB0 && reinterpret_cast<::fnv_008a40e0::MatchActor *>((apActor))->FUN_008a40e0((::fnv_008a40e0::RefView *)(pTargetB0)))
@@ -15946,7 +15948,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                     FUN_v118(1);
                     FUN_v288(apActor, 3);
                 }
-                m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
+                m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
                 FUN_v310(0);
             }
         }
@@ -15980,7 +15982,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                         FUN_v118(1);
                         FUN_v288(apActor, 3);
                     }
-                    m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
+                    m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
                     FUN_v310(0);
                 }
             }
@@ -16074,7 +16076,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                     fSpeakTimer -= ::fnv::timer::Seconds();
                     if (pTargetB0)
                     {
-                        m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
+                        m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
                     }
                 }
             }
@@ -16266,7 +16268,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                     }
                     if (pTargetB0)
                     {
-                        m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
+                        m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
                     }
                     FUN_v628(pTargetB0);
                     if (!apActor->IsInCombat() && pTargetB0 && reinterpret_cast<::fnv_008a40e0::MatchActor *>((apActor))->FUN_008a40e0((::fnv_008a40e0::RefView *)(pTargetB0)))
@@ -16286,7 +16288,7 @@ void ProcX::UpdateDialogue(ActorX* apActor, TopicX* apTopic, RefX* apArg3, bool 
                         FUN_v118(1);
                         FUN_v288(apActor, 3);
                     }
-                    m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
+                    m_fFirstReferenceTimer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting183))))));
                     FUN_v310(0);
                 }
             }
@@ -19650,7 +19652,7 @@ void ProcessOps::FUN_008f7070(ActorOps* actor, bool reset)
     actor->start(aCreated, true, true);
     setTarget((Actor*)::_g_thePlayer);
     if (reset)
-        timer = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting191))))->f;
+        timer = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting191))))->f;
 }
 
 struct ProjS
@@ -19869,7 +19871,7 @@ bool CombatS::FUN_008f74c0(ActorS* apActor, ActorS* apTarget, bool abFlag)
     firePos3 = weapX ? reinterpret_cast<::WeapAimShell *>((weapX))->FUN_005257a0((::TESObjectREFR *)(apActor)) : FUN_009a8050(apActor);
     if (proj)
     {
-        float speed2 = ::GetFloatAtOffset68((const char *)(proj)) * (abFlag ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting375))))->f : 1.0f);
+        float speed2 = ::GetFloatAtOffset68((const char *)(proj)) * (abFlag ? ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting375))))->f : 1.0f);
         aim2 = ComputeTrajectory(apActor, apTarget, 0, proj, speed2, abFlag);
     }
     else
@@ -19880,7 +19882,7 @@ bool CombatS::FUN_008f74c0(ActorS* apActor, ActorS* apTarget, bool abFlag)
     bE1 = 1;
     if (weapX && !::FUN_006450c0((::TESObjectWEAP *)(weapX)))
     {
-        float range = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting387))))->f * reinterpret_cast<::MiddleHighProcess *>((weapX))->GetLightIntensity();
+        float range = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting387))))->f * reinterpret_cast<::MiddleHighProcess *>((weapX))->GetLightIntensity();
         NiPoint3 diff2 = *apActor->GetPosS() - aim2;
         bool inRange5 = reinterpret_cast<::TESCombatStyle *>((void *)&(diff2))->UpdateCombatStyle() > range * range;
         reinterpret_cast<::fnv_008bb650::PlayerView *>((apActor))->SetActiveState(inRange5, 0, 0);
@@ -20619,10 +20621,6 @@ struct FormObj
     virtual void v4b();
     virtual const char* GetName();
 };
-struct Setting
-{
-    const unsigned char* Get();
-};
 struct List25c
 {
     int Count();
@@ -20721,7 +20719,7 @@ unsigned short HighProcessX::FUN_008fa630(unsigned int flags, uintptr_t b)
         size += 4;
         size += 1;
     }
-    if (*(*reinterpret_cast<::Setting *>(&::g_011de4e8)).Get())
+    if ((*reinterpret_cast<::SettingT<::INISettingCollection> *>(&::g_011de4e8)).Bool()->h)
     {
         ChangeForm* cf = ((::ChangeForm *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (cf)
@@ -22606,7 +22604,7 @@ bool FUN_009001c0_cls::FUN_009001c0(intptr_t a1, intptr_t a2, bool a3, bool a4, 
     {
         vslot530(a1, 0, 0);
         m_3a8 = 0;
-        m_3a4 = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cda64))))))->f;
+        m_3a4 = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cda64))))))->f;
     }
     return reinterpret_cast<::FUN_00916880_shell *>(this)->TryStartCombatAction((::Actor *)(a1), (::Actor *)(a2), a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13);
 }
@@ -24527,16 +24525,16 @@ bool HighProcess::IsCurrentPackageTarget(Actor* actor)
                                                 else
                                                 {
                                                     float distance = g_011c72ac_arg1;
-                                                    float limit = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting134))))->f;
+                                                    float limit = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting134))))->f;
                                                     if (((TESObjectCELL*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())))->IsCellInterior())
-                                                        limit = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting135))))->f;
+                                                        limit = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting135))))->f;
                                                     if (distance > limit)
-                                                        distance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting134))))->f;
+                                                        distance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting134))))->f;
                                                     if (((double)(reinterpret_cast<::RefS *>((((AIFormulas*)target)))->FUN_005723b0((::RefS *)(actor), false, false))) <= distance)
                                                     {
                                                         if (m_pAuxiliaryList->IsEmpty())
                                                             m_fSavedTargetDistance =
-                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting175))))->f;
+                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting175))))->f;
                                                         else
                                                             m_fSavedTargetDistance -=
                                                                 ::fnv::timer::Seconds();
@@ -24545,10 +24543,10 @@ bool HighProcess::IsCurrentPackageTarget(Actor* actor)
                                                         int random = (int)(DialogueRandom() % 100);
                                                         if (!reinterpret_cast<::RefList *>((((BSSimpleList<TESForm*>*)m_pAuxiliaryList)))->FUN_005f65d0((void **)&((TESForm*&)target)))
                                                         {
-                                                            float chance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting136))))->f;
+                                                            float chance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting136))))->f;
                                                             if (((TESObjectCELL*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())))
                                                                     ->IsCellInterior())
-                                                                chance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting137))))->f;
+                                                                chance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting137))))->f;
                                                             if (random < chance)
                                                             {
                                                                 scan = false;
@@ -24577,8 +24575,8 @@ bool HighProcess::IsCurrentPackageTarget(Actor* actor)
                             {
                                 actor->vfn_280(target, 0, 0, true, directed, false, false, directed, false);
                                 m_fImpactValue = CombatDamageCalculator::GetDamageMultiplier(
-                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting139))))->f,
-                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting138))))->f);
+                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting139))))->f,
+                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting138))))->f);
                                 greeted = true;
                             }
                         }
@@ -25566,7 +25564,7 @@ bool ActorGroupOwner::CanAddActorToGroup(Actor* source, Actor* target)
     if (package && reinterpret_cast<::FUN_009611e0_shell *>((package))->FUN_009611e0() == 0x25 && !reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear())
         return false;
     if (actorList->IsEmpty())
-        timer = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting175))))->f;
+        timer = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting175))))->f;
     else
         timer -= ((double)(::fnv::timer::Seconds()));
     if (timer <= 0.0)
@@ -28813,7 +28811,7 @@ void PackageProcess::FUN_008db240(ProcessActor* actor)
                 if (replacement)
                 {
                     InstallPackage(actor, replacement, 0, 0, 0, 0);
-                    ((FUN_008db4c0_class*)special)->FUN_008db4c0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting190))))->f);
+                    ((FUN_008db4c0_class*)special)->FUN_008db4c0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting190))))->f);
                     reinterpret_cast<::FUN_009f94d0_Class *>((((PackageFlags*)special)))->FUN_009f94d0(1);
                     currentTarget = true;
                 }
@@ -30504,8 +30502,8 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
     int action12 = 0x201;
     if (!special24 && !target53)
         target53 = fallback2;
-    float range24 = cell10 && reinterpret_cast<::TESObjectCELL *>((cell10))->IsCellInterior() ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting623)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting622))))));
-    float radius41 = cell10 && reinterpret_cast<::TESObjectCELL *>((cell10))->IsCellInterior() ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting625)))))) : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting624))))));
+    float range24 = cell10 && reinterpret_cast<::TESObjectCELL *>((cell10))->IsCellInterior() ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting623)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting622))))));
+    float radius41 = cell10 && reinterpret_cast<::TESObjectCELL *>((cell10))->IsCellInterior() ? *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting625)))))) : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting624))))));
     if (((::fnv_008dddf0::Obj120 *)(reinterpret_cast<::Script *>((package38))->GetData())) && ((int)(reinterpret_cast<::PackageTargetFields *>((((::fnv_008dddf0::Obj120 *)(reinterpret_cast<::Script *>((package38))->GetData()))))->iValue)) > 0.0)
         radius41 = (float)((int)(reinterpret_cast<::PackageTargetFields *>((((::fnv_008dddf0::Obj120 *)(reinterpret_cast<::Script *>((package38))->GetData()))))->iValue));
     if ((goal5 || !target53) && (reinterpret_cast<::FUN_0067efd0_shell *>((package38))->FUN_0067efd0() || ::FUN_008b1ff0((const char *)(package38))))
@@ -30525,13 +30523,13 @@ void Obj120::UpdatePackageExecution(Obj120* actor)
                 !reinterpret_cast<::FUN_008defe0_shell *>((((Obj120*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_008defe0())
             {
                 int roll = ::MersenneTwister::GetRandomGenerator()->IntInRange({}, {});
-                if (roll <= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::g_011cd838)))))))
+                if (roll <= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::g_011cd838)))))))
                 {
                     Obj120* topic = ((::fnv_008dddf0::Obj120 *)(::fnv_0061a2d0::GetTopicSubTypeName(2, 3)));
                     if (topic)
                         v2a4(actor, topic, 0, 0, 1, 0);
                 }
-                speechTimer = FUN_006465f0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting147)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting148)))))));
+                speechTimer = FUN_006465f0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting147)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008dddf0::Setting120 *>(&::originalRuntimeFloatSetting148)))))));
             }
             else
                 speechTimer -= ::fnv::timer::Seconds();
@@ -31427,11 +31425,11 @@ bool Process65::FUN_008df1e0(Actor65* actor, Actor65* other, Location65* locatio
     if (target == (*reinterpret_cast<::fnv_008df1e0::Actor65 * *>(&::_g_thePlayer)))
         range19 = (float)configuredRange18;
     else if (reinterpret_cast<::TESObjectCELL *>((((::fnv_008df1e0::Cell65 *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))))->IsCellInterior())
-        range19 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008df1e0::Setting65 *>(&::originalRuntimeFloatSetting173))))));
+        range19 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008df1e0::Setting65 *>(&::originalRuntimeFloatSetting173))))));
     else
-        range19 = configuredRange18 * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008df1e0::Setting65 *>(&::originalRuntimeFloatSetting172))))));
+        range19 = configuredRange18 * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008df1e0::Setting65 *>(&::originalRuntimeFloatSetting172))))));
     if (reinterpret_cast<::fnv_008b3bd0::FUN_008b3bd0_shell *>((actor))->FUN_008b3bd0())
-        range19 += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008df1e0::Setting65 *>(&::originalRuntimeFloatSetting174))))));
+        range19 += *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008df1e0::Setting65 *>(&::originalRuntimeFloatSetting174))))));
     float distanceSquared91 = reinterpret_cast<::TESCombatStyle *>(&(difference53))->UpdateCombatStyle();
     float rangeSquared7 = range19 * range19;
     if (tooFar)
@@ -33057,7 +33055,7 @@ void FollowProcess::FUN_008e0f80(FollowRef* actor, bool complete, int direction,
     if (targetRef4 == (*reinterpret_cast<::fnv_008e0f80::FollowPlayer * *>(&::_g_thePlayer)) || ((::fnv_008e0f80::FollowData *)(reinterpret_cast<::Script *>((packageTmp))->GetData())))
         radius4 = reinterpret_cast<::fnv_006787e0::Package *>((packageTmp))->GetPackageResult((::fnv_006787e0::Obj *)(actor), false);
     if (radius4 < 1.0)
-        radius4 = (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::g_011cde98))))));
+        radius4 = (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::g_011cde98))))));
     radius4 += ::fnv_00643ff0::GetFollowerOffset((::fnv_00643ff0::Actor *)(actor), (::fnv_00643ff0::Actor *)(targetActorVal));
     float nearDistance3 = ::fnv_00643f20::FUN_00643f20(radius4);
     float moveDistance7 = specialTarget8 ? nearDistance3 : ::FUN_00643f90(radius4);
@@ -33102,8 +33100,8 @@ void FollowProcess::FUN_008e0f80(FollowRef* actor, bool complete, int direction,
             targetPos3.z += reinterpret_cast<::fnv_008853a0::FUN_008853a0_shell *>((targetActorVal))->GetActorHeight();
             targetPos3.z = ::FUN_0040ebd0(targetPos3.z, reinterpret_cast<::FUN_0057b0a0_shell *>((targetActorVal))->FUN_0057b0a0());
         }
-        if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::originalRuntimeFloatSetting170)))))) < minMove)
-            minMove = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::originalRuntimeFloatSetting170))))));
+        if (*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::originalRuntimeFloatSetting170)))))) < minMove)
+            minMove = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::originalRuntimeFloatSetting170))))));
         float extraDistance = actorPackage ? 0.0f : 50.0f;
         float stopDistance = ::AddScaledSetting(radius4);
         if (targetActorVal && targetActorVal == (*reinterpret_cast<::fnv_008e0f80::FollowPlayer * *>(&::_g_thePlayer)))
@@ -33203,7 +33201,7 @@ void FollowProcess::FUN_008e0f80(FollowRef* actor, bool complete, int direction,
         {
             if (retry)
             {
-                if (distance_2 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::originalRuntimeFloatSetting171)))))))
+                if (distance_2 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008e0f80::FollowSetting *>(&::originalRuntimeFloatSetting171)))))))
                 {
                     if (!reinterpret_cast<::SightActor *>((actor))->FUN_0088b880(0, (::SightActor *)(targetRef4), 1, (int *)(0), 0))
                     {
@@ -33336,7 +33334,7 @@ struct FUN_008e3f00_shell
 // @fnv 0x008e3f00
 void FUN_008e3f00_shell::UpdateActorsInRadius(TESObjectREFR* apRef, intptr_t aiType)
 {
-    reinterpret_cast<::TESDataHandler *>((((FUN_0046f280_shell*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apRef))->GetTarget())), (*(const ::NiPoint3 *)(apRef->vfn_1f4())), *((int *)&(::FUN_0043d4d0((int *)&(g_011cdbec)))), (*(const ::NiPoint3 *)(apRef->vfn_1f4())), *((int *)&(::FUN_0043d4d0((int *)&(g_011cdbec)))),
+    reinterpret_cast<::TESDataHandler *>((((FUN_0046f280_shell*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReferencesInArea(((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((apRef))->GetTarget())), (*(const ::NiPoint3 *)(apRef->vfn_1f4())), *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011cdbec)))), (*(const ::NiPoint3 *)(apRef->vfn_1f4())), *((int *)&(::FUN_0043d4d0((::Setting *)&(g_011cdbec)))),
                        (bool (*)(TESObjectREFR *, intptr_t))(CheckAndQueueRadioRef), (intptr_t)(apRef));
     BSSimpleList<Actor*>* pEntry = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::fnv_009715c0::Cls9715 *>((((FUN_009715c0_shell*)&g_011e0e80)))->CollectCombatTargets((::fnv_009715c0::Obj9715 *)(aiType), (::fnv_009715c0::Node9715 *)(::G2 *)(&(*reinterpret_cast<::G2 *>(&::g_011e025c))))));
     BSSimpleList<Actor*>* pList = pEntry;
@@ -34340,7 +34338,7 @@ void Owner93::UpdateSelectionTimer(Actor93* actor)
     timer -= ::fnv::timer::Seconds();
     if (timer > 0.0)
         return;
-    timer = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting93 *>(&::g_011e029c)))))) * ::RandomFloat(0.8f, 1.2f);
+    timer = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::Setting93 *>(&::g_011e029c)))))) * ::RandomFloat(0.8f, 1.2f);
     Actor93* selected = 0;
     if (actor->process->v5f0() && actor->v1d0())
     {
@@ -35419,7 +35417,7 @@ void Process::ProcessActorMovement(Actor* actor)
         if (target)
         {
             movementDistanceSlot0 = reinterpret_cast<::NiPoint3 *>((void *)&(const ::PackageMovement::Vec &)((*(::PackageMovement::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(lastPosition))->FUN_00439ef0((::NiPoint3 *)&(target->Position()), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
-            if (movementDistanceSlot0 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackageMovement::Setting *>(&::originalRuntimeFloatSetting170)))))) ||
+            if (movementDistanceSlot0 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PackageMovement::Setting *>(&::originalRuntimeFloatSetting170)))))) ||
                 (distanceSlot1 > radiusSlot11 && ((bool)(reinterpret_cast<::TeleportableReference *>((actor))->GetTeleportDestinationForm()))))
             {
                 Request tracking;
@@ -38572,10 +38570,10 @@ void ActorProxyFnv::HandleActorInteraction(ActorProxyFnv* target)
             float actorVal = ::GetDirectionAngle((const ::NiPoint3 *)(const ::Position *)(&position));
             float extraB = 0.0f;
             float angle = FUN_004b15e0(static_cast<float>(actorTmp->vfn_2bc(0) + DAT_0101ff40), actorVal, &extraB);
-            float timeX = static_cast<float>(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Settings *>(&::g_011cd480)))))) * DAT_01023128);
+            float timeX = static_cast<float>(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Settings *>(&::g_011cd480)))))) * DAT_01023128);
             if (reinterpret_cast<::Actor *>((actorX))->IsMoving())
             {
-                timeX = static_cast<float>(*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Settings *>(&::g_011cda1c)))))) * DAT_01023128);
+                timeX = static_cast<float>(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Settings *>(&::g_011cda1c)))))) * DAT_01023128);
             }
             actorX->FUN_008bb520(*actorTmp->vfn_1f4(), 0);
         }
@@ -38589,7 +38587,7 @@ void ActorProxyFnv::HandleActorInteraction(ActorProxyFnv* target)
                 float actorVal = ::GetDirectionAngle((const ::NiPoint3 *)(const ::Position *)(&position));
                 float extraB = 0.0f;
                 float angle = FUN_004b15e0(static_cast<float>(actor->vfn_2bc(0) + DAT_0101ff40), actorVal, &extraB);
-                if (FUN_00408840(angle) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Settings *>(&::g_011cd480)))))) * DAT_01023128)
+                if (FUN_00408840(angle) > *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Settings *>(&::g_011cd480)))))) * DAT_01023128)
                 {
                     source->FUN_008bb520(*actor->vfn_1f4(), 0);
                 }
@@ -38720,13 +38718,13 @@ void Host::ProcessActorsForReference(RefrEx* pRefr, void* pData, Param3Helper* p
     }
     if (reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((pRefr))->FUN_00575d10())
     {
-        ::FUN_0054d4b0((::PortalVisitCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pRefr))->GetTarget()))), (*(const ::PortalVisitPoint *)(pRefr->vfn_1f4())), (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (*(const ::PortalVisitPoint *)(pRefr->vfn_1f4())),
-                     (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (bool (*)(PortalVisitRef *, void *))(CheckAndQueueRadioRef), pParamHelper);
+        ::FUN_0054d4b0((::PortalVisitCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pRefr))->GetTarget()))), (*(const ::PortalVisitPoint *)(pRefr->vfn_1f4())), (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (*(const ::PortalVisitPoint *)(pRefr->vfn_1f4())),
+                     (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (bool (*)(PortalVisitRef *, void *))(CheckAndQueueRadioRef), pParamHelper);
     }
     else
     {
-        reinterpret_cast<::TESDataHandler *>((((DataHandlerHelper*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pRefr))->GetTarget()))), (*(const ::NiPoint3 *)(pRefr->vfn_1f4())), (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (*(const ::NiPoint3 *)(pRefr->vfn_1f4())),
-                           (float)*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (bool (*)(TESObjectREFR *, intptr_t))(CheckAndQueueRadioRef), (intptr_t)(pParamHelper));
+        reinterpret_cast<::TESDataHandler *>((((DataHandlerHelper*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReferencesInArea((::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pRefr))->GetTarget()))), (*(const ::NiPoint3 *)(pRefr->vfn_1f4())), (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (*(const ::NiPoint3 *)(pRefr->vfn_1f4())),
+                           (float)*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008ecbb0::SettingHelper *>(&::g_011cdbec)))))), (bool (*)(TESObjectREFR *, intptr_t))(CheckAndQueueRadioRef), (intptr_t)(pParamHelper));
     }
     i = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Lst9711 *>((((ProcessListsHelper*)&g_011e0e80)))->CollectNearbyRefs((::R9711 *)(pParamHelper), (::R9711 *)(void *)(&(*reinterpret_cast<::G2 *>(&::g_011e025c))))));
     reinterpret_cast<::FileMatchList *>((((ActorList*)&(*reinterpret_cast<::G2 *>(&::g_011e025c)))))->RemoveAll();
@@ -41925,7 +41923,7 @@ FUN_004bc550* SearchOwner::FUN_008eebf0(ActorView* actor, unsigned int mode)
     state = mode;
     float result = 0.0f;
     if (!GetRangeHelper() || !reinterpret_cast<::TESPackage *>((GetRangeHelper()))->GetPackageSearchRadius((::MobileObject *)(actor), (*(float *)(&result))))
-        result = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting132))))));
+        result = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting132))))));
     reinterpret_cast<::TESDataHandler *>((((Handler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReferencesInArea(range, (*(const ::NiPoint3 *)(&position)), result, (*(const ::NiPoint3 *)(&actor->GetPosition())), result, ((bool (&)(TESObjectREFR *, intptr_t))::CheckPackageMatch), (intptr_t)(actor));
     state = 0;
     current = 0;
@@ -42540,9 +42538,9 @@ bool P157Target::FUN_008f2610(P157Object* actor, int unused)
         if ((P157Object*)pTarget == (P157Object*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)) && cf == 0.0)
             cf = (float)radius;
         else if (cf == 0.0 && ((::P157Object *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget())) && reinterpret_cast<::TESObjectCELL *>((((::P157Object *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()))))->IsCellInterior())
-            cf = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P157Setting *>(&::originalRuntimeFloatSetting173))))));
+            cf = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P157Setting *>(&::originalRuntimeFloatSetting173))))));
         else if (cf == 0.0)
-            cf = radius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::P157Setting *>(&::originalRuntimeFloatSetting172))))));
+            cf = radius * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::P157Setting *>(&::originalRuntimeFloatSetting172))))));
     }
     if (((::P157Form *)(reinterpret_cast<::PackageFields *>((k))->pLocation)) && k->call13c(actor, 0, -1.0f, 0))
     {
@@ -43140,7 +43138,7 @@ bool AIActor::CheckTargetAndCombat(AIActor* apTarget, int aiUnused, bool abEndPa
     {
         if (!reinterpret_cast<::FUN_00962720_shell *>(((*reinterpret_cast<::AIPlayer * *>(&::_g_thePlayer))))->HasExtraFollowerForm((char *)(apTarget)))
         {
-            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::AIPlayer * *>(&::_g_thePlayer))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::AISetting *>(&::g_011cdad0)))))))
+            if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>(((*reinterpret_cast<::AIPlayer * *>(&::_g_thePlayer))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::AISetting *>(&::g_011cdad0)))))))
                 reinterpret_cast<::fnv_00674f30::FUN_00674f30_shell *>((pPackage2))->SetFlag10000(false);
             else
                 return false;
@@ -43975,7 +43973,7 @@ bool Proc104::FUN_008f3940(Actor104* actor, int unused)
         if (marker)
         {
             FUN_006815c0 difference = (*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&((*(const class ::FUN_006815c0 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((target))->FUN_00568fa0()))))->FUN_00439ef0((::NiPoint3 *)&(actor->v1f4()), *(const ::NiPoint3 *)nullptr)));
-            if (((double)(reinterpret_cast<::NiPoint3 *>(&(difference))->ComputeMagnitude())) <= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting104 *>(&::g_011cde98)))))))
+            if (((double)(reinterpret_cast<::NiPoint3 *>(&(difference))->ComputeMagnitude())) <= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting104 *>(&::g_011cde98)))))))
                 bClose = true;
         }
         else
@@ -43998,7 +43996,7 @@ bool Proc104::FUN_008f3940(Actor104* actor, int unused)
                 if (marker3)
                 {
                     FUN_006815c0 difference2 = (*(class ::FUN_006815c0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&((*(const class ::FUN_006815c0 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((target))->FUN_00568fa0()))))->FUN_00439ef0((::NiPoint3 *)&(actor->v1f4()), *(const ::NiPoint3 *)nullptr)));
-                    if (((double)(reinterpret_cast<::NiPoint3 *>(&(difference2))->ComputeMagnitude())) <= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting104 *>(&::g_011cde98)))))))
+                    if (((double)(reinterpret_cast<::NiPoint3 *>(&(difference2))->ComputeMagnitude())) <= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::Setting104 *>(&::g_011cde98)))))))
                         bClose = true;
                 }
                 else
@@ -45234,7 +45232,7 @@ void Obj124::FUN_008f4020(Obj124* ref, float time)
                         v288(actor18, 1);
                     else if (reinterpret_cast<struct ::FUN_0041ca90 *>((package14))->get() == 1)
                     {
-                        if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((Obj124*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008f4020::Setting124 *>(&::g_011cdad0)))))))
+                        if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((Obj124*)(*reinterpret_cast<intptr_t *>(&::_g_thePlayer)))))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008f4020::Setting124 *>(&::g_011cdad0)))))))
                             v288(actor18, 1);
                         else
                             again11 = false;
@@ -46787,7 +46785,7 @@ bool Process::FUN_008f9320(Actor* actor)
 {
     Package* packageSlot2 = 0;
     packageSlot2 = GetAssignedPackage();
-    if (((double)(reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)((*reinterpret_cast<::BehaviorUpdate::Actor * *>(&::_g_thePlayer))), 0, 0))) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::BehaviorUpdate::FloatSetting *>(&::originalRuntimeFloatSetting246)))))))
+    if (((double)(reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)((*reinterpret_cast<::BehaviorUpdate::Actor * *>(&::_g_thePlayer))), 0, 0))) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::BehaviorUpdate::FloatSetting *>(&::originalRuntimeFloatSetting246)))))))
         return true;
     Form* formSlot25 = 0;
     Ref* reference = 0;
@@ -46810,7 +46808,7 @@ bool Process::FUN_008f9320(Actor* actor)
         headingSlot0 = ((::BehaviorUpdate::Vec *)(reinterpret_cast<::TESRecipe *>((reference))->GetData()))->z;
         float deltaSlot11 = 0.0f;
         float angleSlot0 = ::FUN_004b15e0(actor->Heading(0), headingSlot0, &deltaSlot11);
-        float thresholdSlot10 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::BehaviorUpdate::IntSetting *>(&::g_011cda1c)))))) * ::DAT_01023128;
+        float thresholdSlot10 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BehaviorUpdate::IntSetting *>(&::g_011cda1c)))))) * ::DAT_01023128;
         if (thresholdSlot10 < FUN_00408840(angleSlot0))
         {
             reinterpret_cast<::fnv_008bb5c0::FUN_008bb5c0_holder *>((actor))->FUN_008bb5c0(headingSlot0, true);
@@ -46994,7 +46992,7 @@ bool Process::FUN_008f9320(Actor* actor)
                     headingSlot0 = actor->Rotation().z;
                 float deltaSlot11 = 0.0f;
                 float angleSlot0 = ::FUN_004b15e0(actor->Heading(0), headingSlot0, &deltaSlot11);
-                float thresholdSlot10 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::BehaviorUpdate::IntSetting *>(&::g_011cda1c)))))) * ::DAT_01023128;
+                float thresholdSlot10 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BehaviorUpdate::IntSetting *>(&::g_011cda1c)))))) * ::DAT_01023128;
                 if (thresholdSlot10 < FUN_00408840(angleSlot0))
                 {
                     SetFlag(0);
@@ -47055,7 +47053,7 @@ bool Process::FUN_008f9320(Actor* actor)
                     headingSlot0 = actor->Rotation().z;
                 float deltaSlot11 = 0.0f;
                 float angleSlot0 = ::FUN_004b15e0(actor->Heading(0), headingSlot0, &deltaSlot11);
-                float thresholdSlot10 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::BehaviorUpdate::IntSetting *>(&::g_011cda1c)))))) * ::DAT_01023128;
+                float thresholdSlot10 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::BehaviorUpdate::IntSetting *>(&::g_011cda1c)))))) * ::DAT_01023128;
                 if (thresholdSlot10 < FUN_00408840(angleSlot0))
                 {
                     reinterpret_cast<::fnv_008bb5c0::FUN_008bb5c0_holder *>((actor))->FUN_008bb5c0(headingSlot0, false);
@@ -50039,7 +50037,7 @@ void HighProcess::ActorEntity(TESObjectREFR* reference, Actor* observer, bool& c
                     if (detection.state)
                         perceptionContext.detectionLevel = detection.state->iLevel;
                     detection.package = ((::TESPackage *)(reinterpret_cast<::Thing *>((observer))->FUN_00881510()));
-                    detection.threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting106))))->f;
+                    detection.threshold = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting106))))->f;
                     if (detection.package && !reinterpret_cast<::FUN_0067a770_shell *>((detection.package))->IsNotFlag8000000())
                         detection.threshold = 0.0f;
                     if (perceptionContext.detectionLevel > detection.threshold &&
@@ -50103,7 +50101,7 @@ void HighProcess::ActorEntity(TESObjectREFR* reference, Actor* observer, bool& c
                                                         hasCrime = false;
                                                         if (knowsOpponent &&
                                                             perceptionContext.detectionLevel >
-                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<GameSettingCollection>*)&g_011cdf10)))))
+                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<GameSettingCollection>*)&g_011cdf10)))))
                                                                     ->f &&
                                                             !reinterpret_cast<::fnv_008ac6f0::ActorS_008ac6f0 *>((perceptionContext.target))->FUN_008ac6f0())
                                                         {
@@ -50117,7 +50115,7 @@ void HighProcess::ActorEntity(TESObjectREFR* reference, Actor* observer, bool& c
                                                             {
                                                                 bool help = true;
                                                                 if (((int)(reinterpret_cast<::FUN_00953c20_shell *>((::_g_thePlayer))->FUN_00953c20())) >=
-                                                                        ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf414))))))->i &&
+                                                                        ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf414))))))->i &&
                                                                     reinterpret_cast<::FUN_009865b0_shell *>((targetGroup))->FUN_009865b0((intptr_t)(::_g_thePlayer)) &&
                                                                     (!origin.observerGroup ||
                                                                      !reinterpret_cast<::FUN_009865b0_shell *>((origin.observerGroup))->FUN_009865b0((intptr_t)(::_g_thePlayer))))
@@ -50337,7 +50335,7 @@ bool HighProcess::ShouldProcessActor(Actor* actor)
                                                                                                             inCombat =
                                                                                                                 false;
                                                                                                             maxDistance =
-                                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))
+                                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting87))))
                                                                                                                     ->f;
                                                                                                             hasCrime =
                                                                                                                 false;
@@ -50525,7 +50523,7 @@ bool HighProcess::ShouldProcessActor(Actor* actor)
                                                                                                                                                                                                                         m_bImpactState =
                                                                                                                                                                                                                             true;
                                                                                                                                                                                                                     threshold =
-                                                                                                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting106))))
+                                                                                                                                                                                                                        ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting106))))
                                                                                                                                                                                                                             ->f;
                                                                                                                                                                                                                     if (package &&
                                                                                                                                                                                                                         !reinterpret_cast<::FUN_0067a770_shell *>((package))->IsNotFlag8000000())
@@ -50568,10 +50566,10 @@ bool HighProcess::ShouldProcessActor(Actor* actor)
                                                                                                                                                                                                                                         start =
                                                                                                                                                                                                                                             true;
                                                                                                                                                                                                                                         if (((int)(reinterpret_cast<::FUN_00953c20_shell *>((::_g_thePlayer))->FUN_00953c20())) >=
-                                                                                                                                                                                                                                                ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf414))))))
+                                                                                                                                                                                                                                                ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cf414))))))
                                                                                                                                                                                                                                                     ->i &&
                                                                                                                                                                                                                                             detectionLevel <=
-                                                                                                                                                                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<
+                                                                                                                                                                                                                                                ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<
                                                                                                                                                                                                                                                      GameSettingCollection>*)&g_011cdf10)))))
                                                                                                                                                                                                                                                     ->f)
                                                                                                                                                                                                                                             start =
@@ -50623,7 +50621,7 @@ bool HighProcess::ShouldProcessActor(Actor* actor)
                                                                                                                                                                                                                                 target
                                                                                                                                                                                                                                     ->vfn_3f8();
                                                                                                                                                                                                                             if (detectionLevel >
-                                                                                                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*(SettingT<
+                                                                                                                                                                                                                                    ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*(SettingT<
                                                                                                                                                                                                                                          GameSettingCollection>*)&g_011cdf10)))))
                                                                                                                                                                                                                                         ->f &&
                                                                                                                                                                                                                                 targetGroup &&
@@ -52733,7 +52731,7 @@ bool ThisT::FUN_00901a20(ActorT* apActorT, Actor* apActor)
             }
         }
     }
-    m_f2c8 = FUN_006465f0(((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting139))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting138))))))->f);
+    m_f2c8 = FUN_006465f0(((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting139))))))->f, ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::originalRuntimeFloatSetting138))))))->f);
     vfn_1f0(pForm);
     if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pForm))->GetBaseTexture())))
         ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pForm))->GetBaseTexture()))->vfn_1f0((Actor*)apActorT);
@@ -54572,7 +54570,7 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
     }
     float idealDistance =
         (float)((int)(reinterpret_cast<::PackageTargetFields *>((((CurrentGoal_00902c80*)((void *)(reinterpret_cast<::Script *>((((CurrentPackage_00902c80*)((GetPointer)(*(void***)this)[0x27c / 4])(this))))->GetData())))))->iValue));
-    float temporary_scaledDistance = idealDistance * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CurrentSetting_00902c80 *>(&::originalRuntimeFloatSetting253))))));
+    float temporary_scaledDistance = idealDistance * *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CurrentSetting_00902c80 *>(&::originalRuntimeFloatSetting253))))));
     idealDistance *= idealDistance;
     temporary_scaledDistance *= temporary_scaledDistance;
     bool chooseRequested_2 = false;
@@ -54594,7 +54592,7 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
     {
         void* movingState = ((GetPointer)(*(void***)this)[0x1b8 / 4])(this);
         ((SetFloat)(*(void***)this)[0x338 / 4])(
-            this, *((float *)&(::FUN_00403e20((float *)(reinterpret_cast<CurrentSetting_00902c80*>(&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))));
+            this, *((float *)&(::FUN_00403e20((::Setting *)(reinterpret_cast<CurrentSetting_00902c80*>(&(*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cdd30))))))));
         if (!reinterpret_cast<::fnv_004985f0::FUN_004985f0_s *>((((ActionState_00902c80*)movingState)))->FUN_004985f0())
             reinterpret_cast<::Animation *>((((ActionState_00902c80*)movingState)))->SpecialIdleFree(true, false);
         bWeaponAlertDrawn = true;
@@ -54611,7 +54609,7 @@ void Engine_00902c80::FUN_00902c80(Actor_00902c80* actor, CurrentTarget_00902c80
             reinterpret_cast<::FUN_00903160_Class *>((current))->FUN_00903160(::fnv::timer::Seconds());
             bool changeL = inRange3;
             bool switchMode = false;
-            if (!inRange3 && ((double)(reinterpret_cast<::FUN_00621b00_shell *>((current))->FUN_00621b00())) >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CurrentSetting_00902c80 *>(&::originalRuntimeFloatSetting250)))))))
+            if (!inRange3 && ((double)(reinterpret_cast<::FUN_00621b00_shell *>((current))->FUN_00621b00())) >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::CurrentSetting_00902c80 *>(&::originalRuntimeFloatSetting250)))))))
             {
                 CurrentPackage_00902c80* newPackage =
                     (CurrentPackage_00902c80*)((GetPointer)(*(void***)this)[0x27c / 4])(this);
@@ -55718,7 +55716,7 @@ void FleeProcess::UpdateFleeTarget(FleeActor* actor)
         {
             NiPoint3 _origin = *target->Position();
             NiPoint3 _cell = *actor->Position();
-            float distance = ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting623))))->f;
+            float distance = ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting623))))->f;
             PathingRequestFlee _area;
             reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(_area))->InitFromActor((::Actor *)(actor));
             reinterpret_cast<::FUN_006e2bb0_shell *>(&(_area))->SetInitialPathHeading(actor->Radius(0));
@@ -58954,7 +58952,7 @@ void HighProcessEx::FUN_008e59c0(Actor* apActor)
         if (pTeleport7)
         {
             NiPoint3 diff3 = *((::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((TESObjectREFREx*)this->pTarget)))->FUN_00568fa0())) - *apActor->vfn_1f4();
-            if (reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3Ex*)&diff3)))->ComputeMagnitude() <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cde98))))))->i)
+            if (reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3Ex*)&diff3)))->ComputeMagnitude() <= ((::SETTING_VALUE *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011cde98))))))->i)
             {
                 bReferencePresent = true;
             }
@@ -60258,10 +60256,10 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
                         float headingLocal22 = reinterpret_cast<::FUN_00568650_shell *>(&(destination))->FUN_00568650();
                         float turnLocal11 = 0.0f;
                         float angle2 = FUN_004b15e0(subject->GetCurrentTargetDistance(0), headingLocal22, &turnLocal11);
-                        float tolerance7 = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::WalkIntSetting *>(&::g_011cda1c)))))) * 0.01745329238474369;
+                        float tolerance7 = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::WalkIntSetting *>(&::g_011cda1c)))))) * 0.01745329238474369;
                         WalkRequest pathRequestLocal8;
                         reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((subject))->PathToLocation((::fnv_008b3880::PathingRequest *)(::WalkRequest *)(&pathRequestLocal8), (void *)&(destination), ((::WalkCell *)(reinterpret_cast<::LowProcess *>((target))->GetTarget())),
-                                                ((::WalkWorld *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((target))->FUN_00575d70())), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting140)))))), (::fnv_008b3880::PathingAvoidNodeArray *)(false));
+                                                ((::WalkWorld *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((target))->FUN_00575d70())), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting140)))))), (::fnv_008b3880::PathingAvoidNodeArray *)(false));
                         ::SetTargetAngle((char *)&(pathRequestLocal8), headingLocal22);
                         reinterpret_cast<::FUN_008e7c50_cls *>(&(pathRequestLocal8))->SetUseSoft(true);
                         if (!subject->SetPathingRequestAvoidNodes(&pathRequestLocal8))
@@ -60478,7 +60476,7 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
             {
                 WalkRequest targetRequest;
                 reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((subject))->PathToLocation((::fnv_008b3880::PathingRequest *)(::WalkRequest *)(&targetRequest), (void *)&(target->GetPosition()), ((::WalkCell *)(reinterpret_cast<::fnv_00675c20::PHost *>((package))->FUN_00675c20((::fnv_00675c20::Ref *)(subject)))),
-                                        ((::WalkWorld *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(subject)))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting140)))))), (::fnv_008b3880::PathingAvoidNodeArray *)(false));
+                                        ((::WalkWorld *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(subject)))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting140)))))), (::fnv_008b3880::PathingAvoidNodeArray *)(false));
                 reinterpret_cast<::FUN_008e7c50_cls *>(&(targetRequest))->SetUseSoft(true);
                 if (!subject->SetPathingRequestAvoidNodes(&targetRequest))
                     return;
@@ -60488,7 +60486,7 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
             {
                 WalkRequest markerRequest;
                 reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((subject))->PathToLocation((::fnv_008b3880::PathingRequest *)(::WalkRequest *)(&markerRequest), (void *)&(destination), ((::WalkCell *)(reinterpret_cast<::fnv_00675c20::PHost *>((package))->FUN_00675c20((::fnv_00675c20::Ref *)(subject)))),
-                                        ((::WalkWorld *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(subject)))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting140)))))), (::fnv_008b3880::PathingAvoidNodeArray *)(false));
+                                        ((::WalkWorld *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(subject)))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting140)))))), (::fnv_008b3880::PathingAvoidNodeArray *)(false));
                 ::SetTargetAngle((char *)&(markerRequest), reinterpret_cast<::FUN_00568650_shell *>(&(destination))->FUN_00568650());
                 reinterpret_cast<::FUN_008e7c50_cls *>(&(markerRequest))->SetUseSoft(true);
                 if (!subject->SetPathingRequestAvoidNodes(&markerRequest))
@@ -60543,7 +60541,7 @@ void WalkProcess::ProcessPackageMovement(WalkActor* subject, bool force, bool up
         if (movingTarget3)
         {
             targetDistance5 = reinterpret_cast<::NiPoint3 *>((void *)&(const ::WalkVector &)((lastPosition - movingTarget3->GetPosition())))->ComputeMagnitude();
-            if (targetDistance5 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting170)))))) || (distanceA > radius7 && ((bool)(reinterpret_cast<::TeleportableReference *>((subject))->GetTeleportDestinationForm()))))
+            if (targetDistance5 > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::WalkFloatSetting *>(&::originalRuntimeFloatSetting170)))))) || (distanceA > radius7 && ((bool)(reinterpret_cast<::TeleportableReference *>((subject))->GetTeleportDestinationForm()))))
             {
                 WalkRequest movingRequest;
                 reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((subject))->PathToLocation((::fnv_008b3880::PathingRequest *)(::WalkRequest *)(&movingRequest), (void *)&(movingTarget3->GetPosition()), ((::WalkCell *)(reinterpret_cast<::LowProcess *>((movingTarget3))->GetTarget())),
@@ -60680,7 +60678,7 @@ bool Owner8ffe50::AddTargetIfEligible(Actor* apActor, Actor* apTarget)
     {
         if (!reinterpret_cast<::fnv_008a78f0::FUN_008a78f0_shell *>((((ActorShell8ffe50*)apActor)))->FUN_008a78f0(2) && !reinterpret_cast<::ActorStandIn008a *>((((ActorShell8ffe50*)apActor)))->FUN_008a61b0() &&
             !((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((ActorShell8ffe50*)apActor)))->FUN_00493bb0())) &&
-            reinterpret_cast<::RefS *>((((RefDist8ffe50*)apTarget)))->FUN_005723b0((::RefS *)(apActor), 0, 1) <= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting186))))->f)
+            reinterpret_cast<::RefS *>((((RefDist8ffe50*)apTarget)))->FUN_005723b0((::RefS *)(apActor), 0, 1) <= ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting186))))->f)
         {
             FUN_008f6120* pNode = new FUN_008f6120;
             pNode->m00 = apTarget;
@@ -62032,7 +62030,7 @@ bool This8e9::FUN_008e9640(Arg8ee* aArg, bool aB)
         if (pCoverRef != 0)
         {
             Pt3 d50 = *((::fnv_008e9640::Pt3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((f40))->FUN_00568fa0())) - *aArg->vfn_1f4();
-            if (reinterpret_cast<::NiPoint3 *>((void *)&(d50))->ComputeMagnitude() <= *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008e9640::SettingI8ee *>(&::g_011cde98)))))))
+            if (reinterpret_cast<::NiPoint3 *>((void *)&(d50))->ComputeMagnitude() <= *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008e9640::SettingI8ee *>(&::g_011cde98)))))))
                 bReferencePresent = true;
         }
         else if (!bReferencePresent)
@@ -62058,7 +62056,7 @@ bool This8e9::FUN_008e9640(Arg8ee* aArg, bool aB)
                 return false;
             }
             float f54 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_008e9640::Pt3 &)((fFC - *f40->vfn_1f4())))->ComputeMagnitude();
-            if (((bool)(reinterpret_cast<::TeleportableReference *>((aArg))->GetTeleportDestinationForm())) || f54 > ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008e9640::Setting8ee *>(&::originalRuntimeFloatSetting170)))))), afValueAfterThirdFloat * 0.75))
+            if (((bool)(reinterpret_cast<::TeleportableReference *>((aArg))->GetTeleportDestinationForm())) || f54 > ::FUN_0040ebd0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008e9640::Setting8ee *>(&::originalRuntimeFloatSetting170)))))), afValueAfterThirdFloat * 0.75))
             {
                 void* p60 = ((void *)(reinterpret_cast<::TESObjectREFR *>((f40))->GetExtraRadioData()));
                 if (p60 != 0)
@@ -63390,7 +63388,7 @@ void PackageHandler::FUN_008ee3e0(PackageActor* apActor)
     bool bFlagPos = false;
     if (reinterpret_cast<::HostActor *>((apActor))->IsHostileTo((::HostActor *)((*reinterpret_cast<::PackageApproach::PackageActor * *>(&::_g_thePlayer))), 0, &iResult, 0) &&
         apActor->FUN_008a0d10(0, (*reinterpret_cast<::PackageApproach::PackageActor * *>(&::_g_thePlayer)), &bFlagPos, 0, 0, 0, 0) > 0 &&
-        reinterpret_cast<::RefS *>(((*reinterpret_cast<::PackageApproach::PackageActor * *>(&::_g_thePlayer))))->FUN_005723b0((::RefS *)(apActor), 0, 0) <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackageApproach::PackageFloatSetting *>(&::originalRuntimeFloatSetting254)))))))
+        reinterpret_cast<::RefS *>(((*reinterpret_cast<::PackageApproach::PackageActor * *>(&::_g_thePlayer))))->FUN_005723b0((::RefS *)(apActor), 0, 0) <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PackageApproach::PackageFloatSetting *>(&::originalRuntimeFloatSetting254)))))))
     {
         apActor->FUN_vt424((*reinterpret_cast<::PackageApproach::PackageActor * *>(&::_g_thePlayer)), 0, 1, 1, 0, 0, 1, 0);
         reinterpret_cast<::FUN_005ce9d0 *>((apActor))->SetFlag(false);
@@ -65551,7 +65549,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
                         !((Player8ee*)::_g_thePlayer)->vfn_448() &&
                         (pActorY->vfn_2c8() != (Obj38*)((Player8ee*)::_g_thePlayer) || FUN_00881570(pActorY)) &&
                         vfn_66c() &&
-                        reinterpret_cast<::RefS *>((((Player8ee*)::_g_thePlayer)))->FUN_005723b0((::RefS *)(pActorY), 0, 0) <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting181)))))))
+                        reinterpret_cast<::RefS *>((((Player8ee*)::_g_thePlayer)))->FUN_005723b0((::RefS *)(pActorY), 0, 0) <= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting181)))))))
                     {
                         bFlag45 = false;
                         if (!((bool)(reinterpret_cast<::FUN_00953c50_Class *>((((Player8ee*)::_g_thePlayer)))->FUN_00953c50((char *)(bool *)(&bFlag45)))) && !reinterpret_cast<::fnv_008a78f0::FUN_008a78f0_shell *>((pActorY))->FUN_008a78f0(false) &&
@@ -65572,7 +65570,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
                                 iTopicA = ((intptr_t)(::fnv_0061a2d0::GetTopicSubTypeName(1, 3)));
                                 if (iTopicA != 0)
                                     vfn_2a4(pActorY, iTopicA, 0, 0, 1, 0);
-                                f298 = FUN_006465f0(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting147)))))), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting148)))))));
+                                f298 = FUN_006465f0(*((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting147)))))), *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting148)))))));
                             }
                         }
                         else
@@ -65980,7 +65978,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
                                         if (reinterpret_cast<::fnv_00677570::FUN_00677570_shell *>((after7e))->IsTargetInRange((::fnv_00677570::ActorStandIn *)(pActorY), p9c->f8))
                                             vfn_288(pActorY, 1);
                                     }
-                                    else if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((Player8ee*)::_g_thePlayer)))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_008eeec0::SettingI8ee *>(&::g_011cdad0)))))))
+                                    else if (reinterpret_cast<::fnv_00962620::FUN_00962620_cls *>((((Player8ee*)::_g_thePlayer)))->FUN_00962620() < *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_008eeec0::SettingI8ee *>(&::g_011cdad0)))))))
                                     {
                                         vfn_288(pActorY, 1);
                                     }
@@ -66014,7 +66012,7 @@ void This8ee::FUN_008eeec0(Arg8ee* aArg)
                                         else if (reinterpret_cast<::FUN_009611e0_shell *>((after7e))->FUN_009611e0() == 0x16)
                                         {
                                             float fa4 = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_008eeec0::G7b8Obj *>(&::g_011de7b8))))->GetGameTime();
-                                            if (fa4 >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting192)))))) + f294)
+                                            if (fa4 >= *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008eeec0::Setting8ee *>(&::originalRuntimeFloatSetting192)))))) + f294)
                                             {
                                                 f294 = fa4;
                                                 vfn_288(pActorY, -1);
@@ -67492,7 +67490,7 @@ struct UWAttackChoice
 bool UWProcess::FUN_008f7730(UWActor* actor)
 {
     UWPackage* package = GetCurrentPackage();
-    if (reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)((*reinterpret_cast<::UWRef * *>(&::_g_thePlayer))), false, false) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::UWSetting *>(&::originalRuntimeFloatSetting247)))))))
+    if (reinterpret_cast<::RefS *>((actor))->FUN_005723b0((::RefS *)((*reinterpret_cast<::UWRef * *>(&::_g_thePlayer))), false, false) > *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::UWSetting *>(&::originalRuntimeFloatSetting247)))))))
         return true;
 
     int roll2 = DialogueRandom() % 100;
@@ -67522,7 +67520,7 @@ bool UWProcess::FUN_008f7730(UWActor* actor)
         headingCur = (*(const ::UWPoint3 *)(reinterpret_cast<::TESRecipe *>((locRef))->GetData())).z;
         float headingDelta2 = 0.0f;
         float angleDelta = ::FUN_004b15e0(actor->GetCurrentTargetDistance(0), headingCur, &headingDelta2);
-        float maxAngle = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::UWSetting *>(&::g_011cda1c)))))) * 0.01745329238474369;
+        float maxAngle = *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::UWSetting *>(&::g_011cda1c)))))) * 0.01745329238474369;
         if (FloatAbs(angleDelta) > maxAngle)
         {
             reinterpret_cast<::fnv_008bb5c0::FUN_008bb5c0_holder *>((actor))->FUN_008bb5c0(headingCur, false);
@@ -67982,9 +67980,9 @@ bool HighProcess::ClearProcessState(Actor* actor)
         }
     }
     if (actor == (Actor*)::_g_thePlayer)
-        delta = (float)(::fnv::timer::Seconds() / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting109))))->f);
+        delta = (float)(::fnv::timer::Seconds() / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting109))))->f);
     else
-        delta = (float)(::fnv::timer::Seconds() / ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting108))))->f);
+        delta = (float)(::fnv::timer::Seconds() / ((::SETTING_VALUE *)&(::FUN_00403e20((::Setting *)&(originalRuntimeFloatSetting108))))->f);
     if (m_iSecondSerializedValue == BaseProcess::FadeInState || m_iSecondSerializedValue == BaseProcess::FadeTeleportIn)
     {
         fFadeAlpha += delta;
@@ -70140,7 +70138,7 @@ void HighProcess::FUN_008e5730(Actor* actor)
     NiPoint3 delta = reinterpret_cast<const PointOps&>(ResultSlot(*actor->vfn_1f4() - FUN_0045c670()->FUN_00558310()->FUN_0043c490()))
                          .FUN_0053d280(static_cast<ActorScale*>(actor)->FUN_00567400());
     int lod = (int)(12.0 * std::abs(reinterpret_cast<::NiPoint3 *>((void *)&delta)->ComputeMagnitude()) *
-                    reinterpret_cast<::FUN_00508070_class *>((((::CameraData *)(reinterpret_cast<::BSFaceGenNiNode *>((FUN_0045c670()))->GetAnimationData()))))->FUN_00508070() / (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntegerSetting *>(&::g_011ccf88)))))) * ((double)(::FUN_007d1d00(3)))));
+                    reinterpret_cast<::FUN_00508070_class *>((((::CameraData *)(reinterpret_cast<::BSFaceGenNiNode *>((FUN_0045c670()))->GetAnimationData()))))->FUN_00508070() / (*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::IntegerSetting *>(&::g_011ccf88)))))) * ((double)(::FUN_007d1d00(3)))));
     if (lod >= ::GetField38((char *)(m_pBoneLODController)))
         lod = -1;
     else if (actor->Get3D() && static_cast<FadeNodeOps*>(actor->Get3D())->FUN_00552470() && !m_bSpellState)
@@ -71336,7 +71334,7 @@ void ProcessEatProcess008e3140::FUN_008e3140(Actor* actor, TESObjectREFR* prefer
                     aOwnList = 64;
                 }
                 float aTotal = aOwnList > 0 ? (float)aOwnList
-                                            : (reinterpret_cast<::TESObjectCELL *>((aRegion))->IsCellInterior() ? 3.402823466e38f : *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008e3140::ProcessEatSettingView *>(&::originalRuntimeFloatSetting132)))))));
+                                            : (reinterpret_cast<::TESObjectCELL *>((aRegion))->IsCellInterior() ? 3.402823466e38f : *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::fnv_008e3140::ProcessEatSettingView *>(&::originalRuntimeFloatSetting132)))))));
                 DAT_011e01dc = true;
                 ((ProcessEatProcessSearchView*)this)->searchProcedure = 0x12;
                 // These fields belong to the package search state in the original process.
@@ -72062,15 +72060,15 @@ void Actor::FUN_008db810(Actor* actor)
     bool nearSlot19 = false;
     if (cell && reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
     {
-        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting189))))));
-        farDistanceSlot35 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting188))))));
+        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting189))))));
+        farDistanceSlot35 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting188))))));
         if (distanceSlot14 < nearDistanceSlot10)
             nearSlot19 = true;
     }
     else
     {
-        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting187))))));
-        farDistanceSlot35 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting186))))));
+        nearDistanceSlot10 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting187))))));
+        farDistanceSlot35 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::PackagePathing::Setting *>(&::originalRuntimeFloatSetting186))))));
         if (distanceSlot14 < farDistanceSlot35)
             nearSlot19 = true;
     }
@@ -72411,7 +72409,7 @@ void xController::FUN_008e4e50(xActor* apActor)
             CINFO.m_pCollisionShape = ::FUN_004ae750(SHAPE);
             reinterpret_cast<::FUN_004b4e50_shell *>(&(CINFO.m_vContactPosition))->SetFromScaledVector3((void *)(apActor->FUN_1f4()));
             m_434.FUN_0066b0d0(new xBody(&CINFO));
-            m_438 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xSetting *>(&::g_011e029c))))));
+            m_438 = *((float *)&(::FUN_00403e20((::Setting *)&((*reinterpret_cast<::xSetting *>(&::g_011e029c))))));
         }
         void* WORLD = reinterpret_cast<::FUN_004543c0_cls *>((((::xCell *)(reinterpret_cast<::LowProcess *>((apActor))->GetTarget()))))->FUN_004543c0();
         m_434->FUN_9c(WORLD);

@@ -58443,7 +58443,7 @@
    ],
    "symbols": {
     "?FUN_009280f0@FUN_009280f0_Class@@QAEXPAULoadBuffer@@@Z": "0x009280f0",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "__real@41a00000": "0x01017868",
     "__real@bf800000": "0x01012054",
     "??_GDialogueItem@@QAEPAXI@Z": "0x005c90d0",
@@ -58565,6 +58565,7 @@
     "?FUN_00437bd0@FUN_00437bd0_stub@@QAEDXZ": "0x00437bd0",
     "?g_011cf414@@3VGlobalObject2_0040c150@@A": "0x011cf414",
     "?FUN_0043d4d0@@YIAAHPAH@Z": "0x0043d4d0",
+    "?FUN_0043d4d0@@YIAAHPAVSetting@@@Z": "0x0043d4d0",
     "?FUN_00992530@FUN_00992530_shell@@QAE_NPAVActor@@0@Z": "0x00992530",
     "?FUN_008ace90@FUN_008ace90_shell@@QAE_NXZ": "0x008ace90",
     "?FUN_0047eeb0@@YAME@Z": "0x0047eeb0",
@@ -58794,7 +58795,7 @@
     "?Count@List25c@@QAEHXZ": "0x005ae380",
     "?FUN_00926350@S00926350_Target926350@@QAEGPAVActor@@@Z": "0x00926350",
     "?g_011de4e8@@3VGlobalObject_0045cf30@@A": "0x011de4e8",
-    "?Get@Setting@@QAEPBEXZ": "0x00408d60",
+    "?Bool@?$SettingT@VINISettingCollection@@@@QAEPATSETTING_VALUE@@XZ": "0x00408d60",
     "?GetHitSound@EffectSetting@@QAEPAVTESSound@@XZ": "0x004fd3e0",
     "?FUN_004839c0@@YAPAVTESForm@@I@Z": "0x004839c0",
     "$SG31786": "0x01088358",
@@ -59973,7 +59974,7 @@
     "?FUN_00460140@@YAHH@Z": "0x00460140",
     "?FUN_004ae750@@YAHPAX@Z": "0x004ae750",
     "?FUN_006450c0@@YA_NPAVTESObjectWEAP@@@Z": "0x006450c0",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_0042fa40@@YAXPAX@Z": "0x0042fa40",
     "?FUN_004fd3c0@fnv_004fd3c0@@YAPAUFormRecordMetadata@1@PAUTESSaveLoadGame@1@@Z": "0x004fd3c0",
     "?FUN_004300a0@@YAPAUCombatTargetTimestamp@@PAU1@@Z": "0x004300a0",
@@ -59981,6 +59982,7 @@
     "?FUN_004c0bf0@@YA_NPAVTESObjectWEAP@@@Z": "0x004c0bf0",
     "?FUN_004c0c60@@YA_NPAUFUN_004c0c60_Helper@@@Z": "0x004c0c60",
     "?FUN_0043d4d0@@YAAAHPAH@Z": "0x0043d4d0",
+    "?FUN_0043d4d0@@YAAAHPAVSetting@@@Z": "0x0043d4d0",
     "?FUN_0043b230@fnv_0043b230@@YAPBDPBD@Z": "0x0043b230",
     "?FUN_0044b030@KFModel@fnv_0044b030@@QAEXXZ": "0x0044b030",
     "?GetStringAtOffset@fnv_00537bd0@@YAPBDPBD@Z": "0x00537bd0",
@@ -60432,7 +60434,7 @@
     "??0xBody@@QAE@PAUxCinfo@@@Z": "0x0056e2d0",
     "?FUN_0066b0d0@xPtr@@QAEXPAX@Z": "0x0066b0d0",
     "?g_011e029c@@3VGlobalObject_0044f440@@A": "0x011e029c",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?GetTarget@LowProcess@@QAEPAVTESObjectREFR@@XZ": "0x008d6f30",
     "?FUN_004543c0@FUN_004543c0_cls@@QAEPAXXZ": "0x004543c0",
     "??CxPtr@@QAEPAUxBodyV@@XZ": "0x00559450",
@@ -60446,7 +60448,7 @@
     "?FUN_0056e810@S0056e810_Object@@QAEXABVS0056e810_Vector@@@Z": "0x0056e810",
     "?SetFromScaledVector3@FUN_004b4e50_shell@@QAEPAUFourDimensionalVector@@PAX@Z": "0x004b4e50",
     "?FUN_004ae750@@YAHPAX@Z": "0x004ae750",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
     "?FUN_0056e690@@YAPAXPAH@Z": "0x0056e690",
     "?FUN_0056e810@S0056e810_Object_o2_od_oy_noo2@@QAEXABVS0056e810_Vector@@@Z": "0x0056e810"
@@ -60494,7 +60496,7 @@
     "?GetTarget@LowProcess@@QAEPAVTESObjectREFR@@XZ": "0x008d6f30",
     "?IsCellInterior@TESObjectCELL@@QBE_NXZ": "0x00425fd0",
     "?originalRuntimeFloatSetting189@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011cd814",
-    "?FUN_00403e20@@YIAAMPAM@Z": "0x00403e20",
+    "?FUN_00403e20@@YIAAMPAVSetting@@@Z": "0x00403e20",
     "?originalRuntimeFloatSetting188@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011cddb8",
     "?originalRuntimeFloatSetting187@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011cd990",
     "?originalRuntimeFloatSetting186@@3V?$SettingT@UGameSettingCollection@@@@A": "0x011cdfe4",
@@ -60529,7 +60531,7 @@
     "?SetPathingLocation@FUN_008dbda0Class@@QAEXABUPathingLocation@@@Z": "0x008dbda0",
     "?GetPathCoordinate@FUN_009de2b0_shell@@QAE_NPAUNiPoint3@@@Z": "0x009de2b0",
     "?FUN_009f1310@FleePackage@@QAEXPAVTESObjectREFR@@@Z": "0x009f1310",
-    "?FUN_00403e20@@YAAAMPAM@Z": "0x00403e20"
+    "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20"
    }
   },
   {

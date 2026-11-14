@@ -400,10 +400,6 @@ struct FUN_004534f0_shell
 struct NiProperty
 {
 };
-struct FUN_006658b0_shell
-{
-    void Update();
-};
 struct GlobalObject_0045cfe0
 {
 };
@@ -450,7 +446,7 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
                 reinterpret_cast<::fnv_004bc450::FUN_004bc450_S *>((((NiProperty*)static_cast<::TreeManagerView*>(::FUN_00664840(1))->pProperty)))->FUN_004bc450((const ::fnv_004bc450::C3 *)(const ::fnv_006652e0::NiColor *)(&col));
             }
         }
-        ((FUN_006658b0_shell*)((unsigned char *)(::FUN_00664840(1))))->Update();
+        ((::C6658*)((unsigned char *)(::FUN_00664840(1))))->Update();
     }
     SetGlobalFloatFromUInt(*((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::fnv_006652e0::GlobalObject_0045cfe0 *>(&::g_011d5d98)))))));
     ClampAndStoreValue(*((float *)&(::FUN_00403e20((::Setting *)(((Setting_S*)&(*reinterpret_cast<::fnv_006652e0::GlobalObject_0044f440 *>(&::g_011d5d4c))))))));

@@ -6075,7 +6075,6 @@ struct SM7d06c0_tile
 
 struct SM7d06c0_menu : public StartMenu
 {
-    void FUN_007d3b60();
 };
 
 struct PrepSaveMenu : public StartMenu
@@ -6098,7 +6097,7 @@ void __cdecl FUN_007d06c0()
     {
         reinterpret_cast<::Tile *>((((SM7d06c0_tile*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_pTiles[15])))->Set(0x1004, 0);
         reinterpret_cast<::FUN_0075f6f0_shell *>((((SM7d06c0_menu*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))))->FUN_0075f6f0(8, true);
-        ((SM7d06c0_menu*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->FUN_007d3b60();
+        ((::PrepSaveMenu*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->FUN_007d3b60();
     }
 }
 
@@ -6516,7 +6515,6 @@ struct BackListActions
 };
 struct BackMenuActions
 {
-    void FUN_007d5f80();
 };
 
 namespace fnv_007d5f80 {
@@ -6543,7 +6541,7 @@ void HandleBackAction()
         if (reinterpret_cast<::D7580ListBox *>((((BackListActions*)&(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->m_kDownloadOptions)))->FUN_007d7580() ||
             (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0))->IsFlagSet(StartMenu::FLAG_ACTION_MAPPING))
         {
-            ((BackMenuActions*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->FUN_007d5f80();
+            ((::fnv_007d5f80::StartMenu_Wrap*)(*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)))->FUN_007d5f80();
             ::fnv_007d0700::FUN_007d0700();
             return;
         }

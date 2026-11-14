@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
+#include <cstdarg>
 #include <cstdint>
 #include "fnv/decl/SStringPtr.h"
 #include "fnv/symbols_00c90000.h"
@@ -195,7 +196,8 @@ class hkStringPtr
 void hkStringPtr::FUN_00cb0c70(const char* fmt, ...)
 {
     hkInplaceArrayq<char, 255> buf;
-    hk_va_list args = (hk_va_list)&fmt + sizeof(fmt);
+    va_list args;
+    va_start(args, fmt);
     while (1)
     {
         int size = buf.getCapacity();
@@ -213,6 +215,7 @@ void hkStringPtr::FUN_00cb0c70(const char* fmt, ...)
             buf.reserve(nchars);
         }
     }
+    va_end(args);
     reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(*this))->FUN_00cb0c10(buf.begin());
     reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(*this))->FUN_00cb0c10(buf.begin());
 }

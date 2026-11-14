@@ -7,7 +7,7 @@ the step after the structural reader of `data-pack-structure.md`: it
 decides whether a well-formed pack records a supported original release.
 `fileformat::ValidatePack`, in the same header, is the complete validator
 of ADR 0001: it runs that check, then checks the pack against catalogue
-version 3 of `src/fileformat/pack_catalogue.h` and decodes its entries.
+version 4 of `src/fileformat/pack_catalogue.h` and decodes its entries.
 `fileformat::OpenPack` in `src/fileformat/pack_open.h` reads the file of a
 pack and checks its original; `fileformat::OpenAndValidatePack` beside it
 is the step a later startup calls: it reads the file and validates it.
@@ -90,12 +90,14 @@ then these checks, in this order:
 | Each entry of the pack, in turn, has a key of the catalogue | `PackCatalogueError` | `UnknownKey` |
 | ... with the catalogue's version for that key | `PackCatalogueError` | `EntryVersion` |
 | ... and the catalogue's size for that key | `PackCatalogueError` | `EntrySize` |
-| Each field, in turn, holds a zero byte: C1's four, then the four log path suffixes, then the class name | `PackCatalogueError` | `FieldTerminator` |
+| Each field, in turn, holds a zero byte: C1's four, then the four log path suffixes, then the ten save directory strings, then the class name | `PackCatalogueError` | `FieldTerminator` |
 | ... and each log path suffix, right after its zero byte, holds no `\`, `/`, colon or byte below 0x20 and is not `..` | `PackCatalogueError` | `SuffixPath` |
+| ... and the INI path format, right after its zero byte, holds exactly one `%s` and no other conversion | `PackCatalogueError` | `FormatConversion` |
+| ... and each of the four save directory folders, right after its zero byte, holds no colon or byte below 0x20 and has no `..` part | `PackCatalogueError` | `FolderPath` |
 
 The catalogue version is checked by the structural reader, which accepts
-only the catalogue's `packCatalogueVersion`, now 3, so a pack of another
-catalogue version, a pack of version 1 or 2 among them, fails with
+only the catalogue's `packCatalogueVersion`, now 4, so a pack of another
+catalogue version, a pack of version 1, 2 or 3 among them, fails with
 `PackStructureError` and `CatalogueVersion`. `PackCatalogueError` is a
 `FormatError`. Its message names the entry and, for a field, the field;
 an unknown key is not printed, since it may hold any byte.
@@ -105,18 +107,21 @@ the boundary table of `data-pack-catalogue.md` lists. The container
 requires at least one entry and unique keys, so when every key of a pack
 was in catalogue version 1, which had one entry, the pack held that entry:
 in the other order no pack could have failed with `MissingEntry`. Versions
-2 and 3 keep the order, the catalogue's entries in key order.
+2 to 4 keep the order, the catalogue's entries in key order.
 
-Catalogue version 3 has three entries, C1, the log path suffixes and the
-main window class of `data-pack-catalogue.md`. C1 has the key `INST`,
+Catalogue version 4 has four entries, C1, the log path suffixes, the save
+directory strings and the main window class of `data-pack-catalogue.md`. C1 has the key `INST`,
 version 1, 140 bytes, four fields of 20, 60, 8 and 52 bytes, end to end,
 each holding a string of the single-instance and remote-session checks. The
 log path suffixes have the key `LOGS`, version 1, 72 bytes, four fields of
 16, 16, 24 and 16 bytes, each holding the suffix of one of `WinMain`'s
-log-path builders. The main window class has the key `WNDC`, version 1,
-256 bytes, one field holding the class name. The field capacities are those
-of `SingleInstanceStrings`, `LogPathSuffixes` and `MainWindowClass`, so
-each size is fixed by its declaration. The decoder
+log-path builders. The save directory strings have the key `SDIR`, version
+1, 368 bytes, ten fields of 8, 12, 8, 24, 256, 12, 12, 12, 4 and 20 bytes,
+each holding a string that `BGSSaveLoadManager::GetSaveDirectory` reads.
+The main window class has the key `WNDC`, version 1, 256 bytes, one field
+holding the class name. The field capacities are those of
+`SingleInstanceStrings`, `LogPathSuffixes`, `SaveDirectoryStrings` and
+`MainWindowClass`, so each size is fixed by its declaration. The decoder
 reads each field with `ByteReader`, copies it through its first zero byte
 and fills the rest of the decoded field with zeros. A byte after the zero
 byte is not copied and does not refuse the pack.
@@ -129,19 +134,49 @@ rulings"). `fileformat.pack_catalogue` refuses 14 such suffixes in each
 field, accepts 9 ordinary ones, among them `.`, `...` and a space, and
 keeps every other byte value but zero.
 
+The first save directory field, the INI path format, is passed to a
+`vsnprintf` with one string argument, so `fileformat::HoldsOneStringConversion`
+must accept it: each `%` is followed by `s`, exactly once in the field, or
+by a second `%`, which writes a `%` and reads no argument. A `%` with a
+flag, width, precision or length, any other conversion, `%n` among them, a
+second `%s`, no `%s` and a `%` at the end are refused with
+`FormatConversion`. The check reads the field through its zero byte only.
+
+The four save directory folders, the local, documents, game and working
+folders, hold path separators by nature, so the suffix rule does not apply
+to them. Under the coordinator's ruling of 2026-11-14
+`fileformat::FolderPathRefusal` refuses a folder, as `FolderPath`, that
+holds a colon, which names a drive or a stream, or a byte below 0x20, or
+has a `..` part, a part between separators or the ends that is `..`, the
+reasons checked in that order. A separator, `\` or `/`, leading, inner or
+last, is allowed. The message names the field and the reason, never the
+folder. The other six fields are not folders and are not checked so.
+Neither the format's text around its `%s` nor the three INI names is
+checked as a path, though `GetSaveDirectory` builds the INI paths and the
+default INI's copy from them, and the folder rule checks each folder alone,
+not the joined path; a rule for these is open until S7 is composed.
+Setup applies the same rule before it writes a pack (`setup.md`). The rule
+waited on a private run: on 2026-11-14 setup built from `64fd87149`, the
+commit that adds the rule to setup, ran once on the supported original and
+ended with status 0, so the rule did not narrow. Only the status, the
+status line and the pack's existence and size were recorded (`setup.md`,
+"The save directory folder rule").
+
 `ValidatedPack` keeps the decoded values only, not the file, its
 directory or any entry's bytes. It offers `Original()`, the supported
 identity the pack matched, `SingleInstance()`, C1's four strings,
-`PathSuffixes()`, the four log path suffixes, and `WindowClass()`, the
-class name; each is refused on a temporary. It can be
+`PathSuffixes()`, the four log path suffixes, `SaveDirectory()`, the ten
+save directory strings, and `WindowClass()`, the class name; each is
+refused on a temporary. It can be
 moved, not copied; no constructor, conversion or flag makes one from bytes,
 a `PackStructure`, an `OriginalCheckedPack` or decoded values, and a
 moved-from pack keeps its values. The original is compared, not proved:
 nothing reads an executable or computes a digest.
 
 No entry holds a reference to other data, so there is no reference
-for the validator to resolve. The original reaches the class name through
-a pointer; the pack holds the string, never the pointer (D10).
+for the validator to resolve. The original reaches the class name and the
+two INI names through pointers; the pack holds the strings, never the
+pointers (D10).
 
 ## Rulings on the next stages
 
@@ -153,7 +188,7 @@ These were ruled for this stage:
   by the owner under the reviewed procedure; and the complete catalogue,
   its keys, entry versions, required entries and decoding. The set exists
   now, adopted on VEGAS-52 on 2026-11-12, and so does the catalogue, now
-  version 3.
+  version 4.
   The pack stage joins `main` with C1's consumer, the next increment of
   `data-pack-catalogue.md`, through `OpenAndValidatePack`. It has now
   joined, with that consumer (`data-pack-startup.md`).
@@ -234,46 +269,65 @@ version, a made-up digest or that digest with its last byte changed.
 Where permissions do not stop the test reading a file, as on Windows, the
 read permission case prints that it was not run. With
 `OpenAndValidatePack` it validates the file of a complete pack and reads
-back its four strings, its four suffixes and its class name, and refuses a
+back its four strings, its four suffixes, three of its save directory
+strings and its class name, and refuses a
 missing file, a folder, a pack of the next catalogue version, a made-up
 digest and a pack without the catalogue's entries, each with its own error.
 
-`tests/fileformat/pack_catalogue_test.cpp` spells catalogue version 3
-itself, the three keys, versions and sizes and the nine field capacities,
+`tests/fileformat/pack_catalogue_test.cpp` spells catalogue version 4
+itself, the four keys, versions and sizes and the 19 field capacities,
 and states at compile time that the source's catalogue is the same. Its
 packs are written by `WritePackStructure` and record the identity of
 `supported_release.h`. `ValidatePack` accepts complete packs of made-up
 strings, of the longest string each field holds, of empty strings and, in
-two packs for C1 and four for the suffixes, of every byte value but zero,
-and returns those strings with zeros after them; bytes after a field's zero
-byte are not returned. It refuses a pack without `INST`, under five other
+two packs for C1, four for the suffixes and one, in the second INI name,
+for the save directory strings, of every byte value but zero, and returns
+those strings with zeros after them; bytes after a field's zero byte, a
+`%n` after the format's among them, are not returned. It accepts the
+formats `%s`, `<%s>`, `%%%s`, `%s%%`, `a%%b%s`, `%%%%%s` and `%s%%%%`, and
+refuses 22 others with `FormatConversion`, among them none, `%n`, `%s%n`,
+`%n%s`, `%s%s`, `%d`, `%5s`, `%.3s`, `%*s`, `%ls`, `%%s` and a `%` at the
+end; conversions in another save directory field are not refused. In
+each folder field it refuses, of 20 crafted folders, those that fit, with
+`FolderPath` and the reason, and accepts, of 18 others, those that fit,
+among them `\a`, `a\b`, `a\`, `/a/b/`, `.`, `...`, `..a` and the empty
+folder; `FolderPathRefusal` gives each its reason; a colon and a `..` part
+in another save directory field are not refused. It refuses a pack without `INST`, under five other
 keys, with two and with `WNDC` or `LOGS` alone; a pack without `LOGS`, with
 `INST` alone, with `INST` and `WNDC` and beside four other keys; a pack
-without `WNDC` beside four other keys; an unknown key before, between,
+without `SDIR`, with `INST`, `LOGS` and `WNDC` as catalogue version 3 was,
+and beside four other keys; a pack without `WNDC` beside four other keys; an unknown key before, between,
 after and just above each entry, the lowest key, and a key that is not
 ASCII, which the test stores after writing; entry versions 0, 2,
 0x80000001 and 0xFFFFFFFF of each entry; sizes 1, 139, 141 and 280 of C1,
-1, 71, 73 and 144 of the suffixes and 1, 255, 257 and 512 of the class
-name; each field with no zero byte, C1's and the suffixes' also when the
-fields after it are all zeros; the catalogue versions next to the source's,
+1, 71, 73 and 144 of the suffixes, 1, 367, 369 and 736 of the save
+directory strings and 1, 255, 257 and 512 of the class name; each field
+with no zero byte, C1's, the suffixes' and the save directory strings' also
+when the fields after it are all zeros; the catalogue versions next to the source's,
 0 and 0xFFFFFFFF, storing a matching CRC-32 again, and packs of catalogue
-version 1 and 2 as setup prepared them, C1 alone and C1 with the class
-name; each changed version part and the first and last changed digest
+version 1, 2 and 3 as setup prepared them, C1 alone, C1 with the class
+name, and those with the suffixes; each changed version part and the first and last changed digest
 byte. Each is refused with its own problem, and for an entry or a field the
 message names it. It checks the order: the container before the original,
 the original before the catalogue, a missing `INST` before a missing
-`LOGS`, a missing `LOGS` before a missing `WNDC`, a missing entry before an
-unknown key, each entry of the pack in turn, the version before the size,
-the size before the fields and the fields in order, C1's before the
-suffixes' and the suffixes' before the class name. It reads the values of a pack moved by
+`LOGS`, a missing `LOGS` before a missing `SDIR`, a missing `SDIR` before a
+missing `WNDC`, a missing entry before an unknown key, each entry of the
+pack in turn, the version before the size, the size before the fields and
+the fields in order, C1's before the suffixes', the suffixes' before the
+save directory strings', those before the class name, and the format's zero
+byte before its conversions and its conversions before the next field, the
+format's conversions before a folder's path, an earlier field's zero byte
+before a folder's path, a folder's path before a later field's zero byte
+and before a later folder's path, and within a folder a colon before a
+control character before a `..` part. It reads the values of a pack moved by
 construction and by assignment, and of the pack moved from. It states at
 compile time that a `ValidatedPack` cannot be default constructed, copied or
 built from bytes, a `PackStructure`, an `OriginalCheckedPack` or decoded
 values; that `ValidatePack` takes bytes and no `PackStructure`,
 `OriginalCheckedPack`, set or list of entries or keys; that a
 `ValidatedPack` offers no `Entries()`, `EntryBytes()` or `bytes`; and that a
-temporary offers none of `Original()`, `SingleInstance()`, `PathSuffixes()`
-and `WindowClass()`.
+temporary offers none of `Original()`, `SingleInstance()`, `PathSuffixes()`,
+`SaveDirectory()` and `WindowClass()`.
 
 On Windows the tests link the game archive. On other hosts the archive does
 not build, so the tests compile the units themselves and link zlib; this

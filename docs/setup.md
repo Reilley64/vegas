@@ -5,15 +5,15 @@
 Setup prepares the data pack, `vegas-data.pack`, from a player's own copy of
 the original release and installs it in the install folder, beside
 `FalloutNV.exe`. The engine reads it there at startup
-(`data-pack-startup.md`). This page describes setup for catalogue version 3,
-which has three entries: C1, the single-instance strings, the log path
-suffixes and the main window class (`data-pack-catalogue.md`). Setup does
-not replace `FalloutNV.exe` yet.
+(`data-pack-startup.md`). This page describes setup for catalogue version 4,
+which has four entries: C1, the single-instance strings, the log path
+suffixes, the save directory strings and the main window class
+(`data-pack-catalogue.md`). Setup does not replace `FalloutNV.exe` yet.
 
 **A pack made by an earlier setup must be made again.** The engine accepts
-only packs of catalogue version 3. A `vegas-data.pack` that setup prepared
-for version 1 or 2 is refused at every start (status 2, "not a valid data
-pack" with "catalogue version: is not 3"). Run `vegas-setup` of this
+only packs of catalogue version 4. A `vegas-data.pack` that setup prepared
+for version 1, 2 or 3 is refused at every start (status 2, "not a valid
+data pack" with "catalogue version: is not 4"). Run `vegas-setup` of this
 version on the install folder once more; it replaces the old pack.
 
 Setup follows the pack decision record, ADR 0001, and the rulings D-1 to D-5
@@ -27,7 +27,7 @@ reads a real input. The next section states them. That criterion is met
 when this page passes review.
 
 The owner ran setup privately on an actual input twice on 2026-11-13 and
-twice on 2026-11-14. The first run used the reviewed tool version
+three times on 2026-11-14. The first run used the reviewed tool version
 `0ecb31723` and catalogue version 1, before setup read the main window
 class. The second used the reviewed tool version `d5d1d60ec` and catalogue
 version 2. The third used the reviewed tool version `e43d866e6` and
@@ -35,13 +35,18 @@ catalogue version 3. The fourth, of setup built from `fe8d02602` before
 review, checked only that the supported original passes the log path
 suffix rule of VEGAS-130; the coordinator's ruling of 2026-11-14
 required this run before the rule landed, so it did not use a reviewed
-version. For C1, the log path suffixes and the main window
+version. The fifth, of setup built from `64fd87149` before review, checked
+only that the supported original passes the save directory folder rule of
+VEGAS-135, which the same ruling required before that rule landed; it is
+the only run of catalogue version 4. For C1, the log path suffixes and the main window
 class only, the runs show the input checks of VEGAS-13's first
 criterion, the reproducible local preparation that its fourth asks for,
 and the private actual-input check that its seventh asks to document. The
 rest of the fourth, fifth and seventh criteria covers the whole catalogue
 and is still open. "Private run on an actual input" states what the runs
-showed, and "Not verified" states what they did not cover.
+showed, and "Not verified" states what they did not cover. Only the fifth
+run read the save directory strings from an actual input, and it recorded
+nothing but its status, status line and the pack's existence and size.
 
 ## Before setup reads a real copy
 
@@ -77,14 +82,16 @@ builder's own statement about a binary they built, and it does not count
 ignored files. A downloaded binary's line is only as good as its source.
 
 **Maintenance.** The ranges in `src/setup/single_instance_ranges.h`,
-`src/setup/log_path_suffix_ranges.h` and
-`src/setup/main_window_class_range.h` and the recipe check,
+`src/setup/log_path_suffix_ranges.h`, `src/setup/save_directory_ranges.h`
+and `src/setup/main_window_class_range.h` and the recipe check,
 `tools/setup-recipe-ranges`, belong to setup and change with it. Their
 authority is the recipe, `build/units.json`. A change that moves or renames
-a `str_` or `UNK_` name of `src/fallout/misc/main.cpp` that a range names,
-binds a new address inside one of the eight fields, or moves or renames the
-pointer to the class name, makes `setup.recipe_ranges` fail. That change
-also updates the header and this page.
+a name of `src/fallout/misc/main.cpp` or of
+`src/fallout/misc/saveload/bgssaveloadmanager.cpp` that a range names, binds
+a new address inside one of the fields read at a recipe-bound address or
+inside the first INI name, or moves or renames one of the three pointers,
+makes `setup.recipe_ranges` fail. That change also updates the header and
+this page.
 
 ## Using setup
 
@@ -177,8 +184,8 @@ value on Windows is not verified.
       the `mbedtls_sha256` target;
    3. identifies the original with `fileformat::IdentifyOriginal`, against
       the source's supported set;
-   4. reads C1's four strings, the four log path suffixes and the class
-      name (see "Checks");
+   4. reads C1's four strings, the four log path suffixes, the ten save
+      directory strings and the class name (see "Checks");
    5. writes the pack with `fileformat::WritePackStructure`, using the
       identified original's version and SHA-256;
    6. checks the written bytes with `fileformat::ValidatePack`, the
@@ -197,7 +204,7 @@ value on Windows is not verified.
 
 Setup decrypts nothing. It neither decrypts nor bypasses SteamStub, and it
 refuses a string or a pointer in `.bind`. It reads the strings and the
-pointer only from the stored bytes of data sections. It reads the base
+pointers only from the stored bytes of data sections. It reads the base
 relocation table where the header's data directory places it, in the stored
 bytes of one section.
 
@@ -279,6 +286,66 @@ supported original's suffixes pass. `setup.prepare_pack` reaches step 6
 through `setup::staged::CheckWrittenPack` on packs it writes from
 synthetic executables, and requires the refusal for crafted suffixes.
 
+### The save directory strings
+
+Setup reads the ten save directory strings after the log path suffixes and
+before the class name, in the order of `fileformat::SaveDirectoryStrings`.
+They are the strings that `BGSSaveLoadManager::GetSaveDirectory`
+(`0x00876ad0`), `WinMain`'s statement S7, reads.
+`src/setup/save_directory_ranges.h` holds where. Eight are read at
+addresses that the merged recipe entries of
+`src/fallout/misc/saveload/bgssaveloadmanager.cpp` bind, each with the
+recipe bound as its capacity, as the suffixes are:
+
+| Field | Recipe name | Address | Capacity |
+| --- | --- | --- | --- |
+| INI path format | `DAT_01082dc4` | `0x01082dc4` | 8 |
+| INI section | `g_011d3eb0_arg1` | `0x0105d548` | 8 |
+| setting key | `DAT_01082dac` | `0x01082dac` | 24 |
+| local folder | `DAT_01082da0` | `0x01082da0` | 12 |
+| documents folder | `DAT_01082d94` | `0x01082d94` | 12 |
+| game folder | `DAT_01082d88` | `0x01082d88` | 12 |
+| working folder | `g_011dece4_arg1` | `0x01082d84` | 4 |
+| default INI name | `DAT_01082d70` | `0x01082d70` | 20 |
+
+Each is refused for the problems `NoSection` to `NoTerminator` of C1's
+table, in that order. The recipe names no literal at these addresses, so
+there is no known-string check. After its zero byte, the INI path format
+must pass `fileformat::HoldsOneStringConversion`: exactly one `%s` and no
+other `%` but `%%`, as the validator requires (`data-pack-catalogue.md`,
+"Catalogue version 4"). Otherwise setup refuses it with
+`FormatConversion`, so it never writes a pack the validator refuses. After
+its zero byte, each of the four folders, local, documents, game and
+working, must pass `fileformat::FolderPathRefusal`: no colon, no byte below
+0x20 and no `..` part, a separator allowed (`data-pack-validation.md`).
+Otherwise setup refuses it with `FolderPath` and the reason. The
+coordinator ruled on 2026-11-14 that setup may refuse a bad field at
+extraction, as here, and that the validator refuses it again at step 6.
+
+The two INI names are reached through pointers that the same entries bind,
+and are read as the class name below is:
+
+| Field | Pointer | Pointer address | String | Capacity |
+| --- | --- | --- | --- | --- |
+| first INI name | `DAT_011a2ff4` | `0x011a2ff4` | `0x01039c8c`, `str_01039c8c` | 12, the recipe bound there |
+| second INI name | `_DAT_011a2ff0` | `0x011a2ff0` | not bound by the recipe | 256 |
+
+The first INI name's pointer must hold `0x01039c8c`, the address the recipe
+binds for its string; otherwise setup refuses it with `PointerTarget`,
+after `NoRelocation` and before the checks of the string. The messages name
+"first INI name pointer" and "first INI name string", and the same for the
+second. The second INI name's capacity is the main window class's, by the
+ruling of 2026-11-14 for a string reached through a recipe-bound pointer
+whose target the recipe does not bind.
+
+`setup.recipe_ranges` checks these rows (checks l to s of
+`tools/setup-recipe-ranges`): eight rows, each bound by the merged
+`bgssaveloadmanager.cpp` entries at its address and by no unit at another,
+its capacity the recipe bound; two char pointers bound there, each at least
+4 bytes before the next bound address; the first INI name's target bound
+at its address alone, its capacity the recipe bound there; and 256 bytes
+for the second.
+
 ### The class name
 
 The original does not store the class name at an address the recipe
@@ -290,8 +357,9 @@ capacity is the length limit that Windows documents for a window class
 name, not a recipe bound.
 
 The pack holds the string, never the pointer. Setup reads the class name
-after C1's four fields and the four log path suffixes. It checks the pointer and then the string, and
-refuses with the first `setup::ExtractError` below that applies:
+after C1's four fields, the four log path suffixes and the save directory
+strings. It checks the pointer and then the string, and refuses with the
+first `setup::ExtractError` below that applies:
 
 | Problem | When |
 | --- | --- |
@@ -364,7 +432,24 @@ which the recipe literal fixes.
   that is `.bind`, code, executable or uninitialized data, the first
   suffix's last bytes in the zero tail, each suffix without a zero byte and
   with its zero byte last, empty suffixes, and the order C1, suffixes,
-  class name. For the class name it covers a pointer with no relocation
+  save directory strings, class name. For the save directory strings it
+  covers each string read at its address without a zero byte and with its
+  zero byte last, empty strings, formats accepted (`%s`, `%%%s`, `a%s%%`)
+  and refused (among them `%n`, `%s%n`, `%s%s`, `%5s` and none), each
+  folder refused for a colon, a control character or a `..` part, of seven
+  crafted folders those that fit, and seven folder names with separators
+  or dots read, of those the ones that fit, the first
+  INI name's pointer holding another address, without its relocation, its
+  string without a zero byte, with its zero byte last and in writable
+  data; the second INI name's pointer without its relocation, its string in
+  code, in writable data, without a zero byte, with 255 characters and at
+  the class name's address; and the order within the entry, a folder's
+  zero byte before its path and its path before a later folder's zero
+  byte among them. The synthetic
+  executable's three pointers share one page of `.sdata`, the two INI
+  names' above the class name's, and they are read first, so the tests of
+  the whole relocation table and of `.sdata` name the first INI name's
+  pointer. For the class name it covers a pointer with no relocation
   table, with five data directories or fewer, with a relocation of another
   address, page or type, a byte before or after it or overlapping it, and in
   a third block; a malformed table, among them a block 2 bytes past the
@@ -379,7 +464,7 @@ which the recipe literal fixes.
   the synthetic executable's own identity. It checks the written bytes with
   `CheckPackOriginalAgainst`. Then it writes the same entry with the
   supported release's identity, which is compared, not proved, and requires
-  `ValidatePack` to accept the three entries with the same strings. That form exists only
+  `ValidatePack` to accept the four entries with the same strings. That form exists only
   in the test. No file under `src/` takes a set, and the production
   `PrepareDataPack` refuses the synthetic executable.
 - `setup.install_pack` covers installation, replacement of an existing pack,
@@ -396,6 +481,12 @@ which the recipe literal fixes.
   which one more unit binds an address 8 bytes into the third log path
   suffix. It requires status 1 and one problem, from check j. Without
   Python 3 it is registered and fails with that reason.
+- `setup.recipe_ranges.save_directory_bound` and
+  `setup.recipe_ranges.save_directory_target_bound` run it on copies of the
+  recipe in which one more unit binds an address 4 bytes into the setting
+  key, or 4 bytes into the first INI name at `0x01039c8c`. Each requires
+  status 1 and one problem, from check n or check s. Without Python 3 they
+  are registered and fail with that reason.
 - `setup.build_commit_line` runs `vegas-setup` with no argument. It requires
   status 1, the commit line and then the usage line, and shows the commit
   line. It checks the line's format, not a particular commit. A cross build
@@ -428,8 +519,8 @@ setup, did not link, and CTest reported that test as not run.
 
 ## Private run on an actual input
 
-On 2026-11-13 the owner ran `vegas-setup` twice, and on 2026-11-14 twice
-more, on their own Steam copy of `FalloutNV.exe`. The packs, the original
+On 2026-11-13 the owner ran `vegas-setup` twice, and on 2026-11-14 three
+times more, on their own Steam copy of `FalloutNV.exe`. The packs, the original
 file and every value read from them stay private. This page records
 outcomes and statuses only.
 
@@ -536,11 +627,33 @@ printed its commit line, which ended with `no local changes`, and then
 0. The pack existed and was 628 bytes. Only the status, the status line
 and the pack's existence and size were recorded.
 
+### The save directory folder rule
+
+The fifth run, on 2026-11-14, used setup built from `64fd87149`, the
+commit that adds the folder rule of VEGAS-135 to setup; its parent adds
+it to the validator, where setup does not yet write the save directory
+strings. It ran once, on a copy of the supported original in a new empty
+folder. It printed its commit line, which ended with `no local changes`,
+and then `vegas-data.pack was written beside FalloutNV.exe`, and ended
+with status 0. The pack existed and was 1,020 bytes. Only the status, the
+status line and the pack's existence and size were recorded. Setup ends
+with status 0 only when step 4 has read all ten save directory strings,
+the folders through the rule, and step 6 has accepted the pack, so the
+rule did not narrow. That is read from setup's code; the run recorded
+nothing more.
+
 These runs are private actual-input checks. They are not synthetic tests
 and not full-game acceptance.
 
 ## Not verified
 
+- One private run, the fifth, used catalogue version 4, and it recorded
+  only setup's status 0, its status line and the pack's existence and size.
+  That each save directory string lies in a data section with its zero byte
+  within its capacity, that the pointer at `0x011a2ff4` holds `0x01039c8c`,
+  and that the original's INI path format and folders pass their checks,
+  follows from status 0 and setup's code only. No separate PE check was
+  made, and no run of this project's `FalloutNV.exe` used the pack.
 - The first private run ran in session 0, where no user sees a message
   box, and showed none. The second and third did not run in a desktop
   session either. Nobody has yet seen C1's strings in the message boxes

@@ -6,8 +6,9 @@ This page is a design, not a description of code. Its three next increments
 are implemented: catalogue version 1 and `ValidatePack`,
 which `data-pack-validation.md` describes, the pack stage in `main`
 with C1's consumer, which `data-pack-startup.md` describes, and setup,
-which `setup.md` describes. Catalogue versions 2 and 3, under "Catalogue
-version 2" and "Catalogue version 3", are implemented as well. It answers
+which `setup.md` describes. Catalogue versions 2, 3 and 4, under
+"Catalogue version 2", "Catalogue version 3" and "Catalogue version 4", are
+implemented as well; version 4's consumer is not composed yet. It answers
 what the
 catalogue that ADR 0001 requires must hold before the engine may start
 with a data pack, and how setup fills each entry from the original
@@ -284,6 +285,16 @@ Rulings of the coordinator on catalogue version 2, recorded on VEGAS-52 on
   until their consumers move (D1).
 - **F.** The key is `WNDC`, and the owner group is "main window class".
 
+Ruling 3 of the coordinator on VEGAS-135, 2026-11-14, for catalogue version
+4: every string that S7 reads comes from the pack, in one new entry, as C1,
+`WNDC` and `LOGS` did; capacities are those of D8, the distance to the next
+recipe-bound address, and, for a string reached through a recipe-bound
+pointer whose target is not bound, the `WNDC` precedent of 256 bytes;
+`ValidatePack` also checks that a format field holds exactly the
+conversions the code passes arguments for, one `%s`, so a crafted pack
+cannot inject conversions. The key `SDIR` and the owner group "save
+directory strings" were chosen with the owner's implementation (D4).
+
 The consequence: the pack stage enters `main` only together with C1's
 consumer, not before. Catalogue version 1 requires that one entry and the
 source's supported original. Under D6 and D8, C1's entry is exactly 140
@@ -338,6 +349,13 @@ values in their tests are synthetic.
    its owner, setup's four suffixes read by recipe ranges, and `WinMain`'s
    statements S2 to S5 composed in `main`. "Catalogue version 3" below
    states the content.
+6. **Catalogue version 4 (VEGAS-135), implemented but for its consumer.**
+   The `SDIR` entry, its decoder with the format check, its owner and its
+   publication by the pack stage, and setup's ten strings read by recipe
+   ranges and through two pointers. `WinMain`'s statement S7,
+   `BGSSaveLoadManager::GetSaveDirectory`, is not composed in `main` and
+   does not read the owner yet. "Catalogue version 4" below states the
+   content.
 
 ## Catalogue version 2
 
@@ -413,13 +431,100 @@ validator refuses a suffix that holds a path separator, a colon or a
 control character, or is `..`, and an over-long path leaves the builder's
 buffer empty (`data-pack-startup.md`, "Log path rulings").
 
+## Catalogue version 4
+
+Version 4 is implemented (VEGAS-135), but nothing reads its new entry yet.
+It holds four entries, in key order:
+
+| Key | Owner group | Version | Fields | Size |
+| --- | --- | --- | --- | --- |
+| `INST` | C1, the single-instance and remote-session strings | 1 | 20, 60, 8 and 52 bytes | 140 bytes |
+| `LOGS` | the log path suffixes | 1 | 16, 16, 24 and 16 bytes | 72 bytes |
+| `SDIR` | the save directory strings | 1 | 8, 12, 8, 24, 256, 12, 12, 12, 4 and 20 bytes | 368 bytes |
+| `WNDC` | the main window class | 1 | the class name, 256 bytes | 256 bytes |
+
+`INST`, `LOGS` and `WNDC` are unchanged. `SDIR` holds the ten strings that
+`BGSSaveLoadManager::GetSaveDirectory` (`0x00876ad0`), `WinMain`'s statement
+S7, reads from the original's data sections, one field per string in the
+order the function first reads them, the fields of
+`fileformat::SaveDirectoryStrings`, whose sizes fix the entry's (D6):
+
+| Field | Read through | Address | Capacity |
+| --- | --- | --- | --- |
+| `iniPathFormat`, the format of both INI paths | `DAT_01082dc4` | `0x01082dc4` | 8, recipe bound |
+| `firstIniName` | the pointer `DAT_011a2ff4` at `0x011a2ff4` | `0x01039c8c`, which the recipe binds | 12, recipe bound at the string |
+| `iniSection` | `g_011d3eb0_arg1` | `0x0105d548` | 8, recipe bound |
+| `settingKey` | `DAT_01082dac` | `0x01082dac` | 24, recipe bound |
+| `secondIniName` | the pointer `_DAT_011a2ff0` at `0x011a2ff0` | not bound by the recipe | 256 |
+| `localFolder` | `DAT_01082da0` | `0x01082da0` | 12, recipe bound |
+| `documentsFolder` | `DAT_01082d94` | `0x01082d94` | 12, recipe bound |
+| `gameFolder` | `DAT_01082d88` | `0x01082d88` | 12, recipe bound |
+| `workingFolder` | `g_011dece4_arg1` | `0x01082d84` | 4, recipe bound |
+| `defaultIniName` | `DAT_01082d70` | `0x01082d70` | 20, recipe bound |
+
+The names are those the function's body in
+`src/fallout/misc/saveload/bgssaveloadmanager.cpp` reads, and the recipe
+binds each for that unit. Each capacity follows ruling 3 of 2026-11-14
+(under "Decisions"): the recipe bound, the distance to the next address
+the recipe binds, as D8 fixed C1's, at the string's own address, also for the first INI name,
+which the original reaches through a pointer to an address the recipe
+binds; and 256 bytes, the main window class's precedent (ruling C), for
+the second INI name, reached through a pointer to a string whose address
+the recipe does not bind. Each field holds its string, then a zero byte,
+then zeros to its end (D8), and validation requires the entry's exact size
+and a zero byte inside each field. The pack carries the strings, never the
+pointers (D10, ruling B).
+
+The function passes `iniPathFormat` to `FUN_00406d00`, which formats with
+`std::vsnprintf`, with one argument, an INI name. So validation also
+requires that the field, read through its zero byte, holds exactly one
+`%s` and no other conversion: every other `%` must be part of a `%%`, which
+writes a `%` and reads no argument. A crafted pack cannot make the format
+read a second argument or write through one with `%n`. Setup applies the
+same check before it writes a pack (`setup.md`).
+
+The four folders hold path separators by nature, so the suffix rule of
+version 3 does not apply to them. Under the coordinator's ruling of
+2026-11-14 validation refuses a folder, read through its zero byte, that
+holds a colon or a byte below 0x20 or has a `..` part; a separator,
+leading, inner or last, is allowed. Setup applies the same rule
+(`data-pack-validation.md`, `setup.md`).
+
+No recipe literal names a text at any of the ten addresses, so no text is
+known and setup has no known-string check for them. The key, `SDIR`, encodes
+no address (D4).
+
+The change to the required entries raised the catalogue version from 3 to
+4 (D5, the ADR 0001 amendment of 2026-11-13). A pack of catalogue version 3
+is refused for its catalogue version, before its entries are read, so setup
+must prepare the pack again.
+
+The owner, `fnv::startup::PublishedSaveDirectoryStrings`
+(`include/fnv/save_directory_strings.h`), is a member of the game archive;
+the pack stage publishes it and returns it with the other three values.
+The consumer, S7, stays skipped in `main` (`data-pack-startup.md`), and
+`GetSaveDirectory` still reads the legacy definitions; it links into no
+program. Moving it to a unit of its own, its import calls (ruling 2 of
+2026-11-14) and its composition are later steps of VEGAS-135.
+
 ## Not verified
 
+- For version 4, the owner's fifth private run of 2026-11-14 (`setup.md`)
+  ran setup on an original executable and recorded only its status, 0,
+  its status line and the pack's existence and size. That the eight
+  addresses and the first INI name's lie in data sections with each zero
+  byte within its capacity, that the pointer at `0x011a2ff4` holds
+  `0x01039c8c`, that the second INI name lies in read-only data within 256
+  bytes, and that the original's format and folders pass their checks,
+  follows from that status and setup's code only. No separate PE check was
+  made, and no test in this repository checks this on an original
+  executable. Nothing in `main` reads the entry yet.
 - No original executable was read for this page's measurements. That the
   ranges above lie in data sections, and that the legacy extents match the
   stored bytes, is not checked. The owner's private runs of 2026-11-13
   and 2026-11-14 (`setup.md`) read an original executable for C1, the log
-  path suffixes and the main window class only.
+  path suffixes and the main window class, and the fifth for the save
+  directory strings, with nothing but its status recorded.
 - Which values of "Values already written in the source" the original
   stores in a data section is not checked.
 - The census is a parser of the legacy text, not of objects. It reads the

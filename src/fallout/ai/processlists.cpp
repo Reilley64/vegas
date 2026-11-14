@@ -1769,6 +1769,12 @@ struct PathfindQueueStorage
 extern __int64 DAT_011e0e20;
 extern unsigned int DAT_011e0e30;
 
+namespace fnv_00977130 {
+struct FUN_00977130_shell : public ProcessLists
+{
+    void FUN_00977130(float);
+};
+}  // namespace fnv_00977130
 namespace fnv_0096bcd0 {
 namespace lc1 {
 using ::AutoMemContext;
@@ -2992,6 +2998,12 @@ void FUN_00974af0_shell::FUN_00974af0(char* apTarget)
 }
 }  // namespace fnv_00974af0
 
+namespace fnv_0096e3c0 {
+struct FUN_0096e3c0_shell : public ProcessLists
+{
+    void FUN_0096e3c0(Actor*);
+};
+}  // namespace fnv_0096e3c0
 namespace fnv_00977660 {
 struct FUN_00977660_shell : public ProcessLists
 {
@@ -3762,10 +3774,6 @@ struct blob1
 {
     char b[1];
 };
-struct FUN_0096e3c0_shell : public ProcessLists
-{
-    void FUN_0096e3c0(Actor*);
-};
 
 struct bhkCharacterController_shell
 {
@@ -3979,10 +3987,6 @@ struct blob4
 struct blob12
 {
     char b[12];
-};
-struct FUN_00977130_shell : public ProcessLists
-{
-    void FUN_00977130(float);
 };
 
 struct ActorQuery_00977130

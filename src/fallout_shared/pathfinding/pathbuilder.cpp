@@ -593,6 +593,13 @@ template <> class BSSimpleArray<fnv_006cc5e0::NavMeshTriangleReference, 1024>
     BSSimpleArray(unsigned int, unsigned int);
     ~BSSimpleArray();
 };
+namespace fnv_006cd1f0 {
+class PathBuilderMethods : public PathBuilder
+{
+  public:
+    bool FUN_006cd1f0(PathingLocation*, PathingLocation*);
+};
+}  // namespace fnv_006cd1f0
 namespace fnv_006cc5e0 {
 
 struct NavMeshArr
@@ -4687,11 +4694,6 @@ class TESWorld
 };
 bool __cdecl FUN_006d7350(const PathingLocation*, const PathingLocation*, int, void*);
 
-class PathBuilderMethods : public PathBuilder
-{
-  public:
-    bool FUN_006cd1f0(PathingLocation*, PathingLocation*);
-};
 
 // @fnv 0x006cd1f0
 bool PathBuilderMethods::FUN_006cd1f0(PathingLocation* pStart, PathingLocation* pEndLocation)

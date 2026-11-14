@@ -15,8 +15,10 @@
 # the call through a conversion, a site in a macro, header, template or
 # lambda, a default argument, a callee whose text is not the name, or a
 # descriptive function name that becomes a placeholder or another
-# descriptive name; or stops labelling R5a, const added to this and a
-# class-only difference; or stops recording a refused site so that its
+# descriptive name; or stops labelling R5a, const added to this, a
+# class-only difference (the full scope compared, so one class name in two
+# namespaces differs) and a placeholder that becomes another name in
+# another class (name+class); or stops recording a refused site so that its
 # name is not bound. Also when the rewrite stops moving the owner verbatim
 # with its comment lines and namespaces, stops respelling the cast and the
 # callee, or applies edits that overlap; when the recipe respelling stops

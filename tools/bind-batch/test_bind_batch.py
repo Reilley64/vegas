@@ -313,7 +313,9 @@ class GateTest(unittest.TestCase):
                             address)
 
     def test_same_type_admits(self):
-        self.assertEqual(self.decide(), (None, ""))
+        # The fixture's placeholder member becomes another name in another class.
+        self.assertEqual(self.decide(), (None, "name+class"))
+        self.assertEqual(self.decide(ddem=DDEM.replace("R::", "S::")), (None, ""))
 
     def test_void_result_used(self):
         void = DDEM.replace("int __cdecl", "void __cdecl")
@@ -339,7 +341,7 @@ class GateTest(unittest.TestCase):
 
     def test_object_pointer_to_void_pointer(self):
         ndem, ddem = NDEM.replace("(int)", "(class A * __ptr64)"), DDEM.replace("(int)", "(void * __ptr64)")
-        self.assertEqual(self.decide(ndem, ddem), (None, "R5a"))
+        self.assertEqual(self.decide(ndem, ddem), (None, "R5a+name+class"))
 
         def derived_to_base(ref, f):
             ref["args"][0]["casts"] = ["DerivedToBase"]
@@ -366,7 +368,8 @@ class GateTest(unittest.TestCase):
         self.assertEqual(self.decide(edit=owner_virtual)[0], "virtual")
         self.assertEqual(self.decide(ndem=NDEM.replace(") __ptr64", ") const __ptr64"))[0], "conversion:this")
         self.assertEqual(self.decide(ddem=DDEM.replace(") __ptr64", ") volatile __ptr64"))[0], "conversion:this")
-        self.assertEqual(self.decide(ddem=DDEM.replace(") __ptr64", ") const __ptr64")), (None, "const-this"))
+        self.assertEqual(self.decide(ddem=DDEM.replace(") __ptr64", ") const __ptr64")),
+                         (None, "const-this+name+class"))
         self.assertEqual(self.decide(ddem=DDEM.replace("(int)", "(int,int)"))[0], "conversion:parameter-count")
         self.assertEqual(self.decide(ddem=DDEM.replace("__cdecl", "__vectorcall"))[0],
                          "conversion:calling-convention")
@@ -421,8 +424,19 @@ class GateTest(unittest.TestCase):
         # The member is the row's placeholder on both sides, only the class differs: class-only.
         self.assertEqual(naming("public: int __cdecl S::FUN_00410020(int) __ptr64", place), (None, "class-only"))
         self.assertEqual(naming(place, place), (None, ""))
-        # A placeholder may become a descriptive name; free functions carry no class.
-        self.assertEqual(naming("public: int __cdecl S::FUN_00410020_x(int) __ptr64", DDEM), (None, ""))
+        # The class is compared by its full scope: one class name in two namespaces differs.
+        self.assertEqual(naming("public: int __cdecl a::S::FUN_00410020(int) __ptr64",
+                                "public: int __cdecl b::S::FUN_00410020(int) __ptr64"), (None, "class-only"))
+        self.assertEqual(naming("public: static int __cdecl a::S::FUN_00410020(int)",
+                                "public: static int __cdecl b::S::FUN_00410020(int)"), (None, "class-only"))
+        self.assertEqual(naming("public: int __cdecl a::S::FUN_00410020(int) __ptr64",
+                                "public: int __cdecl a::S::FUN_00410020(int) __ptr64"), (None, ""))
+        # A placeholder may become a descriptive name: in another class it is labelled name+class;
+        # free functions carry no class.
+        self.assertEqual(naming("public: int __cdecl S::FUN_00410020_x(int) __ptr64", DDEM), (None, "name+class"))
+        self.assertEqual(naming("public: int __cdecl R::FUN_00410020_x(int) __ptr64", DDEM), (None, ""))
+        self.assertEqual(naming("public: static int __cdecl S::FUN_00410020_x(int)",
+                                "public: static int __cdecl R::g(int)"), (None, "name+class"))
         self.assertEqual(naming("int __cdecl a::FUN_00410020(int)", "int __cdecl b::FUN_00410020(int)"), (None, ""))
         # At a site, the refusal comes before the name text and the label joins the others.
         self.assertEqual(self.decide(ndem="public: int __cdecl S::f(int) __ptr64"), ("naming:descriptive-differs",
@@ -460,7 +474,7 @@ class GateUnitTest(Folder):
 
     def test_admit(self):
         out, plan = self.run_gate(ctx=self.placeholder())
-        self.assertEqual(self.kinds(out), [("ADMIT", "same-type")])
+        self.assertEqual(self.kinds(out), [("ADMIT", "name+class")])
         p = plan["names"][N]
         self.assertEqual((p["key"], p["row"], p["kept"], len(p["sites"])), (N32, "?g@R@@QAEHH@Z", [], 1))
         self.assertEqual(p["stand_in"]["qualified"], "S")
@@ -483,8 +497,8 @@ class GateUnitTest(Folder):
             self.assertEqual(plan["refused"], [N], kind)
             self.assertEqual(bb.whole_names([plan]), set(), kind)
         # The tip's list names the stand-in mangled or as llvm-undname prints it.
-        self.assertEqual(self.kinds(self.run_gate(ctx=dict(ph, undefined={N}))[0]), [("ADMIT", "same-type")])
-        self.assertEqual(self.kinds(self.run_gate(ctx=dict(ph, undefined={NDEM}))[0]), [("ADMIT", "same-type")])
+        self.assertEqual(self.kinds(self.run_gate(ctx=dict(ph, undefined={N}))[0]), [("ADMIT", "name+class")])
+        self.assertEqual(self.kinds(self.run_gate(ctx=dict(ph, undefined={NDEM}))[0]), [("ADMIT", "name+class")])
 
     def test_defined_overloaded_and_unreadable(self):
         ph = self.placeholder()

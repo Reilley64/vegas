@@ -445,16 +445,17 @@ def placeholder(part, address):
 def naming(nsig, dsig, address):
     """(refusal, detail) or (None, label) under the naming rule of 2026-11-13: a descriptive
     function name is never replaced by a placeholder, and two different descriptive names are an
-    open question; both are refused, for the reviewed override table. A member whose name is the
-    same on both sides while only its class differs is admitted and labelled class-only: its
-    receiver stays open."""
+    open question; both are refused, for the reviewed override table. A member or static member
+    whose class (its full scope, namespaces included) differs is admitted and labelled class-only
+    when its name is the same on both sides, name+class when a placeholder becomes another name:
+    its receiver stays open."""
     a, b = nsig["base"], dsig["base"]
     if a != b and not placeholder(a, address):
         if placeholder(b, address):
             return "naming:descriptive-function", "%s -> %s" % (a, b)
         return "naming:descriptive-differs", "%s -> %s" % (a, b)
-    if a == b and (nsig["member"] or nsig["static"]) and nsig["scope"].split("::")[-1] != dsig["scope"].split("::")[-1]:
-        return None, "class-only"
+    if (nsig["member"] or nsig["static"]) and nsig["scope"] != dsig["scope"]:
+        return None, "class-only" if a == b else "name+class"
     return None, ""
 
 

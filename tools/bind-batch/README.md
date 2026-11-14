@@ -74,9 +74,11 @@ Per candidate, then per site, the first refusal that applies:
 | `move:*` | the owner (its class, for a member) is not visible at the site and cannot move verbatim: in a header, nested in a class, a template, not alone on its lines, inside a linkage block, or needing more than three types it names that are declared between the two places |
 
 An admitted site's kind column holds its labels: `same-type`, `R5a`,
-`const-this` (`const` added to `this`) and `class-only` (the member's name
-is the same on both sides and only the stand-in's class differs; the
-receiver stays open), joined by `+`.
+`const-this` (`const` added to `this`), `class-only` (the member's name
+is the same on both sides and only its class differs, the full scope
+compared, namespaces included) and `name+class` (one label: a placeholder
+member, or static member, becomes another name in another class), joined
+by `+`. Under both class labels the receiver stays open.
 
 Types are compared as llvm-undname prints the two mangled names of one
 translation unit: equal strings are equal types as the name carries them;

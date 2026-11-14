@@ -2551,6 +2551,24 @@ bool FUN_00562d00_shell::FUN_00562d00()
 }
 }  // namespace fnv_00562d00
 
+struct TaskQueueInterface
+{
+    void FUN_00576640(bool argument0);
+public:
+    static void CopyStringToBuffer(char *, unsigned int, const char *);
+public:
+    void QueueActorDisarm(bool);
+public:
+    static ::TaskQueueInterface *GetSingleton();
+public:
+    void QueueReferenceStateTask(bool);
+public:
+    void FUN_004902f0(bool);
+public:
+    void FUN_00566930(bool);
+public:
+    void FUN_0087e100(bool);
+};
 namespace fnv_005636e0 {
 class Actor;
 class SaveLoadFile;
@@ -4757,6 +4775,29 @@ struct TESObjectREFR_GetExtra_Caller
 };
 }
 
+class TESForm
+{
+  public:
+    virtual ~TESForm();  // polymorphic: its RTTI is used (rtti_fix.py)
+public:
+    bool GetInitialized() const;
+public:
+    bool GetDisabled() const;
+public:
+    void ClearData();
+public:
+    void NotifySaveLoadGameOfFormChange();
+public:
+    void SetDestructible(bool);
+public:
+    void SetInitializationState(bool);
+public:
+    void SetFormFlags(int);
+public:
+    void LoadGame(void *);
+public:
+    void SetCollisionDisabled(bool);
+};
 namespace fnv_005728c0 {
 struct ReferenceLightData
 {
@@ -6603,29 +6644,6 @@ struct Z577
 {
 };
 struct SF577;
-class TESForm
-{
-  public:
-    virtual ~TESForm();  // polymorphic: its RTTI is used (rtti_fix.py)
-public:
-    bool GetInitialized() const;
-public:
-    bool GetDisabled() const;
-public:
-    void ClearData();
-public:
-    void NotifySaveLoadGameOfFormChange();
-public:
-    void SetDestructible(bool);
-public:
-    void SetInitializationState(bool);
-public:
-    void SetFormFlags(int);
-public:
-    void LoadGame(void *);
-public:
-    void SetCollisionDisabled(bool);
-};
 struct Tmp577
 {
 };
@@ -11726,24 +11744,6 @@ void _dummy_4d9fa0::FUN_00573f00(bool argument0)
     reinterpret_cast<::FUN_004d9fc0_shell *>(this)->FUN_004d9fc0(argument0, 8);
 }
 
-struct TaskQueueInterface
-{
-    void FUN_00576640(bool argument0);
-public:
-    static void CopyStringToBuffer(char *, unsigned int, const char *);
-public:
-    void QueueActorDisarm(bool);
-public:
-    static ::TaskQueueInterface *GetSingleton();
-public:
-    void QueueReferenceStateTask(bool);
-public:
-    void FUN_004902f0(bool);
-public:
-    void FUN_00566930(bool);
-public:
-    void FUN_0087e100(bool);
-};
 
 // @fnv 0x00576640
 void TaskQueueInterface::FUN_00576640(bool abEnabled)

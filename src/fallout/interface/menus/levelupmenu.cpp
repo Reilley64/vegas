@@ -192,6 +192,17 @@ int __cdecl FUN_00785180()
     return 0x403;
 }
 
+class Tile
+{
+  public:
+    void Set(int, int);
+public:
+    void SetName(const char *);
+public:
+    bool GetSpeechChallengeFailure();
+public:
+    static float GetInterfaceScale();
+};
 namespace fnv_007851d0 {
 struct ActorValue
 {
@@ -345,17 +356,6 @@ bool FUN_00785190_This::HasAllValsNonZero()
     return true;
 }
 
-class Tile
-{
-  public:
-    void Set(int, int);
-public:
-    void SetName(const char *);
-public:
-    bool GetSpeechChallengeFailure();
-public:
-    static float GetInterfaceScale();
-};
 struct Holder
 {
     void UpdateTileEffects(Tile*);

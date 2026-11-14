@@ -2153,6 +2153,73 @@ void SystemColor::FUN_007193b0(RgbaColor* aOutColor) const
     aOutColor->b = iblue * DAT_0102f0e4;
 }
 
+namespace fnv_0070ee80 {
+struct FUN_0070ee80_shell : public InterfaceManager
+{
+    void UpdatePipboyWaiver();
+    char pad13c[0x30];
+    void* unk16c;
+    char pad170[0x34c];
+    int unk4bc;
+    void (*unk4c0)();
+};
+}  // namespace fnv_0070ee80
+namespace fnv_00715ca0 {
+struct TileX
+{
+};
+}  // namespace fnv_00715ca0
+namespace fnv_00715ca0 {
+struct IMStandIn
+{
+    char m_uiStandInValue[0x28];
+    TileX* m_tile28;
+    char m_iValueAfterStandIn[0x7d - 0x2c];
+    bool m_flag7d;
+    char m_pAuxiliaryObject[0xed - 0x7e];
+    bool m_flagED;
+    TileX* FindHighestPriorityTile(int*, int);
+    void FUN_00715860(TileX*, int, int);
+    void UpdateFocusTarget();
+};
+}  // namespace fnv_00715ca0
+namespace fnv_00717660 {
+struct FUN_00717660_shell : public InterfaceManager
+{
+    void FUN_00717660();
+};
+}  // namespace fnv_00717660
+namespace fnv_00716730 {
+struct FUN_00716730_t : public InterfaceManager
+{
+    int FUN_00716730(float afScale);
+    char pad13c[0x14];
+    int unk150;
+    unsigned int unk154;
+    unsigned int unk158;
+};
+}  // namespace fnv_00716730
+struct GlobalObject2_0096a2d0
+{
+    void* item;
+    GlobalObject2_0096a2d0* next;
+    GlobalObject2_0096a2d0();
+    ~GlobalObject2_0096a2d0();
+    void*& FUN_006815c0();
+};
+struct PickOwner
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    int unk20, unk24, unk28, unk2c, unk30, unk34;
+    float screenX;
+    int unk3c;
+    float screenY;
+    int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
+    int unk60, unk64, unk68, unk6c;
+    GlobalObject2_0096a2d0 objects;
+    int objectCount;
+    void UpdatePickObjects();
+};
 namespace fnv_0070c4a0 {
 class Menu;
 class NiFixedString;
@@ -4919,15 +4986,6 @@ class BaseFormComponent
     virtual void BaseFormRecord(BaseFormComponent*);
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
-struct FUN_0070ee80_shell : public InterfaceManager
-{
-    void UpdatePipboyWaiver();
-    char pad13c[0x30];
-    void* unk16c;
-    char pad170[0x34c];
-    int unk4bc;
-    void (*unk4c0)();
-};
 
 class TESObjectWEAP
 {
@@ -6197,21 +6255,6 @@ namespace fnv_00715ca0 {
 class NiNode
 {
 };
-struct TileX
-{
-};
-struct IMStandIn
-{
-    char m_uiStandInValue[0x28];
-    TileX* m_tile28;
-    char m_iValueAfterStandIn[0x7d - 0x2c];
-    bool m_flag7d;
-    char m_pAuxiliaryObject[0xed - 0x7e];
-    bool m_flagED;
-    TileX* FindHighestPriorityTile(int*, int);
-    void FUN_00715860(TileX*, int, int);
-    void UpdateFocusTarget();
-};
 
 // @fnv 0x00715ca0
 void IMStandIn::UpdateFocusTarget()
@@ -6236,10 +6279,6 @@ void IMStandIn::UpdateFocusTarget()
 }  // namespace fnv_00715ca0
 
 namespace fnv_00717660 {
-struct FUN_00717660_shell : public InterfaceManager
-{
-    void FUN_00717660();
-};
 
 struct Tile_Set_Helper
 {
@@ -7184,14 +7223,6 @@ struct GlobalObject_0044f440
 extern GlobalObject_0044f440 g_011d8b38;
 extern GlobalObject_0044f440 g_011d8b88;
 
-struct FUN_00716730_t : public InterfaceManager
-{
-    int FUN_00716730(float afScale);
-    char pad13c[0x14];
-    int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-};
 
 // @fnv 0x00716730
 int FUN_00716730_t::FUN_00716730(float afScale)
@@ -11148,14 +11179,6 @@ struct GlobalObject_00e98f20
     GlobalObject_00e98f20(int, int);
     ~GlobalObject_00e98f20();
 };
-struct GlobalObject2_0096a2d0
-{
-    void* item;
-    GlobalObject2_0096a2d0* next;
-    GlobalObject2_0096a2d0();
-    ~GlobalObject2_0096a2d0();
-    void*& FUN_006815c0();
-};
 struct PickWorld
 {
 };
@@ -11166,19 +11189,6 @@ struct CameraData
 struct SceneCamera
 {
     CameraData* FUN_006629f0();
-};
-struct PickOwner
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
-    int unk20, unk24, unk28, unk2c, unk30, unk34;
-    float screenX;
-    int unk3c;
-    float screenY;
-    int unk44, unk48, unk4c, unk50, unk54, unk58, unk5c;
-    int unk60, unk64, unk68, unk6c;
-    GlobalObject2_0096a2d0 objects;
-    int objectCount;
-    void UpdatePickObjects();
 };
 // @fnv 0x00710880
 void PickOwner::UpdatePickObjects()

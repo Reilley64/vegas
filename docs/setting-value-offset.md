@@ -421,16 +421,18 @@ Each part stays open under the ticket named with it. `main.cpp` is done:
 41 of its 41 calls take the shared `Setting` (VEGAS-115).
 
 - VEGAS-117, the other 245 calls and a guard:
-  - The 3 units that define a `::Setting` of their own: 34 calls, since
-    VEGAS-117 moved the 21 calls of three units and then the 54 of four
-    more (109 in 10 before; see "Units with a `Setting` of their own").
+  - `actor.cpp`, which defines a `::Setting` of its own: 7 calls, since
+    VEGAS-117 moved the 21 calls of three units, then the 54 of four more
+    and then the 27 of `highprocess.cpp` and `bstempeffectsimpledecal.cpp`
+    (109 in 10 before; see "Units with a `Setting` of their own").
   - The 11 units' own copies of generated classes: 89 calls, 63 names.
   - 16 calls on 1-byte objects, among them those on the objects at
     `0x011c3c90` and `0x011cf788`, which need an owner.
   - 31 calls whose argument is not a global.
   - A standing check that only the listed members refer to the old name
     (30 members after VEGAS-115, `main.cpp` no longer among them; 27 since
-    VEGAS-117's three units moved; 25 since the next four).
+    VEGAS-117's three units moved; 25 since the next four; 24 since
+    `bstempeffectsimpledecal.cpp`'s call moved).
 - The float accessor `FUN_00403e20`: repaired by VEGAS-116; its own
   remainder is listed under "The float accessor".
 - VEGAS-118: 21 direct reads 4 bytes into a setting, in 8 members, since
@@ -749,9 +751,10 @@ of FalloutNV.exe's inputs loads 24 members of the game archive, not it.
 `main.cpp` is done: 13 of its 13 calls take the shared `Setting`
 (VEGAS-122). Each other part stays open.
 
-- The 3 units that define a `::Setting` of their own: 238 calls, since
-  VEGAS-122 moved the 46 calls of six units and then the 61 of six more
-  (345 in 15 before; see "Units with a `Setting` of their own").
+- The 2 units that define a `::Setting` of their own: 137 calls, since
+  VEGAS-122 moved the 46 calls of six units, then the 61 of six more and
+  then the 101 of `highprocess.cpp` (345 in 15 before; see "Units with a
+  `Setting` of their own").
 - The 16 units' declarations of generated classes with the key `struct`:
   68 calls, 62 names.
 - 36 calls on 1-byte objects, six of them writes.
@@ -763,7 +766,8 @@ of FalloutNV.exe's inputs loads 24 members of the game archive, not it.
   whose recipe keys and pragmas give each the other's address.
 - A standing check that only the listed members refer to the old name (50
   members at d586c94f0 with this change; 49 since `main.cpp`'s calls
-  moved; 44 since VEGAS-122's units moved; 40 since the next ones).
+  moved; 44 since VEGAS-122's units moved; 40 since the next ones; 39
+  since `highprocess.cpp`'s).
 
 ## Units with a `Setting` of their own (VEGAS-117, VEGAS-122)
 
@@ -784,12 +788,13 @@ whatever their argument. What each copy declared:
 | `struct Setting` with a member function | `actor.cpp` (`Bool()`), `highprocess.cpp` (`Get()`), `bstempeffectsimpledecal.cpp` (`Bool()`), `tesreputation.cpp` (`FUN_00403df0()`), `tesscriptfunctions.cpp` (`FUN_005e0190(const char *)`, which the unit defines: the recipe's function row at `0x005e0190` is a member of `Setting`) |
 | `include/fnv/decl/Setting.h`, a `struct Setting` with `FUN_005e0190(const char *)` | `renderer.cpp`, the one unit that included it |
 
-Each unit calls the members of its copy at least once. 15 copies are gone:
-the 13 empty ones and the two with `FUN_005e0190`, which moved to the
-shared class (see "The member at `0x005e0190`"). `actor.cpp`,
-`highprocess.cpp`, `bstempeffectsimpledecal.cpp` and `tesreputation.cpp`
-stay on their copy: the shared `Setting` has none of their members, and
-whether it takes them is a naming decision.
+Each unit calls the members of its copy at least once. 17 copies are gone:
+the 13 empty ones, the two with `FUN_005e0190`, which moved to the shared
+class (see "The member at `0x005e0190`"), and those of `highprocess.cpp`
+and `bstempeffectsimpledecal.cpp`, whose calls moved to the row of
+`0x00408d60` (see "The members `Get()` and `Bool()`"). `actor.cpp` and
+`tesreputation.cpp` stay on their copy: the shared `Setting` has none of
+their members, and whether it takes them is a naming decision.
 
 ### The change
 
@@ -967,23 +972,24 @@ units is loaded by the lazy link of FalloutNV.exe's inputs.
 
 ### Not moved
 
-- The four units with members (above): 34 int and 238 float calls. For
-  `highprocess.cpp` and `bstempeffectsimpledecal.cpp` see "The members
-  `Get()` and `Bool()`" below.
+- The two units with members, `actor.cpp` and `tesreputation.cpp`: 7 int
+  and 137 float calls (34 and 238 in four units until `highprocess.cpp`
+  and `bstempeffectsimpledecal.cpp` moved; see "The members `Get()` and
+  `Bool()`" below).
 - The kept calls above, under their own kinds.
 
 ### The members `Get()` and `Bool()`
 
-Measured on the windows-x64 cross build of ea1964476. Nothing was run.
+Measured on the windows-x64 cross build of 7f0d46818 and of the three
+code commits after it, built from one source path. Nothing was run. The
+calls were classified on e43d866e6.
 
-`highprocess.cpp` and `bstempeffectsimpledecal.cpp` keep their own
-`::Setting` because each calls the copy's one member, once. The recipe keys
-of both members name `0x00408d60`, whose function row is
+`highprocess.cpp` and `bstempeffectsimpledecal.cpp` kept their own
+`::Setting` because each called the copy's one member, once. The recipe
+keys of both members name `0x00408d60`, whose function row is
 `SettingT<INISettingCollection>::Bool` in `processlists.cpp`
 (docs/shared-setting-t.md), and the 2026-11-11 rules do not let `Setting`
-declare them. A call can move only by retargeting its existing cast to the
-row's owner, where the receiver global is of that class and the types
-agree.
+declare them.
 
 | | `highprocess.cpp` | `bstempeffectsimpledecal.cpp` |
 | --- | --- | --- |
@@ -992,51 +998,122 @@ agree.
 | Recipe key at `0x00408d60` | `?Get@Setting@@QAEPBEXZ` | `?Bool@Setting@@QAEPAEXZ` |
 | Receiver | `g_011de4e8`, `bDebugSaveBuffer:Debug` | `g_011c5904`, `bDebugDecals:Decals` |
 
-Each object holds one call of the member, at the unit's flags, with
-`/Ob0` and with `/Od /Gy`, and no object defines either name. The caller
-compares the byte at the returned address with 0. Both receivers are
+Each object held one call of the member, at the unit's flags, with `/Ob0`
+and with `/Od /Gy`, and no object defined either name. The caller compares
+the byte at the returned address with 0. Both receivers are
 `GlobalObject_0045cf30`, defined in
-`src/generated/global_object_initializers.cpp`, under the names the units'
-objects refer to. That class derives from `SettingT<INISettingCollection>`
-at offset 0 and has no field of its own: 24 bytes with `uValue` at 8, and
-12 bytes with `uValue` at 4 in the i686 compile.
+`src/generated/global_object_initializers.cpp` under the names the units'
+objects refer to. Measured there, that class has
+`SettingT<INISettingCollection>` as its primary base at offset 0 and no
+field of its own: 24 bytes with `uValue` at 8, and 12 bytes with `uValue`
+at 4 in the i686 compile, the sizes of the base.
 
-Both calls are tabled. The result types differ, which is enough alone;
-whether the receiver also bars the move is not decided:
+The rulings of 2026-11-14 on VEGAS-117 admit such a receiver, a call that
+reads the one member of the shared union of the type the copy's member
+pointed to, the header change below and one commit per unit. Neither unit
+could see the template complete: `fnv/setting_t.h` included `Setting.h`,
+whose `layout_support.h` redefines `bstempeffectsimpledecal.cpp`'s own
+`NiPointer` and `MEM_CONTEXT`; `highprocess_decls.h` defined a
+`SETTING_VALUE` of its own (`float f; int i;`); and in both units the
+shared class redefines the copy.
 
-- The receiver's class is `GlobalObject_0045cf30`, a class derived from
-  `SettingT<INISettingCollection>`, not that class itself.
-- The result types differ: the row returns `SETTING_VALUE *`. The call's
-  `*` of the result does not compile on the union, so a respelling has to
-  read a member of it. That is a result conversion, which no admitted kind
-  covers (`tools/bind-batch` refuses it as `conversion:result`).
+#### The change
 
-Neither unit can see the template complete today, so the respelling and
-the removal of the copy could not be two steps:
+1. `fnv/setting_t.h` includes `fnv/setting_class.h` instead of
+   `Setting.h`. Eight units reach the header by the build's include
+   dependencies: `setting_h_unit.cpp`, `processlists.cpp`, `setting.cpp`
+   and five units of `src/generated`. Their objects are byte-identical at
+   the unit's flags, with `/Ob0` and with `/Od /Gy`, with the same
+   warnings, and every record layout the compiler dumps for them is the
+   same on windows-x64 and in the i686 compile. So is every other object
+   of the build.
+2. `bstempeffectsimpledecal.cpp` and then `highprocess.cpp`, one commit
+   each: the copy goes, the unit includes `fnv/setting_t.h` and declares
+   `class INISettingCollection;`, the existing cast names
+   `SettingT<INISettingCollection>` instead of `Setting`, and the call
+   reads `h`, the one `unsigned char` member of `SETTING_VALUE` (the
+   copy's `Get()` returned `const unsigned char*`; the call only reads the
+   byte):
+   `(*reinterpret_cast<::SettingT<::INISettingCollection> *>(&::g_011de4e8)).Bool()->h`.
+   `highprocess_decls.h` loses its `SETTING_VALUE`. The unit's 62 uses of
+   that union read `f` or `i` through a converted pointer, or convert the
+   pointer again; the shared union has both members with the same types,
+   and no record of the unit holds the union. The member's recipe key
+   becomes the row's name,
+   `?Bool@?$SettingT@VINISettingCollection@@@@QAEPATSETTING_VALUE@@XZ`.
 
-- `fnv/setting_t.h` includes `Setting.h`. In `bstempeffectsimpledecal.cpp`
-  its `layout_support.h` redefines the unit's own `NiPointer` and
-  `MEM_CONTEXT`.
-- `highprocess.cpp` defines a `SETTING_VALUE` of its own (`float f; int
-  i;`, in `highprocess_decls.h`), which `fnv/setting_value_union.h`
-  redefines. It also defines an empty specialisation
-  `SettingT<GameSettingCollection>`, which the trial kept and which did
-  not stop it.
-- In both units the shared class redefines the `::Setting` that the call
-  keeps.
+`highprocess_decls.h` also defined an empty explicit specialisation
+`SettingT<GameSettingCollection>`, a second class of the name that every
+other unit, `src/generated` among them, instantiates from the shared
+template as 24 bytes derived from `Setting`. It goes in the same commit:
+the object is the same at all three variants without it, and the unit's 88
+float calls on those objects convert to `Setting` as to a base.
 
-A trial compile, not committed, went further: `fnv/setting_t.h` included
-`fnv/setting_class.h` instead of `Setting.h`, `highprocess_decls.h` lost
-its `SETTING_VALUE`, each unit lost its copy and declared
-`INISettingCollection`, and each call read `->h` of the row's result. Both
-objects were then the same at the unit's flags, with `/Ob0` and with
-`/Od /Gy`, once the member's name is read as the row's. Reading `->b`
-instead changes both objects at the unit's flags and with `/Ob0`, where the
-byte is compared with 1, not 0. The trial is not a proof of a move.
+With its copy gone each unit names the shared `Setting`, and its accessor
+calls were classified by the rule above:
 
-So these calls move only under a ruling that admits a receiver of a class
-derived from the row's class at offset 0, the result conversion from
-`*` of the member's result to `->h` of the row's, the header change and
-the combined step. Then the units' accessor calls could follow:
-`highprocess.cpp`'s 26 int and 101 float calls, and
-`bstempeffectsimpledecal.cpp`'s one int call.
+| Unit | int calls moved | float calls moved | Kept on the old form |
+| --- | --- | --- | --- |
+| `bstempeffectsimpledecal.cpp` | 1 | | |
+| `highprocess.cpp` | 26 | 101 | 2 int |
+
+The moved calls pass `uMaxDecals:Decals` (`GlobalObject_004a4a40`), eight
+int settings of `GlobalObject2_0040c150`, and 52 float settings in 101
+calls: 11 calls on four `GlobalObject_0040e0b0` settings, 2 on one
+`GlobalObject_0044f440` setting and 88 on 47
+`SettingT<GameSettingCollection>` objects of
+`src/generated/setting_float_initializers.cpp`, each measured at 24 bytes
+with `uValue` at 8 in the unit that defines it, each of the kind its
+accessor reads: an int constructor for the int calls (keys `i...`, and
+`uMaxDecals`), a float constructor or an `f` key for the float calls. The
+two kept calls, in `RunDetection` (`0x008e40d0`), pass `DAT_011cf788`,
+which the unit's own generated data defines as an empty class (see
+"Tabled calls").
+
+Recipe: `bstempeffectsimpledecal.cpp`'s old int key is respelled;
+`highprocess.cpp`'s old float keys are respelled and the new int key is
+added beside each old one. Old int keys go from 50 (41 merged, 25 sources)
+to 49 (40 merged, 24 sources), new int keys from 200 (182) to 203 (185).
+Old float keys go from 96 (77 merged, 48 sources) to 90 (75 merged, 47
+sources), new float keys from 365 (317) to 371 (319).
+
+#### Object proof
+
+With the members' and accessors' old names read as the new ones,
+`bstempeffectsimpledecal.cpp`'s object is the same at the unit's flags,
+with `/Ob0` and with `/Od /Gy`. `highprocess.cpp`'s is the same except the
+expected kept sites in `RunDetection`, one at the unit's flags and with
+`/Ob0`, two with `/Od /Gy`. The kept call comes before the first moved
+int call, so the new int form's undefined symbol comes later in the symbol
+table (and with `/Od /Gy` in the address-significance table). With those
+entries in the base's order nothing else differs. 52 functions change
+their relocation targets only, each keeping one definition in its unit
+with the same selection, section and size. Each unit's record layouts on
+windows-x64 and in the i686 compile differ by its copies only: the copy of
+`Setting` (and `highprocess.cpp`'s `SETTING_VALUE` and empty
+`SettingT<GameSettingCollection>`) before, the shared `Setting`,
+`SettingT<INISettingCollection>` and `SETTING_VALUE` (and the template's
+`SettingT<GameSettingCollection>`) after.
+
+#### Checks
+
+`objects.setting_member_calls` (`setting-member-calls.tsv`) forbids the two
+members' names, which no object defines, and requires the row's in
+`DecalSetup::Initialize` and `HighProcessX::FUN_008fa630`. The batches
+`bstempeffectsimpledecal` and `highprocess` of `setting-value-accessor.tsv`
+and `highprocess` of `float-setting-accessor.tsv` list the functions whose
+accessor calls moved; `RunDetection` is not in the int batch. Each fails on
+the objects of the parent commit.
+
+#### Measured
+
+In the forced unlimited cell with `user32.lib` the undefined names go from
+34,997 to 34,995: `Setting::Bool` returning `unsigned char *` and
+`Setting::Get` leave, and none enters. The other cells' lists, the
+duplicates (0), the imports and the archive's members and their order are
+the same. The members that refer to the old int form go from 25 to 24, and
+those that refer to the old float form from 40 to 39; the row's name is
+referred to by 18 members instead of 16 and keeps its one definition. The
+names with differing definitions stay 519 in the archive and 521 in the
+link inputs, the same names. Neither unit is loaded by the lazy link of
+FalloutNV.exe's inputs.

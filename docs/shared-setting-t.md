@@ -19,7 +19,8 @@ and of the two code commits, built from one source path.
 ## What changed
 
 1. `SettingT` moves from `include/SettingT.h` to `include/fnv/setting_t.h`,
-   which needs only `Setting.h`. `SettingT.h` includes it. The template is
+   which needs only `Setting.h` (since VEGAS-117 only
+   `fnv/setting_class.h`). `SettingT.h` includes it. The template is
    unchanged.
 
    The move is needed because `SettingT.h` declares
@@ -126,6 +127,17 @@ The table counts calls through a cast to the template and direct calls on a
 global whose class has no `Bool` of its own. Five direct calls in
 `taskqueueinterface.cpp`, `pathbuilder.cpp` and `teswater.cpp` call
 `GlobalObject_0045cf30::Bool`, a name of another class, and are not counted.
+
+## Since VEGAS-117
+
+`fnv/setting_t.h` includes `fnv/setting_class.h` instead of `Setting.h`,
+so a unit that cannot include `layout_support.h` can use the template.
+The eight units that reach the header kept byte-identical objects.
+`highprocess.cpp` and `bstempeffectsimpledecal.cpp`, which reached the
+row through a `Setting` of their own, now include the header and call
+this `Bool` on their `GlobalObject_0045cf30` globals, so 18 members of
+the archive refer to its name. See docs/setting-value-offset.md, "The
+members `Get()` and `Bool()`".
 
 ## Open
 

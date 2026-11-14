@@ -1021,17 +1021,6 @@ int FUN_0047e040(float afKarma)
 }
 }  // namespace fnv_0047e040
 
-struct FUN_0047c850
-{
-    bool EvaluateCondition();
-};
-
-// @fnv 0x0047c850
-bool FUN_0047c850::EvaluateCondition()
-{
-    return false;
-}
-
 struct FUN_0047d7e0_Class
 {
     int m_iWordAt00;

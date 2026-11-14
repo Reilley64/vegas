@@ -222,6 +222,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/screencustomsplatter.cpp
   src/fallout_shared/screensplatter.cpp
   src/fallout_shared/script_commands.cpp
+  src/fallout_shared/setting_is_pref_setting.cpp
   src/fallout_shared/setting_value_accessor.cpp
   src/fallout_shared/settings/xgamesetting.cpp
   src/fallout_shared/settings/xgamesetting_copies_024.cpp

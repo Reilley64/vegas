@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2787,
+  "units": 2788,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -196478,11 +196478,6 @@
      "size": 24
     },
     {
-     "address": "0x0047c850",
-     "symbol": "?EvaluateCondition@FUN_0047c850@@QAE_NXZ",
-     "size": 13
-    },
-    {
      "address": "0x0047c860",
      "symbol": "?GetHealthRegeneration@TESActorBaseData@@UBEMXZ",
      "size": 17
@@ -196925,7 +196920,6 @@
     "$SG6592": "0x0101b148",
     "?CreateFormForType@TESDataHandler@@SAPAVTESForm@@E@Z": "0x00465110",
     "?FUN_0050f9c0@FUN_0050f9c0_shell@fnv_0050f9c0@@QAEXPAVTESForm@2@@Z": "0x0050f9c0",
-    "?EvaluateCondition@FUN_0047c850@@QAE_NXZ": "0x0047c850",
     "?GetDiffuseColor@TESRegion@@QAEPAUNiColor@@XZ": "0x005d8a70",
     "?GetDiffuseColor@TESRegion@fnv_0047d680@@QAEPAUNiColor@2@XZ": "0x005d8a70",
     "?GetMenuTitle@StartMenu@@QAEPBDXZ": "0x00403df0",
@@ -196965,6 +196959,29 @@
      "parent": "0x0047ce10"
     }
    ]
+  },
+  {
+   "source": "src/fallout_shared/setting_is_pref_setting.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x0047c850",
+     "symbol": "?EvaluateCondition@FUN_0047c850@@QAE_NXZ",
+     "size": 13
+    }
+   ],
+   "symbols": {
+    "?EvaluateCondition@FUN_0047c850@@QAE_NXZ": "0x0047c850",
+    "?IsPrefSetting@Setting@@UAE_NXZ": "0x0047c850"
+   }
   },
   {
    "source": "src/fallout_shared/tesaiform.cpp",

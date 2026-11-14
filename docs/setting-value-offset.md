@@ -919,5 +919,76 @@ units is loaded by the lazy link of FalloutNV.exe's inputs.
 
 ### Not moved
 
-- The four units with members (above): 34 int and 238 float calls.
+- The four units with members (above): 34 int and 238 float calls. For
+  `highprocess.cpp` and `bstempeffectsimpledecal.cpp` see "The members
+  `Get()` and `Bool()`" below.
 - The kept calls above, under their own kinds.
+
+### The members `Get()` and `Bool()`
+
+Measured on the windows-x64 cross build of ea1964476. Nothing was run.
+
+`highprocess.cpp` and `bstempeffectsimpledecal.cpp` keep their own
+`::Setting` because each calls the copy's one member, once. The recipe keys
+of both members name `0x00408d60`, whose function row is
+`SettingT<INISettingCollection>::Bool` in `processlists.cpp`
+(docs/shared-setting-t.md), and the 2026-11-11 rules do not let `Setting`
+declare them. A call can move only by retargeting its existing cast to the
+row's owner, where the receiver global is of that class and the types
+agree.
+
+| | `highprocess.cpp` | `bstempeffectsimpledecal.cpp` |
+| --- | --- | --- |
+| Call | line 20724, in `0x008fa630` | line 1691, in `0x0068be90` |
+| Member of the copy | `const unsigned char* Get()` | `unsigned char* Bool()` |
+| Recipe key at `0x00408d60` | `?Get@Setting@@QAEPBEXZ` | `?Bool@Setting@@QAEPAEXZ` |
+| Receiver | `g_011de4e8`, `bDebugSaveBuffer:Debug` | `g_011c5904`, `bDebugDecals:Decals` |
+
+Each object holds one call of the member, at the unit's flags, with
+`/Ob0` and with `/Od /Gy`, and no object defines either name. The caller
+compares the byte at the returned address with 0. Both receivers are
+`GlobalObject_0045cf30`, defined in
+`src/generated/global_object_initializers.cpp`, under the names the units'
+objects refer to. That class derives from `SettingT<INISettingCollection>`
+at offset 0 and has no field of its own: 24 bytes with `uValue` at 8, and
+12 bytes with `uValue` at 4 in the i686 compile.
+
+Both calls are tabled. The result types differ, which is enough alone;
+whether the receiver also bars the move is not decided:
+
+- The receiver's class is `GlobalObject_0045cf30`, a class derived from
+  `SettingT<INISettingCollection>`, not that class itself.
+- The result types differ: the row returns `SETTING_VALUE *`. The call's
+  `*` of the result does not compile on the union, so a respelling has to
+  read a member of it. That is a result conversion, which no admitted kind
+  covers (`tools/bind-batch` refuses it as `conversion:result`).
+
+Neither unit can see the template complete today, so the respelling and
+the removal of the copy could not be two steps:
+
+- `fnv/setting_t.h` includes `Setting.h`. In `bstempeffectsimpledecal.cpp`
+  its `layout_support.h` redefines the unit's own `NiPointer` and
+  `MEM_CONTEXT`.
+- `highprocess.cpp` defines a `SETTING_VALUE` of its own (`float f; int
+  i;`, in `highprocess_decls.h`), which `fnv/setting_value_union.h`
+  redefines. It also defines an empty specialisation
+  `SettingT<GameSettingCollection>`, which the trial kept and which did
+  not stop it.
+- In both units the shared class redefines the `::Setting` that the call
+  keeps.
+
+A trial compile, not committed, went further: `fnv/setting_t.h` included
+`fnv/setting_class.h` instead of `Setting.h`, `highprocess_decls.h` lost
+its `SETTING_VALUE`, each unit lost its copy and declared
+`INISettingCollection`, and each call read `->h` of the row's result. Both
+objects were then the same at the unit's flags, with `/Ob0` and with
+`/Od /Gy`, once the member's name is read as the row's. Reading `->b`
+instead changes both objects at the unit's flags and with `/Ob0`, where the
+byte is compared with 1, not 0. The trial is not a proof of a move.
+
+So these calls move only under a ruling that admits a receiver of a class
+derived from the row's class at offset 0, the result conversion from
+`*` of the member's result to `->h` of the row's, the header change and
+the combined step. Then the units' accessor calls could follow:
+`highprocess.cpp`'s 26 int and 101 float calls, and
+`bstempeffectsimpledecal.cpp`'s one int call.

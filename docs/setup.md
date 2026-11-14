@@ -5,10 +5,16 @@
 Setup prepares the data pack, `vegas-data.pack`, from a player's own copy of
 the original release and installs it in the install folder, beside
 `FalloutNV.exe`. The engine reads it there at startup
-(`data-pack-startup.md`). This page describes setup for catalogue version 2,
-which has two entries: C1, the single-instance strings, and the main window
-class (`data-pack-catalogue.md`). Setup does not replace `FalloutNV.exe`
-yet.
+(`data-pack-startup.md`). This page describes setup for catalogue version 3,
+which has three entries: C1, the single-instance strings, the log path
+suffixes and the main window class (`data-pack-catalogue.md`). Setup does
+not replace `FalloutNV.exe` yet.
+
+**A pack made by an earlier setup must be made again.** The engine accepts
+only packs of catalogue version 3. A `vegas-data.pack` that setup prepared
+for version 1 or 2 is refused at every start (status 2, "not a valid data
+pack" with "catalogue version: is not 3"). Run `vegas-setup` of this
+version on the install folder once more; it replaces the old pack.
 
 Setup follows the pack decision record, ADR 0001, and the rulings D-1 to D-5
 of VEGAS-52 and VEGAS-13 of 2026-11-12.
@@ -64,14 +70,15 @@ the date you made the pack, privately, beside the pack. The line is the
 builder's own statement about a binary they built, and it does not count
 ignored files. A downloaded binary's line is only as good as its source.
 
-**Maintenance.** The ranges in `src/setup/single_instance_ranges.h` and
+**Maintenance.** The ranges in `src/setup/single_instance_ranges.h`,
+`src/setup/log_path_suffix_ranges.h` and
 `src/setup/main_window_class_range.h` and the recipe check,
 `tools/setup-recipe-ranges`, belong to setup and change with it. Their
 authority is the recipe, `build/units.json`. A change that moves or renames
-a `str_` name of `src/fallout/misc/main.cpp`, binds a new address inside
-one of the four fields, or moves or renames the pointer to the class name,
-makes `setup.recipe_ranges` fail. That change also updates the header and
-this page.
+a `str_` or `UNK_` name of `src/fallout/misc/main.cpp` that a range names,
+binds a new address inside one of the eight fields, or moves or renames the
+pointer to the class name, makes `setup.recipe_ranges` fail. That change
+also updates the header and this page.
 
 ## Using setup
 
@@ -164,7 +171,8 @@ value on Windows is not verified.
       the `mbedtls_sha256` target;
    3. identifies the original with `fileformat::IdentifyOriginal`, against
       the source's supported set;
-   4. reads C1's four strings and the class name (see "Checks");
+   4. reads C1's four strings, the four log path suffixes and the class
+      name (see "Checks");
    5. writes the pack with `fileformat::WritePackStructure`, using the
       identified original's version and SHA-256;
    6. checks the written bytes with `fileformat::ValidatePack`, the
@@ -233,6 +241,30 @@ the other three addresses, so nothing more is known of them.
 Setup copies each string through its first zero byte and fills the rest of
 its field with zeros. It never copies a byte past that zero byte.
 
+### The log path suffixes
+
+Setup reads the four log path suffixes after C1's fields, in the same way:
+at ranges the recipe gives, written as data in
+`src/setup/log_path_suffix_ranges.h`. Their addresses are the ones that
+`FUN_0086a850` passes to its four log-path builders, statements S2 to S5;
+the recipe binds each for `src/fallout/misc/main.cpp` under a one-byte
+`UNK_` name, and each capacity is the recipe bound.
+
+| Field | Recipe name | Address | Capacity |
+| --- | --- | --- | --- |
+| first log path suffix | `UNK_01082a38` | `0x01082a38` | 16 |
+| second log path suffix | `UNK_01082a28` | `0x01082a28` | 16 |
+| third log path suffix | `UNK_01082a10` | `0x01082a10` | 24 |
+| fourth log path suffix | `UNK_01082a00` | `0x01082a00` | 16 |
+
+Each field is refused for the problems `NoSection` to `NoTerminator` of the
+table above, in that order, as a C1 field is. The recipe names no literal at
+these addresses, so there is no known-string check. `setup.recipe_ranges`
+checks these rows as it checks C1's (checks h to k of
+`tools/setup-recipe-ranges`): four rows, each a `UNK_` or `str_` name that
+spells its address and that the merged entries of `main.cpp` bind there and
+nowhere else, its capacity the recipe bound.
+
 ### The class name
 
 The original does not store the class name at an address the recipe
@@ -244,7 +276,7 @@ capacity is the length limit that Windows documents for a window class
 name, not a recipe bound.
 
 The pack holds the string, never the pointer. Setup reads the class name
-after C1's four fields. It checks the pointer and then the string, and
+after C1's four fields and the four log path suffixes. It checks the pointer and then the string, and
 refuses with the first `setup::ExtractError` below that applies:
 
 | Problem | When |
@@ -314,7 +346,11 @@ which the recipe literal fixes.
 
 - `setup.prepare_pack` covers the round trip, each refusal of "Checks" in
   order, copying through the zero byte, an unsupported executable and a
-  64-bit one. For the class name it covers a pointer with no relocation
+  64-bit one. For the log path suffixes it covers a section of their own
+  that is `.bind`, code, executable or uninitialized data, the first
+  suffix's last bytes in the zero tail, each suffix without a zero byte and
+  with its zero byte last, empty suffixes, and the order C1, suffixes,
+  class name. For the class name it covers a pointer with no relocation
   table, with five data directories or fewer, with a relocation of another
   address, page or type, a byte before or after it or overlapping it, and in
   a third block; a malformed table, among them a block 2 bytes past the
@@ -329,7 +365,7 @@ which the recipe literal fixes.
   the synthetic executable's own identity. It checks the written bytes with
   `CheckPackOriginalAgainst`. Then it writes the same entry with the
   supported release's identity, which is compared, not proved, and requires
-  `ValidatePack` to accept it with the same strings. That form exists only
+  `ValidatePack` to accept the three entries with the same strings. That form exists only
   in the test. No file under `src/` takes a set, and the production
   `PrepareDataPack` refuses the synthetic executable.
 - `setup.install_pack` covers installation, replacement of an existing pack,
@@ -342,6 +378,10 @@ which the recipe literal fixes.
   build folder, in which one more unit binds an address 2 bytes after the
   pointer. It requires status 1 and one problem, from check g. A configure
   without Python 3 does not register it.
+- `setup.recipe_ranges.suffix_bound` runs it on a copy of the recipe in
+  which one more unit binds an address 8 bytes into the third log path
+  suffix. It requires status 1 and one problem, from check j. Without
+  Python 3 it is registered and fails with that reason.
 - `setup.build_commit_line` runs `vegas-setup` with no argument. It requires
   status 1, the commit line and then the usage line, and shows the commit
   line. It checks the line's format, not a particular commit. A cross build
@@ -444,6 +484,9 @@ and not full-game acceptance.
   project's `FalloutNV.exe` in a desktop session.
 - No run on a real input has taken the branches of `main` that show a
   message box or that find a window of the class.
+- Setup has not run on an actual input at catalogue version 3: whether the
+  four log path suffixes lie in the stored bytes of a data section, with
+  their zero bytes within their recipe bounds, is not known from a run.
 - No real input has triggered the refusal statuses 6 to 11 of `RunSetup`.
   The private runs of setup ended only with status 0.
 - No test reaches statuses 0 and 6 to 11 of `RunSetup`, because they need a

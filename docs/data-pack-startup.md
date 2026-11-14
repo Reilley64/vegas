@@ -3,13 +3,14 @@
 ## Scope
 
 This is increment 2 of `data-pack-catalogue.md`, complete, with catalogue
-version 2 of increment 4: `main` reads the data pack, validates it,
+version 3 of increment 5: `main` reads the data pack, validates it,
 publishes C1, the four strings of the single-instance and remote-session
-checks, and the main window class to their native owners, and runs their
-consumers, the composed first statements of `0x0086a850` and its
-second-window check. It follows ADR 0001, the decisions D1 to D10 of that
-page and the rulings of 2026-11-13 on catalogue version 2. Under D3 the
-pack stage entered `main` only together with C1's consumer.
+checks, the four log path suffixes and the main window class to their
+native owners, and runs their consumers, the composed first statements of
+`0x0086a850`, its statements S2 to S5, the log paths, and its second-window
+check. It follows ADR 0001, the decisions D1 to D10 of that page and the
+rulings of 2026-11-13 on catalogue version 2. Under D3 the pack stage
+entered `main` only together with C1's consumer.
 
 ## What main does
 
@@ -29,14 +30,19 @@ pack stage entered `main` only together with C1's consumer.
    error, with `GetSystemMetrics(SM_REMOTESESSION)` as the remote-session
    query and `MessageBoxA` with no owner window as the message box. After
    either message box it returns 0, as `WinMain` does.
-6. On the class name the stage returns, the second-window check of
+6. On the log path suffixes the stage returns, `WinMain`'s statements S2
+   to S5: the four log-path builders `FUN_00c3bb90`,
+   `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and
+   `fnv_00c3bc80::FUN_00c3bc80`, each passed its suffix's field, in
+   `WinMain`'s order ("The log paths"). Of the eight statements that
+   `WinMain` runs between the checks of step 5 and the next one, these four
+   are composed and S1, S6, S7 and S8 are skipped ("Skipped statements").
+7. On the class name the stage returns, the second-window check of
    `WinMain`: `fnv::startup::CheckSecondWindow` with `FindWindowA` and no
    window name as the search and `SetForegroundWindow` as the foreground
    call. When a window of the class exists, it returns 0 after bringing it
-   to the foreground, as `WinMain` does. The eight statements that
-   `WinMain` runs between the two checks are skipped ("Skipped
-   statements").
-7. Otherwise it returns 0, because nothing of `WinMain` after the
+   to the foreground, as `WinMain` does.
+8. Otherwise it returns 0, because nothing of `WinMain` after the
    second-window check is composed in `main`.
 
 No failure of the pack stage shows a message box. The pack is read only in
@@ -55,12 +61,14 @@ ends the process abnormally with no line from the stage. No test covers it.
 `fnv::startup::LoadDataPack` in `include/fnv/data_pack_startup.h` takes the
 executable's folder only. It reads `vegas-data.pack` there with
 `fileformat::OpenAndValidatePack`, publishes C1 with
-`fnv::startup::PublishSingleInstanceStrings` and the main window class with
+`fnv::startup::PublishSingleInstanceStrings`, the log path suffixes with
+`fnv::startup::PublishLogPathSuffixes` and the main window class with
 `fnv::startup::PublishMainWindowClass`. On success it returns
 `PublishedPackValues`, the published values read back through
-`PublishedSingleInstanceStrings` and `PublishedMainWindowClass`. Their
+`PublishedSingleInstanceStrings`, `PublishedLogPathSuffixes` and
+`PublishedMainWindowClass`. Their
 consumers get them only from that result, so they cannot read them before
-they are published. Validation succeeds for the whole pack before either
+they are published. Validation succeeds for the whole pack before any
 value is published. A missing, unreadable or invalid pack is normal
 validation, not a fault: the stage publishes nothing and returns one line
 that names the failure and ends with the validator's message:
@@ -73,8 +81,8 @@ that names the failure and ends with the validator's message:
 | `UnsupportedOriginalError` | `vegas-data.pack beside the executable was not prepared from a supported original release:` |
 
 There is no interface that can only fail: a complete pack that records the
-supported original succeeds. A pack of catalogue version 1, which has no
-main window class, is refused for its catalogue version, so setup must
+supported original succeeds. A pack of catalogue version 1 or 2, which has
+no log path suffixes, is refused for its catalogue version, so setup must
 prepare the pack again.
 
 ## C1's owner
@@ -96,6 +104,16 @@ stage's result; the check stays as a backstop.
 `include/fnv/main_window_class.h`, are the native owner of the main window
 class, the `WNDC` entry. Its storage is one `fileformat::MainWindowClass`,
 the declaration whose 256-byte field fixes the entry's size (D6). The one
+writer takes a `ValidatedPack`, and a read before any publication
+terminates the process, as for C1.
+
+## The log path suffixes' owner
+
+`fnv::startup::PublishLogPathSuffixes` and
+`fnv::startup::PublishedLogPathSuffixes`, in
+`include/fnv/log_path_suffixes.h`, are the native owner of the log path
+suffixes, the `LOGS` entry. Its storage is one `fileformat::LogPathSuffixes`,
+the declaration whose four capacities fix the entry's size (D6). The one
 writer takes a `ValidatedPack`, and a read before any publication
 terminates the process, as for C1.
 
@@ -151,7 +169,7 @@ own literal; this stage does not touch them.
 ## The second-window check
 
 `WinMain`, as `FUN_0086a850` transcribes it, runs after the checks above
-and the eight statements that `main` skips:
+and the eight statements S1 to S8, of which `main` composes S2 to S5:
 
 1. `FindWindowA(class name, 0)`.
 2. If it returns a window: `SetForegroundWindow` on it, then return 0.
@@ -177,20 +195,59 @@ unchanged.
 The second-window check now exists twice too, in `FUN_0086a850` and in
 `main`, and no program runs both, for the reason given for C1's checks.
 
+## The log paths
+
+`WinMain`, as `FUN_0086a850` transcribes it, runs S1, the crash-log
+configuration, after the remote-session check, and then S2 to S5:
+
+1. `FUN_00c3bb90(&UNK_01082a38)`
+2. `fnv_00c3bbe0::FUN_00c3bbe0(&UNK_01082a28)`
+3. `FUN_00c3bc30(&UNK_01082a10)`
+4. `fnv_00c3bc80::FUN_00c3bc80(&UNK_01082a00)`
+
+`main` makes the same four calls in that order, each on the field of
+`PublishedLogPathSuffixes` that holds the string at that address (VEGAS-127):
+`firstSuffix`, `secondSuffix`, `thirdSuffix` and `fourthSuffix`. Each
+builder, in `src/fallout/misc/log_paths.cpp`, copies the user folder buffer
+`DAT_01202fa0` into its own buffer of 260 characters with `strcpy_s` and
+appends its suffix with `strcat_s`: `DAT_01202c50`, `DAT_01202b48`,
+`DAT_01202a40` and `DAT_01202938`, in that order. S2 and S4 call the C
+runtime's functions, S3 and S5 those of `fnv::crt` (`src/runtime/crt.cpp`),
+as their bodies have them. The builders call nothing else: no file is
+opened, written or deleted. The C runtime's functions would end the process
+through its invalid parameter handler when a string does not fit; none can
+here. The user folder is still empty when `main` calls them, as it is in `WinMain`
+at this point: S7, which fills it, runs after S2 to S5, and nothing before it
+writes the buffer. So each buffer holds its suffix alone, and a suffix takes
+at most 24 bytes with its zero byte. `FUN_0086a850` makes S1 and the four
+calls a second time after the second-window check, once the user folder is
+set; `main` does not compose that second run, so the paths with the user
+folder are not built yet.
+
+S2 to S5 read nothing that S1 writes: S1 sets the crash-log options and the
+message handler, and the builders read only the user folder and their
+argument. Nothing in the process reads the four buffers yet.
+
+`FUN_0086a850` itself still passes the addresses of the legacy one-byte
+definitions `UNK_01082a38`, `UNK_01082a28`, `UNK_01082a10` and
+`UNK_01082a00` of `fallout/misc/main.inc`; it links into no program. Moving
+it to the owner, as it reads C1's strings and the class name, is left for
+later.
+
 ## Skipped statements
 
 Under ruling A of 2026-11-13, `main` composes the statements of
 `0x0086a850` in their order among those it composes, and may skip a
 statement whose closure cannot link yet. Between the remote-session check
-and the second-window check, `FUN_0086a850` runs eight statements, and
-`main` skips all of them. The order is the transcription's: the original's
-code section is encrypted in the stored file, so it was not compared with
-instructions.
+and the second-window check, `FUN_0086a850` runs eight statements. `main`
+composes S2 to S5 ("The log paths") and skips the other four. The order is
+the transcription's: the original's code section is encrypted in the stored
+file, so it was not compared with instructions.
 
 | | Statement | Prerequisite |
 | --- | --- | --- |
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
-| S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | a later catalogue entry for their four suffix strings; the members that hold the builders and their buffers (see the user folder buffer below) |
+| S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | composed since VEGAS-127, not skipped |
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor and `Setting::IsPrefSetting`, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address, and `IsPrefSetting` has no row); a native `DAT_01202800`, which the accessor returns for a null setting and which generated data defines too; the closure of `magicitem.cpp`, which defines the accessor |
 | S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings |
 | S8 | a processor count of 1 set to 2 | as S6 |
@@ -233,14 +290,14 @@ of the trace, the composed statements' own section closure is 805 sections
 in 41 objects and needs one unresolved name, `SHGetFolderPathA`. So M1
 needs either the 1,294 names, or new small owners for the functions and
 data that the statements reach plus the link libraries their imports need.
+VEGAS-127 took the second route for S2 to S5, which `main` now composes:
+the link loads 28 game members and leaves no name unresolved ("Build").
 
 When a window of the class exists, `WinMain` returns 0 at the second-window
 check after these side effects of the skipped statements, which a process
 that `main` starts does not have:
 
 - S1 allocates a `MessageHandler` and sets the crash-log options.
-- S2 to S5 write four log paths, the user folder with a suffix each, into
-  their buffers.
 - S6 and S8 write the processor count into its setting.
 - S7 reads the INI path's settings with `GetPrivateProfileIntA`, creates the
   "My Games" folders, and writes a folder into each of the buffers that
@@ -266,7 +323,9 @@ pointer's value, null, to `strcpy_s` as the source, and the others read or
 wrote up to 260 bytes at the 8-byte object.
 
 Since VEGAS-109 it is one array of 260 characters, declared in
-`include/fnv/symbols_01202000.h` and defined in `blk_004c0000_od.cpp`, and
+`include/fnv/symbols_01202000.h` and defined, with `FUN_004dc110`, in
+`src/fallout/misc/user_folder.cpp` since VEGAS-127 (before, in
+`blk_004c0000_od.cpp`), and
 every user reads it as that array without a cast, as each reader's
 declaration gave it before `3f0599801` (the definer excepted). `FUN_004dc110`
 returns it as `char *`, the type its callers declared then, so its recipe
@@ -289,8 +348,9 @@ composition (`native-data-ownership.md`). Both are repaired:
   of 260 bytes would have run over the first 244 bytes of S4's buffer. This
   is read from the object, not from a linked image. It is now one
   array of 260 characters, declared in `include/fnv/symbols_01202000.h` and
-  defined by `blk_00c20000_od.cpp` beside `FUN_00c3bbd0`, which holds the
-  definition at 260 bytes with a `static_assert`. The composition retires
+  defined beside `FUN_00c3bbd0`, which holds the definition at 260 bytes
+  with a `static_assert`: by `blk_00c20000_od.cpp`, and since VEGAS-127 by
+  `src/fallout/misc/log_paths.cpp`. The composition retires
   the generated line. The name keeps C linkage, so its recipe key
   `_DAT_01202b48` is unchanged. S3 writes the array without a cast.
   `FUN_00c3bbd0` returns it as `char *`, the type its caller
@@ -338,13 +398,22 @@ the two names are respelled.
 A scratch composition of S2 to S5 into `main`, not committed, was linked
 as `FalloutNV` links, on `11d59dc97` with and without this repair. Both
 links loaded 2,011 members of the game archive and left the same 34,719
-names undefined, because a lazy link loads whole members: the builders are
+names undefined, because a lazy link loads whole members: the builders were
 in `blk_00c20000_od.cpp`, the user folder in `blk_004c0000_od.cpp` and
-`DAT_01202c50` in `tesfile.cpp`. At function granularity the composition
-needs those three members and `crt.cpp`, and three names of the common
-controls library that the `.data` section of `blk_004c0000_od.cpp` refers
-to: `ImageList_Destroy`, `ImageList_LoadImageA` and
-`InitCommonControlsEx`.
+`DAT_01202c50` in `tesfile.cpp`.
+
+VEGAS-127 moved them into two small units: `DAT_01202fa0` and
+`FUN_004dc110` into `src/fallout/misc/user_folder.cpp`, and the four
+builders, `FUN_00c3bb80`, `FUN_00c3bbd0`, `FUN_00c3bc20` and the four
+buffers into `src/fallout/misc/log_paths.cpp`, their names, types and
+bodies unchanged and each moved section the same in bytes and relocations.
+The recipe's function rows moved with the bodies to entries for the new
+sources. Generated data defined `DAT_01202938`, `DAT_01202a40` and
+`DAT_01202c50`; the native data composition retires those lines
+(`native-data-ownership.md`), and `log_paths.cpp` defines the three arrays.
+`FalloutNV` now composes S2 to S5 ("The log paths") and loads four game
+members more than before: `user_folder`, `log_paths`, `crt` and the
+suffixes' owner.
 
 ## Unattended runs and message boxes
 
@@ -387,7 +456,10 @@ publication to abort.
 
 `runtime.main_window_class` does the same for the main window class's
 owner, and `runtime.main_window_class.unpublished_read` expects a read
-before any publication to abort.
+before any publication to abort. `runtime.log_path_suffixes` and
+`runtime.log_path_suffixes.unpublished_read`
+(`tests/checks/runtime_log_path_suffixes.cmake`) do the same for the log
+path suffixes' owner.
 
 `runtime.single_instance_check` runs the decision on every branch with the
 box and the query recorded: a new mutex in a local and in a remote session,
@@ -413,9 +485,12 @@ returns the owners' published values. It refuses a missing pack, a missing
 folder, a pack only in a folder below, a folder in place of the file, an
 empty file, a corrupt and a truncated pack, a pack that records another
 digest, a pack without C1's entry, a field without a zero byte, a pack
-without the main window class and a class name without a zero byte. It
-also refuses a pack of catalogue version 1 as setup prepared it before
-version 2, packs of the catalogue versions next to the source's, a pack
+without the main window class, a class name without a zero byte, a pack
+without the log path suffixes and a suffix without a zero byte. It also
+refuses a pack of catalogue version 1 as setup prepared it before version
+2, and one of catalogue version 2 as setup prepared it before version 3,
+each for its catalogue version, packs of the catalogue versions next to the
+source's, a pack
 whose C1 entry has version 2, and packs made for another build: envelope
 version 2, native data contract 0 and build target 2, each with its CRC-32
 stored again so that only the field is wrong. Each refusal returns one line
@@ -424,18 +499,20 @@ field the validator refused. `main` returns 2 for every refusal of the
 stage. Each refused pack holds other values than the published ones, and
 the published values stay unchanged, so no value of a refused pack is used.
 Last it accepts a second complete pack and publishes its values.
-`runtime.data_pack_startup.refused_publishes_nothing` and
-`runtime.data_pack_startup.refused_publishes_no_window_class` expect a read
-of either owner after a refused stage, with nothing published before, to
-abort.
+`runtime.data_pack_startup.refused_publishes_nothing`,
+`runtime.data_pack_startup.refused_publishes_no_window_class` and
+`runtime.data_pack_startup.refused_publishes_no_log_path_suffixes` expect a
+read of any of the three owners after a refused stage, with nothing
+published before, to abort.
 
 On Windows, `falloutnv.process_exit` copies the built `FalloutNV.exe` alone
 into a folder of the test's own, writes a complete synthetic pack beside it
 with `falloutnv_pack_fixture`, runs the copy from another working directory
 and requires exit code 0. The fixture uses the production writer and records
 the supported release's identity, so the pack claims that identity: it is
-compared, not proved. Its strings are made up, and its mutex name and class
-name are one name new to the run. No original executable is in the folder,
+compared, not proved. Its strings, the log path suffixes among them, are
+made up, and its mutex name and class name are one name new to the run. No
+original executable is in the folder,
 so the run can read values only from the pack. Exit code 0 does not tell a
 refusal from `Continue`; the fixture's checks before the run show that both
 decisions are `Continue`.
@@ -443,7 +520,12 @@ When that check reports a remote session, the test is skipped and `main`
 does not run.
 `falloutnv.process_exit.missing_pack` writes the pack only in the working
 directory and requires exit code 2 and the missing pack reported on the
-standard error stream. Neither test shows the engine link, startup or boot.
+standard error stream. Since VEGAS-127 both tests also require that the
+test's folder holds only the copy and the pack after the run, so a
+statement of `main` that wrote a file beside the executable or in the
+working directory would fail them; files elsewhere are not looked for.
+Neither test shows the engine link, startup or boot, and neither reads the
+four log path buffers: nothing reports them.
 
 The tests of the decision, the stage and the owner link the game archive on
 Windows. On other hosts they compile the units themselves; that form runs
@@ -467,6 +549,19 @@ Catalogue version 2 appends `main_window_class.cpp` and then
 the archive has 2,237 members. The `FalloutNV` link loads both, 24 game
 members in all, and imports `FindWindowA` and `SetForegroundWindow` from
 `USER32.dll` as well.
+
+Catalogue version 3 appends `log_path_suffixes.cpp` to the `game` archive
+after `second_window_check.cpp`, so the suffixes' owner is now the first
+member listed. With the two units of VEGAS-127's moves,
+`src/fallout/misc/user_folder.cpp` and `src/fallout/misc/log_paths.cpp`,
+listed in `src/fallout/sources.cmake`, the archive has 2,240 members. The
+`FalloutNV` link loads 28 game members: the 24 before, `log_path_suffixes`,
+`log_paths`, `user_folder` and `crt`. Its imports are unchanged: the C
+runtime is linked statically, and `strcpy_s` and `strcat_s` come from it.
+`link.function_level` accepts it with no name unresolved, and a strict link
+of the same inputs, without `/FORCE:UNRESOLVED` and `/OPT:REF`, succeeds
+with no undefined name and writes the same executable apart from the
+header timestamp and checksum (cross build, measured at VEGAS-127's head).
 
 The standard link cells of the integration checks have no `user32.lib` on
 their command line, so their lazy cells show `GetSystemMetrics`,
@@ -506,7 +601,11 @@ VEGAS-52.
   not known, and a later runner may report a remote session.
 - No run has found a window of the class, so the `AlreadyOpen` branch of
   `main` has run only as the decision's test, with the calls recorded.
-- The repaired users of the user folder buffer, of `DAT_01202b48`, of
+- S2 to S5 have not run: no Windows executable was run here, and the
+  owner's private run of catalogue version 3 has not been made. Only the
+  two `falloutnv` tests in CI will run them, on made-up suffixes, and they
+  do not read the buffers.
+- The other repaired users of the user folder buffer, of `DAT_01202b48`, of
   `DAT_01202e98` and of `DAT_01202c50` have not run: `FalloutNV` does not
   load their members and no test calls them. Their checks read the objects
   only.

@@ -6,8 +6,9 @@ This page is a design, not a description of code. Its three next increments
 are implemented: catalogue version 1 and `ValidatePack`,
 which `data-pack-validation.md` describes, the pack stage in `main`
 with C1's consumer, which `data-pack-startup.md` describes, and setup,
-which `setup.md` describes. Catalogue version 2, under "Catalogue version
-2", is implemented as well. It answers what the
+which `setup.md` describes. Catalogue versions 2 and 3, under "Catalogue
+version 2" and "Catalogue version 3", are implemented as well. It answers
+what the
 catalogue that ADR 0001 requires must hold before the engine may start
 with a data pack, and how setup fills each entry from the original
 release. It records no value of the original release. The
@@ -333,6 +334,10 @@ values in their tests are synthetic.
    from the owner. "Catalogue version 2" below states the content;
    `data-pack-startup.md`, `data-pack-validation.md` and `setup.md`
    describe the code.
+5. **Catalogue version 3 (VEGAS-127), implemented.** The `LOGS` entry and
+   its owner, setup's four suffixes read by recipe ranges, and `WinMain`'s
+   statements S2 to S5 composed in `main`. "Catalogue version 3" below
+   states the content.
 
 ## Catalogue version 2
 
@@ -360,6 +365,49 @@ single-instance and remote-session checks (`data-pack-startup.md`). It
 skips the eight statements between them under ruling A. A pack of
 catalogue version 1 is refused for its catalogue version.
 
+## Catalogue version 3
+
+Version 3 is implemented (VEGAS-127). It holds three entries, in key order:
+
+| Key | Owner group | Version | Fields | Size |
+| --- | --- | --- | --- | --- |
+| `INST` | C1, the single-instance and remote-session strings | 1 | 20, 60, 8 and 52 bytes | 140 bytes |
+| `LOGS` | the log path suffixes | 1 | 16, 16, 24 and 16 bytes | 72 bytes |
+| `WNDC` | the main window class | 1 | the class name, 256 bytes | 256 bytes |
+
+`INST` and `WNDC` are unchanged. `LOGS` holds the four strings that
+`WinMain`'s log-path builders, its statements S2 to S5, each append to the
+user folder, one field per string in the order `WinMain` passes them:
+`firstSuffix`, `secondSuffix`, `thirdSuffix` and `fourthSuffix` of
+`fileformat::LogPathSuffixes`, whose sizes fix the entry's (D6). Each field
+holds its string, then a zero byte, then zeros to its end, as C1's fields do
+(D8), and validation requires the entry's exact size and a zero byte inside
+each field.
+
+The original stores the four strings at `0x01082a38`, `0x01082a28`,
+`0x01082a10` and `0x01082a00`, the addresses `FUN_0086a850` passes to the
+four builders. The recipe binds each under a one-byte `UNK_` name for
+`src/fallout/misc/main.cpp`, and binds `0x01082a48`, C1's second message
+text, next. Each capacity is the recipe bound, the distance to the next
+address the recipe binds, as for C1: 16, 16, 24 and 16 bytes. It is the
+most the original can hold there without reaching the next bound object;
+the consumer's own limit, a buffer of 260 characters that also holds the
+user folder, is looser. The one-byte legacy definitions give no extent.
+The recipe names no literal at these addresses, so no text is known and
+setup has no known-string check for them. The key, `LOGS`, encodes no
+address (D4).
+
+The change to the required entries raised the catalogue version from 2 to
+3 (D5, the ADR 0001 amendment of 2026-11-13). A pack of catalogue version 2
+is refused for its catalogue version, before its entries are read, so setup
+must prepare the pack again.
+
+The consumer is `WinMain`'s S2 to S5, which `main` composes after the
+single-instance and remote-session checks and before the second-window
+check (`data-pack-startup.md`). Of the eight statements between those
+checks, `main` skips S1, S6, S7 and S8 under ruling A. `FUN_0086a850`
+itself still passes the legacy definitions; it links into no program.
+
 ## Not verified
 
 - No original executable was read for this page's measurements. That the
@@ -376,6 +424,10 @@ catalogue version 1 is refused for its catalogue version.
   value computed at run time.
 - No Windows executable was run for this page's measurements.
 - The page was not measured again on the tip it was moved onto.
+- For version 3, no original executable was read: that the four suffix
+  ranges lie in the stored bytes of a data section, and that each string's
+  zero byte lies within its recipe bound, is checked by setup at run time
+  only, and setup has not yet run on an original at version 3.
 - For version 2, the owner's second private run of 2026-11-13 (`setup.md`) read
   an original executable. Setup ended with status 0, so its checks of the
   pointer at `0x011a2fe8` and of its string passed. A separate PE check

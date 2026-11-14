@@ -170,7 +170,7 @@ UndefinedBehaviorSanitizer.
 entries, keys of the lowest and highest ASCII bytes and a 16 MiB payload,
 reads each back with `ParsePackStructure` and expects what was written. It
 checks every stored CRC-32 with its own bit-by-bit CRC-32. It spells out a
-minimal pack of 113 bytes byte by byte, catalogue version 2 included: the
+minimal pack of 113 bytes byte by byte, catalogue version 3 included: the
 reader must accept it and the writer must reproduce it exactly, so a
 mistake shared by the two through `pack_container.h` still fails. It expects
 each refusal with its problem and the problem reported first when entries

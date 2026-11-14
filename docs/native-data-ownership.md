@@ -32,16 +32,15 @@ generated files is permitted.
 ownership delta. It retires duplicate scalar storage and incompatible,
 source-audited unused byte-layout tables/declarations. It retires sole,
 zero-initialized definitions that nothing refers to any more because a typed
-owner now defines that storage. It moves one sole legacy definition to its
-owner module. It does not replace required objects with stubs, rename
+owner now defines that storage. It moves sole legacy definitions, unchanged in name, type, size and value, to
+the module that now owns them. It does not replace required objects with stubs, rename
 incompatible receivers or clone values. The genuine owner
 modules and typed declarations remain the source of the native globals and
 protocols. The patch covers thirty-nine hashed inputs. Twelve are the
 retirements previously reviewed for VEGAS-1, unchanged, not additional engine
 work. Four are the three retirements and the one move below. Sixteen are the
 VEGAS-51 retirements below. Four are the VEGAS-102 label respellings below.
-Two are the VEGAS-112 retirements below. One is the VEGAS-127 retirement
-below.
+Two are the VEGAS-112 retirements below. One comes with the three VEGAS-127 moves below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -85,8 +84,8 @@ signature changes, and the 2026-11-12 coordinator ruling.
 
 VEGAS-112 adds `staging/blk_00c20000_od.inc`. It defined `DAT_01202b48`,
 the destination of a WinMain log-path builder that writes up to 260
-characters there, as one byte. `blk_00c20000_od.cpp`, the unit that includes
-it, now defines the buffer as an array of 260 characters
+characters there, as one byte. `blk_00c20000_od.cpp`, the unit that includes it, then defined the buffer
+(since VEGAS-127 `src/fallout/misc/log_paths.cpp` does) as an array of 260 characters
 (`docs/data-pack-startup.md`). The patch removes the one line of the old
 definition, which had no initializer, so no value is lost or cloned. Every
 other line of the input is unchanged. Its pin is the hash of the committed bytes,
@@ -105,8 +104,10 @@ VEGAS-127 moves WinMain's four log-path builders, the functions that return
 three of their buffers, and the buffers into a unit of their own,
 `src/fallout/misc/log_paths.cpp` (`docs/data-pack-startup.md`). That unit
 now defines `DAT_01202938`, `DAT_01202a40` and `DAT_01202c50`, each an
-array of 260 characters as before. The patch removes their generated
-definitions, which had no initializer, so no value is lost or cloned: the
+array of 260 characters as before. These are moves of VEGAS-57's kind: name, type, size and the zero initial
+value are unchanged, and every user still resolves each by its name. The
+patch removes their generated definitions, which had no initializer, so no
+value is lost or cloned: the
 lines of the first two from `staging/blk_00c20000_od.inc`, in the same hunk
 as `DAT_01202b48`'s, and the line of the third from
 `fallout_shared/tesfile.inc`, which becomes an input. Every other line of

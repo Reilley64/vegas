@@ -161,4 +161,8 @@ the only guard; it does not disassemble the executable.
 
 With today's `main` the link leaves no name unresolved, and FalloutNV.exe is
 the strict link's byte for byte apart from the header timestamp (cross
-build, measured on `1a4404c01`).
+build, measured on `1a4404c01`). Since VEGAS-127 `main` also composes
+`WinMain`'s statements S2 to S5, and the same holds: the check accepts the
+link with no name unresolved, and a strict link of the same inputs succeeds
+and writes the same bytes apart from the header timestamp and checksum
+(cross build, measured at VEGAS-127's head; `data-pack-startup.md`).

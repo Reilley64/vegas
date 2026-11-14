@@ -45,7 +45,7 @@ int FUN_004dc290();
 // 0x004dc2a0
 int FUN_004dc2a0();
 // 0x004dc2b0
-void FUN_004dc2b0();
+int FUN_004dc2b0();
 // 0x004dc2c0
 void *FUN_004dc2c0();
 // 0x004dc2d0

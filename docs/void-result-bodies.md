@@ -75,8 +75,8 @@ with the result.
 
 | `note` | Definitions |
 | --- | --- |
-| repaired: the body returns the value | 6 (24 names, 44 sites) |
-| every caller uses the dropped value's type | 54 (125 names, 237 sites) |
+| repaired: the body returns the value | 7 (26 names, 46 sites) |
+| every caller uses the dropped value's type | 53 (123 names, 235 sites) |
 | callers use another type than the dropped value's | 46 |
 | callers use 2 to 13 result types | 29 |
 | the body computes no value | 50 |

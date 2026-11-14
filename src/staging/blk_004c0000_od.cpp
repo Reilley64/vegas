@@ -944,9 +944,9 @@ struct GlobalObject_0045cfe0
 };
 
 // @fnv 0x004dc2b0
-void __cdecl FUN_004dc2b0()
+int __cdecl FUN_004dc2b0()
 {
-    reinterpret_cast<::TESObjectCELL *>(&(::g_011c7100.m_cell))->GetCellStandValue();
+    return reinterpret_cast<::TESObjectCELL *>(&(::g_011c7100.m_cell))->GetCellStandValue();
 }
 
 extern float DAT_011ad83c;

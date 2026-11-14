@@ -147,10 +147,11 @@ struct FakeCall {
 // @fnv 0x00a0e690
 int FUN_00a0e690(DebugText* aObj, int aiX, const RgbaColor& arColor, const char* apFormatString, ...)
 {
-    char* args;
+    va_list args;
     int iret;
-    args = (char*)(&apFormatString + 1);
+    va_start(args, apFormatString);
     iret = ((FakeCall*)aObj)->f4(aiX, 0, 1, apFormatString, args, arColor);
+    va_end(args);
     return iret;
 }
 

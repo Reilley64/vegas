@@ -2083,6 +2083,12 @@ bool FUN_006c5ce0_shell::FUN_006c5ce0(ObstacleTaskData* apTaskData)
 }
 }  // namespace fnv_006c5ce0
 
+namespace fnv_006c45e0 {
+struct FUN_006c45e0_shell : public NavMeshObstacleManager
+{
+    void ProcessAddedRefs();
+};
+}  // namespace fnv_006c45e0
 namespace fnv_006c39c0 {
 struct FUN_006c39c0_shell : public NavMeshObstacleManager
 {
@@ -2286,10 +2292,6 @@ class BaseFormComponent
 struct TESChildCell
 {
     virtual TESObjectCELL* GetSaveParentCell();
-};
-struct FUN_006c45e0_shell : public NavMeshObstacleManager
-{
-    void ProcessAddedRefs();
 };
 
 namespace FUN_005e04c0 {

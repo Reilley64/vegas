@@ -2015,11 +2015,12 @@ bool FUN_00703e80(const char* aText, const char* apcIconFilename, const char* ap
 {
     if (((::fnv_00703e80::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier*)((::fnv_00703e80::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
     {
-        char* xlist = (char*)&axFirst + 4;
+        va_list xlist;
+        va_start(xlist, axFirst);
         bool bresult =
             ::MessageCreation::QueueMessage(aText, apcIconFilename, apcTitle, (const char *)(0), afpResult, aiFirstButtonResult, aiWarningContext, axFirst,
                          (const char ***)(char **)(&xlist), 1, -1, -1, 0.0f, afBackgroundTextureOpacityOverride, afMenuWidthOverride);
-        xlist = 0;
+        va_end(xlist);
         return bresult;
     }
     return false;

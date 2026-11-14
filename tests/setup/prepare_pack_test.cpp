@@ -312,9 +312,11 @@ std::vector<std::byte> ClassPayload(std::string_view className)
 }
 
 // The pack written from a synthetic executable records its identity and
-// holds C1 and the main window class as setup writes them. The same
-// entries, written again with the supported release's identity (compared,
-// not proved), pass the complete validator with the same strings.
+// holds C1 and the main window class as setup writes them. Setup does not yet
+// read the log path suffixes, so the same entries, written again with the
+// supported release's identity (compared, not proved), are refused by the
+// complete validator for the missing LOGS entry; with a made-up LOGS entry
+// between them, they pass with the same strings.
 void PreparesAPack(Checks& check)
 {
     const std::vector<std::byte> file = Build(Typical());
@@ -342,8 +344,20 @@ void PreparesAPack(Checks& check)
 
     const std::array<fileformat::PackWriteEntry, 2> entries{
         {{{'I', 'N', 'S', 'T'}, 1, payload}, {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
+    Refuses<fileformat::PackCatalogueError>(
+        check, "C1 and the class: complete validator",
+        [&] {
+            fileformat::ValidatePack(
+                fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+        },
+        fileformat::PackCatalogueProblem::MissingEntry, "entry LOGS");
+    std::vector<std::byte> madeUpSuffixes(72);
+    madeUpSuffixes[0] = std::byte{'s'};
+    const std::array<fileformat::PackWriteEntry, 3> withSuffixes{{{{'I', 'N', 'S', 'T'}, 1, payload},
+                                                                  {{'L', 'O', 'G', 'S'}, 1, madeUpSuffixes},
+                                                                  {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     const fileformat::ValidatedPack validated = fileformat::ValidatePack(
-        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), withSuffixes));
     const fileformat::SingleInstanceStrings& strings = validated.SingleInstance();
     check.Equal("validated: mutex name", true, Holds(strings.mutexName, someTexts[0]));
     check.Equal("validated: first message text", true, Holds(strings.firstMessageText, someTexts[1]));

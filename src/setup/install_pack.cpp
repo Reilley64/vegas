@@ -24,6 +24,10 @@ bool SameValues(const fileformat::ValidatedPack& a, const fileformat::ValidatedP
     return a.Original().version == b.Original().version && a.Original().sha256 == b.Original().sha256 &&
            x.mutexName == y.mutexName && x.firstMessageText == y.firstMessageText &&
            x.messageCaption == y.messageCaption && x.secondMessageText == y.secondMessageText &&
+           a.PathSuffixes().firstSuffix == b.PathSuffixes().firstSuffix &&
+           a.PathSuffixes().secondSuffix == b.PathSuffixes().secondSuffix &&
+           a.PathSuffixes().thirdSuffix == b.PathSuffixes().thirdSuffix &&
+           a.PathSuffixes().fourthSuffix == b.PathSuffixes().fourthSuffix &&
            a.WindowClass().className == b.WindowClass().className;
 }
 

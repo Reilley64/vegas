@@ -585,6 +585,7 @@ else()
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/data_pack_startup.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/single_instance_strings.cpp
     ${PROJECT_SOURCE_DIR}/src/fallout/misc/main_window_class.cpp
+    ${PROJECT_SOURCE_DIR}/src/fallout/misc/log_path_suffixes.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_open.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_validation.cpp
     ${PROJECT_SOURCE_DIR}/src/fileformat/pack_structure.cpp

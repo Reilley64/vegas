@@ -15,7 +15,7 @@ namespace fileformat
 // 2026-11-13, a pack's header field must equal it, and any change to the
 // required entries raises it by one. It is its own constant, not the
 // container's revision.
-inline constexpr std::uint32_t packCatalogueVersion = 2;
+inline constexpr std::uint32_t packCatalogueVersion = 3;
 
 // One entry of the catalogue: a pack holds it under `key`, with exactly
 // `version` and exactly `bytes` bytes.
@@ -48,6 +48,28 @@ inline constexpr PackCatalogueEntry singleInstanceEntry{
 };
 static_assert(singleInstanceEntry.bytes == 140);
 
+// The values of the log path suffixes: the four strings that WinMain's
+// log-path builders, its statements S2 to S5, each append to the user folder,
+// one field per string in the order WinMain passes them. Each capacity is the
+// distance from the string's address to the next address the recipe binds. A
+// field holds its string, then a zero byte, then zeros to its end.
+struct LogPathSuffixes
+{
+    std::array<char, 16> firstSuffix;  // S2, the suffix FUN_00c3bb90 appends
+    std::array<char, 16> secondSuffix; // S3, the suffix fnv_00c3bbe0::FUN_00c3bbe0 appends
+    std::array<char, 24> thirdSuffix;  // S4, the suffix FUN_00c3bc30 appends
+    std::array<char, 16> fourthSuffix; // S5, the suffix fnv_00c3bc80::FUN_00c3bc80 appends
+};
+
+// The log path suffixes' entry: its four fields in order, end to end.
+inline constexpr PackCatalogueEntry logPathSuffixesEntry{
+    {'L', 'O', 'G', 'S'},
+    1,
+    sizeof(LogPathSuffixes::firstSuffix) + sizeof(LogPathSuffixes::secondSuffix) +
+        sizeof(LogPathSuffixes::thirdSuffix) + sizeof(LogPathSuffixes::fourthSuffix),
+};
+static_assert(logPathSuffixesEntry.bytes == 72);
+
 // The value of the main window class: the class name that the second-window
 // check of WinMain reads, after the single-instance and remote-session
 // checks. The original reaches it through the pointer at 0x011a2fe8. Its
@@ -68,9 +90,10 @@ inline constexpr PackCatalogueEntry mainWindowClassEntry{
 };
 static_assert(mainWindowClassEntry.bytes == 256);
 
-// Every entry of catalogue version 2, in ascending key order. A pack holds
+// Every entry of catalogue version 3, in ascending key order. A pack holds
 // each of them and no other.
-inline constexpr std::array<PackCatalogueEntry, 2> packCatalogue{singleInstanceEntry, mainWindowClassEntry};
+inline constexpr std::array<PackCatalogueEntry, 3> packCatalogue{singleInstanceEntry, logPathSuffixesEntry,
+                                                                 mainWindowClassEntry};
 
 } // namespace fileformat
 

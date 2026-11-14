@@ -4,6 +4,7 @@
 #include "fileformat/original_identity.h"
 #include "fileformat/pack_open.h"
 #include "fileformat/pack_validation.h"
+#include "fnv/log_path_suffixes.h"
 #include "fnv/main_window_class.h"
 #include "fnv/single_instance_strings.h"
 
@@ -14,8 +15,10 @@ fnv::startup::DataPackLoad fnv::startup::LoadDataPack(const std::filesystem::pat
     {
         const fileformat::ValidatedPack pack = fileformat::OpenAndValidatePack(executableFolder / dataPackFileName);
         PublishSingleInstanceStrings(pack);
+        PublishLogPathSuffixes(pack);
         PublishMainWindowClass(pack);
-        return PublishedPackValues{std::cref(PublishedSingleInstanceStrings()), std::cref(PublishedMainWindowClass())};
+        return PublishedPackValues{std::cref(PublishedSingleInstanceStrings()), std::cref(PublishedLogPathSuffixes()),
+                                   std::cref(PublishedMainWindowClass())};
     }
     catch (const fileformat::PackOpenError& error)
     {

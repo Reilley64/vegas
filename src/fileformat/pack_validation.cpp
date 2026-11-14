@@ -96,6 +96,19 @@ SingleInstanceStrings DecodeSingleInstance(std::span<const std::byte> payload)
     return strings;
 }
 
+// The log path suffixes' four fields in order. The payload is
+// logPathSuffixesEntry.bytes long, and every field starts as zeros.
+LogPathSuffixes DecodeLogPathSuffixes(std::span<const std::byte> payload)
+{
+    ByteReader reader(payload, format);
+    LogPathSuffixes suffixes{};
+    DecodeString(reader, suffixes.firstSuffix, "entry LOGS: first suffix");
+    DecodeString(reader, suffixes.secondSuffix, "entry LOGS: second suffix");
+    DecodeString(reader, suffixes.thirdSuffix, "entry LOGS: third suffix");
+    DecodeString(reader, suffixes.fourthSuffix, "entry LOGS: fourth suffix");
+    return suffixes;
+}
+
 // The main window class's one field. The payload is
 // mainWindowClassEntry.bytes long, and the field starts as zeros.
 MainWindowClass DecodeMainWindowClass(std::span<const std::byte> payload)
@@ -127,7 +140,8 @@ ValidatedPack ValidatePack(std::vector<std::byte> file)
     const OriginalCheckedPack pack = CheckPackOriginal(std::move(file));
     CheckCatalogue(pack.Entries());
     const SingleInstanceStrings singleInstance = DecodeSingleInstance(Payload(pack, singleInstanceEntry));
-    return ValidatedPack(pack.Original(), singleInstance,
+    const LogPathSuffixes logPathSuffixes = DecodeLogPathSuffixes(Payload(pack, logPathSuffixesEntry));
+    return ValidatedPack(pack.Original(), singleInstance, logPathSuffixes,
                          DecodeMainWindowClass(Payload(pack, mainWindowClassEntry)));
 }
 

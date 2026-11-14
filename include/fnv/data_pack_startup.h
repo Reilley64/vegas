@@ -18,6 +18,7 @@ inline constexpr char dataPackFileName[] = "vegas-data.pack";
 struct PublishedPackValues
 {
     std::reference_wrapper<const fileformat::SingleInstanceStrings> singleInstance; // C1, entry INST
+    std::reference_wrapper<const fileformat::LogPathSuffixes> logPathSuffixes;      // entry LOGS
     std::reference_wrapper<const fileformat::MainWindowClass> mainWindowClass;      // entry WNDC
 };
 
@@ -27,9 +28,10 @@ using DataPackLoad = std::variant<PublishedPackValues, std::string>;
 
 // Reads dataPackFileName in `executableFolder`, validates it with
 // fileformat::OpenAndValidatePack and publishes each value to its native
-// owner: C1 to fnv::startup::PublishSingleInstanceStrings and the main window
-// class to fnv::startup::PublishMainWindowClass. Returns the published values,
-// so their consumers cannot read them before they are published.
+// owner: C1 to fnv::startup::PublishSingleInstanceStrings, the log path
+// suffixes to fnv::startup::PublishLogPathSuffixes and the main window class
+// to fnv::startup::PublishMainWindowClass. Returns the published values, so
+// their consumers cannot read them before they are published.
 //
 // A missing, unreadable or invalid pack is normal validation, not a fault:
 // the stage publishes nothing and returns one line, ending in a newline, that

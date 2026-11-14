@@ -27,6 +27,7 @@ namespace
 using fileformat::OriginalCheckedPack;
 using fileformat::OriginalIdentity;
 using fileformat::OriginalProblem;
+using fileformat::LogPathSuffixes;
 using fileformat::MainWindowClass;
 using fileformat::PackCatalogueEntry;
 using fileformat::PackCatalogueProblem;
@@ -35,11 +36,14 @@ using fileformat::PackWriteEntry;
 using fileformat::SingleInstanceStrings;
 using fileformat::ValidatedPack;
 
-// The test spells catalogue version 2 itself, so a change to the source's
+// The test spells catalogue version 3 itself, so a change to the source's
 // catalogue fails here instead of agreeing with itself.
 constexpr std::array<char, 4> singleInstanceKey{'I', 'N', 'S', 'T'};
 constexpr std::array<std::size_t, 4> fieldBytes{20, 60, 8, 52};
 constexpr std::size_t entryBytes = 140;
+constexpr std::array<char, 4> suffixesKey{'L', 'O', 'G', 'S'};
+constexpr std::array<std::size_t, 4> suffixBytes{16, 16, 24, 16};
+constexpr std::size_t suffixesBytes = 72;
 constexpr std::array<char, 4> windowClassKey{'W', 'N', 'D', 'C'};
 constexpr std::size_t classBytes = 256;
 
@@ -49,12 +53,20 @@ constexpr bool SameEntry(const PackCatalogueEntry& entry, std::array<char, 4> ke
     return entry.key == key && entry.version == version && entry.bytes == bytes;
 }
 
-static_assert(fileformat::packCatalogueVersion == 2);
-static_assert(fileformat::packCatalogue.size() == 2);
+static_assert(fileformat::packCatalogueVersion == 3);
+static_assert(fileformat::packCatalogue.size() == 3);
 static_assert(SameEntry(fileformat::packCatalogue[0], singleInstanceKey, 1, entryBytes));
-static_assert(SameEntry(fileformat::packCatalogue[1], windowClassKey, 1, classBytes));
+static_assert(SameEntry(fileformat::packCatalogue[1], suffixesKey, 1, suffixesBytes));
+static_assert(SameEntry(fileformat::packCatalogue[2], windowClassKey, 1, classBytes));
 static_assert(SameEntry(fileformat::singleInstanceEntry, singleInstanceKey, 1, entryBytes));
+static_assert(SameEntry(fileformat::logPathSuffixesEntry, suffixesKey, 1, suffixesBytes));
 static_assert(SameEntry(fileformat::mainWindowClassEntry, windowClassKey, 1, classBytes));
+
+// The log path suffixes' four fields at their recipe bounds.
+static_assert(sizeof(LogPathSuffixes::firstSuffix) == suffixBytes[0]);
+static_assert(sizeof(LogPathSuffixes::secondSuffix) == suffixBytes[1]);
+static_assert(sizeof(LogPathSuffixes::thirdSuffix) == suffixBytes[2]);
+static_assert(sizeof(LogPathSuffixes::fourthSuffix) == suffixBytes[3]);
 
 // The main window class's one field at the capacity of the ruling of
 // 2026-11-13.
@@ -77,6 +89,8 @@ static_assert(!std::is_constructible_v<ValidatedPack, const OriginalCheckedPack&
 static_assert(!std::is_constructible_v<ValidatedPack, const OriginalIdentity&, const SingleInstanceStrings&>);
 static_assert(!std::is_constructible_v<ValidatedPack, const OriginalIdentity&, const SingleInstanceStrings&,
                                        const MainWindowClass&>);
+static_assert(!std::is_constructible_v<ValidatedPack, const OriginalIdentity&, const SingleInstanceStrings&,
+                                       const LogPathSuffixes&, const MainWindowClass&>);
 static_assert(!std::is_copy_constructible_v<ValidatedPack>);
 static_assert(!std::is_copy_assignable_v<ValidatedPack>);
 static_assert(std::is_nothrow_move_constructible_v<ValidatedPack>);
@@ -102,6 +116,8 @@ concept OffersOriginal = requires(Pack&& pack) { std::forward<Pack>(pack).Origin
 template <typename Pack>
 concept OffersSingleInstance = requires(Pack&& pack) { std::forward<Pack>(pack).SingleInstance(); };
 template <typename Pack>
+concept OffersPathSuffixes = requires(Pack&& pack) { std::forward<Pack>(pack).PathSuffixes(); };
+template <typename Pack>
 concept OffersWindowClass = requires(Pack&& pack) { std::forward<Pack>(pack).WindowClass(); };
 template <typename Pack>
 concept OffersEntryBytes = requires(Pack&& pack) { std::forward<Pack>(pack).EntryBytes(0); };
@@ -115,6 +131,9 @@ static_assert(!OffersOriginal<ValidatedPack>);
 static_assert(!OffersOriginal<const ValidatedPack>);
 static_assert(!OffersSingleInstance<ValidatedPack>);
 static_assert(!OffersSingleInstance<const ValidatedPack>);
+static_assert(OffersPathSuffixes<const ValidatedPack&>);
+static_assert(!OffersPathSuffixes<ValidatedPack>);
+static_assert(!OffersPathSuffixes<const ValidatedPack>);
 static_assert(OffersWindowClass<const ValidatedPack&>);
 static_assert(!OffersWindowClass<ValidatedPack>);
 static_assert(!OffersWindowClass<const ValidatedPack>);
@@ -147,6 +166,42 @@ std::vector<std::byte> Payload(const Strings& strings)
         payload.resize(payload.size() + fieldBytes[i] - texts[i].size());
     }
     return payload;
+}
+
+// The fields of the log path suffixes as setup writes them: each string,
+// then zeros to the end of its field.
+struct Suffixes
+{
+    std::string_view firstSuffix;
+    std::string_view secondSuffix;
+    std::string_view thirdSuffix;
+    std::string_view fourthSuffix;
+};
+
+// Made-up suffixes: none is a string of the original release.
+constexpr Suffixes someSuffixes{"first.test", "second.test", "third test suffix", "fourth.test"};
+
+std::vector<std::byte> SuffixPayload(const Suffixes& suffixes)
+{
+    std::vector<std::byte> payload;
+    const std::array<std::string_view, 4> texts{suffixes.firstSuffix, suffixes.secondSuffix, suffixes.thirdSuffix,
+                                                suffixes.fourthSuffix};
+    for (std::size_t i = 0; i < texts.size(); ++i)
+    {
+        for (const char c : texts[i])
+            payload.push_back(static_cast<std::byte>(c));
+        payload.resize(payload.size() + suffixBytes[i] - texts[i].size());
+    }
+    return payload;
+}
+
+// The offset of field `index` in the log path suffixes' payload.
+std::size_t SuffixOffset(std::size_t index)
+{
+    std::size_t offset = 0;
+    for (std::size_t i = 0; i < index; ++i)
+        offset += suffixBytes[i];
+    return offset;
 }
 
 // A made-up class name: not a string of the original release.
@@ -187,12 +242,13 @@ std::vector<std::byte> Write(std::initializer_list<PackWriteEntry> entries,
     return fileformat::WritePackStructure(version, sha, std::span(entries.begin(), entries.size()));
 }
 
-// A complete pack of catalogue version 2 that records the supported
+// A complete pack of catalogue version 3 that records the supported
 // release's identity: it is compared, not proved.
 std::vector<std::byte> CompletePack(std::span<const std::byte> payload,
-                                    std::span<const std::byte> classPayload = ClassPayload(someClass))
+                                    std::span<const std::byte> classPayload = ClassPayload(someClass),
+                                    std::span<const std::byte> suffixPayload = SuffixPayload(someSuffixes))
 {
-    return Write({Entry("INST", 1, payload), Entry("WNDC", 1, classPayload)});
+    return Write({Entry("INST", 1, payload), Entry("LOGS", 1, suffixPayload), Entry("WNDC", 1, classPayload)});
 }
 
 // Where the container decision puts the header fields this test changes.
@@ -262,6 +318,21 @@ void CheckStrings(Checks& check, std::string_view name, const ValidatedPack& pac
                 Holds(strings.secondMessageText, expected.secondMessageText));
 }
 
+void CheckSuffixes(Checks& check, std::string_view name, const ValidatedPack& pack, const Suffixes& expected)
+{
+    const LogPathSuffixes& suffixes = pack.PathSuffixes();
+    check.Equal(std::format("{}: first suffix", name), expected.firstSuffix, Text(suffixes.firstSuffix));
+    check.Equal(std::format("{}: second suffix", name), expected.secondSuffix, Text(suffixes.secondSuffix));
+    check.Equal(std::format("{}: third suffix", name), expected.thirdSuffix, Text(suffixes.thirdSuffix));
+    check.Equal(std::format("{}: fourth suffix", name), expected.fourthSuffix, Text(suffixes.fourthSuffix));
+    check.Equal(std::format("{}: first suffix field", name), true, Holds(suffixes.firstSuffix, expected.firstSuffix));
+    check.Equal(std::format("{}: second suffix field", name), true,
+                Holds(suffixes.secondSuffix, expected.secondSuffix));
+    check.Equal(std::format("{}: third suffix field", name), true, Holds(suffixes.thirdSuffix, expected.thirdSuffix));
+    check.Equal(std::format("{}: fourth suffix field", name), true,
+                Holds(suffixes.fourthSuffix, expected.fourthSuffix));
+}
+
 void CheckClass(Checks& check, std::string_view name, const ValidatedPack& pack, std::string_view expected)
 {
     const MainWindowClass& windowClass = pack.WindowClass();
@@ -270,12 +341,13 @@ void CheckClass(Checks& check, std::string_view name, const ValidatedPack& pack,
 }
 
 void Accepts(Checks& check, std::string_view name, const std::vector<std::byte>& file, const Strings& expected,
-             std::string_view expectedClass = someClass)
+             std::string_view expectedClass = someClass, const Suffixes& expectedSuffixes = someSuffixes)
 {
     const ValidatedPack pack = fileformat::ValidatePack(file);
     check.Equal(std::format("{}: original version", name), true, pack.Original().version == supported_release::version);
     check.Equal(std::format("{}: original SHA-256", name), true, pack.Original().sha256 == supported_release::Sha256());
     CheckStrings(check, name, pack, expected);
+    CheckSuffixes(check, name, pack, expectedSuffixes);
     CheckClass(check, name, pack, expectedClass);
 }
 
@@ -320,12 +392,20 @@ void AcceptsACompletePack(Checks& check)
     const std::string longest3(fieldBytes[3] - 1, 's');
     const Strings longest{longest0, longest1, longest2, longest3};
     const std::string longestClass(classBytes - 1, 'w');
-    Accepts(check, "longest strings", CompletePack(Payload(longest), ClassPayload(longestClass)), longest,
-            longestClass);
+    const std::string longestSuffix0(suffixBytes[0] - 1, '0');
+    const std::string longestSuffix1(suffixBytes[1] - 1, '1');
+    const std::string longestSuffix2(suffixBytes[2] - 1, '2');
+    const std::string longestSuffix3(suffixBytes[3] - 1, '3');
+    const Suffixes longestSuffixes{longestSuffix0, longestSuffix1, longestSuffix2, longestSuffix3};
+    Accepts(check, "longest strings",
+            CompletePack(Payload(longest), ClassPayload(longestClass), SuffixPayload(longestSuffixes)), longest,
+            longestClass, longestSuffixes);
 
     // Each field only its zero byte and zeros.
     const Strings empty{"", "", "", ""};
-    Accepts(check, "empty strings", CompletePack(Payload(empty), ClassPayload("")), empty, "");
+    const Suffixes emptySuffixes{"", "", "", ""};
+    Accepts(check, "empty strings", CompletePack(Payload(empty), ClassPayload(""), SuffixPayload(emptySuffixes)),
+            empty, "", emptySuffixes);
 
     // Every byte value but zero is kept as it is. C1's fields hold 136
     // characters, so two packs carry the 255 values; the class name holds
@@ -340,6 +420,20 @@ void AcceptsACompletePack(Checks& check)
     const std::string_view rest = std::string_view(everyByte).substr(136);
     const Strings restBytes{rest.substr(0, 19), rest.substr(19, 59), rest.substr(78, 7), rest.substr(85)};
     Accepts(check, "byte values 137 to 255", CompletePack(Payload(restBytes)), restBytes);
+
+    // The suffixes' fields hold 68 characters, so four packs carry the 255
+    // values.
+    for (std::size_t first = 0; first < everyByte.size(); first += 68)
+    {
+        const std::string_view part = std::string_view(everyByte).substr(first, 68);
+        const auto piece = [&](std::size_t at, std::size_t count) {
+            return at < part.size() ? part.substr(at, count) : std::string_view();
+        };
+        const Suffixes bytes{piece(0, 15), piece(15, 15), piece(30, 23), piece(53, 15)};
+        Accepts(check, std::format("suffix byte values from {}", first + 1),
+                CompletePack(Payload(someStrings), ClassPayload(someClass), SuffixPayload(bytes)), someStrings,
+                someClass, bytes);
+    }
 }
 
 // The decoded field holds nothing after its first zero byte, whatever the
@@ -354,6 +448,15 @@ void KeepsNothingAfterTheZeroByte(Checks& check)
         payload[end - 2] = std::byte{0xFF};
         Accepts(check, std::format("bytes after the zero byte of field {}", field), CompletePack(payload), someStrings);
     }
+    for (std::size_t field = 0; field < suffixBytes.size(); ++field)
+    {
+        std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
+        const std::size_t end = SuffixOffset(field) + suffixBytes[field];
+        suffixPayload[end - 1] = std::byte{'x'};
+        suffixPayload[end - 2] = std::byte{0xFF};
+        Accepts(check, std::format("bytes after the zero byte of suffix {}", field),
+                CompletePack(Payload(someStrings), ClassPayload(someClass), suffixPayload), someStrings);
+    }
     std::vector<std::byte> classPayload = ClassPayload(someClass);
     classPayload[classBytes - 1] = std::byte{'x'};
     classPayload[classBytes - 2] = std::byte{0xFF};
@@ -365,6 +468,7 @@ void RefusesAMissingEntry(Checks& check)
 {
     const std::vector<std::byte> payload = Payload(someStrings);
     const std::vector<std::byte> classPayload = ClassPayload(someClass);
+    const std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
     for (const std::string_view key : {"AAAA", "INSS", "INSU", "inst", "\x7F\x7F\x7F\x7F"})
         RefusesForTheCatalogue(check, std::format("only {}", key), Write({Entry(key, 1, payload)}),
                                PackCatalogueProblem::MissingEntry, "entry INST");
@@ -372,49 +476,64 @@ void RefusesAMissingEntry(Checks& check)
                            PackCatalogueProblem::MissingEntry, "entry INST");
     RefusesForTheCatalogue(check, "only WNDC", Write({Entry("WNDC", 1, classPayload)}),
                            PackCatalogueProblem::MissingEntry, "entry INST");
+    RefusesForTheCatalogue(check, "only LOGS", Write({Entry("LOGS", 1, suffixPayload)}),
+                           PackCatalogueProblem::MissingEntry, "entry INST");
 
-    // C1 alone is the complete pack of catalogue version 1; version 2 also
-    // requires the main window class.
+    // C1 alone is the complete pack of catalogue version 1, and C1 and the
+    // main window class that of version 2; version 3 also requires the log
+    // path suffixes.
     RefusesForTheCatalogue(check, "only INST", Write({Entry("INST", 1, payload)}), PackCatalogueProblem::MissingEntry,
-                           "entry WNDC");
+                           "entry LOGS");
+    RefusesForTheCatalogue(check, "INST and WNDC", Write({Entry("INST", 1, payload), Entry("WNDC", 1, classPayload)}),
+                           PackCatalogueProblem::MissingEntry, "entry LOGS");
+    for (const std::string_view key : {"LOGR", "LOGT", "LOG\x7F"})
+        RefusesForTheCatalogue(check, std::format("INST, {} and WNDC", key),
+                               Write({Entry("INST", 1, payload), Entry(key, 1, suffixPayload),
+                                      Entry("WNDC", 1, classPayload)}),
+                               PackCatalogueProblem::MissingEntry, "entry LOGS");
+    RefusesForTheCatalogue(check, "INST, WNDC and logs",
+                           Write({Entry("INST", 1, payload), Entry("WNDC", 1, classPayload),
+                                  Entry("logs", 1, suffixPayload)}),
+                           PackCatalogueProblem::MissingEntry, "entry LOGS");
     for (const std::string_view key : {"WNDB", "WNDD", "wndc", "ZZZZ"})
-        RefusesForTheCatalogue(check, std::format("INST and {}", key),
-                               Write({Entry("INST", 1, payload), Entry(key, 1, classPayload)}),
+        RefusesForTheCatalogue(check, std::format("INST, LOGS and {}", key),
+                               Write({Entry("INST", 1, payload), Entry("LOGS", 1, suffixPayload),
+                                      Entry(key, 1, classPayload)}),
                                PackCatalogueProblem::MissingEntry, "entry WNDC");
 }
 
 void RefusesAnUnknownKey(Checks& check)
 {
     const std::vector<std::byte> payload = Payload(someStrings);
+    const std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
     const std::vector<std::byte> classPayload = ClassPayload(someClass);
     const std::vector<std::byte> one(1, std::byte{1});
-    RefusesForTheCatalogue(check, "a key before",
-                           Write({Entry("AAAA", 1, payload),
-                                  Entry("INST", 1, payload), Entry("WNDC", 1, classPayload)}),
+    const PackWriteEntry inst = Entry("INST", 1, payload);
+    const PackWriteEntry logs = Entry("LOGS", 1, suffixPayload);
+    const PackWriteEntry wndc = Entry("WNDC", 1, classPayload);
+    RefusesForTheCatalogue(check, "a key before", Write({Entry("AAAA", 1, payload), inst, logs, wndc}),
                            PackCatalogueProblem::UnknownKey);
-    RefusesForTheCatalogue(check, "a key between",
-                           Write({Entry("INST", 1, payload), Entry("MMMM", 1, one), Entry("WNDC", 1, classPayload)}),
+    RefusesForTheCatalogue(check, "a key between INST and LOGS", Write({inst, Entry("KKKK", 1, one), logs, wndc}),
                            PackCatalogueProblem::UnknownKey);
-    RefusesForTheCatalogue(check, "a key after",
-                           Write({Entry("INST", 1, payload), Entry("WNDC", 1, classPayload), Entry("ZZZZ", 1, one)}),
+    RefusesForTheCatalogue(check, "a key between LOGS and WNDC", Write({inst, logs, Entry("MMMM", 1, one), wndc}),
                            PackCatalogueProblem::UnknownKey);
-    RefusesForTheCatalogue(check, "a key one byte above INST",
-                           Write({Entry("INST", 1, payload),
-                                  Entry("INSU", 1, payload), Entry("WNDC", 1, classPayload)}),
+    RefusesForTheCatalogue(check, "a key after", Write({inst, logs, wndc, Entry("ZZZZ", 1, one)}),
                            PackCatalogueProblem::UnknownKey);
-    RefusesForTheCatalogue(check, "a key one byte above WNDC",
-                           Write({Entry("INST", 1, payload), Entry("WNDC", 1, classPayload), Entry("WNDD", 1, one)}),
+    RefusesForTheCatalogue(check, "a key one byte above INST", Write({inst, Entry("INSU", 1, payload), logs, wndc}),
+                           PackCatalogueProblem::UnknownKey);
+    RefusesForTheCatalogue(check, "a key one byte above LOGS",
+                           Write({inst, logs, Entry("LOGT", 1, suffixPayload), wndc}),
+                           PackCatalogueProblem::UnknownKey);
+    RefusesForTheCatalogue(check, "a key one byte above WNDC", Write({inst, logs, wndc, Entry("WNDD", 1, one)}),
                            PackCatalogueProblem::UnknownKey);
     RefusesForTheCatalogue(check, "a lowest key",
-                           Write({Entry(std::string_view("\0\0\0\0", 4), 1, one), Entry("INST", 1, payload),
-                                  Entry("WNDC", 1, classPayload)}),
+                           Write({Entry(std::string_view("\0\0\0\0", 4), 1, one), inst, logs, wndc}),
                            PackCatalogueProblem::UnknownKey);
 
     // A key that is not ASCII, which the writer refuses to write: the reader
     // leaves it to the catalogue.
-    std::vector<std::byte> file =
-        Write({Entry("INST", 1, payload), Entry("WNDC", 1, classPayload), Entry("ZZZZ", 1, one)});
-    file[at::directory + 2 * at::recordBytes] = std::byte{0x80};
+    std::vector<std::byte> file = Write({inst, logs, wndc, Entry("ZZZZ", 1, one)});
+    file[at::directory + 3 * at::recordBytes] = std::byte{0x80};
     Reseal(file);
     RefusesForTheCatalogue(check, "a key that is not ASCII", file, PackCatalogueProblem::UnknownKey);
 }
@@ -422,14 +541,21 @@ void RefusesAnUnknownKey(Checks& check)
 void RefusesAnotherEntryVersion(Checks& check)
 {
     const std::vector<std::byte> payload = Payload(someStrings);
+    const std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
     const std::vector<std::byte> classPayload = ClassPayload(someClass);
     for (const std::uint32_t version : {0u, 2u, 0x80000001u, 0xFFFFFFFFu})
     {
         RefusesForTheCatalogue(check, std::format("INST version {}", version),
-                               Write({Entry("INST", version, payload), Entry("WNDC", 1, classPayload)}),
+                               Write({Entry("INST", version, payload), Entry("LOGS", 1, suffixPayload),
+                                      Entry("WNDC", 1, classPayload)}),
                                PackCatalogueProblem::EntryVersion, "entry INST");
+        RefusesForTheCatalogue(check, std::format("LOGS version {}", version),
+                               Write({Entry("INST", 1, payload), Entry("LOGS", version, suffixPayload),
+                                      Entry("WNDC", 1, classPayload)}),
+                               PackCatalogueProblem::EntryVersion, "entry LOGS");
         RefusesForTheCatalogue(check, std::format("WNDC version {}", version),
-                               Write({Entry("INST", 1, payload), Entry("WNDC", version, classPayload)}),
+                               Write({Entry("INST", 1, payload), Entry("LOGS", 1, suffixPayload),
+                                      Entry("WNDC", version, classPayload)}),
                                PackCatalogueProblem::EntryVersion, "entry WNDC");
     }
 }
@@ -453,10 +579,22 @@ void RefusesAnotherSize(Checks& check)
         RefusesForTheCatalogue(check, std::format("WNDC size {}", size), CompletePack(payload, other),
                                PackCatalogueProblem::EntrySize, "entry WNDC");
     }
+    const std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
+    for (const std::size_t size : {std::size_t{1}, suffixesBytes - 1, suffixesBytes + 1, 2 * suffixesBytes})
+    {
+        std::vector<std::byte> other(suffixPayload.begin(),
+                                     suffixPayload.begin() +
+                                         static_cast<std::ptrdiff_t>(std::min(size, suffixesBytes)));
+        other.resize(size);
+        RefusesForTheCatalogue(check, std::format("LOGS size {}", size), CompletePack(payload, classPayload, other),
+                               PackCatalogueProblem::EntrySize, "entry LOGS");
+    }
 }
 
 constexpr std::array<std::string_view, 4> fieldNames{"mutex name", "first message text", "message caption",
                                                      "second message text"};
+constexpr std::array<std::string_view, 4> suffixNames{"entry LOGS: first suffix", "entry LOGS: second suffix",
+                                                      "entry LOGS: third suffix", "entry LOGS: fourth suffix"};
 
 // A field with no zero byte is refused, even when the next field is all
 // zeros: the zero byte must be inside the field.
@@ -475,6 +613,23 @@ void RefusesAFieldWithNoZeroByte(Checks& check)
             RefusesForTheCatalogue(check,
                                    std::format("field {}, no zero byte{}", field, emptyAfter ? ", zeros after" : ""),
                                    CompletePack(payload), PackCatalogueProblem::FieldTerminator, fieldNames[field]);
+        }
+    }
+    for (std::size_t field = 0; field < suffixBytes.size(); ++field)
+    {
+        for (const bool emptyAfter : {false, true})
+        {
+            std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
+            std::fill_n(suffixPayload.begin() + static_cast<std::ptrdiff_t>(SuffixOffset(field)), suffixBytes[field],
+                        std::byte{'x'});
+            if (emptyAfter)
+                std::fill(suffixPayload.begin() +
+                              static_cast<std::ptrdiff_t>(SuffixOffset(field) + suffixBytes[field]),
+                          suffixPayload.end(), std::byte{0});
+            RefusesForTheCatalogue(
+                check, std::format("suffix {}, no zero byte{}", field, emptyAfter ? ", zeros after" : ""),
+                CompletePack(Payload(someStrings), ClassPayload(someClass), suffixPayload),
+                PackCatalogueProblem::FieldTerminator, suffixNames[field]);
         }
     }
     const std::vector<std::byte> noZero(classBytes, std::byte{'x'});
@@ -508,14 +663,29 @@ void RefusesAVersionOnePack(Checks& check)
     Put(file, at::catalogueVersion, 1, 4);
     Reseal(file);
     Refuses<fileformat::PackStructureError>(check, "version 1 pack", file, PackStructureProblem::CatalogueVersion,
-                                            "catalogue version: is not 2");
+                                            "catalogue version: is not 3");
+}
+
+// A pack of catalogue version 2, C1 and the main window class with version 2
+// in its header, as setup prepared it before version 3: refused for its
+// catalogue version, before its entries are looked at.
+void RefusesAVersionTwoPack(Checks& check)
+{
+    std::vector<std::byte> file =
+        Write({Entry("INST", 1, Payload(someStrings)), Entry("WNDC", 1, ClassPayload(someClass))});
+    Put(file, at::catalogueVersion, 2, 4);
+    Reseal(file);
+    Refuses<fileformat::PackStructureError>(check, "version 2 pack", file, PackStructureProblem::CatalogueVersion,
+                                            "catalogue version: is not 3");
 }
 
 void RefusesAnotherOriginal(Checks& check)
 {
     const std::vector<std::byte> payload = Payload(someStrings);
+    const std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
     const std::vector<std::byte> classPayload = ClassPayload(someClass);
-    const std::initializer_list<PackWriteEntry> entries{Entry("INST", 1, payload), Entry("WNDC", 1, classPayload)};
+    const std::initializer_list<PackWriteEntry> entries{Entry("INST", 1, payload), Entry("LOGS", 1, suffixPayload),
+                                                        Entry("WNDC", 1, classPayload)};
     for (std::size_t part = 0; part < supported_release::version.size(); ++part)
     {
         std::array<std::uint16_t, 4> other = supported_release::version;
@@ -537,8 +707,10 @@ void RefusesAnotherOriginal(Checks& check)
 void ChecksInOrder(Checks& check)
 {
     const std::vector<std::byte> payload = Payload(someStrings);
+    const std::vector<std::byte> suffixPayload = SuffixPayload(someSuffixes);
     const std::vector<std::byte> classPayload = ClassPayload(someClass);
     const std::vector<std::byte> one(1, std::byte{1});
+    const PackWriteEntry logs = Entry("LOGS", 1, suffixPayload);
 
     // The container before the original, the original before the catalogue.
     std::vector<std::byte> damaged = Write({Entry("AAAA", 1, one)}, {1, 4, 0, 524});
@@ -548,34 +720,46 @@ void ChecksInOrder(Checks& check)
         check, "original before catalogue", Write({Entry("AAAA", 1, one)}, {1, 4, 0, 524}), OriginalProblem::Version);
 
     // The catalogue's entries in its order: a missing INST before a missing
-    // WNDC.
-    RefusesForTheCatalogue(check, "INST missing before WNDC", Write({Entry("AAAA", 1, one)}),
+    // LOGS, a missing LOGS before a missing WNDC.
+    RefusesForTheCatalogue(check, "INST missing before LOGS", Write({Entry("AAAA", 1, one)}),
                            PackCatalogueProblem::MissingEntry, "entry INST");
+    RefusesForTheCatalogue(check, "LOGS missing before WNDC", Write({Entry("INST", 1, payload)}),
+                           PackCatalogueProblem::MissingEntry, "entry LOGS");
 
     // A missing entry before an unknown key, an unknown key before a later
     // entry's version, each entry in turn.
     RefusesForTheCatalogue(check, "missing before unknown", Write({Entry("AAAA", 7, one)}),
                            PackCatalogueProblem::MissingEntry);
     RefusesForTheCatalogue(check, "missing WNDC before unknown",
-                           Write({Entry("AAAA", 7, one), Entry("INST", 1, payload)}),
+                           Write({Entry("AAAA", 7, one), Entry("INST", 1, payload), logs}),
                            PackCatalogueProblem::MissingEntry, "entry WNDC");
     RefusesForTheCatalogue(check, "unknown before a later version",
-                           Write({Entry("AAAA", 1, one), Entry("INST", 2, one), Entry("WNDC", 2, one)}),
+                           Write({Entry("AAAA", 1, one), Entry("INST", 2, one), Entry("LOGS", 2, one),
+                                  Entry("WNDC", 2, one)}),
                            PackCatalogueProblem::UnknownKey);
     RefusesForTheCatalogue(check, "version before a later unknown",
-                           Write({Entry("INST", 2, one), Entry("WNDC", 1, classPayload), Entry("ZZZZ", 1, one)}),
+                           Write({Entry("INST", 2, one), logs, Entry("WNDC", 1, classPayload), Entry("ZZZZ", 1, one)}),
                            PackCatalogueProblem::EntryVersion, "entry INST");
     RefusesForTheCatalogue(check, "size before a later unknown",
-                           Write({Entry("INST", 1, one), Entry("WNDC", 1, classPayload), Entry("ZZZZ", 1, one)}),
+                           Write({Entry("INST", 1, one), logs, Entry("WNDC", 1, classPayload), Entry("ZZZZ", 1, one)}),
                            PackCatalogueProblem::EntrySize, "entry INST");
-    RefusesForTheCatalogue(check, "INST size before WNDC version",
-                           Write({Entry("INST", 1, one), Entry("WNDC", 2, classPayload)}),
+    RefusesForTheCatalogue(check, "INST size before LOGS version",
+                           Write({Entry("INST", 1, one), Entry("LOGS", 2, suffixPayload),
+                                  Entry("WNDC", 1, classPayload)}),
                            PackCatalogueProblem::EntrySize, "entry INST");
+    RefusesForTheCatalogue(check, "LOGS size before WNDC version",
+                           Write({Entry("INST", 1, payload), Entry("LOGS", 1, one), Entry("WNDC", 2, classPayload)}),
+                           PackCatalogueProblem::EntrySize, "entry LOGS");
 
     // The version before the size, the size before the fields.
-    RefusesForTheCatalogue(check, "version before size", Write({Entry("INST", 2, one), Entry("WNDC", 1, classPayload)}),
+    RefusesForTheCatalogue(check, "version before size",
+                           Write({Entry("INST", 2, one), logs, Entry("WNDC", 1, classPayload)}),
                            PackCatalogueProblem::EntryVersion);
-    RefusesForTheCatalogue(check, "WNDC version before size", Write({Entry("INST", 1, payload), Entry("WNDC", 2, one)}),
+    RefusesForTheCatalogue(check, "LOGS version before size",
+                           Write({Entry("INST", 1, payload), Entry("LOGS", 2, one), Entry("WNDC", 1, classPayload)}),
+                           PackCatalogueProblem::EntryVersion, "entry LOGS");
+    RefusesForTheCatalogue(check, "WNDC version before size",
+                           Write({Entry("INST", 1, payload), logs, Entry("WNDC", 2, one)}),
                            PackCatalogueProblem::EntryVersion, "entry WNDC");
     const std::vector<std::byte> noZero(entryBytes - 1, std::byte{'x'});
     RefusesForTheCatalogue(check, "size before fields", CompletePack(noZero), PackCatalogueProblem::EntrySize);
@@ -583,18 +767,28 @@ void ChecksInOrder(Checks& check)
     const std::vector<std::byte> fieldsNoZero(entryBytes, std::byte{'x'});
     RefusesForTheCatalogue(check, "WNDC size before INST fields", CompletePack(fieldsNoZero, classNoZero),
                            PackCatalogueProblem::EntrySize, "entry WNDC");
+    const std::vector<std::byte> suffixesNoZero(suffixesBytes - 1, std::byte{'x'});
+    RefusesForTheCatalogue(check, "LOGS size before INST fields",
+                           CompletePack(fieldsNoZero, ClassPayload(someClass), suffixesNoZero),
+                           PackCatalogueProblem::EntrySize, "entry LOGS");
 
-    // The fields in order, INST's before WNDC's.
+    // The fields in order, INST's before LOGS's, LOGS's before WNDC's.
     std::vector<std::byte> twoFields = Payload(someStrings);
     std::fill_n(twoFields.begin() + static_cast<std::ptrdiff_t>(FieldOffset(1)), fieldBytes[1], std::byte{'x'});
     std::fill_n(twoFields.begin() + static_cast<std::ptrdiff_t>(FieldOffset(3)), fieldBytes[3], std::byte{'x'});
     RefusesForTheCatalogue(check, "earlier field first", CompletePack(twoFields), PackCatalogueProblem::FieldTerminator,
                            fieldNames[1]);
     const std::vector<std::byte> classAllX(classBytes, std::byte{'x'});
+    const std::vector<std::byte> suffixesAllX(suffixesBytes, std::byte{'x'});
     std::vector<std::byte> lastField = Payload(someStrings);
     std::fill_n(lastField.begin() + static_cast<std::ptrdiff_t>(FieldOffset(3)), fieldBytes[3], std::byte{'x'});
-    RefusesForTheCatalogue(check, "INST's fields before WNDC's", CompletePack(lastField, classAllX),
+    RefusesForTheCatalogue(check, "INST's fields before LOGS's", CompletePack(lastField, classAllX, suffixesAllX),
                            PackCatalogueProblem::FieldTerminator, fieldNames[3]);
+    std::vector<std::byte> twoSuffixes = SuffixPayload(someSuffixes);
+    std::fill_n(twoSuffixes.begin() + static_cast<std::ptrdiff_t>(SuffixOffset(1)), suffixBytes[1], std::byte{'x'});
+    std::fill_n(twoSuffixes.begin() + static_cast<std::ptrdiff_t>(SuffixOffset(3)), suffixBytes[3], std::byte{'x'});
+    RefusesForTheCatalogue(check, "earlier suffix first", CompletePack(Payload(someStrings), classAllX, twoSuffixes),
+                           PackCatalogueProblem::FieldTerminator, suffixNames[1]);
 }
 
 // A moved pack has the values; the pack it was moved from, by construction
@@ -604,14 +798,19 @@ void Moves(Checks& check)
     ValidatedPack first = fileformat::ValidatePack(CompletePack(Payload(someStrings)));
     ValidatedPack second = std::move(first);
     CheckStrings(check, "moved", second, someStrings);
+    CheckSuffixes(check, "moved", second, someSuffixes);
     CheckClass(check, "moved", second, someClass);
     CheckStrings(check, "moved-from", first, someStrings);
+    CheckSuffixes(check, "moved-from", first, someSuffixes);
     CheckClass(check, "moved-from", first, someClass);
 
     const Strings empty{"", "", "", ""};
-    ValidatedPack third = fileformat::ValidatePack(CompletePack(Payload(empty), ClassPayload("")));
+    const Suffixes emptySuffixes{"", "", "", ""};
+    ValidatedPack third =
+        fileformat::ValidatePack(CompletePack(Payload(empty), ClassPayload(""), SuffixPayload(emptySuffixes)));
     third = std::move(second);
     CheckStrings(check, "move-assigned", third, someStrings);
+    CheckSuffixes(check, "move-assigned", third, someSuffixes);
     CheckClass(check, "move-assigned", third, someClass);
     check.Equal("move-assigned original", true, third.Original().sha256 == supported_release::Sha256());
 }
@@ -630,6 +829,7 @@ int main()
     check.Run("field with no zero byte", [&] { RefusesAFieldWithNoZeroByte(check); });
     check.Run("catalogue version", [&] { RefusesAnotherCatalogueVersion(check); });
     check.Run("version 1 pack", [&] { RefusesAVersionOnePack(check); });
+    check.Run("version 2 pack", [&] { RefusesAVersionTwoPack(check); });
     check.Run("original", [&] { RefusesAnotherOriginal(check); });
     check.Run("order", [&] { ChecksInOrder(check); });
     check.Run("move", [&] { Moves(check); });

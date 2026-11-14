@@ -32,18 +32,21 @@ static_assert(!std::is_invocable_v<decltype(&fnv::startup::PublishMainWindowClas
 constexpr std::string_view firstClass = "test window class";
 constexpr std::string_view secondClass = "other window class";
 
-// A complete pack of catalogue version 2 holding `className` and made-up C1
-// strings. It records the supported release's identity: it is compared, not
+// A complete pack of catalogue version 3 holding `className`, made-up C1
+// strings and made-up log path suffixes. It records the supported release's identity: it is compared, not
 // proved.
 fileformat::ValidatedPack Validated(std::string_view className)
 {
     std::vector<std::byte> payload(140);
     payload[0] = std::byte{'m'};
+    std::vector<std::byte> suffixPayload(72);
+    suffixPayload[0] = std::byte{'s'};
     std::vector<std::byte> classPayload(256);
     for (std::size_t i = 0; i < className.size(); ++i)
         classPayload[i] = static_cast<std::byte>(className[i]);
-    const std::array<fileformat::PackWriteEntry, 2> entries{
-        {{{'I', 'N', 'S', 'T'}, 1, payload}, {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
+    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
+                                                             {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                             {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     return fileformat::ValidatePack(
         fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
 }

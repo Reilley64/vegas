@@ -44,8 +44,8 @@ struct Strings
 constexpr Strings firstStrings{"test mutex", "first test message", "Test", "second test message"};
 constexpr Strings secondStrings{"other mutex", "another first message", "Other", "another second message"};
 
-// A complete pack of catalogue version 2 holding `strings` and a made-up
-// class name. It records the supported release's identity: it is compared,
+// A complete pack of catalogue version 3 holding `strings`, made-up log path
+// suffixes and a made-up class name. It records the supported release's identity: it is compared,
 // not proved.
 fileformat::ValidatedPack Validated(const Strings& strings)
 {
@@ -59,10 +59,13 @@ fileformat::ValidatedPack Validated(const Strings& strings)
             payload.push_back(static_cast<std::byte>(c));
         payload.resize(payload.size() + fieldBytes[i] - texts[i].size());
     }
+    std::vector<std::byte> suffixPayload(72);
+    suffixPayload[0] = std::byte{'s'};
     std::vector<std::byte> classPayload(256);
     classPayload[0] = std::byte{'w'};
-    const std::array<fileformat::PackWriteEntry, 2> entries{
-        {{{'I', 'N', 'S', 'T'}, 1, payload}, {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
+    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
+                                                             {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                             {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     return fileformat::ValidatePack(
         fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
 }

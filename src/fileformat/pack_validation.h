@@ -155,6 +155,11 @@ class ValidatedPack
     const SingleInstanceStrings& SingleInstance() const& { return singleInstance; }
     const SingleInstanceStrings& SingleInstance() const&& = delete;
 
+    // The log path suffixes, each field its string, a zero byte and zeros to
+    // its end.
+    const LogPathSuffixes& PathSuffixes() const& { return logPathSuffixes; }
+    const LogPathSuffixes& PathSuffixes() const&& = delete;
+
     // The main window class's class name, a zero byte and zeros to the end
     // of its field.
     const MainWindowClass& WindowClass() const& { return windowClass; }
@@ -164,13 +169,15 @@ class ValidatedPack
     friend ValidatedPack ValidatePack(std::vector<std::byte> file);
 
     ValidatedPack(const OriginalIdentity& original, const SingleInstanceStrings& singleInstance,
-                  const MainWindowClass& windowClass)
-        : original(original), singleInstance(singleInstance), windowClass(windowClass)
+                  const LogPathSuffixes& logPathSuffixes, const MainWindowClass& windowClass)
+        : original(original), singleInstance(singleInstance), logPathSuffixes(logPathSuffixes),
+          windowClass(windowClass)
     {
     }
 
     OriginalIdentity original;
     SingleInstanceStrings singleInstance;
+    LogPathSuffixes logPathSuffixes;
     MainWindowClass windowClass;
 };
 

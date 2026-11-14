@@ -3,6 +3,7 @@
 #include "fileformat/pack_writer.h"
 #include "fileformat/supported_release.h"
 #include "fnv/data_pack_startup.h"
+#include "fnv/log_path_suffixes.h"
 #include "fnv/main_window_class.h"
 #include "fnv/single_instance_strings.h"
 
@@ -36,21 +37,28 @@ struct Strings
     std::string_view secondMessageText;
 };
 
-// The values of one pack: C1's strings and the main window class's name.
+// The values of one pack: C1's strings, the main window class's name and the
+// log path suffixes.
 struct Values
 {
     Strings strings;
     std::string_view className;
+    std::array<std::string_view, 4> suffixes;
 };
 
 // Made-up values: none is a string of the original release.
-constexpr Values firstValues{{"test mutex", "first test message", "Test", "second test message"}, "test window class"};
+constexpr Values firstValues{{"test mutex", "first test message", "Test", "second test message"},
+                             "test window class",
+                             {"first.test", "second.test", "third test suffix", "fourth.test"}};
 constexpr Values secondValues{{"other mutex", "another first message", "Other", "another second message"},
-                              "other window class"};
+                              "other window class",
+                              {"one.other", "two.other", "three other suffix", "four.other"}};
 
 constexpr std::array<std::size_t, 4> fieldBytes{20, 60, 8, 52};
+constexpr std::array<std::size_t, 4> suffixBytes{16, 16, 24, 16};
 constexpr std::size_t classBytes = 256;
 constexpr std::array<char, 4> singleInstanceKey{'I', 'N', 'S', 'T'};
+constexpr std::array<char, 4> suffixesKey{'L', 'O', 'G', 'S'};
 constexpr std::array<char, 4> windowClassKey{'W', 'N', 'D', 'C'};
 
 std::vector<std::byte> Payload(const Strings& strings)
@@ -63,6 +71,18 @@ std::vector<std::byte> Payload(const Strings& strings)
         for (const char c : texts[i])
             payload.push_back(static_cast<std::byte>(c));
         payload.resize(payload.size() + fieldBytes[i] - texts[i].size());
+    }
+    return payload;
+}
+
+std::vector<std::byte> SuffixPayload(const std::array<std::string_view, 4>& suffixes)
+{
+    std::vector<std::byte> payload;
+    for (std::size_t i = 0; i < suffixes.size(); ++i)
+    {
+        for (const char c : suffixes[i])
+            payload.push_back(static_cast<std::byte>(c));
+        payload.resize(payload.size() + suffixBytes[i] - suffixes[i].size());
     }
     return payload;
 }
@@ -84,16 +104,18 @@ std::vector<std::byte> Write(std::span<const fileformat::PackWriteEntry> entries
     return fileformat::WritePackStructure(supported_release::version, sha, entries);
 }
 
-// A pack of C1's payload under `key` with `version` and the main window class.
-// With the defaults it is a complete pack of catalogue version 2 that records
-// the supported release's identity: it is compared, not proved.
+// A pack of C1's payload under `key` with `version`, the log path suffixes and
+// the main window class. With the defaults it is a complete pack of catalogue
+// version 3 that records the supported release's identity: it is compared,
+// not proved.
 std::vector<std::byte> Pack(const Values& values, std::array<char, 4> key = singleInstanceKey,
                             std::array<std::byte, 32> sha = supported_release::Sha256(), std::uint32_t version = 1)
 {
     const std::vector<std::byte> payload = Payload(values.strings);
+    const std::vector<std::byte> suffixPayload = SuffixPayload(values.suffixes);
     const std::vector<std::byte> classPayload = ClassPayload(values.className);
-    const std::array<fileformat::PackWriteEntry, 2> entries{
-        {{key, version, payload}, {windowClassKey, 1, classPayload}}};
+    const std::array<fileformat::PackWriteEntry, 3> entries{
+        {{key, version, payload}, {suffixesKey, 1, suffixPayload}, {windowClassKey, 1, classPayload}}};
     return Write(entries, sha);
 }
 
@@ -194,6 +216,13 @@ void ExpectPublished(Checks& checks, std::string_view test, const Values& expect
                                       expected.strings.mutexName));
     if (!SameField(fnv::startup::PublishedMainWindowClass().className, expected.className))
         checks.Fail(test, std::format("the published class name is not \"{}\"", expected.className));
+    const fileformat::LogPathSuffixes& suffixes = fnv::startup::PublishedLogPathSuffixes();
+    if (!SameField(suffixes.firstSuffix, expected.suffixes[0]) ||
+        !SameField(suffixes.secondSuffix, expected.suffixes[1]) ||
+        !SameField(suffixes.thirdSuffix, expected.suffixes[2]) ||
+        !SameField(suffixes.fourthSuffix, expected.suffixes[3]))
+        checks.Fail(test, std::format("the published log path suffixes are not those of the pack with \"{}\"",
+                                      expected.suffixes[0]));
 }
 
 // Loads the pack of `folder` and expects success with the owner's published
@@ -207,6 +236,8 @@ void ExpectLoaded(Checks& checks, std::string_view test, const Folder& folder, c
         checks.Fail(test, "the stage did not return the owner's published strings");
     else if (&std::get_if<0>(&load)->mainWindowClass.get() != &fnv::startup::PublishedMainWindowClass())
         checks.Fail(test, "the stage did not return the owner's published main window class");
+    else if (&std::get_if<0>(&load)->logPathSuffixes.get() != &fnv::startup::PublishedLogPathSuffixes())
+        checks.Fail(test, "the stage did not return the owner's published log path suffixes");
     ExpectPublished(checks, test, expected);
 }
 
@@ -248,6 +279,15 @@ int main(int argc, char** argv)
             return 1;
         std::fprintf(stderr, "refused-then-read-window-class\n");
         fnv::startup::PublishedMainWindowClass();
+        return 0;
+    }
+    if (argc == 2 && std::strcmp(argv[1], "--refused-then-read-log-path-suffixes") == 0)
+    {
+        Folder empty;
+        if (!std::holds_alternative<std::string>(fnv::startup::LoadDataPack(empty.path)))
+            return 1;
+        std::fprintf(stderr, "refused-then-read-log-path-suffixes\n");
+        fnv::startup::PublishedLogPathSuffixes();
         return 0;
     }
 
@@ -324,20 +364,23 @@ int main(int argc, char** argv)
         std::vector<std::byte> bytes = Payload(secondValues.strings);
         for (std::size_t i = fieldBytes[0] + fieldBytes[1]; i < fieldBytes[0] + fieldBytes[1] + fieldBytes[2]; ++i)
             bytes[i] = std::byte{'x'};
+        const std::vector<std::byte> suffixPayload = SuffixPayload(secondValues.suffixes);
         const std::vector<std::byte> classPayload = ClassPayload(secondValues.className);
-        const std::array<fileformat::PackWriteEntry, 2> entries{
-            {{singleInstanceKey, 1, bytes}, {windowClassKey, 1, classPayload}}};
+        const std::array<fileformat::PackWriteEntry, 3> entries{
+            {{singleInstanceKey, 1, bytes}, {suffixesKey, 1, suffixPayload}, {windowClassKey, 1, classPayload}}};
         folder.WritePack(Write(entries));
         ExpectRefused(checks, "field without a zero byte", folder.path, "is not a valid data pack");
         ExpectPublished(checks, "field without a zero byte", firstValues);
     });
 
-    // A pack without the main window class, as catalogue version 1 was, and a
-    // class name without a zero byte.
+    // A pack without the main window class, and a class name without a zero
+    // byte.
     checks.Run("pack without the main window class", [&] {
         Folder folder;
         const std::vector<std::byte> payload = Payload(secondValues.strings);
-        const std::array<fileformat::PackWriteEntry, 1> entries{{{singleInstanceKey, 1, payload}}};
+        const std::vector<std::byte> suffixPayload = SuffixPayload(secondValues.suffixes);
+        const std::array<fileformat::PackWriteEntry, 2> entries{
+            {{singleInstanceKey, 1, payload}, {suffixesKey, 1, suffixPayload}}};
         folder.WritePack(Write(entries));
         ExpectRefused(checks, "pack without the main window class", folder.path,
                       "is not a valid data pack: data pack: entry WNDC: is not in the pack");
@@ -346,25 +389,66 @@ int main(int argc, char** argv)
     checks.Run("class name without a zero byte", [&] {
         Folder folder;
         const std::vector<std::byte> payload = Payload(secondValues.strings);
+        const std::vector<std::byte> suffixPayload = SuffixPayload(secondValues.suffixes);
         const std::vector<std::byte> classPayload(classBytes, std::byte{'x'});
-        const std::array<fileformat::PackWriteEntry, 2> entries{
-            {{singleInstanceKey, 1, payload}, {windowClassKey, 1, classPayload}}};
+        const std::array<fileformat::PackWriteEntry, 3> entries{
+            {{singleInstanceKey, 1, payload}, {suffixesKey, 1, suffixPayload}, {windowClassKey, 1, classPayload}}};
         folder.WritePack(Write(entries));
         ExpectRefused(checks, "class name without a zero byte", folder.path,
                       "is not a valid data pack: data pack: entry WNDC: class name: holds no zero byte");
         ExpectPublished(checks, "class name without a zero byte", firstValues);
     });
 
-    // A pack of catalogue version 1 as setup prepared it, C1 alone: refused
-    // for its catalogue version.
+    // A pack without the log path suffixes, as catalogue version 2 was, and a
+    // suffix without a zero byte.
+    checks.Run("pack without the log path suffixes", [&] {
+        Folder folder;
+        const std::vector<std::byte> payload = Payload(secondValues.strings);
+        const std::vector<std::byte> classPayload = ClassPayload(secondValues.className);
+        const std::array<fileformat::PackWriteEntry, 2> entries{
+            {{singleInstanceKey, 1, payload}, {windowClassKey, 1, classPayload}}};
+        folder.WritePack(Write(entries));
+        ExpectRefused(checks, "pack without the log path suffixes", folder.path,
+                      "is not a valid data pack: data pack: entry LOGS: is not in the pack");
+        ExpectPublished(checks, "pack without the log path suffixes", firstValues);
+    });
+    checks.Run("suffix without a zero byte", [&] {
+        Folder folder;
+        const std::vector<std::byte> payload = Payload(secondValues.strings);
+        std::vector<std::byte> suffixPayload = SuffixPayload(secondValues.suffixes);
+        for (std::size_t i = suffixBytes[0] + suffixBytes[1]; i < suffixBytes[0] + suffixBytes[1] + suffixBytes[2]; ++i)
+            suffixPayload[i] = std::byte{'x'};
+        const std::vector<std::byte> classPayload = ClassPayload(secondValues.className);
+        const std::array<fileformat::PackWriteEntry, 3> entries{
+            {{singleInstanceKey, 1, payload}, {suffixesKey, 1, suffixPayload}, {windowClassKey, 1, classPayload}}};
+        folder.WritePack(Write(entries));
+        ExpectRefused(checks, "suffix without a zero byte", folder.path,
+                      "is not a valid data pack: data pack: entry LOGS: third suffix: holds no zero byte");
+        ExpectPublished(checks, "suffix without a zero byte", firstValues);
+    });
+
+    // A pack of catalogue version 1 as setup prepared it, C1 alone, and one of
+    // catalogue version 2, C1 and the main window class: each refused for its
+    // catalogue version.
     checks.Run("catalogue version 1 pack", [&] {
         Folder folder;
         const std::vector<std::byte> payload = Payload(secondValues.strings);
         const std::array<fileformat::PackWriteEntry, 1> entries{{{singleInstanceKey, 1, payload}}};
         folder.WritePack(WithHeaderField(Write(entries), at::catalogueVersion, 1));
         ExpectRefused(checks, "catalogue version 1 pack", folder.path,
-                      "is not a valid data pack: data pack: catalogue version: is not 2");
+                      "is not a valid data pack: data pack: catalogue version: is not 3");
         ExpectPublished(checks, "catalogue version 1 pack", firstValues);
+    });
+    checks.Run("catalogue version 2 pack", [&] {
+        Folder folder;
+        const std::vector<std::byte> payload = Payload(secondValues.strings);
+        const std::vector<std::byte> classPayload = ClassPayload(secondValues.className);
+        const std::array<fileformat::PackWriteEntry, 2> entries{
+            {{singleInstanceKey, 1, payload}, {windowClassKey, 1, classPayload}}};
+        folder.WritePack(WithHeaderField(Write(entries), at::catalogueVersion, 2));
+        ExpectRefused(checks, "catalogue version 2 pack", folder.path,
+                      "is not a valid data pack: data pack: catalogue version: is not 3");
+        ExpectPublished(checks, "catalogue version 2 pack", firstValues);
     });
 
     // A pack of another catalogue version, with another version of the entry,

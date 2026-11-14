@@ -348,9 +348,11 @@ void RefusesToValidate(Checks& check, std::string_view name, const fs::path& fil
     }
 }
 
-// A pack of catalogue version 2: C1 under INST, version 1, its four fields of
-// 20, 60, 8 and 52 bytes, and the main window class under WNDC, version 1,
-// its one field of 256 bytes, each holding a made-up string and zeros.
+// A pack of catalogue version 3: C1 under INST, version 1, its four fields of
+// 20, 60, 8 and 52 bytes, the log path suffixes under LOGS, version 1, their
+// four fields of 16, 16, 24 and 16 bytes, and the main window class under
+// WNDC, version 1, its one field of 256 bytes, each holding a made-up string
+// and zeros.
 std::vector<std::byte> CompletePack()
 {
     std::string payload(140, '\0');
@@ -358,10 +360,16 @@ std::vector<std::byte> CompletePack()
     payload.replace(20, 5, "first");
     payload.replace(80, 3, "cap");
     payload.replace(88, 6, "second");
+    std::string suffixes(72, '\0');
+    suffixes.replace(0, 2, "s2");
+    suffixes.replace(16, 2, "s3");
+    suffixes.replace(32, 2, "s4");
+    suffixes.replace(56, 2, "s5");
     std::string windowClass(256, '\0');
     windowClass.replace(0, 5, "class");
-    const std::array<PackWriteEntry, 2> two{Entry("INST", 1, payload), Entry("WNDC", 1, windowClass)};
-    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), two);
+    const std::array<PackWriteEntry, 3> three{Entry("INST", 1, payload), Entry("LOGS", 1, suffixes),
+                                              Entry("WNDC", 1, windowClass)};
+    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), three);
 }
 
 // The file of a complete pack opens and validates; each stage before the
@@ -379,6 +387,14 @@ void OpensAndValidates(Checks& check)
                 std::string_view(pack.SingleInstance().messageCaption.data()));
     check.Equal("validated: second message text", std::string_view("second"),
                 std::string_view(pack.SingleInstance().secondMessageText.data()));
+    check.Equal("validated: first suffix", std::string_view("s2"),
+                std::string_view(pack.PathSuffixes().firstSuffix.data()));
+    check.Equal("validated: second suffix", std::string_view("s3"),
+                std::string_view(pack.PathSuffixes().secondSuffix.data()));
+    check.Equal("validated: third suffix", std::string_view("s4"),
+                std::string_view(pack.PathSuffixes().thirdSuffix.data()));
+    check.Equal("validated: fourth suffix", std::string_view("s5"),
+                std::string_view(pack.PathSuffixes().fourthSuffix.data()));
     check.Equal("validated: class name", std::string_view("class"),
                 std::string_view(pack.WindowClass().className.data()));
 

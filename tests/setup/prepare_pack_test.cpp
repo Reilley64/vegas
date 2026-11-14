@@ -81,6 +81,34 @@ constexpr std::array<Field, 4> suffixFields{{
     {"fourth log path suffix", 0x01082a00, 16},
 }};
 
+// The recipe facts of the save directory strings that setup reads at their
+// addresses, spelled by the test itself, in catalogue order: the format, the
+// section, the setting key, the three folders, the working folder and the
+// default INI name.
+constexpr std::array<Field, 8> saveFields{{
+    {"INI path format", 0x01082dc4, 8},
+    {"INI section", 0x0105d548, 8},
+    {"setting key", 0x01082dac, 24},
+    {"local folder", 0x01082da0, 12},
+    {"documents folder", 0x01082d94, 12},
+    {"game folder", 0x01082d88, 12},
+    {"working folder", 0x01082d84, 4},
+    {"default INI name", 0x01082d70, 20},
+}};
+
+// The recipe facts of the two INI names, spelled by the test itself: the
+// first is reached through the pointer at 0x011a2ff4 to 0x01039c8c, which
+// the recipe binds with a bound of 12; the second through the pointer at
+// 0x011a2ff0 to a string the recipe does not bind, with 256 bytes.
+constexpr std::uint32_t firstIniPointerAddress = 0x011a2ff4;
+constexpr std::uint32_t firstIniAddress = 0x01039c8c;
+constexpr std::size_t firstIniCapacity = 12;
+constexpr std::uint32_t secondIniPointerAddress = 0x011a2ff0;
+constexpr std::size_t secondIniCapacity = 256;
+
+// Where the synthetic executable stores the second INI name, in .rdata.
+constexpr std::uint32_t secondIniAddress = 0x0104d300;
+
 constexpr std::uint32_t imageBase = 0x00400000;
 
 // The recipe fact of the main window class, spelled by the test itself: the
@@ -107,6 +135,12 @@ const Texts someTexts{"test mutex", "first test message", "Error", std::string(5
 // Made-up log path suffixes, none of them a string of the original release.
 // The third fills its field up to its zero byte.
 const Texts someSuffixes{"first.test", "second.test", std::string(23, 't'), "fourth.test"};
+
+// Made-up save directory strings read at their addresses, in the order of
+// saveFields, none of them a string of the original release. The format holds
+// its one %s; the setting key fills its field up to its zero byte.
+using SaveTexts = std::array<std::string, 8>;
+const SaveTexts someSaves{"<%s>", "Test", std::string(23, 'k'), "local", "docs test", "game test", "w", "default.ini"};
 
 // Section characteristics of the Microsoft PE and COFF specification.
 constexpr std::uint32_t code = 0x00000020;
@@ -144,11 +178,12 @@ constexpr std::uint16_t Relocation(std::uint16_t type, std::uint16_t offset)
     return static_cast<std::uint16_t>(type << 12 | offset);
 }
 
-// An executable with code, the caption and the class name in .rdata, the
-// other three strings and the four log path suffixes in .data, which has a
-// zero tail, a version resource,
-// the pointer to the class name in .sdata and a base relocation table in
-// .reloc that covers it. Its file version is 1.4.0.525. Each section's
+// An executable with code; the caption, the class name, the two INI names
+// and the INI section in .rdata; the other three C1 strings, the four log
+// path suffixes and the other save directory strings in .data, which has a
+// zero tail; a version resource; the pointers to the class name and to the
+// two INI names in .sdata; and a base relocation table in .reloc that covers
+// the three pointers. Its file version is 1.4.0.525. Each section's
 // characteristics are the second member.
 struct Synthetic
 {
@@ -156,12 +191,24 @@ struct Synthetic
     std::vector<std::uint32_t> characteristics;
     Texts texts = someTexts;
     Texts suffixes = someSuffixes;
+    SaveTexts saves = someSaves;
     std::string className = "test window class";
     std::uint32_t classAt = classAddress;     // where the class name is stored
     std::uint32_t pointerValue = classAddress; // what the pointer holds
-    std::uint32_t relocationAddress = 0;       // the base relocation table's data directory
+    std::string firstIni = "first.ini";
+    std::uint32_t firstIniAt = firstIniAddress;      // where the first INI name is stored
+    std::uint32_t firstIniPointer = firstIniAddress; // what its pointer holds
+    std::string secondIni = "second test.ini";
+    std::uint32_t secondIniAt = secondIniAddress;      // where the second INI name is stored
+    std::uint32_t secondIniPointer = secondIniAddress; // what its pointer holds
+    std::uint32_t relocationAddress = 0;               // the base relocation table's data directory
     std::uint32_t relocationBytes = 0;
 };
+
+// The base relocation table of Typical(): a block for .data, the class name
+// pointer's block with `classEntries`, then a block for the two INI name
+// pointers with `iniEntries`, all three pointers on one page.
+std::vector<std::byte> Relocations(std::vector<std::uint16_t> classEntries, std::vector<std::uint16_t> iniEntries);
 
 Synthetic Typical()
 {
@@ -171,21 +218,28 @@ Synthetic Typical()
     layout.entryPoint = 0x1010;
     layout.sections = {
         {".text", 0x1000, 0x30, pe_fixture::Pattern(0x200, 1)},
-        {".rdata", 0xC4D000, 0x1000, pe_fixture::Pattern(0x1000, 2)},
+        {".rdata", 0xC39000, 0x25000, pe_fixture::Pattern(0x25000, 2)},
         {".data", 0xC82000, 0x2000, pe_fixture::Pattern(0x1000, 3)},
         {".rsrc", 0xC84000, at::versionResourceBytes,
          pe_fixture::VersionResource(0xC84000, {1, 4, 0, 525}, {1, 4, 0, 525})},
         {".sdata", 0xDA2000, 0x2000, pe_fixture::Pattern(0x1000, 5)},
-        {".reloc", 0xDA4000, 0x18,
-         RelocationTable({{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA2000, {Relocation(highLow, 0xFE8), 0}}})},
+        {".reloc", 0xDA4000, 0x24,
+         Relocations({Relocation(highLow, 0xFE8), 0}, {Relocation(highLow, 0xFF0), Relocation(highLow, 0xFF4)})},
     };
     layout.resourceAddress = 0xC84000;
     layout.resourceSize = at::versionResourceBytes;
     synthetic.characteristics = {code | execute | read, initializedData | read, initializedData | read | write,
                                  initializedData | read, initializedData | read | write, initializedData | read};
     synthetic.relocationAddress = 0xDA4000;
-    synthetic.relocationBytes = 0x18;
+    synthetic.relocationBytes = 0x24;
     return synthetic;
+}
+
+std::vector<std::byte> Relocations(std::vector<std::uint16_t> classEntries, std::vector<std::uint16_t> iniEntries)
+{
+    return RelocationTable({{0xC82000, {Relocation(highLow, 0xAB8), 0}},
+                            {0xDA2000, std::move(classEntries)},
+                            {0xDA2000, std::move(iniEntries)}});
 }
 
 // Writes `bytes` at `address` in memory into `file`, where a section's stored
@@ -220,12 +274,12 @@ std::vector<std::byte> Stored(std::string_view text, std::size_t capacity)
     return stored;
 }
 
-// The file. Each text and suffix is stored at its field's address where a
-// section's stored bytes hold it, then a zero byte when the field has room,
-// then 0xAB bytes to the end of the field: bytes setup must not copy. The
-// class name
-// is stored the same way at classAt, the pointer value at the pointer's
-// address, and the base relocation table's data directory is set.
+// The file. Each text, suffix and save directory string is stored at its
+// field's address where a section's stored bytes hold it, then a zero byte
+// when the field has room, then 0xAB bytes to the end of the field: bytes
+// setup must not copy. The class name and the two INI names are stored the
+// same way where the synthetic executable says, each pointer value at its
+// pointer's address, and the base relocation table's data directory is set.
 std::vector<std::byte> Build(const Synthetic& synthetic)
 {
     const pe_fixture::Layout& layout = synthetic.layout;
@@ -236,10 +290,19 @@ std::vector<std::byte> Build(const Synthetic& synthetic)
         Store(file, layout, fields[f].address, Stored(synthetic.texts[f], fields[f].capacity));
     for (std::size_t f = 0; f < suffixFields.size(); ++f)
         Store(file, layout, suffixFields[f].address, Stored(synthetic.suffixes[f], suffixFields[f].capacity));
+    for (std::size_t f = 0; f < saveFields.size(); ++f)
+        Store(file, layout, saveFields[f].address, Stored(synthetic.saves[f], saveFields[f].capacity));
     Store(file, layout, synthetic.classAt, Stored(synthetic.className, classCapacity));
-    std::vector<std::byte> pointer(4);
-    pe_fixture::Put32(pointer, 0, synthetic.pointerValue);
-    Store(file, layout, classPointerAddress, pointer);
+    Store(file, layout, synthetic.firstIniAt, Stored(synthetic.firstIni, firstIniCapacity));
+    Store(file, layout, synthetic.secondIniAt, Stored(synthetic.secondIni, secondIniCapacity));
+    const auto storePointer = [&](std::uint32_t address, std::uint32_t value) {
+        std::vector<std::byte> pointer(4);
+        pe_fixture::Put32(pointer, 0, value);
+        Store(file, layout, address, pointer);
+    };
+    storePointer(classPointerAddress, synthetic.pointerValue);
+    storePointer(firstIniPointerAddress, synthetic.firstIniPointer);
+    storePointer(secondIniPointerAddress, synthetic.secondIniPointer);
     pe_fixture::Put32(file, relocationDirectory, synthetic.relocationAddress);
     pe_fixture::Put32(file, relocationDirectory + 4, synthetic.relocationBytes);
     return file;
@@ -286,6 +349,22 @@ std::vector<std::byte> SuffixPayload(const Texts& suffixes)
         std::ranges::transform(suffixes[f], std::back_inserter(payload),
                                [](char c) { return static_cast<std::byte>(c); });
         payload.resize(payload.size() + suffixFields[f].capacity - suffixes[f].size());
+    }
+    return payload;
+}
+
+// The save directory strings' payload as setup writes it: each string, then
+// zeros to its field's end, in catalogue order.
+std::vector<std::byte> SavePayload(const SaveTexts& saves, std::string_view firstIni, std::string_view secondIni)
+{
+    const std::array<std::string_view, 10> texts{saves[0], firstIni, saves[1], saves[2], secondIni,
+                                                 saves[3], saves[4],  saves[5], saves[6], saves[7]};
+    constexpr std::array<std::size_t, 10> capacities{8, firstIniCapacity, 8, 24, secondIniCapacity, 12, 12, 12, 4, 20};
+    std::vector<std::byte> payload;
+    for (std::size_t f = 0; f < texts.size(); ++f)
+    {
+        std::ranges::transform(texts[f], std::back_inserter(payload), [](char c) { return static_cast<std::byte>(c); });
+        payload.resize(payload.size() + capacities[f] - texts[f].size());
     }
     return payload;
 }
@@ -344,21 +423,21 @@ std::vector<std::byte> ClassPayload(std::string_view className)
 }
 
 // The pack written from a synthetic executable records its identity and
-// holds C1, the log path suffixes and the main window class as setup writes
-// them. Setup does not yet read the save directory strings, so the same
-// entries, written again with the supported release's identity (compared, not
-// proved), are refused by the complete validator for the missing SDIR entry;
-// with a made-up SDIR entry before WNDC, they pass with the same strings.
+// holds C1, the log path suffixes, the save directory strings and the main
+// window class as setup writes them. The same entries, written again with the
+// supported release's identity (compared, not proved), pass the complete
+// validator with the same strings.
 void PreparesAPack(Checks& check)
 {
-    const std::vector<std::byte> file = Build(Typical());
+    const Synthetic typical = Typical();
+    const std::vector<std::byte> file = Build(typical);
     const std::array<OriginalIdentity, 1> supported{IdentityOf(file)};
     const std::vector<std::byte> staged = PrepareDataPackAgainst(file, supported);
 
     const fileformat::OriginalCheckedPack pack = fileformat::CheckPackOriginalAgainst(staged, supported);
     check.Equal("staged: original version", true, pack.Original().version == supported[0].version);
     check.Equal("staged: original SHA-256", true, pack.Original().sha256 == supported[0].sha256);
-    check.Equal("staged: entries", std::size_t{3}, pack.Entries().size());
+    check.Equal("staged: entries", std::size_t{4}, pack.Entries().size());
     check.Equal("staged: key", std::string_view("INST"), std::string_view(pack.Entries()[0].key.data(), 4));
     check.Equal("staged: entry version", std::uint32_t{1}, pack.Entries()[0].version);
     const std::vector<std::byte> payload(pack.EntryBytes(0).begin(), pack.EntryBytes(0).end());
@@ -370,35 +449,28 @@ void PreparesAPack(Checks& check)
     check.Equal("staged: suffix payload size", std::size_t{72}, suffixPayload.size());
     check.Equal("staged: suffix payload is each suffix, then zeros", true,
                 suffixPayload == SuffixPayload(someSuffixes));
-    check.Equal("staged: class key", std::string_view("WNDC"), std::string_view(pack.Entries()[2].key.data(), 4));
-    check.Equal("staged: class entry version", std::uint32_t{1}, pack.Entries()[2].version);
-    const std::vector<std::byte> classPayload(pack.EntryBytes(2).begin(), pack.EntryBytes(2).end());
+    check.Equal("staged: save directory key", std::string_view("SDIR"),
+                std::string_view(pack.Entries()[2].key.data(), 4));
+    check.Equal("staged: save directory entry version", std::uint32_t{1}, pack.Entries()[2].version);
+    const std::vector<std::byte> savePayload(pack.EntryBytes(2).begin(), pack.EntryBytes(2).end());
+    check.Equal("staged: save directory payload size", std::size_t{368}, savePayload.size());
+    check.Equal("staged: save directory payload is each string, then zeros", true,
+                savePayload == SavePayload(someSaves, typical.firstIni, typical.secondIni));
+    check.Equal("staged: class key", std::string_view("WNDC"), std::string_view(pack.Entries()[3].key.data(), 4));
+    check.Equal("staged: class entry version", std::uint32_t{1}, pack.Entries()[3].version);
+    const std::vector<std::byte> classPayload(pack.EntryBytes(3).begin(), pack.EntryBytes(3).end());
     check.Equal("staged: class payload size", classCapacity, classPayload.size());
-    check.Equal("staged: class payload is the name, then zeros", true,
-                classPayload == ClassPayload(Typical().className));
+    check.Equal("staged: class payload is the name, then zeros", true, classPayload == ClassPayload(typical.className));
 
     Refuses<fileformat::UnsupportedOriginalError>(
         check, "staged: complete validator", [&] { fileformat::ValidatePack(staged); }, OriginalProblem::Digest);
 
-    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
+    const std::array<fileformat::PackWriteEntry, 4> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
                                                              {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                             {{'S', 'D', 'I', 'R'}, 1, savePayload},
                                                              {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
-    Refuses<fileformat::PackCatalogueError>(
-        check, "C1, the suffixes and the class: complete validator",
-        [&] {
-            fileformat::ValidatePack(
-                fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
-        },
-        fileformat::PackCatalogueProblem::MissingEntry, "entry SDIR");
-    std::vector<std::byte> madeUpSaveDirectory(368);
-    madeUpSaveDirectory[0] = std::byte{'%'};
-    madeUpSaveDirectory[1] = std::byte{'s'};
-    const std::array<fileformat::PackWriteEntry, 4> withSaveDirectory{{{{'I', 'N', 'S', 'T'}, 1, payload},
-                                                                       {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
-                                                                       {{'S', 'D', 'I', 'R'}, 1, madeUpSaveDirectory},
-                                                                       {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     const fileformat::ValidatedPack validated = fileformat::ValidatePack(
-        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), withSaveDirectory));
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
     const fileformat::SingleInstanceStrings& strings = validated.SingleInstance();
     check.Equal("validated: mutex name", true, Holds(strings.mutexName, someTexts[0]));
     check.Equal("validated: first message text", true, Holds(strings.firstMessageText, someTexts[1]));
@@ -409,7 +481,18 @@ void PreparesAPack(Checks& check)
     check.Equal("validated: second suffix", true, Holds(suffixes.secondSuffix, someSuffixes[1]));
     check.Equal("validated: third suffix", true, Holds(suffixes.thirdSuffix, someSuffixes[2]));
     check.Equal("validated: fourth suffix", true, Holds(suffixes.fourthSuffix, someSuffixes[3]));
-    check.Equal("validated: class name", true, Holds(validated.WindowClass().className, Typical().className));
+    const fileformat::SaveDirectoryStrings& saves = validated.SaveDirectory();
+    check.Equal("validated: INI path format", true, Holds(saves.iniPathFormat, someSaves[0]));
+    check.Equal("validated: first INI name", true, Holds(saves.firstIniName, typical.firstIni));
+    check.Equal("validated: INI section", true, Holds(saves.iniSection, someSaves[1]));
+    check.Equal("validated: setting key", true, Holds(saves.settingKey, someSaves[2]));
+    check.Equal("validated: second INI name", true, Holds(saves.secondIniName, typical.secondIni));
+    check.Equal("validated: local folder", true, Holds(saves.localFolder, someSaves[3]));
+    check.Equal("validated: documents folder", true, Holds(saves.documentsFolder, someSaves[4]));
+    check.Equal("validated: game folder", true, Holds(saves.gameFolder, someSaves[5]));
+    check.Equal("validated: working folder", true, Holds(saves.workingFolder, someSaves[6]));
+    check.Equal("validated: default INI name", true, Holds(saves.defaultIniName, someSaves[7]));
+    check.Equal("validated: class name", true, Holds(validated.WindowClass().className, typical.className));
 }
 
 // The production preparation takes no set, so a synthetic executable is
@@ -513,8 +596,13 @@ void RefusesRangesOutsideStoredBytes(Checks& check)
     tail.layout.sections[2].raw = pe_fixture::Pattern(0xACA, 3);
     RefusesExtraction(check, "mutex name's last two bytes in the zero tail", tail, ExtractProblem::ZeroTail,
                       "mutex name");
+    // With the mutex name stored to its end, the next field in .data above it,
+    // the INI path format at 0xC82DC4 to 0xC82DCB, the highest, is not.
     tail.layout.sections[2].raw = pe_fixture::Pattern(0xACC, 3);
-    check.Run("mutex name ends with the stored bytes", [&] { PrepareAgainstItself(Build(tail)); });
+    RefusesExtraction(check, "mutex name ends with the stored bytes", tail, ExtractProblem::ZeroTail,
+                      "INI path format");
+    tail.layout.sections[2].raw = pe_fixture::Pattern(0xDCC, 3);
+    check.Run("INI path format ends with the stored bytes", [&] { PrepareAgainstItself(Build(tail)); });
 
     Synthetic end = Typical();
     end.layout.sections[2].virtualSize = 0xAC0;
@@ -555,14 +643,17 @@ void RefusesStrings(Checks& check)
 
 // The pointer to the class name is read only from the stored bytes of a data
 // section, like a C1 field, and only when a HIGHLOW base relocation covers
-// it. Indices: 4 is .sdata, which holds the pointer at offset 0xFE8; 5 is
-// .reloc.
+// it. Indices: 4 is .sdata, which holds the pointer at offset 0xFE8 and the
+// INI names' pointers at 0xFF0 and 0xFF4; 5 is .reloc. The INI names'
+// pointers are read before the class name's, so a problem of the whole
+// table, or of .sdata, is reported for the first INI name's pointer.
 void RefusesUnreadablePointers(Checks& check)
 {
     Synthetic none = Typical();
     none.relocationAddress = 0;
     none.relocationBytes = 0;
-    RefusesExtraction(check, "no base relocation table", none, ExtractProblem::NoRelocation, "class name pointer");
+    RefusesExtraction(check, "no base relocation table", none, ExtractProblem::NoRelocation,
+                      "first INI name pointer");
     // With five data directories or fewer there is no base relocation table,
     // although the bytes of the sixth entry still hold one.
     for (const std::uint32_t count : std::array<std::uint32_t, 2>{3, 5})
@@ -570,35 +661,34 @@ void RefusesUnreadablePointers(Checks& check)
         std::vector<std::byte> few = Build(Typical());
         pe_fixture::Put32(few, at::directoryCount, count);
         RefusesExtraction(check, std::format("{} data directories", count), few, ExtractProblem::NoRelocation,
-                          "class name pointer: has no 32-bit base relocation");
+                          "first INI name pointer: has no 32-bit base relocation");
     }
 
+    const std::vector<std::uint16_t> iniEntries{Relocation(highLow, 0xFF0), Relocation(highLow, 0xFF4)};
     Synthetic other = Typical();
-    other.layout.sections[5].raw = RelocationTable(
-        {{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA2000, {Relocation(highLow, 0xFEC), 0}}});
+    other.layout.sections[5].raw = Relocations({Relocation(highLow, 0xFEC), 0}, iniEntries);
     RefusesExtraction(check, "a relocation of the next pointer only", other, ExtractProblem::NoRelocation,
                       "class name pointer: has no 32-bit base relocation");
     // A relocation a byte before or after the pointer, or one that overlaps
     // it without starting at it, does not cover it.
     for (const std::uint16_t offset : std::array<std::uint16_t, 4>{0xFE6, 0xFE7, 0xFE9, 0xFEA})
     {
-        other.layout.sections[5].raw = RelocationTable(
-            {{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA2000, {Relocation(highLow, offset), 0}}});
+        other.layout.sections[5].raw = Relocations({Relocation(highLow, offset), 0}, iniEntries);
         RefusesExtraction(check, std::format("a relocation at {:#x} of the pointer's page only", offset), other,
                           ExtractProblem::NoRelocation, "class name pointer: has no 32-bit base relocation");
     }
-    other.layout.sections[5].raw = RelocationTable(
-        {{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA2000, {Relocation(dir64, 0xFE8), 0}}});
+    other.layout.sections[5].raw = Relocations({Relocation(dir64, 0xFE8), 0}, iniEntries);
     RefusesExtraction(check, "a 64-bit relocation of the pointer", other, ExtractProblem::NoRelocation,
                       "class name pointer");
-    other.layout.sections[5].raw = RelocationTable(
-        {{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA1000, {Relocation(highLow, 0xFE8), 0}}});
+    other.layout.sections[5].raw =
+        RelocationTable({{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA1000, {Relocation(highLow, 0xFE8), 0}},
+                         {0xDA2000, iniEntries}});
     RefusesExtraction(check, "a relocation of another page", other, ExtractProblem::NoRelocation,
                       "class name pointer");
     // The pointer's relocation in a later block than the first is found.
     other.layout.sections[5].raw = RelocationTable(
         {{0xC82000, {Relocation(highLow, 0xAB8), 0}}, {0xDA2000, {Relocation(highLow, 0x010), 0}},
-         {0xDA2000, {0, Relocation(highLow, 0xFE8)}}});
+         {0xDA2000, {0, Relocation(highLow, 0xFE8)}}, {0xDA2000, iniEntries}});
     other.relocationBytes = static_cast<std::uint32_t>(other.layout.sections[5].raw.size());
     other.layout.sections[5].virtualSize = other.relocationBytes;
     check.Run("the pointer's relocation in a third block", [&] { PrepareAgainstItself(Build(other)); });
@@ -606,7 +696,7 @@ void RefusesUnreadablePointers(Checks& check)
     Synthetic malformed = Typical();
     pe_fixture::Put32(malformed.layout.sections[5].raw, 4, 4);
     RefusesExtraction(check, "a relocation block shorter than its header", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table");
+                      "first INI name pointer: base relocation table");
     // The pointer's own block, last in the table, of 13 bytes: its whole
     // entries cover the pointer, but its size cannot be whole entries.
     malformed = Typical();
@@ -615,61 +705,64 @@ void RefusesUnreadablePointers(Checks& check)
     malformed.layout.sections[5].virtualSize = 12 + 13;
     malformed.relocationBytes = 12 + 13;
     RefusesExtraction(check, "a relocation block of an odd size", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table");
+                      "first INI name pointer: base relocation table");
+    // The class name pointer's block at 12 and the 24 bytes from it to the
+    // table's end.
     malformed = Typical();
-    pe_fixture::Put32(malformed.layout.sections[5].raw, 12 + 4, 16);
+    pe_fixture::Put32(malformed.layout.sections[5].raw, 12 + 4, 28);
     RefusesExtraction(check, "a relocation block past the table", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table");
+                      "first INI name pointer: base relocation table");
     malformed = Typical();
-    pe_fixture::Put32(malformed.layout.sections[5].raw, 12 + 4, 14);
+    pe_fixture::Put32(malformed.layout.sections[5].raw, 12 + 4, 26);
     RefusesExtraction(check, "a relocation block 2 bytes past the table", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table: a block's size does not fit it");
+                      "first INI name pointer: base relocation table: a block's size does not fit it");
     malformed = Typical();
     malformed.relocationBytes = 0x1C;
     malformed.layout.sections[5].raw.resize(0x1C);
     malformed.layout.sections[5].virtualSize = 0x1C;
     RefusesExtraction(check, "a table that ends inside a block header", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table");
+                      "first INI name pointer: base relocation table");
     malformed = Typical();
-    malformed.relocationBytes = 0x20;
+    malformed.relocationBytes = 0x28;
     RefusesExtraction(check, "a table past its section's stored bytes", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table: is not stored in one section");
-    // .reloc's memory past its 0x18 stored bytes is zeros: a table there,
+                      "first INI name pointer: base relocation table: is not stored in one section");
+    // .reloc's memory past its 0x24 stored bytes is zeros: a table there,
     // or one that runs into it, lies within the section but is not stored.
     malformed = Typical();
     malformed.layout.sections[5].virtualSize = 0x1000;
     malformed.relocationAddress = 0xDA4100;
     RefusesExtraction(check, "a table in its section's zero tail", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table: is not stored in one section");
+                      "first INI name pointer: base relocation table: is not stored in one section");
     malformed.relocationAddress = 0xDA4000;
-    malformed.relocationBytes = 0x20;
+    malformed.relocationBytes = 0x28;
     RefusesExtraction(check, "a table into its section's zero tail", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table: is not stored in one section");
+                      "first INI name pointer: base relocation table: is not stored in one section");
     malformed = Typical();
     malformed.relocationAddress = 0xDA6000;
     RefusesExtraction(check, "a table in no section", malformed, ExtractProblem::RelocationTable,
-                      "class name pointer: base relocation table");
+                      "first INI name pointer: base relocation table");
 
     Synthetic bind = Typical();
     bind.layout.sections[4].name = ".bind";
-    RefusesExtraction(check, "pointer in .bind", bind, ExtractProblem::SteamStubSection, "class name pointer");
+    RefusesExtraction(check, "pointer in .bind", bind, ExtractProblem::SteamStubSection, "first INI name pointer");
     Synthetic text = Typical();
     text.characteristics[4] = code | read;
-    RefusesExtraction(check, "pointer in code", text, ExtractProblem::CodeSection, "class name pointer");
+    RefusesExtraction(check, "pointer in code", text, ExtractProblem::CodeSection, "first INI name pointer");
     Synthetic notData = Typical();
     notData.characteristics[4] = uninitializedData | read | write;
     RefusesExtraction(check, "pointer in uninitialized data", notData, ExtractProblem::NotInitializedData,
-                      "class name pointer");
+                      "first INI name pointer");
+    // The first INI name's pointer, at 0xFF4 to 0xFF7, lies highest.
     Synthetic tail = Typical();
-    tail.layout.sections[4].raw.resize(0xFEA);
+    tail.layout.sections[4].raw.resize(0xFF6);
     RefusesExtraction(check, "pointer's last two bytes in the zero tail", tail, ExtractProblem::ZeroTail,
-                      "class name pointer");
-    tail.layout.sections[4].raw.resize(0xFEC);
-    check.Run("pointer ends with the stored bytes", [&] { PrepareAgainstItself(Build(tail)); });
+                      "first INI name pointer");
+    tail.layout.sections[4].raw.resize(0xFF8);
+    check.Run("pointers end with the stored bytes", [&] { PrepareAgainstItself(Build(tail)); });
     Synthetic noSection = Typical();
     noSection.layout.sections[4].virtualAddress = 0xDA3000;
     noSection.layout.sections[4].virtualSize = 0x1000;
-    RefusesExtraction(check, "pointer in no section", noSection, ExtractProblem::NoSection, "class name pointer");
+    RefusesExtraction(check, "pointer in no section", noSection, ExtractProblem::NoSection, "first INI name pointer");
 }
 
 // The class name is read only from the stored bytes of a read-only data
@@ -724,7 +817,7 @@ void RefusesUnreadableClassNames(Checks& check)
         const std::vector<std::byte> staged = PrepareAgainstItself(Build(noZero));
         const fileformat::OriginalCheckedPack pack =
             fileformat::CheckPackOriginalAgainst(staged, std::array<OriginalIdentity, 1>{IdentityOf(Build(noZero))});
-        const std::vector<std::byte> classPayload(pack.EntryBytes(2).begin(), pack.EntryBytes(2).end());
+        const std::vector<std::byte> classPayload(pack.EntryBytes(3).begin(), pack.EntryBytes(3).end());
         check.Equal("longest class name: payload", true, classPayload == ClassPayload(noZero.className));
     });
     Synthetic empty = Typical();
@@ -791,21 +884,13 @@ void RefusesUnreadableSuffixes(Checks& check)
 // The entries of `staged`, a pack that PrepareDataPackAgainst wrote, written
 // again with the supported release's identity (compared, not proved), so
 // that step 6 checks them as it checks a pack of the supported release.
-// Setup does not yet read the save directory strings, so a made-up SDIR
-// entry goes between LOGS and WNDC.
 std::vector<std::byte> AsSupportedRelease(const std::vector<std::byte>& staged,
                                           std::span<const OriginalIdentity> supported)
 {
     const fileformat::OriginalCheckedPack pack = fileformat::CheckPackOriginalAgainst(staged, supported);
-    std::vector<std::byte> madeUpSaveDirectory(fileformat::saveDirectoryEntry.bytes);
-    madeUpSaveDirectory[0] = std::byte{'%'};
-    madeUpSaveDirectory[1] = std::byte{'s'};
-    const fileformat::PackCatalogueEntry& save = fileformat::saveDirectoryEntry;
-    const std::array<fileformat::PackWriteEntry, 4> entries{
-        {{pack.Entries()[0].key, pack.Entries()[0].version, pack.EntryBytes(0)},
-         {pack.Entries()[1].key, pack.Entries()[1].version, pack.EntryBytes(1)},
-         {save.key, save.version, madeUpSaveDirectory},
-         {pack.Entries()[2].key, pack.Entries()[2].version, pack.EntryBytes(2)}}};
+    std::array<fileformat::PackWriteEntry, 4> entries{};
+    for (std::size_t i = 0; i < entries.size(); ++i)
+        entries[i] = {pack.Entries()[i].key, pack.Entries()[i].version, pack.EntryBytes(i)};
     return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);
 }
 
@@ -868,6 +953,142 @@ void RefusesAStagedSuffixPath(Checks& check)
     }
 }
 
+// A save directory string read at its address is read as a C1 field is,
+// through its first zero byte within its field, and the format of the INI
+// paths must then hold exactly one %s and no other conversion. The first INI
+// name's pointer must hold the address the recipe binds, and its string end
+// within that address's recipe bound; the second INI name is read as the
+// class name is, within 256 bytes.
+void RefusesUnreadableSaveDirectoryStrings(Checks& check)
+{
+    for (std::size_t f = 0; f < saveFields.size(); ++f)
+    {
+        Synthetic noZero = Typical();
+        noZero.saves[f] = std::string(saveFields[f].capacity, f == 0 ? '%' : 'x');
+        RefusesExtraction(check, std::format("{} without a zero byte", saveFields[f].name), noZero,
+                          ExtractProblem::NoTerminator, std::format("{}: holds no zero byte", saveFields[f].name));
+        noZero.saves[f] = std::string(saveFields[f].capacity - 1, 'x');
+        if (f == 0)
+            noZero.saves[f].replace(0, 2, "%s");
+        check.Run(std::format("{} with its zero byte last", saveFields[f].name),
+                  [&] { PrepareAgainstItself(Build(noZero)); });
+    }
+    Synthetic empty = Typical();
+    empty.saves = {"%s", "", "", "", "", "", "", ""};
+    empty.firstIni = "";
+    empty.secondIni = "";
+    check.Run("empty save directory strings", [&] { PrepareAgainstItself(Build(empty)); });
+
+    for (const std::string_view format : {"%s", "%%%s", "a%s%%"})
+    {
+        Synthetic accepted = Typical();
+        accepted.saves[0] = format;
+        check.Run(std::format("format \"{}\"", format), [&] { PrepareAgainstItself(Build(accepted)); });
+    }
+    for (const std::string_view format : {"", "abc", "%n", "%s%n", "%s%s", "%d", "%5s", "%%s", "%"})
+    {
+        Synthetic refused = Typical();
+        refused.saves[0] = format;
+        RefusesExtraction(check, std::format("format \"{}\"", format), refused, ExtractProblem::FormatConversion,
+                          "INI path format: does not hold exactly one %s and no other conversion");
+    }
+
+    // Each folder, after its zero byte, is refused for a colon, a control
+    // character or a .. part, in each folder field it fits; folder names
+    // with separators are read (ruling of 2026-11-14).
+    struct RefusedFolder
+    {
+        std::string_view folder;
+        std::string_view reason;
+    };
+    const std::array<RefusedFolder, 7> refusedFolders{{
+        {"C:", "holds a colon"},
+        {"a:b", "holds a colon"},
+        {"a\x1f", "holds a control character"},
+        {"\t", "holds a control character"},
+        {"..", "holds a .. part"},
+        {"\\..", "holds a .. part"},
+        {"a/../b", "holds a .. part"},
+    }};
+    for (std::size_t f = 3; f <= 6; ++f)
+    {
+        for (std::size_t i = 0; i < refusedFolders.size(); ++i)
+        {
+            const RefusedFolder& item = refusedFolders[i];
+            if (item.folder.size() >= saveFields[f].capacity)
+                continue;
+            Synthetic refused = Typical();
+            refused.saves[f] = item.folder;
+            RefusesExtraction(check, std::format("{}, refused case {}", saveFields[f].name, i), refused,
+                              ExtractProblem::FolderPath, std::format("{}: {}", saveFields[f].name, item.reason));
+        }
+        for (const std::string_view folder : {"\\a", "a\\b", "/a/", "\\", "...", ".", "..a"})
+        {
+            if (folder.size() >= saveFields[f].capacity)
+                continue;
+            Synthetic accepted = Typical();
+            accepted.saves[f] = folder;
+            check.Run(std::format("{} \"{}\"", saveFields[f].name, folder),
+                      [&] { PrepareAgainstItself(Build(accepted)); });
+        }
+    }
+
+    Synthetic otherTarget = Typical();
+    otherTarget.firstIniPointer = imageBase + 0xC4D300;
+    RefusesExtraction(check, "first INI name pointer to another string", otherTarget, ExtractProblem::PointerTarget,
+                      "first INI name pointer: does not hold 0x01039c8c");
+    otherTarget.firstIniPointer = firstIniAddress + 1;
+    RefusesExtraction(check, "first INI name pointer a byte past its string", otherTarget,
+                      ExtractProblem::PointerTarget, "first INI name pointer");
+    Synthetic firstNoRelocation = Typical();
+    firstNoRelocation.layout.sections[5].raw =
+        Relocations({Relocation(highLow, 0xFE8), 0}, {Relocation(highLow, 0xFF0), 0});
+    RefusesExtraction(check, "first INI name pointer without its relocation", firstNoRelocation,
+                      ExtractProblem::NoRelocation, "first INI name pointer: has no 32-bit base relocation");
+    Synthetic firstNoZero = Typical();
+    firstNoZero.firstIni = std::string(firstIniCapacity, 'f');
+    RefusesExtraction(check, "first INI name without a zero byte", firstNoZero, ExtractProblem::NoTerminator,
+                      "first INI name string: holds no zero byte");
+    firstNoZero.firstIni = std::string(firstIniCapacity - 1, 'f');
+    check.Run("first INI name with its zero byte last", [&] { PrepareAgainstItself(Build(firstNoZero)); });
+    Synthetic writable = Typical();
+    writable.characteristics[1] |= write;
+    RefusesExtraction(check, "first INI name in writable data", writable, ExtractProblem::WritableSection,
+                      "first INI name string");
+
+    Synthetic secondNoRelocation = Typical();
+    secondNoRelocation.layout.sections[5].raw =
+        Relocations({Relocation(highLow, 0xFE8), 0}, {0, Relocation(highLow, 0xFF4)});
+    RefusesExtraction(check, "second INI name pointer without its relocation", secondNoRelocation,
+                      ExtractProblem::NoRelocation, "second INI name pointer: has no 32-bit base relocation");
+    Synthetic secondInCode = Typical();
+    secondInCode.secondIniPointer = imageBase + 0x1010;
+    RefusesExtraction(check, "second INI name in code", secondInCode, ExtractProblem::CodeSection,
+                      "second INI name string");
+    Synthetic secondWritable = Typical();
+    secondWritable.secondIniPointer = imageBase + 0xC82100;
+    RefusesExtraction(check, "second INI name in writable data", secondWritable, ExtractProblem::WritableSection,
+                      "second INI name string");
+    Synthetic secondNoZero = Typical();
+    secondNoZero.secondIni = std::string(secondIniCapacity, 's');
+    RefusesExtraction(check, "second INI name without a zero byte", secondNoZero, ExtractProblem::NoTerminator,
+                      "second INI name string: holds no zero byte");
+    secondNoZero.secondIni = std::string(secondIniCapacity - 1, 's');
+    check.Run("second INI name with its zero byte last", [&] {
+        const std::vector<std::byte> file = Build(secondNoZero);
+        const std::vector<std::byte> staged = PrepareAgainstItself(file);
+        const fileformat::OriginalCheckedPack pack =
+            fileformat::CheckPackOriginalAgainst(staged, std::array<OriginalIdentity, 1>{IdentityOf(file)});
+        const std::vector<std::byte> savePayload(pack.EntryBytes(2).begin(), pack.EntryBytes(2).end());
+        check.Equal("longest second INI name: payload", true,
+                    savePayload == SavePayload(someSaves, secondNoZero.firstIni, secondNoZero.secondIni));
+    });
+    // The second INI name's target is not fixed: here it is the class name.
+    Synthetic shared = Typical();
+    shared.secondIniPointer = classAddress;
+    check.Run("second INI name at the class name", [&] { PrepareAgainstItself(Build(shared)); });
+}
+
 // The fields are checked in catalogue order, and each field's checks in the
 // order of ExtractProblem.
 void ReportsTheFirstProblem(Checks& check)
@@ -909,12 +1130,69 @@ void ReportsTheFirstProblem(Checks& check)
     slotFirst.layout.sections[4].name = ".bind";
     slotFirst.relocationBytes = 0;
     RefusesExtraction(check, "pointer's section before its relocation", slotFirst, ExtractProblem::SteamStubSection,
-                      "class name pointer");
+                      "first INI name pointer");
     Synthetic relocationFirst = Typical();
     relocationFirst.relocationBytes = 0;
     relocationFirst.pointerValue = imageBase + 0x1010;
+    relocationFirst.firstIniPointer = imageBase + 0x1010;
     RefusesExtraction(check, "relocation before the string", relocationFirst, ExtractProblem::NoRelocation,
-                      "class name pointer");
+                      "first INI name pointer");
+    Synthetic classRelocationFirst = Typical();
+    classRelocationFirst.layout.sections[5].raw =
+        Relocations({Relocation(highLow, 0xFEC), 0}, {Relocation(highLow, 0xFF0), Relocation(highLow, 0xFF4)});
+    classRelocationFirst.pointerValue = imageBase + 0x1010;
+    RefusesExtraction(check, "class name relocation before its string", classRelocationFirst,
+                      ExtractProblem::NoRelocation, "class name pointer");
+    // The suffixes before the save directory strings, which are read in
+    // their catalogue order, before the class name.
+    Synthetic suffixesBeforeSave = Typical();
+    suffixesBeforeSave.suffixes[3] = std::string(16, 'x');
+    suffixesBeforeSave.saves[0] = "%n";
+    RefusesExtraction(check, "suffixes before the save directory strings", suffixesBeforeSave,
+                      ExtractProblem::NoTerminator, "fourth log path suffix");
+    Synthetic formatZero = Typical();
+    formatZero.saves[0] = std::string(8, '%');
+    RefusesExtraction(check, "format's zero byte before its conversions", formatZero, ExtractProblem::NoTerminator,
+                      "INI path format");
+    Synthetic formatFirst = Typical();
+    formatFirst.saves[0] = "%n";
+    formatFirst.firstIniPointer = imageBase + 0xC4D300;
+    RefusesExtraction(check, "format before the first INI name", formatFirst, ExtractProblem::FormatConversion,
+                      "INI path format");
+    Synthetic firstIniFirst = Typical();
+    firstIniFirst.firstIni = std::string(firstIniCapacity, 'f');
+    firstIniFirst.saves[1] = std::string(8, 'x');
+    RefusesExtraction(check, "first INI name before the section", firstIniFirst, ExtractProblem::NoTerminator,
+                      "first INI name string");
+    Synthetic targetFirst = Typical();
+    targetFirst.firstIniPointer = imageBase + 0x1010;
+    RefusesExtraction(check, "pointer target before the target's section", targetFirst, ExtractProblem::PointerTarget,
+                      "first INI name pointer");
+    Synthetic keyBeforeSecond = Typical();
+    keyBeforeSecond.saves[2] = std::string(24, 'k');
+    keyBeforeSecond.secondIniPointer = imageBase + 0x1010;
+    RefusesExtraction(check, "setting key before the second INI name", keyBeforeSecond, ExtractProblem::NoTerminator,
+                      "setting key");
+    Synthetic secondBeforeFolders = Typical();
+    secondBeforeFolders.secondIniPointer = imageBase + 0x1010;
+    secondBeforeFolders.saves[3] = std::string(12, 'l');
+    RefusesExtraction(check, "second INI name before the local folder", secondBeforeFolders,
+                      ExtractProblem::CodeSection, "second INI name string");
+    Synthetic folderZero = Typical();
+    folderZero.saves[4] = std::string(12, ':');
+    RefusesExtraction(check, "folder's zero byte before its path", folderZero, ExtractProblem::NoTerminator,
+                      "documents folder");
+    Synthetic folderFirst = Typical();
+    folderFirst.saves[3] = "..";
+    folderFirst.saves[5] = std::string(12, 'g');
+    RefusesExtraction(check, "local folder path before the game folder", folderFirst, ExtractProblem::FolderPath,
+                      "local folder: holds a .. part");
+    Synthetic saveBeforeClass = Typical();
+    saveBeforeClass.saves[7] = std::string(20, 'd');
+    saveBeforeClass.pointerValue = imageBase + 0x1010;
+    RefusesExtraction(check, "save directory strings before the class name", saveBeforeClass,
+                      ExtractProblem::NoTerminator, "default INI name");
+
     Synthetic writableFirst = Typical();
     writableFirst.pointerValue = imageBase + 0xC82100;
     writableFirst.classAt = writableFirst.pointerValue;
@@ -938,6 +1216,7 @@ int main()
     check.Run("class names", [&] { RefusesUnreadableClassNames(check); });
     check.Run("log path suffixes", [&] { RefusesUnreadableSuffixes(check); });
     check.Run("staged suffix paths", [&] { RefusesAStagedSuffixPath(check); });
+    check.Run("save directory strings", [&] { RefusesUnreadableSaveDirectoryStrings(check); });
     check.Run("first problem", [&] { ReportsTheFirstProblem(check); });
     return check.ExitCode();
 }

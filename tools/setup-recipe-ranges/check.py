@@ -4,11 +4,13 @@
 usage: check.py --recipe UNITS_JSON --source SINGLE_INSTANCE_RANGES_H
                 --pointer-source MAIN_WINDOW_CLASS_RANGE_H
                 --suffix-source LOG_PATH_SUFFIX_RANGES_H
+                --save-directory-source SAVE_DIRECTORY_RANGES_H
 
 Reads the rows of singleInstanceRanges in src/setup/single_instance_ranges.h,
-the row of mainWindowClassRange in src/setup/main_window_class_range.h and
-the rows of logPathSuffixRanges in src/setup/log_path_suffix_ranges.h, and
-fails when any of these holds:
+the row of mainWindowClassRange in src/setup/main_window_class_range.h, the
+rows of logPathSuffixRanges in src/setup/log_path_suffix_ranges.h and the
+rows of saveDirectoryRanges and saveDirectoryPointerRanges in
+src/setup/save_directory_ranges.h, and fails when any of these holds:
   a. there are not exactly four rows;
   b. a row's name is not a str_ name that spells its address, or the recipe
      entries of src/fallout/misc/main.cpp, merged, do not bind it at exactly
@@ -31,6 +33,25 @@ fails when any of these holds:
   j. a suffix row's capacity is not the distance from its address to the
      next address any unit of the recipe binds;
   k. a suffix row names a literal, as d checks for singleInstanceRanges.
+  l. there are not exactly eight saveDirectoryRanges rows;
+  m. a save directory row's name is not bound by the recipe entries of
+     src/fallout/misc/saveload/bgssaveloadmanager.cpp, merged, at exactly
+     its address, a unit of the recipe binds it at another address, or it is
+     a DAT_, UNK_ or str_ name that spells another address;
+  n. a save directory row's capacity is not the distance from its address
+     to the next address any unit of the recipe binds;
+  o. a save directory row names a literal, as d checks;
+  p. there are not exactly two saveDirectoryPointerRanges rows;
+  q. a pointer row's name is not a char pointer named for its address, the
+     merged bgssaveloadmanager.cpp entries do not bind it, or a unit of the
+     recipe binds it at another address;
+  r. the distance from a pointer row's address to the next address any unit
+     of the recipe binds is less than 4;
+  s. a pointer row with a target names a target that is not a DAT_, UNK_ or
+     str_ name spelling the target address, that no unit binds there or that
+     a unit binds elsewhere, or its capacity is not the distance from the
+     target to the next address any unit binds; a pointer row without a
+     target does not have the capacity 256.
 README.md in this directory says what it does not check.
 """
 import argparse
@@ -40,7 +61,11 @@ import re
 import sys
 
 MAIN_SOURCE = "src/fallout/misc/main.cpp"
+SAVE_SOURCE = "src/fallout/misc/saveload/bgssaveloadmanager.cpp"
 ROWS = 4
+SAVE_ROWS = 8
+SAVE_POINTER_ROWS = 2
+UNBOUND_TARGET_CAPACITY = 256
 ROW = re.compile(
     r'^\s*\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", 0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+), '
     r'(?:\{\}|"(?P<literal>[^"]*)"), (?:\{\}|"(?P<text>[^"]*)")\},\s*$')
@@ -50,11 +75,16 @@ POINTER_ROW = re.compile(
     r'^inline constexpr PointerRange mainWindowClassRange\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", '
     r'0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+)\};\s*$')
 CHAR_POINTER_NAME = re.compile(r"^\?_?DAT_([0-9a-f]{8})@@3PADA$")
+SPELLED_NAME = re.compile(r"^\?_?(?:DAT|UNK|str)_([0-9a-f]{8})@")
+SAVE_POINTER_ROW = re.compile(
+    r'^\s*\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", 0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+), '
+    r'(?:\{\}|"(?P<target>[^"]*)"), (?:0|0x(?P<target_address>[0-9a-fA-F]{8}))\},\s*$')
+ANY_CHAR_POINTER_NAME = re.compile(r"^\?_?DAT_([0-9a-f]{8})@@3P[AB]D[AB]$")
 POINTER_BYTES = 4
 LITERAL = re.compile(r"^\?\?_C@_0(?:(?P<digit>[0-9])|(?P<hex>[A-P]+)@)[A-P]*@(?P<content>.*)@$")
 
 
-def rows(source, array="singleInstanceRanges"):
+def rows(source, array="singleInstanceRanges", pattern=ROW):
     """The rows of `array`, in order."""
     found, inside = [], False
     with open(source, encoding="utf-8") as text:
@@ -64,7 +94,7 @@ def rows(source, array="singleInstanceRanges"):
             elif inside and line.strip() == "}};":
                 break
             elif inside:
-                match = ROW.match(line)
+                match = pattern.match(line)
                 if not match:
                     raise SystemExit("cannot read the row: " + line.strip())
                 found.append(match)
@@ -108,11 +138,12 @@ def main():
     parser.add_argument("--source", required=True)
     parser.add_argument("--pointer-source", required=True)
     parser.add_argument("--suffix-source", required=True)
+    parser.add_argument("--save-directory-source", required=True)
     args = parser.parse_args()
 
     with open(args.recipe, encoding="utf-8") as text:
         units = json.load(text)["units"]
-    bound, main_names, literals, binders = set(), {}, {}, {}
+    bound, main_names, save_names, literals, binders = set(), {}, {}, {}, {}
     for unit in units:
         for function in unit.get("functions", []):
             bound.add(int(function["address"], 16))
@@ -123,7 +154,13 @@ def main():
             binders.setdefault(name, set()).add(unit["source"])
             if unit["source"] == MAIN_SOURCE:
                 main_names.setdefault(name, set()).add(address)
+            if unit["source"] == SAVE_SOURCE:
+                save_names.setdefault(name, set()).add(address)
     addresses = sorted(bound)
+
+    def recipe_bound(address):
+        following = bisect.bisect_right(addresses, address)
+        return addresses[following] - address if following < len(addresses) else None
 
     def check_rows(found, letters, name_pattern):
         count, name_letter, bound_letter, literal_letter = letters
@@ -177,10 +214,73 @@ def main():
         if distance is None or distance < POINTER_BYTES:
             problems.append("g %s: the recipe bound is %s, less than %d" % (field, distance, POINTER_BYTES))
 
+    saves = rows(args.save_directory_source, "saveDirectoryRanges")
+    if len(saves) != SAVE_ROWS:
+        problems.append("l %d saveDirectoryRanges rows, expected %d" % (len(saves), SAVE_ROWS))
+    for row in saves:
+        field, name = row["field"], row["name"]
+        address, capacity = int(row["address"], 16), int(row["capacity"])
+        if save_names.get(name) != {address}:
+            problems.append("m %s: %s is bound at %s for %s, not at 0x%08x only" % (
+                field, name, sorted(hex(a) for a in save_names.get(name, ())) or "no address", SAVE_SOURCE,
+                address))
+        if literals.get(name, set()) - {address}:
+            problems.append("m %s: %s is also bound at %s" % (
+                field, name, sorted(hex(a) for a in literals[name] - {address})))
+        spelled = SPELLED_NAME.match(name)
+        if spelled and int(spelled[1], 16) != address:
+            problems.append("m %s: %s spells another address than 0x%08x" % (field, name, address))
+        distance = recipe_bound(address)
+        if distance != capacity:
+            problems.append("n %s: capacity %d, the recipe bound is %s" % (field, capacity, distance))
+        literal, text = row["literal"], row["text"]
+        if (literal is None) != (text is None):
+            problems.append("o %s: a literal needs both its name and its text" % field)
+        elif literal is not None:
+            if address not in literals.get(literal, ()):
+                problems.append("o %s: no unit binds %s at 0x%08x" % (field, literal, address))
+            if literal_text(literal) != text + "\0":
+                problems.append("o %s: %s does not spell exactly \"%s\" and a zero byte" % (field, literal, text))
+
+    save_pointers = rows(args.save_directory_source, "saveDirectoryPointerRanges", SAVE_POINTER_ROW)
+    if len(save_pointers) != SAVE_POINTER_ROWS:
+        problems.append("p %d saveDirectoryPointerRanges rows, expected %d" % (
+            len(save_pointers), SAVE_POINTER_ROWS))
+    for row in save_pointers:
+        field, name = row["field"], row["name"]
+        address, capacity = int(row["address"], 16), int(row["capacity"])
+        spelled = ANY_CHAR_POINTER_NAME.match(name)
+        if not spelled or int(spelled[1], 16) != address:
+            problems.append("q %s: %s is not a char pointer named for 0x%08x" % (field, name, address))
+        if SAVE_SOURCE not in binders.get(name, ()):
+            problems.append("q %s: %s is not bound for %s" % (field, name, SAVE_SOURCE))
+        if literals.get(name, set()) - {address}:
+            problems.append("q %s: %s is also bound at %s" % (
+                field, name, sorted(hex(a) for a in literals[name] - {address})))
+        distance = recipe_bound(address)
+        if distance is None or distance < POINTER_BYTES:
+            problems.append("r %s: the recipe bound is %s, less than %d" % (field, distance, POINTER_BYTES))
+        target = row["target"]
+        if target is None:
+            if row["target_address"] is not None or capacity != UNBOUND_TARGET_CAPACITY:
+                problems.append("s %s: without a target, the capacity must be %d and the target address 0" % (
+                    field, UNBOUND_TARGET_CAPACITY))
+            continue
+        target_address = int(row["target_address"] or "0", 16)
+        spelled = SPELLED_NAME.match(target)
+        if not spelled or int(spelled[1], 16) != target_address:
+            problems.append("s %s: %s does not spell 0x%08x" % (field, target, target_address))
+        if literals.get(target, set()) != {target_address}:
+            problems.append("s %s: %s is bound at %s, not at 0x%08x only" % (
+                field, target, sorted(hex(a) for a in literals.get(target, ())) or "no address", target_address))
+        distance = recipe_bound(target_address)
+        if distance != capacity:
+            problems.append("s %s: capacity %d, the recipe bound of the target is %s" % (field, capacity, distance))
+
     for problem in problems:
         print(problem)
-    print("%d rows, %d pointer rows, %d suffix rows, %d problems" % (
-        len(found), len(pointers), len(suffixes), len(problems)))
+    print("%d rows, %d pointer rows, %d suffix rows, %d save directory rows, %d save directory pointer rows, "
+          "%d problems" % (len(found), len(pointers), len(suffixes), len(saves), len(save_pointers), len(problems)))
     return 1 if problems else 0
 
 

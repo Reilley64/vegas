@@ -15,16 +15,21 @@ namespace setup
 
 // Why a field cannot be read from an identified executable as stored. The
 // fields are checked in catalogue order, C1's four, then the four log path
-// suffixes, then the main window class's, so a problem of an earlier field is
-// reported first.
+// suffixes, then the ten save directory strings, then the main window
+// class's, so a problem of an earlier field is reported first.
 //
-// For a C1 field and a log path suffix the problems NoSection to KnownString
-// are checked in the order listed; no suffix has a known text. The main window class's string is reached through a stored
+// For a C1 field, a log path suffix and a save directory string read at its
+// address the problems NoSection to KnownString are checked in the order
+// listed; no suffix and no save directory string has a known text. The
+// format of the INI paths is then checked for FormatConversion, and each of
+// the four folders for FolderPath. The main
+// window class's string and the two INI names are reached through a stored
 // pointer: NoSection to ZeroTail are checked for the four bytes of the
-// pointer ("class name pointer" in the message), then RelocationTable and
-// NoRelocation, then for the string it points to ("class name string")
-// NoSection to NotInitializedData, WritableSection, ZeroTail and
-// NoTerminator.
+// pointer ("class name pointer", "first INI name pointer" in the message),
+// then RelocationTable and NoRelocation, then PointerTarget for the first
+// INI name, whose target the recipe binds, then for the string it points to
+// ("class name string") NoSection to NotInitializedData, WritableSection,
+// ZeroTail and NoTerminator.
 enum class ExtractProblem
 {
     NoSection,          // no section holds the field's first byte in memory, or it is below the image base
@@ -37,6 +42,9 @@ enum class ExtractProblem
     RelocationTable,    // the base relocation table is not stored in one section, or a block of it is malformed
     NoRelocation,       // no 32-bit (HIGHLOW) base relocation covers the pointer
     WritableSection,    // the pointer's target is in a section marked as writable, not read-only
+    PointerTarget,      // the pointer does not hold the address the recipe binds for its string
+    FormatConversion,   // the format of the INI paths does not hold exactly one %s and no other conversion
+    FolderPath,         // a save directory folder holds a colon or a byte below 0x20, or a .. part
 };
 
 // Thrown when a field cannot be read. The message names the field.
@@ -68,7 +76,7 @@ struct PreparedPack
     fileformat::ValidatedPack validated;
 };
 
-// Prepares the data pack of catalogue version 3 from the bytes of an
+// Prepares the data pack of catalogue version 4 from the bytes of an
 // executable. In order:
 //
 // 1. fileformat::ParsePeFile; throws fileformat::PeError. A 64-bit
@@ -78,10 +86,12 @@ struct PreparedPack
 //    throws fileformat::UnsupportedOriginalError.
 // 4. Reads C1's four fields at the recipe ranges of
 //    single_instance_ranges.h, then the four log path suffixes at those of
-//    log_path_suffix_ranges.h, then the main window class through the
-//    pointer of main_window_class_range.h; throws ExtractError. Each string
-//    is copied through its first zero byte and its field is filled with
-//    zeros: no byte after the zero byte is copied.
+//    log_path_suffix_ranges.h, then the save directory strings at the
+//    ranges and through the pointers of save_directory_ranges.h, then the
+//    main window class through the pointer of main_window_class_range.h;
+//    throws ExtractError. Each string is copied through its first zero byte
+//    and its field is filled with zeros: no byte after the zero byte is
+//    copied.
 // 5. fileformat::WritePackStructure with the identified original.
 // 6. fileformat::ValidatePack of the written bytes; throws StagedPackError.
 //    Setup copies a log path suffix as it is stored, so a suffix the
@@ -90,7 +100,7 @@ struct PreparedPack
 // No set is a parameter: the supported set is the source's, and no form of
 // this function under src/ takes one. The tests run steps 1 to 5 against a
 // set of their own, and step 6 on packs they write, through staged_pack.h.
-// Nothing is decrypted. Strings and the pointer are read only from the
+// Nothing is decrypted. Strings and the pointers are read only from the
 // stored bytes of a data section; the base relocation table is read where
 // the header's data directory places it, in the stored bytes of one
 // section.

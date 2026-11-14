@@ -5,7 +5,7 @@
 #
 # cmake -DPYTHON=<python3> -DCHECK=<check.py> -DRECIPE=<units.json>
 #   -DSOURCE=<single_instance_ranges.h> -DPOINTER_SOURCE=<main_window_class_range.h>
-#   -DSUFFIX_SOURCE=<log_path_suffix_ranges.h> -DWORK=<folder> -P recipe_ranges_suffix_bound.cmake
+#   -DSUFFIX_SOURCE=<log_path_suffix_ranges.h> -DSAVE_SOURCE=<save_directory_ranges.h> -DWORK=<folder> -P recipe_ranges_suffix_bound.cmake
 
 file(REMOVE_RECURSE "${WORK}")
 file(MAKE_DIRECTORY "${WORK}")
@@ -22,6 +22,7 @@ string(REPLACE "${units_key}"
 file(WRITE "${WORK}/units.json" "${recipe}")
 execute_process(COMMAND "${PYTHON}" "${CHECK}" --recipe "${WORK}/units.json"
   --source "${SOURCE}" --pointer-source "${POINTER_SOURCE}" --suffix-source "${SUFFIX_SOURCE}"
+  --save-directory-source "${SAVE_SOURCE}"
   RESULT_VARIABLE status OUTPUT_VARIABLE output ERROR_VARIABLE output)
 if(NOT status STREQUAL "1" OR NOT output MATCHES "(^|\n)j third log path suffix: capacity 24, the recipe bound is 8\n"
    OR NOT output MATCHES ", 1 problems\n$")

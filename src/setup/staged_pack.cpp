@@ -2,10 +2,12 @@
 
 #include "fileformat/format_error.h"
 #include "fileformat/pack_catalogue.h"
+#include "fileformat/pack_validation.h"
 #include "fileformat/pack_writer.h"
 #include "setup/log_path_suffix_ranges.h"
 #include "setup/main_window_class_range.h"
 #include "setup/prepare_pack.h"
+#include "setup/save_directory_ranges.h"
 #include "setup/single_instance_ranges.h"
 
 #include "mbedtls/sha256.h"
@@ -157,9 +159,10 @@ void CopyString(const PeFile& pe, const RecipeRange& range, std::array<char, Cap
 
 // Copies the string that the pointer of `range` points to through its first
 // zero byte into `field`, which holds zeros. The pointer must be stored and
-// covered by a HIGHLOW base relocation, and the string must lie in the stored
-// bytes of a read-only data section with its zero byte within the capacity.
-// No byte after that zero byte is copied.
+// covered by a HIGHLOW base relocation, hold the range's target address when
+// the range has one, and the string must lie in the stored bytes of a
+// read-only data section with its zero byte within the capacity. No byte
+// after that zero byte is copied.
 template <std::size_t Capacity>
 void CopyPointedString(const PeFile& pe, const PointerRange& range, std::array<char, Capacity>& field)
 {
@@ -169,6 +172,8 @@ void CopyPointedString(const PeFile& pe, const PointerRange& range, std::array<c
     if (!HasHighLowRelocation(pe, range.slotAddress - pe.imageBase, pointer))
         Fail(ExtractProblem::NoRelocation, pointer, "has no 32-bit base relocation");
     const std::uint32_t target = U32(slot, 0);
+    if (range.targetAddress != 0 && target != range.targetAddress)
+        Fail(ExtractProblem::PointerTarget, pointer, std::format("does not hold {:#010x}", range.targetAddress));
     const PeSection& section = DataSection(pe, text, target);
     if ((section.characteristics & sectionWrite) != 0)
         Fail(ExtractProblem::WritableSection, text, "is in a section marked as writable");
@@ -182,6 +187,27 @@ void CopyPointedString(const PeFile& pe, const PointerRange& range, std::array<c
     if (zero == bytes.end())
         Fail(ExtractProblem::NoTerminator, text, "holds no zero byte");
     std::ranges::transform(bytes.begin(), zero, field.begin(), toChar);
+}
+
+// The format of the INI paths, read as a C1 field is, must hold exactly one
+// %s and no other conversion, as the validator requires.
+template <std::size_t Capacity>
+void CopyFormat(const PeFile& pe, const RecipeRange& range, std::array<char, Capacity>& field)
+{
+    CopyString(pe, range, field);
+    if (!fileformat::HoldsOneStringConversion(field.data()))
+        Fail(ExtractProblem::FormatConversion, range.field, "does not hold exactly one %s and no other conversion");
+}
+
+// A save directory folder, read as a C1 field is, must pass
+// fileformat::FolderPathRefusal, as the validator requires.
+template <std::size_t Capacity>
+void CopyFolder(const PeFile& pe, const RecipeRange& range, std::array<char, Capacity>& field)
+{
+    CopyString(pe, range, field);
+    const std::string_view refusal = fileformat::FolderPathRefusal(field.data());
+    if (!refusal.empty())
+        Fail(ExtractProblem::FolderPath, range.field, refusal);
 }
 
 template <std::size_t Capacity> void Append(std::vector<std::byte>& payload, const std::array<char, Capacity>& field)
@@ -212,6 +238,17 @@ std::vector<std::byte> WriteDataPack(const PeFile& pe, const fileformat::Origina
     CopyString(pe, logPathSuffixRanges[1], suffixes.secondSuffix);
     CopyString(pe, logPathSuffixRanges[2], suffixes.thirdSuffix);
     CopyString(pe, logPathSuffixRanges[3], suffixes.fourthSuffix);
+    fileformat::SaveDirectoryStrings saveDirectory{};
+    CopyFormat(pe, saveDirectoryRanges[0], saveDirectory.iniPathFormat);
+    CopyPointedString(pe, saveDirectoryPointerRanges[0], saveDirectory.firstIniName);
+    CopyString(pe, saveDirectoryRanges[1], saveDirectory.iniSection);
+    CopyString(pe, saveDirectoryRanges[2], saveDirectory.settingKey);
+    CopyPointedString(pe, saveDirectoryPointerRanges[1], saveDirectory.secondIniName);
+    CopyFolder(pe, saveDirectoryRanges[3], saveDirectory.localFolder);
+    CopyFolder(pe, saveDirectoryRanges[4], saveDirectory.documentsFolder);
+    CopyFolder(pe, saveDirectoryRanges[5], saveDirectory.gameFolder);
+    CopyFolder(pe, saveDirectoryRanges[6], saveDirectory.workingFolder);
+    CopyString(pe, saveDirectoryRanges[7], saveDirectory.defaultIniName);
     fileformat::MainWindowClass windowClass{};
     CopyPointedString(pe, mainWindowClassRange, windowClass.className);
 
@@ -225,15 +262,28 @@ std::vector<std::byte> WriteDataPack(const PeFile& pe, const fileformat::Origina
     Append(suffixPayload, suffixes.secondSuffix);
     Append(suffixPayload, suffixes.thirdSuffix);
     Append(suffixPayload, suffixes.fourthSuffix);
+    std::vector<std::byte> savePayload;
+    Append(savePayload, saveDirectory.iniPathFormat);
+    Append(savePayload, saveDirectory.firstIniName);
+    Append(savePayload, saveDirectory.iniSection);
+    Append(savePayload, saveDirectory.settingKey);
+    Append(savePayload, saveDirectory.secondIniName);
+    Append(savePayload, saveDirectory.localFolder);
+    Append(savePayload, saveDirectory.documentsFolder);
+    Append(savePayload, saveDirectory.gameFolder);
+    Append(savePayload, saveDirectory.workingFolder);
+    Append(savePayload, saveDirectory.defaultIniName);
     std::vector<std::byte> classPayload;
     Append(classPayload, windowClass.className);
 
     const fileformat::PackCatalogueEntry& first = fileformat::singleInstanceEntry;
     const fileformat::PackCatalogueEntry& second = fileformat::logPathSuffixesEntry;
-    const fileformat::PackCatalogueEntry& third = fileformat::mainWindowClassEntry;
-    const std::array<fileformat::PackWriteEntry, 3> entries{{{first.key, first.version, payload},
+    const fileformat::PackCatalogueEntry& third = fileformat::saveDirectoryEntry;
+    const fileformat::PackCatalogueEntry& fourth = fileformat::mainWindowClassEntry;
+    const std::array<fileformat::PackWriteEntry, 4> entries{{{first.key, first.version, payload},
                                                              {second.key, second.version, suffixPayload},
-                                                             {third.key, third.version, classPayload}}};
+                                                             {third.key, third.version, savePayload},
+                                                             {fourth.key, fourth.version, classPayload}}};
     return fileformat::WritePackStructure(original.version, original.sha256, entries);
 }
 

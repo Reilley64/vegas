@@ -13,6 +13,7 @@ if(Python3_Interpreter_FOUND)
       -DSOURCE=${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h
       -DPOINTER_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/main_window_class_range.h
       -DSUFFIX_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/log_path_suffix_ranges.h
+      -DSAVE_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/save_directory_ranges.h
       -DWORK=${CMAKE_CURRENT_BINARY_DIR}/recipe_ranges_suffix_bound
       -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/recipe_ranges_suffix_bound.cmake)
 else()

@@ -12,16 +12,21 @@ namespace setup
 
 // Where setup reads a string that the original release reaches through a
 // stored pointer: the 32-bit pointer at `slotAddress`, which the recipe
-// binds, and the string it points to, which the recipe does not bind. The
-// address and name are facts of the recipe, build/units.json, written here as
-// data: no byte of the original release is. The CTest setup.recipe_ranges
-// (tools/setup-recipe-ranges) fails when they no longer match the recipe.
+// binds, and the string it points to. When the recipe binds the string's
+// address too, the row names it, the pointer must hold it, and the capacity
+// is the recipe bound there; otherwise the capacity is a documented limit.
+// The addresses and names are facts of the recipe, build/units.json, written
+// here as data: no byte of the original release is. The CTest
+// setup.recipe_ranges (tools/setup-recipe-ranges) fails when they no longer
+// match the recipe.
 struct PointerRange
 {
-    std::string_view field;      // the field's name in messages
-    std::string_view recipeName; // the char pointer the recipe binds at `slotAddress`, in src/fallout/misc/main.cpp
-    std::uint32_t slotAddress;   // where the pointer is stored in the original's memory, image base included
-    std::size_t capacity;        // the field's capacity; no recipe bound, since the recipe binds no target address
+    std::string_view field;         // the field's name in messages
+    std::string_view recipeName;    // the char pointer the recipe binds at `slotAddress` for the consumer's unit
+    std::uint32_t slotAddress;      // where the pointer is stored in the original's memory, image base included
+    std::size_t capacity;           // the field's capacity: the recipe bound at `targetAddress`, or a documented limit
+    std::string_view targetName{};  // the name the recipe binds at the string's address, or empty when it binds none
+    std::uint32_t targetAddress{0}; // that address, image base included, or 0 when the recipe binds none
 };
 
 // The main window class's one field. The capacity is 256 bytes, the length

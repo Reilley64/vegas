@@ -135,8 +135,9 @@ target_include_directories(source_calling_convention_keywords_test PRIVATE ${CMA
 add_test(NAME source.calling_convention_keywords
   COMMAND source_calling_convention_keywords_test ${PROJECT_SOURCE_DIR})
 
-# Setup's recipe ranges of C1 and the log path suffixes, and the main window
-# class's pointer, match the recipe (tools/setup-recipe-ranges).
+# Setup's recipe ranges of C1, the log path suffixes and the save directory
+# strings, and the pointers of the main window class and of the two INI
+# names, match the recipe (tools/setup-recipe-ranges).
 # Without Python 3 the configure goes on, and the test is still registered
 # and fails with that reason, so the check is never silently missing.
 find_package(Python3 COMPONENTS Interpreter)
@@ -146,7 +147,8 @@ if(Python3_Interpreter_FOUND)
             --recipe ${PROJECT_SOURCE_DIR}/build/units.json
             --source ${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h
             --pointer-source ${PROJECT_SOURCE_DIR}/src/setup/main_window_class_range.h
-            --suffix-source ${PROJECT_SOURCE_DIR}/src/setup/log_path_suffix_ranges.h)
+            --suffix-source ${PROJECT_SOURCE_DIR}/src/setup/log_path_suffix_ranges.h
+            --save-directory-source ${PROJECT_SOURCE_DIR}/src/setup/save_directory_ranges.h)
   # Check g on a recipe copy that binds an address 2 bytes after the pointer.
   add_test(NAME setup.recipe_ranges.pointer_bound
     COMMAND ${CMAKE_COMMAND} -DPYTHON=${Python3_EXECUTABLE}
@@ -155,6 +157,7 @@ if(Python3_Interpreter_FOUND)
       -DSOURCE=${PROJECT_SOURCE_DIR}/src/setup/single_instance_ranges.h
       -DPOINTER_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/main_window_class_range.h
       -DSUFFIX_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/log_path_suffix_ranges.h
+      -DSAVE_SOURCE=${PROJECT_SOURCE_DIR}/src/setup/save_directory_ranges.h
       -DWORK=${CMAKE_CURRENT_BINARY_DIR}/recipe_ranges_pointer_bound
       -P ${CMAKE_CURRENT_SOURCE_DIR}/setup/recipe_ranges_pointer_bound.cmake)
 else()

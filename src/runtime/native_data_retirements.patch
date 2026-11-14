@@ -1,3 +1,7 @@
+--- a/src/generated/data/bsaudio/bsaudio.inc
++++ b/src/generated/data/bsaudio/bsaudio.inc
+@@ -9 +8,0 @@
+-int DAT_01202800;
 --- a/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
 +++ b/src/generated/data/bshavok/bhkrigidbody_h_unit.inc
 @@ -7 +6,0 @@

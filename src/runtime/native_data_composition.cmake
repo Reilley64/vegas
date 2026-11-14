@@ -6,6 +6,7 @@ function(vegas_compose_native_data)
   set(patch "${PROJECT_SOURCE_DIR}/src/runtime/native_data_retirements.patch")
   set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${patch}")
   set(inputs
+    "src/generated/data/bsaudio/bsaudio.inc|870d9edb5b2de0545ce934fb3228bf47c6450254d5d134fa940c2864c9105b13"
     "src/generated/data/bshavok/bhkrigidbody_h_unit.inc|801786c7bf38eb1b7cf2745845efd568055bd5ddfe38105314e26ae6289a9ae7"
     "src/generated/data/fallout/misc/main.inc|b5d162d2a3e31b206c1f63c0c9a816be07f2e0d5d21cbc6ece067aecb1d5389a"
     "src/generated/data/fallout_shared/tesfile.inc|dfc4376955f40276d081d9cee18d5ffef1f1e3820e25bbe5562077deb8a47751"

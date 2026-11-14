@@ -1,5 +1,6 @@
-# Callers of the setting value accessor at 0x0043d4d0 in magicitem.cpp
-# (VEGAS-111), docs/setting-value-offset.md. Format: README.md.
+# Callers of the setting value accessor at 0x0043d4d0 (VEGAS-111), which
+# src/fallout_shared/setting_value_accessor.cpp defines since VEGAS-129;
+# docs/setting-value-offset.md. Format: README.md.
 # The accessor's 32-bit form, which returned the address 4 bytes into the
 # setting. No object defines it; a call whose argument is a setting of the
 # shared class goes to the form that takes the shared Setting:

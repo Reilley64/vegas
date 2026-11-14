@@ -36,11 +36,12 @@ owner now defines that storage. It moves sole legacy definitions, unchanged in n
 the module that now owns them. It does not replace required objects with stubs, rename
 incompatible receivers or clone values. The genuine owner
 modules and typed declarations remain the source of the native globals and
-protocols. The patch covers thirty-nine hashed inputs. Twelve are the
+protocols. The patch covers forty hashed inputs. Twelve are the
 retirements previously reviewed for VEGAS-1, unchanged, not additional engine
 work. Four are the three retirements and the one move below. Sixteen are the
 VEGAS-51 retirements below. Four are the VEGAS-102 label respellings below.
 Two are the VEGAS-112 retirements below. One comes with the three VEGAS-127 moves below.
+One is the VEGAS-129 retirement below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -115,7 +116,19 @@ as `DAT_01202b48`'s, and the line of the third from
 both inputs is unchanged. The new pin is the hash of the committed bytes,
 which do not change.
 
-Native CMake verifies the thirty-nine committed input hashes, copies them into
+VEGAS-129 adds `bsaudio/bsaudio.inc`. It defined `DAT_01202800`, the
+`int` that the setting value accessor `FUN_0043d4d0` sets to zero and
+returns for a null setting (`docs/setting-value-offset.md`). The accessor
+and that `int` now live in a unit of their own,
+`src/fallout_shared/setting_value_accessor.cpp`, which defines it with the
+same name and type. The patch removes the one line of the old definition,
+which had no initializer, so no value is lost or cloned. `bsaudio.cpp`,
+the unit that includes the input, still names the `int` in its source, now
+the new unit's; its object refers to it only with `/Od /Gy`. Every other
+line of the input is unchanged. Its pin is the hash of the committed bytes,
+which do not change.
+
+Native CMake verifies the forty committed input hashes, copies them into
 the build directory, and applies that patch using the existing Git patch
 engine.
 It fails closed if any input changes or the patch no longer applies. Git is

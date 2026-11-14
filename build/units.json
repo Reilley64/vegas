@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2786,
+  "units": 2787,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -164380,11 +164380,6 @@
      "address": "0x0040c110",
      "symbol": "?FUN_0040c110@@YAXPAUFUN_0040c110_ptr@@@Z",
      "size": 29
-    },
-    {
-     "address": "0x0043d4d0",
-     "symbol": "?FUN_0043d4d0@@YAAAHPAVSetting@@@Z",
-     "size": 56
     }
    ],
    "symbols": {
@@ -164433,7 +164428,6 @@
     "?IsLoaded@MagicItem@@QAE_NXZ": "0x0040b470",
     "?FUN_0040ab30@@YAPADPADH@Z": "0x0040ab30",
     "?FUN_0040c130@FUN_0040c130_Class@@QAEHXZ": "0x0040c130",
-    "?DAT_01202800@@3HA": "0x01202800",
     "?FUN_004037f0@TextString@@QAE_NPBDI@Z": "0x004037f0",
     "?FUN_00403970@@YIXPAV?$BSStringT@D@@@Z": "0x00403970",
     "?DAT_011c3438@@3HA": "0x011c3438",
@@ -164498,6 +164492,29 @@
      "parent": "0x0040ab70"
     }
    ]
+  },
+  {
+   "source": "src/fallout_shared/setting_value_accessor.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy",
+    "/GF"
+   ],
+   "functions": [
+    {
+     "address": "0x0043d4d0",
+     "symbol": "?FUN_0043d4d0@@YAAAHPAVSetting@@@Z",
+     "size": 56
+    }
+   ],
+   "symbols": {
+    "?DAT_01202800@@3HA": "0x01202800"
+   }
   },
   {
    "source": "src/fallout_shared/magic/magicitemform.cpp",

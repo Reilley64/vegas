@@ -223,7 +223,6 @@ class Actor
 class Tile
 {
   public:
-    void Set(int, int);
 };
 struct ListBox_enum_ActorValue__Index_
 {
@@ -253,7 +252,7 @@ void __cdecl UpdateLevelUpMenu()
             reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_007851d0::PC7d * *>(&::_g_thePlayer))))->ConfigureActorState(true, false);
         ::fnv_007df4e0::UpdateStatsMenuLevelText();
         ::StatsMenu::UpdateStatusEffects();
-        ((::fnv_007851d0::Tile *)(reinterpret_cast<::MenuFields *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->tile))->Set(0x1772, 1);
+        ((::Tile *)(reinterpret_cast<::MenuFields *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->tile))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((((LevelUpMenuShell*)::DAT_011d9fdc)))->FUN_00a1d910();
         ::DAT_011d9fdc = 0;
     }

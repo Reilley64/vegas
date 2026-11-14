@@ -38,3 +38,5 @@ forbid	?CopyStringToBuffer@TaskQueueInterface@fnv_005636e0@@SAXPEADIPEBD@Z
 forbid	?GetDisabled@FormStub@fnv_005728c0@@QEAA_NXZ
 function	batch2	src/fallout_shared/tesobjectrefr.cpp	?FUN_005636e0@FUN_005636e0_shell@fnv_005636e0@@QEAAXPEAUBGSLoadFormBuffer@2@@Z	?CopyStringToBuffer@TaskQueueInterface@@SAXPEADIPEBD@Z
 function	batch2	src/fallout_shared/tesobjectrefr.cpp	?FUN_005728c0@FUN_005728c0_shell@fnv_005728c0@@QEAAX_N@Z	?GetDisabled@TESForm@@QEBA_NXZ
+forbid	?Set@Tile@fnv_007851d0@@QEAAXHH@Z
+function	batch2	src/fallout/interface/menus/levelupmenu.cpp	?UpdateLevelUpMenu@fnv_007851d0@@YAXXZ	?Set@Tile@@QEAAXHH@Z

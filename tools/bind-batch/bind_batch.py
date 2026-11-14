@@ -12,23 +12,27 @@ gate reads each requiring unit's declarations with clang's JSON AST dump
 (the unit's compile command, syntax only) and decides ADMIT or REFUSE per
 call site, from the declarations, the recipe, the differing-definitions
 names and the tip's forced-unlimited undefined names only. It writes
-OUT_DIR/gate.tsv and OUT_DIR/gate.json.
+OUT_DIR/gate.tsv and OUT_DIR/gate.json, with the sha256 of each unit's text,
+and deletes the proof files of an earlier gate.
 
 prove compiles each admitted name's rewrite with tools/object-proof at the
 unit's flags, /Ob0 and /Od /Gy, one name at a time and then all of a unit's
 proved names together, reads objcmp.py's verdict, and compares the unit's
 record layouts on windows-x64 and i686. It writes OUT_DIR/proof.tsv,
-OUT_DIR/proved.txt and OUT_DIR/rows.tsv.
+OUT_DIR/proved.txt and OUT_DIR/rows.tsv. It writes nothing when a unit's
+text no longer has the gate's sha256.
 
 apply writes the rewrite of the names in OUT_DIR/proved.txt (and --only)
 into ROOT: the verbatim moves (--stage moves), or the moves and the call
 edits with the recipe keys and the check rows (--stage bind). It writes
-nothing unless every text, key and row is ready.
+nothing unless every text, key and row is ready and every unit's text has the
+gate's sha256.
 
-Exit status: 0 done, 1 a write was refused or prove has not run, 2 usage
-error or unreadable input.
+Exit status: 0 done, 1 a write was refused, prove has not run or a unit's
+text changed since the gate, 2 usage error or unreadable input.
 """
 import collections
+import hashlib
 import json
 import os
 import re
@@ -50,6 +54,7 @@ MOVE_DEPENDENCIES = 3
 INTEGERS = {"int", "unsigned int", "char", "signed char", "unsigned char", "short", "unsigned short",
             "long", "unsigned long", "__int64", "unsigned __int64"}
 VARIANTS = ("flags", "ob0", "od")
+PROOF_FILES = ("proof.tsv", "proved.txt", "rows.tsv")
 
 
 # ---------------------------------------------------------------- signatures
@@ -561,7 +566,8 @@ def gate_unit(job):
     with open(path, "rb") as f:
         text = f.read()
     facts = extract(entry, names, owners)
-    out, plan = [], dict(unit=unit, file=path, names={}, refused=sorted(names))
+    out, plan = [], dict(unit=unit, file=path, sha256=hashlib.sha256(text).hexdigest(), names={},
+                         refused=sorted(names))
     if facts is None:
         for r in rows:
             out.append(dict(r, line="", col="", decision="REFUSE", kind="extract:failed", detail=""))
@@ -798,6 +804,9 @@ def gate(args):
         print("bind_batch.py: %s" % error, file=sys.stderr)
         return 2
     os.makedirs(out_dir, exist_ok=True)
+    for stale in PROOF_FILES:  # an earlier gate's proof does not hold for this plan
+        if os.path.exists(os.path.join(out_dir, stale)):
+            os.remove(os.path.join(out_dir, stale))
     syms, rowsyms = recipe_index(recipe)
     by_unit = collections.defaultdict(list)
     for r in rows:
@@ -930,6 +939,30 @@ def selected(plans, only):
             want = {l.split("\t")[0].strip() for l in f if l.strip() and not l.startswith("#")}
         names &= want
     return names
+
+
+def changed_units(plans, names):
+    """The units holding a name of NAMES whose text no longer has the sha256 the gate recorded."""
+    out = []
+    for plan in plans["units"]:
+        if not any(n in names for n in plan["names"]):
+            continue
+        try:
+            with open(plan["file"], "rb") as f:
+                same = hashlib.sha256(f.read()).hexdigest() == plan.get("sha256")
+        except (OSError, TypeError):
+            same = False
+        if not same:
+            out.append(plan["unit"])
+    return out
+
+
+def refuse_changed(plans, names):
+    """Prints and returns True when a unit's text is not the text the gate read."""
+    changed = changed_units(plans, names)
+    for unit in changed:
+        print("bind_batch.py: %s is not the text the gate read; gate again" % unit, file=sys.stderr)
+    return bool(changed)
 
 
 # ---------------------------------------------------------------- proving
@@ -1180,6 +1213,8 @@ def prove(args):
     out_dir, build_dir = opts["args"]
     plans = load_plans(out_dir)
     names = selected(plans, opts.get("--only"))
+    if refuse_changed(plans, names):
+        return 1
     jobs = []
     for i, plan in enumerate(plans["units"]):
         mine = sorted(n for n in plan["names"] if n in names)
@@ -1230,12 +1265,14 @@ def apply(args):
         return usage()
     out_dir, root = opts["args"]
     stage = opts["--stage"]
-    for name in ("proof.tsv", "proved.txt", "rows.tsv"):
+    for name in PROOF_FILES:
         if not os.path.exists(os.path.join(out_dir, name)):
             print("bind_batch.py: %s has no %s; run prove first" % (out_dir, name), file=sys.stderr)
             return 1
     plans = load_plans(out_dir)
     names = selected(plans, opts.get("--only")) & read_names(os.path.join(out_dir, "proved.txt"))
+    if refuse_changed(plans, names):
+        return 1
     texts, done = [], []
     for plan in plans["units"]:
         mine = sorted(n for n in plan["names"] if n in names)

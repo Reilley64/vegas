@@ -2,6 +2,7 @@
 """Host tests of bind_batch.py on hand-made AST fragments, texts and reports, with a fake
 compiler named clang-cl and a fake objcmp.py that the tests write into a temporary folder."""
 import copy
+import hashlib
 import json
 import os
 import shutil
@@ -769,8 +770,10 @@ class ApplyTest(Folder):
         plan = RewriteTest.plan(self)
         plan["names"][N].update(address="0x00401000", key=N32, row="?g@R@@QAEHH@Z", defined_here=False)
         with open(os.path.join(self.out, "gate.json"), "w") as f:
-            json.dump(dict(build=build, units=[dict(plan, unit="src/u.cpp", file=self.source, refused=[])]), f)
+            json.dump(dict(build=build, units=[dict(plan, unit="src/u.cpp", file=self.source, refused=[],
+                                                    sha256=hashlib.sha256(TEXT).hexdigest())]), f)
         self.table = os.path.join(self.repo, "batch.tsv")
+        self.build_dir = build
 
     def proved(self, names=(N,), rows=((CALLER, N),)):
         self.write("out/proof.tsv", "unit\tname\towner\tverdict\tmode\treason\n")
@@ -836,6 +839,72 @@ class ApplyTest(Folder):
         before = self.state()
         self.assertEqual(self.apply(), 1)
         self.assertEqual(self.state(), before)
+
+
+    def test_a_changed_export_refuses_prove_and_apply(self):
+        # The gate recorded the export's text; once it changes, prove and apply write nothing.
+        with open(self.source, "ab") as f:
+            f.write(b"// changed after the gate\n")
+        self.assertEqual(bb.main(["prove", self.out, self.build_dir]), 1)
+        self.assertEqual(sorted(os.listdir(self.out)), ["gate.json"])
+        self.proved()
+        before = self.state()
+        self.assertEqual(self.apply(), 1)
+        self.assertEqual(bb.main(["apply", self.out, self.repo, "--stage", "moves"]), 1)
+        self.assertEqual(self.state(), before)
+        # A plan without the hash, from a gate before it, is refused too.
+        with open(self.source, "wb") as f:
+            f.write(TEXT)
+        with open(os.path.join(self.out, "gate.json")) as f:
+            plans = json.load(f)
+        del plans["units"][0]["sha256"]
+        with open(os.path.join(self.out, "gate.json"), "w") as f:
+            json.dump(plans, f)
+        self.assertEqual(self.apply(), 1)
+        self.assertEqual(self.state(), before)
+
+
+class GateRunTest(Folder):
+    """bind_batch.py gate end to end, with the fake compiler's AST dump and the names demangled
+    from a table."""
+
+    DEMANGLED = {N: NDEM, D: DDEM, N32: "public: int __thiscall S::FUN_00401000(int)",
+                 "?g@R@@QAEHH@Z": "public: int __thiscall R::g(int)"}
+
+    def setUp(self):
+        super().setUp()
+        self.saved = bb.demangle
+        bb.demangle = lambda names, undname: {n: self.DEMANGLED.get(n) for n in names}
+
+    def tearDown(self):
+        bb.demangle = self.saved
+        super().tearDown()
+
+    def gate(self, undefined=NDEM, text=TEXT):
+        build, self.source, entry = self.build(text)
+        entry["arguments"].insert(1, self.write("u.ast", "{\n" + "".join(dump_lines(items())) + "}\n"))
+        with open(os.path.join(build, "compile_commands.json"), "w") as f:
+            json.dump([entry], f)
+        recipe = self.write("units.json", json.dumps({"units": [
+            {"source": "src/u.cpp", "functions": [], "symbols": {N32: "0x00401000"}},
+            {"source": "src/o.cpp", "functions": [{"address": "0x00401000", "symbol": "?g@R@@QAEHH@Z"}],
+             "symbols": {}}]}))
+        candidates = self.write("c.tsv", "unit\tsite\tname\towner\taddress\nsrc/u.cpp\t*\t%s\t%s\t0x00401000\n"
+                                % (N, D))
+        self.out = os.path.join(self.dir, "out")
+        return bb.main(["gate", candidates, build, self.out, "--recipe", recipe, "--differing",
+                        self.write("d.txt", ""), "--undefined", self.write("u.txt", undefined + "\n")])
+
+    def test_gate_drops_an_earlier_proof_and_hashes_the_unit(self):
+        os.makedirs(os.path.join(self.dir, "out"))
+        for stale in ("proof.tsv", "proved.txt", "rows.tsv"):
+            self.write(os.path.join("out", stale), "stale\n")
+        self.assertEqual(self.gate(), 0)
+        self.assertEqual(sorted(os.listdir(self.out)), ["gate.json", "gate.tsv"])
+        with open(os.path.join(self.out, "gate.json")) as f:
+            plan = json.load(f)["units"][0]
+        self.assertEqual(plan["sha256"], hashlib.sha256(TEXT).hexdigest())
+        self.assertEqual(sorted(plan["names"]), [N])
 
 
 class TableTest(unittest.TestCase):

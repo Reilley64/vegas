@@ -31,7 +31,10 @@
 # layout dump; or when apply stops
 # needing the proof's files, applying only proved names, or writing nothing
 # until every text, key and check row is ready, or check rows stop coming
-# from the proof's rows alone with one forbid line per name. The tests use
+# from the proof's rows alone with one forbid line per name; or when gate
+# stops deleting an earlier proof's files or recording each unit's sha256,
+# or prove and apply stop refusing, writing nothing, a unit whose text no
+# longer has that sha256 or a plan without it. The tests use
 # hand-made AST fragments, texts and reports, a fake compiler named
 # clang-cl and a fake objcmp.py, and run on every host. Blind spot: no
 # compiler output is read. A test method added to the .py but not to this
@@ -56,6 +59,8 @@ set(tools_bind_batch_cases
     ProveTest.test_prove_unit_modes_and_rows ProveTest.test_prove_unit_drops ProveTest.test_layouts
     ApplyTest.test_needs_the_proof ApplyTest.test_binds_the_proved_names
     ApplyTest.test_unproved_names_stay ApplyTest.test_nothing_written_unless_everything_is_ready
+    ApplyTest.test_a_changed_export_refuses_prove_and_apply
+    GateRunTest.test_gate_drops_an_earlier_proof_and_hashes_the_unit
     TableTest.test_rows_from_proof_and_forbid_once TableTest.test_usage)
 if(Python3_Interpreter_FOUND)
   foreach(tools_bind_batch_case IN LISTS tools_bind_batch_cases)

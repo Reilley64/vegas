@@ -47,8 +47,9 @@ python3 $T apply OUT REPO --stage bind \
 - apply takes only the names in `OUT/proved.txt` (and in `--only FILE`,
   first column, when given) whose every site is admitted. It exits 1,
   writing nothing, when `OUT` has no `proof.tsv`, `proved.txt` or
-  `rows.tsv`, when a unit's file in `REPO` is neither the export's text nor
-  its moves, when a recipe key cannot be respelled, or when a bound name
+  `rows.tsv`, when a unit's text in the export no longer has the sha256
+  that gate recorded, when a unit's file in `REPO` is neither the export's
+  text nor its moves, when a recipe key cannot be respelled, or when a bound name
   has no check row. Build and commit the moves, then apply `--stage bind`.
 
 ## Gate
@@ -88,7 +89,9 @@ non-virtual member declaration, so no class changes layout.
 `gate.tsv` has one row per site (or per candidate when no site is found);
 `gate.json` holds the edits: per name the call edits, the moves, the stand-in
 declarations to remove once every call is bound, the enclosing functions of
-sites that are not bound, and the recipe key and row.
+sites that are not bound, and the recipe key and row; per unit the sha256 of
+the text it read. Gate deletes `OUT`'s `proof.tsv`, `proved.txt` and
+`rows.tsv`: an earlier proof does not hold for a new plan.
 
 ## Rewrite
 
@@ -113,7 +116,9 @@ sites that are not bound, and the recipe key and row.
 
 ## Prove
 
-Per unit, each name alone, then all of the unit's passing names together.
+Prove exits 1, writing nothing, when a unit's text in the export no longer
+has the sha256 that gate recorded. Per unit, each name alone, then all of
+the unit's passing names together.
 The moves alone must give byte-identical objects (timestamp aside). The
 binding is compared with `objcmp.py --json --map --base-holds-new
 --function-order` (the owners), and passes at a variant only when the

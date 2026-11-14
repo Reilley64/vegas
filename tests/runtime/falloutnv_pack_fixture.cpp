@@ -119,12 +119,18 @@ int Write(const char* path, std::string_view mutexName)
             suffixPayload.push_back(static_cast<std::byte>(c));
         suffixPayload.resize(suffixPayload.size() + suffixBytes[i] - suffixes[i].size());
     }
-    const std::array<std::string_view, 10> saveTexts{"%s",          "fixture1.ini", "Fixture",     "fixtureKey",
-                                                     "fixture2.ini", "fixtureA",     "fixtureB",    "fixtureC",
+    const std::array<std::string_view, 10> saveTexts{"%s",          "fixture.ini", "Fixture",     "fixtureKey",
+                                                     "fixture2.ini", "fixtureA",    "fixtureB",    "fixtureC",
                                                      "fx",           "fixture3.ini"};
     std::vector<std::byte> savePayload;
     for (std::size_t i = 0; i < saveTexts.size(); ++i)
     {
+        // Each field needs room for its zero byte, or the pack is refused.
+        if (saveTexts[i].size() >= saveBytes[i])
+        {
+            std::fprintf(stderr, "falloutnv_pack_fixture: save directory string %zu does not fit\n", i);
+            return 1;
+        }
         for (const char c : saveTexts[i])
             savePayload.push_back(static_cast<std::byte>(c));
         savePayload.resize(savePayload.size() + saveBytes[i] - saveTexts[i].size());

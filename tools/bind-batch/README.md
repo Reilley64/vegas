@@ -160,8 +160,10 @@ in every unit, `rows.tsv` the check rows.
   copies is measured separately (definitions per name).
 - An overload the gate does not see (a using-declaration, a base class's
   function), `noexcept`, `[[noreturn]]` and a cast between related classes
-  are caught by the proof (the object differs, or the rewrite does not
-  compile), not refused by the gate.
+  that adjusts the pointer are caught by the proof (the object differs, or
+  the rewrite does not compile), not refused by the gate. A cast between
+  related classes that leaves the pointer as it is gives the same object:
+  it stays open with the receiver.
 - `objcmp.py`'s own blind spots apply (`tools/object-proof/README.md`).
 - The host tests (`tools.bind_batch.*`, `test_bind_batch.py`) use hand-made
   AST fragments, texts and reports, a fake compiler and a fake `objcmp.py`,

@@ -385,14 +385,15 @@ holds its string, then a zero byte, then zeros to its end, as C1's fields do
 each field.
 
 The original stores the four strings at `0x01082a38`, `0x01082a28`,
-`0x01082a10` and `0x01082a00`, the addresses `FUN_0086a850` passes to the
-four builders. The recipe binds each under a one-byte `UNK_` name for
+`0x01082a10` and `0x01082a00`, the addresses whose strings the original passes
+to the four builders. The recipe binds each under a one-byte `UNK_` name for
 `src/fallout/misc/main.cpp`, and binds `0x01082a48`, C1's second message
 text, next. Each capacity is the recipe bound, the distance to the next
 address the recipe binds, as for C1: 16, 16, 24 and 16 bytes. It is the
 most the original can hold there without reaching the next bound object;
 the consumer's own limit, a buffer of 260 characters that also holds the
-user folder, is looser. The one-byte legacy definitions give no extent.
+user folder, is looser. The one-byte legacy definitions gave no extent;
+VEGAS-130 retired them (`native-data-ownership.md`).
 The recipe names no literal at these addresses, so no text is known and
 setup has no known-string check for them. The key, `LOGS`, encodes no
 address (D4).
@@ -405,8 +406,11 @@ must prepare the pack again.
 The consumer is `WinMain`'s S2 to S5, which `main` composes after the
 single-instance and remote-session checks and before the second-window
 check (`data-pack-startup.md`). Of the eight statements between those
-checks, `main` skips S1, S6, S7 and S8 under ruling A. `FUN_0086a850`
-itself still passes the legacy definitions; it links into no program.
+checks, `main` skips S1, S6, S7 and S8 under ruling A. Since VEGAS-130
+`FUN_0086a850` passes the owner's four fields too, in both of its call
+groups; it links into no program. Whether a suffix may hold a path
+separator, and how an over-long path ends, are open decisions
+(`data-pack-startup.md`, "Open decisions").
 
 ## Not verified
 

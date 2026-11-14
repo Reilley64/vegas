@@ -106,8 +106,8 @@ bytes, which do not change.
 VEGAS-130 retires four more lines of `fallout/misc/main.inc`:
 `UNK_01082a00`, `UNK_01082a10`, `UNK_01082a28` and `UNK_01082a38`, each one
 `unsigned char` with an initializer. The recipe binds the four addresses to
-the strings that `WinMain`'s log-path builders append, of 16, 16, 24 and 16
-bytes (`data-pack-catalogue.md`), so each definition held one byte of its
+the strings that `WinMain`'s log-path builders append, of respectively 16,
+24, 16 and 16 bytes (`data-pack-catalogue.md`), so each definition held one byte of its
 string: an incompatible byte-layout declaration of it. `FUN_0086a850` in
 `main.cpp`, the one unit that named them, now passes the fields of the log
 path suffixes' owner, which the data pack fills (`data-pack-startup.md`),

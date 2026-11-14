@@ -198,12 +198,13 @@ The second-window check now exists twice too, in `FUN_0086a850` and in
 ## The log paths
 
 `WinMain`, as `FUN_0086a850` transcribes it, runs S1, the crash-log
-configuration, after the remote-session check, and then S2 to S5:
+configuration, after the remote-session check, and then S2 to S5, each on
+the string the original stores at one address:
 
-1. `FUN_00c3bb90(&UNK_01082a38)`
-2. `fnv_00c3bbe0::FUN_00c3bbe0(&UNK_01082a28)`
-3. `FUN_00c3bc30(&UNK_01082a10)`
-4. `fnv_00c3bc80::FUN_00c3bc80(&UNK_01082a00)`
+1. `FUN_00c3bb90`, the string at `0x01082a38`
+2. `fnv_00c3bbe0::FUN_00c3bbe0`, the string at `0x01082a28`
+3. `FUN_00c3bc30`, the string at `0x01082a10`
+4. `fnv_00c3bc80::FUN_00c3bc80`, the string at `0x01082a00`
 
 `main` makes the same four calls in that order, each on the field of
 `PublishedLogPathSuffixes` that holds the string at that address (VEGAS-127):
@@ -216,7 +217,8 @@ runtime's functions, S3 and S5 those of `fnv::crt` (`src/runtime/crt.cpp`),
 as their bodies have them. The builders call nothing else: no file is
 opened, written or deleted. The C runtime's functions would end the process
 through its invalid parameter handler when a string does not fit; none can
-here. The user folder is still empty when `main` calls them, as it is in `WinMain`
+here. Which behaviour all four should have once the user folder is set is
+an open decision ("Open decisions"). The user folder is still empty when `main` calls them, as it is in `WinMain`
 at this point: S7, which fills it, runs after S2 to S5, and nothing before it
 writes the buffer. So each buffer holds its suffix alone, and a suffix takes
 at most 24 bytes with its zero byte. `FUN_0086a850` makes S1 and the four
@@ -228,11 +230,18 @@ S2 to S5 read nothing that S1 writes: S1 sets the crash-log options and the
 message handler, and the builders read only the user folder and their
 argument. Nothing in the process reads the four buffers yet.
 
-`FUN_0086a850` itself still passes the addresses of the legacy one-byte
-definitions `UNK_01082a38`, `UNK_01082a28`, `UNK_01082a10` and
-`UNK_01082a00` of `fallout/misc/main.inc`; it links into no program. Moving
-it to the owner, as it reads C1's strings and the class name, is left for
-later.
+Since VEGAS-130 `FUN_0086a850` passes the same four fields of
+`PublishedLogPathSuffixes` in both of its call groups, as it reads C1's
+strings and the class name from their owners. It reads the owner once,
+where the first group passes the first suffix, and the second group uses
+the same reference; its calls, their order and its branches are
+unchanged. It passed the addresses of the legacy one-byte definitions
+`UNK_01082a38`, `UNK_01082a28`, `UNK_01082a10` and `UNK_01082a00` of
+`fallout/misc/main.inc`. The native data composition retires those four
+lines (`native-data-ownership.md`), and no object of the build defines or
+refers to the four names. The recipe keeps their keys in `main.cpp`'s
+entry, under which setup reads the strings. `FUN_0086a850` still links
+into no program.
 
 ## Skipped statements
 
@@ -251,6 +260,12 @@ file, so it was not compared with instructions.
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address); since VEGAS-129 the accessor with `DAT_01202800`, `Setting::IsPrefSetting`, and Setting's constructors with its destructor are each in a unit of their own (below) |
 | S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp` and `_DAT_011a2ff0` of `main.cpp`, and catalogue entries for its strings; `FUN_0086d480`, `TaskQueueInterface::CopyStringToBuffer` and `FUN_00406d00` are in units of their own since VEGAS-128; since VEGAS-131 `FUN_00406d00` reads its variable arguments with `va_start` (`docs/variadic-lists.md`) |
 | S8 | a processor count of 1 set to 2 | as S6 |
+
+When S7 is composed, S2 to S5 stay before it, in the order of
+`WinMain`'s first call group (VEGAS-130). S7 passes three of the buffers
+that S2 to S4 fill to `DeleteFileA`, so composed before them it would get
+empty buffers in place of the paths `WinMain` deletes. S7 also creates
+folders, which the `falloutnv` tests' folder check now sees ("Tests").
 
 The coordinator named four prerequisites for S6 and S8 (VEGAS-52): a
 native owner of the setting, the members a native setting needs, a native
@@ -551,8 +566,12 @@ Microsoft's C runtime, linked statically. So the four builders behave
 alike in the original. Microsoft documents that these functions invoke the
 invalid parameter handler when the destination is too small, and the
 default handler ends the process. The recipe binds
-`__invalid_parameter_noinfo` (`0x00ec7c56`) in nine units and no name of
-`_set_invalid_parameter_handler`. Most plausibly the original therefore
+`__invalid_parameter_noinfo` (`0x00ec7c56`), which nine objects of the
+build refer to, and no name of `_set_invalid_parameter_handler`.
+`runtime-library-map.md` (VEGAS-23) already records `fnv::crt::strcpy_s`
+and `fnv::crt::strcat_s` as the treatment of `0x00ec65a6` and
+`0x00ec6bd2`, and a global `strcpy_s` does not exist on the macos-arm64
+and linux-x64 build targets. Most plausibly the original therefore
 ends the process on such an overflow in all four builders, unless code the
 recipe does not name installs a handler. The original's code section is
 encrypted in the stored file and none of its instructions were read.
@@ -621,8 +640,10 @@ Options:
    prepared from the supported release is then refused if the original's
    strings hold one, so a private run must first record whether they do
    (only yes or no per suffix, nothing of the text).
-3. Refuse it in setup as well as in validation, so setup stops before it
-   writes such a pack.
+3. Refuse it in setup as well as in validation. Setup already runs
+   `ValidatePack` on the pack it stages (`PrepareDataPack`), so option 2
+   alone stops setup before it installs such a pack; option 3 only adds an
+   earlier, more specific refusal at extraction.
 4. Restrict it at the consumer: the builders or S7 refuse or strip such a
    suffix. This changes what the transcription does and puts the rule in
    the engine's code instead of the pack's.
@@ -735,9 +756,42 @@ directory and requires exit code 2 and the missing pack reported on the
 standard error stream. Since VEGAS-127 both tests also require that the
 test's folder holds only the copy and the pack after the run, so a
 statement of `main` that wrote a file beside the executable or in the
-working directory would fail them; files elsewhere are not looked for.
+working directory would fail them. Since VEGAS-130 the check lists folders
+too and expects only the two the test makes, `executable` and `working`,
+so an empty folder left in the test's folder fails them as well; files and
+folders elsewhere are not looked for.
 Neither test shows the engine link, startup or boot, and neither reads the
 four log path buffers: nothing reports them.
+
+`falloutnv.pack_folder_listing`
+(`tests/checks/falloutnv_pack_folder_listing.cmake`) runs the check script
+on a stand-in program and fixture, POSIX shell scripts, in both modes. A
+run that leaves nothing must pass; an empty folder beside the executable,
+in the working directory or inside a new folder, and a file, must each
+fail with the check's message. The check before VEGAS-130 passed the three
+empty folders, so the test fails on it. It is registered on hosts other than Windows only, so no CI job runs it
+(the only CI job runs on Windows), and it runs no `FalloutNV.exe`.
+
+Plan for files outside the test's folder, for when S7 is composed; not
+implemented. S7, as transcribed, reads the setting that turns the My Games
+folders on or off from INI files named relative to the working directory,
+and then either creates folders under the user's Documents folder or takes
+a folder from a setting; it deletes three files named by the first call
+group's paths, which are relative to the working directory
+("Open decisions"), and copies the default INI when the INI is missing.
+
+1. The fixture writes an INI into the working folder that turns the My
+   Games folders off, so what S7 creates, deletes and copies falls under
+   the test's folder, which the check lists. Whether the folder the
+   setting then names lies inside the working folder is to be read from
+   the composed code first.
+2. A second run with the folders on lists the My Games folder that S7
+   creates under Documents before and after the run, requires only the
+   entries S7 is expected to create, and removes only what the run
+   created. On a hosted runner the profile is discarded after the job.
+3. Any other path the composed statements reach (the default INI's
+   source, the INI files) is listed before and after the run in the same
+   way, or the test states it as a blind spot.
 
 The tests of the decision, the stage and the owner link the game archive on
 Windows. On other hosts they compile the units themselves; that form runs
@@ -828,3 +882,9 @@ VEGAS-52.
   `DAT_01202e98` and of `DAT_01202c50` have not run: `FalloutNV` does not
   load their members and no test calls them. Their checks read the objects
   only.
+- `FUN_0086a850` has not run with the owner's suffixes: it links into no
+  program. Its change and the retirement of the four one-byte definitions
+  were measured on the windows-x64 cross build only (VEGAS-130).
+- The folder check that lists folders has not run on Windows here; its
+  test, `falloutnv.pack_folder_listing`, runs on other hosts with stand-in
+  scripts only.

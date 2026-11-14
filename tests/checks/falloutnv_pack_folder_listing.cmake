@@ -7,7 +7,8 @@
 # leaves nothing. The check before VEGAS-130 listed files only, so it passed
 # the three empty folders.
 # Blind spots: the stand-ins are POSIX shell scripts, so the test is
-# registered on hosts other than Windows only; it runs no FalloutNV.exe and
+# registered on hosts other than Windows only, so no CI job runs it (the only
+# CI job runs on Windows); it runs no FalloutNV.exe and
 # shows nothing about what main leaves; files and folders outside the test's
 # folder are not looked for, by the check or by this test.
 if(NOT CMAKE_HOST_WIN32)

@@ -4,6 +4,7 @@
 #include "fnv/game_timer.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/dx9_renderer_view.h"
+#include "fnv/log_path_suffixes.h"
 #include "fnv/main_window_class.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/single_instance_strings.h"
@@ -6705,10 +6706,6 @@ int __cdecl FUN_0086bc10(...);
 int __cdecl FUN_00aa47c0(...);
 
 extern unsigned int _DAT_011c16bc;
-extern unsigned char UNK_01082a38;
-extern unsigned char UNK_01082a28;
-extern unsigned char UNK_01082a10;
-extern unsigned char UNK_01082a00;
 extern unsigned char UNK_010829b4;
 extern unsigned char UNK_01082990;
 extern unsigned char UNK_01082978;
@@ -6845,10 +6842,12 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
             enableMemory0 = 1;
             ::FUN_00c3bd30(enableMemory0, *(*reinterpret_cast<::Setting86 *>(&::g_011dec88)).FUN_00408d60(), *(*reinterpret_cast<::Setting86 *>(&::g_011dee20)).FUN_00408d60(),
                          *(*reinterpret_cast<::Setting86 *>(&::g_011ded74)).FUN_00408d60(), (uintptr_t)(((int (&)(...))::FUN_0086a580)));
-            ::FUN_00c3bb90((const char *)(unsigned char *)(&UNK_01082a38));
-            ::fnv_00c3bbe0::FUN_00c3bbe0((const char *)(unsigned char *)(&UNK_01082a28));
-            ::FUN_00c3bc30((const char *)(unsigned char *)(&UNK_01082a10));
-            ::fnv_00c3bc80::FUN_00c3bc80((const char *)(unsigned char *)(&UNK_01082a00));
+            // The four suffixes come from the data pack, through their native owner.
+            const fileformat::LogPathSuffixes& logPathSuffixes = fnv::startup::PublishedLogPathSuffixes();
+            ::FUN_00c3bb90(logPathSuffixes.firstSuffix.data());
+            ::fnv_00c3bbe0::FUN_00c3bbe0(logPathSuffixes.secondSuffix.data());
+            ::FUN_00c3bc30(logPathSuffixes.thirdSuffix.data());
+            ::fnv_00c3bc80::FUN_00c3bc80(logPathSuffixes.fourthSuffix.data());
             GetSystemInfo(&systemInfo7);
             *((int *)&(::FUN_0043d4d0((::Setting *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = systemInfo7.dwNumberOfProcessors;
             ::BGSSaveLoadManager::GetSaveDirectory(path2);
@@ -6953,10 +6952,10 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 FUN_0086bce0(&(*reinterpret_cast<unsigned char *>((void *)&::g_011d21e4_arg1)));
                 ::FUN_00c3bd30(enableMemory0, *(*reinterpret_cast<::Setting86 *>(&::g_011dec88)).FUN_00408d60(), *(*reinterpret_cast<::Setting86 *>(&::g_011dee20)).FUN_00408d60(),
                              *(*reinterpret_cast<::Setting86 *>(&::g_011ded74)).FUN_00408d60(), (uintptr_t)(((int (&)(...))::FUN_0086a580)));
-                ::FUN_00c3bb90((const char *)(unsigned char *)(&UNK_01082a38));
-                ::fnv_00c3bbe0::FUN_00c3bbe0((const char *)(unsigned char *)(&UNK_01082a28));
-                ::FUN_00c3bc30((const char *)(unsigned char *)(&UNK_01082a10));
-                ::fnv_00c3bc80::FUN_00c3bc80((const char *)(unsigned char *)(&UNK_01082a00));
+                ::FUN_00c3bb90(logPathSuffixes.firstSuffix.data());
+                ::fnv_00c3bbe0::FUN_00c3bbe0(logPathSuffixes.secondSuffix.data());
+                ::FUN_00c3bc30(logPathSuffixes.thirdSuffix.data());
+                ::fnv_00c3bc80::FUN_00c3bc80(logPathSuffixes.fourthSuffix.data());
                 memoryContext11.Enter(0x18, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x992);
                 ::FUN_0040fbe0();
                 ((::Receiver86 *)&(::BSFileCache::GetRandomGenerator()))->FUN_0086bda0();

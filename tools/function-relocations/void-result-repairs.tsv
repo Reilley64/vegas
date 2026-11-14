@@ -5,5 +5,7 @@
 # Format: README.md.
 # The former names of the definitions, which no object defines:
 forbid	?Call@FUN_0044df20@@QEAAXXZ
+forbid	?FUN_00696540@@YAXPEBUNiPoint3@@000@Z
 # batch, unit, definition under its row's name, and no required name:
 function	definition	src/staging/blk_00440000_od.cpp	?Call@FUN_0044df20@@QEAA_NXZ	-
+function	definition	src/fallout_shared/pathfinding/navmesh_util.cpp	?FUN_00696540@@YA_NPEBUNiPoint3@@000@Z	-

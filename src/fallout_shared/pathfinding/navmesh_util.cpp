@@ -1055,10 +1055,10 @@ struct NiPoint2
 
 
 // @fnv 0x00696540
-void FUN_00696540(const NiPoint3* aSegment1Start, const NiPoint3* aSegment2Start, const NiPoint3* aSegment1End,
+bool FUN_00696540(const NiPoint3* aSegment1Start, const NiPoint3* aSegment2Start, const NiPoint3* aSegment1End,
                   const NiPoint3* aSegment2End)
 {
-    ::FUN_006ba010((const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment1Start->x, aSegment1Start->y)), (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment2Start->x, aSegment2Start->y)),
+    return ::FUN_006ba010((const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment1Start->x, aSegment1Start->y)), (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment2Start->x, aSegment2Start->y)),
                  (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment1End->x, aSegment1End->y)), (const ::NiPoint3 *)&(const ::NiPoint2 &)(NiPoint2(aSegment2End->x, aSegment2End->y)));
 }
 

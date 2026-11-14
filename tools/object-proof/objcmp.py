@@ -322,8 +322,8 @@ def compare(a, b, out, shifts=False):
             equal.append("names" if isinstance(x["body"], tuple) else "bytes")
         if x["size"] == y["size"] is not None:
             equal.append("size %s" % x["size"])
-        elif x["body"] == y["body"]:
-            parts.append("size %d -> %d" % (x["size"], y["size"]))
+        elif x["body"] == y["body"] and x["size"] != y["size"]:
+            parts.append("size %s -> %s" % (x["size"], y["size"]))
         if x["relocations"] != y["relocations"]:
             parts.append("relocations %d -> %d" % (len(x["relocations"]), len(y["relocations"])))
         else:

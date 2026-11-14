@@ -51,7 +51,9 @@
 # went, or combines it with --expect-kept, or compares the symbols as a
 # multiset when no listed section moved (a merge with other symbols
 # reordered or NEW at a third place, or a rename with two symbols swapped);
-# or when SYMBOL-ORDER is reported where the symbol multisets differ. The tests write small objects, logs and
+# or when an address-significance table whose characteristics differ under
+# a merge raises an error in place of a difference line; or when
+# SYMBOL-ORDER is reported where the symbol multisets differ. The tests write small objects, logs and
 # a fake compiler and run on every host. Blind spot: the objects
 # are hand-made, not compiler output. A test method added to the .py but not
 # to this list never runs.
@@ -60,7 +62,7 @@ set(tools_object_proof_cases identical timestamp rename refused_renames unmatche
     alignment addrsig_encoding base_holds_both summary symbol_shift expect_kept kept_holes
     expect_kept_file kept_identical beside_kept compile_source source_fails_closed kept_symbol
     refusal_alone base_holds_new merge_attacks function_order symbol_order_only_when_equal
-    function_order_keeps_symbol_order)
+    function_order_keeps_symbol_order merge_addrsig_characteristics)
 if(Python3_Interpreter_FOUND)
   foreach(tools_object_proof_case IN LISTS tools_object_proof_cases)
     add_test(NAME tools.object_proof.${tools_object_proof_case}

@@ -1196,6 +1196,21 @@ class ObjectProofTest(unittest.TestCase):
         self.assertEqual((code, out.splitlines()[0].split(":")[0]), (1, "differs"), out)
         self.assertIn("SYMBOL-ORDER\tthe same symbols in a different order", out.splitlines(), out)
 
+    def test_merge_addrsig_characteristics(self):
+        # An address-significance table whose characteristics differ under a merge is a
+        # difference line, not an error.
+        rename = "%s=%s" % (OLD, NEW)
+        a, b = merge_unit([OLD], [OLD], addrsig=(OLD, NEW)), bytearray(merge_unit([NEW], [], addrsig=(NEW,)))
+        last = 20 + 40 * (struct.unpack_from("<H", b, 2)[0] - 1)
+        struct.pack_into("<I", b, last + 36, ADDRSIG | 0x40)
+        for extra in ((), ("--function-order", self.write("order.txt", (NEW + "\n").encode()))):
+            code, out, err = self.objcmp(a, bytes(b), rename, "--base-holds-new", *extra)
+            self.assertEqual((code, err), (1, ""), out + err)
+            self.assertTrue(out.startswith("differs: 1 difference(s)"), out)
+            self.assertIn("SECTION-DIFFERS\t#.llvm_addrsig/1\t.llvm_addrsig\tcharacteristics %d -> %d (0x%08x -> "
+                          "0x%08x)\tequal: selection None, names, relocations 0"
+                          % (ADDRSIG, ADDRSIG | 0x40, ADDRSIG, ADDRSIG | 0x40), out.splitlines(), out)
+
     def test_symbol_order_only_when_equal(self):
         # SYMBOL-ORDER is reported only when the symbol multisets are equal.
         sections, symbols = calls()

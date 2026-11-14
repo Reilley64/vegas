@@ -2116,7 +2116,6 @@ struct CellX
 struct NMOM
 {
     void MatchPortalEdges();
-    void ProcessAddedRefs();
     void FUN_006c4d30();
     void FUN_006c5190();
 };
@@ -2158,7 +2157,7 @@ void FUN_006c39c0_shell::FUN_006c39c0()
     reinterpret_cast<::fnv_006c44d0::FUN_006c44d0_shell *>((((NMOM*)this)))->FUN_006c44d0();
     ::ClearOwnedObjects((char*)this);
     reinterpret_cast<::fnv_006c47e0::FUN_006c47e0_shell *>((((NMOM*)this)))->FUN_006c47e0();
-    ((NMOM*)this)->ProcessAddedRefs();
+    ((::fnv_006c45e0::FUN_006c45e0_shell*)this)->ProcessAddedRefs();
     reinterpret_cast<::FUN_006c4c30_shell *>((((FUN_006c4c30_shell*)this)))->FUN_006c4c30();
     ((NMOM*)this)->FUN_006c4d30();
     reinterpret_cast<::fnv_006c4fb0::FUN_006c4fb0_shell *>((((NMOM*)this)))->ProcessDoorObstacles();

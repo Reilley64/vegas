@@ -24,3 +24,5 @@ function	batch2	src/fallout_shared/extradatalist.cpp	?SetTeleportData@FUN_004198
 function	batch2	src/fallout_shared/extradatalist.cpp	?UpdateRagDoll@FUN_0041d490_shell@fnv_0041d490@@QEAAXPEAVTESObjectREFR@@@Z	?FUN_00410020@FUN_00410020_t@@QEAAXPEAVBSExtraData@@_N@Z
 forbid	?FUN_0043ccf0@FUN_0043ccf0_s@fnv_00447080@@QEAAXXZ
 function	batch2	src/fallout_shared/modelloader.cpp	?FUN_00447080@FUN_00447080_shell@fnv_00447080@@QEAAPEAVNiNode@@PEADH_N111@Z	?FUN_0043ccf0@FUN_0043ccf0_shell@@QEAAXXZ
+forbid	?ProcessAddedRefs@NMOM@fnv_006c39c0@@QEAAXXZ
+function	batch2	src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp	?FUN_006c39c0@FUN_006c39c0_shell@fnv_006c39c0@@QEAAXXZ	?ProcessAddedRefs@FUN_006c45e0_shell@fnv_006c45e0@@QEAAXXZ

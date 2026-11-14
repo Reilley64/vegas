@@ -177287,7 +177287,6 @@
     "?AppendValue@S2f850@@QAEIABUNavMeshPtr@@@Z": "0x0042f850",
     "__ehhandler$?RegisterCollisionObstacles@fnv_006c2210@@YA_NPAVNiAVObject@1@PAUFlt@1@@Z": "0x00f0388a",
     "__ehhandler$?ProcessDoorObstacles@FUN_006c4fb0_shell@fnv_006c4fb0@@QAE_NXZ": "0x00f039f8",
-    "?ProcessAddedRefs@NMOM@fnv_006c39c0@@QAEXXZ": "0x006c45e0",
     "?ProcessDoorObstacles@FUN_006c4fb0_shell@fnv_006c4fb0@@QAE_NXZ": "0x006c4fb0",
     "__ehhandler$?ProcessAddedRefs@FUN_006c45e0_shell@fnv_006c45e0@@QAEXXZ": "0x00f0393b",
     "?RebuildRefObstacles@FUN_006c1920_s@fnv_006c45e0@@QAEXIPAVTESObjectREFR@2@@Z": "0x006c1920",

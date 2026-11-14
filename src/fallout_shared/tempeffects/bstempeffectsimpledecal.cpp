@@ -104,6 +104,8 @@
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include <math.h>
 #include "fnv/image_space_effect_param.h"
+#include "fnv/setting_t.h"
+class INISettingCollection;
 
 // Original PC source filename label passed to the preload memory context;
 // contents and target are verified against the engine data section.
@@ -555,7 +557,7 @@ FUN_0068ad20::FUN_0068ad20(int p1, float m_fParticleParameter5, DecalData* pData
     unk30 = pData->unk30;
     if (DAT_0119c298 == -1)
     {
-        DAT_0119c298 = *((int *)&(::FUN_0043d4d0((int *)&(::g_011c57fc))));
+        DAT_0119c298 = *((int *)&(::FUN_0043d4d0((::Setting *)&(::g_011c57fc))));
     }
     unk108 = p1;
     spNode10C = pData->pNode;
@@ -1449,10 +1451,6 @@ struct EffectList
 struct Manager
 {
 };
-struct Setting
-{
-    unsigned char* Bool();
-};
 extern int DAT_0119c298;
 class NiFixedString;
 NiFixedString* __cdecl FUN_0068c8d0();
@@ -1688,7 +1686,7 @@ bool DecalSetup::Initialize()
                     reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::DecalSetup *)((DecalSetup*)(Graph*)(*(::NiPointer< ::Graph> *)((void *)&((*reinterpret_cast<::EffectList *>(&::g_011d6a30)))))));
                     reinterpret_cast<::DecalListManager *>(&((*reinterpret_cast<::EffectList *>(&::g_011d6a30))))->PopHead();
                     (*reinterpret_cast<int *>(&::DAT_011d6a20))--;
-                    if (*(*reinterpret_cast<::Setting *>(&::g_011c5904)).Bool())
+                    if ((*reinterpret_cast<::SettingT<::INISettingCollection> *>(&::g_011c5904)).Bool()->h)
                         ::FUN_005b5e40();
                 }
             }

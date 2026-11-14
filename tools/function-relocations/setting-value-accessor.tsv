@@ -96,3 +96,8 @@ function	tesscriptfunctions	src/fallout_shared/tesscriptfunctions.cpp	?FUN_005d9
 # went with FUN_005e0190's move to the shared class. It reads the display,
 # shadow and water int settings.
 function	renderer	src/fallout_shared/renderer.cpp	?FUN_004da670@fnv_004da670@@YA_JPEAX0@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z
+# batch, unit, function, the accessor: the function of
+# bstempeffectsimpledecal.cpp whose call of the accessor moved (VEGAS-117),
+# once the unit's own Setting went with its Bool() call. It reads
+# uMaxDecals:Decals.
+function	bstempeffectsimpledecal	src/fallout_shared/tempeffects/bstempeffectsimpledecal.cpp	??0FUN_0068ad20@@QEAA@HMPEAUDecalData@@@Z	?FUN_0043d4d0@@YAAEAHPEAVSetting@@@Z

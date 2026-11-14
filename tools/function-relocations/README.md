@@ -42,6 +42,7 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.log_path_buffer` for `log-path-buffer.tsv`,
 `objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`,
 `objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`,
+`objects.setting_member_calls` for `setting-member-calls.tsv`,
 `objects.batch_bindings` for `batch-bindings.tsv`, and
 `objects.void_result_repairs` for `void-result-repairs.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
@@ -168,7 +169,8 @@ takes the shared `Setting`. The sample holds three readers of the processor
 count setting and one caller for each other form of argument. Its batch
 `main` lists the 14 functions of `src/fallout/misc/main.cpp` that call the
 accessor (VEGAS-115). The batches `beamprojectile`, `computersmenu`,
-`explosion`, `package`, `interface`, `tesscriptfunctions` and `renderer`
+`explosion`, `package`, `interface`, `tesscriptfunctions`, `renderer` and
+`bstempeffectsimpledecal`
 list the functions of those units whose calls moved once the unit's own
 `Setting` went (VEGAS-117). Whether an argument is a setting is
 not a relocation;
@@ -184,6 +186,14 @@ accessor (VEGAS-122). The batches `blk_00940000_od`, `bgsterminal`,
 `sleepwaitmenu`, `magicfogprojectile`, `explosion`, `character`,
 `itemmodmenu`, `combatcontroller`, `package`, `telekinesiseffect` and
 `interface` do the same for those units (VEGAS-122).
+
+`setting-member-calls.tsv` lists the functions whose call of a member of
+the unit's own `Setting` now calls `SettingT<INISettingCollection>::Bool`,
+the recipe's row at `0x00408d60` (VEGAS-117,
+docs/setting-value-offset.md). It forbids the copy's member, which no
+object defines, and requires the row's member. The receiver is a
+generated setting derived from that class at offset 0; which member of
+the result the caller reads is not a relocation.
 
 `batch-bindings.tsv` lists the functions whose calls `tools/bind-batch` bound
 to the body at the recipe's row (VEGAS-125, docs/symbol-naming-batches.md).

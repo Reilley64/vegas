@@ -8837,6 +8837,15 @@ void FUN_00444dc0_t::QueueModelForObject(TESObject* apObject, QHeadPtrDest* apDe
 }
 }  // namespace fnv_00444dc0
 
+class FUN_0043ccf0_shell
+{
+  public:
+    void FUN_0043ccf0();
+    char m_uiStandInValue[0x18];
+    int m_field18;
+    char m_iValueAfterStandIn[0x14];
+    int m_model30;
+};
 namespace fnv_00447080 {
 struct FUN_00447080_shell : public ModelLoader
 {
@@ -19813,15 +19822,6 @@ class ModelLoaderX
   public:
 };
 
-class FUN_0043ccf0_shell
-{
-  public:
-    void FUN_0043ccf0();
-    char m_uiStandInValue[0x18];
-    int m_field18;
-    char m_iValueAfterStandIn[0x14];
-    int m_model30;
-};
 
 // Loads the named model, checks the pointer at offset 0x30, then tries stream loading and may assign a new Model.
 // @fnv 0x0043ccf0

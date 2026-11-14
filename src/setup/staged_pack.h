@@ -18,8 +18,9 @@ namespace setup::staged
 // The SHA-256 of `bytes`, in one operation.
 std::array<std::byte, 32> Sha256(const std::vector<std::byte>& bytes);
 
-// Reads C1's fields and the main window class from `pe` and writes them as a
-// data pack that records `original`. Throws setup::ExtractError.
+// Reads C1's fields, the log path suffixes and the main window class from
+// `pe` and writes them as a data pack that records `original`. Throws
+// setup::ExtractError.
 std::vector<std::byte> WriteDataPack(const fileformat::PeFile& pe, const fileformat::OriginalIdentity& original);
 
 // Parses `executable`, identifies it with `identify` from the SHA-256 of the

@@ -14,11 +14,12 @@ namespace setup
 {
 
 // Why a field cannot be read from an identified executable as stored. The
-// fields are checked in catalogue order, C1's four and then the main window
-// class's, so a problem of an earlier field is reported first.
+// fields are checked in catalogue order, C1's four, then the four log path
+// suffixes, then the main window class's, so a problem of an earlier field is
+// reported first.
 //
-// For a C1 field the problems NoSection to KnownString are checked in the
-// order listed. The main window class's string is reached through a stored
+// For a C1 field and a log path suffix the problems NoSection to KnownString
+// are checked in the order listed; no suffix has a known text. The main window class's string is reached through a stored
 // pointer: NoSection to ZeroTail are checked for the four bytes of the
 // pointer ("class name pointer" in the message), then RelocationTable and
 // NoRelocation, then for the string it points to ("class name string")
@@ -67,7 +68,7 @@ struct PreparedPack
     fileformat::ValidatedPack validated;
 };
 
-// Prepares the data pack of catalogue version 2 from the bytes of an
+// Prepares the data pack of catalogue version 3 from the bytes of an
 // executable. In order:
 //
 // 1. fileformat::ParsePeFile; throws fileformat::PeError. A 64-bit
@@ -76,7 +77,8 @@ struct PreparedPack
 // 3. fileformat::IdentifyOriginal against the source's supported set;
 //    throws fileformat::UnsupportedOriginalError.
 // 4. Reads C1's four fields at the recipe ranges of
-//    single_instance_ranges.h, then the main window class through the
+//    single_instance_ranges.h, then the four log path suffixes at those of
+//    log_path_suffix_ranges.h, then the main window class through the
 //    pointer of main_window_class_range.h; throws ExtractError. Each string
 //    is copied through its first zero byte and its field is filled with
 //    zeros: no byte after the zero byte is copied.

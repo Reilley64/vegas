@@ -2,6 +2,7 @@
 
 #include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_writer.h"
+#include "setup/log_path_suffix_ranges.h"
 #include "setup/main_window_class_range.h"
 #include "setup/prepare_pack.h"
 #include "setup/single_instance_ranges.h"
@@ -204,6 +205,11 @@ std::vector<std::byte> WriteDataPack(const PeFile& pe, const fileformat::Origina
     CopyString(pe, singleInstanceRanges[1], strings.firstMessageText);
     CopyString(pe, singleInstanceRanges[2], strings.messageCaption);
     CopyString(pe, singleInstanceRanges[3], strings.secondMessageText);
+    fileformat::LogPathSuffixes suffixes{};
+    CopyString(pe, logPathSuffixRanges[0], suffixes.firstSuffix);
+    CopyString(pe, logPathSuffixRanges[1], suffixes.secondSuffix);
+    CopyString(pe, logPathSuffixRanges[2], suffixes.thirdSuffix);
+    CopyString(pe, logPathSuffixRanges[3], suffixes.fourthSuffix);
     fileformat::MainWindowClass windowClass{};
     CopyPointedString(pe, mainWindowClassRange, windowClass.className);
 
@@ -212,13 +218,20 @@ std::vector<std::byte> WriteDataPack(const PeFile& pe, const fileformat::Origina
     Append(payload, strings.firstMessageText);
     Append(payload, strings.messageCaption);
     Append(payload, strings.secondMessageText);
+    std::vector<std::byte> suffixPayload;
+    Append(suffixPayload, suffixes.firstSuffix);
+    Append(suffixPayload, suffixes.secondSuffix);
+    Append(suffixPayload, suffixes.thirdSuffix);
+    Append(suffixPayload, suffixes.fourthSuffix);
     std::vector<std::byte> classPayload;
     Append(classPayload, windowClass.className);
 
     const fileformat::PackCatalogueEntry& first = fileformat::singleInstanceEntry;
-    const fileformat::PackCatalogueEntry& second = fileformat::mainWindowClassEntry;
-    const std::array<fileformat::PackWriteEntry, 2> entries{
-        {{first.key, first.version, payload}, {second.key, second.version, classPayload}}};
+    const fileformat::PackCatalogueEntry& second = fileformat::logPathSuffixesEntry;
+    const fileformat::PackCatalogueEntry& third = fileformat::mainWindowClassEntry;
+    const std::array<fileformat::PackWriteEntry, 3> entries{{{first.key, first.version, payload},
+                                                             {second.key, second.version, suffixPayload},
+                                                             {third.key, third.version, classPayload}}};
     return fileformat::WritePackStructure(original.version, original.sha256, entries);
 }
 

@@ -11,7 +11,8 @@
 namespace setup
 {
 
-// Where setup reads one field of C1 in the original release. Every value is a
+// Where setup reads one string field in the original release: a field of C1
+// here, or a log path suffix (log_path_suffix_ranges.h). Every value is a
 // fact of the recipe, build/units.json, written here as data: no byte of the
 // original release is. The CTest setup.recipe_ranges
 // (tools/setup-recipe-ranges) fails when a value no longer matches the
@@ -19,7 +20,7 @@ namespace setup
 struct RecipeRange
 {
     std::string_view field;       // the field's name in messages
-    std::string_view recipeName;  // the str_ name the recipe binds at `address` for src/fallout/misc/main.cpp
+    std::string_view recipeName;  // the str_ or UNK_ name the recipe binds at `address` for src/fallout/misc/main.cpp
     std::uint32_t address;        // where the string starts in the original's memory, image base included
     std::size_t capacity;         // the recipe bound: the distance to the next address the recipe binds
     std::string_view literalName; // a recipe string literal at `address` whose name spells its whole text, or empty

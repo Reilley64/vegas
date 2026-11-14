@@ -72,6 +72,15 @@ constexpr std::array<Field, 4> fields{{
     {"second message text", 0x01082a48, 52},
 }};
 
+// The recipe facts of the log path suffixes, spelled by the test itself: each
+// field's original address and capacity, in catalogue order.
+constexpr std::array<Field, 4> suffixFields{{
+    {"first log path suffix", 0x01082a38, 16},
+    {"second log path suffix", 0x01082a28, 16},
+    {"third log path suffix", 0x01082a10, 24},
+    {"fourth log path suffix", 0x01082a00, 16},
+}};
+
 constexpr std::uint32_t imageBase = 0x00400000;
 
 // The recipe fact of the main window class, spelled by the test itself: the
@@ -94,6 +103,10 @@ constexpr std::uint16_t dir64 = 10;
 // message fills its field up to its zero byte.
 using Texts = std::array<std::string, 4>;
 const Texts someTexts{"test mutex", "first test message", "Error", std::string(51, 's')};
+
+// Made-up log path suffixes, none of them a string of the original release.
+// The third fills its field up to its zero byte.
+const Texts someSuffixes{"first.test", "second.test", std::string(23, 't'), "fourth.test"};
 
 // Section characteristics of the Microsoft PE and COFF specification.
 constexpr std::uint32_t code = 0x00000020;
@@ -132,7 +145,8 @@ constexpr std::uint16_t Relocation(std::uint16_t type, std::uint16_t offset)
 }
 
 // An executable with code, the caption and the class name in .rdata, the
-// other three strings in .data, which has a zero tail, a version resource,
+// other three strings and the four log path suffixes in .data, which has a
+// zero tail, a version resource,
 // the pointer to the class name in .sdata and a base relocation table in
 // .reloc that covers it. Its file version is 1.4.0.525. Each section's
 // characteristics are the second member.
@@ -141,6 +155,7 @@ struct Synthetic
     pe_fixture::Layout layout;
     std::vector<std::uint32_t> characteristics;
     Texts texts = someTexts;
+    Texts suffixes = someSuffixes;
     std::string className = "test window class";
     std::uint32_t classAt = classAddress;     // where the class name is stored
     std::uint32_t pointerValue = classAddress; // what the pointer holds
@@ -205,9 +220,10 @@ std::vector<std::byte> Stored(std::string_view text, std::size_t capacity)
     return stored;
 }
 
-// The file. Each text is stored at its field's address where a section's
-// stored bytes hold it, then a zero byte when the field has room, then 0xAB
-// bytes to the end of the field: bytes setup must not copy. The class name
+// The file. Each text and suffix is stored at its field's address where a
+// section's stored bytes hold it, then a zero byte when the field has room,
+// then 0xAB bytes to the end of the field: bytes setup must not copy. The
+// class name
 // is stored the same way at classAt, the pointer value at the pointer's
 // address, and the base relocation table's data directory is set.
 std::vector<std::byte> Build(const Synthetic& synthetic)
@@ -218,6 +234,8 @@ std::vector<std::byte> Build(const Synthetic& synthetic)
         pe_fixture::Put32(file, at::Section(i, 36), synthetic.characteristics[i]);
     for (std::size_t f = 0; f < fields.size(); ++f)
         Store(file, layout, fields[f].address, Stored(synthetic.texts[f], fields[f].capacity));
+    for (std::size_t f = 0; f < suffixFields.size(); ++f)
+        Store(file, layout, suffixFields[f].address, Stored(synthetic.suffixes[f], suffixFields[f].capacity));
     Store(file, layout, synthetic.classAt, Stored(synthetic.className, classCapacity));
     std::vector<std::byte> pointer(4);
     pe_fixture::Put32(pointer, 0, synthetic.pointerValue);
@@ -254,6 +272,20 @@ std::vector<std::byte> Payload(const Texts& texts)
     {
         std::ranges::transform(texts[f], std::back_inserter(payload), [](char c) { return static_cast<std::byte>(c); });
         payload.resize(payload.size() + fields[f].capacity - texts[f].size());
+    }
+    return payload;
+}
+
+// The log path suffixes' payload as setup writes it: each suffix, then zeros
+// to its field's end.
+std::vector<std::byte> SuffixPayload(const Texts& suffixes)
+{
+    std::vector<std::byte> payload;
+    for (std::size_t f = 0; f < suffixFields.size(); ++f)
+    {
+        std::ranges::transform(suffixes[f], std::back_inserter(payload),
+                               [](char c) { return static_cast<std::byte>(c); });
+        payload.resize(payload.size() + suffixFields[f].capacity - suffixes[f].size());
     }
     return payload;
 }
@@ -312,11 +344,10 @@ std::vector<std::byte> ClassPayload(std::string_view className)
 }
 
 // The pack written from a synthetic executable records its identity and
-// holds C1 and the main window class as setup writes them. Setup does not yet
-// read the log path suffixes, so the same entries, written again with the
-// supported release's identity (compared, not proved), are refused by the
-// complete validator for the missing LOGS entry; with a made-up LOGS entry
-// between them, they pass with the same strings.
+// holds C1, the log path suffixes and the main window class as setup writes
+// them. The same entries, written again with the supported release's
+// identity (compared, not proved), pass the complete validator with the same
+// strings.
 void PreparesAPack(Checks& check)
 {
     const std::vector<std::byte> file = Build(Typical());
@@ -326,15 +357,21 @@ void PreparesAPack(Checks& check)
     const fileformat::OriginalCheckedPack pack = fileformat::CheckPackOriginalAgainst(staged, supported);
     check.Equal("staged: original version", true, pack.Original().version == supported[0].version);
     check.Equal("staged: original SHA-256", true, pack.Original().sha256 == supported[0].sha256);
-    check.Equal("staged: entries", std::size_t{2}, pack.Entries().size());
+    check.Equal("staged: entries", std::size_t{3}, pack.Entries().size());
     check.Equal("staged: key", std::string_view("INST"), std::string_view(pack.Entries()[0].key.data(), 4));
     check.Equal("staged: entry version", std::uint32_t{1}, pack.Entries()[0].version);
     const std::vector<std::byte> payload(pack.EntryBytes(0).begin(), pack.EntryBytes(0).end());
     check.Equal("staged: payload size", std::size_t{140}, payload.size());
     check.Equal("staged: payload is each string, then zeros", true, payload == Payload(someTexts));
-    check.Equal("staged: class key", std::string_view("WNDC"), std::string_view(pack.Entries()[1].key.data(), 4));
-    check.Equal("staged: class entry version", std::uint32_t{1}, pack.Entries()[1].version);
-    const std::vector<std::byte> classPayload(pack.EntryBytes(1).begin(), pack.EntryBytes(1).end());
+    check.Equal("staged: suffix key", std::string_view("LOGS"), std::string_view(pack.Entries()[1].key.data(), 4));
+    check.Equal("staged: suffix entry version", std::uint32_t{1}, pack.Entries()[1].version);
+    const std::vector<std::byte> suffixPayload(pack.EntryBytes(1).begin(), pack.EntryBytes(1).end());
+    check.Equal("staged: suffix payload size", std::size_t{72}, suffixPayload.size());
+    check.Equal("staged: suffix payload is each suffix, then zeros", true,
+                suffixPayload == SuffixPayload(someSuffixes));
+    check.Equal("staged: class key", std::string_view("WNDC"), std::string_view(pack.Entries()[2].key.data(), 4));
+    check.Equal("staged: class entry version", std::uint32_t{1}, pack.Entries()[2].version);
+    const std::vector<std::byte> classPayload(pack.EntryBytes(2).begin(), pack.EntryBytes(2).end());
     check.Equal("staged: class payload size", classCapacity, classPayload.size());
     check.Equal("staged: class payload is the name, then zeros", true,
                 classPayload == ClassPayload(Typical().className));
@@ -342,27 +379,21 @@ void PreparesAPack(Checks& check)
     Refuses<fileformat::UnsupportedOriginalError>(
         check, "staged: complete validator", [&] { fileformat::ValidatePack(staged); }, OriginalProblem::Digest);
 
-    const std::array<fileformat::PackWriteEntry, 2> entries{
-        {{{'I', 'N', 'S', 'T'}, 1, payload}, {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
-    Refuses<fileformat::PackCatalogueError>(
-        check, "C1 and the class: complete validator",
-        [&] {
-            fileformat::ValidatePack(
-                fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
-        },
-        fileformat::PackCatalogueProblem::MissingEntry, "entry LOGS");
-    std::vector<std::byte> madeUpSuffixes(72);
-    madeUpSuffixes[0] = std::byte{'s'};
-    const std::array<fileformat::PackWriteEntry, 3> withSuffixes{{{{'I', 'N', 'S', 'T'}, 1, payload},
-                                                                  {{'L', 'O', 'G', 'S'}, 1, madeUpSuffixes},
-                                                                  {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
+    const std::array<fileformat::PackWriteEntry, 3> entries{{{{'I', 'N', 'S', 'T'}, 1, payload},
+                                                             {{'L', 'O', 'G', 'S'}, 1, suffixPayload},
+                                                             {{'W', 'N', 'D', 'C'}, 1, classPayload}}};
     const fileformat::ValidatedPack validated = fileformat::ValidatePack(
-        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), withSuffixes));
+        fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries));
     const fileformat::SingleInstanceStrings& strings = validated.SingleInstance();
     check.Equal("validated: mutex name", true, Holds(strings.mutexName, someTexts[0]));
     check.Equal("validated: first message text", true, Holds(strings.firstMessageText, someTexts[1]));
     check.Equal("validated: message caption", true, Holds(strings.messageCaption, someTexts[2]));
     check.Equal("validated: second message text", true, Holds(strings.secondMessageText, someTexts[3]));
+    const fileformat::LogPathSuffixes& suffixes = validated.PathSuffixes();
+    check.Equal("validated: first suffix", true, Holds(suffixes.firstSuffix, someSuffixes[0]));
+    check.Equal("validated: second suffix", true, Holds(suffixes.secondSuffix, someSuffixes[1]));
+    check.Equal("validated: third suffix", true, Holds(suffixes.thirdSuffix, someSuffixes[2]));
+    check.Equal("validated: fourth suffix", true, Holds(suffixes.fourthSuffix, someSuffixes[3]));
     check.Equal("validated: class name", true, Holds(validated.WindowClass().className, Typical().className));
 }
 
@@ -678,12 +709,68 @@ void RefusesUnreadableClassNames(Checks& check)
         const std::vector<std::byte> staged = PrepareAgainstItself(Build(noZero));
         const fileformat::OriginalCheckedPack pack =
             fileformat::CheckPackOriginalAgainst(staged, std::array<OriginalIdentity, 1>{IdentityOf(Build(noZero))});
-        const std::vector<std::byte> classPayload(pack.EntryBytes(1).begin(), pack.EntryBytes(1).end());
+        const std::vector<std::byte> classPayload(pack.EntryBytes(2).begin(), pack.EntryBytes(2).end());
         check.Equal("longest class name: payload", true, classPayload == ClassPayload(noZero.className));
     });
     Synthetic empty = Typical();
     empty.className = "";
     check.Run("empty class name", [&] { PrepareAgainstItself(Build(empty)); });
+}
+
+// Typical(), with .data split in two: the log path suffixes in a section of
+// their own, index 2, from 0xC82000 to 0xC82A48, and C1's three strings in
+// .data, index 3, from there on. Later sections move up by one index.
+Synthetic SuffixSection()
+{
+    Synthetic synthetic = Typical();
+    std::vector<pe_fixture::Section>& sections = synthetic.layout.sections;
+    sections[2] = {".data", 0xC82A48, 0x2000 - 0xA48, pe_fixture::Pattern(0x1000 - 0xA48, 3)};
+    sections.insert(sections.begin() + 2, {".sfx", 0xC82000, 0xA48, pe_fixture::Pattern(0xA48, 6)});
+    synthetic.characteristics.insert(synthetic.characteristics.begin() + 2, initializedData | read);
+    return synthetic;
+}
+
+// A log path suffix is read as a C1 field is: only from the stored bytes of
+// a section marked as initialized data and not as code or executable, never
+// from .bind, through its first zero byte within its field.
+void RefusesUnreadableSuffixes(Checks& check)
+{
+    check.Run("suffixes in a section of their own", [&] { PrepareAgainstItself(Build(SuffixSection())); });
+
+    Synthetic bind = SuffixSection();
+    bind.layout.sections[2].name = ".bind";
+    RefusesExtraction(check, "suffixes in .bind", bind, ExtractProblem::SteamStubSection, "first log path suffix");
+    Synthetic text = SuffixSection();
+    text.characteristics[2] = code | read;
+    RefusesExtraction(check, "suffixes in code", text, ExtractProblem::CodeSection, "first log path suffix");
+    text.characteristics[2] = execute | initializedData | read;
+    RefusesExtraction(check, "suffixes in an executable section", text, ExtractProblem::CodeSection,
+                      "first log path suffix");
+    Synthetic notData = SuffixSection();
+    notData.characteristics[2] = uninitializedData | read | write;
+    RefusesExtraction(check, "suffixes in uninitialized data", notData, ExtractProblem::NotInitializedData,
+                      "first log path suffix");
+
+    // The first suffix, at 0xC82A38 to 0xC82A47, lies highest; its last two
+    // bytes in the zero tail.
+    Synthetic tail = SuffixSection();
+    tail.layout.sections[2].raw = pe_fixture::Pattern(0xA46, 6);
+    RefusesExtraction(check, "first suffix's last two bytes in the zero tail", tail, ExtractProblem::ZeroTail,
+                      "first log path suffix");
+
+    for (std::size_t f = 0; f < suffixFields.size(); ++f)
+    {
+        Synthetic noZero = Typical();
+        noZero.suffixes[f] = std::string(suffixFields[f].capacity, 'x');
+        RefusesExtraction(check, std::format("{} without a zero byte", suffixFields[f].name), noZero,
+                          ExtractProblem::NoTerminator, std::format("{}: holds no zero byte", suffixFields[f].name));
+        noZero.suffixes[f] = std::string(suffixFields[f].capacity - 1, 'x');
+        check.Run(std::format("{} with its zero byte last", suffixFields[f].name),
+                  [&] { PrepareAgainstItself(Build(noZero)); });
+    }
+    Synthetic empty = Typical();
+    empty.suffixes = {"", "", "", ""};
+    check.Run("empty suffixes", [&] { PrepareAgainstItself(Build(empty)); });
 }
 
 // The fields are checked in catalogue order, and each field's checks in the
@@ -705,13 +792,24 @@ void ReportsTheFirstProblem(Checks& check)
     sections.layout.sections[1].raw.resize(0xF00);
     RefusesExtraction(check, "code before zero tail", sections, ExtractProblem::CodeSection, "message caption");
 
-    // C1 before the main window class; the pointer's section, then its
+    // C1 before the log path suffixes, the suffixes in their order, the
+    // suffixes before the main window class; the pointer's section, then its
     // relocation, then the string.
     Synthetic c1First = Typical();
     c1First.texts[3] = std::string(52, 's');
+    c1First.suffixes[0] = std::string(16, 'x');
     c1First.relocationBytes = 0;
-    RefusesExtraction(check, "C1 before the class name", c1First, ExtractProblem::NoTerminator,
-                      "second message text");
+    RefusesExtraction(check, "C1 before the suffixes", c1First, ExtractProblem::NoTerminator, "second message text");
+    Synthetic suffixOrder = Typical();
+    suffixOrder.suffixes[1] = std::string(16, 'x');
+    suffixOrder.suffixes[3] = std::string(16, 'x');
+    RefusesExtraction(check, "second suffix before fourth", suffixOrder, ExtractProblem::NoTerminator,
+                      "second log path suffix");
+    Synthetic suffixesFirst = Typical();
+    suffixesFirst.suffixes[3] = std::string(16, 'x');
+    suffixesFirst.relocationBytes = 0;
+    RefusesExtraction(check, "suffixes before the class name", suffixesFirst, ExtractProblem::NoTerminator,
+                      "fourth log path suffix");
     Synthetic slotFirst = Typical();
     slotFirst.layout.sections[4].name = ".bind";
     slotFirst.relocationBytes = 0;
@@ -743,6 +841,7 @@ int main()
     check.Run("strings", [&] { RefusesStrings(check); });
     check.Run("class name pointers", [&] { RefusesUnreadablePointers(check); });
     check.Run("class names", [&] { RefusesUnreadableClassNames(check); });
+    check.Run("log path suffixes", [&] { RefusesUnreadableSuffixes(check); });
     check.Run("first problem", [&] { ReportsTheFirstProblem(check); });
     return check.ExitCode();
 }

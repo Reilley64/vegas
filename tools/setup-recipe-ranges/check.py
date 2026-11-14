@@ -3,10 +3,12 @@
 
 usage: check.py --recipe UNITS_JSON --source SINGLE_INSTANCE_RANGES_H
                 --pointer-source MAIN_WINDOW_CLASS_RANGE_H
+                --suffix-source LOG_PATH_SUFFIX_RANGES_H
 
-Reads the rows of singleInstanceRanges in src/setup/single_instance_ranges.h
-and the row of mainWindowClassRange in src/setup/main_window_class_range.h,
-and fails when any of these holds:
+Reads the rows of singleInstanceRanges in src/setup/single_instance_ranges.h,
+the row of mainWindowClassRange in src/setup/main_window_class_range.h and
+the rows of logPathSuffixRanges in src/setup/log_path_suffix_ranges.h, and
+fails when any of these holds:
   a. there are not exactly four rows;
   b. a row's name is not a str_ name that spells its address, or the recipe
      entries of src/fallout/misc/main.cpp, merged, do not bind it at exactly
@@ -21,7 +23,14 @@ and fails when any of these holds:
      of src/fallout/misc/main.cpp, merged, do not bind it, or a unit of the
      recipe binds it at another address;
   g. the distance from its address to the next address any unit of the
-     recipe binds is less than 4, the size of a 32-bit pointer.
+     recipe binds is less than 4, the size of a 32-bit pointer;
+  h. there are not exactly four logPathSuffixRanges rows;
+  i. a suffix row's name is not a UNK_ or str_ name that spells its address,
+     or the recipe entries of src/fallout/misc/main.cpp, merged, do not bind
+     it at exactly that address;
+  j. a suffix row's capacity is not the distance from its address to the
+     next address any unit of the recipe binds;
+  k. a suffix row names a literal, as d checks for singleInstanceRanges.
 README.md in this directory says what it does not check.
 """
 import argparse
@@ -36,6 +45,7 @@ ROW = re.compile(
     r'^\s*\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", 0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+), '
     r'(?:\{\}|"(?P<literal>[^"]*)"), (?:\{\}|"(?P<text>[^"]*)")\},\s*$')
 STR_NAME = re.compile(r"^\?str_([0-9a-f]{8})@@")
+SUFFIX_NAME = re.compile(r"^\?(?:UNK|str)_([0-9a-f]{8})@@")
 POINTER_ROW = re.compile(
     r'^inline constexpr PointerRange mainWindowClassRange\{"(?P<field>[^"]*)", "(?P<name>[^"]*)", '
     r'0x(?P<address>[0-9a-fA-F]{8}), (?P<capacity>[0-9]+)\};\s*$')
@@ -44,12 +54,12 @@ POINTER_BYTES = 4
 LITERAL = re.compile(r"^\?\?_C@_0(?:(?P<digit>[0-9])|(?P<hex>[A-P]+)@)[A-P]*@(?P<content>.*)@$")
 
 
-def rows(source):
-    """The rows of singleInstanceRanges, in order."""
+def rows(source, array="singleInstanceRanges"):
+    """The rows of `array`, in order."""
     found, inside = [], False
     with open(source, encoding="utf-8") as text:
         for line in text:
-            if "singleInstanceRanges{{" in line:
+            if array + "{{" in line:
                 inside = True
             elif inside and line.strip() == "}};":
                 break
@@ -97,6 +107,7 @@ def main():
     parser.add_argument("--recipe", required=True)
     parser.add_argument("--source", required=True)
     parser.add_argument("--pointer-source", required=True)
+    parser.add_argument("--suffix-source", required=True)
     args = parser.parse_args()
 
     with open(args.recipe, encoding="utf-8") as text:
@@ -114,31 +125,39 @@ def main():
                 main_names.setdefault(name, set()).add(address)
     addresses = sorted(bound)
 
+    def check_rows(found, letters, name_pattern):
+        count, name_letter, bound_letter, literal_letter = letters
+        if len(found) != ROWS:
+            problems.append("%s %d rows, expected %d" % (count, len(found), ROWS))
+        for row in found:
+            field, name = row["field"], row["name"]
+            address, capacity = int(row["address"], 16), int(row["capacity"])
+            spelled = name_pattern.match(name)
+            if not spelled or int(spelled[1], 16) != address:
+                problems.append("%s %s: %s does not spell 0x%08x" % (name_letter, field, name, address))
+            if main_names.get(name) != {address}:
+                problems.append("%s %s: %s is bound at %s for %s, not at 0x%08x only" % (
+                    name_letter, field, name, sorted(hex(a) for a in main_names.get(name, ())) or "no address",
+                    MAIN_SOURCE, address))
+            following = bisect.bisect_right(addresses, address)
+            distance = addresses[following] - address if following < len(addresses) else None
+            if distance != capacity:
+                problems.append("%s %s: capacity %d, the recipe bound is %s" % (bound_letter, field, capacity, distance))
+            literal, text = row["literal"], row["text"]
+            if (literal is None) != (text is None):
+                problems.append("%s %s: a literal needs both its name and its text" % (literal_letter, field))
+            elif literal is not None:
+                if address not in literals.get(literal, ()):
+                    problems.append("%s %s: no unit binds %s at 0x%08x" % (literal_letter, field, literal, address))
+                if literal_text(literal) != text + "\0":
+                    problems.append("%s %s: %s does not spell exactly \"%s\" and a zero byte" % (
+                        literal_letter, field, literal, text))
+
     problems = []
     found = rows(args.source)
-    if len(found) != ROWS:
-        problems.append("a %d rows, expected %d" % (len(found), ROWS))
-    for row in found:
-        field, name = row["field"], row["name"]
-        address, capacity = int(row["address"], 16), int(row["capacity"])
-        spelled = STR_NAME.match(name)
-        if not spelled or int(spelled[1], 16) != address:
-            problems.append("b %s: %s does not spell 0x%08x" % (field, name, address))
-        if main_names.get(name) != {address}:
-            problems.append("b %s: %s is bound at %s for %s, not at 0x%08x only" % (
-                field, name, sorted(hex(a) for a in main_names.get(name, ())) or "no address", MAIN_SOURCE, address))
-        following = bisect.bisect_right(addresses, address)
-        distance = addresses[following] - address if following < len(addresses) else None
-        if distance != capacity:
-            problems.append("c %s: capacity %d, the recipe bound is %s" % (field, capacity, distance))
-        literal, text = row["literal"], row["text"]
-        if (literal is None) != (text is None):
-            problems.append("d %s: a literal needs both its name and its text" % field)
-        elif literal is not None:
-            if address not in literals.get(literal, ()):
-                problems.append("d %s: no unit binds %s at 0x%08x" % (field, literal, address))
-            if literal_text(literal) != text + "\0":
-                problems.append("d %s: %s does not spell exactly \"%s\" and a zero byte" % (field, literal, text))
+    check_rows(found, "abcd", STR_NAME)
+    suffixes = rows(args.suffix_source, "logPathSuffixRanges")
+    check_rows(suffixes, "hijk", SUFFIX_NAME)
 
     pointers = pointer_rows(args.pointer_source)
     if len(pointers) != 1:
@@ -160,7 +179,8 @@ def main():
 
     for problem in problems:
         print(problem)
-    print("%d rows, %d pointer rows, %d problems" % (len(found), len(pointers), len(problems)))
+    print("%d rows, %d pointer rows, %d suffix rows, %d problems" % (
+        len(found), len(pointers), len(suffixes), len(problems)))
     return 1 if problems else 0
 
 

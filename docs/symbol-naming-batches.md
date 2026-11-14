@@ -45,6 +45,9 @@ the pull request text quotes for VEGAS-11, and the figures cannot be compared.
 | 247ffd346 | the TlsGetValue slot extern in `hkpworld.cpp` | 1 | 35,117 to 35,116 |
 | f985938c4 | the keyring tile id in `inventorymenu.cpp` | 1 | 35,116 to 35,115 |
 | e861b865e | the message extern in `hkdataobjectnative.cpp` | 1 | 35,115 to 35,114 |
+| bed7b7d0f | move 1 class definition (`tools/bind-batch`) | 0 | 35,031, unchanged (user32 cells) |
+| 21b2f699d | tool-proved batch 1: 1 stand-in in 1 unit | 1 | 35,031 to 35,030 (user32 cells; derived, the series was linked at its ends) |
+| 261a73aba to 17b93005a | tool-proved batch 2: 16 stand-ins in 8 units, 7 of the units after a move | 16 | 35,030 to 35,014 (user32 cells) |
 
 No step leaves a name newly undefined, adds a duplicate symbol, or changes the
 137 imports or the archive members and their order. The archive had 2,223
@@ -80,7 +83,10 @@ name and never meets the definition.
   definition's class, member or identifier carries only an address and the
   unit uses a descriptive name, the reference is left as it is, for a reviewed
   override table. A unit's identifier counts as a placeholder only when the
-  address in it is the row's own address.
+  address in it is the row's own address. Since the ruling of 2026-11-13 the
+  rule protects the function's name, not the stand-in's class: where the
+  function name is the same on both sides and only the class differs, the
+  binding is admitted with its receiver open (Tool-proved bindings, below).
 - **The recipe follows.** In each changed unit the key of the `symbols` map
   takes the 32-bit spelling of the function row at that address. A key that
   would repeat one the unit already has is merged into it. No address, size,
@@ -399,6 +405,114 @@ the definition is not, and a respelling may add a `const` the declaration
 lacked but never drop one. They wait for a `const` definition, VEGAS-105.
 `docs/string-npos.md` records the users and the value.
 
+## Tool-proved bindings (bed7b7d0f, 21b2f699d, 261a73aba to 17b93005a)
+
+On 2026-11-13 the coordinator reopened the batch route only as tool-proved
+binding: a committed tool proposes, applies and proves each rewrite, under the
+kinds already admitted (same type, an existing cast retargeted to the row
+owner, R5a, `const` added to `this`; the literal 0 or 1 to `bool` stays a
+per-address step). `tools/bind-batch` is that tool (VEGAS-125); its README
+gives the gate's refusals and the proof modes. It keeps the rule above: a
+descriptive function name is not replaced by a placeholder, and two
+different descriptive names stay an open question. A member whose name is
+the same on both sides while only the stand-in's class differs is admitted
+and labelled class-only, with its receiver open.
+
+Batch 1 ran it over the acceleration research's 144 boot-core names with no
+blocker beyond a move. At 1a4404c01 all 144 were still undefined, of census
+class e or a, in the boot core and bound to the same owners. Measured at
+1a4404c01:
+
+| Step | Names |
+| --- | --- |
+| candidates (147 unit and name pairs in 57 units; 178 gate rows: 149 call sites and 29 candidates with no site) | 144 |
+| refused by the gate, first kind: a descriptive name would become a placeholder | 58 |
+| refused: the requiring unit's recipe keys bind no name at the address (only an identifier carries it) | 23 |
+| refused: the move needs more than three types declared between the two places | 10 |
+| refused: the owner is not declared in the unit (6), or has no plain qualified name (1) | 7 |
+| refused: a result (5) or parameter (3) type differs | 8 |
+| refused: not a call (2), a special member (2) | 4 |
+| every site admitted | 34 |
+| dropped by the proof: only the order of sections differs | 17 |
+| dropped: the objects differ otherwise | 14 |
+| dropped: differ at the unit's flags only, the owner defined in the unit | 2 |
+| bound | 1 |
+
+The one name: `FUN_0063ac70` in `sky.cpp` called the body at `0x0063d5e0`
+through the stand-in `fnv_0063ac70::FUN_0063d5e0_t`. bed7b7d0f moves the row
+owner's class, `fnv_0063d5e0::FUN_0063d5e0_shell`, before the caller, in a
+block of its own namespace; the object is byte-identical at the unit's flags,
+with `/Ob0` and with `/Od /Gy`. 21b2f699d retargets the cast and the callee,
+removes the stand-in's member and its now empty class, and respells the unit's
+key. The old undefined name merges into the unit's own definition, which the
+rulings of 2026-11-12 and 2026-11-13 admit: `objcmp.py --base-holds-new` calls
+the objects merged in all three variants, as they differ only by the call's
+relocation, now to the row's name at the same offset, the old undefined
+symbol and its address-significance entry. The class layouts of `sky.cpp`
+are unchanged on windows-x64 and i686 apart from the removed empty stand-in.
+The receiver stays open: FUN_0063ac70's this is bit-cast to
+FUN_0063d5e0_shell; both are views of Sky with no fields of their own, and
+the object is not proven to be that class. `objects.batch_bindings` checks
+the caller from `tools/function-relocations/batch-bindings.tsv`. The repaired
+tool proves the same rewrite again at 6df9ad20e, with the same rows.
+
+Without the naming rule the same run proves 14 names: the eight stand-ins of
+`0x00410020` in `extradatalist.cpp`, the copies of `NiMalloc` and `NiFree` at
+`0x00aa1070` and `0x00aa10f0` in six units, `0x0041c8d0` in
+`inventorychanges.cpp` and `0x0094ae40` in `playercharacter.cpp`, beside the
+one bound. They waited for the reviewed override table; batch 2 binds the
+eight of `0x00410020` under the ruling of 2026-11-13, and the others stay
+refused.
+
+Batch 2 ran the repaired tool over the same 144 names and the 13 further
+boot-core names whose every site the first run's gate admitted, at
+6df9ad20e. The gate now requires the tip's forced-unlimited undefined list
+and refuses a stand-in the unit defines; the proof reads `objcmp.py`'s
+verdicts: equal once renamed, merged into the unit's own definition or its
+existing reference, and a function order in which only the owner's sections
+move. Units with a global `::Setting` or an old accessor form were left out,
+as were the units of `fix/vegas-117-own-setting-copies` and `main.cpp`.
+Measured at 6df9ad20e:
+
+| Step | Names |
+| --- | --- |
+| candidates (160 unit and name pairs; 186 gate rows) | 157 |
+| refused by the gate, first kind: no recipe key at the address | 23 |
+| refused: a descriptive function name would become a placeholder (12), or another descriptive name (4) | 16 |
+| refused: the move needs more than three types declared between the two places | 10 |
+| refused: the owner is overloaded in its class or namespace | 9 |
+| refused: a result (6), parameter (3) or `this` (1) type differs, or the literal 0 or 1 to `bool` (2) | 12 |
+| refused: the owner is not declared in the unit (6), or has no plain qualified name (1) | 7 |
+| refused: a special member (2), a static member against a free function (2), not a call (2) | 6 |
+| every site admitted | 74 |
+| dropped by the proof: differ at the unit's flags only, the owner defined in the unit | 24 |
+| dropped: a constant section the owner's body uses changes place with it | 9 |
+| dropped: the code differs (9), the rewrite does not compile (1) | 10 |
+| proved in every unit | 31 |
+| left out: a requiring unit has an old accessor form | 14 |
+| bound (with the batch 1 name, proved again) | 17 |
+
+The 16 new names, by unit, each with its proof mode at all three variants
+and its label: the eight stand-ins of `0x00410020` in `extradatalist.cpp`
+(`ExtraListRemover` and `ExtraDataList_Remove_stub` to `FUN_00410020_t`;
+merged into the unit's definition; class-only); `0x0043ccf0` in
+`modelloader.cpp`, `0x006c45e0` in `navmeshobstaclemanager.cpp`,
+`0x0075bc80` in `containermenu.cpp`, `0x00788ab0` in `loadingmenu.cpp` and
+`0x00a30640` in `nicontrollersequence.cpp` (merged into the unit's
+definition, whose body is now emitted earlier; class-only); and, merged into
+the unit's existing reference to a body another unit defines,
+`TaskQueueInterface::CopyStringToBuffer` (`0x00406d30`) and
+`TESForm::GetDisabled` (`0x00440da0`, `const` added to `this`, class-only)
+in `tesobjectrefr.cpp`, and `Tile::Set` (`0x00700320`) in `levelupmenu.cpp`.
+Three of the class-only names keep a descriptive member name on both sides
+(`ProcessAddedRefs`, `ResetStrings`, `GetDisabled`); in the others the
+member is the row's placeholder on both sides. Each moves commit is
+byte-identical, the timestamp aside, at the three variants; each bind
+commit's record layouts are equal on windows-x64 and i686 but for removed
+empty stand-ins. Of the 17 calls, 15 retarget an existing cast and 2 are
+static calls. `objects.batch_bindings` checks the 19 functions that hold the
+calls at the unit's flags.
+
 ## The object check and its named exceptions
 
 In every step the objects of the changed units are compared with the objects
@@ -450,7 +564,10 @@ placeholders: in batch 3 `Req` (`PathingRequest`), `TileX` (`TileWork` and
 name), `PLArr` (`PathingLocationArray`), `PromptTile` (`Tile`) and
 `SaveEntryStandIn` (`FUN_008467b0_shell`); in batch 4 `SM7d6` (`ThisT`),
 `TESPackageEx` (`PackageEx`), `ZX2` (`SpellListTask`) and `RefObj2`
-(`hkReferencedObjectC905`).
+(`hkReferencedObjectC905`); in tool-proved batch 2
+`ExtraListRemover` and `ExtraDataList_Remove_stub` (`FUN_00410020_t`), `NMOM`
+(`FUN_006c45e0_shell`), `MenuData` (`MenuX`), `FormStub` (`TESForm`) and
+`fnv_007851d0::Tile` (`::Tile`).
 
 ## What these steps do not establish
 
@@ -466,8 +583,9 @@ name), `PLArr` (`PathingLocationArray`), `PromptTile` (`Tile`) and
 - **Receivers.** Every substituted call tells the compiler that the receiver
   has the size and alignment of that unit's copy of the class. Where units
   carry different copies, or a copy disagrees with the true object, that can
-  be wrong. The retargeted casts, 197 in batch 1, 62 in batch 2, 35 in batch 3
-  and 58 in batch 4, are open receiver questions.
+  be wrong. The retargeted casts, 197 in batch 1, 62 in batch 2, 35 in batch 3,
+  58 in batch 4 and 1 in tool-proved batch 1, are open receiver questions, and
+  so are the 15 of tool-proved batch 2.
 - **Link-time optimisation.** The object check at the unit's flags is the
   acceptance basis and would have to be redone if it were ever enabled.
 - **The remaining rows.** After batch 4, 2,220 rows of the stand-in census
@@ -628,6 +746,26 @@ the function row can carry another element type.
 
 3 addresses, 4 keys respelled and 1 merged. All 3 still carry more than one
 name at 2277431b8.
+
+### Tool-proved batch 1, 21b2f699d
+
+| Address | Name the changed keys now spell (recipe function row) | Row's unit | Keys respelled | Keys merged | Units |
+| --- | --- | --- | --- | --- | --- |
+| `0x0063d5e0` | `?FUN_0063d5e0@FUN_0063d5e0_shell@fnv_0063d5e0@@QAEXXZ` | `fallout_shared/sky/sky.cpp` | 1 | 0 | 1 |
+
+### Tool-proved batch 2, 261a73aba to 17b93005a
+
+| Address | Name the changed keys now spell (recipe function row) | Row's unit | Keys respelled | Keys merged | Units |
+| --- | --- | --- | --- | --- | --- |
+| `0x00406d30` | `?CopyStringToBuffer@TaskQueueInterface@@SAXPADIPBD@Z` | `fallout/misc/taskqueueinterface.cpp` | 0 | 1 | 1 |
+| `0x00410020` | `?FUN_00410020@FUN_00410020_t@@QAEXPAVBSExtraData@@_N@Z` | `fallout_shared/extradatalist.cpp` | 0 | 8 | 1 |
+| `0x0043ccf0` | `?FUN_0043ccf0@FUN_0043ccf0_shell@@QAEXXZ` | `fallout_shared/modelloader.cpp` | 1 | 0 | 1 |
+| `0x00440da0` | `?GetDisabled@TESForm@@QBE_NXZ` | `fallout_shared/tesform.cpp` | 0 | 1 | 1 |
+| `0x006c45e0` | `?ProcessAddedRefs@FUN_006c45e0_shell@fnv_006c45e0@@QAEXXZ` | `fallout_shared/pathfinding/navmeshobstaclemanager.cpp` | 0 | 1 | 1 |
+| `0x00700320` | `?Set@Tile@@QAEXHH@Z` | `bsmenu/tile.cpp` | 0 | 1 | 1 |
+| `0x0075bc80` | `?FUN_0075bc80@MenuX@@QAEXXZ` | `fallout/interface/menus/containermenu.cpp` | 1 | 0 | 1 |
+| `0x00788ab0` | `?FUN_00788ab0@S00788ab0_LoadingSetup@fnv_00788ab0@@QAEXH@Z` | `fallout/interface/menus/loadingmenu.cpp` | 1 | 0 | 1 |
+| `0x00a30640` | `?ResetStrings@NiControllerSequence@fnv_00a30640@@QAEXXZ` | `gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp` | 0 | 1 | 1 |
 
 ### Shared ImageSpaceEffectParam, d0d8fd469
 

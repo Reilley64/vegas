@@ -40,8 +40,9 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.mask_constants`, one test for all of `mask-constants.tsv`,
 `objects.integer_width_calls` for `integer-width-calls.tsv`,
 `objects.log_path_buffer` for `log-path-buffer.tsv`,
-`objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`, and
-`objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`. CMake
+`objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`,
+`objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`, and
+`objects.batch_bindings` for `batch-bindings.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -182,6 +183,14 @@ accessor (VEGAS-122). The batches `blk_00940000_od`, `bgsterminal`,
 `sleepwaitmenu`, `magicfogprojectile`, `explosion`, `character`,
 `itemmodmenu`, `combatcontroller`, `package`, `telekinesiseffect` and
 `interface` do the same for those units (VEGAS-122).
+
+`batch-bindings.tsv` lists the functions whose calls `tools/bind-batch` bound
+to the body at the recipe's row (VEGAS-125, docs/symbol-naming-batches.md).
+`bind_batch.py apply` writes it: a `forbid` line for each stand-in name once
+every call of it is bound, which no object defines, and a `function` line
+requiring the row owner's name of each function that held a bound call at
+the unit's flags, as the object proof's retargets list it. The receiver of
+each retargeted cast stays open.
 
 ## Exit status
 

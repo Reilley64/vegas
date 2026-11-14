@@ -28,3 +28,5 @@ forbid	?ProcessAddedRefs@NMOM@fnv_006c39c0@@QEAAXXZ
 function	batch2	src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp	?FUN_006c39c0@FUN_006c39c0_shell@fnv_006c39c0@@QEAAXXZ	?ProcessAddedRefs@FUN_006c45e0_shell@fnv_006c45e0@@QEAAXXZ
 forbid	?FUN_0075bc80@MenuData@@QEAAXXZ
 function	batch2	src/fallout/interface/menus/containermenu.cpp	?FUN_0075b310@@YAPEAUMenuTile@@PEAVTESObjectREFR@@H@Z	?FUN_0075bc80@MenuX@@QEAAXXZ
+forbid	?FUN_00788ab0@Fake00788ab0@@QEAAXH@Z
+function	batch2	src/fallout/interface/menus/loadingmenu.cpp	?UpdateIfEnabled@@YAXH@Z	?FUN_00788ab0@S00788ab0_LoadingSetup@fnv_00788ab0@@QEAAXH@Z

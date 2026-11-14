@@ -1901,7 +1901,6 @@ struct Fake00788ab0
 {
     char _pad[0x1e8];
     int f1e8;
-    void FUN_00788ab0(int);
 };
 namespace fnv_00788ab0 {
 struct S00788ab0_LoadingSetup : LoadingMenu
@@ -1917,7 +1916,7 @@ void UpdateIfEnabled(int aiValue)
         ((Fake00788ab0*)BSSystemUtility::s_iUpdateEnabled)->f1e8 == 0)
     {
         FUN_004581c0(true);
-        ((Fake00788ab0*)BSSystemUtility::s_iUpdateEnabled)->FUN_00788ab0(aiValue);
+        ((::fnv_00788ab0::S00788ab0_LoadingSetup*)BSSystemUtility::s_iUpdateEnabled)->FUN_00788ab0(aiValue);
     }
 }
 

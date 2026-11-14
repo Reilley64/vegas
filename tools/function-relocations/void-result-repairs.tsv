@@ -1,0 +1,9 @@
+# Bodies at recipe rows that returned void while every caller that uses
+# the result declares the type of the value they computed and dropped,
+# repaired to return that value under their respelled rows (VEGAS-124,
+# docs/void-result-bodies.md).
+# Format: README.md.
+# The former names of the definitions, which no object defines:
+forbid	?Call@FUN_0044df20@@QEAAXXZ
+# batch, unit, definition under its row's name, and no required name:
+function	definition	src/staging/blk_00440000_od.cpp	?Call@FUN_0044df20@@QEAA_NXZ	-

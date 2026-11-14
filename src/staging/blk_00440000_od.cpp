@@ -504,13 +504,13 @@ struct FUN_0044df20
     int m29;
     int m30;
     int m31;
-    void Call();
+    bool Call();
 };
 
 // @fnv 0x0044df20
-void FUN_0044df20::Call()
+bool FUN_0044df20::Call()
 {
-    FUN_0044dff0(&this->m2);
+    return FUN_0044dff0(&this->m2);
 }
 
 

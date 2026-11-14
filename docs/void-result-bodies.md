@@ -19,11 +19,11 @@ names first.
 | --- | --- |
 | `address` | the recipe function row's address |
 | `unit` | the source of the row, every recipe entry of it merged |
-| `row` | the row's 32-bit symbol |
+| `row` | the row's 32-bit symbol; for a repaired body, as respelled with the result |
 | `row_result` | the result type that symbol carries |
 | `body` | file and line of the body's definition |
 | `body_result` | the result type the body declares |
-| `dropped` | the type of the value that the body's last statement computes and drops, as clang writes it (with the type it stands for in parentheses); `void` when that statement computes no value; `-` when the body ends in a statement that is not an expression |
+| `dropped` | the type of the value that the body's last statement computes and drops, as clang writes it (with the type it stands for in parentheses); `void` when that statement computes no value; `-` when the body ends in a statement that is not an expression; for a repaired body, the type of the value it now returns |
 | `used_as` | the result types under which the requiring units declare the callee, as their names carry them |
 | `names` | how many such names use the result |
 | `note` | how `dropped` and `used_as` compare |
@@ -68,12 +68,15 @@ Not tabled:
 
 ## What it shows
 
-Every row says `void` (`X` in its symbol), and every body declares `void`.
-No row carries the result that the callers use, so no row establishes one.
+At `9b14ee21c` every row said `void` (`X` in its symbol), and every body
+declared `void`: no row carried the result that the callers use. A body
+whose `note` says repaired now returns the value, under its row respelled
+with the result.
 
 | `note` | Definitions |
 | --- | --- |
-| every caller uses the dropped value's type | 60 (149 names, 281 sites) |
+| repaired: the body returns the value | 1 (6 names, 15 sites) |
+| every caller uses the dropped value's type | 59 (143 names, 266 sites) |
 | callers use another type than the dropped value's | 46 |
 | callers use 2 to 13 result types | 29 |
 | the body computes no value | 50 |
@@ -85,10 +88,12 @@ and drops it, while each of its 66 names declares an `unsigned int` result.
 
 ## What stays open
 
-No body is repaired. A result type for a body whose row says `void` needs a
-decision on what may establish it: the dropped value and the callers, with
-the row respelled to match. Until then each definition stays open, with
-the `note` as the reason.
+A body whose row says `void` may return the value it computes and drops,
+with its row respelled, when its last statement is an expression of the
+result type, every caller that uses the result declares exactly that
+type, and a dropped call's own row returns it (VEGAS-124, ruling of
+2026-11-14). Each other definition stays open, with the `note` as the
+reason.
 
 Blind spots:
 

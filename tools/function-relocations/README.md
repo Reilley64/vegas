@@ -41,8 +41,9 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.integer_width_calls` for `integer-width-calls.tsv`,
 `objects.log_path_buffer` for `log-path-buffer.tsv`,
 `objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`,
-`objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`, and
-`objects.batch_bindings` for `batch-bindings.tsv`. CMake
+`objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`,
+`objects.batch_bindings` for `batch-bindings.tsv`, and
+`objects.void_result_repairs` for `void-result-repairs.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -191,6 +192,14 @@ every call of it is bound, which no object defines, and a `function` line
 requiring the row owner's name of each function that held a bound call at
 the unit's flags, as the object proof's retargets list it. The receiver of
 each retargeted cast stays open.
+
+`void-result-repairs.tsv` lists the bodies that returned `void` while
+every caller that uses the result declares the type of the value the body
+computed and dropped, and that now return it (VEGAS-124,
+docs/void-result-bodies.md). Each must be defined under its recipe row's
+name, which now carries the result; the table forbids the former `void`
+name, which no object defines. Which value a body leaves in the return
+register is not a relocation; the object proof of each repair shows it.
 
 ## Exit status
 

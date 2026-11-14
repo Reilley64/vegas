@@ -91,6 +91,7 @@ then these checks, in this order:
 | ... with the catalogue's version for that key | `PackCatalogueError` | `EntryVersion` |
 | ... and the catalogue's size for that key | `PackCatalogueError` | `EntrySize` |
 | Each field, in turn, holds a zero byte: C1's four, then the four log path suffixes, then the class name | `PackCatalogueError` | `FieldTerminator` |
+| ... and each log path suffix, right after its zero byte, holds no `\`, `/`, colon or byte below 0x20 and is not `..` | `PackCatalogueError` | `SuffixPath` |
 
 The catalogue version is checked by the structural reader, which accepts
 only the catalogue's `packCatalogueVersion`, now 3, so a pack of another
@@ -119,6 +120,14 @@ each size is fixed by its declaration. The decoder
 reads each field with `ByteReader`, copies it through its first zero byte
 and fills the rest of the decoded field with zeros. A byte after the zero
 byte is not copied and does not refuse the pack.
+
+Since VEGAS-130 a log path suffix is also refused, as `SuffixPath`, when
+it holds a path separator, `\` or `/`, a colon or a byte below 0x20, or is
+`..`, the reasons checked in that order; the message names the field and
+the reason, never the suffix (`data-pack-startup.md`, "Log path
+rulings"). `fileformat.pack_catalogue` refuses 14 such suffixes in each
+field, accepts 9 ordinary ones, among them `.`, `...` and a space, and
+keeps every other byte value but zero.
 
 `ValidatedPack` keeps the decoded values only, not the file, its
 directory or any entry's bytes. It offers `Original()`, the supported

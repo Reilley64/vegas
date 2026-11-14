@@ -27,11 +27,15 @@ reads a real input. The next section states them. That criterion is met
 when this page passes review.
 
 The owner ran setup privately on an actual input twice on 2026-11-13 and
-once on 2026-11-14. The first run used the reviewed tool version
+twice on 2026-11-14. The first run used the reviewed tool version
 `0ecb31723` and catalogue version 1, before setup read the main window
 class. The second used the reviewed tool version `d5d1d60ec` and catalogue
 version 2. The third used the reviewed tool version `e43d866e6` and
-catalogue version 3. For C1, the log path suffixes and the main window
+catalogue version 3. The fourth, of setup built from `fe8d02602` before
+review, checked only that the supported original passes the log path
+suffix rule of VEGAS-130; the coordinator's ruling of 2026-11-14
+required this run before the rule landed, so it did not use a reviewed
+version. For C1, the log path suffixes and the main window
 class only, the runs show the input checks of VEGAS-13's first
 criterion, the reproducible local preparation that its fourth asks for,
 and the private actual-input check that its seventh asks to document. The
@@ -267,6 +271,14 @@ checks these rows as it checks C1's (checks h to k of
 spells its address and that the merged entries of `main.cpp` bind there and
 nowhere else, its capacity the recipe bound.
 
+Setup does not look at a suffix's characters. Since VEGAS-130 the
+validator refuses a suffix that holds a path separator, a colon or a
+control character, or is `..` (`SuffixPath`), so step 6 refuses such a
+pack with status 7. The private run of 2026-11-14 below shows that the
+supported original's suffixes pass. `setup.prepare_pack` reaches step 6
+through `setup::staged::CheckWrittenPack` on packs it writes from
+synthetic executables, and requires the refusal for crafted suffixes.
+
 ### The class name
 
 The original does not store the class name at an address the recipe
@@ -416,7 +428,7 @@ setup, did not link, and CTest reported that test as not run.
 
 ## Private run on an actual input
 
-On 2026-11-13 the owner ran `vegas-setup` twice, and on 2026-11-14 once
+On 2026-11-13 the owner ran `vegas-setup` twice, and on 2026-11-14 twice
 more, on their own Steam copy of `FalloutNV.exe`. The packs, the original
 file and every value read from them stay private. This page records
 outcomes and statuses only.
@@ -513,6 +525,16 @@ commit, runs S2 to S5 in `main`.
   the `Continue` path. On that path it runs S2 to S5 on the suffixes from
   the pack before the second-window check. S2 to S5 build four paths in
   memory, and the run did not read them. No run observed this.
+
+### The log path suffix rule
+
+The fourth run, on 2026-11-14, used setup built from `fe8d02602`, the
+commit that adds the suffix rule of VEGAS-130 to the validator. It ran
+once, on a copy of the supported original in a new empty folder. It
+printed its commit line, which ended with `no local changes`, and then
+`vegas-data.pack was written beside FalloutNV.exe`, and ended with status
+0. The pack existed and was 628 bytes. Only the status, the status line
+and the pack's existence and size were recorded.
 
 These runs are private actual-input checks. They are not synthetic tests
 and not full-game acceptance.

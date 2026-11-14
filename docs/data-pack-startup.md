@@ -212,13 +212,11 @@ the string the original stores at one address:
 builder, in `src/fallout/misc/log_paths.cpp`, copies the user folder buffer
 `DAT_01202fa0` into its own buffer of 260 characters with `strcpy_s` and
 appends its suffix with `strcat_s`: `DAT_01202c50`, `DAT_01202b48`,
-`DAT_01202a40` and `DAT_01202938`, in that order. S2 and S4 call the C
-runtime's functions, S3 and S5 those of `fnv::crt` (`src/runtime/crt.cpp`),
-as their bodies have them. The builders call nothing else: no file is
-opened, written or deleted. The C runtime's functions would end the process
-through its invalid parameter handler when a string does not fit; none can
-here. Which behaviour all four should have once the user folder is set is
-an open decision ("Open decisions"). The user folder is still empty when `main` calls them, as it is in `WinMain`
+`DAT_01202a40` and `DAT_01202938`, in that order. Since VEGAS-130 all four
+call the functions of `fnv::crt` (`src/runtime/crt.cpp`), which leave the
+buffer empty when a string does not fit ("Log path rulings"); none can
+here. The builders call nothing else: no file is opened, written or
+deleted. The user folder is still empty when `main` calls them, as it is in `WinMain`
 at this point: S7, which fills it, runs after S2 to S5, and nothing before it
 writes the buffer. So each buffer holds its suffix alone, and a suffix takes
 at most 24 bytes with its zero byte. `FUN_0086a850` makes S1 and the four
@@ -495,158 +493,139 @@ sources. Generated data defined `DAT_01202938`, `DAT_01202a40` and
 members more than before: `user_folder`, `log_paths`, `crt` and the
 suffixes' owner.
 
-## Open decisions
+## Log path rulings
 
-VEGAS-130 asks for two rulings before the log paths are used. This section
-records the evidence and the options; it decides neither. Measured on the
-windows-x64 cross build of `20e67fbdb`, built from one source path;
-`log_paths.cpp` and `crt.cpp` are unchanged since. Nothing was run on
-Windows.
+VEGAS-130 asked for two rulings before the log paths are used. The
+coordinator made both on 2026-11-14; this section records them, the
+evidence they rest on and what changed. Measured on the windows-x64 cross
+build, built from one source path. Nothing was run on Windows here except
+the private run of setup below.
 
 ### Overflow once the user folder is not empty
 
-The four builders bind their copy and append to two different pairs of
-functions:
+Ruling: the four builders behave alike and call `fnv::crt::strcpy_s` and
+`fnv::crt::strcat_s`, which leave the buffer empty and never truncate. It is
+the project's recorded treatment of `0x00ec65a6` and `0x00ec6bd2`
+(`runtime-library-map.md`, VEGAS-23) and the one S7 already uses. S7's own
+appends follow the same ruling.
 
 | Statement | Builder | Its object calls | Linked from |
 | --- | --- | --- | --- |
-| S2 | `FUN_00c3bb90` | `strcpy_s`, `strcat_s` | the static C runtime, `libucrt` |
+| S2 | `FUN_00c3bb90` | `fnv::crt::strcpy_s`, `fnv::crt::strcat_s` | `crt.cpp` of the game archive |
 | S3 | `fnv_00c3bbe0::FUN_00c3bbe0` | `fnv::crt::strcpy_s`, `fnv::crt::strcat_s` | `crt.cpp` of the game archive |
-| S4 | `FUN_00c3bc30` | `strcpy_s`, `strcat_s` | the static C runtime, `libucrt` |
+| S4 | `FUN_00c3bc30` | `fnv::crt::strcpy_s`, `fnv::crt::strcat_s` | `crt.cpp` of the game archive |
 | S5 | `fnv_00c3bc80::FUN_00c3bc80` | `fnv::crt::strcpy_s`, `fnv::crt::strcat_s` | `crt.cpp` of the game archive |
 
-The relocations of `log_paths.cpp`'s object name the C names `strcpy_s` and
-`strcat_s` in S2 and S4 and `?strcpy_s@crt@fnv@@YAHPEAD_KPEBD@Z` and
-`?strcat_s@crt@fnv@@YAHPEAD_KPEBD@Z` in S3 and S5. The map of a lazy link of
-`FalloutNV`'s inputs takes the first two from `strcpy_s.obj` and
-`strcat_s.obj` of `libucrt` and the other two from `crt.cpp.obj`. The unit
-sees both declarations: `<cstring>` brings the Windows SDK's
-`ucrt/string.h`, which declares `errno_t strcpy_s(char *, rsize_t, const
-char *)` and `strcat_s` with C linkage at global scope, and
-`runtime/crt.h` declares `int strcpy_s(char *, std::size_t, const char *)`
-and `strcat_s` in `fnv::crt`. S2 and S4 call the names unqualified, so the
-global declarations are the only candidates; S3 and S5 name `fnv::crt`. The
-split comes from the transcription: it declared a stand-in
-`void strcpy_s(char *, unsigned int, const char *)` for S2 and S4 and
-stand-ins named `_strcpy_s` for S3 and S5. `d328ed42c` moved the
-`_strcpy_s` calls to `fnv::crt`, and `42a7e4c28` removed the other
-stand-in declarations, which left S2 and S4 on the runtime's functions.
+Before VEGAS-130, S2 and S4 called the C runtime's `strcpy_s` and
+`strcat_s`, declared at global scope by the Windows SDK's `ucrt/string.h`
+through `<cstring>`, and linked from `libucrt`; S3 and S5 already called
+`fnv::crt`. The split came from the transcription, which declared a
+stand-in `strcpy_s` for S2 and S4 and stand-ins named `_strcpy_s` for S3
+and S5: `d328ed42c` moved the `_strcpy_s` calls to `fnv::crt`, and
+`42a7e4c28` removed the other stand-in declarations, which left S2 and S4
+on the runtime's functions. The global functions do not exist on the
+macos-arm64 and linux-x64 build targets, and a host build on macOS
+failed to compile `log_paths.cpp` for that reason; it now compiles there.
 
-When the path does not fit in its 260 characters:
+Now S2 and S4 call `fnv::crt` and `log_paths.cpp` no longer includes
+`<cstring>`. In each of the three variants of the object proof the bytes
+of the two builders are unchanged and their two calls change only their
+target. `FalloutNV`'s link no longer loads `strcat_s.obj` of `libucrt`; it
+still loads `strcpy_s.obj`, which four members of the C runtime that it
+loads call. Its imports are unchanged. `objects.log_path_copies`
+(`tests/checks/objects_log_path_copies.cmake`,
+`tools/function-relocations/log-path-copies.tsv`) fails when a builder
+calls the C runtime's `strcpy_s` or `strcat_s` again, or no longer calls
+both `fnv::crt` functions.
 
-- the runtime's functions, as the objects of the SDK this build uses show,
-  store a zero byte at the start of the buffer, set `errno` to `ERANGE` and
-  call `_invalid_parameter_noinfo`. With no handler installed,
-  `_invalid_parameter` calls `_invoke_watson`, which ends the process with
-  `__fastfail` where the processor offers it, and otherwise reports the
-  fault and calls `TerminateProcess` with status `0xC0000417`. No object of
-  the link refers to `_set_invalid_parameter_handler`, so no handler is
-  installed.
-- `fnv::crt::strcpy_s` stores a zero byte at the start of the buffer and
-  returns `ERANGE`; `fnv::crt::strcat_s` does the same for the whole
-  buffer. The builders ignore the result, so the buffer holds an empty
-  path and the process goes on. `runtime/crt.h` states this as the
-  project's rule: where the Microsoft function would call the invalid
-  parameter handler, the project's returns the error code.
+When the path does not fit in its 260 characters, `fnv::crt::strcpy_s`
+stores a zero byte at the start of the buffer and returns `ERANGE`, and
+`fnv::crt::strcat_s` does the same for the whole buffer. The builders
+ignore the result, so the buffer holds an empty path and the process goes
+on. `runtime/crt.h` states this as the project's rule: where the Microsoft
+function would call the invalid parameter handler, the project's returns
+the error code. By the ruling, the consumers of the paths, `DeleteFileA`
+and the opening of a log, treat an empty path as a failure; no consumer is
+composed yet, so this was not observed.
 
 No overflow can happen in the first call group: the user folder is still
 empty and a suffix holds at most 23 characters. In the second group,
-after S7, the folder holds what S7 copied there with
-`fnv::crt::strcpy_s` and a bound of 260, at most 259 characters, and the
-path overflows when the folder and the suffix together reach 260. S7 builds
-the folder with `fnv::crt::strcat_s` in `bgssaveloadmanager.cpp`, so the
-same question applies to its own appends. Which folder lengths real
-profiles give was not measured.
+after S7, the folder holds what S7 copied there, at most 259 characters,
+and the path overflows when the folder and the suffix together reach 260.
+Which folder lengths real profiles give was not measured. S7 copies with
+`TaskQueueInterface::CopyStringToBuffer`, which calls
+`fnv::crt::strcpy_s`, and appends with `fnv::crt::strcat_s` in
+`bgssaveloadmanager.cpp`, so its copies and appends already follow the
+ruling.
 
-What the original most plausibly did, by inference only: the recipe binds
-the copy and the append of all four builders to the same two addresses,
-`0x00ec65a6` and `0x00ec6bd2` (the keys of `log_paths.cpp`'s entry), which
-`runtime-library-map.md` identifies as `strcpy_s` and `strcat_s` of
-Microsoft's C runtime, linked statically. So the four builders behave
-alike in the original. Microsoft documents that these functions invoke the
-invalid parameter handler when the destination is too small, and the
-default handler ends the process. The recipe binds
-`__invalid_parameter_noinfo` (`0x00ec7c56`), which nine objects of the
-build refer to, and no name of `_set_invalid_parameter_handler`.
-`runtime-library-map.md` (VEGAS-23) already records `fnv::crt::strcpy_s`
-and `fnv::crt::strcat_s` as the treatment of `0x00ec65a6` and
-`0x00ec6bd2`, and a global `strcpy_s` does not exist on the macos-arm64
-and linux-x64 build targets. Most plausibly the original therefore
-ends the process on such an overflow in all four builders, unless code the
-recipe does not name installs a handler. The original's code section is
-encrypted in the stored file and none of its instructions were read.
-
-Options:
-
-1. Keep the split. Nothing changes: S2 and S4 end the process, S3 and S5
-   go on with an empty path. Nothing in the original supports the
-   difference.
-2. Bind all four to the C runtime's functions. S3 and S5 change in
-   `log_paths.cpp`, and the process ends on any overflow, as inferred for
-   the original. The builders then depend on functions that only
-   Microsoft's runtime provides; S2 and S4 already do. Whether `FalloutNV`
-   would still load `crt` was not measured.
-3. Bind all four to `fnv::crt`. S2 and S4 change in `log_paths.cpp`; an
-   overflow leaves an empty path and the process goes on, unlike the
-   inferred original. The consumers of the paths, S7's deletions among
-   them, then receive an empty path.
-4. Bind all four to a project function that ends the process when the
-   path does not fit. Portable, and like the inferred original; it needs
-   a decision on how the process ends (a message, an exit status) and an
-   exception to the rule of `runtime/crt.h`, or a function outside it.
-
-Under 2 to 4, whether S7's own appends follow the same ruling is part of
-the decision.
+The recorded difference from the inferred original: the original most
+plausibly ends the process on such an overflow, and this source leaves
+an empty path. The inference: the recipe binds the copy and the append of
+all four builders to `0x00ec65a6` and `0x00ec6bd2` (the keys of
+`log_paths.cpp`'s entry), which `runtime-library-map.md` identifies as
+`strcpy_s` and `strcat_s` of Microsoft's C runtime, linked statically.
+Microsoft documents that these functions invoke the invalid parameter
+handler when the destination is too small, and the default handler ends
+the process; the SDK objects this build uses store a zero byte, set
+`errno` to `ERANGE` and call `_invalid_parameter_noinfo`, which ends the
+process through `_invoke_watson`. The recipe binds
+`__invalid_parameter_noinfo` (`0x00ec7c56`) and no name of
+`_set_invalid_parameter_handler`, so no handler is known to be installed.
+The original's code section is encrypted in the stored file and none of
+its instructions were read.
 
 ### Path separators in a pack suffix
 
-Validation (`DecodeLogPathSuffixes` in `fileformat/pack_validation.cpp`)
-requires the `LOGS` entry's exact size and a zero byte inside each of the
-four fields, and takes the bytes before it as the suffix. Any other byte
-value is accepted: a path separator (`\` or `/`), a drive colon, `..`, and
-control characters. An empty suffix is accepted. The bytes after the zero
-byte are not read. Setup copies each string from its recipe range up to
-its zero byte; it checks that the range lies in the stored bytes of a data
-section and holds a zero byte, and, since no text is known for these
-addresses (`data-pack-catalogue.md`), nothing of the characters. The
-made-up suffixes of the tests hold no separator.
+Ruling: `ValidatePack` refuses a log path suffix that holds a path
+separator, a drive colon or a control character, or a `..` part, and
+setup inherits the refusal through `PrepareDataPack`. Its precondition was
+a private run that records, as yes or no per suffix only, whether the supported
+original's four strings hold one of these; had one held one, the rule
+would have narrowed to refusing a drive colon, a leading separator and any
+`..` part.
 
-What a consumer does with one: each builder appends the suffix to the user
-folder as it is and adds no separator, so the suffix decides where the
-path points. Appended to a folder, `a\b` names a file in a folder below it
-and `..\b` a file beside it. In `WinMain`, as transcribed, S7 runs after
-the first call group and passes three of the four buffers to
-`DeleteFileA`; those buffers then hold the first group's paths, built from
-an empty user folder, so each is its suffix alone, relative to the working
-directory: there `..\b` names a file above the working directory, a
-leading `\` the root of its drive, and `C:\b` another drive. `main` composes no
-consumer, and nothing in the process reads the buffers yet. In the branch
-of S7 that creates the My Games folders, the last string it appends to the
-user folder ends with a separator, by the legacy data of
-`bgssaveloadmanager.cpp`, so a suffix appended to that folder needs
-none. Whether the original's four strings hold one is not recorded here.
+Why it matters: each builder appends the suffix to the user folder as it
+is and adds no separator, so the suffix decides where the path points. In
+`WinMain`, as transcribed, S7 runs after the first call group and passes
+three of the four buffers to `DeleteFileA`; those buffers then hold the
+first group's paths, built from an empty user folder, so each is its
+suffix alone, relative to the working directory, where `..\b`, a leading
+`\` or `C:\b` would name a file outside it.
 
-A pack sits beside the executable, so whoever can replace the pack can
-replace the executable: a separator gives no new reach to the folder's
-writer. It does let a pack made by hand or by a test name files outside the
-user folder that S7 would delete once composed.
+`DecodeLogPathSuffixes` (`fileformat/pack_validation.cpp`) checks each
+suffix right after its zero byte and refuses it, with the problem
+`SuffixPath` of `PackCatalogueError`, when it holds `\` or `/`, a colon
+anywhere (a drive or a stream), or a byte below 0x20, or when it is `..`:
+with the separators refused, a `..` part is the whole suffix. The message
+names the field and the reason, never the suffix. An empty suffix, one of
+dots and spaces other than `..`, such as `.`, `...` or `. .`, and any
+other byte value are accepted. `FalloutNV`'s stage turns every
+`FormatError` of the validator into its line and status 2, so it refuses
+such a pack as any other invalid pack; no test runs the stage on one.
 
-Options:
+Setup copies each suffix as it is stored and does not look at its
+characters. Step 6 of `PrepareDataPack`, the validator, refuses its pack
+with `StagedPackError`, status 7; the step is
+`setup::staged::CheckWrittenPack`, so that `setup.prepare_pack` can run it
+on packs it writes. `fileformat.pack_catalogue` and `setup.prepare_pack`
+hold the crafted cases (`data-pack-validation.md`).
 
-1. Accept any suffix, as today. Every consumer that opens, writes or
-   deletes a file at these paths treats the suffix as untrusted.
-2. Refuse at validation a suffix that holds a separator, a drive colon or
-   a `..` part, as a new problem of the catalogue checks. A pack setup
-   prepared from the supported release is then refused if the original's
-   strings hold one, so a private run must first record whether they do
-   (only yes or no per suffix, nothing of the text).
-3. Refuse it in setup as well as in validation. Setup already runs
-   `ValidatePack` on the pack it stages (`PrepareDataPack`), so option 2
-   alone stops setup before it installs such a pack; option 3 only adds an
-   earlier, more specific refusal at extraction.
-4. Restrict it at the consumer: the builders or S7 refuse or strip such a
-   suffix. This changes what the transcription does and puts the rule in
-   the engine's code instead of the pack's.
+Private run, 2026-11-14: setup built from `fe8d02602`, the commit that
+added the rule, ran once on a copy of the supported original in a new
+empty folder. It ended with status 0 and printed
+`vegas-data.pack was written beside FalloutNV.exe`; the pack existed and
+was 628 bytes. Since setup validates the pack it writes, and then the
+installed file, with the rule, none of the original's four suffixes
+holds a separator, a colon, a control character or is `..`. Nothing of the
+strings was recorded.
+
+What the rule leaves: a suffix still decides the file name that the
+builder appends to the user folder. Windows' path normalisation trims
+trailing periods and spaces from the last part of a path, so an accepted
+name of dots and spaces, such as `...` or `.. `, may not name the file it
+spells; what each resolves to was not checked. A pack made by hand or by a
+test can hold such a name. The consumers that open, write or delete a file
+at these paths are composed later and must be read against this.
 
 ## Unattended runs and message boxes
 
@@ -778,7 +757,7 @@ folders on or off from INI files named relative to the working directory,
 and then either creates folders under the user's Documents folder or takes
 a folder from a setting; it deletes three files named by the first call
 group's paths, which are relative to the working directory
-("Open decisions"), and copies the default INI when the INI is missing.
+("Log path rulings"), and copies the default INI when the INI is missing.
 
 1. The fixture writes an INI into the working folder that turns the My
    Games folders off, so what S7 creates, deletes and copies falls under
@@ -888,3 +867,12 @@ VEGAS-52.
 - The folder check that lists folders has not run on Windows here; its
   test, `falloutnv.pack_folder_listing`, runs on other hosts with stand-in
   scripts only.
+- No run has built a log path that does not fit, and none has passed an
+  empty path to a consumer. That the builders leave the buffer empty
+  rests on `fnv::crt`'s functions, whose test `runtime.crt` runs on
+  Windows only, and on the object proof of VEGAS-130.
+- The refusal of a suffix that holds a separator, a colon or a control
+  character, or is `..`, ran only in the host tests of the validator and
+  of setup's step 6, on crafted packs. The private run of 2026-11-14 shows
+  that setup accepts the supported original's suffixes under the rule;
+  `FalloutNV.exe` was not run on the pack it wrote.

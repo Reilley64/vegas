@@ -408,9 +408,10 @@ single-instance and remote-session checks and before the second-window
 check (`data-pack-startup.md`). Of the eight statements between those
 checks, `main` skips S1, S6, S7 and S8 under ruling A. Since VEGAS-130
 `FUN_0086a850` passes the owner's four fields too, in both of its call
-groups; it links into no program. Whether a suffix may hold a path
-separator, and how an over-long path ends, are open decisions
-(`data-pack-startup.md`, "Open decisions").
+groups; it links into no program. Under the rulings of 2026-11-14 the
+validator refuses a suffix that holds a path separator, a colon or a
+control character, or is `..`, and an over-long path leaves the builder's
+buffer empty (`data-pack-startup.md`, "Log path rulings").
 
 ## Not verified
 

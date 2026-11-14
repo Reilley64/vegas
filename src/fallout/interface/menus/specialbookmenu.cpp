@@ -5,6 +5,7 @@
 
 #include "fnv/simple_array_item.h"
 #include "fnv/game_timer.h"
+#include <cstdarg>
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AnimationSequence.h"
@@ -679,10 +680,14 @@ FUN_007ca200::FUN_007ca200(int iArg1, int iArg2, int iArg3, int iArg4, int iNumN
 {
     m_iArg4 = iArg4;
 
-    char* pcArgs = (char*)&iNumNavMeshes + sizeof(iNumNavMeshes);
+    va_list pcArgs;
+    va_start(pcArgs, iNumNavMeshes);
     for (int i = 0; i < iNumNavMeshes; i++)
-        reinterpret_cast<::FUN_00438690 *>(&(m_kNavMeshes))->FUN_007cb2e0((unsigned int *)&(*(C7CA200NavMesh**)((pcArgs += sizeof(C7CA200NavMesh*)) - sizeof(C7CA200NavMesh*))));
-    pcArgs = 0;
+    {
+        C7CA200NavMesh* pNavMesh = va_arg(pcArgs, C7CA200NavMesh*);
+        reinterpret_cast<::FUN_00438690 *>(&(m_kNavMeshes))->FUN_007cb2e0((unsigned int *)&pNavMesh);
+    }
+    va_end(pcArgs);
 }
 
 struct FUN_007ca2c0

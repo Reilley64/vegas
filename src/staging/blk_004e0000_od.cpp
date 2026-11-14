@@ -180,13 +180,13 @@ struct BGSPlaceableWater
 struct FUN_004e3280_shell
 {
     BGSPlaceableWater* p;
-    void FUN_004e3280();
+    bool FUN_004e3280();
 };
 
 // @fnv 0x004e3280
-void FUN_004e3280_shell::FUN_004e3280()
+bool FUN_004e3280_shell::FUN_004e3280()
 {
-    reinterpret_cast<BGSPlaceableWater*>(this)->HasFlags(0x200);
+    return reinterpret_cast<BGSPlaceableWater*>(this)->HasFlags(0x200);
 }
 
 namespace fnv_004e3300 {

@@ -53,6 +53,13 @@ KNOWN_ZERO = {
     "__enclave_config", "__AbsoluteZero", "__volatile_metadata",
 }
 
+# lld-link turns the resource files of a link (on Windows, the manifest that
+# CMake embeds) into one object of its own. It holds resource data only, and
+# its relocations target its own $R symbols, so it cannot refer to a name of
+# the project. The map lists those symbols under this description.
+RESOURCE_OBJECT = "internal .obj file created from .res files"
+RESOURCE_SYMBOL = re.compile(r"^\$R[0-9A-F]{6}$")
+
 # Libraries the build does not make whose members the map may name, though
 # the check does not read them, each with where it was seen: the maps of
 # FalloutNV.exe and of the test programs compiled /MT (the cross build) and
@@ -367,6 +374,8 @@ def check(exe_path, map_path, input_paths, out):
         if desc == "<absolute>":
             if int(va, 16) == 0:
                 zero.add(name)
+        elif desc == RESOURCE_OBJECT and RESOURCE_SYMBOL.match(name):
+            continue
         elif desc not in (None, "<linker-defined>", "<common>"):
             lib, _, obj = desc.partition(":") if ":" in desc else ("", "", desc)
             key = "%s:%s" % (lib, base_name(obj)) if lib else base_name(obj)

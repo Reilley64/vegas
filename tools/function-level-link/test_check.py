@@ -348,6 +348,20 @@ class CheckTest(unittest.TestCase):
                                       symbol_line("h", 0x140001020, "b.obj")])
         self.assertEqual(status, 1, out)
 
+    def test_resource_object_not_read(self):
+        resources = "internal .obj file created from .res files"
+        publics = [symbol_line("main", 0x140001010, "a.obj"),
+                   symbol_line("$R000000", 0x140003060, resources)]
+        status, out = self.run_check([("a.obj", self.main_obj())], publics)
+        self.assertEqual(status, 0, out)
+        # Only the linker's own resource symbols, and only from that object.
+        for name, desc in (("helper", resources), ("$R000000x", resources), ("x$R000000", resources),
+                           ("$R00000", resources), ("$R00000a", resources), ("$R000001", "b.obj")):
+            status, out = self.run_check([("a.obj", self.main_obj())],
+                                         publics + [symbol_line(name, 0x140001020, desc)])
+            self.assertEqual(status, 1, name)
+            self.assertIn("an object the check did not read", out)
+
     def test_system_library_object_not_read(self):
         status, out = self.run_check([("a.obj", self.main_obj())],
                                      [symbol_line("main", 0x140001010, "a.obj"),

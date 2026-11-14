@@ -120,6 +120,9 @@ maps and executables.
   executable's sections, and the check refuses an executable with such an
   export. No source of this repository passes either option, and
   FalloutNV.exe has no export table.
+- The object lld-link makes from a link's resource files (the manifest
+  that CMake embeds when it runs on Windows) is not read. It holds resource data only, and the
+  check accepts only its own `$R` symbols from it.
 - In repro mode or with SOURCE_DATE_EPOCH the timestamp does not tie the map
   to the executable.
 - The check proves that no unresolved name is referenced from the

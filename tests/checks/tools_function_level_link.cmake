@@ -25,12 +25,13 @@
 # executables and run on every host. Blind spot: the inputs are hand-made,
 # not linker output; the link tests of link_function_level.cmake cover real
 # links. A test method added to the .py but not to this list never runs.
-set(tools_function_level_link_cases dead_comdat_accepted unresolved_export_refused kept_comdat_live static_leader_kept_live
+set(tools_function_level_link_cases dead_comdat_accepted unresolved_export_refused
+    kept_comdat_live static_leader_kept_live
     non_comdat_section_live associative_follows_parent member_not_loaded_accepted
     member_loaded_live member_with_only_comdats_unclassified backslash_member_name
     two_objects_one_name_unclassified two_objects_one_name_told_apart
     other_copy_selected_accepted no_relocation_unclassified zero_name_without_reference_refused
-    known_zero_names_accepted unread_project_object_refused system_library_object_not_read
+    known_zero_names_accepted unread_project_object_refused resource_object_not_read system_library_object_not_read
     unknown_map_line_refused missing_map_unreadable map_of_another_link_refused
     repro_mode_timestamp_not_compared bigobj_read truncated_object_unreadable
     truncated_member_unreadable import_slot_live import_slot_of_defined_name_accepted

@@ -597,6 +597,9 @@ def gate_unit(job):
         if not listed_undefined(n, ctx["dem"], ctx["undefined"]):
             refuse("defined:not-listed", "the tip's forced-unlimited link does not list it as undefined")
             continue
+        if listed_undefined(d, ctx["dem"], ctx["undefined"]):
+            refuse("defined:owner-undefined", "the tip's forced-unlimited link lists the owner as undefined")
+            continue
         if nsig is None or dsig is None:
             refuse("signature:unreadable", "")
             continue

@@ -43,7 +43,7 @@ python3 $T apply OUT REPO --stage bind \
   differing-definitions lists of the tip's measurement. Required.
 - `UNDEFINED`: the tip's forced-unlimited link's undefined names, one per
   line, as lld-link prints them (llvm-undname's text) or mangled. Required:
-  a stand-in it does not list is refused.
+  a stand-in it does not list is refused, and so is an owner it lists.
 - apply takes only the names in `OUT/proved.txt` (and in `--only FILE`,
   first column, when given) whose every site is admitted. It exits 1,
   writing nothing, when `OUT` has no `proof.tsv`, `proved.txt` or
@@ -60,7 +60,7 @@ Per candidate, then per site, the first refusal that applies:
 | --- | --- |
 | `recipe:address`, `recipe:no-key`, `recipe:no-row` | the requiring unit's `symbols` maps, all entries of its source merged, have no key whose demangled name equals the stand-in's (calling convention and `__ptr64` aside) and whose addresses are exactly the row's, or have several; or the function row at the address is not the owner; or the candidate names no one address. An address in an identifier never counts. |
 | `differing-definitions` | the stand-in or the owner is in `NAMES` |
-| `defined:not-listed`, `defined:name` | `UNDEFINED` does not list the stand-in; the unit defines it |
+| `defined:not-listed`, `defined:owner-undefined`, `defined:name` | `UNDEFINED` does not list the stand-in; it lists the owner: no object of the link defines it; the unit defines the stand-in |
 | `signature:unreadable` | llvm-undname's text of either name has no calling convention outside every bracket (a function that returns a function pointer) |
 | `not-declared:name`, `not-declared:owner`, `not-declared:owner-class`, `not-declared:owner-name` | the unit does not declare the exact mangled name, the owner's class is not defined in it, or the owner has no plain qualified name |
 | `overload:owner` | the owner's class (for a member) or namespace declares another function of the owner's name: a call could pick it |

@@ -2,7 +2,8 @@
 # whose recipe key is missing, held at another address too or doubled, or
 # whose row is not the owner; a name on the differing-definitions list; a
 # stand-in the tip's undefined list does not name (mangled or as
-# llvm-undname prints it) or the unit defines; an unreadable signature (a
+# llvm-undname prints it) or the unit defines, or an owner that list
+# names; an unreadable signature (a
 # calling convention only inside brackets); an owner overloaded in its class
 # (by a function or a function template); or a unit whose AST dump fails;
 # or stops refusing, per site, a void result used (not a whole statement or

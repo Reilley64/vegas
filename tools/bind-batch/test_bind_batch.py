@@ -473,6 +473,8 @@ class GateUnitTest(Folder):
             (dict(ph, differing={N}), "differing-definitions"),
             (dict(ph, differing={D}), "differing-definitions"),
             (dict(ph, undefined=set()), "defined:not-listed"),
+            (dict(ph, undefined={NDEM, DDEM}), "defined:owner-undefined"),
+            (dict(ph, undefined={NDEM, D}), "defined:owner-undefined"),
             (dict(ph, sig={N: None, D: bb.signature(DDEM)}), "signature:unreadable"),
         ]
         for ctx, kind in cases:

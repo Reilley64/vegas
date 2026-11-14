@@ -9,6 +9,7 @@ function(vegas_compose_native_data)
     "src/generated/data/bsaudio/bsaudio.inc|870d9edb5b2de0545ce934fb3228bf47c6450254d5d134fa940c2864c9105b13"
     "src/generated/data/bshavok/bhkrigidbody_h_unit.inc|801786c7bf38eb1b7cf2745845efd568055bd5ddfe38105314e26ae6289a9ae7"
     "src/generated/data/fallout/misc/main.inc|b5d162d2a3e31b206c1f63c0c9a816be07f2e0d5d21cbc6ece067aecb1d5389a"
+    "src/generated/data/fallout/misc/saveload/bgssaveloadmanager.inc|9e2c845df5e3d6f7ddc9a432460a679e3c92b2180b12aafef8b43c05e0843d83"
     "src/generated/data/fallout_shared/tesfile.inc|dfc4376955f40276d081d9cee18d5ffef1f1e3820e25bbe5562077deb8a47751"
     "src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc|0272c0c3e4e1c5f40a3e79247b0d01f4b220373c298f05f2cee15d72b1fd0f03"
     "src/generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc|75c044905e583119c0a0d297cd2c2e684aef24610893d9990918ae0d7d2597b7"

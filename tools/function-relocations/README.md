@@ -44,8 +44,9 @@ per batch of `d3dx-call-arguments.tsv`,
 `objects.setting_value_accessor_callers` for `setting-value-accessor.tsv`,
 `objects.float_setting_accessor_callers` for `float-setting-accessor.tsv`,
 `objects.setting_member_calls` for `setting-member-calls.tsv`,
-`objects.batch_bindings` for `batch-bindings.tsv`, and
-`objects.void_result_repairs` for `void-result-repairs.tsv`. CMake
+`objects.batch_bindings` for `batch-bindings.tsv`,
+`objects.void_result_repairs` for `void-result-repairs.tsv`, and
+`objects.import_slot_calls` for `import-slot-calls.tsv`. CMake
 writes the object list of the game archive to `game-objects.txt` in the
 build's `tests` folder.
 
@@ -220,6 +221,17 @@ docs/void-result-bodies.md). Each must be defined under its recipe row's
 name, which now carries the result; the table forbids the former `void`
 name, which no object defines. Which value a body leaves in the return
 register is not a relocation; the object proof of each repair shows it.
+
+`import-slot-calls.tsv` lists the functions that call imported functions
+through their SDK declarations instead of a generated import slot variable
+(VEGAS-135, docs/function-level-link.md): today `GetSaveDirectory`
+(`0x00876ad0`). It forbids the slot variables, which no object defines,
+and the imports' own names: a definition in the unit that takes the
+address of a generated asm label of an import's name made an SDK call of
+it a direct call of the import's thunk. It requires the
+import library's `__imp_` slot of each import the function calls. The
+number and order of the calls and their arguments are not relocations; the
+object proof of VEGAS-135 compared them.
 
 ## Exit status
 

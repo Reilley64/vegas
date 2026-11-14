@@ -201,3 +201,42 @@ Until `main` composes S7, the link reads no member of shell32:
 FalloutNV.exe is the one linked without it, byte for byte apart from the
 header timestamp and checksum, and its map names nothing of shell32 (cross
 build, measured at VEGAS-135's T9 commit).
+
+## Import slots
+
+Generated data defines some of the original's import address table
+entries as variables, each commented "import slot of" its DLL and
+function and initialized with the function's address through an asm
+label of the function's own name. A definition in a unit that takes the
+address of such a label makes every call of the function through its SDK
+declaration in that unit a direct call of the import's thunk, not a call
+through its slot.
+
+Under the coordinator's ruling of 2026-11-14 such a variable gets no
+native definition: its users call the function through its SDK
+declaration, whose slot `__imp_X` the import library defines, and the
+recipe names the slot's address with the `__imp_` spelling it already
+uses in other entries. `BGSSaveLoadManager::GetSaveDirectory`
+(`0x00876ad0`, WinMain's statement S7) is the first (VEGAS-135). It
+calls `GetPrivateProfileIntA`, `SHGetFolderPathA`, `CreateDirectoryA`,
+`DeleteFileA` and `CopyFileA` through `<windows.h>` and `<shlobj.h>`,
+and the recipe entry of `bgssaveloadmanager.cpp` keys `0x00fdf0c4`,
+`0x00fdf274`, `0x00fdf0b8`, `0x00fdf0d4` and `0x00fdf1b8` as
+`__imp__GetPrivateProfileIntA@16`, `__imp__SHGetFolderPathA@20` (a new
+name), `__imp__CreateDirectoryA@8`, `__imp__DeleteFileA@4` and
+`__imp__CopyFileA@12`. The five generated slots retire with their labels
+(`docs/native-data-ownership.md`); with the slot definitions kept, all
+five calls would be direct calls of the thunks.
+
+The function makes the same calls in the same order with the same
+arguments once the slot names are read as `__imp_` names (31 with the
+unit's flags and with `/Ob0`, 33 with `/Od /Gy`). With the unit's flags
+the compiler now loads the slots of `SHGetFolderPathA`, `CreateDirectoryA`
+and `DeleteFileA` once each and calls through a register
+(`GetPrivateProfileIntA`'s slot is still loaded by each of its two calls),
+and in every variant `CopyFileA`, which the slot definition made a direct
+call of its thunk, goes through its slot.
+`objects.import_slot_calls` fails when the function refers to a slot
+variable or to a thunk again, or no longer to each `__imp_` slot. Other
+units' slot lines are converted unit by unit, each in its own commit,
+never wholesale.

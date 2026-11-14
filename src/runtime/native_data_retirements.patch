@@ -15,6 +15,28 @@
 -unsigned char UNK_01082a38 = 87;
 @@ -115 +110,0 @@
 -int DAT_01202e98;
+--- a/src/generated/data/fallout/misc/saveload/bgssaveloadmanager.inc
++++ b/src/generated/data/fallout/misc/saveload/bgssaveloadmanager.inc
+@@ -5,3 +4,0 @@
+-extern "C" void fnv_api_CopyFileA() __asm__("CopyFileA");
+-extern "C" void fnv_api_CreateDirectoryA() __asm__("CreateDirectoryA");
+-extern "C" void fnv_api_DeleteFileA() __asm__("DeleteFileA");
+@@ -9 +5,0 @@ extern "C" void fnv_api_GetLocalTime() __asm__("GetLocalTime");
+-extern "C" void fnv_api_GetPrivateProfileIntA() __asm__("GetPrivateProfileIntA");
+@@ -11 +6,0 @@ extern "C" void fnv_api_GetUserNameA() __asm__("GetUserNameA");
+-extern "C" void fnv_api_SHGetFolderPathA() __asm__("SHGetFolderPathA");
+@@ -16,6 +10,0 @@ FNVDateFunction g_fnvDateFunction = reinterpret_cast< void (*)(char *, unsigned
+-// import slot of KERNEL32.dll CreateDirectoryA
+-int (*DAT_00fdf0b8)(const char *, void *) = reinterpret_cast< int (*)(const char *, void *)>(&fnv_api_CreateDirectoryA);
+-// import slot of KERNEL32.dll GetPrivateProfileIntA
+-int (*DAT_00fdf0c4)(const char *, const char *, int, const char *) = reinterpret_cast< int (*)(const char *, const char *, int, const char *)>(&fnv_api_GetPrivateProfileIntA);
+-// import slot of KERNEL32.dll DeleteFileA
+-int (*DAT_00fdf0d4)(char *) = reinterpret_cast< int (*)(char *)>(&fnv_api_DeleteFileA);
+@@ -24,4 +12,0 @@ FNVSystemTimeFunction g_fnvSystemTimeFunction = reinterpret_cast< void (*)(FNVSy
+-// import slot of KERNEL32.dll CopyFileA
+-int (*DAT_00fdf1b8)(const char *, const char *, int) = reinterpret_cast< int (*)(const char *, const char *, int)>(&fnv_api_CopyFileA);
+-// import slot of SHELL32.dll SHGetFolderPathA
+-int (*DAT_00fdf274)(void *, int, void *, unsigned int, char *) = reinterpret_cast< int (*)(void *, int, void *, unsigned int, char *)>(&fnv_api_SHGetFolderPathA);
 --- a/src/generated/data/fallout_shared/tesfile.inc
 +++ b/src/generated/data/fallout_shared/tesfile.inc
 @@ -9 +8,0 @@

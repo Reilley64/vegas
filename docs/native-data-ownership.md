@@ -33,16 +33,20 @@ ownership delta. It retires duplicate scalar storage and incompatible,
 source-audited unused byte-layout tables/declarations. It retires sole,
 zero-initialized definitions that nothing refers to any more because a typed
 owner now defines that storage. It moves sole legacy definitions, unchanged in name, type, size and value, to
-the module that now owns them. It does not replace required objects with stubs, rename
+the module that now owns them. It also retires generated import-slot
+variables, initialized with an import's address, whose users now call the
+import through its SDK declaration, so the import library's `__imp_` slot
+owns the storage (VEGAS-135). It does not replace required objects with stubs, rename
 incompatible receivers or clone values. The genuine owner
 modules and typed declarations remain the source of the native globals and
-protocols. The patch covers forty hashed inputs. Twelve are the
+protocols. The patch covers forty-one hashed inputs. Twelve are the
 retirements previously reviewed for VEGAS-1, unchanged, not additional engine
 work. Four are the three retirements and the one move below. Sixteen are the
 VEGAS-51 retirements below. Four are the VEGAS-102 label respellings below.
 Two are the VEGAS-112 retirements below. One comes with the three VEGAS-127 moves below.
 One is the VEGAS-129 retirement below. The VEGAS-130 retirement below adds
-a hunk to an input that VEGAS-112 pinned, and no input.
+a hunk to an input that VEGAS-112 pinned, and no input. One is the
+VEGAS-135 retirement below.
 
 VEGAS-86 adds three for the Ni allocator join, described in
 `docs/ni-allocator.md`: the base allocator table at `0x010a24d0` and its
@@ -115,8 +119,8 @@ and no object of the build defines or refers to the four names any more.
 The patch removes the four lines in a hunk of their own, before the hunk of
 `DAT_01202e98`. Each line's one byte is dropped, not moved or cloned: the
 owner holds the whole string, from the pack. Every other line of the input
-is unchanged. The input was already pinned, with `eol=lf`, so its pin, the
-count of forty inputs and `.gitattributes` do not change. The recipe keeps
+is unchanged. The input was already pinned, with `eol=lf`, so its pin and
+`.gitattributes` do not change, and the input count does not change. The recipe keeps
 the four keys in `main.cpp`'s entry, and setup still reads the strings at
 their addresses under them (`src/setup/log_path_suffix_ranges.h`).
 
@@ -146,7 +150,32 @@ the new unit's; its object refers to it only with `/Od /Gy`. Every other
 line of the input is unchanged. Its pin is the hash of the committed bytes,
 which do not change.
 
-Native CMake verifies the forty committed input hashes, copies them into
+VEGAS-135 adds `fallout/misc/saveload/bgssaveloadmanager.inc`. It defined
+five of the original's import slots as variables, each commented "import
+slot of" its DLL and function: `DAT_00fdf0b8`, `DAT_00fdf0c4`,
+`DAT_00fdf0d4`, `DAT_00fdf1b8` and `DAT_00fdf274`, for `CreateDirectoryA`,
+`GetPrivateProfileIntA`, `DeleteFileA`, `CopyFileA` and `SHGetFolderPathA`.
+Each was a pointer initialized with the address of its function, taken
+through a declaration of the function's own name under the type `void()`
+by an asm label. Under the coordinator's ruling of 2026-11-14 a variable
+that only holds an import's address gets no native definition: its users
+call the function through its SDK declaration, and the import library's
+`__imp_` slot is the slot (`docs/function-level-link.md`, import slots).
+`BGSSaveLoadManager::GetSaveDirectory`, in `bgssaveloadmanager.cpp`, the
+unit that includes the input, was their only user and now calls the five
+functions that way. No other object of the build referred to any of the
+five names, and none refers to them now. The patch removes the five definitions, their five
+comment lines and the five asm-labelled declarations that only they used.
+What is new is that no definition left in the build holds the value each
+held, its function's address: the import library's `__imp_` slot holds it
+once the executable is loaded, so no value is lost or cloned.
+Every other line of the input is unchanged, the slots of `GetUserNameA`
+and `GetLocalTime` included, which the unit's other code still calls
+through. Its pin is the hash of the committed bytes, which do not change.
+Other units' slot lines follow the same rule unit by unit, each in its
+own commit.
+
+Native CMake verifies the forty-one committed input hashes, copies them into
 the build directory, and applies that patch using the existing Git patch
 engine.
 It fails closed if any input changes or the patch no longer applies. Git is

@@ -1,6 +1,7 @@
 src/generated/data/bsaudio/bsaudio.inc text eol=lf
 src/generated/data/bshavok/bhkrigidbody_h_unit.inc text eol=lf
 src/generated/data/fallout/misc/main.inc text eol=lf
+src/generated/data/fallout/misc/saveload/bgssaveloadmanager.inc text eol=lf
 src/generated/data/fallout_shared/tesfile.inc text eol=lf
 src/generated/data/gamebryo2.2/corelibs/nianimation/nianimationkey.inc text eol=lf
 src/generated/data/gamebryo2.2/corelibs/nianimation/nibooldata.inc text eol=lf

@@ -1,0 +1,20 @@
+# The functions that call imported functions through their SDK
+# declarations, not through a generated import slot variable (VEGAS-135):
+# the import library's __imp_ slot is the native owner of the slot.
+# Format: README.md.
+# The generated slot variables they called through, which no object defines:
+forbid	?DAT_00fdf0c4@@3P6AHPEBD0H0@ZEA
+forbid	?DAT_00fdf274@@3P6AHPEAXH0IPEAD@ZEA
+forbid	?DAT_00fdf0b8@@3P6AHPEBDPEAX@ZEA
+forbid	?DAT_00fdf0d4@@3P6AHPEAD@ZEA
+forbid	?DAT_00fdf1b8@@3P6AHPEBD0H@ZEA
+# The imports' thunks: a definition in the unit that takes the address of
+# a generated asm label of the import's own name made an SDK call of it a
+# direct call of the thunk (CopyFileA before VEGAS-135):
+forbid	GetPrivateProfileIntA
+forbid	SHGetFolderPathA
+forbid	CreateDirectoryA
+forbid	DeleteFileA
+forbid	CopyFileA
+# batch, unit, function, the import slots it calls through:
+function	save_directory	src/fallout/misc/saveload/bgssaveloadmanager.cpp	?GetSaveDirectory@BGSSaveLoadManager@@SAXPEAD@Z	__imp_GetPrivateProfileIntA __imp_SHGetFolderPathA __imp_CreateDirectoryA __imp_DeleteFileA __imp_CopyFileA

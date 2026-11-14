@@ -82,10 +82,6 @@ extern const char DAT_01082d94[];
 extern const char DAT_01082da0[];
 extern const char DAT_01082dac[];
 extern const char DAT_01082dc4[];
-extern int(* DAT_00fdf0c4)(const char*, const char*, int, const char*);
-extern int(* DAT_00fdf274)(void*, int, void*, unsigned int, char*);
-extern int(* DAT_00fdf0b8)(const char*, void*);
-extern int(__cdecl* DAT_00fdf0d4)(char*);
 
 class SaveLoadFile;
 struct BGSLoadGameBuffer

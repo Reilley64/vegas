@@ -6078,6 +6078,19 @@ struct SM7d06c0_menu : public StartMenu
     void FUN_007d3b60();
 };
 
+struct PrepSaveMenu : public StartMenu
+{
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    unsigned int unk1bc;
+    unsigned int unk1c0;
+    unsigned int unk1c4;
+    unsigned int unk1c8;
+    unsigned int unk1cc;
+    unsigned int uiSaveLoadTrait;
+    void FUN_007d3b60();
+};
 // @fnv 0x007d06c0
 void __cdecl FUN_007d06c0()
 {
@@ -6506,6 +6519,13 @@ struct BackMenuActions
     void FUN_007d5f80();
 };
 
+namespace fnv_007d5f80 {
+struct StartMenu_Wrap : StartMenu
+{
+    void FadeTile(int, int, unsigned int, float);
+    void FUN_007d5f80();
+};
+}  // namespace fnv_007d5f80
 // Handles the back action on the start menu: checks the back list state and flags, then triggers the matching menu transition or returns early.
 // @fnv 0x007d0e40
 void HandleBackAction()
@@ -8885,19 +8905,6 @@ void FUN_007d0cb0()
     }
 }
 
-struct PrepSaveMenu : public StartMenu
-{
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int uiSaveLoadTrait;
-    void FUN_007d3b60();
-};
 
 class BGSSaveLoadFileEntry;
 struct SaveLoadListBox
@@ -9049,11 +9056,6 @@ struct LBTraverseV
 };
 struct VObj
 {
-};
-struct StartMenu_Wrap : StartMenu
-{
-    void FadeTile(int, int, unsigned int, float);
-    void FUN_007d5f80();
 };
 
 // Sets traits on two tiles and calls methods on download options; when FLAG_ACTION_MAPPING is set, it traverses options and clears the flag.

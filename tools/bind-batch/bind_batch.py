@@ -50,6 +50,7 @@ RECORDS = {"CXXRecordDecl", "ClassTemplateSpecializationDecl", "ClassTemplatePar
 TEMPLATES = {"FunctionTemplateDecl", "ClassTemplateDecl", "ClassTemplatePartialSpecializationDecl",
              "ClassTemplateSpecializationDecl", "VarTemplateDecl"}
 CASTS = {"CStyleCastExpr", "CXXStaticCastExpr", "CXXReinterpretCastExpr"}
+# A conversion function's name as the AST dump spells it: "operator" and a type.
 TYPES = {"CXXRecordDecl", "EnumDecl", "TypedefDecl", "TypeAliasDecl"}
 MOVE_DEPENDENCIES = 3
 INTEGERS = {"int", "unsigned int", "char", "signed char", "unsigned char", "short", "unsigned short",
@@ -248,6 +249,19 @@ def strip_implicit(node, kinds=("ImplicitCastExpr", "ParenExpr")):
     return node, casts
 
 
+def user_conversion(cast):
+    """How a receiver CAST's operand reaches it through a user-defined conversion: the castKind
+    UserDefinedConversion of the cast or of an implicit cast under it; None when it does not.
+    An explicit call of a conversion function under the cast is an operand like any other:
+    the cast keeps converting the value that call returns."""
+    if cast.get("castKind") == "UserDefinedConversion":
+        return "UserDefinedConversion"
+    _, casts = strip_implicit(cast["inner"][0])
+    if "UserDefinedConversion" in casts:
+        return "UserDefinedConversion"
+    return None
+
+
 def chain_of(path):
     """The declaration context of a node: [(kind, name, id, span)] of its namespace, linkage
     and record ancestors, outermost first."""
@@ -365,7 +379,8 @@ def reference(node, target, path, index):
         core, casts = strip_implicit(base)
         ref["receiver"] = dict(kind=core.get("kind"), implicit=casts, arrow=bool(node.get("isArrow")),
                                span=span(core), type=core.get("type", {}).get("qualType"),
-                               operand=span(core["inner"][0]) if core.get("kind") in CASTS else None)
+                               operand=span(core["inner"][0]) if core.get("kind") in CASTS else None,
+                               user_conversion=user_conversion(core) if core.get("kind") in CASTS else None)
     elif kind == "DeclRefExpr" and len(path) >= 3 and path[-2].get("kind") == "ImplicitCastExpr" \
             and path[-2].get("castKind") == "FunctionToPointerDecay" and path[-3].get("kind") == "CallExpr" \
             and path[-3]["inner"][0] is path[-2]:
@@ -513,6 +528,10 @@ def gate_site(ref, n, d, nsig, dsig, ndecl, ddecls, text, address="0x0"):
             return "receiver:not-a-cast", rec["kind"] or ""
         if set(rec["implicit"]) - {"NoOp", "LValueToRValue"}:
             return "receiver:conversion", ",".join(rec["implicit"])
+        if rec["user_conversion"]:
+            # A class value the cast converts by a conversion function: retargeted, the cast
+            # picks another conversion or does not compile.
+            return "receiver:user-conversion", rec["user_conversion"]
         stand_in = nsig["scope"].split("::")[-1]
         if not stand_in or "<" in nsig["scope"] or written_type(
                 text[rec["span"][0]:rec["operand"][0]], rec["kind"], stand_in) is None:

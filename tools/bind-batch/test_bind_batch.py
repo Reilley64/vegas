@@ -410,6 +410,56 @@ class GateTest(unittest.TestCase):
             ref["name_span"] = (at(b"S*)"), at(b"S*)") + 1)
         self.assertEqual(self.decide(edit=other_name)[0], "site:name-text")
 
+    def test_receiver_user_conversion(self):
+        # The fixture's receiver cast with its operand p a class value, as clang dumps
+        # ((S*)p) for a p whose class has operator S *() (bsfacegenmanager.cpp, 0x0065c490).
+        def operand(top, call=True, name="operator S *"):
+            def edit(nodes):
+                cast = nodes[1]["inner"][0]["inner"][0]["inner"][0]["inner"][0]["inner"][0]
+                p = rng(at(b"p)->"), at(b"p)->"))
+                value = {"id": "0x30", "kind": "ImplicitCastExpr", "range": p, "castKind": "NoOp",
+                         "inner": [cast["inner"][0]["inner"][0]]}
+                inner = {"id": "0x31", "kind": "CXXMemberCallExpr", "range": p, "type": {"qualType": "S *"},
+                         "inner": [{"id": "0x32", "kind": "MemberExpr", "range": p, "name": name, "isArrow": False,
+                                    "referencedMemberDecl": "0x33", "inner": [value]}]} if call else value
+                if top == "cast":
+                    cast["castKind"] = "UserDefinedConversion"
+                    cast["inner"] = [inner]
+                elif top == "implicit":
+                    cast["inner"] = [{"id": "0x34", "kind": "ImplicitCastExpr", "range": p,
+                                      "castKind": "UserDefinedConversion", "inner": [inner]}]
+                else:  # the conversion function called explicitly, in parentheses
+                    cast["inner"] = [{"id": "0x35", "kind": "ParenExpr", "range": p, "inner": [inner]}]
+                return nodes
+            return edit
+
+        def decide(edit):
+            f = bb.extract(None, {N}, {D}, dump_lines(edit(items())))
+            ref = f["refs"][0]
+            got = bb.gate_site(ref, N, D, bb.signature(NDEM), bb.signature(DDEM), f["decls"][N][0], f["decls"][D],
+                               TEXT, "0x00401000")
+            return ref["receiver"]["user_conversion"], got
+        self.assertEqual(decide(lambda nodes: nodes), (None, (None, "name+class")))
+        for top in ("implicit", "cast"):
+            self.assertEqual(decide(operand(top)), ("UserDefinedConversion",
+                                                    ("receiver:user-conversion", "UserDefinedConversion")), top)
+        # An explicit call of a conversion function is an operand like any other.
+        self.assertEqual(decide(operand("paren")), (None, (None, "name+class")))
+        self.assertEqual(decide(operand("cast", call=False)), ("UserDefinedConversion",
+                                                               ("receiver:user-conversion", "UserDefinedConversion")))
+        # The same refusal when the receiver cast is a static_cast.
+        def static(edit):
+            def wrapped(nodes):
+                nodes = edit(nodes)
+                nodes[1]["inner"][0]["inner"][0]["inner"][0]["inner"][0]["inner"][0]["kind"] = "CXXStaticCastExpr"
+                return nodes
+            return wrapped
+        f = bb.extract(None, {N}, {D}, dump_lines(static(operand("implicit"))(items())))
+        self.assertEqual(f["refs"][0]["receiver"]["user_conversion"], "UserDefinedConversion")
+        # A member call under the cast that is not a conversion function is no conversion.
+        for name in ("get", "operator new", "operator delete", "operator()"):
+            self.assertEqual(decide(operand("paren", name=name)), (None, (None, "name+class")), name)
+
     def test_naming(self):
         def naming(stand, owner, address="0x00410020"):
             return bb.naming(bb.signature(stand), bb.signature(owner), address)

@@ -12,7 +12,8 @@
 # drops cv or steps derived-to-base, a member against a free call, a static
 # member against a free function, a special member, a virtual function, a
 # receiver that is not an explicit cast of the stand-in's class or reaches
-# the call through a conversion, a site in a macro, header, template or
+# the call through a conversion, a receiver cast of a class value through a
+# user-defined conversion, a site in a macro, header, template or
 # lambda, a default argument, a callee whose text is not the name, or a
 # descriptive function name that becomes a placeholder or another
 # descriptive name; or stops labelling R5a, const added to this, a
@@ -56,7 +57,8 @@ set(tools_bind_batch_cases
     GateTest.test_same_type_admits GateTest.test_void_result_used GateTest.test_parameter_conversions
     GateTest.test_object_pointer_to_void_pointer GateTest.test_call_form_virtual_this_count
     GateTest.test_static_against_free GateTest.test_site_and_receiver_refusals GateTest.test_naming
-    GateTest.test_written_type GateUnitTest.test_admit GateUnitTest.test_refusals_per_candidate
+    GateTest.test_written_type GateTest.test_receiver_user_conversion GateUnitTest.test_admit
+    GateUnitTest.test_refusals_per_candidate
     GateUnitTest.test_defined_overloaded_and_unreadable GateUnitTest.test_a_refused_site_keeps_the_name
     RecipeTest.test_respell_in_place RecipeTest.test_every_entry_that_holds_the_key
     RecipeTest.test_merge_into_existing_key_of_another_entry RecipeTest.test_conflicts_change_nothing

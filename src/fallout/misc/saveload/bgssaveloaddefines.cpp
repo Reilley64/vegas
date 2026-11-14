@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloaddefines.cpp: SaveGameSizeState (15 functions)
 
+#include <cstdarg>
 #include <cstdint>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0084ab00_This.h"
@@ -348,11 +349,11 @@ struct BGSSaveLoadGame
 // @fnv 0x00845cc0
 void __cdecl FUN_00845cc0(const char* apMessage, ...)
 {
-    char* varArgs;
-    varArgs = (char*)&apMessage + 4;
+    va_list varArgs;
+    va_start(varArgs, apMessage);
     if (g_BGSSaveLoadGame)
         reinterpret_cast<::FUN_0084ab00_This *>((g_BGSSaveLoadGame))->FUN_0084ab00(apMessage, varArgs);
-    varArgs = 0;
+    va_end(varArgs);
 }
 
 // @fnv 0x00845d40

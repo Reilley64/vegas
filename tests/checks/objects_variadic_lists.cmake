@@ -32,6 +32,7 @@ set(objects_variadic_lists_entries
   "FUN_00703e80|?FUN_00703e80@fnv_00703e80@@YA_NPEBD00PEAXHHMM0ZZ|-|-|^movq %(r[a-z0-9]+), 0x78\\(%rsp\\)$|^leaq 0xf8\\(%rsp\\), BASE$"
   "FUN_007ca200|??0FUN_007ca200@@QEAA@HHHHHZZ|-|-|^movq %(rax), -0x20\\(%rbp\\)$|^leaq 0x50\\(%rbp\\), BASE$"
   "FUN_007d6350|??0FUN_007d6350@@QEAA@PEBDPEAXHHIHZZ|-|-|^movq %(rax), -0x10\\(%rbp\\)$|^leaq 0x78\\(%rbp\\), BASE$"
+  "FUN_00845cc0|?FUN_00845cc0@@YAXPEBDZZ|^movq[ \t]+%rdx, 0x48\\(%rsp\\)$|^leaq[ \t]+0x2c\\(%rsp\\), |^movq %(rcx), 0x28\\(%rsp\\)$|^leaq 0x48\\(%rsp\\), BASE$"
 )
 if(vegas_object_checks)
   foreach(objects_variadic_lists_entry IN LISTS objects_variadic_lists_entries)

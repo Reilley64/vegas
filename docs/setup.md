@@ -26,11 +26,13 @@ the reviewed tool version and the maintenance responsibility before setup
 reads a real input. The next section states them. That criterion is met
 when this page passes review.
 
-The owner ran setup privately on an actual input twice on 2026-11-13. The
-first run used the reviewed tool version `0ecb31723` and catalogue version
-1, before setup read the main window class. The second used the reviewed
-tool version `d5d1d60ec` and catalogue version 2. For C1 and the main
-window class only, the runs show the input checks of VEGAS-13's first
+The owner ran setup privately on an actual input twice on 2026-11-13 and
+once on 2026-11-14. The first run used the reviewed tool version
+`0ecb31723` and catalogue version 1, before setup read the main window
+class. The second used the reviewed tool version `d5d1d60ec` and catalogue
+version 2. The third used the reviewed tool version `e43d866e6` and
+catalogue version 3. For C1, the log path suffixes and the main window
+class only, the runs show the input checks of VEGAS-13's first
 criterion, the reproducible local preparation that its fourth asks for,
 and the private actual-input check that its seventh asks to document. The
 rest of the fourth, fifth and seventh criteria covers the whole catalogue
@@ -414,9 +416,10 @@ setup, did not link, and CTest reported that test as not run.
 
 ## Private run on an actual input
 
-On 2026-11-13 the owner ran `vegas-setup` twice on their own Steam copy of
-`FalloutNV.exe`. The packs, the original file and every value read from
-them stay private. This page records outcomes and statuses only.
+On 2026-11-13 the owner ran `vegas-setup` twice, and on 2026-11-14 once
+more, on their own Steam copy of `FalloutNV.exe`. The packs, the original
+file and every value read from them stay private. This page records
+outcomes and statuses only.
 
 ### Catalogue version 1
 
@@ -472,21 +475,61 @@ The second run used setup built from the reviewed tool version
   name, and it was not a remote session. From that, `main` is inferred to
   have taken the `Continue` path. No run observed it.
 
+### Catalogue version 3
+
+The third run, on 2026-11-14, used setup built from the reviewed tool
+version `e43d866e6`. This project's `FalloutNV.exe`, built from the same
+commit, runs S2 to S5 in `main`.
+
+- Setup printed its commit line, which named `e43d866e6` and ended with
+  `no local changes`, and then its status line, both on the standard
+  error stream.
+- Setup ran on three separate copies of the executable, and again on a
+  folder that already held a pack, which it replaced. Each run ended with
+  status 0. Each pack was 628 bytes, with the entries `INST`, `LOGS` and
+  `WNDC`, and the four packs had the same SHA-256 hash. The three packs
+  left at the end were also compared byte by byte and were identical.
+- No run left a `vegas-data.pack.staged` file.
+- A separate PE check, independent of setup's code, found the four log
+  path suffixes in the stored bytes of one read-only initialized-data
+  section, not in code and not in `.bind`. Each suffix's zero byte lies
+  within its recipe bound. The check built the `LOGS` payload from the
+  executable on its own, and setup's pack held it exactly once.
+- That `FalloutNV.exe` ran beside the new pack, with no original
+  executable present, from an empty working folder. It exited with status
+  0 and wrote nothing to the standard error stream.
+- Beside the pack of catalogue version 2 from the second run, it exited
+  with status 2 and refused the pack for its catalogue version. With no
+  pack, it exited with status 2 and reported the pack missing. Beside a
+  copy of the pack with one bit changed, it exited with status 2 and
+  reported that the CRC-32 is not that of the file.
+- Each of these four runs ended by itself in less than 0.1 seconds. After
+  each run, the executable's folder and the working folder held the same
+  files as before, with the same sizes and SHA-256 hashes. No run created
+  a file in either folder.
+- As in the second run, before and after each run the session had no
+  window of the game's class and no mutex with the pack's mutex name, and
+  it was not a remote session. From that, `main` is inferred to have taken
+  the `Continue` path. On that path it runs S2 to S5 on the suffixes from
+  the pack before the second-window check. S2 to S5 build four paths in
+  memory, and the run did not read them. No run observed this.
+
 These runs are private actual-input checks. They are not synthetic tests
 and not full-game acceptance.
 
 ## Not verified
 
 - The first private run ran in session 0, where no user sees a message
-  box, and showed none. The second did not run in a desktop session
-  either. Nobody has yet seen C1's strings in the message boxes of `main`
-  (`data-pack-startup.md`). This page records no run of setup or of this
-  project's `FalloutNV.exe` in a desktop session.
+  box, and showed none. The second and third did not run in a desktop
+  session either. Nobody has yet seen C1's strings in the message boxes
+  of `main` (`data-pack-startup.md`). This page records no run of setup or
+  of this project's `FalloutNV.exe` in a desktop session.
 - No run on a real input has taken the branches of `main` that show a
   message box or that find a window of the class.
-- Setup has not run on an actual input at catalogue version 3: whether the
-  four log path suffixes lie in the stored bytes of a data section, with
-  their zero bytes within their recipe bounds, is not known from a run.
+- No run has read the four paths that S2 to S5 build. The third private
+  run shows only that `FalloutNV.exe` returned status 0 and created no file
+  in its own folder or its working folder. It did not look
+  for files anywhere else.
 - No real input has triggered the refusal statuses 6 to 11 of `RunSetup`.
   The private runs of setup ended only with status 0.
 - No test reaches statuses 0 and 6 to 11 of `RunSetup`, because they need a

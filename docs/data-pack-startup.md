@@ -592,12 +592,16 @@ VEGAS-52.
 - No Windows executable was run here. The two `falloutnv` tests and the
   Windows forms of the other tests run in CI only.
 - No test uses a real pack, a pack prepared by setup or an original
-  executable. The owner's private runs of 2026-11-13 (`setup.md`) ran this
-  stage on packs setup prepared. The first, at catalogue version 1, gave
+  executable. The owner's private runs of 2026-11-13 and 2026-11-14
+  (`setup.md`) ran this stage on packs setup prepared. The first, at
+  catalogue version 1, gave
   status 0 beside its pack, and status 2 with no pack and with a corrupted
   copy. The second, at catalogue version 2, gave status 0 beside its pack,
   and status 2 with no pack, with a corrupted copy and beside a pack of
-  catalogue version 1, which it refused for its catalogue version.
+  catalogue version 1, which it refused for its catalogue version. The
+  third, at catalogue version 3 on 2026-11-14, gave status 0 beside its
+  pack, and status 2 with no pack, with a corrupted copy and beside a pack
+  of catalogue version 2, which it refused for its catalogue version.
 - Windows CI ran `falloutnv.process_exit` at `c7abe570e`, on 2026-11-12,
   and at `891a44f50`, `1b3b79d69`, `534a1d77c` and `d5d1d60ec`, on
   2026-11-13. Each time it passed and CTest did not report it as skipped,
@@ -606,10 +610,13 @@ VEGAS-52.
   not known, and a later runner may report a remote session.
 - No run has found a window of the class, so the `AlreadyOpen` branch of
   `main` has run only as the decision's test, with the calls recorded.
-- S2 to S5 have not run: no Windows executable was run here, and the
-  owner's private run of catalogue version 3 has not been made. Only the
-  two `falloutnv` tests in CI will run them, on made-up suffixes, and they
-  do not read the buffers.
+- No Windows executable was run here. The two `falloutnv` tests in CI run
+  S2 to S5 on made-up suffixes, and they do not read the buffers. The
+  owner's third private run (`setup.md`) is inferred to have run them on
+  the suffixes setup read from an original executable. It shows only that
+  `main` then returned status 0 and that no file appeared in the
+  executable's folder or the working folder. Nothing has read the four
+  paths.
 - The other repaired users of the user folder buffer, of `DAT_01202b48`, of
   `DAT_01202e98` and of `DAT_01202c50` have not run: `FalloutNV` does not
   load their members and no test calls them. Their checks read the objects

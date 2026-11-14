@@ -413,8 +413,8 @@ itself still passes the legacy definitions; it links into no program.
 - No original executable was read for this page's measurements. That the
   ranges above lie in data sections, and that the legacy extents match the
   stored bytes, is not checked. The owner's private runs of 2026-11-13
-  (`setup.md`) read an original executable for C1 and the main window
-  class only.
+  and 2026-11-14 (`setup.md`) read an original executable for C1, the log
+  path suffixes and the main window class only.
 - Which values of "Values already written in the source" the original
   stores in a data section is not checked.
 - The census is a parser of the legacy text, not of objects. It reads the
@@ -424,10 +424,12 @@ itself still passes the legacy definitions; it links into no program.
   value computed at run time.
 - No Windows executable was run for this page's measurements.
 - The page was not measured again on the tip it was moved onto.
-- For version 3, no original executable was read: that the four suffix
-  ranges lie in the stored bytes of a data section, and that each string's
-  zero byte lies within its recipe bound, is checked by setup at run time
-  only, and setup has not yet run on an original at version 3.
+- For version 3, the owner's third private run of 2026-11-14 (`setup.md`)
+  read an original executable. Setup ended with status 0, so its checks of
+  the four suffix ranges passed. A separate PE check found the four ranges
+  in the stored bytes of one read-only initialized-data section, each
+  string's zero byte within its recipe bound. No test in this repository
+  checks this on an original executable.
 - For version 2, the owner's second private run of 2026-11-13 (`setup.md`) read
   an original executable. Setup ended with status 0, so its checks of the
   pointer at `0x011a2fe8` and of its string passed. A separate PE check

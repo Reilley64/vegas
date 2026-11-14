@@ -13,7 +13,7 @@ gate reads each requiring unit's declarations with clang's JSON AST dump
 call site, from the declarations, the recipe, the differing-definitions
 names and the tip's forced-unlimited undefined names only. It writes
 OUT_DIR/gate.tsv and OUT_DIR/gate.json, with the sha256 of each unit's text,
-and deletes the proof files of an earlier gate.
+and deletes the proof files and proof/ folder of an earlier gate.
 
 prove compiles each admitted name's rewrite with tools/object-proof at the
 unit's flags, /Ob0 and /Od /Gy, one name at a time and then all of a unit's
@@ -37,6 +37,7 @@ import json
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -811,6 +812,8 @@ def gate(args):
     for stale in PROOF_FILES:  # an earlier gate's proof does not hold for this plan
         if os.path.exists(os.path.join(out_dir, stale)):
             os.remove(os.path.join(out_dir, stale))
+    if os.path.isdir(os.path.join(out_dir, "proof")):
+        shutil.rmtree(os.path.join(out_dir, "proof"))
     syms, rowsyms = recipe_index(recipe)
     by_unit = collections.defaultdict(list)
     for r in rows:

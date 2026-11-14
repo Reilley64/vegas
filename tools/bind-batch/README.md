@@ -93,7 +93,8 @@ non-virtual member declaration, so no class changes layout.
 declarations to remove once every call is bound, the enclosing functions of
 sites that are not bound, and the recipe key and row; per unit the sha256 of
 the text it read. Gate deletes `OUT`'s `proof.tsv`, `proved.txt` and
-`rows.tsv`: an earlier proof does not hold for a new plan.
+`rows.tsv`, and its `proof/` folder: an earlier proof does not hold for a
+new plan.
 
 ## Rewrite
 

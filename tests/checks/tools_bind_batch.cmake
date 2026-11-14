@@ -39,7 +39,8 @@
 # until every text, key and check row is ready (a unit edited in the
 # checkout included), or check rows stop coming
 # from the proof's rows alone with one forbid line per name; or when gate
-# stops deleting an earlier proof's files or recording each unit's sha256,
+# stops deleting an earlier proof's files and proof/ folder or recording
+# each unit's sha256,
 # or prove and apply stop refusing, writing nothing, a unit whose text no
 # longer has that sha256 or a plan without it. The tests use
 # hand-made AST fragments, texts and reports, a fake compiler named

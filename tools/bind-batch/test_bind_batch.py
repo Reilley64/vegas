@@ -960,6 +960,7 @@ class GateRunTest(Folder):
         os.makedirs(os.path.join(self.dir, "out"))
         for stale in ("proof.tsv", "proved.txt", "rows.tsv"):
             self.write(os.path.join("out", stale), "stale\n")
+        self.write(os.path.join("out", "proof", "u000", "x"), "stale\n")
         self.assertEqual(self.gate(), 0)
         self.assertEqual(sorted(os.listdir(self.out)), ["gate.json", "gate.tsv"])
         with open(os.path.join(self.out, "gate.json")) as f:

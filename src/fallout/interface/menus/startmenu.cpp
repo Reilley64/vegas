@@ -2,6 +2,7 @@
 // fallout/interface/menus/startmenu.cpp: StartMenu, BGSSaveLoadUI, StartMenu_Wrap, ListBox_Option and more (184 functions)
 
 #include "fallout/interface/tile_fields.h"
+#include <cstdarg>
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include "fallout/interface/menu_fields.h"
@@ -3830,10 +3831,11 @@ FUN_007d6350::FUN_007d6350(const char* apName, void* apCallback, int aiID, int a
     case 1: {
         pTemplateName = "lb_toggle_template";
         pValues = new int[ItemUpdateArray];
-        char* args = (char*)&aiDefault + sizeof(int);
+        va_list args;
+        va_start(args, aiDefault);
         for (unsigned int i = 0; i < ItemUpdateArray; i++)
-            pValues[i] = *(int*)((args += sizeof(int)) - sizeof(int));
-        args = 0;
+            pValues[i] = va_arg(args, int);
+        va_end(args);
     }
     break;
     case 2:

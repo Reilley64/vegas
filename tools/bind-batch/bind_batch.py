@@ -1187,13 +1187,18 @@ def prove_unit(job):
             for n in good:
                 verdicts[n] = "together: " + why
             break
-        found = collections.defaultdict(set)
-        for t in res["flags"][2]["retargets"]:
-            if t["old"] in good and t["new"] == plan["names"][t["old"]]["owner"]:
-                found[t["old"]] |= set(t["functions"])
+        # A check row names a function that holds the call at the unit's flags and at /Od: a
+        # function that holds it at the unit's flags only holds an inlined copy, which another
+        # compiler may not inline.
+        held = {v: collections.defaultdict(set) for v in ("flags", "od")}
+        for v in held:
+            for t in res[v][2]["retargets"]:
+                if t["old"] in good and t["new"] == plan["names"][t["old"]]["owner"]:
+                    held[v][t["old"]] |= set(t["functions"])
+        found = {n: held["flags"][n] & held["od"][n] for n in good}
         bad = [n for n in good if not found[n] or any(f.startswith("#") or "|" in f for f in found[n])]
         for n in bad:
-            verdicts[n] = "row: no COMDAT function holds the call at the unit's flags (%s)" % (
+            verdicts[n] = "row: no COMDAT function holds the call at the unit's flags and at /Od (%s)" % (
                 ", ".join(sorted(found[n])) or "none")
         if not bad:
             stand_ins = {plan["names"][n]["stand_in"]["qualified"] for n in good if plan["names"][n].get("stand_in")}

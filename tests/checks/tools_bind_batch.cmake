@@ -28,7 +28,9 @@
 # verdict (byte-identical bindings, differences, kept or refused reports
 # and a failing exit never pass; the moves need equal bytes), stops passing
 # --base-holds-new and --function-order with the owners, stops dropping a
-# name on one failing variant, a warnings difference, a missing check row,
+# name on one failing variant, a warnings difference, a missing check row
+# (a row names a function that holds the call at the unit's flags and at
+# /Od, never one that holds only an inlined copy),
 # or a record layout that differs on windows-x64 or i686 other than a
 # removed empty stand-in (an unnamed record's place aside), or a failed
 # layout dump; or when apply stops
@@ -60,6 +62,7 @@ set(tools_bind_batch_cases
     RewriteTest.test_wrapped_move RewriteTest.test_overlapping_edits_refused
     RewriteTest.test_whole_names ProofModeTest.test_modes ProveTest.test_compare_reads_the_verdict
     ProveTest.test_prove_unit_modes_and_rows ProveTest.test_prove_unit_drops ProveTest.test_layouts
+    ProveTest.test_rows_hold_the_call_at_od
     ApplyTest.test_needs_the_proof ApplyTest.test_binds_the_proved_names
     ApplyTest.test_unproved_names_stay ApplyTest.test_nothing_written_unless_everything_is_ready
     ApplyTest.test_a_changed_export_refuses_prove_and_apply

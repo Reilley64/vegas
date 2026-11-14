@@ -134,8 +134,10 @@ verdict names one of these modes, recorded per variant in `proof.tsv`:
 
 Byte-identical objects (`identical: the bytes are equal`) do not pass: the
 call was not bound. Warnings must be equal without positions. A name whose
-call no COMDAT function holds at the unit's flags is dropped: it would have
-no check row. Then the unit's record layouts (`-Xclang
+call no COMDAT function holds both at the unit's flags and at `/Od /Gy` is
+dropped: it would have no check row. A function that holds the call at the
+unit's flags only holds an inlined copy, which another compiler may not
+inline, so it gets no row. Then the unit's record layouts (`-Xclang
 -fdump-record-layouts-complete`, syntax only, the unit's command, and the
 same with `--target=i686-pc-windows-msvc`) of the base and of all its
 proved bindings must be equal block for block, but for the removed empty

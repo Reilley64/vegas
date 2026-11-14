@@ -749,6 +749,24 @@ class ProveTest(Folder):
         (verdicts, _), _ = self.prove(b"// report * " + no_row.encode() + b"\n")
         self.assertTrue(verdicts[N][0].startswith("row: no COMDAT function"), verdicts)
 
+    def test_rows_hold_the_call_at_od(self):
+        # A check row names a function that holds the call at the unit's flags and at /Od; one
+        # that holds it at the unit's flags only (an inlined copy) gets no row.
+        def held(functions):
+            return dict(report("identical", RENAMED), retargets=[dict(old=N, new=D, count=1, by_map=True,
+                                                                      functions=functions)])
+        inlined = "?inlined@@YAXXZ"
+        lines = b"".join(("// report %s %s\n" % (v, json.dumps(rep))).encode()
+                         for v, rep in (("*", held([CALLER])), ("flags", held([CALLER, inlined]))))
+        (verdicts, rows), _ = self.prove(lines)
+        self.assertEqual((verdicts[N][0], rows), (None, [("src/u.cpp", CALLER, D, N)]))
+        lines = b"".join(("// report %s %s\n" % (v, json.dumps(rep))).encode()
+                         for v, rep in (("*", held([CALLER])), ("flags", held([inlined]))))
+        (verdicts, rows), _ = self.prove(lines)
+        self.assertTrue(verdicts[N][0].startswith("row: no COMDAT function holds the call at the unit's flags and "
+                                                  "at /Od (none)"), verdicts)
+        self.assertEqual(rows, [])
+
     def test_layouts(self):
         # The removed empty stand-in S may be only in the base; any other layout difference, or a
         # failed dump on either target, drops the name.

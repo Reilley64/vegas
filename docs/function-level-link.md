@@ -220,11 +220,13 @@ uses in other entries. `BGSSaveLoadManager::GetSaveDirectory`
 (`0x00876ad0`, WinMain's statement S7) is the first (VEGAS-135). It
 calls `GetPrivateProfileIntA`, `SHGetFolderPathA`, `CreateDirectoryA`,
 `DeleteFileA` and `CopyFileA` through `<windows.h>` and `<shlobj.h>`,
-and the recipe entry of `bgssaveloadmanager.cpp` keys `0x00fdf0c4`,
+and the recipe entry of its unit keys `0x00fdf0c4`,
 `0x00fdf274`, `0x00fdf0b8`, `0x00fdf0d4` and `0x00fdf1b8` as
 `__imp__GetPrivateProfileIntA@16`, `__imp__SHGetFolderPathA@20` (a new
 name), `__imp__CreateDirectoryA@8`, `__imp__DeleteFileA@4` and
-`__imp__CopyFileA@12`. The five generated slots retire with their labels
+`__imp__CopyFileA@12`. Its unit is `save_directory.cpp`, which it moved
+to from `bgssaveloadmanager.cpp` with its recipe row and these keys after
+the conversion. The five generated slots retire with their labels
 (`docs/native-data-ownership.md`); with the slot definitions kept, all
 five calls would be direct calls of the thunks.
 

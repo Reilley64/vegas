@@ -35,7 +35,7 @@ src/setup/save_directory_ranges.h, and fails when any of these holds:
   k. a suffix row names a literal, as d checks for singleInstanceRanges.
   l. there are not exactly eight saveDirectoryRanges rows;
   m. a save directory row's name is not bound by the recipe entries of
-     src/fallout/misc/saveload/bgssaveloadmanager.cpp, merged, at exactly
+     src/fallout/misc/saveload/save_directory.cpp, merged, at exactly
      its address, a unit of the recipe binds it at another address, or it is
      a DAT_, UNK_ or str_ name that spells another address;
   n. a save directory row's capacity is not the distance from its address
@@ -43,7 +43,7 @@ src/setup/save_directory_ranges.h, and fails when any of these holds:
   o. a save directory row names a literal, as d checks;
   p. there are not exactly two saveDirectoryPointerRanges rows;
   q. a pointer row's name is not a char pointer named for its address, the
-     merged bgssaveloadmanager.cpp entries do not bind it, or a unit of the
+     merged save_directory.cpp entries do not bind it, or a unit of the
      recipe binds it at another address;
   r. the distance from a pointer row's address to the next address any unit
      of the recipe binds is less than 4;
@@ -61,7 +61,7 @@ import re
 import sys
 
 MAIN_SOURCE = "src/fallout/misc/main.cpp"
-SAVE_SOURCE = "src/fallout/misc/saveload/bgssaveloadmanager.cpp"
+SAVE_SOURCE = "src/fallout/misc/saveload/save_directory.cpp"
 ROWS = 4
 SAVE_ROWS = 8
 SAVE_POINTER_ROWS = 2

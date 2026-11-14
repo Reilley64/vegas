@@ -256,7 +256,7 @@ file, so it was not compared with instructions.
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
 | S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | composed since VEGAS-127, not skipped |
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address); since VEGAS-129 the accessor with `DAT_01202800`, `Setting::IsPrefSetting`, and Setting's constructors with its destructor are each in a unit of their own (below) |
-| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp` and `_DAT_011a2ff0` of `main.cpp`, and catalogue entries for its strings; `FUN_0086d480`, `TaskQueueInterface::CopyStringToBuffer` and `FUN_00406d00` are in units of their own since VEGAS-128; since VEGAS-131 `FUN_00406d00` reads its variable arguments with `va_start` (`docs/variadic-lists.md`) |
+| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `save_directory.cpp`, its unit since VEGAS-135, which still reaches `bgssaveloadmanager.cpp` for nine strings and pointers that its generated data defines, and `_DAT_011a2ff0` of `main.cpp`, and catalogue entries for its strings; `FUN_0086d480`, `TaskQueueInterface::CopyStringToBuffer` and `FUN_00406d00` are in units of their own since VEGAS-128; since VEGAS-131 `FUN_00406d00` reads its variable arguments with `va_start` (`docs/variadic-lists.md`) |
 | S8 | a processor count of 1 set to 2 | as S6 |
 
 When S7 is composed, S2 to S5 stay before it, in the order of
@@ -555,7 +555,7 @@ and the path overflows when the folder and the suffix together reach 260.
 Which folder lengths real profiles give was not measured. S7 copies with
 `TaskQueueInterface::CopyStringToBuffer`, which calls
 `fnv::crt::strcpy_s`, and appends with `fnv::crt::strcat_s` in
-`bgssaveloadmanager.cpp`, so its copies and appends already follow the
+`save_directory.cpp`, so its copies and appends already follow the
 ruling.
 
 The recorded difference from the inferred original: the original most

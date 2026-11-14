@@ -249,6 +249,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/misc/saveload/bgssaveloadreferencesmap.cpp
   src/fallout/misc/saveload/bgssaveloadstructs.cpp
   src/fallout/misc/saveload/bgsunloadedformbuffer.cpp
+  src/fallout/misc/saveload/save_directory.cpp
   src/fallout/misc/scenegraph.cpp
   src/fallout/misc/screenshot.cpp
   src/fallout/misc/seendata.cpp

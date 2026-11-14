@@ -13,7 +13,7 @@ namespace setup
 // Where setup reads the save directory strings in the original release: the
 // ten strings BGSSaveLoadManager::GetSaveDirectory (0x00876ad0) reads. Eight
 // are read at addresses the recipe binds for
-// src/fallout/misc/saveload/bgssaveloadmanager.cpp, each with the recipe
+// src/fallout/misc/saveload/save_directory.cpp, each with the recipe
 // bound as its capacity, the distance to the next address any unit of the
 // recipe binds. Two are reached through pointers that unit binds: the first
 // INI name's pointer must hold 0x01039c8c, which the recipe binds, and its

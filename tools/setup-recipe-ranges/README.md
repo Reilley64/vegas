@@ -78,8 +78,9 @@ registered and fail with that reason.
   names one today.
 - **l.** `saveDirectoryRanges` has exactly eight rows, each on one line in the
   form of `singleInstanceRanges`.
-- **m.** The recipe entries of `src/fallout/misc/saveload/bgssaveloadmanager.cpp`,
-  merged across all of them, bind each row's name at the row's address and at
+- **m.** The recipe entries of
+  `src/fallout/misc/saveload/save_directory.cpp`, merged across all of
+  them, bind each row's name at the row's address and at
   no other, and no unit of the recipe binds it at another address. A name of
   the form `DAT_`, `UNK_` or `str_` and eight hex digits spells the row's
   address; the two `g_..._arg1` names spell none.
@@ -91,7 +92,7 @@ registered and fail with that reason.
   name and address, or `{}` and `0`.
 - **q.** Each pointer's name is a char pointer (`@@3PADA`, `@@3PBDB` and the
   other two `const` forms) named `DAT_` or `_DAT_` with its address. The
-  merged `bgssaveloadmanager.cpp` entries bind it, and no unit of the recipe
+  merged `save_directory.cpp` entries bind it, and no unit of the recipe
   binds it at another address.
 - **r.** The distance from each pointer's address to the next address that any
   unit of the recipe binds is at least 4.
@@ -107,7 +108,7 @@ registered and fail with that reason.
   `setup.prepare_pack` spells the order and the addresses itself.
 - That the save directory rows are the addresses
   `BGSSaveLoadManager::GetSaveDirectory` reads: they were read from its body
-  in `bgssaveloadmanager.cpp`, and `setup.prepare_pack` spells them itself.
+  in `save_directory.cpp`, and `setup.prepare_pack` spells them itself.
 - That the pointer at `0x011a2ff4` holds `0x01039c8c` in the original
   release: setup refuses the executable when it does not (`PointerTarget`).
   That the recipe binds no address of the string the pointer at

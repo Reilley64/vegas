@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2788,
+  "units": 2789,
   "functions": 61654,
   "bytes": 11311794,
   "eh_tails": 1954,
@@ -125006,11 +125006,6 @@
      "address": "0x00851d90",
      "symbol": "?ProcessQueuedSaveLoad@BGSSaveLoadManager@@QAEXXZ",
      "size": 339
-    },
-    {
-     "address": "0x00876ad0",
-     "symbol": "?GetSaveDirectory@BGSSaveLoadManager@@SAXPAD@Z",
-     "size": 589
     }
    ],
    "symbols": {
@@ -125031,26 +125026,6 @@
     "_g_versionInfoFormat": "0x0107fbe0",
     "@__security_check_cookie@4": "0x00ec408c",
     "?strcat_s@@YAHPADIPBD@Z": "0x00406d50",
-    "?FUN_0086d480@@YAPADXZ": "0x0086d480",
-    "?FUN_004dc110@@YAPADXZ": "0x004dc110",
-    "?FUN_00c3bbd0@@YAPADXZ": "0x00c3bbd0",
-    "?FUN_00c3bc20@@YAPADXZ": "0x00c3bc20",
-    "?FUN_00ecbf05@@YAHPBDH@Z": "0x00ecbf05",
-    "?g_011d3eb0_arg1@@3QBDB": "0x0105d548",
-    "?g_011dece4_arg1@@3QBDB": "0x01082d84",
-    "?DAT_01082d70@@3QBDB": "0x01082d70",
-    "?DAT_01082d88@@3QBDB": "0x01082d88",
-    "?DAT_01082d94@@3QBDB": "0x01082d94",
-    "?DAT_01082da0@@3QBDB": "0x01082da0",
-    "?DAT_01082dac@@3QBDB": "0x01082dac",
-    "?DAT_01082dc4@@3QBDB": "0x01082dc4",
-    "?_DAT_011a2ff0@@3PADA": "0x011a2ff0",
-    "?DAT_011a2ff4@@3PBDB": "0x011a2ff4",
-    "__imp__GetPrivateProfileIntA@16": "0x00fdf0c4",
-    "__imp__SHGetFolderPathA@20": "0x00fdf274",
-    "__imp__CreateDirectoryA@8": "0x00fdf0b8",
-    "__imp__DeleteFileA@4": "0x00fdf0d4",
-    "__imp__CopyFileA@12": "0x00fdf1b8",
     "?Bool@?$SettingT@VINISettingCollection@@@@QAEPATSETTING_VALUE@@XZ": "0x00408d60",
     "?GetMenuTitle@StartMenu@@QAEPAVTileMenu@@XZ": "0x00403df0",
     "?g_011d2100@@3VGlobalObject_0040c150@@A": "0x011d2100",
@@ -125207,7 +125182,6 @@
     "?LoadQuickSave@FUN_008509f0_Holder@@QAEXXZ": "0x008509f0",
     "?GetField790@S00851cd0@fnv_00851cb0@@QAEHXZ": "0x00851cb0",
     "?CopyPlayerName@MgrStandIn851@@QAEXPAD@Z": "0x00851b40",
-    "?FUN_00c3bb80@@YAPADXZ": "0x00c3bb80",
     "?FUN_00703d50@fnv_00703d50@@YA_NXZ": "0x00703d50",
     "?FUN_00703e10@fnv_00703e10@@YAXXZ": "0x00703e10",
     "?FUN_00703e80@fnv_00703e80@@YA_NPBD00PAXHHMM0ZZ": "0x00703e80",
@@ -125230,7 +125204,6 @@
     "?GetFNVVersionInfo@BGSSaveLoadManager@@QAEXPADI@Z": "0x00851120",
     "?SanitizeSaveFileName@BGSSaveLoadManager@@QAEXPAD@Z": "0x008518d0",
     "?ProcessQueuedSaveLoad@BGSSaveLoadManager@@QAEXXZ": "0x00851d90",
-    "?GetSaveDirectory@BGSSaveLoadManager@@SAXPAD@Z": "0x00876ad0",
     "?LoadSaveGame@ReconstructSession@@QAE_NPAUSaveFile@@_N@Z": "0x00847df0",
     "?FUN_00850100@BGSSaveLoadManager@@QAEXPAVSaveLoadHeader@@H@Z": "0x00850100",
     "?FUN_00525430@FUN_00525430_Class@@QAE_NXZ": "0x00525430",
@@ -125252,6 +125225,50 @@
     "?DispatchMessageToSink@@YA_NPBDH00ME@Z": "0x007052f0",
     "?FUN_00850bf0@@YAXPAX@Z": "0x00850bf0",
     "?FUN_00403e20@@YAAAMPAVSetting@@@Z": "0x00403e20"
+   }
+  },
+  {
+   "source": "src/fallout/misc/saveload/save_directory.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy",
+    "/GF"
+   ],
+   "functions": [
+    {
+     "address": "0x00876ad0",
+     "symbol": "?GetSaveDirectory@BGSSaveLoadManager@@SAXPAD@Z",
+     "size": 589
+    }
+   ],
+   "symbols": {
+    "?FUN_0086d480@@YAPADXZ": "0x0086d480",
+    "?FUN_004dc110@@YAPADXZ": "0x004dc110",
+    "?FUN_00c3bbd0@@YAPADXZ": "0x00c3bbd0",
+    "?FUN_00c3bc20@@YAPADXZ": "0x00c3bc20",
+    "?FUN_00ecbf05@@YAHPBDH@Z": "0x00ecbf05",
+    "?g_011d3eb0_arg1@@3QBDB": "0x0105d548",
+    "?g_011dece4_arg1@@3QBDB": "0x01082d84",
+    "?DAT_01082d70@@3QBDB": "0x01082d70",
+    "?DAT_01082d88@@3QBDB": "0x01082d88",
+    "?DAT_01082d94@@3QBDB": "0x01082d94",
+    "?DAT_01082da0@@3QBDB": "0x01082da0",
+    "?DAT_01082dac@@3QBDB": "0x01082dac",
+    "?DAT_01082dc4@@3QBDB": "0x01082dc4",
+    "?_DAT_011a2ff0@@3PADA": "0x011a2ff0",
+    "?DAT_011a2ff4@@3PBDB": "0x011a2ff4",
+    "__imp__GetPrivateProfileIntA@16": "0x00fdf0c4",
+    "__imp__SHGetFolderPathA@20": "0x00fdf274",
+    "__imp__CreateDirectoryA@8": "0x00fdf0b8",
+    "__imp__DeleteFileA@4": "0x00fdf0d4",
+    "__imp__CopyFileA@12": "0x00fdf1b8",
+    "?FUN_00c3bb80@@YAPADXZ": "0x00c3bb80",
+    "?GetSaveDirectory@BGSSaveLoadManager@@SAXPAD@Z": "0x00876ad0"
    }
   },
   {

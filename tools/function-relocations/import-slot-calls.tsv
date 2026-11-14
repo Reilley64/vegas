@@ -17,4 +17,4 @@ forbid	CreateDirectoryA
 forbid	DeleteFileA
 forbid	CopyFileA
 # batch, unit, function, the import slots it calls through:
-function	save_directory	src/fallout/misc/saveload/bgssaveloadmanager.cpp	?GetSaveDirectory@BGSSaveLoadManager@@SAXPEAD@Z	__imp_GetPrivateProfileIntA __imp_SHGetFolderPathA __imp_CreateDirectoryA __imp_DeleteFileA __imp_CopyFileA
+function	save_directory	src/fallout/misc/saveload/save_directory.cpp	?GetSaveDirectory@BGSSaveLoadManager@@SAXPEAD@Z	__imp_GetPrivateProfileIntA __imp_SHGetFolderPathA __imp_CreateDirectoryA __imp_DeleteFileA __imp_CopyFileA

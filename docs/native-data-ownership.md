@@ -161,10 +161,11 @@ by an asm label. Under the coordinator's ruling of 2026-11-14 a variable
 that only holds an import's address gets no native definition: its users
 call the function through its SDK declaration, and the import library's
 `__imp_` slot is the slot (`docs/function-level-link.md`, import slots).
-`BGSSaveLoadManager::GetSaveDirectory`, in `bgssaveloadmanager.cpp`, the
-unit that includes the input, was their only user and now calls the five
-functions that way. No other object of the build referred to any of the
-five names, and none refers to them now. The patch removes the five definitions, their five
+`BGSSaveLoadManager::GetSaveDirectory`, then in `bgssaveloadmanager.cpp`,
+the unit that includes the input, was their only user and now calls the
+five functions that way, since VEGAS-135 from a unit of its own,
+`save_directory.cpp`. No other object of the build referred to any of
+the five names, and none refers to them now. The patch removes the five definitions, their five
 comment lines and the five asm-labelled declarations that only they used.
 What is new is that no definition left in the build holds the value each
 held, its function's address: the import library's `__imp_` slot holds it

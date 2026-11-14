@@ -87,7 +87,7 @@ and `src/setup/main_window_class_range.h` and the recipe check,
 `tools/setup-recipe-ranges`, belong to setup and change with it. Their
 authority is the recipe, `build/units.json`. A change that moves or renames
 a name of `src/fallout/misc/main.cpp` or of
-`src/fallout/misc/saveload/bgssaveloadmanager.cpp` that a range names, binds
+`src/fallout/misc/saveload/save_directory.cpp` that a range names, binds
 a new address inside one of the fields read at a recipe-bound address or
 inside the first INI name, or moves or renames one of the three pointers,
 makes `setup.recipe_ranges` fail. That change also updates the header and
@@ -294,7 +294,7 @@ They are the strings that `BGSSaveLoadManager::GetSaveDirectory`
 (`0x00876ad0`), `WinMain`'s statement S7, reads.
 `src/setup/save_directory_ranges.h` holds where. Eight are read at
 addresses that the merged recipe entries of
-`src/fallout/misc/saveload/bgssaveloadmanager.cpp` bind, each with the
+`src/fallout/misc/saveload/save_directory.cpp` bind, each with the
 recipe bound as its capacity, as the suffixes are:
 
 | Field | Recipe name | Address | Capacity |
@@ -340,7 +340,7 @@ whose target the recipe does not bind.
 
 `setup.recipe_ranges` checks these rows (checks l to s of
 `tools/setup-recipe-ranges`): eight rows, each bound by the merged
-`bgssaveloadmanager.cpp` entries at its address and by no unit at another,
+`save_directory.cpp` entries at its address and by no unit at another,
 its capacity the recipe bound; two char pointers bound there, each at least
 4 bytes before the next bound address; the first INI name's target bound
 at its address alone, its capacity the recipe bound there; and 256 bytes

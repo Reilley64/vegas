@@ -463,17 +463,17 @@ order the function first reads them, the fields of
 | `defaultIniName` | `DAT_01082d70` | `0x01082d70` | 20, recipe bound |
 
 The names are those the function's body in
-`src/fallout/misc/saveload/bgssaveloadmanager.cpp` reads, and the recipe
+`src/fallout/misc/saveload/save_directory.cpp` reads, and the recipe
 binds each for that unit. Each capacity follows ruling 3 of 2026-11-14
 (under "Decisions"): the recipe bound, the distance to the next address
-the recipe binds, as D8 fixed C1's, at the string's own address, also for the first INI name,
-which the original reaches through a pointer to an address the recipe
-binds; and 256 bytes, the main window class's precedent (ruling C), for
-the second INI name, reached through a pointer to a string whose address
-the recipe does not bind. Each field holds its string, then a zero byte,
-then zeros to its end (D8), and validation requires the entry's exact size
-and a zero byte inside each field. The pack carries the strings, never the
-pointers (D10, ruling B).
+the recipe binds, as D8 fixed C1's, at the string's own address, also
+for the first INI name, which the original reaches through a pointer to
+an address the recipe binds; and 256 bytes, the main window class's
+precedent (ruling C), for the second INI name, reached through a pointer
+to a string whose address the recipe does not bind. Each field holds its
+string, then a zero byte, then zeros to its end (D8), and validation
+requires the entry's exact size and a zero byte inside each field. The
+pack carries the strings, never the pointers (D10, ruling B).
 
 The function passes `iniPathFormat` to `FUN_00406d00`, which formats with
 `std::vsnprintf`, with one argument, an INI name. So validation also
@@ -504,8 +504,9 @@ The owner, `fnv::startup::PublishedSaveDirectoryStrings`
 the pack stage publishes it and returns it with the other three values.
 The consumer, S7, stays skipped in `main` (`data-pack-startup.md`), and
 `GetSaveDirectory` still reads the legacy definitions; it links into no
-program. Moving it to a unit of its own, its import calls (ruling 2 of
-2026-11-14) and its composition are later steps of VEGAS-135.
+program. Its move to `src/fallout/misc/saveload/save_directory.cpp` and
+its import calls (ruling 2 of 2026-11-14) have landed; its composition
+is a later step of VEGAS-135.
 
 ## Not verified
 

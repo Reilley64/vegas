@@ -30,8 +30,9 @@ and its symbol and address-significance entries merge into NEW's; that is
 "merged" and exits 0. With --function-order FILE (one name per line), the
 COMDAT sections that the named functions lead, and their associative
 children, may change place: every other section keeps its place among the
-others, sections and symbols are equal as multisets, and the named
-functions' address-significance entries may move; that is "reordered" (or
+others, the sections are equal, the symbols are equal as a multiset (in
+order when none of those sections moved), and the named functions'
+address-significance entries may move; that is "reordered" (or
 "merged and reordered") and exits 0. --json prints the same facts as one
 JSON object, with the per-symbol lines.
 
@@ -711,13 +712,15 @@ def main(argv):
         raw_a = Coff(data_a, {})
         merge_problems, into, calls = merge_checks(raw_a, merges)
         lines += merge_problems
-        view_a, view_b = coff_a.compared(), coff_b.compared()
-        if merges:
-            view_a, view_b = merge_view(view_a, view_b, raw_a, merges, anywhere=order_names is not None)
+        plain_a, plain_b = coff_a.compared(), coff_b.compared()
+        view_a, view_b = merge_view(plain_a, plain_b, raw_a, merges) if merges else (plain_a, plain_b)
         printed = 0
         if order_names is not None:
-            view_a, view_b, printed, moves = order_view(view_a, view_b, movable_keys(coff_a, order_names),
-                                                        order_names, lines.append)
+            loose = merge_view(plain_a, plain_b, raw_a, merges, anywhere=True) if merges else (plain_a, plain_b)
+            moved_a, moved_b, printed, moves = order_view(loose[0], loose[1], movable_keys(coff_a, order_names),
+                                                          order_names, lines.append)
+            if moves or printed:  # nothing moved: the symbols compare in order, as without the option
+                view_a, view_b = moved_a, moved_b
         found = compare(view_a, view_b, lines.append, shifts=not as_json) + len(merge_problems) + printed
         retargets, kept = sites(raw_a, coff_a, coff_b, renames)
         own = sum(1 for old in merges if into.get(old) == "definition")

@@ -1172,6 +1172,30 @@ class ObjectProofTest(unittest.TestCase):
         code, out, err = self.objcmp(base, head, "--function-order", listed, "--expect-kept", kept, rename)
         self.assertEqual(code, 2, out + err)
 
+    def test_function_order_keeps_symbol_order(self):
+        # Under --function-order the symbols compare as a multiset only when a listed
+        # function's section moved; otherwise in order, as without the option.
+        rename, caller, x, y = "%s=%s" % (OLD, NEW), "?caller@@YAXXZ", "?x@@YAXXZ", "?y@@YAXXZ"
+        listed = self.write("order.txt", (NEW + "\n").encode())
+        for args in ((rename, "--base-holds-new"), (rename, "--base-holds-new", "--function-order", listed)):
+            # A merge into the base's own definition, other symbols reordered.
+            code, out, _ = self.objcmp(merge_unit([OLD, x], [OLD, x, y]), merge_unit([NEW, x], [y, x]), *args)
+            self.assertEqual((code, out.splitlines()[0].split(":")[0]), (1, "differs"), (args, out))
+            self.assertIn("SYMBOL-ORDER\tthe same symbols in a different order", out.splitlines(), out)
+            # A merge into an existing reference whose NEW stands at a third place.
+            code, out, _ = self.objcmp(merge_unit([OLD, NEW, x], [OLD, x, NEW, y], new_defined=False),
+                                       merge_unit([NEW, NEW, x], [x, y, NEW], new_defined=False), *args)
+            self.assertEqual((code, out.splitlines()[0].split(":")[0]), (1, "differs"), (args, out))
+        # No merge: a rename that applies and two symbols swapped, nothing moved.
+        sections, symbols = calls()
+        a = obj(sections, symbols)
+        symbols[3], symbols[4] = symbols[4], symbols[3]
+        symbols[4][0] = "?z@@YAXXZ"
+        sections[0][3] = [(1, 4, 4), (6, 3, 4)]
+        code, out, _ = self.objcmp(a, obj(sections, symbols), "?x@@YAXXZ=?z@@YAXXZ", "--function-order", listed)
+        self.assertEqual((code, out.splitlines()[0].split(":")[0]), (1, "differs"), out)
+        self.assertIn("SYMBOL-ORDER\tthe same symbols in a different order", out.splitlines(), out)
+
     def test_symbol_order_only_when_equal(self):
         # SYMBOL-ORDER is reported only when the symbol multisets are equal.
         sections, symbols = calls()

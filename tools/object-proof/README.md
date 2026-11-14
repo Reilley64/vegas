@@ -173,7 +173,9 @@ only when:
   and the associative parent through the section symbol;
 - the symbols are equal as a multiset, so `SYMBOL-ORDER` does not count,
   and the address-significance table holds the same entries, each other
-  than a listed function's in the base's order;
+  than a listed function's in the base's order; when none of the listed
+  functions' sections changed place, the symbols and the table compare in
+  order, as without the option (a merge's NEW at OLD's or NEW's place);
 - everything else is as without the option, merges included.
 
 Equal objects with nothing moved keep their `identical` verdict. The option
@@ -274,8 +276,9 @@ start or a `--source` that compile refuses.
   rename does not relax the comparison. Under `--base-holds-new`, a merge is
   the one place where the base may hold both, and NEW's symbol may take
   OLD's place and its address-significance entry any place. Under
-  `--function-order` the symbols compare as a multiset: which symbol stands
-  where in the table is not compared.
+  `--function-order`, once a listed function's section changed place, the
+  symbols compare as a multiset: which symbol stands where in the table is
+  not compared.
 - With a rename that applies, these are not compared: the string-table
   layout and any bytes after it; where the section bytes sit in the file;
   the section headers' virtual size, virtual address and line-number

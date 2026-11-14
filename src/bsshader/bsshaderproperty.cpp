@@ -50,9 +50,12 @@ BSShaderProperty::ShaderPassEntry::ShaderPassEntry(NiGeometry* geometry, unsigne
     {
         m_ppShadowSceneLights = reinterpret_cast<ShadowSceneLight**>(new BSShaderPropertyLightSlot[numLights]);
         m_ucLightCapacity = numLights;
-        ShadowSceneLight** lights = &light0;
-        for (int i = 0; i < numLights; ++i)
-            m_ppShadowSceneLights[i] = lights[i];
+        m_ppShadowSceneLights[0] = light0;
+        va_list lights;
+        va_start(lights, light0);
+        for (int i = 1; i < numLights; ++i)
+            m_ppShadowSceneLights[i] = va_arg(lights, ShadowSceneLight*);
+        va_end(lights);
     }
     m_ucPassIndex = 0;
 }

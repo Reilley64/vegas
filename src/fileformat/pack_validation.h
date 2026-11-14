@@ -97,7 +97,8 @@ class OriginalCheckedPack
 // MissingEntry is checked first, for each catalogue entry in turn. Then
 // UnknownKey, EntryVersion and EntrySize are checked in that order for each
 // entry of the pack in turn. FieldTerminator is checked last, for each field
-// in turn, the entries in catalogue order.
+// in turn, the entries in catalogue order; SuffixPath is checked for each log
+// path suffix right after its FieldTerminator.
 enum class PackCatalogueProblem
 {
     MissingEntry,    // the pack has no entry with the key of a catalogue entry
@@ -105,6 +106,7 @@ enum class PackCatalogueProblem
     EntryVersion,    // an entry's version is not the catalogue's for its key
     EntrySize,       // an entry's size is not the catalogue's for its key
     FieldTerminator, // a string field holds no zero byte
+    SuffixPath,      // a log path suffix holds '\\', '/', ':' or a byte below 0x20, or is ".."
 };
 
 // A FormatError that also says which check of the catalogue failed.

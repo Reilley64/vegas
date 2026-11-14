@@ -421,16 +421,25 @@ void AcceptsACompletePack(Checks& check)
     const Strings restBytes{rest.substr(0, 19), rest.substr(19, 59), rest.substr(78, 7), rest.substr(85)};
     Accepts(check, "byte values 137 to 255", CompletePack(Payload(restBytes)), restBytes);
 
-    // The suffixes' fields hold 68 characters, so four packs carry the 255
-    // values.
-    for (std::size_t first = 0; first < everyByte.size(); first += 68)
+    // Every byte value that a suffix may hold, all but zero, the control
+    // characters below 0x20, '/', ':' and '\\' (RefusesASuffixPath), is kept
+    // as it is. The suffixes' fields hold 68 characters, so four packs carry
+    // the 221 values.
+    std::string suffixByte;
+    for (int c = 0x20; c < 256; ++c)
     {
-        const std::string_view part = std::string_view(everyByte).substr(first, 68);
+        if (c != '/' && c != ':' && c != '\\')
+            suffixByte.push_back(static_cast<char>(c));
+    }
+    check.Equal("suffix byte values", std::size_t{221}, suffixByte.size());
+    for (std::size_t first = 0; first < suffixByte.size(); first += 68)
+    {
+        const std::string_view part = std::string_view(suffixByte).substr(first, 68);
         const auto piece = [&](std::size_t at, std::size_t count) {
             return at < part.size() ? part.substr(at, count) : std::string_view();
         };
         const Suffixes bytes{piece(0, 15), piece(15, 15), piece(30, 23), piece(53, 15)};
-        Accepts(check, std::format("suffix byte values from {}", first + 1),
+        Accepts(check, std::format("suffix byte values from {}", first),
                 CompletePack(Payload(someStrings), ClassPayload(someClass), SuffixPayload(bytes)), someStrings,
                 someClass, bytes);
     }
@@ -637,6 +646,59 @@ void RefusesAFieldWithNoZeroByte(Checks& check)
                            PackCatalogueProblem::FieldTerminator, "entry WNDC: class name");
 }
 
+// A log path suffix that holds a path separator, a colon or a control
+// character, or is a .. part, is refused in each of the four fields, with
+// the field and the reason in the message (VEGAS-130). Ordinary names, dots
+// and spaces among them, are accepted.
+void RefusesASuffixPath(Checks& check)
+{
+    struct Refused
+    {
+        std::string_view suffix;
+        std::string_view reason;
+    };
+    const std::array<Refused, 14> refused{{
+        {"a\\b", "holds a path separator"},
+        {"\\a", "holds a path separator"},
+        {"a\\", "holds a path separator"},
+        {"a/b", "holds a path separator"},
+        {"/a", "holds a path separator"},
+        {"..\\a", "holds a path separator"},
+        {"../a", "holds a path separator"},
+        {"C:a", "holds a colon"},
+        {"a:b", "holds a colon"},
+        {"a\tb", "holds a control character"},
+        {"\x01", "holds a control character"},
+        {"a\x1f", "holds a control character"},
+        {"\n", "holds a control character"},
+        {"..", "is a .. part"},
+    }};
+    const std::array<std::string_view, 9> accepted{".", "...", "..a", "a..", "a..b", ". .", "a b", "test.log", "\x7f"};
+    const std::array<std::string_view, 4> ordinary{someSuffixes.firstSuffix, someSuffixes.secondSuffix,
+                                                   someSuffixes.thirdSuffix, someSuffixes.fourthSuffix};
+    for (std::size_t field = 0; field < suffixBytes.size(); ++field)
+    {
+        std::array<std::string_view, 4> texts = ordinary;
+        for (std::size_t i = 0; i < refused.size(); ++i)
+        {
+            texts[field] = refused[i].suffix;
+            const Suffixes suffixes{texts[0], texts[1], texts[2], texts[3]};
+            RefusesForTheCatalogue(check, std::format("suffix {}, refused case {}", field, i),
+                                   CompletePack(Payload(someStrings), ClassPayload(someClass), SuffixPayload(suffixes)),
+                                   PackCatalogueProblem::SuffixPath,
+                                   std::format("{}: {}", suffixNames[field], refused[i].reason));
+        }
+        for (std::size_t i = 0; i < accepted.size(); ++i)
+        {
+            texts[field] = accepted[i];
+            const Suffixes suffixes{texts[0], texts[1], texts[2], texts[3]};
+            Accepts(check, std::format("suffix {}, accepted case {}", field, i),
+                    CompletePack(Payload(someStrings), ClassPayload(someClass), SuffixPayload(suffixes)), someStrings,
+                    someClass, suffixes);
+        }
+    }
+}
+
 // The source's catalogue version is accepted (AcceptsACompletePack); the
 // versions next to it are refused.
 void RefusesAnotherCatalogueVersion(Checks& check)
@@ -789,6 +851,36 @@ void ChecksInOrder(Checks& check)
     std::fill_n(twoSuffixes.begin() + static_cast<std::ptrdiff_t>(SuffixOffset(3)), suffixBytes[3], std::byte{'x'});
     RefusesForTheCatalogue(check, "earlier suffix first", CompletePack(Payload(someStrings), classAllX, twoSuffixes),
                            PackCatalogueProblem::FieldTerminator, suffixNames[1]);
+
+    // Each suffix's path check right after its zero byte, so a suffix's path
+    // before a later suffix's zero byte and after an earlier one's, INST's
+    // fields before it and WNDC's after it; within a suffix, a separator
+    // before a colon before a control character.
+    std::vector<std::byte> pathThenNoZero = SuffixPayload({"a/b", "second.test", "third test suffix", "fourth.test"});
+    std::fill_n(pathThenNoZero.begin() + static_cast<std::ptrdiff_t>(SuffixOffset(1)), suffixBytes[1], std::byte{'x'});
+    RefusesForTheCatalogue(check, "suffix path before a later zero byte",
+                           CompletePack(Payload(someStrings), classAllX, pathThenNoZero),
+                           PackCatalogueProblem::SuffixPath, suffixNames[0]);
+    std::vector<std::byte> noZeroThenPath = SuffixPayload({"first.test", "a/b", "third test suffix", "fourth.test"});
+    std::fill_n(noZeroThenPath.begin() + static_cast<std::ptrdiff_t>(SuffixOffset(0)), suffixBytes[0], std::byte{'x'});
+    RefusesForTheCatalogue(check, "earlier zero byte before suffix path",
+                           CompletePack(Payload(someStrings), classAllX, noZeroThenPath),
+                           PackCatalogueProblem::FieldTerminator, suffixNames[0]);
+    const std::vector<std::byte> lastSuffixPath =
+        SuffixPayload({"first.test", "second.test", "third test suffix", "C:a"});
+    RefusesForTheCatalogue(check, "INST's fields before suffix path", CompletePack(lastField, classAllX, lastSuffixPath),
+                           PackCatalogueProblem::FieldTerminator, fieldNames[3]);
+    RefusesForTheCatalogue(check, "suffix path before WNDC's field",
+                           CompletePack(Payload(someStrings), classAllX, lastSuffixPath),
+                           PackCatalogueProblem::SuffixPath, suffixNames[3]);
+    RefusesForTheCatalogue(check, "separator before colon",
+                           CompletePack(Payload(someStrings), ClassPayload(someClass),
+                                        SuffixPayload({"\x01:/", "second.test", "third test suffix", "fourth.test"})),
+                           PackCatalogueProblem::SuffixPath, "first suffix: holds a path separator");
+    RefusesForTheCatalogue(check, "colon before control character",
+                           CompletePack(Payload(someStrings), ClassPayload(someClass),
+                                        SuffixPayload({"\x01:", "second.test", "third test suffix", "fourth.test"})),
+                           PackCatalogueProblem::SuffixPath, "first suffix: holds a colon");
 }
 
 // A moved pack has the values; the pack it was moved from, by construction
@@ -827,6 +919,7 @@ int main()
     check.Run("entry version", [&] { RefusesAnotherEntryVersion(check); });
     check.Run("entry size", [&] { RefusesAnotherSize(check); });
     check.Run("field with no zero byte", [&] { RefusesAFieldWithNoZeroByte(check); });
+    check.Run("suffix path", [&] { RefusesASuffixPath(check); });
     check.Run("catalogue version", [&] { RefusesAnotherCatalogueVersion(check); });
     check.Run("version 1 pack", [&] { RefusesAVersionOnePack(check); });
     check.Run("version 2 pack", [&] { RefusesAVersionTwoPack(check); });

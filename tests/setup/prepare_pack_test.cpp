@@ -773,6 +773,78 @@ void RefusesUnreadableSuffixes(Checks& check)
     check.Run("empty suffixes", [&] { PrepareAgainstItself(Build(empty)); });
 }
 
+// The entries of `staged`, a pack that PrepareDataPackAgainst wrote, written
+// again with the supported release's identity (compared, not proved), so
+// that step 6 checks them as it checks a pack of the supported release.
+std::vector<std::byte> AsSupportedRelease(const std::vector<std::byte>& staged,
+                                          std::span<const OriginalIdentity> supported)
+{
+    const fileformat::OriginalCheckedPack pack = fileformat::CheckPackOriginalAgainst(staged, supported);
+    std::array<fileformat::PackWriteEntry, 3> entries{};
+    for (std::size_t i = 0; i < entries.size(); ++i)
+        entries[i] = {pack.Entries()[i].key, pack.Entries()[i].version, pack.EntryBytes(i)};
+    return fileformat::WritePackStructure(supported_release::version, supported_release::Sha256(), entries);
+}
+
+// Setup copies a log path suffix as it is stored, so steps 1 to 5 write a
+// suffix with a path separator, a colon, a control character or a .. part,
+// and step 6 of PrepareDataPack refuses the pack with the validator's
+// problem, the field and the reason (VEGAS-130). The same pack with
+// ordinary suffixes passes step 6 with the suffixes it holds.
+void RefusesAStagedSuffixPath(Checks& check)
+{
+    const Synthetic typical = Typical();
+    const std::vector<std::byte> file = Build(typical);
+    const std::array<OriginalIdentity, 1> supported{IdentityOf(file)};
+    const setup::PreparedPack prepared =
+        setup::staged::CheckWrittenPack(AsSupportedRelease(PrepareDataPackAgainst(file, supported), supported));
+    check.Equal("ordinary suffixes: first", true, Holds(prepared.validated.PathSuffixes().firstSuffix, someSuffixes[0]));
+    check.Equal("ordinary suffixes: fourth", true,
+                Holds(prepared.validated.PathSuffixes().fourthSuffix, someSuffixes[3]));
+
+    struct Refused
+    {
+        std::string_view suffix;
+        std::string_view reason;
+    };
+    const std::array<Refused, 5> refused{{
+        {"a\\b", "holds a path separator"},
+        {"a/b", "holds a path separator"},
+        {"C:a", "holds a colon"},
+        {"a\x1f", "holds a control character"},
+        {"..", "is a .. part"},
+    }};
+    constexpr std::array<std::string_view, 4> entryFields{"first suffix", "second suffix", "third suffix",
+                                                          "fourth suffix"};
+    for (std::size_t f = 0; f < suffixFields.size(); ++f)
+    {
+        for (const Refused& item : refused)
+        {
+            Synthetic synthetic = typical;
+            synthetic.suffixes[f] = std::string(item.suffix);
+            const std::vector<std::byte> crafted = Build(synthetic);
+            const std::array<OriginalIdentity, 1> itself{IdentityOf(crafted)};
+            const std::vector<std::byte> staged = AsSupportedRelease(PrepareDataPackAgainst(crafted, itself), itself);
+            const std::string name = std::format("{} {}", suffixFields[f].name, item.reason);
+            const std::string expected = std::format("entry LOGS: {}: {}", entryFields[f], item.reason);
+            try
+            {
+                setup::staged::CheckWrittenPack(staged);
+                check.Fail(name, "was accepted");
+            }
+            catch (const setup::StagedPackError& error)
+            {
+                if (std::string_view(error.what()).find(expected) == std::string_view::npos)
+                    check.Fail(name, std::format("was refused for another reason: {}", error.what()));
+            }
+            catch (const std::exception& error)
+            {
+                check.Fail(name, std::format("threw another error: {}", error.what()));
+            }
+        }
+    }
+}
+
 // The fields are checked in catalogue order, and each field's checks in the
 // order of ExtractProblem.
 void ReportsTheFirstProblem(Checks& check)
@@ -842,6 +914,7 @@ int main()
     check.Run("class name pointers", [&] { RefusesUnreadablePointers(check); });
     check.Run("class names", [&] { RefusesUnreadableClassNames(check); });
     check.Run("log path suffixes", [&] { RefusesUnreadableSuffixes(check); });
+    check.Run("staged suffix paths", [&] { RefusesAStagedSuffixPath(check); });
     check.Run("first problem", [&] { ReportsTheFirstProblem(check); });
     return check.ExitCode();
 }

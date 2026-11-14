@@ -84,13 +84,16 @@ struct PreparedPack
 //    zeros: no byte after the zero byte is copied.
 // 5. fileformat::WritePackStructure with the identified original.
 // 6. fileformat::ValidatePack of the written bytes; throws StagedPackError.
+//    Setup copies a log path suffix as it is stored, so a suffix the
+//    validator refuses (PackCatalogueProblem::SuffixPath) is refused here.
 //
 // No set is a parameter: the supported set is the source's, and no form of
 // this function under src/ takes one. The tests run steps 1 to 5 against a
-// set of their own, through staged_pack.h, never step 6. Nothing is
-// decrypted. Strings and the pointer are read only from the stored bytes of
-// a data section; the base relocation table is read where the header's data
-// directory places it, in the stored bytes of one section.
+// set of their own, and step 6 on packs they write, through staged_pack.h.
+// Nothing is decrypted. Strings and the pointer are read only from the
+// stored bytes of a data section; the base relocation table is read where
+// the header's data directory places it, in the stored bytes of one
+// section.
 // An allocation failure throws the standard exceptions.
 PreparedPack PrepareDataPack(std::vector<std::byte> executable);
 

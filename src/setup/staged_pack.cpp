@@ -1,5 +1,6 @@
 #include "setup/staged_pack.h"
 
+#include "fileformat/format_error.h"
 #include "fileformat/pack_catalogue.h"
 #include "fileformat/pack_writer.h"
 #include "setup/log_path_suffix_ranges.h"
@@ -17,6 +18,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 
 namespace setup::staged
 {
@@ -233,6 +235,23 @@ std::vector<std::byte> WriteDataPack(const PeFile& pe, const fileformat::Origina
                                                              {second.key, second.version, suffixPayload},
                                                              {third.key, third.version, classPayload}}};
     return fileformat::WritePackStructure(original.version, original.sha256, entries);
+}
+
+PreparedPack CheckWrittenPack(std::vector<std::byte> bytes)
+{
+    try
+    {
+        fileformat::ValidatedPack validated = fileformat::ValidatePack(bytes);
+        return {std::move(bytes), std::move(validated)};
+    }
+    catch (const fileformat::FormatError& error)
+    {
+        throw StagedPackError(std::string("data pack: written: was refused: ") + error.what());
+    }
+    catch (const fileformat::UnsupportedOriginalError& error)
+    {
+        throw StagedPackError(std::string("data pack: written: was refused: ") + error.what());
+    }
 }
 
 } // namespace setup::staged

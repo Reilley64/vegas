@@ -3,15 +3,16 @@
 
 #include "fileformat/original_identity.h"
 #include "fileformat/pe_file.h"
+#include "setup/prepare_pack.h"
 
 #include <array>
 #include <cstddef>
 #include <utility>
 #include <vector>
 
-// Steps 1 to 5 of setup::PrepareDataPack, shared by it and a test-only form
-// in tests/setup. The two differ only in how they identify the executable
-// and check the written bytes. Not for other callers.
+// The steps of setup::PrepareDataPack, shared by it and the tests in
+// tests/setup: steps 1 to 5, which a test-only form runs with an
+// identification of its own, and step 6. Not for other callers.
 namespace setup::staged
 {
 
@@ -31,6 +32,11 @@ template <typename Identify> std::vector<std::byte> StagePack(std::vector<std::b
     const fileformat::OriginalIdentity original = identify(pe, Sha256(pe.bytes));
     return WriteDataPack(pe, original);
 }
+
+// Step 6: fileformat::ValidatePack of the written `bytes`. Returns them with
+// the values it decoded. Throws setup::StagedPackError, whose message holds
+// the validator's, when the validator refuses them.
+PreparedPack CheckWrittenPack(std::vector<std::byte> bytes);
 
 } // namespace setup::staged
 

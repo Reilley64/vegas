@@ -96,16 +96,36 @@ SingleInstanceStrings DecodeSingleInstance(std::span<const std::byte> payload)
     return strings;
 }
 
+// Decodes the next log path suffix as DecodeString does, then refuses one
+// that holds a path separator, '\\' or '/', a colon, which names a drive or
+// a stream, or a control character, a byte below 0x20, or is a .. part
+// (VEGAS-130). With the separators refused, a .. part is the whole suffix.
+// The message names the field and the reason, never the text.
+template <std::size_t Capacity>
+void DecodeSuffix(ByteReader& reader, std::array<char, Capacity>& field, std::string_view name)
+{
+    DecodeString(reader, field, name);
+    const std::string_view suffix(field.data());
+    if (suffix.find_first_of("\\/") != std::string_view::npos)
+        Fail(PackCatalogueProblem::SuffixPath, name, "holds a path separator");
+    if (suffix.find(':') != std::string_view::npos)
+        Fail(PackCatalogueProblem::SuffixPath, name, "holds a colon");
+    if (std::ranges::any_of(suffix, [](char c) { return static_cast<unsigned char>(c) < 0x20; }))
+        Fail(PackCatalogueProblem::SuffixPath, name, "holds a control character");
+    if (suffix == "..")
+        Fail(PackCatalogueProblem::SuffixPath, name, "is a .. part");
+}
+
 // The log path suffixes' four fields in order. The payload is
 // logPathSuffixesEntry.bytes long, and every field starts as zeros.
 LogPathSuffixes DecodeLogPathSuffixes(std::span<const std::byte> payload)
 {
     ByteReader reader(payload, format);
     LogPathSuffixes suffixes{};
-    DecodeString(reader, suffixes.firstSuffix, "entry LOGS: first suffix");
-    DecodeString(reader, suffixes.secondSuffix, "entry LOGS: second suffix");
-    DecodeString(reader, suffixes.thirdSuffix, "entry LOGS: third suffix");
-    DecodeString(reader, suffixes.fourthSuffix, "entry LOGS: fourth suffix");
+    DecodeSuffix(reader, suffixes.firstSuffix, "entry LOGS: first suffix");
+    DecodeSuffix(reader, suffixes.secondSuffix, "entry LOGS: second suffix");
+    DecodeSuffix(reader, suffixes.thirdSuffix, "entry LOGS: third suffix");
+    DecodeSuffix(reader, suffixes.fourthSuffix, "entry LOGS: fourth suffix");
     return suffixes;
 }
 

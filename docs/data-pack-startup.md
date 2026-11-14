@@ -249,7 +249,7 @@ file, so it was not compared with instructions.
 | S1 | `FUN_00c3bd30(1, ...)`, the crash-log configuration, with the values of three `Setting` objects and the callback `FUN_0086a580` | the stand-in `Setting86::FUN_00408d60`, which no object defines; a native `MessageHandler` in place of the legacy virtual table `DAT_010c14a8` that its callee `0x00c3c460` stores; the closure of `blk_00c20000_od.cpp` |
 | S2 to S5 | `FUN_00c3bb90`, `fnv_00c3bbe0::FUN_00c3bbe0`, `FUN_00c3bc30` and `fnv_00c3bc80::FUN_00c3bc80`, the four log paths | composed since VEGAS-127, not skipped |
 | S6 | `GetSystemInfo`, then the processor count into the setting `g_011c3ea4` through `FUN_0043d4d0` | a native owner of that setting: generated data defines it, and its unit's one startup initializer builds it and reads original data (D2); for a native setting, `INISettingCollection`'s constructor and `Setting::IsPrefSetting`, which no object defines (the row at `0x0044f600` is a stand-in that stores a legacy table address, and `IsPrefSetting` has no row); a native `DAT_01202800`, which the accessor returns for a null setting and which generated data defines too; the closure of `magicitem.cpp`, which defines the accessor |
-| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp`, `_DAT_011a2ff0` and `FUN_0086d480` of `main.cpp`, and catalogue entries for its strings |
+| S7 | `BGSSaveLoadManager::GetSaveDirectory` | the closure of `bgssaveloadmanager.cpp` and `_DAT_011a2ff0` of `main.cpp`, and catalogue entries for its strings; `FUN_0086d480`, `TaskQueueInterface::CopyStringToBuffer` and `FUN_00406d00` are in units of their own since VEGAS-128; `FUN_00406d00` does not read its variable arguments on windows-x64 (it takes them from the address after its own copy of `apFormat`, which is its stack cookie slot), so S7 also waits on that repair |
 | S8 | a processor count of 1 set to 2 | as S6 |
 
 The coordinator named four prerequisites for S6 and S8 (VEGAS-52): the
@@ -381,6 +381,11 @@ composition (`native-data-ownership.md`). Both are repaired:
   form the object defines no array of that name, and the check stops with
   exit status 2. In the object of `main.cpp` the array starts at the same
   offset, and the 44 symbols after it lie 256 bytes further on.
+  Since VEGAS-128 the array and `FUN_0086d480` are defined in
+  `src/fallout/misc/app_data_folder.cpp`, a unit of their own, and the
+  `.bss` of `main.cpp` is 257 bytes. `FUN_0086d480` calls nothing and is
+  declared `noexcept`, so `BootInit::FUN_0086cf20` in `main.cpp` still
+  compiles its call as one that cannot throw.
 
 S5's builder wrote `DAT_01202938`, an array of 260 characters, through a
 cast to an array of 256; it now passes the array.

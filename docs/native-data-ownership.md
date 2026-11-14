@@ -94,7 +94,8 @@ which do not change.
 VEGAS-112 also adds `fallout/misc/main.inc`. It defined `DAT_01202e98`,
 the buffer into which `BGSSaveLoadManager::GetSaveDirectory` copies a folder
 of up to 260 characters, as a 4-byte `int`. `main.cpp`, the unit that
-includes it, now defines the buffer as an array of 260 characters
+includes it, defined the buffer as an array of 260 characters; since
+VEGAS-128 `fallout/misc/app_data_folder.cpp` defines it
 (`docs/data-pack-startup.md`). The patch removes the one line of the old
 definition, which had no initializer, so no value is lost or cloned. Every
 other line of the input is unchanged. Its pin is the hash of the committed
